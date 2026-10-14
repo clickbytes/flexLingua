@@ -31,6 +31,9 @@ test('G1: CI runs Node and lexical checks behind a lightweight aggregate gate',(
   for(const name of ['engine-tests','lexical-audits','release-gate']){
     assert.match(workflow,new RegExp(`^  ${name}:$`,'m'));
   }
+  assert.equal((workflow.match(/actions\/checkout@v7/g)||[]).length,2);
+  assert.equal((workflow.match(/actions\/setup-node@v7/g)||[]).length,2);
+  assert.equal((workflow.match(/package-manager-cache: false/g)||[]).length,2);
   for(const run of ['npm test','npm run check:lexicon','npm run check:morphology',
     'npm run check:gold','npm run check:a1-gold','npm run check:gold-family','npm run check:gold-father','npm run check:gold-movement','npm run check:gold-actions','npm run check:gold-person','npm run check:a1-evidence','npm run check:coverage','npm run check:data-provenance'
     ]) assert.ok(workflow.includes(`run: ${run}`),`Missing ${run}`);
