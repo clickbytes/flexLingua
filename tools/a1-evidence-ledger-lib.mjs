@@ -6,7 +6,8 @@ export const EVIDENCE_SOURCES = Object.freeze([
  {id:'movement',fixture:'tests/fixtures/gold-movement-a1.json',args:['--test','tests/movement-a1.test.js']},
  {id:'actions',fixture:'tests/fixtures/gold-daily-actions-a1.json',args:['--test','tests/daily-actions-a1.test.js']},
  {id:'composition',fixture:'tests/fixtures/gold-a1-crossbatch.json',args:['--test','tests/a1-crossbatch-composition.test.js']},
- {id:'person',fixture:'tests/fixtures/gold-person-a1.json',args:['--test','tests/a1-person-gold.test.js']}
+ {id:'person',fixture:'tests/fixtures/gold-person-a1.json',args:['--test','tests/a1-person-gold.test.js']},
+ {id:'state',fixture:'tests/fixtures/gold-state-a1.json',args:['--test','tests/a1-state-gold.test.js']}
 ]);
 const record=x=>x!==null&&typeof x==='object'&&!Array.isArray(x);
 const word=x=>typeof x==='string'&&x.trim().length>0;
@@ -25,6 +26,14 @@ function extractRows(id, corpus) {
  }else if(id==='composition'){
    if(!Array.isArray(corpus.cases))throw new Error('Malformed composition fixture.');
    positive=corpus.cases;
+ }else if(id==='state'){
+   if(!Array.isArray(corpus.enToPl)||!Array.isArray(corpus.plToEn)||
+      !Array.isArray(corpus.unsupported))throw new Error('Malformed state gold fixture.');
+   positive=[
+     ...corpus.enToPl.map(row=>({...row,from:'en',to:'pl'})),
+     ...corpus.plToEn.map(row=>({...row,from:'pl',to:'en'}))
+   ];
+   negative=corpus.unsupported;
  }else{
    if(!Array.isArray(corpus.enToPl)||!Array.isArray(corpus.plToEn)||
       !Array.isArray(corpus.morphology)||!Array.isArray(corpus.invalid))
@@ -52,8 +61,14 @@ function explicitConcepts(row) {
  const concepts=[];
  if(row.core){
    if(!record(row.core))throw new Error('Invalid semantic gold signature');
-   concepts.push(row.core.concept);
-   for(const role of Object.values(row.core.roles||{}))concepts.push(role?.concept);
+   if(['identity','predication','possession'].includes(row.core.kind)){
+     if(row.core.kind==='predication')concepts.push(row.core.predicate);
+     for(const role of Object.values(row.core.roles||{}))
+       if(role?.concept)concepts.push(role.concept);
+   }else{
+     concepts.push(row.core.concept);
+     for(const role of Object.values(row.core.roles||{}))concepts.push(role?.concept);
+   }
  }else if(row.shape){
    if(!record(row.shape))throw new Error('Invalid composition signature');
    if(row.shape.concept)concepts.push(row.shape.concept);

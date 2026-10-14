@@ -12,13 +12,16 @@ const status=kind=>Object.fromEntries(EVIDENCE_SOURCES.map(s=>
 const run=(changes={})=>buildA1EvidenceLedger({manifest,ontology,corpora,checks:status('pass'),...changes});
 const byId=(report,id)=>report.targets.find(x=>x.id===id);
 
-test('A1 Batch 7: all seven independent project-authored fixtures are inventoried',()=>{
+test('A1 Batch 7: all eight independent project-authored fixtures are inventoried',()=>{
  const report=run();
- assert.equal(report.totals.sources,7);
+ assert.equal(report.totals.sources,8);
  assert.deepEqual({p:report.totals.positive,n:report.totals.negative,
    f:report.totals.morphologyCells,productive:report.totals.productiveOnly},
-   {p:155,n:35,f:60,productive:2});
- assert.equal(report.verification.positiveVerified,155);
+   {p:195,n:43,f:60,productive:2});
+ assert.equal(report.verification.positiveVerified,195);
+ const state=report.sources.find(x=>x.id==='state');
+ assert.equal(state.samples.positive,40);
+ assert.deepEqual(state.byDirection,{'en->pl':20,'pl->en':20});
  assert.equal(report.targetSummary.total,23);
  assert.deepEqual({concepts:report.targets.filter(x=>x.unitType==='concept').length,
    constructions:report.targets.filter(x=>x.unitType==='construction').length},
@@ -74,6 +77,6 @@ test('A1 Batch 7: catalog-only CLI does not claim any executed checks',()=>{
  assert.equal(proc.status,0,proc.stderr);
  const report=JSON.parse(proc.stdout);
  assert.equal(report.verification.status,'not-run');
- assert.equal(report.verification.suitesNotRun,7);
+ assert.equal(report.verification.suitesNotRun,8);
  assert.equal(report.cefr.percentage,null);
 });
