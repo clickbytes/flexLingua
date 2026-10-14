@@ -2,7 +2,7 @@
 
 ## Stan walidacji w aktywnym repo
 
-Bazowy `clickbytes/main` SHA `04aeaa811453e8aa8054779af6a903e24dd4e953` jest **GREEN** w [GitHub Actions #38639074374](https://github.com/clickbytes/flexLingua/actions/runs/38639074374): wszystkie trzy jobs przeszły po merge PR #93. PR #89 zamknął GUI-01; PR #90 ukończył PERS-03, PR #91 PERS-04, PR #92 PERS-05, a PR #93 PERS-06. UI działa przez loopback HTTP. Każdy nowy commit wymaga własnego runu CI.
+Bazowy `clickbytes/main` SHA `04aeaa811453e8aa8054779af6a903e24dd4e953` jest **GREEN** w [GitHub Actions #38639074374](https://github.com/clickbytes/flexLingua/actions/runs/38639074374): wszystkie trzy jobs przeszły po merge PR #93. PR #89 zamknął GUI-01; PR #90 ukończył PERS-03, PR #91 PERS-04, PR #92 PERS-05, PR #93 PERS-06, a [PR #95](https://github.com/clickbytes/flexLingua/pull/95) realizuje STATE-01. UI działa przez loopback HTTP. Każdy nowy commit wymaga własnego runu CI.
 
 
 **Aktywne repo:** [clickbytes/flexLingua](https://github.com/clickbytes/flexLingua). **Baza planowania:** `04aeaa811453e8aa8054779af6a903e24dd4e953` (2026-10-14).
@@ -67,7 +67,7 @@ Wprowadzić neutralną rolę mówcy/adresata i rzeczywistą odmianę ja/ty/my/wy
 
 Rozróżnić w INTER orzeczenie o stanie od posiadania i tożsamości, z nieregularną fleksją obu języków.
 
-- [ ] **STATE-01 [#33](https://github.com/clickbytes/flexLingua/issues/33)** — ADR i CORE: predykacja, identyczność, posiadanie. P: P0; blokuje: PERS-01 [#27](https://github.com/clickbytes/flexLingua/issues/27). AC: 3; pliki: 7.
+- [x] **STATE-01 [#33](https://github.com/clickbytes/flexLingua/issues/33)** — ADR i CORE: predykacja, identyczność, posiadanie. P: P0; zrealizowane w [PR #95](https://github.com/clickbytes/flexLingua/pull/95); odblokowuje STATE-02/03. AC: 3; pliki: 7.
 - [ ] **STATE-02 [#34](https://github.com/clickbytes/flexLingua/issues/34)** — PL: być/mieć, fleksja i kontrolowane ramy. P: P0; blokuje: STATE-01 [#33](https://github.com/clickbytes/flexLingua/issues/33); PERS-04 [#30](https://github.com/clickbytes/flexLingua/issues/30). AC: 3; pliki: 5.
 - [ ] **STATE-03 [#35](https://github.com/clickbytes/flexLingua/issues/35)** — EN: be/have jako predykaty vs auxiliaries. P: P0; blokuje: STATE-01 [#33](https://github.com/clickbytes/flexLingua/issues/33); PERS-05 [#31](https://github.com/clickbytes/flexLingua/issues/31). AC: 3; pliki: 5.
 - [ ] **STATE-04 [#36](https://github.com/clickbytes/flexLingua/issues/36)** — Gold PL↔CORE↔EN dla być/mieć i stanów. P: P0; blokuje: STATE-02 [#34](https://github.com/clickbytes/flexLingua/issues/34); STATE-03 [#35](https://github.com/clickbytes/flexLingua/issues/35). AC: 3; pliki: 4.
