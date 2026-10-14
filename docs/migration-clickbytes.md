@@ -1,0 +1,20 @@
+# Migracja do clickbytes i walidacja GitHub Actions
+
+**Aktywne repozytorium:** https://github.com/clickbytes/flexLingua
+
+Właściciel zdecydował, że od 14 października 2026 wszystkie nowe commity, branche, PR-y, issues, wyniki CI i checkpointy `HANDOFF.md` dotyczą tylko `clickbytes/flexLingua`. Stare `ppotepa/flexLingua` jest archiwalnym źródłem historycznej migawki; **nie wykonywać tam nowych zapisów**. Dotychczasowych historycznych odnośników do PR-ów `ppotepa` nie trzeba przepisywać, ponieważ wskazują istniejące prace.
+
+## Import
+
+- Kopia plików starego źródła na commit `64e3795b7fd8b0ced5d84b52fce44c86106ad54f` została zaimportowana na `clickbytes` commit `17a9b255783027890cc56dcd8141782a40212f7b`.
+- Sprawdzono **dokładną równość Git tree SHA** `f21ccb19d3a1b1616d4ffea11d4d77f1ed572839` w obu repozytoriach: 158 plików, w tym workflow, testy, docs, kod CORE i istniejący GUI. To **nowa historia repozytorium**, nie mirror całej historii commitów.
+- Zmiany w GUI, HTML/CSS/JS/UI oraz generowanym `index-standalone.html` nadal należą do osobnego agenta GUI. CORE agent może uruchamiać walidację i zgłaszać problemy w CI, ale nie aktualizuje artefaktu GUI bez przekazania odpowiedzialności.
+
+## Pierwsze prawdziwe CI na clickbytes
+
+- [Actions Startup Probe #38607020509](https://github.com/clickbytes/flexLingua/actions/runs/38607020509): **success**, prawdziwy hosted runner wystartował.
+- [Core Engine CI #38607020365](https://github.com/clickbytes/flexLingua/actions/runs/38607020365): Node 22 wystartował, `npm test` wykonało 393 testy — **379 pass / 14 fail**, a nie dawne `startup_failure`.
+- Lexical-audits: leksyka, morfologia, G2, rodzina, ojciec i ruch przeszły, ale trzy testy `check:gold-actions` nie; offline-parity wykrył nieaktualny `index-standalone.html`.
+- Wśród 14 testów nieudanych: siedem testów serializacji dyskursu (prototypy słowników `entities`/`roles`), dwa testy mutacji gold o zbyt kruchych regexach, jedna stara asercja audytu ojca, jeden test zbyt płytkiego progu zagnieżdżenia, trzy GUI/offline (`tests/offline.test.js` oraz dwa `tests/studio-ui.test.js`).
+- CORE patch: po bezpiecznej walidacji nieufnego JSON dyskursu parser odtwarza null-prototype mapy (ochrona i kontrakt API); regresje testów odwołują się do aktualnych ograniczeń. Oddzielny agent musi poprawić GUI/offline.
+- Wynik pozostaje **niezweryfikowany jako green release**, dopóki nowy `main` nie przejdzie całego `check:release` i offline.

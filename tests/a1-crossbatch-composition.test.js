@@ -47,7 +47,7 @@ test('A1 Batch 6: question scope retains WH targetRole inside ability',()=>{
 });
 test('A1 Batch 6: independent semantic gold detects tampering',()=>{
  const bad={...corpus.cases[0],shape:{...corpus.cases[0].shape,concept:'event.write'}};
- assert.throws(()=>assertGold(make(),bad),/Expected values to be strictly deep-equal/);
+ assert.throws(()=>assertGold(make(),bad),{code:'ERR_ASSERTION',message:/A1C-01/});
  const badSurface={...corpus.cases[0],expected:'An unrelated sentence.'};
- assert.throws(()=>assertGold(make(),badSurface),/Expected values to be strictly equal/);
+ assert.throws(()=>assertGold(make(),badSurface),{code:'ERR_ASSERTION',message:/A1C-01/});
 });

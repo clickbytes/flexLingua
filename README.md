@@ -416,3 +416,7 @@ Dodano kontrolowaną konstrukcję `event.movement` w obu językach, odmianę pol
 ## A1 Batch 6 — codzienne czynności
 
 `pisać/write` i `otwierać/open` działają przez osobne sensy CORE; dodatkowy niezależny gold `npm run check:gold-actions`. [Zakres i ograniczenia](docs/a1-daily-actions.md).
+
+## Aktywne repozytorium i CI (14.10.2026)
+
+Dalszy rozwój oraz wszystkie nowe PR i issues odbywają się wyłącznie na **[clickbytes/flexLingua](https://github.com/clickbytes/flexLingua)**. Poprzednie repozytorium jest historycznym źródłem migawki, a nie miejscem dalszych zapisów. Import zachowuje 158 plików i identyczne Git tree SHA; GitHub Actions uruchomiło na nowym koncie runner oraz pełną kolekcję testów Node. [Szczegóły i status CI](docs/migration-clickbytes.md). GUI nadal należy do osobnego agenta.

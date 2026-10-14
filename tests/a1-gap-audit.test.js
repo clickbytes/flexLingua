@@ -31,7 +31,7 @@ test('A1 Batch 2: checklist statuses are evidence-backed, never percentage of CE
   assert.ok(report.byDomain.family.targets>=4);
 });
 
-test('A1 Batch 2/3: motion and father remain missing, family/read/help gained bilingual coverage',()=>{
+test('A1 current: movement, father, read and help are bilingual; G2 evidence remains separate',()=>{
   const report=run();
   const movement=target(report,'event.movement');
   assert.equal(movement.ontologyPresent,true);
@@ -47,7 +47,7 @@ test('A1 Batch 2/3: motion and father remain missing, family/read/help gained bi
   assert.equal(father.status,'without-gold');
   assert.ok(father.pl.lexemeIds.length>0&&father.en.lexemeIds.length>0);
   assert.ok(father.pl.morphologyLexemeIds.length>0&&father.en.morphologyLexemeIds.length>0);
-  assert.ok(father.gaps.includes('core:ontology'));
+  assert.equal(father.gaps.includes('core:ontology'),false);
   for(const id of ['person.sister','person.brother','event.read','event.help']){
     const item=target(report,id);
     assert.equal(item.ontologyPresent,true,id);
