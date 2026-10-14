@@ -20,6 +20,11 @@ test('A1 Batch 7: all six independent project-authored fixtures are inventoried'
    {p:115,n:25,f:60,productive:2});
  assert.equal(report.verification.positiveVerified,115);
  assert.equal(report.targetSummary.total,23);
+ assert.deepEqual({concepts:report.targets.filter(x=>x.unitType==='concept').length,
+   constructions:report.targets.filter(x=>x.unitType==='construction').length},
+   {concepts:16,constructions:7});
+ assert.ok(report.targets.every(x=>x.scopeStatus==='required'));
+ assert.equal(byId(report,'event.open').matrixId,'construction.event.open');
  assert.equal(report.cefr.percentage,null);
  assert.equal(report.release.verified,false);
  assert.ok(report.totals.crossSourceDuplicateUtterances>=0);

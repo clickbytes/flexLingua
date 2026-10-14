@@ -21,14 +21,36 @@ const benchmark=evaluateA1Gold(engine,corpus);
 const run=(extra={})=>auditA1Gaps({manifest,inventory,corpus,benchmark,...extra});
 const target=(report,id)=>report.targets.find(x=>x.id===id);
 
-test('A1 Batch 2: checklist statuses are evidence-backed, never percentage of CEFR',()=>{
+test('VAL-01: frozen project scope distinguishes concepts and constructions without CEFR percentage',()=>{
   const report=run();
   assert.equal(report.targetCount,23);
   assert.equal(report.cefr.percentage,null);
   assert.equal(report.scope,'project-authored-A1-checklist-gaps-not-cefr');
   assert.equal(Object.values(report.statusCounts).reduce((a,b)=>a+b,0),23);
+  assert.deepEqual(report.scopeStatusCounts,{required:23,deferred:0,unsupported:0});
+  assert.deepEqual(report.unitTypeCounts,{concept:16,construction:7});
   assert.equal(report.validation.benchmarkCases,40);
   assert.ok(report.byDomain.family.targets>=4);
+});
+
+test('VAL-01: every target declares CORE, PL/EN mapping, morphology and gold-or-gap policy',()=>{
+  const report=run();
+  for(const item of report.targets){
+    const matrix=manifest.targets.find(row=>row.id===item.matrixId);
+    assert.equal(matrix.coreRef.kind,'concept',item.matrixId);
+    assert.equal(matrix.coreRef.id,item.id,item.matrixId);
+    assert.equal(matrix.scopeStatus,'required',item.matrixId);
+    assert.equal(item.mappingRequirements.pl.lexicon,'required',item.matrixId);
+    assert.equal(item.mappingRequirements.en.lexicon,'required',item.matrixId);
+    assert.equal(item.mappingRequirements.pl.morphology,'required',item.matrixId);
+    assert.equal(item.mappingRequirements.en.morphology,'required',item.matrixId);
+    assert.ok(item.independentGold.passedIds.length>0||item.gaps.includes('gold:not-exercised'),item.matrixId);
+  }
+  const event=target(report,'event.visual_perception');
+  assert.equal(event.unitType,'construction');
+  assert.equal(event.matrixId,'construction.event.visual_perception');
+  assert.equal(event.mappingRequirements.pl.grammarFrame,'required');
+  assert.equal(event.mappingRequirements.en.grammarFrame,'required');
 });
 
 test('A1 current: movement, father, read and help are bilingual; G2 evidence remains separate',()=>{
@@ -88,13 +110,16 @@ test('A1 Batch 2: failing and missing independent results remain visible',()=>{
   assert.ok(boy.gaps.includes('gold:failed-or-missing-result'));
 });
 
-test('A1 Batch 2: reject duplicate checklist IDs and invalid domains',()=>{
+test('VAL-01: reject duplicate matrix IDs, invalid domains and unrecognized scope statuses',()=>{
   const duplicate=structuredClone(manifest);
   duplicate.targets.push({...duplicate.targets[0]});
   assert.throws(()=>run({manifest:duplicate}),/duplicate/);
   const bad=structuredClone(manifest);
   bad.targets[0].domain='CEFR_A1_complete';
   assert.throws(()=>run({manifest:bad}),/Invalid or duplicate/);
+  const badStatus=structuredClone(manifest);
+  badStatus.targets[0].scopeStatus='complete';
+  assert.throws(()=>run({manifest:badStatus}),/Invalid or duplicate/);
 });
 
 test('A1 Batch 3: structural counters include the four new lexemes in each language',()=>{

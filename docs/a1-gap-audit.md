@@ -2,7 +2,7 @@
 
 **Data:** 2026-10-14. Pliki: `data/coverage/a1-targets.json`, `tools/a1-gap-audit-lib.mjs`, `tools/a1-gap-audit.mjs`, `tests/a1-gap-audit.test.js`.
 
-**Cel:** zbudować rzeczywistą, wersjonowaną listę braków przed batchami słownictwa. To osobna, oryginalna lista 22 celów projektowych (6 obszarów), a nie licencjonowany wzorzec Oxford ani komplet CEFR A1. Nie wyliczać z niej „procentu A1”.
+**Cel:** utrzymywać audyt luk dla autorskiego zestawu 23 celów (historycznie 22 przed Batch 6) w sześciu obszarach. Od VAL-01 macierz v2 jawnie rozróżnia pojęcia od konstrukcji, przechowuje `scopeStatus` oraz wymagania CORE/PL/EN/morfologii/ram. To podzbiór projektu, a nie licencjonowany wzorzec Oxford ani komplet CEFR A1. Nie wyliczać z niej „procentu A1”. Zob. [zamrożony zakres](a1-scope.md).
 
 ```sh
 npm run audit:a1-gaps

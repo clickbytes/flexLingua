@@ -69,13 +69,18 @@ function explicitConcepts(row) {
 
 /** Joins declared source observations and *real* Node exit statuses without inventing an A1 %. */
 export function buildA1EvidenceLedger({manifest,ontology,corpora,checks}) {
- if(!record(manifest)||manifest.version!==1||manifest.license!=='project-authored'||
+ if(!record(manifest)||manifest.version!==2||manifest.license!=='project-authored'||
+    manifest.scope?.completeness!=='project-authored-subset'||
     !Array.isArray(manifest.targets)||!manifest.targets.length||manifest.targets.length>250||
     !record(ontology)||!record(ontology.concepts)||!record(corpora)||!record(checks))
    throw new Error('Invalid evidence inputs/target registry.');
  const targetIds=new Set();
  for(const item of manifest.targets){
-   if(!item||!word(item.id)||targetIds.has(item.id)||!record(ontology.concepts[item.id]))
+   const coreId=item?.coreRef?.id;
+   if(!item||!word(item.id)||targetIds.has(item.id)||item.coreRef?.kind!=='concept'||
+      !['concept','construction'].includes(item.unitType)||
+      !['required','deferred','unsupported'].includes(item.scopeStatus)||
+      !word(coreId)||!record(ontology.concepts[coreId]))
      throw new Error('Duplicate or unknown A1 target: '+String(item?.id));
    targetIds.add(item.id);
  }
@@ -131,7 +136,8 @@ export function buildA1EvidenceLedger({manifest,ontology,corpora,checks}) {
    });
  }
  const targets=manifest.targets.map(item=>{
-   const refs=observations.filter(x=>x.concepts.includes(item.id));
+   const coreId=item.coreRef.id;
+   const refs=observations.filter(x=>x.concepts.includes(coreId));
    const verified=refs.filter(x=>x.verified);
    const verifiedSources=[...new Set(verified.map(x=>x.source))];
    const directions={
@@ -141,7 +147,8 @@ export function buildA1EvidenceLedger({manifest,ontology,corpora,checks}) {
    const state=verified.length?
      (directions['en->pl']&&directions['pl->en']?'sampled-both-directions':'sampled-one-direction'):
      (refs.length?'declared-unverified':'not-explicitly-annotated');
-   return {id:item.id,domain:item.domain,kind:item.kind,state,
+   return {id:coreId,matrixId:item.id,unitType:item.unitType,
+     scopeStatus:item.scopeStatus,coreRef:item.coreRef,domain:item.domain,kind:item.kind,state,
      annotatedCases:refs.length,verifiedCases:verified.length,
      sourceIds:[...new Set(refs.map(x=>x.source))],
      verifiedSourceIds:verifiedSources,

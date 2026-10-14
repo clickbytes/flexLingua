@@ -1,122 +1,645 @@
 {
-  "version": 1,
-  "origin": "Project-authored A1 target checklist. Deliberately small planning subset; NOT Oxford list or CEFR standard.",
+  "version": 2,
+  "origin": "Project-authored A1 target matrix for a deliberately limited internal scope; not a complete CEFR level or an Oxford list.",
   "license": "project-authored",
   "targets": [
     {
       "id": "person.girl",
+      "unitType": "concept",
       "domain": "people",
-      "kind": "entity"
+      "kind": "entity",
+      "scopeStatus": "required",
+      "coreRef": {
+        "kind": "concept",
+        "id": "person.girl"
+      },
+      "mapping": {
+        "pl": {
+          "lexicon": "required",
+          "morphology": "required",
+          "grammarFrame": "not-applicable"
+        },
+        "en": {
+          "lexicon": "required",
+          "morphology": "required",
+          "grammarFrame": "not-applicable"
+        }
+      },
+      "evidence": {
+        "fixture": "data/coverage/a1-gold-g2.json",
+        "requirement": "passing-case-or-explicit-gap"
+      }
     },
     {
       "id": "person.boy",
+      "unitType": "concept",
       "domain": "people",
-      "kind": "entity"
+      "kind": "entity",
+      "scopeStatus": "required",
+      "coreRef": {
+        "kind": "concept",
+        "id": "person.boy"
+      },
+      "mapping": {
+        "pl": {
+          "lexicon": "required",
+          "morphology": "required",
+          "grammarFrame": "not-applicable"
+        },
+        "en": {
+          "lexicon": "required",
+          "morphology": "required",
+          "grammarFrame": "not-applicable"
+        }
+      },
+      "evidence": {
+        "fixture": "data/coverage/a1-gold-g2.json",
+        "requirement": "passing-case-or-explicit-gap"
+      }
     },
     {
       "id": "person.child",
+      "unitType": "concept",
       "domain": "people",
-      "kind": "entity"
+      "kind": "entity",
+      "scopeStatus": "required",
+      "coreRef": {
+        "kind": "concept",
+        "id": "person.child"
+      },
+      "mapping": {
+        "pl": {
+          "lexicon": "required",
+          "morphology": "required",
+          "grammarFrame": "not-applicable"
+        },
+        "en": {
+          "lexicon": "required",
+          "morphology": "required",
+          "grammarFrame": "not-applicable"
+        }
+      },
+      "evidence": {
+        "fixture": "data/coverage/a1-gold-g2.json",
+        "requirement": "passing-case-or-explicit-gap"
+      }
     },
     {
       "id": "person.woman",
+      "unitType": "concept",
       "domain": "people",
-      "kind": "entity"
+      "kind": "entity",
+      "scopeStatus": "required",
+      "coreRef": {
+        "kind": "concept",
+        "id": "person.woman"
+      },
+      "mapping": {
+        "pl": {
+          "lexicon": "required",
+          "morphology": "required",
+          "grammarFrame": "not-applicable"
+        },
+        "en": {
+          "lexicon": "required",
+          "morphology": "required",
+          "grammarFrame": "not-applicable"
+        }
+      },
+      "evidence": {
+        "fixture": "data/coverage/a1-gold-g2.json",
+        "requirement": "passing-case-or-explicit-gap"
+      }
     },
     {
       "id": "person.mother",
+      "unitType": "concept",
       "domain": "family",
-      "kind": "entity"
+      "kind": "entity",
+      "scopeStatus": "required",
+      "coreRef": {
+        "kind": "concept",
+        "id": "person.mother"
+      },
+      "mapping": {
+        "pl": {
+          "lexicon": "required",
+          "morphology": "required",
+          "grammarFrame": "not-applicable"
+        },
+        "en": {
+          "lexicon": "required",
+          "morphology": "required",
+          "grammarFrame": "not-applicable"
+        }
+      },
+      "evidence": {
+        "fixture": "data/coverage/a1-gold-g2.json",
+        "requirement": "passing-case-or-explicit-gap"
+      }
     },
     {
       "id": "person.sister",
+      "unitType": "concept",
       "domain": "family",
-      "kind": "entity"
+      "kind": "entity",
+      "scopeStatus": "required",
+      "coreRef": {
+        "kind": "concept",
+        "id": "person.sister"
+      },
+      "mapping": {
+        "pl": {
+          "lexicon": "required",
+          "morphology": "required",
+          "grammarFrame": "not-applicable"
+        },
+        "en": {
+          "lexicon": "required",
+          "morphology": "required",
+          "grammarFrame": "not-applicable"
+        }
+      },
+      "evidence": {
+        "fixture": "data/coverage/a1-gold-g2.json",
+        "requirement": "passing-case-or-explicit-gap"
+      }
     },
     {
       "id": "person.brother",
+      "unitType": "concept",
       "domain": "family",
-      "kind": "entity"
+      "kind": "entity",
+      "scopeStatus": "required",
+      "coreRef": {
+        "kind": "concept",
+        "id": "person.brother"
+      },
+      "mapping": {
+        "pl": {
+          "lexicon": "required",
+          "morphology": "required",
+          "grammarFrame": "not-applicable"
+        },
+        "en": {
+          "lexicon": "required",
+          "morphology": "required",
+          "grammarFrame": "not-applicable"
+        }
+      },
+      "evidence": {
+        "fixture": "data/coverage/a1-gold-g2.json",
+        "requirement": "passing-case-or-explicit-gap"
+      }
     },
     {
       "id": "person.father",
+      "unitType": "concept",
       "domain": "family",
-      "kind": "entity"
+      "kind": "entity",
+      "scopeStatus": "required",
+      "coreRef": {
+        "kind": "concept",
+        "id": "person.father"
+      },
+      "mapping": {
+        "pl": {
+          "lexicon": "required",
+          "morphology": "required",
+          "grammarFrame": "not-applicable"
+        },
+        "en": {
+          "lexicon": "required",
+          "morphology": "required",
+          "grammarFrame": "not-applicable"
+        }
+      },
+      "evidence": {
+        "fixture": "data/coverage/a1-gold-g2.json",
+        "requirement": "passing-case-or-explicit-gap"
+      }
     },
     {
       "id": "animal.dog",
+      "unitType": "concept",
       "domain": "objects",
-      "kind": "entity"
+      "kind": "entity",
+      "scopeStatus": "required",
+      "coreRef": {
+        "kind": "concept",
+        "id": "animal.dog"
+      },
+      "mapping": {
+        "pl": {
+          "lexicon": "required",
+          "morphology": "required",
+          "grammarFrame": "not-applicable"
+        },
+        "en": {
+          "lexicon": "required",
+          "morphology": "required",
+          "grammarFrame": "not-applicable"
+        }
+      },
+      "evidence": {
+        "fixture": "data/coverage/a1-gold-g2.json",
+        "requirement": "passing-case-or-explicit-gap"
+      }
     },
     {
       "id": "animal.cat",
+      "unitType": "concept",
       "domain": "objects",
-      "kind": "entity"
+      "kind": "entity",
+      "scopeStatus": "required",
+      "coreRef": {
+        "kind": "concept",
+        "id": "animal.cat"
+      },
+      "mapping": {
+        "pl": {
+          "lexicon": "required",
+          "morphology": "required",
+          "grammarFrame": "not-applicable"
+        },
+        "en": {
+          "lexicon": "required",
+          "morphology": "required",
+          "grammarFrame": "not-applicable"
+        }
+      },
+      "evidence": {
+        "fixture": "data/coverage/a1-gold-g2.json",
+        "requirement": "passing-case-or-explicit-gap"
+      }
     },
     {
       "id": "object.book",
+      "unitType": "concept",
       "domain": "objects",
-      "kind": "entity"
+      "kind": "entity",
+      "scopeStatus": "required",
+      "coreRef": {
+        "kind": "concept",
+        "id": "object.book"
+      },
+      "mapping": {
+        "pl": {
+          "lexicon": "required",
+          "morphology": "required",
+          "grammarFrame": "not-applicable"
+        },
+        "en": {
+          "lexicon": "required",
+          "morphology": "required",
+          "grammarFrame": "not-applicable"
+        }
+      },
+      "evidence": {
+        "fixture": "data/coverage/a1-gold-g2.json",
+        "requirement": "passing-case-or-explicit-gap"
+      }
     },
     {
       "id": "object.apple",
+      "unitType": "concept",
       "domain": "objects",
-      "kind": "entity"
+      "kind": "entity",
+      "scopeStatus": "required",
+      "coreRef": {
+        "kind": "concept",
+        "id": "object.apple"
+      },
+      "mapping": {
+        "pl": {
+          "lexicon": "required",
+          "morphology": "required",
+          "grammarFrame": "not-applicable"
+        },
+        "en": {
+          "lexicon": "required",
+          "morphology": "required",
+          "grammarFrame": "not-applicable"
+        }
+      },
+      "evidence": {
+        "fixture": "data/coverage/a1-gold-g2.json",
+        "requirement": "passing-case-or-explicit-gap"
+      }
     },
     {
       "id": "structure.house",
+      "unitType": "concept",
       "domain": "places",
-      "kind": "entity"
+      "kind": "entity",
+      "scopeStatus": "required",
+      "coreRef": {
+        "kind": "concept",
+        "id": "structure.house"
+      },
+      "mapping": {
+        "pl": {
+          "lexicon": "required",
+          "morphology": "required",
+          "grammarFrame": "not-applicable"
+        },
+        "en": {
+          "lexicon": "required",
+          "morphology": "required",
+          "grammarFrame": "not-applicable"
+        }
+      },
+      "evidence": {
+        "fixture": "data/coverage/a1-gold-g2.json",
+        "requirement": "passing-case-or-explicit-gap"
+      }
     },
     {
       "id": "institution.school",
+      "unitType": "concept",
       "domain": "places",
-      "kind": "entity"
+      "kind": "entity",
+      "scopeStatus": "required",
+      "coreRef": {
+        "kind": "concept",
+        "id": "institution.school"
+      },
+      "mapping": {
+        "pl": {
+          "lexicon": "required",
+          "morphology": "required",
+          "grammarFrame": "not-applicable"
+        },
+        "en": {
+          "lexicon": "required",
+          "morphology": "required",
+          "grammarFrame": "not-applicable"
+        }
+      },
+      "evidence": {
+        "fixture": "data/coverage/a1-gold-g2.json",
+        "requirement": "passing-case-or-explicit-gap"
+      }
     },
     {
-      "id": "event.visual_perception",
+      "id": "construction.event.visual_perception",
+      "unitType": "construction",
       "domain": "activities",
-      "kind": "event"
+      "kind": "event",
+      "scopeStatus": "required",
+      "coreRef": {
+        "kind": "concept",
+        "id": "event.visual_perception"
+      },
+      "mapping": {
+        "pl": {
+          "lexicon": "required",
+          "morphology": "required",
+          "grammarFrame": "required"
+        },
+        "en": {
+          "lexicon": "required",
+          "morphology": "required",
+          "grammarFrame": "required"
+        }
+      },
+      "evidence": {
+        "fixture": "data/coverage/a1-gold-g2.json",
+        "requirement": "passing-case-or-explicit-gap"
+      }
     },
     {
-      "id": "event.transfer_possession",
+      "id": "construction.event.transfer_possession",
+      "unitType": "construction",
       "domain": "activities",
-      "kind": "event"
+      "kind": "event",
+      "scopeStatus": "required",
+      "coreRef": {
+        "kind": "concept",
+        "id": "event.transfer_possession"
+      },
+      "mapping": {
+        "pl": {
+          "lexicon": "required",
+          "morphology": "required",
+          "grammarFrame": "required"
+        },
+        "en": {
+          "lexicon": "required",
+          "morphology": "required",
+          "grammarFrame": "required"
+        }
+      },
+      "evidence": {
+        "fixture": "data/coverage/a1-gold-g2.json",
+        "requirement": "passing-case-or-explicit-gap"
+      }
     },
     {
-      "id": "event.movement",
+      "id": "construction.event.movement",
+      "unitType": "construction",
       "domain": "activities",
-      "kind": "event"
+      "kind": "event",
+      "scopeStatus": "required",
+      "coreRef": {
+        "kind": "concept",
+        "id": "event.movement"
+      },
+      "mapping": {
+        "pl": {
+          "lexicon": "required",
+          "morphology": "required",
+          "grammarFrame": "required"
+        },
+        "en": {
+          "lexicon": "required",
+          "morphology": "required",
+          "grammarFrame": "required"
+        }
+      },
+      "evidence": {
+        "fixture": "data/coverage/a1-gold-g2.json",
+        "requirement": "passing-case-or-explicit-gap"
+      }
     },
     {
-      "id": "event.write",
+      "id": "construction.event.write",
+      "unitType": "construction",
       "domain": "activities",
-      "kind": "event"
+      "kind": "event",
+      "scopeStatus": "required",
+      "coreRef": {
+        "kind": "concept",
+        "id": "event.write"
+      },
+      "mapping": {
+        "pl": {
+          "lexicon": "required",
+          "morphology": "required",
+          "grammarFrame": "required"
+        },
+        "en": {
+          "lexicon": "required",
+          "morphology": "required",
+          "grammarFrame": "required"
+        }
+      },
+      "evidence": {
+        "fixture": "data/coverage/a1-gold-g2.json",
+        "requirement": "passing-case-or-explicit-gap"
+      }
     },
     {
-      "id": "event.read",
+      "id": "construction.event.read",
+      "unitType": "construction",
       "domain": "activities",
-      "kind": "event"
+      "kind": "event",
+      "scopeStatus": "required",
+      "coreRef": {
+        "kind": "concept",
+        "id": "event.read"
+      },
+      "mapping": {
+        "pl": {
+          "lexicon": "required",
+          "morphology": "required",
+          "grammarFrame": "required"
+        },
+        "en": {
+          "lexicon": "required",
+          "morphology": "required",
+          "grammarFrame": "required"
+        }
+      },
+      "evidence": {
+        "fixture": "data/coverage/a1-gold-g2.json",
+        "requirement": "passing-case-or-explicit-gap"
+      }
     },
     {
-      "id": "event.help",
+      "id": "construction.event.help",
+      "unitType": "construction",
       "domain": "activities",
-      "kind": "event"
+      "kind": "event",
+      "scopeStatus": "required",
+      "coreRef": {
+        "kind": "concept",
+        "id": "event.help"
+      },
+      "mapping": {
+        "pl": {
+          "lexicon": "required",
+          "morphology": "required",
+          "grammarFrame": "required"
+        },
+        "en": {
+          "lexicon": "required",
+          "morphology": "required",
+          "grammarFrame": "required"
+        }
+      },
+      "evidence": {
+        "fixture": "data/coverage/a1-gold-g2.json",
+        "requirement": "passing-case-or-explicit-gap"
+      }
     },
     {
       "id": "quality.big",
+      "unitType": "concept",
       "domain": "descriptions",
-      "kind": "property"
+      "kind": "property",
+      "scopeStatus": "required",
+      "coreRef": {
+        "kind": "concept",
+        "id": "quality.big"
+      },
+      "mapping": {
+        "pl": {
+          "lexicon": "required",
+          "morphology": "required",
+          "grammarFrame": "not-applicable"
+        },
+        "en": {
+          "lexicon": "required",
+          "morphology": "required",
+          "grammarFrame": "not-applicable"
+        }
+      },
+      "evidence": {
+        "fixture": "data/coverage/a1-gold-g2.json",
+        "requirement": "passing-case-or-explicit-gap"
+      }
     },
     {
       "id": "quality.small",
+      "unitType": "concept",
       "domain": "descriptions",
-      "kind": "property"
+      "kind": "property",
+      "scopeStatus": "required",
+      "coreRef": {
+        "kind": "concept",
+        "id": "quality.small"
+      },
+      "mapping": {
+        "pl": {
+          "lexicon": "required",
+          "morphology": "required",
+          "grammarFrame": "not-applicable"
+        },
+        "en": {
+          "lexicon": "required",
+          "morphology": "required",
+          "grammarFrame": "not-applicable"
+        }
+      },
+      "evidence": {
+        "fixture": "data/coverage/a1-gold-g2.json",
+        "requirement": "passing-case-or-explicit-gap"
+      }
     },
     {
-      "id": "event.open",
+      "id": "construction.event.open",
+      "unitType": "construction",
       "domain": "activities",
-      "kind": "event"
+      "kind": "event",
+      "scopeStatus": "required",
+      "coreRef": {
+        "kind": "concept",
+        "id": "event.open"
+      },
+      "mapping": {
+        "pl": {
+          "lexicon": "required",
+          "morphology": "required",
+          "grammarFrame": "required"
+        },
+        "en": {
+          "lexicon": "required",
+          "morphology": "required",
+          "grammarFrame": "required"
+        }
+      },
+      "evidence": {
+        "fixture": "data/coverage/a1-gold-g2.json",
+        "requirement": "passing-case-or-explicit-gap"
+      }
     }
-  ]
+  ],
+  "scope": {
+    "level": "A1",
+    "completeness": "project-authored-subset",
+    "statuses": {
+      "required": "Included in the frozen internal target set.",
+      "deferred": "Recognized candidate intentionally postponed from this target set.",
+      "unsupported": "Explicitly outside the supported product scope; never an inference from missing implementation."
+    },
+    "references": {
+      "cefr": "Reference for level terminology only; no copied descriptors.",
+      "oxford": "Reference for planning only; no copied list, definitions, or examples."
+    },
+    "evidence": {
+      "fixture": "data/coverage/a1-gold-g2.json",
+      "rule": "A target must have at least one passing independent case or the audit must report an explicit not-exercised gap."
+    }
+  }
 }

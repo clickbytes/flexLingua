@@ -165,10 +165,10 @@
     },
     {
       "path": "data/coverage/a1-targets.json",
-      "version": 1,
+      "version": 2,
       "status": "project-authored",
       "author": "flexLingua project contributors; individual target authors are not recorded",
-      "source": "Project-authored A1 target checklist, deliberately limited and not derived from an Oxford list or CEFR standard",
+      "source": "Project-authored A1 target matrix with explicit concept/construction IDs, scope status, PL/EN mapping requirements and bounded independent evidence policy; not derived from an Oxford list or CEFR standard",
       "license": "Project-authored; no separate SPDX license grant is declared in this repository",
       "reviewedAt": "2026-10-14",
       "permittedUse": "Used as an internal planning subset in flexLingua. It is not an official CEFR list; external reuse requires rights-holder review."

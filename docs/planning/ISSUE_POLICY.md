@@ -13,6 +13,13 @@
 - Po skonfigurowaniu w UI można dodać etykiety `type:epic`, `type:task`, `type:bug`, `type:spike`, `priority:P0/P1/P2/P3`, `area:core/data/qa/gui/research`; brak etykiet nie uniemożliwia planowania.
 - P0 = blokada wydania lub bezpośredni fundament MVP; P1 = następne istotne batche; P2 = po MVP; P3 = dalsze prace planistyczne, bez dat obietnicy.
 
+### Zakres językowy A1
+
+- Zakres A1 projektu przechowujemy w wersjonowanej, autorskiej macierzy. Każda jednostka ma stabilny identyfikator, status `required` / `deferred` / `unsupported`, sens CORE, wymagania mapowania PL/EN i morfologii oraz gold albo jawną lukę.
+- Konstrukcja wymaga także ramy gramatycznej w PL i EN. Status zakresu nie zastępuje statusu implementacji ani wyniku testu.
+- CEFR i Oxford są punktami odniesienia. Nie kopiujemy list, definicji ani przykładów bez praw/licencji; autorska macierz nie jest mianownikiem pełnego poziomu CEFR i nie uzasadnia procentu biegłości.
+- Zmiana macierzy wymaga aktualizacji jej dokumentacji, `ROADMAP.md` i `HANDOFF.md` w tym samym PR.
+
 ## Definition of Ready (przed rozpoczęciem)
 
 - [ ] Jedna zmiana obserwowalna; kontekst i definicja używanego sensu CORE.
