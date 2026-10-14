@@ -1,5 +1,14 @@
 # ADR: typowane stany w CORE
 
+STATE-03 extends the English grammar to present and past `be` property
+predication and `have` possession. The English lexicon keeps these predicate
+lexemes separate from auxiliary function words. `Be` supports first, second,
+and third person agreement; `have` supports possession statements and
+present/past do-support yes/no questions. English state negation, identity,
+WH questions, and auxiliary uses such as perfect/progressive remain unsupported.
+In a single English state sentence, configured subject pronouns can use their
+lexicon concept mapping directly; event pronouns still require discourse context.
+
 **Status:** przyjęty dla CORE state document `1.23`  
 **Kontrakt ramek:** `stateFrameVersion` `1.0`
 
@@ -55,8 +64,8 @@ Wartości ról wynikają z typowanych ramek w `data/concepts.json`. Rejestr jest
 - Parser i writer CORE JSON akceptują trzy kompletne ramki stanu oraz ich negację przez istniejący węzeł `scope`.
 - Gramatyka PL obsługuje obecnie czas teraźniejszy i negację dla posiadania (`mieć`) oraz predykacji znaną właściwością (`być` + przymiotnik), z jawnymi paradygmatami i zgodą przymiotnika z podmiotem. Rządzenie dopełnieniem posiadania jest zadeklarowane w gramatyce: biernik w zdaniu twierdzącym, dopełniacz po `nie`.
 - Polska kopuła nie mapuje automatycznie na tożsamość ani predykat klasowy. Zdania o zawodzie, klasie, lokalizacji, egzystencji, strona bierna i użycie posiłkowe `być` nie mają tu licencjonowanej ramy. Predykacja z podmiotem deiktycznym, gdy rodzaj nie wynika z kontraktu, także jest odrzucana.
-- Gramatyka EN nie analizuje ani nie realizuje jeszcze stanów; przekład stanu PL do EN jawnie zwraca błąd `Unsupported state construction` do czasu zadania STATE-03.
-- Stany nie są obecnie obsługiwane jako składniki pytań, koordynacji, komplementów, modalności ani dyskursu. Walidator odrzuca takie struktury, zamiast zgadywać typ zdania.
+- English grammar supports present and past `be` predication and `have` possession, plus do-support yes/no questions for present and past possession. Identity, English state negation, WH questions, and perfect/progressive auxiliary uses remain unsupported.
+- CORE permits yes/no wrappers around states. English currently parses and realizes present and past possession yes/no questions; other state question types, WH questions, coordination, complements, modality, and discourse composition remain unsupported.
 - Nieobsługiwane są także relacje rodzinne i inne predykaty bez jawnej ramki. Nie wolno mapować ich na istniejące zdarzenie ani na samą tożsamość.
 
 Kolejne zadania językowe mogą rozszerzyć analizę i realizację na podstawie tych ramek; powinny zachować wersje kontraktów CORE i wyraźnie zgłaszać nierozstrzygniętą niejednoznaczność.

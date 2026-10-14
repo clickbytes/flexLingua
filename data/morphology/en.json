@@ -109,6 +109,82 @@
         }
       ]
     },
+    "en.verb.state": {
+      "pos": "VERB",
+      "slots": [
+        {
+          "features": {"tense":"present","person":"first","number":"singular"},
+          "steps": [],
+          "path": ["present","firstSingular"]
+        },
+        {
+          "features": {"tense":"present","person":"second","number":"singular"},
+          "steps": [],
+          "path": ["present","secondSingular"]
+        },
+        {
+          "features": {"tense":"present","person":"third","number":"singular"},
+          "steps": [],
+          "path": ["present","thirdSingular"]
+        },
+        {
+          "features": {"tense":"present","person":"first","number":"plural"},
+          "steps": [],
+          "path": ["present","firstPlural"]
+        },
+        {
+          "features": {"tense":"present","person":"second","number":"plural"},
+          "steps": [],
+          "path": ["present","secondPlural"]
+        },
+        {
+          "features": {"tense":"present","person":"third","number":"plural"},
+          "steps": [],
+          "path": ["present","thirdPlural"]
+        },
+        {
+          "features": {"tense":"past","person":"first","number":"singular"},
+          "steps": [],
+          "path": ["past","firstSingular"]
+        },
+        {
+          "features": {"tense":"past","person":"second","number":"singular"},
+          "steps": [],
+          "path": ["past","secondSingular"]
+        },
+        {
+          "features": {"tense":"past","person":"third","number":"singular"},
+          "steps": [],
+          "path": ["past","thirdSingular"]
+        },
+        {
+          "features": {"tense":"past","person":"first","number":"plural"},
+          "steps": [],
+          "path": ["past","firstPlural"]
+        },
+        {
+          "features": {"tense":"past","person":"second","number":"plural"},
+          "steps": [],
+          "path": ["past","secondPlural"]
+        },
+        {
+          "features": {"tense":"past","person":"third","number":"plural"},
+          "steps": [],
+          "path": ["past","thirdPlural"]
+        }
+      ]
+    },
+    "en.verb.state.base": {
+      "pos": "VERB",
+      "extends": "en.verb.state",
+      "slots": [
+        {
+          "features": {"mood":"indicative"},
+          "steps": [],
+          "path": ["base"]
+        }
+      ]
+    },
     "en.adj.invariant": {
       "pos": "ADJ",
       "slots": [
@@ -674,6 +750,115 @@
         "base": "open"
       },
       "overrides": []
+    },
+    {
+      "lexemeId": "en.be.state.1",
+      "paradigmId": "en.verb.state",
+      "stems": {"base":"be"},
+      "overrides": [
+        {
+          "when":{"person":"first","number":"singular","tense":"present"},
+          "mode":"replace",
+          "forms":[{"text":"am"}]
+        },
+        {
+          "when":{"person":"second","number":"singular","tense":"present"},
+          "mode":"replace",
+          "forms":[{"text":"are"}]
+        },
+        {
+          "when":{"person":"third","number":"singular","tense":"present"},
+          "mode":"replace",
+          "forms":[{"text":"is"}]
+        },
+        {
+          "when":{"person":"first","number":"plural","tense":"present"},
+          "mode":"replace",
+          "forms":[{"text":"are"}]
+        },
+        {
+          "when":{"person":"second","number":"plural","tense":"present"},
+          "mode":"replace",
+          "forms":[{"text":"are"}]
+        },
+        {
+          "when":{"person":"third","number":"plural","tense":"present"},
+          "mode":"replace",
+          "forms":[{"text":"are"}]
+        },
+        {
+          "when":{"person":"first","number":"singular","tense":"past"},
+          "mode":"replace",
+          "forms":[{"text":"was"}]
+        },
+        {
+          "when":{"person":"second","number":"singular","tense":"past"},
+          "mode":"replace",
+          "forms":[{"text":"were"}]
+        },
+        {
+          "when":{"person":"third","number":"singular","tense":"past"},
+          "mode":"replace",
+          "forms":[{"text":"was"}]
+        },
+        {
+          "when":{"person":"first","number":"plural","tense":"past"},
+          "mode":"replace",
+          "forms":[{"text":"were"}]
+        },
+        {
+          "when":{"person":"second","number":"plural","tense":"past"},
+          "mode":"replace",
+          "forms":[{"text":"were"}]
+        },
+        {
+          "when":{"person":"third","number":"plural","tense":"past"},
+          "mode":"replace",
+          "forms":[{"text":"were"}]
+        }
+      ]
+    },
+    {
+      "lexemeId": "en.have.state.1",
+      "paradigmId": "en.verb.state.base",
+      "stems": {"base":"have"},
+      "overrides": [
+        {
+          "when":{"person":"third","number":"singular","tense":"present"},
+          "mode":"replace",
+          "forms":[{"text":"has"}]
+        },
+        {
+          "when":{"person":"first","number":"singular","tense":"past"},
+          "mode":"replace",
+          "forms":[{"text":"had"}]
+        },
+        {
+          "when":{"person":"second","number":"singular","tense":"past"},
+          "mode":"replace",
+          "forms":[{"text":"had"}]
+        },
+        {
+          "when":{"person":"third","number":"singular","tense":"past"},
+          "mode":"replace",
+          "forms":[{"text":"had"}]
+        },
+        {
+          "when":{"person":"first","number":"plural","tense":"past"},
+          "mode":"replace",
+          "forms":[{"text":"had"}]
+        },
+        {
+          "when":{"person":"second","number":"plural","tense":"past"},
+          "mode":"replace",
+          "forms":[{"text":"had"}]
+        },
+        {
+          "when":{"person":"third","number":"plural","tense":"past"},
+          "mode":"replace",
+          "forms":[{"text":"had"}]
+        }
+      ]
     }
   ]
 }

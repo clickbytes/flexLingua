@@ -85,14 +85,16 @@ test('STATE-01 CORE JSON round-trips states and rejects incomplete documents', (
 test('STATE-01 keeps unsupported state contexts explicit while PL realizes present property predication', () => {
   assert.doesNotThrow(()=>validate(createNegation(possession)));
   assert.throws(()=>validate({version:'0.6',type:'coordination',connective:'and',clauses:[predication,predication]}),/coordination/i);
-  assert.throws(()=>createQuestion(predication),/supported semantic proposition/i);
-  assert.throws(()=>engine.realize({interlingua:predication,to:'en'}),/Unsupported state construction in en/);
+  const stateQuestion=createQuestion(predication);
+  assert.equal(validate(stateQuestion),stateQuestion);
+  assert.throws(()=>engine.realize({interlingua:stateQuestion,to:'en'}),/Unsupported state question construction/);
+  assert.doesNotThrow(()=>engine.realize({interlingua:predication,to:'en'}));
   const polish=engine.realize({interlingua:predication,to:'pl'}).text;
   assert.equal(polish,'Jabłko jest duże.');
   assert.deepEqual(engine.analyze({text:polish,from:'pl'}),
     createPredication('quality.big',participant('object.apple')));
-  assert.throws(()=>engine.translate({text:JSON.stringify(possession),from:'core',to:'en'}),/Unsupported state construction in en/);
+  assert.throws(()=>engine.translate({text:JSON.stringify(possession),from:'core',to:'en'}),/Unsupported en state polarity/);
   assert.throws(()=>engine.translate({text:JSON.stringify(possession),from:'core',to:'pl'}),/No pl state verb form supports past/);
-  assert.throws(()=>engine.analyze({text:'The girl is big.',from:'en'}));
+  assert.equal(engine.analyze({text:'The girl is big.',from:'en'}).kind,'predication');
   assert.equal(engine.analyze({text:'Dziewczynka jest duża.',from:'pl'}).kind,'predication');
 });

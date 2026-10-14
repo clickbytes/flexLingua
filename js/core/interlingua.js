@@ -403,7 +403,7 @@ export function createQuestion(proposition, options = {}) {
     throw new Error('Invalid question options.');
   }
   const {questionType = 'yes_no', targetRole} = options;
-  if (!record(proposition) || !['event','scope','coordination','complement','modality'].includes(proposition.type)) {
+  if (!record(proposition) || !['event','state','scope','coordination','complement','modality'].includes(proposition.type)) {
     throw new Error('A question requires a supported semantic proposition.');
   }
   if (questionType === 'yes_no') {
@@ -430,7 +430,7 @@ function validateQuestion(node, ontology, registry) {
     throw new Error('Invalid or unsupported semantic question document.');
   }
   if (!wh) {
-    if (!['event','coordination','scope','complement','modality'].includes(node.proposition?.type)) {
+    if (!['event','state','coordination','scope','complement','modality'].includes(node.proposition?.type)) {
       throw new Error('Yes/no question requires a supported proposition.');
     }
     validateClauseTree(node.proposition,ontology,registry,1);
