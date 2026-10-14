@@ -390,8 +390,11 @@
           "goal": "Zaprojektować typowane semantyki zamiast fałszywego `event.visual_perception`.",
           "files": [
             "data/concepts.json",
+            "data/features.json",
             "js/core/interlingua.js",
             "js/core/ontology.js",
+            "js/core/engine.js",
+            "[NEW] tests/state-core-v1.23.test.js",
             "[NEW] docs/adr/state-possession.md"
           ],
           "checks": [

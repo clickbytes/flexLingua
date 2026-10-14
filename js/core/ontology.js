@@ -4,6 +4,26 @@ export const ONTOLOGY_VERSION = '0.5';
 const CONCEPT_ID = /^[a-zA-Z][a-zA-Z0-9_]*(?:\.[a-zA-Z][a-zA-Z0-9_]*)*$/u;
 const KINDS = new Set(['category', 'entity', 'event', 'property', 'degree']);
 const MAX_CONCEPTS = 10000;
+export const STATE_FRAME_VERSION = '1.0';
+const STATE_FRAME_CONTRACTS = Object.freeze({
+  identity: Object.freeze({
+    roles: Object.freeze(['subject','complement']),
+    roleTypes: Object.freeze({subject:'entity',complement:'entity'}),
+    symmetric: true
+  }),
+  predication: Object.freeze({
+    roles: Object.freeze(['subject']),
+    roleTypes: Object.freeze({subject:'entity'}),
+    symmetric: false,
+    predicateType: 'property',
+    predicateAppliesTo: 'entity'
+  }),
+  possession: Object.freeze({
+    roles: Object.freeze(['owner','owned']),
+    roleTypes: Object.freeze({owner:'entity',owned:'entity'}),
+    symmetric: false
+  })
+});
 
 function validConceptId(id) {
   return typeof id === 'string' && id.length <= 100 && CONCEPT_ID.test(id) &&
@@ -94,6 +114,45 @@ export class Ontology {
           !hasOwn(this.concepts, definition.subject) || !hasOwn(this.concepts, definition.object)) {
         throw new Error(`Invalid relation type: ${relation}`);
       }
+    }
+    const hasStateContracts = hasOwn(spec,'stateFrames') || hasOwn(spec,'stateFrameVersion');
+    if (hasStateContracts) {
+      const frameNames = Object.keys(STATE_FRAME_CONTRACTS);
+      if (spec.stateFrameVersion !== STATE_FRAME_VERSION || !record(spec.stateFrames) ||
+          Object.keys(spec.stateFrames).length !== frameNames.length ||
+          frameNames.some(name => !hasOwn(spec.stateFrames,name))) {
+        throw new Error('Invalid or unsupported state frame registry version.');
+      }
+      this.stateFrameVersion = spec.stateFrameVersion;
+      this.stateFrames = freezeDeep(JSON.parse(JSON.stringify(spec.stateFrames)));
+      for (const [kind, expected] of Object.entries(STATE_FRAME_CONTRACTS)) {
+        const frame = this.stateFrames[kind];
+        const fields = ['roles','roleTypes','symmetric',
+          ...(expected.predicateType ? ['predicateType','predicateAppliesTo'] : [])];
+        if (!record(frame) || Object.keys(frame).length !== fields.length ||
+            Object.keys(frame).some(key => !fields.includes(key)) ||
+            !Array.isArray(frame.roles) || frame.roles.length !== expected.roles.length ||
+            new Set(frame.roles).size !== frame.roles.length ||
+            frame.roles.some(role => !expected.roles.includes(role)) ||
+            expected.roles.some(role => !frame.roles.includes(role)) ||
+            !record(frame.roleTypes) || Object.keys(frame.roleTypes).length !== Object.keys(expected.roleTypes).length ||
+            Object.entries(expected.roleTypes).some(([role,type]) => frame.roleTypes[role] !== type) ||
+            frame.symmetric !== expected.symmetric ||
+            (expected.predicateType && (frame.predicateType !== expected.predicateType ||
+              frame.predicateAppliesTo !== expected.predicateAppliesTo))) {
+          throw new Error(`Invalid state frame contract: ${kind}`);
+        }
+        for (const type of [...Object.values(frame.roleTypes),
+          ...(frame.predicateAppliesTo ? [frame.predicateAppliesTo] : [])]) {
+          if (!validConceptId(type) || !this.get(type) ||
+              !['entity','category'].includes(this.get(type).type)) {
+            throw new Error(`Invalid state frame role type in ${kind}: ${type}`);
+          }
+        }
+      }
+    } else {
+      this.stateFrameVersion = null;
+      this.stateFrames = freezeDeep(Object.create(null));
     }
     for (const [id, concept] of Object.entries(this.concepts)) {
       const parent = concept.parent ? this.get(concept.parent) : undefined;

@@ -385,6 +385,26 @@
       "symmetric": false
     }
   },
+  "stateFrameVersion": "1.0",
+  "stateFrames": {
+    "identity": {
+      "roles": ["subject", "complement"],
+      "roleTypes": {"subject": "entity", "complement": "entity"},
+      "symmetric": true
+    },
+    "predication": {
+      "roles": ["subject"],
+      "roleTypes": {"subject": "entity"},
+      "symmetric": false,
+      "predicateType": "property",
+      "predicateAppliesTo": "entity"
+    },
+    "possession": {
+      "roles": ["owner", "owned"],
+      "roleTypes": {"owner": "entity", "owned": "entity"},
+      "symmetric": false
+    }
+  },
   "coreLanguageVersion": "1.01",
   "operators": {
     "logic.negation": {
