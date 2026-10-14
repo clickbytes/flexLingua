@@ -32,7 +32,7 @@ test('G1: independent CI jobs cover release checks and isolate GUI offline parit
     assert.match(workflow,new RegExp(`^  ${name}:$`,'m'));
   }
   for(const run of ['npm test','npm run check:lexicon','npm run check:morphology',
-    'npm run check:gold','npm run check:a1-gold','npm run check:gold-family','npm run check:gold-father','npm run check:gold-movement','npm run check:gold-actions','npm run check:coverage','npm run check:standalone',
+    'npm run check:gold','npm run check:a1-gold','npm run check:gold-family','npm run check:gold-father','npm run check:gold-movement','npm run check:gold-actions','npm run check:a1-evidence','npm run check:coverage','npm run check:standalone',
     'npm run check:release']) assert.ok(workflow.includes(`run: ${run}`),`Missing ${run}`);
   assert.doesNotMatch(workflow,/run:\s*npm run build:standalone/);
   assert.doesNotMatch(workflow,/run:\s*npm install/);
@@ -40,7 +40,7 @@ test('G1: independent CI jobs cover release checks and isolate GUI offline parit
 
 test('G1: each invoked npm command exists in the versioned package scripts',()=>{
   for(const name of ['test','check:lexicon','check:morphology','check:gold',
-    'check:coverage','check:a1-gold','check:gold-family','check:gold-father','check:gold-movement','check:gold-actions','check:standalone','check:release']){
+    'check:coverage','check:a1-gold','check:gold-family','check:gold-father','check:gold-movement','check:gold-actions','check:a1-evidence','check:standalone','check:release']){
     assert.equal(typeof pkg.scripts?.[name],'string',`Missing npm script ${name}`);
   }
   assert.match(pkg.scripts['check:release'],/npm test/);
@@ -86,4 +86,11 @@ test('A1 Batch 6: daily actions gold is mandatory for lexical audits and release
  assert.equal(pkg.scripts['check:gold-actions'],
    'node --test tests/daily-actions-a1.test.js tests/a1-crossbatch-composition.test.js');
  assert.match(pkg.scripts['check:release'],/npm run check:gold-actions/);
+});
+
+test('A1 Batch 7: comprehensive evidence audit is mandatory in lexical CI and release',()=>{
+ assert.match(workflow,/^      - run: npm run check:a1-evidence$/m);
+ assert.equal(pkg.scripts['report:a1-evidence'],'node tools/a1-evidence-ledger.mjs --catalog-only');
+ assert.equal(pkg.scripts['check:a1-evidence'],'node tools/a1-evidence-ledger.mjs');
+ assert.match(pkg.scripts['check:release'],/npm run check:a1-evidence/);
 });

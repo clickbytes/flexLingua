@@ -1,3 +1,13 @@
+# CHECKPOINT A1 BATCH 7 — clickbytes, 2026-10-14
+
+- Baza w aktywnym repo `clickbytes/flexLingua`: `6b738f6814caf73812282bef95bc259ed64aaf2d`. Zbudowano rejestr **6 oryginalnych fixture'ów** G2, family, father, movement, daily actions i crossbatch. Zbiera oddzielne liczby pozytywnych zdań, odmów i komórek morfologicznych. Nie importuje ani nie kopiuje chronionych list Oxford.
+- `npm run report:a1-evidence` = katalog bez uruchamiania testów (`not-run`); `npm run check:a1-evidence` **uruchamia 6 realnych procesów Node**, raportuje ich kody wyjścia i jest fail-closed. Przyczynę błędu zachowuje w ograniczonym wycinku logów.
+- Poziom CEFR pozostaje `percentage:null`; obecność przykładu i przejście finite gold nie stanowią reprezentatywnego testu A1. Pozorna niezależność źródeł nie oznacza braku nakładających się przykładów.
+- Nowa bramka do release i lexical-audits, testy V8/Node, dokumentacja, bez zmian GUI. Pozostaje otwarte GUI issue #1 oraz stary artefakt standalone.
+- Po merge uzupełnić ten checkpoint rzeczywistym wynikiem Actions na SHA clickbytes/main.
+
+---
+
 # CI FAKTYCZNE WYNIKI POPRAWEK CORE — 2026-10-14
 
 **Repo aktywne tylko clickbytes/flexLingua.** Po importowaniu kompletnej migawki `main`, prawdziwy hosted [run 38607989473](https://github.com/clickbytes/flexLingua/actions/runs/38607989473) uruchomił poprawiony zestaw: **392/395 pass**; `lexical-audits` success, `offline-parity` failure, `engine-tests` failure wyłącznie w trzech testach **GUI**. GUI musi poprawić [issue #1](https://github.com/clickbytes/flexLingua/issues/1): nieaktualny standalone i dwa testy Studio. Żadne zmiany w UI/HTML nie zostały wykonane przez CORE. Przed zielonym release wymagane aktualne `npm test`, `check:standalone`, `check:release` na `main`.

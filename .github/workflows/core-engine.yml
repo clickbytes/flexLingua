@@ -49,6 +49,7 @@ jobs:
       - run: npm run check:gold-father
       - run: npm run check:gold-movement
       - run: npm run check:gold-actions
+      - run: npm run check:a1-evidence
       - run: npm run check:coverage
 
   offline-parity:
