@@ -1,0 +1,51 @@
+name: "BUG — regresja / błąd"
+description: "Zgłoszenie reprodukowalnego błędu z dowodami, środowiskiem i właścicielem."
+title: "[BUG][P1][CORE] "
+body:
+  - type: dropdown
+    id: area
+    attributes:
+      label: Obszar
+      options:
+        - CORE / parser / INTER
+        - PL / EN / morphology
+        - CI / release
+        - GUI / standalone (oddzielny agent)
+        - Docs / dane
+    validations:
+      required: true
+  - type: input
+    id: sha
+    attributes:
+      label: Commit SHA / runner / Node
+      placeholder: "SHA..., Node 22.x, platforma..."
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimalna reprodukcja
+      placeholder: "Komenda, tekst wejściowy, from, to, context; kroki."
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Oczekiwane zachowanie i rzeczywisty wynik
+      placeholder: "Expected: ...\nActual: ..."
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Dowody (logi, CI, testy)
+      description: "Usuwaj sekrety i dane osobowe z logów."
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Kryteria poprawki
+      placeholder: "- [ ] Reprodukcja jako test...\n- [ ] Naprawa...\n- [ ] Cała regresja..."
+    validations:
+      required: true

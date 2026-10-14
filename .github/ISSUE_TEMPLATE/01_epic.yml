@@ -1,0 +1,70 @@
+name: "EPIC — zakres rozwoju"
+description: "Cel, zależności, mierzalne kryteria odbioru i lista zadań."
+title: "[EPIC][P1][CORE] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Epik jest jednostką planowania, nie jedną zmianą w kodzie.
+        Linkuj powiązane zadania jako listę - [ ] #numer oraz wymagaj udokumentowanych dowodów zamknięcia.
+  - type: input
+    id: code
+    attributes:
+      label: "Kod epiku"
+      description: "Np. PERS, VAL, DIAL (unikalny w BACKLOG.md)."
+      placeholder: "PERS"
+    validations:
+      required: true
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priorytet
+      options:
+        - "P0 — blocker"
+        - "P1 — następna iteracja"
+        - "P2 — po MVP"
+        - "P3 — dalsza roadmapa"
+    validations:
+      required: true
+  - type: dropdown
+    id: owner
+    attributes:
+      label: Właściciel obszaru
+      options:
+        - CORE
+        - Data / PL / EN
+        - Quality / Platform
+        - GUI (oddzielny agent)
+        - Research
+    validations:
+      required: true
+  - type: textarea
+    id: objective
+    attributes:
+      label: Cel biznesowy i obserwowalny rezultat
+      description: "Co będzie działać i dla kogo? Bez deklarowania niezweryfikowanego CEFR."
+      placeholder: "Problem, rezultat, dowód ukończenia."
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Zakres / poza zakresem
+      placeholder: "IN: ...\nOUT: ..."
+    validations:
+      required: true
+  - type: textarea
+    id: exit
+    attributes:
+      label: Kryteria odbioru całego epiku (DoD)
+      description: "Pisz mierzalne checklisty: test, artefakt, dowód, negatywny scenariusz."
+      placeholder: "- [ ] ..." 
+    validations:
+      required: true
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Zależności, ryzyka i zadania
+      placeholder: "Depends on: #...\n- [ ] #..."
+    validations:
+      required: true
