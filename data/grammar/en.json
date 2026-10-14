@@ -306,6 +306,29 @@
       ]
     }
   },
+  "states": {
+    "negator": "not",
+    "supportedTenses": ["present", "past"],
+    "supportedPolarities": ["positive"],
+    "verbs": {
+      "grammar.state_copula": "predication",
+      "grammar.state_possession": "possession"
+    },
+    "frames": {
+      "predication": {
+        "subjectRole": "subject",
+        "predicateRole": "predicate",
+        "predicateCase": "nom",
+        "cases": {"subject": "nom"},
+        "linearizations": [["subject", "@verb", "predicate"]]
+      },
+      "possession": {
+        "subjectRole": "owner",
+        "cases": {"owner": "nom", "owned": "acc"},
+        "linearizations": [["owner", "@verb", "owned"]]
+      }
+    }
+  },
   "messages": {
     "unknownSubject": "Unrecognized English subject noun phrase.",
     "unknownVerb": "Unrecognized English verb form.",

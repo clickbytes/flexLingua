@@ -28,12 +28,18 @@ const STATE_ROLES = Object.freeze({
   possession: Object.freeze(['owner','owned'])
 });
 const STATE_FORM_CELLS = Object.freeze([
-  {path:'forms.present.firstSingular',person:'first',number:'singular'},
-  {path:'forms.present.secondSingular',person:'second',number:'singular'},
-  {path:'forms.present.thirdSingular',person:'third',number:'singular'},
-  {path:'forms.present.firstPlural',person:'first',number:'plural'},
-  {path:'forms.present.secondPlural',person:'second',number:'plural'},
-  {path:'forms.present.thirdPlural',person:'third',number:'plural'}
+  {path:'forms.present.firstSingular',tense:'present',person:'first',number:'singular'},
+  {path:'forms.present.secondSingular',tense:'present',person:'second',number:'singular'},
+  {path:'forms.present.thirdSingular',tense:'present',person:'third',number:'singular'},
+  {path:'forms.present.firstPlural',tense:'present',person:'first',number:'plural'},
+  {path:'forms.present.secondPlural',tense:'present',person:'second',number:'plural'},
+  {path:'forms.present.thirdPlural',tense:'present',person:'third',number:'plural'},
+  {path:'forms.past.firstSingular',tense:'past',person:'first',number:'singular'},
+  {path:'forms.past.secondSingular',tense:'past',person:'second',number:'singular'},
+  {path:'forms.past.thirdSingular',tense:'past',person:'third',number:'singular'},
+  {path:'forms.past.firstPlural',tense:'past',person:'first',number:'plural'},
+  {path:'forms.past.secondPlural',tense:'past',person:'second',number:'plural'},
+  {path:'forms.past.thirdPlural',tense:'past',person:'third',number:'plural'}
 ]);
 const MODAL_AGREEMENT_KEYS = [
   'firstSingular','secondSingular','thirdSingular',
@@ -366,12 +372,16 @@ function validateGrammar(dictionary, grammar) {
   }
   const states = grammar.states;
   if (!record(states) ||
-      Object.keys(states).some(key => !['negator','supportedTenses','verbs','frames',
+      Object.keys(states).some(key => !['negator','supportedTenses','supportedPolarities','verbs','frames',
         'unsupportedVerbs'].includes(key)) ||
       !['negator','supportedTenses','verbs','frames'].every(key => hasOwn(states,key)) ||
       !/^[\p{L}]+$/u.test(states.negator || '') ||
       !Array.isArray(states.supportedTenses) || !states.supportedTenses.length ||
       !states.supportedTenses.every(safeName) || !record(states.verbs) ||
+      (states.supportedPolarities !== undefined &&
+        (!Array.isArray(states.supportedPolarities) || !states.supportedPolarities.length ||
+          !states.supportedPolarities.every(value=>['positive','negative'].includes(value)) ||
+          new Set(states.supportedPolarities).size!==states.supportedPolarities.length)) ||
       !record(states.frames) ||
       (states.unsupportedVerbs !== undefined && !Array.isArray(states.unsupportedVerbs))) {
     throw new Error('Invalid state grammar configuration.');
@@ -559,7 +569,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
         text:form.text, features:form.features
       }))
       : STATE_FORM_CELLS.flatMap(cell => formsAt(lexeme,cell.path).map(form => ({
-        text:form.text, features:{tense:'present',person:cell.person,number:cell.number}
+        text:form.text, features:{tense:cell.tense,person:cell.person,number:cell.number}
       })));
     return cells.filter(form => stateGrammar.supportedTenses.includes(form.features?.tense))
       .map(form => ({
@@ -644,16 +654,18 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     throw new Error(`Unsupported state construction in ${dictionary.language}.`);
   }
 
-  function parseStateCandidates(tokens, budget) {
+  function parseStateCandidates(tokens, budget, options = {}) {
     if (!stateGrammar) return [];
+    const entries=options.entries || stateVerbForms;
+    const polarities=options.polarities || stateGrammar.supportedPolarities || ['positive','negative'];
     const readings = new Map();
-    for (const base of stateVerbForms) {
+    for (const base of entries) {
       const frame = stateGrammar.frames[base.kind];
       const linearizations=frame.linearizations.flatMap(sequence=>{
         if(!frame.allowImplicitDeicticSubject||!sequence.includes(frame.subjectRole))return [sequence];
         return [sequence,sequence.filter(step=>step!==frame.subjectRole)];
       });
-      for (const polarity of ['positive','negative']) {
+      for (const polarity of polarities) {
         const entry = {...base,rule:{...base.rule,polarity,
           prefix:polarity==='negative'?[stateGrammar.negator]:[]}};
         if (!tokens.some((_,index) => matchVerb(tokens,index,entry)!==null)) continue;
@@ -703,16 +715,21 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
             let phrases;
             if(step===frame.predicateRole) {
               const subject=parsedRoles[frame.subjectRole];
-              if(!subject?.noun || isDeicticReferent(subject.value))return;
-              const context={number:subject.value.features.number,case:frame.predicateCase,
-                gender:subject.noun.gender,pluralClass:subject.noun.pluralClass,
-                animacy:subject.noun.animacy};
+              if(!subject?.value)return;
+              const subjectAgreement=isDeicticReferent(subject.value)
+                ?subject.value.agreement:null;
+              const context={number:subjectAgreement?.number ?? subject.value.features?.number,
+                case:frame.predicateCase,
+                ...(subject.noun?.gender?{gender:subject.noun.gender}:{}),
+                ...(subject.noun?.pluralClass?{pluralClass:subject.noun.pluralClass}:{}),
+                ...(subject.noun?.animacy?{animacy:subject.noun.animacy}:{})};
               phrases=nominal.readProperty(tokens,index,context);
             } else {
               const grammaticalCase=stateRoleCase(frame,step,polarity);
               phrases=[...readNounPhrases(tokens,index,grammaticalCase,0,budget),
                 ...(step===frame.subjectRole&&grammaticalCase==='nom'
-                  ?readDeicticNounPhrases(tokens,index):[])];
+                  ?[...readDeicticNounPhrases(tokens,index),
+                    ...readStateSubjectPronouns(tokens,index)]:[])];
             }
             for(const parsed of phrases) {
               search(position+1,parsed.next,{...parsedRoles,[step]:parsed});
@@ -723,6 +740,20 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
       }
     }
     return [...readings.values()].sort((a,b)=>b.score-a.score).slice(0,MAX_ANALYSES);
+  }
+
+  function readStateSubjectPronouns(tokens,index) {
+    const found=[];
+    for(const pronoun of subjectPronouns) {
+      const size=matchesTokens(tokens,index,pronoun.text);
+      if(!size)continue;
+      for(const concept of pronoun.concepts) {
+        if(!nounIndex.has(concept))continue;
+        found.push({value:{concept,features:{number:'singular',definiteness:'definite'}},
+          noun:nounByConcept(concept),next:index+size,senseId:null,priority:0});
+      }
+    }
+    return found;
   }
 
   /** Bounded chart-like enumeration for complete clauses or clauses with one semantic gap.
@@ -1055,6 +1086,41 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     return results;
   }
 
+  function analyzeAuxiliaryStateQuestion(tokens) {
+    if(questions.yesNo.mode!=='auxiliary')return [];
+    const yesNo=questions.yesNo;
+    const variants=[
+      {word:yesNo.auxiliaries.past,tense:'past'},
+      {word:yesNo.auxiliaries.presentFirst,tense:'present',person:'first',number:'singular'},
+      {word:yesNo.auxiliaries.presentSecond,tense:'present',person:'second',number:'singular'},
+      {word:yesNo.auxiliaries.presentThirdSingular,tense:'present',person:'third',number:'singular'},
+      {word:yesNo.auxiliaries.presentThirdPlural,tense:'present',person:'third',number:'plural'}
+    ];
+    const results=[];
+    for(const variant of variants) {
+      if(tokens[0]!==normalizedWord(variant.word))continue;
+      let entries=stateVerbForms.filter(entry=>entry.kind==='possession'&&
+        entry.features.tense===variant.tense&&
+        (!variant.person || (entry.features.person===variant.person&&
+          entry.features.number===variant.number)));
+      if(!variant.person)entries=[...new Map(entries.map(entry=>[
+        entry.lexeme.id,{...entry,rule:{...entry.rule,when:{}}}
+      ])).values()];
+      entries=entries
+        .flatMap(entry=>formsAt(entry.lexeme,yesNo.baseVerbPath).map(base=>({
+          ...entry,text:base.text,rule:{...entry.rule,prefix:[],when:{
+            ...(variant.person?{'subject.person':variant.person,
+              'subject.number':variant.number}:{})
+          }}
+        })));
+      const readings=parseStateCandidates(tokens.slice(1),questionBudget(),{
+        entries,polarities:['positive']
+      });
+      results.push(...readings);
+    }
+    return results;
+  }
+
   /** A deliberately controlled question parser.  A terminal question mark is
    *  required; unsupported forms fail rather than becoming declaratives. */
   function analyzeQuestionCandidates(text) {
@@ -1077,6 +1143,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
         }
       }
     };
+    add(analyzeAuxiliaryStateQuestion(tokens),'yes_no');
     const mode=questions.yesNo.mode;
     add(parseFrontedPrepositionTheme(tokens),'wh','theme');
     if(mode==='prefix' && tokens[0]===normalizedWord(questions.yesNo.marker)) {
@@ -1344,7 +1411,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
       throw new Error(`No ${dictionary.language} state verb form supports ${meaning.features.tense}.`);
     }
     const polarity=meaning.features.polarity;
-    if(!['positive','negative'].includes(polarity)) {
+    if(!(stateGrammar.supportedPolarities || ['positive','negative']).includes(polarity)) {
       throw new Error(`Unsupported ${dictionary.language} state polarity.`);
     }
     const subject=meaning.roles[frame.subjectRole];
@@ -1357,12 +1424,15 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     const prefix=polarity==='negative'?[stateGrammar.negator]:[];
     const surface=(role)=>{
       if(role===frame.predicateRole) {
-        if(meaning.kind!=='predication' || isDeicticReferent(subject)) {
+        if(meaning.kind!=='predication') {
           throw new Error(`Unsupported ${dictionary.language} state predicate subject.`);
         }
-        const noun=nounByConcept(subject.concept);
-        const context={number:subject.features.number,case:frame.predicateCase,
-          gender:noun.gender,pluralClass:noun.pluralClass,animacy:noun.animacy};
+        const noun=isDeicticReferent(subject)?null:nounByConcept(subject.concept);
+        const context={number:isDeicticReferent(subject)
+          ?subject.agreement.number:subject.features.number,case:frame.predicateCase,
+          ...(noun?.gender?{gender:noun.gender}:{}),
+          ...(noun?.pluralClass?{pluralClass:noun.pluralClass}:{}),
+          ...(noun?.animacy?{animacy:noun.animacy}:{})};
         return nominal.realizeProperty(meaning.predicate,context);
       }
       const ref=meaning.roles[role];
@@ -1535,6 +1605,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     if(!questions)throw new Error('Unsupported question construction in this language.');
     const q=questions,clause=question.proposition;
     if(modalParts(clause))return realizeModal(clause,question);
+    if(clause?.type==='state')return realizeStateQuestion(clause,question);
     if(clause?.type!=='event') {
       throw new Error('Unsupported question construction: only single-event propositions can be realized.');
     }
@@ -1629,6 +1700,44 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
         'Source does not specify aspect; target aspect was selected by default.');
     }
     return {text,warnings,alternatives:alternative&&alternative!==text?[alternative]:[]};
+  }
+
+  function realizeStateQuestion(clause,question) {
+    if(question.questionType!=='yes_no' || questions.yesNo.mode!=='auxiliary' ||
+       clause.kind!=='possession' || !['present','past'].includes(clause.features?.tense) ||
+       clause.features?.polarity!=='positive' ||
+       !stateGrammar.supportedTenses.includes(clause.features.tense) ||
+       !(stateGrammar.supportedPolarities || ['positive','negative']).includes(clause.features.polarity)) {
+      throw new Error('Unsupported state question construction in this language.');
+    }
+    const frame=stateGrammar.frames.possession;
+    const owner=clause.roles[frame.subjectRole];
+    const person=isDeicticReferent(owner)?owner.agreement.person:'third';
+    const number=isDeicticReferent(owner)?owner.agreement.number:owner.features.number;
+    const auxiliaries=questions.yesNo.auxiliaries;
+    const auxiliary=clause.features.tense==='past'?auxiliaries.past:
+      person==='first'?auxiliaries.presentFirst:
+      person==='second'?auxiliaries.presentSecond:
+      person==='third'&&number==='singular'?auxiliaries.presentThirdSingular:
+      person==='third'&&number==='plural'?auxiliaries.presentThirdPlural:null;
+    if(!auxiliary)throw new Error('Unsupported state question subject agreement.');
+    const verb=stateVerbForms.find(entry=>entry.kind==='possession'&&
+      entry.features.tense===clause.features.tense&&entry.features.person===person&&
+      entry.features.number===number);
+    const base=verb&&formsAt(verb.lexeme,questions.yesNo.baseVerbPath);
+    if(!base || base.length!==1)throw new Error('Missing unambiguous state verb base form for question.');
+    const surface=role=>{
+      const ref=clause.roles[role];
+      if(isDeicticReferent(ref)) {
+        if(role!==frame.subjectRole)throw new Error('Only subject deictic pronouns are supported in state questions.');
+        return deicticPronounSurface(ref);
+      }
+      if(ref.relatives?.length)throw new Error('Relative clauses in state questions are unsupported.');
+      return plainNoun(ref,nounByConcept(ref.concept),stateRoleCase(frame,role,clause.features.polarity),
+        nounPhrase.defaultDefiniteness);
+    };
+    const text=sentenceText([`${auxiliary} ${surface(frame.subjectRole)} ${base[0].text} ${surface('owned')}`],'?');
+    return {text,warnings:[],alternatives:[]};
   }
 
   function validateOntology(ontology, featureRegistry, coreLanguage) {

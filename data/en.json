@@ -673,6 +673,59 @@
           }
         }
       ]
+    },
+    {
+      "id": "en.be.state.1",
+      "lemma": "be",
+      "forms": {
+        "present": {
+          "firstSingular": "am",
+          "secondSingular": "are",
+          "thirdSingular": "is",
+          "firstPlural": "are",
+          "secondPlural": "are",
+          "thirdPlural": "are"
+        },
+        "past": {
+          "firstSingular": "was",
+          "secondSingular": "were",
+          "thirdSingular": "was",
+          "firstPlural": "were",
+          "secondPlural": "were",
+          "thirdPlural": "were"
+        }
+      },
+      "senses": [{
+        "id": "en.be.state.1.sense.1",
+        "coreRef": {"kind": "grammaticalFunction", "id": "grammar.state_copula"}
+      }]
+    },
+    {
+      "id": "en.have.state.1",
+      "lemma": "have",
+      "forms": {
+        "base": "have",
+        "present": {
+          "firstSingular": "have",
+          "secondSingular": "have",
+          "thirdSingular": "has",
+          "firstPlural": "have",
+          "secondPlural": "have",
+          "thirdPlural": "have"
+        },
+        "past": {
+          "firstSingular": "had",
+          "secondSingular": "had",
+          "thirdSingular": "had",
+          "firstPlural": "had",
+          "secondPlural": "had",
+          "thirdPlural": "had"
+        }
+      },
+      "senses": [{
+        "id": "en.have.state.1.sense.1",
+        "coreRef": {"kind": "grammaticalFunction", "id": "grammar.state_possession"}
+      }]
     }
   ],
   "adjectives": [

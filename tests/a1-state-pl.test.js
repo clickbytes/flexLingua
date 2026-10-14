@@ -131,12 +131,22 @@ test('STATE-02 rejects unsupported predication frame declarations', () => {
 });
 
 test('STATE-02 refuses unsupported targets, mismatched agreement, and ambiguous copula readings', () => {
-  const unsupportedTarget = engine.tryTranslate({text: 'Mam książkę.', from: 'pl', to: 'en'});
-  assert.equal(unsupportedTarget.ok, false);
-  assert.match(unsupportedTarget.error.message, /Unsupported state construction/);
-  const unsupportedCopulaTarget = engine.tryTranslate({text: 'Jabłko jest duże.', from: 'pl', to: 'en'});
-  assert.equal(unsupportedCopulaTarget.ok, false);
-  assert.match(unsupportedCopulaTarget.error.message, /Unsupported state construction/);
+  const supportedTarget = engine.tryTranslate({text: 'Mam książkę.', from: 'pl', to: 'en'});
+  assert.equal(supportedTarget.ok, true);
+  const sourcePossession=engine.analyze({text:'Mam książkę.',from:'pl'});
+  assert.deepEqual(engine.analyze({text:supportedTarget.value.text,from:'en'}),{
+    ...sourcePossession,
+    roles:{...sourcePossession.roles,owned:{...sourcePossession.roles.owned,
+      features:{...sourcePossession.roles.owned.features,definiteness:'indefinite'}}}
+  });
+  const supportedCopulaTarget = engine.tryTranslate({text: 'Jabłko jest duże.', from: 'pl', to: 'en'});
+  assert.equal(supportedCopulaTarget.ok, true);
+  const sourcePredication=engine.analyze({text:'Jabłko jest duże.',from:'pl'});
+  assert.deepEqual(engine.analyze({text:supportedCopulaTarget.value.text,from:'en'}),{
+    ...sourcePredication,
+    roles:{...sourcePredication.roles,subject:{...sourcePredication.roles.subject,
+      features:{...sourcePredication.roles.subject.features,definiteness:'indefinite'}}}
+  });
 
   assert.throws(() => engine.analyze({text: 'Ja ma książkę.', from: 'pl'}), /zgadza|agree/iu);
   assert.throws(() => engine.analyze({text: 'Ja jestem książką.', from: 'pl'}),
