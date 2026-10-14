@@ -11,12 +11,12 @@ function block(start,end){
   return match[1];
 }
 
-test('G1: CI is triggered on main, core branches, PRs and manual dispatch',()=>{
+test('G1: CI is triggered on main, PRs and manual dispatch',()=>{
   const triggers=block('on','permissions');
-  assert.match(triggers,/^  push:\s*$/m);
-  assert.match(triggers,/^\s+- main\s*$/m);
-  assert.match(triggers,/^\s+- ['"]core\/\*\*['"]\s*$/m);
+  assert.match(triggers,/^  push:\s*\n    branches:\s*\n      - main\s*$/m);
+  assert.doesNotMatch(triggers,/core\/\*\*/);
   assert.match(triggers,/^  pull_request:\s*$/m);
+  assert.match(triggers,/^    branches:\s*\n      - main\s*$/m);
   assert.match(triggers,/^  workflow_dispatch:\s*$/m);
 });
 
