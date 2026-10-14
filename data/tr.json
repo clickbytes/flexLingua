@@ -1,0 +1,135 @@
+{
+  "version": "1.0",
+  "language": "tr",
+  "nouns": [
+    {
+      "id": "tr.girl.1",
+      "concept": "person.girl",
+      "lemma": "kız",
+      "forms": {
+        "singular": {
+          "nom": "kız",
+          "acc": "kızı",
+          "dat": "kıza"
+        },
+        "plural": {
+          "nom": "kızlar",
+          "acc": "kızları",
+          "dat": "kızlara"
+        }
+      }
+    },
+    {
+      "id": "tr.boy.1",
+      "concept": "person.boy",
+      "lemma": "oğlan",
+      "forms": {
+        "singular": {
+          "nom": "oğlan",
+          "acc": "oğlanı",
+          "dat": "oğlana"
+        },
+        "plural": {
+          "nom": "oğlanlar",
+          "acc": "oğlanları",
+          "dat": "oğlanlara"
+        }
+      }
+    },
+    {
+      "id": "tr.dog.1",
+      "concept": "animal.dog",
+      "lemma": "köpek",
+      "forms": {
+        "singular": {
+          "nom": "köpek",
+          "acc": "köpeği",
+          "dat": "köpeğe"
+        },
+        "plural": {
+          "nom": "köpekler",
+          "acc": "köpekleri",
+          "dat": "köpeklere"
+        }
+      }
+    },
+    {
+      "id": "tr.cat.1",
+      "concept": "animal.cat",
+      "lemma": "kedi",
+      "forms": {
+        "singular": {
+          "nom": "kedi",
+          "acc": "kediyi",
+          "dat": "kediye"
+        },
+        "plural": {
+          "nom": "kediler",
+          "acc": "kedileri",
+          "dat": "kedilere"
+        }
+      }
+    },
+    {
+      "id": "tr.book.1",
+      "concept": "object.book",
+      "lemma": "kitap",
+      "forms": {
+        "singular": {
+          "nom": "kitap",
+          "acc": "kitabı",
+          "dat": "kitaba"
+        },
+        "plural": {
+          "nom": "kitaplar",
+          "acc": "kitapları",
+          "dat": "kitaplara"
+        }
+      }
+    },
+    {
+      "id": "tr.apple.1",
+      "concept": "object.apple",
+      "lemma": "elma",
+      "forms": {
+        "singular": {
+          "nom": "elma",
+          "acc": "elmayı",
+          "dat": "elmaya"
+        },
+        "plural": {
+          "nom": "elmalar",
+          "acc": "elmaları",
+          "dat": "elmalara"
+        }
+      }
+    }
+  ],
+  "verbs": [
+    {
+      "id": "tr.gormek.1",
+      "concept": "event.visual_perception",
+      "lemma": "görmek",
+      "forms": {
+        "past": "gördü",
+        "pastNegative": "görmedi",
+        "present": "görüyor",
+        "presentNegative": "görmüyor"
+      }
+    },
+    {
+      "id": "tr.vermek.1",
+      "concept": "event.transfer_possession",
+      "lemma": "vermek",
+      "forms": {
+        "past": "verdi",
+        "pastNegative": "vermedi",
+        "present": "veriyor",
+        "presentNegative": "vermiyor"
+      }
+    }
+  ],
+  "adjectives": [],
+  "degrees": [],
+  "quantifiers": []
+}

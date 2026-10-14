@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://flexlingua.local/schemas/core-reference.schema.json",
+  "title": "flexLingua CORE reference v1.01",
+  "type": "object",
+  "required": ["kind", "id"],
+  "properties": {
+    "kind": { "enum": ["concept", "operator", "grammaticalFunction"] },
+    "id": { "type": "string", "pattern": "^[a-zA-Z][a-zA-Z0-9_]*(\\.[a-zA-Z][a-zA-Z0-9_]*)*$", "maxLength": 100 },
+    "parameters": { "type": "object", "additionalProperties": { "type": "integer" } }
+  },
+  "additionalProperties": false
+}

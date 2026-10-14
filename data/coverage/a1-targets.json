@@ -1,0 +1,122 @@
+{
+  "version": 1,
+  "origin": "Project-authored A1 target checklist. Deliberately small planning subset; NOT Oxford list or CEFR standard.",
+  "license": "project-authored",
+  "targets": [
+    {
+      "id": "person.girl",
+      "domain": "people",
+      "kind": "entity"
+    },
+    {
+      "id": "person.boy",
+      "domain": "people",
+      "kind": "entity"
+    },
+    {
+      "id": "person.child",
+      "domain": "people",
+      "kind": "entity"
+    },
+    {
+      "id": "person.woman",
+      "domain": "people",
+      "kind": "entity"
+    },
+    {
+      "id": "person.mother",
+      "domain": "family",
+      "kind": "entity"
+    },
+    {
+      "id": "person.sister",
+      "domain": "family",
+      "kind": "entity"
+    },
+    {
+      "id": "person.brother",
+      "domain": "family",
+      "kind": "entity"
+    },
+    {
+      "id": "person.father",
+      "domain": "family",
+      "kind": "entity"
+    },
+    {
+      "id": "animal.dog",
+      "domain": "objects",
+      "kind": "entity"
+    },
+    {
+      "id": "animal.cat",
+      "domain": "objects",
+      "kind": "entity"
+    },
+    {
+      "id": "object.book",
+      "domain": "objects",
+      "kind": "entity"
+    },
+    {
+      "id": "object.apple",
+      "domain": "objects",
+      "kind": "entity"
+    },
+    {
+      "id": "structure.house",
+      "domain": "places",
+      "kind": "entity"
+    },
+    {
+      "id": "institution.school",
+      "domain": "places",
+      "kind": "entity"
+    },
+    {
+      "id": "event.visual_perception",
+      "domain": "activities",
+      "kind": "event"
+    },
+    {
+      "id": "event.transfer_possession",
+      "domain": "activities",
+      "kind": "event"
+    },
+    {
+      "id": "event.movement",
+      "domain": "activities",
+      "kind": "event"
+    },
+    {
+      "id": "event.write",
+      "domain": "activities",
+      "kind": "event"
+    },
+    {
+      "id": "event.read",
+      "domain": "activities",
+      "kind": "event"
+    },
+    {
+      "id": "event.help",
+      "domain": "activities",
+      "kind": "event"
+    },
+    {
+      "id": "quality.big",
+      "domain": "descriptions",
+      "kind": "property"
+    },
+    {
+      "id": "quality.small",
+      "domain": "descriptions",
+      "kind": "property"
+    },
+    {
+      "id": "event.open",
+      "domain": "activities",
+      "kind": "event"
+    }
+  ]
+}

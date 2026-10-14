@@ -1,0 +1,2269 @@
+{
+  "language": "pl",
+  "version": "1.0",
+  "nouns": [
+    {
+      "id": "pl.dziewczynka.1",
+      "lemma": "dziewczynka",
+      "gender": "feminine",
+      "forms": {
+        "singular": {
+          "nom": "dziewczynka",
+          "gen": "dziewczynki",
+          "dat": "dziewczynce",
+          "acc": "dziewczynkę"
+        },
+        "plural": {
+          "nom": "dziewczynki",
+          "gen": "dziewczynek",
+          "dat": "dziewczynkom",
+          "acc": "dziewczynki"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.dziewczynka.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.girl"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.chlopiec.1",
+      "lemma": "chłopiec",
+      "gender": "masculine",
+      "forms": {
+        "singular": {
+          "nom": "chłopiec",
+          "gen": "chłopca",
+          "dat": "chłopcu",
+          "acc": "chłopca"
+        },
+        "plural": {
+          "nom": "chłopcy",
+          "gen": "chłopców",
+          "dat": "chłopcom",
+          "acc": "chłopców"
+        }
+      },
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.chlopiec.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.boy"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.pies.1",
+      "lemma": "pies",
+      "gender": "masculine",
+      "forms": {
+        "singular": {
+          "nom": "pies",
+          "gen": "psa",
+          "dat": "psu",
+          "acc": "psa"
+        },
+        "plural": {
+          "nom": "psy",
+          "gen": "psów",
+          "dat": "psom",
+          "acc": "psy"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.pies.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.dog"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.kot.1",
+      "lemma": "kot",
+      "gender": "masculine",
+      "forms": {
+        "singular": {
+          "nom": "kot",
+          "gen": "kota",
+          "dat": "kotu",
+          "acc": "kota"
+        },
+        "plural": {
+          "nom": "koty",
+          "gen": "kotów",
+          "dat": "kotom",
+          "acc": "koty"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.kot.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.cat"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.ksiazka.1",
+      "lemma": "książka",
+      "gender": "feminine",
+      "forms": {
+        "singular": {
+          "nom": "książka",
+          "gen": "książki",
+          "dat": "książce",
+          "acc": "książkę"
+        },
+        "plural": {
+          "nom": "książki",
+          "gen": "książek",
+          "dat": "książkom",
+          "acc": "książki"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.ksiazka.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.book"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.jablko.1",
+      "lemma": "jabłko",
+      "gender": "neuter",
+      "forms": {
+        "singular": {
+          "nom": "jabłko",
+          "gen": "jabłka",
+          "dat": "jabłku",
+          "acc": "jabłko"
+        },
+        "plural": {
+          "nom": "jabłka",
+          "gen": "jabłek",
+          "dat": "jabłkom",
+          "acc": "jabłka"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.jablko.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.apple"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.bank.1",
+      "lemma": "bank",
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "forms": {
+        "singular": {
+          "nom": "bank",
+          "gen": "banku",
+          "dat": "bankowi",
+          "acc": "bank"
+        },
+        "plural": {
+          "nom": "banki",
+          "gen": "banków",
+          "dat": "bankom",
+          "acc": "banki"
+        }
+      },
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.bank.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.financial_institution"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.brzeg.1",
+      "lemma": "brzeg",
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "forms": {
+        "singular": {
+          "nom": "brzeg",
+          "gen": "brzegu",
+          "dat": "brzegowi",
+          "acc": "brzeg"
+        },
+        "plural": {
+          "nom": "brzegi",
+          "gen": "brzegów",
+          "dat": "brzegom",
+          "acc": "brzegi"
+        }
+      },
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.brzeg.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.riverbank"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.lis.1",
+      "lemma": "lis",
+      "senses": [
+        {
+          "id": "pl.lis.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.fox"
+          }
+        }
+      ],
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "forms": {}
+    },
+    {
+      "id": "pl.dziecko.1",
+      "lemma": "dziecko",
+      "senses": [
+        {
+          "id": "pl.dziecko.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.child"
+          }
+        }
+      ],
+      "gender": "neuter",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "forms": {}
+    },
+    {
+      "id": "pl.dom.1",
+      "lemma": "dom",
+      "senses": [
+        {
+          "id": "pl.dom.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "structure.house"
+          }
+        }
+      ],
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate"
+    },
+    {
+      "id": "pl.rower.1",
+      "lemma": "rower",
+      "senses": [
+        {
+          "id": "pl.rower.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.bicycle"
+          }
+        }
+      ],
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate"
+    },
+    {
+      "id": "pl.telefon.1",
+      "lemma": "telefon",
+      "senses": [
+        {
+          "id": "pl.telefon.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.phone"
+          }
+        }
+      ],
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate"
+    },
+    {
+      "id": "pl.ogrod.1",
+      "lemma": "ogród",
+      "senses": [
+        {
+          "id": "pl.ogrod.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.garden"
+          }
+        }
+      ],
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate"
+    },
+    {
+      "id": "pl.stol.1",
+      "lemma": "stół",
+      "senses": [
+        {
+          "id": "pl.stol.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.table"
+          }
+        }
+      ],
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate"
+    },
+    {
+      "id": "pl.las.1",
+      "lemma": "las",
+      "senses": [
+        {
+          "id": "pl.las.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.forest"
+          }
+        }
+      ],
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate"
+    },
+    {
+      "id": "pl.mama.1",
+      "lemma": "mama",
+      "senses": [
+        {
+          "id": "pl.mama.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.mother"
+          }
+        }
+      ],
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate"
+    },
+    {
+      "id": "pl.szkola.1",
+      "lemma": "szkoła",
+      "senses": [
+        {
+          "id": "pl.szkola.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "institution.school"
+          }
+        }
+      ],
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate"
+    },
+    {
+      "id": "pl.rzeka.1",
+      "lemma": "rzeka",
+      "senses": [
+        {
+          "id": "pl.rzeka.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.river"
+          }
+        }
+      ],
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate"
+    },
+    {
+      "id": "pl.okno.1",
+      "lemma": "okno",
+      "senses": [
+        {
+          "id": "pl.okno.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.window"
+          }
+        }
+      ],
+      "gender": "neuter",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate"
+    },
+    {
+      "id": "pl.drzewo.1",
+      "lemma": "drzewo",
+      "senses": [
+        {
+          "id": "pl.drzewo.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.tree"
+          }
+        }
+      ],
+      "gender": "neuter",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate"
+    },
+    {
+      "id": "pl.miasto.1",
+      "lemma": "miasto",
+      "senses": [
+        {
+          "id": "pl.miasto.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.city"
+          }
+        }
+      ],
+      "gender": "neuter",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate"
+    },
+    {
+      "id": "pl.mysz.1",
+      "lemma": "mysz",
+      "senses": [
+        {
+          "id": "pl.mysz.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.mouse"
+          }
+        },
+        {
+          "id": "pl.mysz.1.sense.device",
+          "coreRef": {
+            "kind": "concept",
+            "id": "device.computer_mouse"
+          },
+          "priority": -2
+        }
+      ],
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate"
+    },
+    {
+      "id": "pl.kobieta.1",
+      "lemma": "kobieta",
+      "senses": [
+        {
+          "id": "pl.kobieta.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.woman"
+          }
+        }
+      ],
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate"
+    },
+    {
+      "id": "pl.siostra.1",
+      "lemma": "siostra",
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "forms": {
+        "singular": {
+          "nom": "siostra",
+          "gen": "siostry",
+          "dat": "siostrze",
+          "acc": "siostrę"
+        },
+        "plural": {
+          "nom": "siostry",
+          "gen": "sióstr",
+          "dat": "siostrom",
+          "acc": "siostry"
+        }
+      },
+      "senses": [
+        {
+          "id": "pl.siostra.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.sister"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.brat.1",
+      "lemma": "brat",
+      "gender": "masculine",
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "forms": {
+        "singular": {
+          "nom": "brat",
+          "gen": "brata",
+          "dat": "bratu",
+          "acc": "brata"
+        },
+        "plural": {
+          "nom": "bracia",
+          "gen": "braci",
+          "dat": "braciom",
+          "acc": "braci"
+        }
+      },
+      "senses": [
+        {
+          "id": "pl.brat.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.brother"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.ojciec.1",
+      "lemma": "ojciec",
+      "gender": "masculine",
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "forms": {
+        "singular": {
+          "nom": "ojciec",
+          "gen": "ojca",
+          "dat": "ojcu",
+          "acc": "ojca"
+        },
+        "plural": {
+          "nom": "ojcowie",
+          "gen": "ojców",
+          "dat": "ojcom",
+          "acc": "ojców"
+        }
+      },
+      "senses": [
+        {
+          "id": "pl.ojciec.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.father"
+          }
+        }
+      ]
+    }
+  ],
+  "verbs": [
+    {
+      "id": "pl.dac.1",
+      "lemma": "dać",
+      "aspect": "perfective",
+      "forms": {
+        "past": {
+          "singular": {
+            "masculine": "dał",
+            "feminine": "dała",
+            "neuter": "dało"
+          },
+          "plural": {
+            "virile": "dali",
+            "nonvirile": "dały"
+          }
+        }
+      },
+      "senses": [
+        {
+          "id": "pl.dac.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.transfer_possession"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.dawac.1",
+      "lemma": "dawać",
+      "aspect": "imperfective",
+      "forms": {
+        "present": {
+          "thirdSingular": "daje",
+          "thirdPlural": "dają"
+        },
+        "past": {
+          "singular": {
+            "masculine": "dawał",
+            "feminine": "dawała",
+            "neuter": "dawało"
+          },
+          "plural": {
+            "virile": "dawali",
+            "nonvirile": "dawały"
+          }
+        }
+      },
+      "senses": [
+        {
+          "id": "pl.dawac.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.transfer_possession"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.widziec.1",
+      "lemma": "widzieć",
+      "aspect": "imperfective",
+      "forms": {
+        "present": {
+          "thirdSingular": "widzi",
+          "thirdPlural": "widzą"
+        },
+        "past": {
+          "singular": {
+            "masculine": "widział",
+            "feminine": "widziała",
+            "neuter": "widziało"
+          },
+          "plural": {
+            "virile": "widzieli",
+            "nonvirile": "widziały"
+          }
+        }
+      },
+      "senses": [
+        {
+          "id": "pl.widziec.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.visual_perception"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.patrzec_na.1",
+      "lemma": "patrzeć na",
+      "aspect": "imperfective",
+      "forms": {
+        "present": {
+          "thirdSingular": "patrzy na",
+          "thirdPlural": "patrzą na"
+        },
+        "past": {
+          "singular": {
+            "masculine": "patrzył na",
+            "feminine": "patrzyła na",
+            "neuter": "patrzyło na"
+          },
+          "plural": {
+            "virile": "patrzyli na",
+            "nonvirile": "patrzyły na"
+          }
+        }
+      },
+      "senses": [
+        {
+          "id": "pl.patrzec_na.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.visual_attention"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.podnosic.1",
+      "lemma": "podnosić",
+      "aspect": "imperfective",
+      "forms": {
+        "present": {
+          "thirdSingular": "podnosi",
+          "thirdPlural": "podnoszą"
+        },
+        "past": {
+          "singular": {
+            "masculine": "podnosił",
+            "feminine": "podnosiła",
+            "neuter": "podnosiło"
+          },
+          "plural": {
+            "virile": "podnosili",
+            "nonvirile": "podnosiły"
+          }
+        }
+      },
+      "senses": [
+        {
+          "id": "pl.podnosic.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.raise_object"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.szukac.1",
+      "lemma": "szukać",
+      "aspect": "imperfective",
+      "forms": {
+        "present": {
+          "thirdSingular": "szuka",
+          "thirdPlural": "szukają"
+        },
+        "past": {
+          "singular": {
+            "masculine": "szukał",
+            "feminine": "szukała",
+            "neuter": "szukało"
+          },
+          "plural": {
+            "virile": "szukali",
+            "nonvirile": "szukały"
+          }
+        }
+      },
+      "senses": [
+        {
+          "id": "pl.szukac.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.search"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.sluchac.1",
+      "lemma": "słuchać",
+      "aspect": "imperfective",
+      "forms": {
+        "present": {
+          "thirdSingular": "słucha",
+          "thirdPlural": "słuchają"
+        },
+        "past": {
+          "singular": {
+            "masculine": "słuchał",
+            "feminine": "słuchała",
+            "neuter": "słuchało"
+          },
+          "plural": {
+            "virile": "słuchali",
+            "nonvirile": "słuchały"
+          }
+        }
+      },
+      "senses": [
+        {
+          "id": "pl.sluchac.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.auditory_attention"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.czekac_na.1",
+      "lemma": "czekać na",
+      "aspect": "imperfective",
+      "forms": {
+        "present": {
+          "thirdSingular": "czeka na",
+          "thirdPlural": "czekają na"
+        },
+        "past": {
+          "singular": {
+            "masculine": "czekał na",
+            "feminine": "czekała na",
+            "neuter": "czekało na"
+          },
+          "plural": {
+            "virile": "czekali na",
+            "nonvirile": "czekały na"
+          }
+        }
+      },
+      "senses": [
+        {
+          "id": "pl.czekac_na.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.wait_for_entity"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.czytac.1",
+      "lemma": "czytać",
+      "aspect": "imperfective",
+      "forms": {
+        "present": {
+          "thirdSingular": "czyta",
+          "thirdPlural": "czytają"
+        },
+        "past": {
+          "singular": {
+            "masculine": "czytał",
+            "feminine": "czytała",
+            "neuter": "czytało"
+          },
+          "plural": {
+            "virile": "czytali",
+            "nonvirile": "czytały"
+          }
+        }
+      },
+      "senses": [
+        {
+          "id": "pl.czytac.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.read"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.pomagac.1",
+      "lemma": "pomagać",
+      "aspect": "imperfective",
+      "forms": {
+        "present": {
+          "thirdSingular": "pomaga",
+          "thirdPlural": "pomagają"
+        },
+        "past": {
+          "singular": {
+            "masculine": "pomagał",
+            "feminine": "pomagała",
+            "neuter": "pomagało"
+          },
+          "plural": {
+            "virile": "pomagali",
+            "nonvirile": "pomagały"
+          }
+        }
+      },
+      "senses": [
+        {
+          "id": "pl.pomagac.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.help"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.isc.1",
+      "lemma": "iść",
+      "aspect": "imperfective",
+      "forms": {
+        "present": {
+          "thirdSingular": "idzie",
+          "thirdPlural": "idą"
+        },
+        "past": {
+          "singular": {
+            "masculine": "szedł",
+            "feminine": "szła",
+            "neuter": "szło"
+          },
+          "plural": {
+            "virile": "szli",
+            "nonvirile": "szły"
+          }
+        }
+      },
+      "senses": [
+        {
+          "id": "pl.isc.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.movement"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.pisac.1",
+      "lemma": "pisać",
+      "aspect": "imperfective",
+      "forms": {
+        "present": {
+          "thirdSingular": "pisze",
+          "thirdPlural": "piszą"
+        },
+        "past": {
+          "singular": {
+            "masculine": "pisał",
+            "feminine": "pisała",
+            "neuter": "pisało"
+          },
+          "plural": {
+            "virile": "pisali",
+            "nonvirile": "pisały"
+          }
+        }
+      },
+      "senses": [
+        {
+          "id": "pl.pisac.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.write"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.otwierac.1",
+      "lemma": "otwierać",
+      "aspect": "imperfective",
+      "forms": {
+        "present": {
+          "thirdSingular": "otwiera",
+          "thirdPlural": "otwierają"
+        },
+        "past": {
+          "singular": {
+            "masculine": "otwierał",
+            "feminine": "otwierała",
+            "neuter": "otwierało"
+          },
+          "plural": {
+            "virile": "otwierali",
+            "nonvirile": "otwierały"
+          }
+        }
+      },
+      "senses": [
+        {
+          "id": "pl.otwierac.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.open"
+          }
+        }
+      ]
+    }
+  ],
+  "adjectives": [
+    {
+      "id": "pl.big.adj.1",
+      "lemma": "duży",
+      "forms": [
+        {
+          "text": "duża",
+          "when": {
+            "number": "singular",
+            "gender": "feminine",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "dużą",
+          "when": {
+            "number": "singular",
+            "gender": "feminine",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "dużej",
+          "when": {
+            "number": "singular",
+            "gender": "feminine",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "dużej",
+          "when": {
+            "number": "singular",
+            "gender": "feminine",
+            "case": "dat"
+          }
+        },
+        {
+          "text": "duży",
+          "when": {
+            "number": "singular",
+            "gender": "masculine",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "dużego",
+          "when": {
+            "number": "singular",
+            "gender": "masculine",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "dużemu",
+          "when": {
+            "number": "singular",
+            "gender": "masculine",
+            "case": "dat"
+          }
+        },
+        {
+          "text": "dużego",
+          "when": {
+            "number": "singular",
+            "gender": "masculine",
+            "animacy": "animate",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "duży",
+          "when": {
+            "number": "singular",
+            "gender": "masculine",
+            "animacy": "inanimate",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "duże",
+          "when": {
+            "number": "singular",
+            "gender": "neuter",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "duże",
+          "when": {
+            "number": "singular",
+            "gender": "neuter",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "dużego",
+          "when": {
+            "number": "singular",
+            "gender": "neuter",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "dużemu",
+          "when": {
+            "number": "singular",
+            "gender": "neuter",
+            "case": "dat"
+          }
+        },
+        {
+          "text": "duzi",
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "dużych",
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "dużych",
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "dużym",
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "dat"
+          }
+        },
+        {
+          "text": "duże",
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "duże",
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "dużych",
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "dużym",
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "case": "dat"
+          }
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.big.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.big"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.small.adj.1",
+      "lemma": "mały",
+      "forms": [
+        {
+          "text": "mała",
+          "when": {
+            "number": "singular",
+            "gender": "feminine",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "małą",
+          "when": {
+            "number": "singular",
+            "gender": "feminine",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "małej",
+          "when": {
+            "number": "singular",
+            "gender": "feminine",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "małej",
+          "when": {
+            "number": "singular",
+            "gender": "feminine",
+            "case": "dat"
+          }
+        },
+        {
+          "text": "mały",
+          "when": {
+            "number": "singular",
+            "gender": "masculine",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "małego",
+          "when": {
+            "number": "singular",
+            "gender": "masculine",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "małemu",
+          "when": {
+            "number": "singular",
+            "gender": "masculine",
+            "case": "dat"
+          }
+        },
+        {
+          "text": "małego",
+          "when": {
+            "number": "singular",
+            "gender": "masculine",
+            "animacy": "animate",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "mały",
+          "when": {
+            "number": "singular",
+            "gender": "masculine",
+            "animacy": "inanimate",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "małe",
+          "when": {
+            "number": "singular",
+            "gender": "neuter",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "małe",
+          "when": {
+            "number": "singular",
+            "gender": "neuter",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "małego",
+          "when": {
+            "number": "singular",
+            "gender": "neuter",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "małemu",
+          "when": {
+            "number": "singular",
+            "gender": "neuter",
+            "case": "dat"
+          }
+        },
+        {
+          "text": "mali",
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "małych",
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "małych",
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "małym",
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "dat"
+          }
+        },
+        {
+          "text": "małe",
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "małe",
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "małych",
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "małym",
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "case": "dat"
+          }
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.small.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.small"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.red.adj.1",
+      "lemma": "czerwony",
+      "forms": [
+        {
+          "text": "czerwona",
+          "when": {
+            "number": "singular",
+            "gender": "feminine",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "czerwoną",
+          "when": {
+            "number": "singular",
+            "gender": "feminine",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "czerwonej",
+          "when": {
+            "number": "singular",
+            "gender": "feminine",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "czerwonej",
+          "when": {
+            "number": "singular",
+            "gender": "feminine",
+            "case": "dat"
+          }
+        },
+        {
+          "text": "czerwony",
+          "when": {
+            "number": "singular",
+            "gender": "masculine",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "czerwonego",
+          "when": {
+            "number": "singular",
+            "gender": "masculine",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "czerwonemu",
+          "when": {
+            "number": "singular",
+            "gender": "masculine",
+            "case": "dat"
+          }
+        },
+        {
+          "text": "czerwonego",
+          "when": {
+            "number": "singular",
+            "gender": "masculine",
+            "animacy": "animate",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "czerwony",
+          "when": {
+            "number": "singular",
+            "gender": "masculine",
+            "animacy": "inanimate",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "czerwone",
+          "when": {
+            "number": "singular",
+            "gender": "neuter",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "czerwone",
+          "when": {
+            "number": "singular",
+            "gender": "neuter",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "czerwonego",
+          "when": {
+            "number": "singular",
+            "gender": "neuter",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "czerwonemu",
+          "when": {
+            "number": "singular",
+            "gender": "neuter",
+            "case": "dat"
+          }
+        },
+        {
+          "text": "czerwoni",
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "czerwonych",
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "czerwonych",
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "czerwonym",
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "dat"
+          }
+        },
+        {
+          "text": "czerwone",
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "czerwone",
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "czerwonych",
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "czerwonym",
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "case": "dat"
+          }
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.red.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.red"
+          }
+        }
+      ]
+    }
+  ],
+  "degrees": [
+    {
+      "id": "pl.bardzo.degree.1",
+      "lemma": "bardzo",
+      "forms": [
+        {
+          "text": "bardzo"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.bardzo.degree.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "degree.very"
+          }
+        }
+      ]
+    }
+  ],
+  "quantifiers": [
+    {
+      "id": "pl.all.quant.1",
+      "meaning": {
+        "kind": "universal"
+      },
+      "forms": [
+        {
+          "text": "wszyscy",
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "gender": "feminine",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "wszyscy",
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "gender": "masculine",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "wszyscy",
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "gender": "neuter",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "wszystkich",
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "gender": "feminine",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "wszystkich",
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "gender": "masculine",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "wszystkich",
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "gender": "neuter",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "wszystkich",
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "gender": "feminine",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "wszystkich",
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "gender": "masculine",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "wszystkich",
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "gender": "neuter",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "wszystkim",
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "gender": "feminine",
+            "case": "dat"
+          }
+        },
+        {
+          "text": "wszystkim",
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "gender": "masculine",
+            "case": "dat"
+          }
+        },
+        {
+          "text": "wszystkim",
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "gender": "neuter",
+            "case": "dat"
+          }
+        },
+        {
+          "text": "wszystkie",
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "gender": "feminine",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "wszystkie",
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "gender": "masculine",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "wszystkie",
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "gender": "neuter",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "wszystkie",
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "gender": "feminine",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "wszystkie",
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "gender": "masculine",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "wszystkie",
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "gender": "neuter",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "wszystkich",
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "gender": "feminine",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "wszystkich",
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "gender": "masculine",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "wszystkich",
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "gender": "neuter",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "wszystkim",
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "gender": "feminine",
+            "case": "dat"
+          }
+        },
+        {
+          "text": "wszystkim",
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "gender": "masculine",
+            "case": "dat"
+          }
+        },
+        {
+          "text": "wszystkim",
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "gender": "neuter",
+            "case": "dat"
+          }
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.all.quant.1.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "quantifier.universal"
+          }
+        }
+      ],
+      "lemma": "wszyscy"
+    },
+    {
+      "id": "pl.two.quant.1",
+      "meaning": {
+        "kind": "exact",
+        "value": 2
+      },
+      "forms": [
+        {
+          "text": "dwaj",
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "gender": "feminine",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "dwaj",
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "gender": "masculine",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "dwaj",
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "gender": "neuter",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "dwóch",
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "gender": "feminine",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "dwóch",
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "gender": "masculine",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "dwóch",
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "gender": "neuter",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "dwóch",
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "gender": "feminine",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "dwóch",
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "gender": "masculine",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "dwóch",
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "gender": "neuter",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "dwóm",
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "gender": "feminine",
+            "case": "dat"
+          }
+        },
+        {
+          "text": "dwóm",
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "gender": "masculine",
+            "case": "dat"
+          }
+        },
+        {
+          "text": "dwóm",
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "gender": "neuter",
+            "case": "dat"
+          }
+        },
+        {
+          "text": "dwie",
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "gender": "feminine",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "dwa",
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "gender": "masculine",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "dwa",
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "gender": "neuter",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "dwie",
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "gender": "feminine",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "dwa",
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "gender": "masculine",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "dwa",
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "gender": "neuter",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "dwóch",
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "gender": "feminine",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "dwóch",
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "gender": "masculine",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "dwóch",
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "gender": "neuter",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "dwóm",
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "gender": "feminine",
+            "case": "dat"
+          }
+        },
+        {
+          "text": "dwóm",
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "gender": "masculine",
+            "case": "dat"
+          }
+        },
+        {
+          "text": "dwóm",
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "gender": "neuter",
+            "case": "dat"
+          }
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.two.quant.1.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "quantifier.exact",
+            "parameters": {
+              "value": 2
+            }
+          }
+        }
+      ],
+      "lemma": "dwaj"
+    }
+  ],
+  "attitudes": [
+    {
+      "id": "pl.wierzyc.1",
+      "lemma": "wierzyć",
+      "forms": {
+        "present": {
+          "singular": "wierzy",
+          "plural": "wierzą"
+        },
+        "past": {
+          "singular": {
+            "masculine": "wierzył",
+            "feminine": "wierzyła",
+            "neuter": "wierzyło"
+          },
+          "plural": {
+            "virile": "wierzyli",
+            "nonvirile": "wierzyły"
+          }
+        }
+      },
+      "senses": [
+        {
+          "id": "pl.wierzyc.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.belief"
+          }
+        }
+      ]
+    }
+  ],
+  "lexicalModel": "1.01",
+  "functionWords": [
+    {
+      "id": "pl.nie.neg",
+      "lemma": "nie",
+      "pos": "PART",
+      "forms": [
+        {
+          "text": "nie"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.nie.neg.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "logic.negation"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.i.conj",
+      "lemma": "i",
+      "pos": "PART",
+      "forms": [
+        {
+          "text": "i"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.i.conj.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "logic.conjunction"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.ze.comp",
+      "lemma": "że",
+      "pos": "PART",
+      "forms": [
+        {
+          "text": "że"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.ze.comp.sense.1",
+          "coreRef": {
+            "kind": "grammaticalFunction",
+            "id": "grammar.complementizer"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.ktory.relative",
+      "lemma": "który",
+      "pos": "PART",
+      "forms": [
+        {
+          "text": "który"
+        },
+        {
+          "text": "która"
+        },
+        {
+          "text": "które"
+        },
+        {
+          "text": "którzy"
+        },
+        {
+          "text": "którą"
+        },
+        {
+          "text": "którego"
+        },
+        {
+          "text": "których"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.ktory.relative.sense.1",
+          "coreRef": {
+            "kind": "grammaticalFunction",
+            "id": "grammar.relative_marker"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.prawda.truth",
+      "lemma": "prawda",
+      "pos": "PART",
+      "forms": [
+        {
+          "text": "prawdą"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.prawda.truth.sense.1",
+          "coreRef": {
+            "kind": "grammaticalFunction",
+            "id": "grammar.truth_predicate"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.jest.aux",
+      "lemma": "jest",
+      "pos": "PART",
+      "forms": [
+        {
+          "text": "jest"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.jest.aux.sense.1",
+          "coreRef": {
+            "kind": "grammaticalFunction",
+            "id": "grammar.auxiliary"
+          }
+        }
+      ]
+    }
+  ],
+  "modals": [
+    {
+      "id": "pl.moc.modal",
+      "lemma": "móc",
+      "forms": {
+        "positive": {
+          "singular": "może",
+          "plural": "mogą"
+        },
+        "negative": {
+          "singular": "nie może",
+          "plural": "nie mogą"
+        }
+      },
+      "senses": [
+        {
+          "id": "pl.moc.modal.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "modality.ability"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.musiec.modal",
+      "lemma": "musieć",
+      "forms": {
+        "positive": {
+          "singular": "musi",
+          "plural": "muszą"
+        },
+        "negative": {
+          "singular": "nie musi",
+          "plural": "nie muszą"
+        }
+      },
+      "senses": [
+        {
+          "id": "pl.musiec.modal.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "modality.obligation"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "version": "1.02",
+  "dimensions": {
+    "number": [
+      "singular",
+      "plural",
+      "dual"
+    ],
+    "case": [
+      "nom",
+      "gen",
+      "dat",
+      "acc",
+      "inst",
+      "loc",
+      "voc",
+      "abl"
+    ],
+    "tense": [
+      "past",
+      "present",
+      "future"
+    ],
+    "person": [
+      "first",
+      "second",
+      "third"
+    ],
+    "gender": [
+      "masculine",
+      "feminine",
+      "neuter"
+    ],
+    "pluralClass": [
+      "virile",
+      "nonvirile"
+    ],
+    "aspect": [
+      "perfective",
+      "imperfective"
+    ],
+    "mood": [
+      "indicative",
+      "imperative",
+      "subjunctive"
+    ],
+    "voice": [
+      "active",
+      "passive"
+    ],
+    "subject_person": [
+      "first",
+      "second",
+      "third"
+    ],
+    "subject_number": [
+      "singular",
+      "plural",
+      "dual"
+    ],
+    "object_person": [
+      "first",
+      "second",
+      "third"
+    ],
+    "object_number": [
+      "singular",
+      "plural",
+      "dual"
+    ],
+    "animacy": [
+      "animate",
+      "inanimate"
+    ]
+  }
+}

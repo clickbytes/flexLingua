@@ -1,0 +1,294 @@
+{
+  "schemaVersion": 1,
+  "origin": "Original project-authored manually checked family/read/help controlled examples; not Oxford data.",
+  "license": "project-authored",
+  "enToPl": [
+    {
+      "id": "A1F-EN-01",
+      "input": "The sister reads the book.",
+      "expected": "Siostra czyta książkę.",
+      "concept": "event.read"
+    },
+    {
+      "id": "A1F-EN-02",
+      "input": "The brother reads the book.",
+      "expected": "Brat czyta książkę.",
+      "concept": "event.read"
+    },
+    {
+      "id": "A1F-EN-03",
+      "input": "The sisters read the books.",
+      "expected": "Siostry czytały książki.",
+      "concept": "event.read",
+      "alternative": "Siostry czytają książki.",
+      "note": "English read in plural has the same spelling for present and past; preferred reading is past, present is an explicit semantic alternative."
+    },
+    {
+      "id": "A1F-EN-04",
+      "input": "The brother read the book.",
+      "expected": "Brat czytał książkę.",
+      "concept": "event.read"
+    },
+    {
+      "id": "A1F-EN-05",
+      "input": "The sister helps the brother.",
+      "expected": "Siostra pomaga bratu.",
+      "concept": "event.help"
+    },
+    {
+      "id": "A1F-EN-06",
+      "input": "The brother helps the sister.",
+      "expected": "Brat pomaga siostrze.",
+      "concept": "event.help"
+    },
+    {
+      "id": "A1F-EN-07",
+      "input": "The brothers help the girl.",
+      "expected": "Bracia pomagają dziewczynce.",
+      "concept": "event.help"
+    },
+    {
+      "id": "A1F-EN-08",
+      "input": "The sister does not help the boy.",
+      "expected": "Siostra nie pomaga chłopcu.",
+      "concept": "event.help"
+    }
+  ],
+  "plToEn": [
+    {
+      "id": "A1F-PL-01",
+      "input": "Siostra czyta książkę.",
+      "expected": "A sister reads a book.",
+      "concept": "event.read"
+    },
+    {
+      "id": "A1F-PL-02",
+      "input": "Brat czyta książkę.",
+      "expected": "A brother reads a book.",
+      "concept": "event.read"
+    },
+    {
+      "id": "A1F-PL-03",
+      "input": "Siostry czytają książki.",
+      "expected": "Sisters read books.",
+      "concept": "event.read"
+    },
+    {
+      "id": "A1F-PL-04",
+      "input": "Bracia czytają książki.",
+      "expected": "Brothers read books.",
+      "concept": "event.read"
+    },
+    {
+      "id": "A1F-PL-05",
+      "input": "Siostra pomaga bratu.",
+      "expected": "A sister helps a brother.",
+      "concept": "event.help"
+    },
+    {
+      "id": "A1F-PL-06",
+      "input": "Brat pomaga siostrze.",
+      "expected": "A brother helps a sister.",
+      "concept": "event.help"
+    },
+    {
+      "id": "A1F-PL-07",
+      "input": "Brat czytał książkę.",
+      "expected": "A brother read a book.",
+      "concept": "event.read"
+    },
+    {
+      "id": "A1F-PL-08",
+      "input": "Siostra nie pomaga chłopcu.",
+      "expected": "A sister does not help a boy.",
+      "concept": "event.help"
+    }
+  ],
+  "morphology": [
+    {
+      "language": "pl",
+      "lexemeId": "pl.siostra.1",
+      "features": {
+        "number": "singular",
+        "case": "dat"
+      },
+      "text": "siostrze"
+    },
+    {
+      "language": "pl",
+      "lexemeId": "pl.siostra.1",
+      "features": {
+        "number": "plural",
+        "case": "gen"
+      },
+      "text": "sióstr"
+    },
+    {
+      "language": "pl",
+      "lexemeId": "pl.siostra.1",
+      "features": {
+        "number": "plural",
+        "case": "dat"
+      },
+      "text": "siostrom"
+    },
+    {
+      "language": "pl",
+      "lexemeId": "pl.brat.1",
+      "features": {
+        "number": "singular",
+        "case": "dat"
+      },
+      "text": "bratu"
+    },
+    {
+      "language": "pl",
+      "lexemeId": "pl.brat.1",
+      "features": {
+        "number": "singular",
+        "case": "loc"
+      },
+      "text": "bracie"
+    },
+    {
+      "language": "pl",
+      "lexemeId": "pl.brat.1",
+      "features": {
+        "number": "plural",
+        "case": "nom"
+      },
+      "text": "bracia"
+    },
+    {
+      "language": "pl",
+      "lexemeId": "pl.brat.1",
+      "features": {
+        "number": "plural",
+        "case": "gen"
+      },
+      "text": "braci"
+    },
+    {
+      "language": "pl",
+      "lexemeId": "pl.brat.1",
+      "features": {
+        "number": "plural",
+        "case": "acc"
+      },
+      "text": "braci"
+    },
+    {
+      "language": "pl",
+      "lexemeId": "pl.brat.1",
+      "features": {
+        "number": "plural",
+        "case": "inst"
+      },
+      "text": "braćmi"
+    },
+    {
+      "language": "pl",
+      "lexemeId": "pl.czytac.1",
+      "features": {
+        "tense": "present",
+        "number": "singular",
+        "person": "third"
+      },
+      "text": "czyta"
+    },
+    {
+      "language": "pl",
+      "lexemeId": "pl.czytac.1",
+      "features": {
+        "tense": "past",
+        "number": "plural",
+        "pluralClass": "virile"
+      },
+      "text": "czytali"
+    },
+    {
+      "language": "pl",
+      "lexemeId": "pl.pomagac.1",
+      "features": {
+        "tense": "present",
+        "number": "plural",
+        "person": "third"
+      },
+      "text": "pomagają"
+    },
+    {
+      "language": "pl",
+      "lexemeId": "pl.pomagac.1",
+      "features": {
+        "tense": "past",
+        "number": "singular",
+        "gender": "feminine"
+      },
+      "text": "pomagała"
+    },
+    {
+      "language": "en",
+      "lexemeId": "en.sister.1",
+      "features": {
+        "number": "plural"
+      },
+      "text": "sisters"
+    },
+    {
+      "language": "en",
+      "lexemeId": "en.brother.1",
+      "features": {
+        "number": "plural"
+      },
+      "text": "brothers"
+    },
+    {
+      "language": "en",
+      "lexemeId": "en.read.1",
+      "features": {
+        "tense": "past"
+      },
+      "text": "read"
+    },
+    {
+      "language": "en",
+      "lexemeId": "en.read.1",
+      "features": {
+        "tense": "present",
+        "number": "singular",
+        "person": "third"
+      },
+      "text": "reads"
+    },
+    {
+      "language": "en",
+      "lexemeId": "en.help.1",
+      "features": {
+        "tense": "past"
+      },
+      "text": "helped"
+    }
+  ],
+  "invalid": [
+    {
+      "from": "pl",
+      "input": "Siostra pomaga brata.",
+      "reason": "help governs dative"
+    },
+    {
+      "from": "en",
+      "input": "The sister helps the book.",
+      "reason": "help target must be a person"
+    },
+    {
+      "from": "en",
+      "input": "The sister readed the book.",
+      "reason": "English irregular past read"
+    },
+    {
+      "from": "pl",
+      "input": "Brat czytam książkę.",
+      "reason": "unlicensed subject-verb agreement"
+    }
+  ]
+}

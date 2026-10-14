@@ -1,0 +1,54 @@
+{
+  "version": "0.3",
+  "domains": {
+    "event": {
+      "tense": [
+        "past",
+        "present"
+      ],
+      "polarity": [
+        "positive",
+        "negative"
+      ],
+      "aspect": [
+        "perfective",
+        "imperfective",
+        "unknown"
+      ]
+    },
+    "participant": {
+      "number": [
+        "singular",
+        "plural"
+      ],
+      "definiteness": [
+        "definite",
+        "indefinite",
+        "unknown"
+      ]
+    },
+    "lexical": {
+      "gender": [
+        "masculine",
+        "feminine",
+        "neuter"
+      ],
+      "pluralClass": [
+        "virile",
+        "nonvirile"
+      ],
+      "animacy": [
+        "animate",
+        "inanimate"
+      ]
+    },
+    "syntactic": {
+      "case": [
+        "nom",
+        "gen",
+        "dat",
+        "acc"
+      ]
+    }
+  }
+}

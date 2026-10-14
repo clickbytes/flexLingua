@@ -1,0 +1,54 @@
+{
+  "version": "1.11",
+  "language": "ar",
+  "provenance": {
+    "source": "curated typological demonstration",
+    "license": "project authored"
+  },
+  "paradigms": {
+    "ar.verb.root3": {
+      "pos": "VERB",
+      "slots": [
+        {
+          "features": {
+            "tense": "past",
+            "person": "third",
+            "number": "singular",
+            "gender": "masculine"
+          },
+          "steps": [
+            {
+              "op": "rootTemplate",
+              "template": "{1}َ{2}َ{3}َ"
+            }
+          ]
+        },
+        {
+          "features": {
+            "tense": "present",
+            "person": "third",
+            "number": "singular",
+            "gender": "masculine"
+          },
+          "steps": [
+            {
+              "op": "rootTemplate",
+              "template": "يَ{1}ْ{2}ُ{3}ُ"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "bindings": [
+    {
+      "lexemeId": "ar.kataba.1",
+      "paradigmId": "ar.verb.root3",
+      "stems": {
+        "base": "كتب",
+        "root": "كتب"
+      },
+      "overrides": []
+    }
+  ]
+}

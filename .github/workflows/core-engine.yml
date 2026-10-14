@@ -1,0 +1,76 @@
+name: Core Engine CI
+
+on:
+  push:
+    branches:
+      - main
+      - 'core/**'
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: core-engine-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  engine-tests:
+    name: Node unit and regression tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Runtime details
+        run: node --version && npm --version
+      - name: Full Node test suite
+        run: npm test
+
+  lexical-audits:
+    name: Lexicon morphology gold and A1 checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm run check:lexicon
+      - run: npm run check:morphology
+      - run: npm run check:gold
+      - run: npm run check:a1-gold
+      - run: npm run check:gold-family
+      - run: npm run check:gold-father
+      - run: npm run check:gold-movement
+      - run: npm run check:gold-actions
+      - run: npm run check:coverage
+
+  offline-parity:
+    name: Generated offline parity (GUI owner)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify checked-in standalone without changing it
+        run: npm run check:standalone
+
+  release-gate:
+    name: Aggregate release gate
+    needs: [engine-tests, lexical-audits, offline-parity]
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm run check:release

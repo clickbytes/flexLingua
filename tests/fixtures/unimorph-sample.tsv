@@ -1,0 +1,6 @@
+# Self-authored example rows; not an imported third-party lexicon
+kot	kotu	N;SG;DAT
+kot	koty	N;PL;NOM
+nieznane	nieznanemu	N;SG;DAT
+kot	koty	N;PL;NOM
+kot	kot	N;SG;XFEATURE

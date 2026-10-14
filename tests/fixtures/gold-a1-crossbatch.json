@@ -1,0 +1,151 @@
+{
+  "schemaVersion": 1,
+  "origin": "Hand-authored and reviewed semantic composition checks across existing A1 batches; not copied from Oxford.",
+  "license": "project-authored",
+  "cases": [
+    {
+      "id": "A1C-01",
+      "from": "en",
+      "to": "pl",
+      "input": "The father can open the book.",
+      "expected": "Ojciec może otwierać książkę.",
+      "shape": {
+        "type": "modality",
+        "operator": "modality.ability",
+        "concept": "event.open"
+      }
+    },
+    {
+      "id": "A1C-02",
+      "from": "en",
+      "to": "pl",
+      "input": "The father must write the book.",
+      "expected": "Ojciec musi pisać książkę.",
+      "shape": {
+        "type": "modality",
+        "operator": "modality.obligation",
+        "concept": "event.write"
+      }
+    },
+    {
+      "id": "A1C-03",
+      "from": "en",
+      "to": "pl",
+      "input": "Can the sister open the book?",
+      "expected": "Czy siostra może otwierać książkę?",
+      "shape": {
+        "type": "question",
+        "questionType": "yes_no",
+        "targetRole": null,
+        "operator": "modality.ability",
+        "concept": "event.open"
+      }
+    },
+    {
+      "id": "A1C-04",
+      "from": "en",
+      "to": "pl",
+      "input": "What can the sister open?",
+      "expected": "Co może otwierać siostra?",
+      "shape": {
+        "type": "question",
+        "questionType": "wh",
+        "targetRole": "theme",
+        "operator": "modality.ability",
+        "concept": "event.open"
+      }
+    },
+    {
+      "id": "A1C-05",
+      "from": "pl",
+      "to": "en",
+      "input": "Ojciec może otwierać książkę.",
+      "expected": "A father can open a book.",
+      "shape": {
+        "type": "modality",
+        "operator": "modality.ability",
+        "concept": "event.open"
+      }
+    },
+    {
+      "id": "A1C-06",
+      "from": "en",
+      "to": "pl",
+      "input": "The girl can go.",
+      "expected": "Dziewczynka może iść.",
+      "shape": {
+        "type": "modality",
+        "operator": "modality.ability",
+        "concept": "event.movement"
+      }
+    },
+    {
+      "id": "A1C-07",
+      "from": "pl",
+      "to": "en",
+      "input": "Dziewczynka może iść.",
+      "expected": "A girl can go.",
+      "shape": {
+        "type": "modality",
+        "operator": "modality.ability",
+        "concept": "event.movement"
+      }
+    },
+    {
+      "id": "A1C-08",
+      "from": "en",
+      "to": "pl",
+      "input": "The father opens the book and the sister reads the book.",
+      "expected": "Ojciec otwiera książkę i siostra czyta książkę.",
+      "shape": {
+        "type": "coordination",
+        "concepts": [
+          "event.open",
+          "event.read"
+        ]
+      }
+    },
+    {
+      "id": "A1C-09",
+      "from": "pl",
+      "to": "en",
+      "input": "Ojciec otwiera książkę i siostra czyta książkę.",
+      "expected": "A father opens a book and a sister reads a book.",
+      "shape": {
+        "type": "coordination",
+        "concepts": [
+          "event.open",
+          "event.read"
+        ]
+      }
+    },
+    {
+      "id": "A1C-10",
+      "from": "en",
+      "to": "pl",
+      "input": "The father helps the sister. The sister opens the book.",
+      "expected": "Ojciec pomaga siostrze. Siostra otwiera książkę.",
+      "shape": {
+        "type": "discourse",
+        "concepts": [
+          "event.help",
+          "event.open"
+        ]
+      }
+    },
+    {
+      "id": "A1C-11",
+      "from": "pl",
+      "to": "en",
+      "input": "Ojciec pomaga siostrze. Siostra otwiera książkę.",
+      "expected": "A father helps a sister. A sister opens a book.",
+      "shape": {
+        "type": "discourse",
+        "concepts": [
+          "event.help",
+          "event.open"
+        ]
+      }
+    }
+  ]
+}

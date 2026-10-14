@@ -1,0 +1,449 @@
+{
+  "version": "1.0",
+  "language": "pl",
+  "sentence": {
+    "subjectRole": "agent",
+    "terminator": ".",
+    "coordination": {
+      "and": "i",
+      "wideNegation": "nie jest prawdą, że"
+    },
+    "complement": {
+      "marker": "że",
+      "comma": true,
+      "subjectCase": "nom"
+    }
+  },
+  "nounPhrase": {
+    "path": "forms.{number}.{case}",
+    "subjectCase": "nom",
+    "allowBare": true,
+    "determiners": {},
+    "qualified": {
+      "maxAdjectives": 3,
+      "maxDegreeDepth": 2,
+      "adjectiveOrder": "before",
+      "degreeOrder": "before",
+      "layouts": [
+        [
+          "quantifier",
+          "modifiers",
+          "noun"
+        ]
+      ]
+    },
+    "relatives": {
+      "maxDepth": 2,
+      "punctuation": "commas",
+      "markers": [
+        {
+          "gap": "agent",
+          "text": "która",
+          "when": {
+            "number": "singular",
+            "gender": "feminine"
+          }
+        },
+        {
+          "gap": "agent",
+          "text": "który",
+          "when": {
+            "number": "singular",
+            "gender": "masculine"
+          }
+        },
+        {
+          "gap": "agent",
+          "text": "które",
+          "when": {
+            "number": "singular",
+            "gender": "neuter"
+          }
+        },
+        {
+          "gap": "agent",
+          "text": "którzy",
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile"
+          }
+        },
+        {
+          "gap": "agent",
+          "text": "które",
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile"
+          }
+        },
+        {
+          "gap": "theme",
+          "text": "którą",
+          "when": {
+            "number": "singular",
+            "gender": "feminine"
+          }
+        },
+        {
+          "gap": "theme",
+          "text": "którego",
+          "when": {
+            "number": "singular",
+            "gender": "masculine"
+          }
+        },
+        {
+          "gap": "theme",
+          "text": "które",
+          "when": {
+            "number": "singular",
+            "gender": "neuter"
+          }
+        },
+        {
+          "gap": "theme",
+          "text": "których",
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile"
+          }
+        },
+        {
+          "gap": "theme",
+          "text": "które",
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile"
+          }
+        }
+      ]
+    }
+  },
+  "verb": {
+    "aspectSource": "lexeme",
+    "preferredAspects": {
+      "event.transfer_possession": "perfective"
+    },
+    "rules": [
+      {
+        "tense": "past",
+        "polarity": "positive",
+        "when": {
+          "subject.number": "singular"
+        },
+        "prefix": [],
+        "path": "forms.past.singular.{subjectGender}"
+      },
+      {
+        "tense": "past",
+        "polarity": "positive",
+        "when": {
+          "subject.number": "plural"
+        },
+        "prefix": [],
+        "path": "forms.past.plural.{subjectPluralClass}"
+      },
+      {
+        "tense": "present",
+        "polarity": "positive",
+        "when": {
+          "subject.number": "singular"
+        },
+        "prefix": [],
+        "path": "forms.present.thirdSingular"
+      },
+      {
+        "tense": "present",
+        "polarity": "positive",
+        "when": {
+          "subject.number": "plural"
+        },
+        "prefix": [],
+        "path": "forms.present.thirdPlural"
+      },
+      {
+        "tense": "past",
+        "polarity": "negative",
+        "when": {
+          "subject.number": "singular"
+        },
+        "prefix": [
+          "nie"
+        ],
+        "path": "forms.past.singular.{subjectGender}"
+      },
+      {
+        "tense": "past",
+        "polarity": "negative",
+        "when": {
+          "subject.number": "plural"
+        },
+        "prefix": [
+          "nie"
+        ],
+        "path": "forms.past.plural.{subjectPluralClass}"
+      },
+      {
+        "tense": "present",
+        "polarity": "negative",
+        "when": {
+          "subject.number": "singular"
+        },
+        "prefix": [
+          "nie"
+        ],
+        "path": "forms.present.thirdSingular"
+      },
+      {
+        "tense": "present",
+        "polarity": "negative",
+        "when": {
+          "subject.number": "plural"
+        },
+        "prefix": [
+          "nie"
+        ],
+        "path": "forms.present.thirdPlural"
+      }
+    ],
+    "agreement": {
+      "subjectGender": "subject.gender",
+      "subjectPluralClass": "subject.pluralClass"
+    }
+  },
+  "cases": {
+    "alternations": [
+      {
+        "when": {
+          "event.polarity": "negative"
+        },
+        "from": "acc",
+        "to": "gen"
+      }
+    ]
+  },
+  "frames": {
+    "event.transfer_possession": {
+      "cases": {
+        "agent": "nom",
+        "recipient": "dat",
+        "theme": "acc"
+      },
+      "linearizations": [
+        [
+          "agent",
+          "@verb",
+          "recipient",
+          "theme"
+        ],
+        [
+          "agent",
+          "@verb",
+          "theme",
+          "recipient"
+        ]
+      ]
+    },
+    "event.visual_perception": {
+      "cases": {
+        "agent": "nom",
+        "theme": "acc"
+      },
+      "linearizations": [
+        [
+          "agent",
+          "@verb",
+          "theme"
+        ]
+      ]
+    },
+    "event.visual_attention": {
+      "cases": {
+        "agent": "nom",
+        "theme": "acc"
+      },
+      "linearizations": [
+        [
+          "agent",
+          "@verb",
+          "theme"
+        ]
+      ],
+      "whTheme": {
+        "frontPreposition": "na"
+      },
+      "caseAlternations": false
+    },
+    "event.raise_object": {
+      "cases": {
+        "agent": "nom",
+        "theme": "acc"
+      },
+      "linearizations": [
+        [
+          "agent",
+          "@verb",
+          "theme"
+        ]
+      ]
+    },
+    "event.search": {
+      "cases": {
+        "agent": "nom",
+        "theme": "gen"
+      },
+      "linearizations": [
+        [
+          "agent",
+          "@verb",
+          "theme"
+        ]
+      ],
+      "whTheme": true
+    },
+    "event.auditory_attention": {
+      "cases": {
+        "agent": "nom",
+        "theme": "gen"
+      },
+      "linearizations": [
+        [
+          "agent",
+          "@verb",
+          "theme"
+        ]
+      ],
+      "whTheme": true
+    },
+    "event.wait_for_entity": {
+      "cases": {
+        "agent": "nom",
+        "theme": "acc"
+      },
+      "linearizations": [
+        [
+          "agent",
+          "@verb",
+          "theme"
+        ]
+      ],
+      "whTheme": {
+        "frontPreposition": "na"
+      },
+      "caseAlternations": false
+    },
+    "event.read": {
+      "cases": {
+        "agent": "nom",
+        "theme": "acc"
+      },
+      "linearizations": [
+        [
+          "agent",
+          "@verb",
+          "theme"
+        ]
+      ]
+    },
+    "event.help": {
+      "cases": {
+        "agent": "nom",
+        "theme": "dat"
+      },
+      "linearizations": [
+        [
+          "agent",
+          "@verb",
+          "theme"
+        ]
+      ]
+    },
+    "event.movement": {
+      "cases": {
+        "agent": "nom"
+      },
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ]
+    },
+    "event.write": {
+      "cases": {
+        "agent": "nom",
+        "theme": "acc"
+      },
+      "linearizations": [
+        [
+          "agent",
+          "@verb",
+          "theme"
+        ]
+      ]
+    },
+    "event.open": {
+      "cases": {
+        "agent": "nom",
+        "theme": "acc"
+      },
+      "linearizations": [
+        [
+          "agent",
+          "@verb",
+          "theme"
+        ]
+      ]
+    }
+  },
+  "messages": {
+    "unknownSubject": "Unrecognized Polish subject noun phrase.",
+    "unknownVerb": "Unrecognized Polish verb form.",
+    "agreement": "Polish verb form does not agree with the subject.",
+    "aspectUnknown": "English source does not specify verb aspect; Polish perfective/imperfective is a display choice."
+  },
+  "questions": {
+    "yesNo": {
+      "mode": "prefix",
+      "marker": "czy"
+    },
+    "wh": {
+      "agent": {
+        "marker": "kto",
+        "agreement": {
+          "number": "singular",
+          "gender": "masculine",
+          "pluralClass": "nonvirile"
+        }
+      },
+      "theme": {
+        "marker": "co",
+        "caseMarkers": {
+          "gen": "czego"
+        },
+        "order": "verb_first"
+      }
+    }
+  },
+  "modality": {
+    "infinitivePath": "lemma",
+    "questionStrategy": "prefix",
+    "supportedTense": "present"
+  },
+  "anaphora": {
+    "subjectPronouns": [
+      {
+        "text": "ona",
+        "concepts": [
+          "person.girl"
+        ]
+      },
+      {
+        "text": "on",
+        "concepts": [
+          "person.boy"
+        ]
+      }
+    ]
+  }
+}

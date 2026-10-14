@@ -1,0 +1,845 @@
+{
+  "schemaVersion": 1,
+  "origin": "Project-authored manually specified controlled PL/EN oracle (not copied from Oxford and not generated from engine output).",
+  "license": "project-authored",
+  "scope": "controlled-a1-pilot-not-cefr-validation",
+  "cases": [
+    {
+      "id": "G2-EN-01",
+      "from": "en",
+      "to": "pl",
+      "feature": "statement",
+      "input": "The boy sees the cat.",
+      "expected": "Chłopiec widzi kota.",
+      "core": {
+        "concept": "event.visual_perception",
+        "roles": {
+          "agent": {
+            "concept": "person.boy",
+            "number": "singular"
+          },
+          "theme": {
+            "concept": "animal.cat",
+            "number": "singular"
+          }
+        },
+        "tense": "present",
+        "polarity": "positive",
+        "wrappers": []
+      }
+    },
+    {
+      "id": "G2-EN-02",
+      "from": "en",
+      "to": "pl",
+      "feature": "statement",
+      "input": "The girls see the books.",
+      "expected": "Dziewczynki widzą książki.",
+      "core": {
+        "concept": "event.visual_perception",
+        "roles": {
+          "agent": {
+            "concept": "person.girl",
+            "number": "plural"
+          },
+          "theme": {
+            "concept": "object.book",
+            "number": "plural"
+          }
+        },
+        "tense": "present",
+        "polarity": "positive",
+        "wrappers": []
+      }
+    },
+    {
+      "id": "G2-EN-03",
+      "from": "en",
+      "to": "pl",
+      "feature": "statement",
+      "input": "The dog saw the girl.",
+      "expected": "Pies widział dziewczynkę.",
+      "core": {
+        "concept": "event.visual_perception",
+        "roles": {
+          "agent": {
+            "concept": "animal.dog",
+            "number": "singular"
+          },
+          "theme": {
+            "concept": "person.girl",
+            "number": "singular"
+          }
+        },
+        "tense": "past",
+        "polarity": "positive",
+        "wrappers": []
+      }
+    },
+    {
+      "id": "G2-EN-04",
+      "from": "en",
+      "to": "pl",
+      "feature": "negation",
+      "input": "The girl does not see the apple.",
+      "expected": "Dziewczynka nie widzi jabłka.",
+      "core": {
+        "concept": "event.visual_perception",
+        "roles": {
+          "agent": {
+            "concept": "person.girl",
+            "number": "singular"
+          },
+          "theme": {
+            "concept": "object.apple",
+            "number": "singular"
+          }
+        },
+        "tense": "present",
+        "polarity": "negative",
+        "wrappers": []
+      }
+    },
+    {
+      "id": "G2-EN-05",
+      "from": "en",
+      "to": "pl",
+      "feature": "statement",
+      "input": "The boy gives the girl the apple.",
+      "expected": "Chłopiec daje dziewczynce jabłko.",
+      "core": {
+        "concept": "event.transfer_possession",
+        "roles": {
+          "agent": {
+            "concept": "person.boy",
+            "number": "singular"
+          },
+          "recipient": {
+            "concept": "person.girl",
+            "number": "singular"
+          },
+          "theme": {
+            "concept": "object.apple",
+            "number": "singular"
+          }
+        },
+        "tense": "present",
+        "polarity": "positive",
+        "wrappers": []
+      }
+    },
+    {
+      "id": "G2-EN-06",
+      "from": "en",
+      "to": "pl",
+      "feature": "question",
+      "input": "Does the boy see the cat?",
+      "expected": "Czy chłopiec widzi kota?",
+      "core": {
+        "concept": "event.visual_perception",
+        "roles": {
+          "agent": {
+            "concept": "person.boy",
+            "number": "singular"
+          },
+          "theme": {
+            "concept": "animal.cat",
+            "number": "singular"
+          }
+        },
+        "tense": "present",
+        "polarity": "positive",
+        "wrappers": [
+          "question:yes_no"
+        ]
+      }
+    },
+    {
+      "id": "G2-EN-07",
+      "from": "en",
+      "to": "pl",
+      "feature": "question",
+      "input": "Did the boy see the cat?",
+      "expected": "Czy chłopiec widział kota?",
+      "core": {
+        "concept": "event.visual_perception",
+        "roles": {
+          "agent": {
+            "concept": "person.boy",
+            "number": "singular"
+          },
+          "theme": {
+            "concept": "animal.cat",
+            "number": "singular"
+          }
+        },
+        "tense": "past",
+        "polarity": "positive",
+        "wrappers": [
+          "question:yes_no"
+        ]
+      }
+    },
+    {
+      "id": "G2-EN-08",
+      "from": "en",
+      "to": "pl",
+      "feature": "question",
+      "input": "Who sees the book?",
+      "expected": "Kto widzi książkę?",
+      "core": {
+        "concept": "event.visual_perception",
+        "roles": {
+          "theme": {
+            "concept": "object.book",
+            "number": "singular"
+          }
+        },
+        "tense": "present",
+        "polarity": "positive",
+        "wrappers": [
+          "question:wh:agent"
+        ]
+      }
+    },
+    {
+      "id": "G2-EN-09",
+      "from": "en",
+      "to": "pl",
+      "feature": "question",
+      "input": "What does the boy see?",
+      "expected": "Co widzi chłopiec?",
+      "core": {
+        "concept": "event.visual_perception",
+        "roles": {
+          "agent": {
+            "concept": "person.boy",
+            "number": "singular"
+          }
+        },
+        "tense": "present",
+        "polarity": "positive",
+        "wrappers": [
+          "question:wh:theme"
+        ]
+      }
+    },
+    {
+      "id": "G2-EN-10",
+      "from": "en",
+      "to": "pl",
+      "feature": "modality",
+      "input": "The boy can see the cat.",
+      "expected": "Chłopiec może widzieć kota.",
+      "core": {
+        "concept": "event.visual_perception",
+        "roles": {
+          "agent": {
+            "concept": "person.boy",
+            "number": "singular"
+          },
+          "theme": {
+            "concept": "animal.cat",
+            "number": "singular"
+          }
+        },
+        "tense": "present",
+        "polarity": "positive",
+        "wrappers": [
+          "modal:modality.ability"
+        ]
+      }
+    },
+    {
+      "id": "G2-EN-11",
+      "from": "en",
+      "to": "pl",
+      "feature": "modality",
+      "input": "The boy must see the dog.",
+      "expected": "Chłopiec musi widzieć psa.",
+      "core": {
+        "concept": "event.visual_perception",
+        "roles": {
+          "agent": {
+            "concept": "person.boy",
+            "number": "singular"
+          },
+          "theme": {
+            "concept": "animal.dog",
+            "number": "singular"
+          }
+        },
+        "tense": "present",
+        "polarity": "positive",
+        "wrappers": [
+          "modal:modality.obligation"
+        ]
+      }
+    },
+    {
+      "id": "G2-EN-12",
+      "from": "en",
+      "to": "pl",
+      "feature": "multiword",
+      "input": "The girl looks for the cat.",
+      "expected": "Dziewczynka szuka kota.",
+      "core": {
+        "concept": "event.search",
+        "roles": {
+          "agent": {
+            "concept": "person.girl",
+            "number": "singular"
+          },
+          "theme": {
+            "concept": "animal.cat",
+            "number": "singular"
+          }
+        },
+        "tense": "present",
+        "polarity": "positive",
+        "wrappers": []
+      }
+    },
+    {
+      "id": "G2-EN-13",
+      "from": "en",
+      "to": "pl",
+      "feature": "multiword",
+      "input": "The boy waits for the girl.",
+      "expected": "Chłopiec czeka na dziewczynkę.",
+      "core": {
+        "concept": "event.wait_for_entity",
+        "roles": {
+          "agent": {
+            "concept": "person.boy",
+            "number": "singular"
+          },
+          "theme": {
+            "concept": "person.girl",
+            "number": "singular"
+          }
+        },
+        "tense": "present",
+        "polarity": "positive",
+        "wrappers": []
+      }
+    },
+    {
+      "id": "G2-EN-14",
+      "from": "en",
+      "to": "pl",
+      "feature": "question",
+      "input": "What does the boy look at?",
+      "expected": "Na co patrzy chłopiec?",
+      "core": {
+        "concept": "event.visual_attention",
+        "roles": {
+          "agent": {
+            "concept": "person.boy",
+            "number": "singular"
+          }
+        },
+        "tense": "present",
+        "polarity": "positive",
+        "wrappers": [
+          "question:wh:theme"
+        ]
+      }
+    },
+    {
+      "id": "G2-EN-15",
+      "from": "en",
+      "to": "pl",
+      "feature": "multiword",
+      "input": "The girl listens to the boy.",
+      "expected": "Dziewczynka słucha chłopca.",
+      "core": {
+        "concept": "event.auditory_attention",
+        "roles": {
+          "agent": {
+            "concept": "person.girl",
+            "number": "singular"
+          },
+          "theme": {
+            "concept": "person.boy",
+            "number": "singular"
+          }
+        },
+        "tense": "present",
+        "polarity": "positive",
+        "wrappers": []
+      }
+    },
+    {
+      "id": "G2-EN-16",
+      "from": "en",
+      "to": "pl",
+      "feature": "multiword",
+      "input": "The boy picks up the book.",
+      "expected": "Chłopiec podnosi książkę.",
+      "core": {
+        "concept": "event.raise_object",
+        "roles": {
+          "agent": {
+            "concept": "person.boy",
+            "number": "singular"
+          },
+          "theme": {
+            "concept": "object.book",
+            "number": "singular"
+          }
+        },
+        "tense": "present",
+        "polarity": "positive",
+        "wrappers": []
+      }
+    },
+    {
+      "id": "G2-PL-01",
+      "from": "pl",
+      "to": "en",
+      "feature": "statement",
+      "input": "Chłopiec widzi kota.",
+      "expected": "A boy sees a cat.",
+      "core": {
+        "concept": "event.visual_perception",
+        "roles": {
+          "agent": {
+            "concept": "person.boy",
+            "number": "singular"
+          },
+          "theme": {
+            "concept": "animal.cat",
+            "number": "singular"
+          }
+        },
+        "tense": "present",
+        "polarity": "positive",
+        "wrappers": []
+      }
+    },
+    {
+      "id": "G2-PL-02",
+      "from": "pl",
+      "to": "en",
+      "feature": "statement",
+      "input": "Dziewczynka widzi książkę.",
+      "expected": "A girl sees a book.",
+      "core": {
+        "concept": "event.visual_perception",
+        "roles": {
+          "agent": {
+            "concept": "person.girl",
+            "number": "singular"
+          },
+          "theme": {
+            "concept": "object.book",
+            "number": "singular"
+          }
+        },
+        "tense": "present",
+        "polarity": "positive",
+        "wrappers": []
+      }
+    },
+    {
+      "id": "G2-PL-03",
+      "from": "pl",
+      "to": "en",
+      "feature": "statement",
+      "input": "Pies widział chłopca.",
+      "expected": "A dog saw a boy.",
+      "core": {
+        "concept": "event.visual_perception",
+        "roles": {
+          "agent": {
+            "concept": "animal.dog",
+            "number": "singular"
+          },
+          "theme": {
+            "concept": "person.boy",
+            "number": "singular"
+          }
+        },
+        "tense": "past",
+        "polarity": "positive",
+        "wrappers": []
+      }
+    },
+    {
+      "id": "G2-PL-04",
+      "from": "pl",
+      "to": "en",
+      "feature": "negation",
+      "input": "Chłopiec nie widzi psa.",
+      "expected": "A boy does not see a dog.",
+      "core": {
+        "concept": "event.visual_perception",
+        "roles": {
+          "agent": {
+            "concept": "person.boy",
+            "number": "singular"
+          },
+          "theme": {
+            "concept": "animal.dog",
+            "number": "singular"
+          }
+        },
+        "tense": "present",
+        "polarity": "negative",
+        "wrappers": []
+      }
+    },
+    {
+      "id": "G2-PL-05",
+      "from": "pl",
+      "to": "en",
+      "feature": "statement",
+      "input": "Dziewczynki widzą koty.",
+      "expected": "Girls see cats.",
+      "core": {
+        "concept": "event.visual_perception",
+        "roles": {
+          "agent": {
+            "concept": "person.girl",
+            "number": "plural"
+          },
+          "theme": {
+            "concept": "animal.cat",
+            "number": "plural"
+          }
+        },
+        "tense": "present",
+        "polarity": "positive",
+        "wrappers": []
+      }
+    },
+    {
+      "id": "G2-PL-06",
+      "from": "pl",
+      "to": "en",
+      "feature": "question",
+      "input": "Czy chłopiec widzi kota?",
+      "expected": "Does a boy see a cat?",
+      "core": {
+        "concept": "event.visual_perception",
+        "roles": {
+          "agent": {
+            "concept": "person.boy",
+            "number": "singular"
+          },
+          "theme": {
+            "concept": "animal.cat",
+            "number": "singular"
+          }
+        },
+        "tense": "present",
+        "polarity": "positive",
+        "wrappers": [
+          "question:yes_no"
+        ]
+      }
+    },
+    {
+      "id": "G2-PL-07",
+      "from": "pl",
+      "to": "en",
+      "feature": "question",
+      "input": "Czy chłopiec widział kota?",
+      "expected": "Did a boy see a cat?",
+      "core": {
+        "concept": "event.visual_perception",
+        "roles": {
+          "agent": {
+            "concept": "person.boy",
+            "number": "singular"
+          },
+          "theme": {
+            "concept": "animal.cat",
+            "number": "singular"
+          }
+        },
+        "tense": "past",
+        "polarity": "positive",
+        "wrappers": [
+          "question:yes_no"
+        ]
+      }
+    },
+    {
+      "id": "G2-PL-08",
+      "from": "pl",
+      "to": "en",
+      "feature": "question",
+      "input": "Kto widzi książkę?",
+      "expected": "Who sees a book?",
+      "core": {
+        "concept": "event.visual_perception",
+        "roles": {
+          "theme": {
+            "concept": "object.book",
+            "number": "singular"
+          }
+        },
+        "tense": "present",
+        "polarity": "positive",
+        "wrappers": [
+          "question:wh:agent"
+        ]
+      }
+    },
+    {
+      "id": "G2-PL-09",
+      "from": "pl",
+      "to": "en",
+      "feature": "question",
+      "input": "Co widzi chłopiec?",
+      "expected": "What does a boy see?",
+      "core": {
+        "concept": "event.visual_perception",
+        "roles": {
+          "agent": {
+            "concept": "person.boy",
+            "number": "singular"
+          }
+        },
+        "tense": "present",
+        "polarity": "positive",
+        "wrappers": [
+          "question:wh:theme"
+        ]
+      }
+    },
+    {
+      "id": "G2-PL-10",
+      "from": "pl",
+      "to": "en",
+      "feature": "modality",
+      "input": "Chłopiec może widzieć kota.",
+      "expected": "A boy can see a cat.",
+      "core": {
+        "concept": "event.visual_perception",
+        "roles": {
+          "agent": {
+            "concept": "person.boy",
+            "number": "singular"
+          },
+          "theme": {
+            "concept": "animal.cat",
+            "number": "singular"
+          }
+        },
+        "tense": "present",
+        "polarity": "positive",
+        "wrappers": [
+          "modal:modality.ability"
+        ]
+      }
+    },
+    {
+      "id": "G2-PL-11",
+      "from": "pl",
+      "to": "en",
+      "feature": "modality",
+      "input": "Chłopiec musi widzieć psa.",
+      "expected": "A boy must see a dog.",
+      "core": {
+        "concept": "event.visual_perception",
+        "roles": {
+          "agent": {
+            "concept": "person.boy",
+            "number": "singular"
+          },
+          "theme": {
+            "concept": "animal.dog",
+            "number": "singular"
+          }
+        },
+        "tense": "present",
+        "polarity": "positive",
+        "wrappers": [
+          "modal:modality.obligation"
+        ]
+      }
+    },
+    {
+      "id": "G2-PL-12",
+      "from": "pl",
+      "to": "en",
+      "feature": "modality",
+      "input": "Chłopiec nie musi widzieć psa.",
+      "expected": "A boy does not have to see a dog.",
+      "core": {
+        "concept": "event.visual_perception",
+        "roles": {
+          "agent": {
+            "concept": "person.boy",
+            "number": "singular"
+          },
+          "theme": {
+            "concept": "animal.dog",
+            "number": "singular"
+          }
+        },
+        "tense": "present",
+        "polarity": "positive",
+        "wrappers": [
+          "scope:not",
+          "modal:modality.obligation"
+        ]
+      }
+    },
+    {
+      "id": "G2-PL-13",
+      "from": "pl",
+      "to": "en",
+      "feature": "multiword",
+      "input": "Dziewczynka szuka kota.",
+      "expected": "A girl looks for a cat.",
+      "core": {
+        "concept": "event.search",
+        "roles": {
+          "agent": {
+            "concept": "person.girl",
+            "number": "singular"
+          },
+          "theme": {
+            "concept": "animal.cat",
+            "number": "singular"
+          }
+        },
+        "tense": "present",
+        "polarity": "positive",
+        "wrappers": []
+      }
+    },
+    {
+      "id": "G2-PL-14",
+      "from": "pl",
+      "to": "en",
+      "feature": "multiword",
+      "input": "Chłopiec czeka na dziewczynkę.",
+      "expected": "A boy waits for a girl.",
+      "core": {
+        "concept": "event.wait_for_entity",
+        "roles": {
+          "agent": {
+            "concept": "person.boy",
+            "number": "singular"
+          },
+          "theme": {
+            "concept": "person.girl",
+            "number": "singular"
+          }
+        },
+        "tense": "present",
+        "polarity": "positive",
+        "wrappers": []
+      }
+    },
+    {
+      "id": "G2-PL-15",
+      "from": "pl",
+      "to": "en",
+      "feature": "question",
+      "input": "Na co patrzy chłopiec?",
+      "expected": "What does a boy look at?",
+      "core": {
+        "concept": "event.visual_attention",
+        "roles": {
+          "agent": {
+            "concept": "person.boy",
+            "number": "singular"
+          }
+        },
+        "tense": "present",
+        "polarity": "positive",
+        "wrappers": [
+          "question:wh:theme"
+        ]
+      }
+    },
+    {
+      "id": "G2-PL-16",
+      "from": "pl",
+      "to": "en",
+      "feature": "multiword",
+      "input": "Dziewczynka podnosi książkę.",
+      "expected": "A girl picks up a book.",
+      "core": {
+        "concept": "event.raise_object",
+        "roles": {
+          "agent": {
+            "concept": "person.girl",
+            "number": "singular"
+          },
+          "theme": {
+            "concept": "object.book",
+            "number": "singular"
+          }
+        },
+        "tense": "present",
+        "polarity": "positive",
+        "wrappers": []
+      }
+    }
+  ],
+  "unsupported": [
+    {
+      "id": "G2-INVALID-01",
+      "from": "en",
+      "to": "pl",
+      "input": "Does the boys see the cat?",
+      "reason": "number disagreement"
+    },
+    {
+      "id": "G2-INVALID-02",
+      "from": "en",
+      "to": "pl",
+      "input": "What does the boy look?",
+      "reason": "missing governed preposition"
+    },
+    {
+      "id": "G2-INVALID-03",
+      "from": "en",
+      "to": "pl",
+      "input": "The girl waits the boy.",
+      "reason": "missing governed preposition"
+    },
+    {
+      "id": "G2-INVALID-04",
+      "from": "en",
+      "to": "pl",
+      "input": "What does the boy not see the cat?",
+      "reason": "filled WH gap"
+    },
+    {
+      "id": "G2-INVALID-05",
+      "from": "pl",
+      "to": "en",
+      "input": "Chłopiec czeka dziewczynkę.",
+      "reason": "missing governed preposition"
+    },
+    {
+      "id": "G2-INVALID-06",
+      "from": "pl",
+      "to": "en",
+      "input": "Na co widzi chłopiec?",
+      "reason": "unlicensed preposition"
+    },
+    {
+      "id": "G2-INVALID-07",
+      "from": "pl",
+      "to": "en",
+      "input": "Czego czeka chłopiec?",
+      "reason": "wrong WH case"
+    },
+    {
+      "id": "G2-INVALID-08",
+      "from": "pl",
+      "to": "en",
+      "input": "Czy chłopiec widzi kota??",
+      "reason": "double terminator"
+    }
+  ]
+}

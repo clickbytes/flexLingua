@@ -1,0 +1,107 @@
+{
+  "version": "1.21",
+  "scope": "F3 productive morphology for five bilingual verb pairs",
+  "origin": "Independent human-reviewed reference expectations authored for flexLingua, not a generated round-trip fixture",
+  "pairs": [
+    {
+      "concept": "event.visual_attention",
+      "en": {
+        "id": "en.look_at.1",
+        "base": "look at",
+        "present3sg": "looks at",
+        "present3pl": "look at",
+        "past": "looked at"
+      },
+      "pl": {
+        "id": "pl.patrzec_na.1",
+        "presentSingular": "patrzy na",
+        "presentPlural": "patrzą na",
+        "pastMasculine": "patrzył na",
+        "pastFeminine": "patrzyła na",
+        "pastNeuter": "patrzyło na",
+        "pastVirile": "patrzyli na",
+        "pastNonvirile": "patrzyły na"
+      }
+    },
+    {
+      "concept": "event.raise_object",
+      "en": {
+        "id": "en.pick_up.1",
+        "base": "pick up",
+        "present3sg": "picks up",
+        "present3pl": "pick up",
+        "past": "picked up"
+      },
+      "pl": {
+        "id": "pl.podnosic.1",
+        "presentSingular": "podnosi",
+        "presentPlural": "podnoszą",
+        "pastMasculine": "podnosił",
+        "pastFeminine": "podnosiła",
+        "pastNeuter": "podnosiło",
+        "pastVirile": "podnosili",
+        "pastNonvirile": "podnosiły"
+      }
+    },
+    {
+      "concept": "event.search",
+      "en": {
+        "id": "en.look_for.1",
+        "base": "look for",
+        "present3sg": "looks for",
+        "present3pl": "look for",
+        "past": "looked for"
+      },
+      "pl": {
+        "id": "pl.szukac.1",
+        "presentSingular": "szuka",
+        "presentPlural": "szukają",
+        "pastMasculine": "szukał",
+        "pastFeminine": "szukała",
+        "pastNeuter": "szukało",
+        "pastVirile": "szukali",
+        "pastNonvirile": "szukały"
+      }
+    },
+    {
+      "concept": "event.auditory_attention",
+      "en": {
+        "id": "en.listen_to.1",
+        "base": "listen to",
+        "present3sg": "listens to",
+        "present3pl": "listen to",
+        "past": "listened to"
+      },
+      "pl": {
+        "id": "pl.sluchac.1",
+        "presentSingular": "słucha",
+        "presentPlural": "słuchają",
+        "pastMasculine": "słuchał",
+        "pastFeminine": "słuchała",
+        "pastNeuter": "słuchało",
+        "pastVirile": "słuchali",
+        "pastNonvirile": "słuchały"
+      }
+    },
+    {
+      "concept": "event.wait_for_entity",
+      "en": {
+        "id": "en.wait_for.1",
+        "base": "wait for",
+        "present3sg": "waits for",
+        "present3pl": "wait for",
+        "past": "waited for"
+      },
+      "pl": {
+        "id": "pl.czekac_na.1",
+        "presentSingular": "czeka na",
+        "presentPlural": "czekają na",
+        "pastMasculine": "czekał na",
+        "pastFeminine": "czekała na",
+        "pastNeuter": "czekało na",
+        "pastVirile": "czekali na",
+        "pastNonvirile": "czekały na"
+      }
+    }
+  ]
+}

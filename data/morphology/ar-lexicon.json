@@ -1,0 +1,27 @@
+{
+  "language": "ar",
+  "version": "1.01",
+  "lexicalModel": "1.01",
+  "nouns": [],
+  "adjectives": [],
+  "degrees": [],
+  "quantifiers": [],
+  "attitudes": [],
+  "functionWords": [],
+  "verbs": [
+    {
+      "id": "ar.kataba.1",
+      "lemma": "كَتَبَ",
+      "forms": {},
+      "senses": [
+        {
+          "id": "ar.kataba.sense",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.write"
+          }
+        }
+      ]
+    }
+  ]
+}

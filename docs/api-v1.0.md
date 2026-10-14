@@ -1,0 +1,113 @@
+# flexLingua v1.0 — public JS API (MVP)
+
+**v1.01 extension:** [CORE lexical model, PL/EN mapping and CORE JSON as I/O](lexical-core-v1.01.md).
+
+This is a **versioned MVP API**, not a full-coverage machine-translation API. No server, dependencies, or LLM are required.
+
+## Loading
+
+```js
+import { Engine } from './js/core/engine.js';
+import { createRuleAdapter } from './js/core/grammar.js';
+
+const load = async path => {
+  const response = await fetch(path);
+  if (!response.ok) throw new Error(`${path}: ${response.status}`);
+  return response.json();
+};
+const [ontology, features] = await Promise.all([
+  load('./data/concepts.json'), load('./data/features.json')
+]);
+const engine = new Engine(ontology, features);
+for (const code of ['en', 'pl', 'tr']) {
+  const [dictionary, grammar] = await Promise.all([
+    load(`./data/${code}.json`), load(`./data/grammar/${code}.json`)
+  ]);
+  engine.registerLanguage(createRuleAdapter(dictionary, grammar));
+}
+```
+
+The browser and offline HTML bundle both load this same implementation. Offline is generated with `npm run build:standalone`.
+
+## Core methods
+
+| Method | Meaning |
+|---|---|
+| `registerLanguage(adapter)` | Validate and register one language implementation. Duplicate code is rejected. |
+| `capabilities()` | JSON-serializable language inventory, parser/realizer support and schema versions. |
+| `analyze({text,from,context?})` | Select one preferred semantic reading; no disambiguation promise. |
+| `analyzeCandidates({text,from,context?})` | Return bounded semantic alternatives with scores and lexical senses. |
+| `realize({interlingua,to})` | Generate target text, warnings and grammatical alternatives. |
+| `translate({text,from,to,context?})` | Analyze → interlingua → realize; return semantic and grammar alternatives. Throws on unsupported input. |
+| `tryTranslate(request)` | Same operation with `{ok:true,value}` or `{ok:false,error:{code,message}}`; suitable for UIs. |
+
+```js
+const result = engine.tryTranslate({
+  text: 'The girl saw the dog.', from: 'en', to: 'tr'
+});
+if (result.ok) {
+  console.log(result.value.text); // Kız köpeği gördü.
+  console.log(result.value.interlingua);
+} else {
+  console.error(result.error.code, result.error.message);
+}
+```
+
+Error codes are **coarse** categories: `UNSUPPORTED_LANGUAGE`, `UNSUPPORTED_CONSTRUCTION`, `INVALID_INPUT`. They do not provide stable subtypes or offsets. Returned errors are not auto-corrections. `context.topics` provides semantic topic hints and `context.senses` optionally constrains senses in one simple sentence.
+
+## Semantic objects (v1.0)
+
+Earlier event documents (`version: "0.2"`), qualified referents (`"0.5"`), relative clauses and conjunctions (`"0.6"`) remain valid. New nodes:
+
+```json
+{
+  "version": "1.0", "type": "complement", "concept": "event.belief",
+  "features": { "tense": "present" },
+  "experiencer": {
+    "concept": "person.girl",
+    "features": { "number": "singular", "definiteness": "definite" }
+  },
+  "content": {
+    "version": "0.2", "type": "event", "concept": "event.visual_perception",
+    "roles": {
+      "agent": { "concept": "person.boy", "features": { "number": "singular", "definiteness": "definite" } },
+      "theme": { "concept": "animal.dog", "features": { "number": "singular", "definiteness": "definite" } }
+    },
+    "features": { "tense": "past", "polarity": "positive", "aspect": "unknown" }
+  }
+}
+```
+
+`createComplement(concept, experiencer, content, tense)` constructs this object. `createNegation(operand)` can wrap a complete event, a coordination or a complement as **wide negation**; the event's own `features.polarity` still represents local predicate negation. An explicit universal participant quantifier therefore remains inside or outside the operand as represented, but the project **does not implement general quantifier calculus**, inverse scope, distributivity or scope disambiguation.
+
+Nesting and candidate counts are deliberately bounded. Cross-sentence coreference is never invented. Some source ambiguities or information lost by a target language cannot be restored.
+
+## Adapter contract
+
+`createRuleAdapter(lexiconJSON, grammarJSON)` implements `code`, `analyze`, `analyzeCandidates`, `realize`, `validateOntology`, `describe`, `parseComplementHeads` and `realizeComplement`. Most decisions are declarative. The shared JS interpreter implements syntax search, feature agreement, case selection and realization.
+
+The grammar and lexicon schema is **v1.0** for EN, PL and TR. `data/features.json` stays on its own version (0.3), and the Interlingua nodes keep their individual serialization versions. Adding a new language does not require editing pairwise language translators, but it **does** require lexicon and grammar data, and must be tested for typological coverage.
+
+## Supported constructions by adapter
+
+| Capability | EN | PL | TR |
+|---|---|---|---|
+| Controlled 3rd-person subject/verb, basic past and present | Yes | Yes | Yes |
+| SVO / case marking / SOV | SVO | SVO with limited alternatives | SOV |
+| Negative finite clauses | Yes | Yes | Yes |
+| Definite vs indefinite object marking | Articles | No article contrast | Case distinction, where configured |
+| Quantified and modified noun phrases | Limited | Limited | Not yet |
+| Bounded relative clauses | Limited | Limited | Not yet |
+| Finite content complements (`believe/wierzyć`) | Yes | Yes | Not yet |
+| Coordination | Yes | Yes | Limited |
+| Explicit wide-scope negation | Yes | Yes | Not yet |
+
+PL/EN complements are declaratively configured for the present/past belief predicate. PL past agreement accounts for feminine, masculine and plural classes. The v1.0 release did not implement matrix negation, speech reports, passives, questions or arbitrary nested constructions; later controlled question support is documented in the v1.19 extension below. Turkish suffixes in this prototype are **stored as forms in JSON**, not generated by a complete Turkish morphophonology engine.
+
+## v1.19 extension — question documents in CORE JSON (semantic only)
+
+The new `question` document has `version:'1.19'`, `questionType:'yes_no'|'wh'` and `proposition`. WH questions additionally declare `targetRole`; that role is **omitted** from `proposition.roles`. The validator checks ontology role typing and required participants. Tasks 4–5 now also implement controlled Polish/English interrogative surface parsing and realization over single-event propositions. Unsupported roles, free-form questions and non-event interrogative realization still report diagnostics.
+
+API: `createQuestion(proposition, {questionType, targetRole})`, `validateInterlingua(question,...)`, `engine.analyze({from:'core',text:json})`, `engine.realize({to:'core',interlingua:question})`. Capability detection: `engine.capabilities().questionDocumentVersion === '1.19'`.
+
+[Semantic question contract](questions-v1.19-semantic.md) · [PL/EN parser and generator, limits, tests](questions-v1.19-pl-en.md).

@@ -1,0 +1,448 @@
+{
+  "version": "1.0",
+  "concepts": {
+    "entity": {
+      "type": "category",
+      "label": "entity"
+    },
+    "person": {
+      "type": "category",
+      "parent": "entity",
+      "label": "person"
+    },
+    "animal": {
+      "type": "category",
+      "parent": "entity",
+      "label": "animal"
+    },
+    "physical_object": {
+      "type": "category",
+      "parent": "entity",
+      "label": "physical object"
+    },
+    "person.girl": {
+      "type": "entity",
+      "parent": "person",
+      "label": "girl"
+    },
+    "person.boy": {
+      "type": "entity",
+      "parent": "person",
+      "label": "boy"
+    },
+    "animal.dog": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "dog"
+    },
+    "animal.cat": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "cat"
+    },
+    "object.book": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "book"
+    },
+    "object.apple": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "apple"
+    },
+    "event.transfer_possession": {
+      "type": "event",
+      "label": "transfer of possession",
+      "roles": [
+        "agent",
+        "recipient",
+        "theme"
+      ]
+    },
+    "event.visual_perception": {
+      "type": "event",
+      "parent": "event.perception",
+      "label": "visual perception"
+    },
+    "institution": {
+      "type": "category",
+      "parent": "entity",
+      "label": "institution"
+    },
+    "geographical_feature": {
+      "type": "category",
+      "parent": "entity",
+      "label": "geographical feature"
+    },
+    "place.financial_institution": {
+      "type": "entity",
+      "parent": "institution",
+      "label": "financial institution",
+      "relations": {
+        "associated_with": [
+          "object.money"
+        ]
+      }
+    },
+    "place.riverbank": {
+      "type": "entity",
+      "parent": "geographical_feature",
+      "label": "river bank",
+      "relations": {
+        "adjacent_to": [
+          "place.river"
+        ]
+      }
+    },
+    "place.river": {
+      "type": "entity",
+      "parent": "geographical_feature",
+      "label": "river"
+    },
+    "object.money": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "money"
+    },
+    "event.perception": {
+      "type": "event",
+      "label": "perception",
+      "abstract": true,
+      "roles": [
+        "agent",
+        "theme"
+      ],
+      "roleTypes": {
+        "agent": "entity",
+        "theme": "entity"
+      }
+    },
+    "quality.big": {
+      "type": "property",
+      "label": "large in size",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.small": {
+      "type": "property",
+      "label": "small in size",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.red": {
+      "type": "property",
+      "label": "red in color",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "degree.very": {
+      "type": "degree",
+      "label": "high degree",
+      "appliesTo": [
+        "property",
+        "degree"
+      ]
+    },
+    "event.belief": {
+      "type": "event",
+      "label": "believe a proposition",
+      "complement": true,
+      "roles": [
+        "experiencer",
+        "content"
+      ],
+      "roleTypes": {
+        "experiencer": "person"
+      }
+    },
+    "animal.fox": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "fox"
+    },
+    "person.child": {
+      "type": "entity",
+      "parent": "person",
+      "label": "child"
+    },
+    "event.movement": {
+      "type": "event",
+      "label": "move to a place",
+      "roles": [
+        "agent"
+      ],
+      "roleTypes": {
+        "agent": "entity"
+      }
+    },
+    "event.write": {
+      "type": "event",
+      "label": "write",
+      "roles": [
+        "agent",
+        "theme"
+      ],
+      "roleTypes": {
+        "agent": "entity",
+        "theme": "entity"
+      }
+    },
+    "structure": {
+      "type": "category",
+      "parent": "entity",
+      "label": "building/structure"
+    },
+    "plant": {
+      "type": "category",
+      "parent": "entity",
+      "label": "plant"
+    },
+    "settlement": {
+      "type": "category",
+      "parent": "entity",
+      "label": "settlement"
+    },
+    "structure.house": {
+      "type": "entity",
+      "parent": "structure",
+      "label": "house/building"
+    },
+    "object.bicycle": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "bicycle"
+    },
+    "object.phone": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "telephone"
+    },
+    "place.garden": {
+      "type": "entity",
+      "parent": "geographical_feature",
+      "label": "garden"
+    },
+    "object.table": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "table/furniture"
+    },
+    "place.forest": {
+      "type": "entity",
+      "parent": "geographical_feature",
+      "label": "forest"
+    },
+    "person.mother": {
+      "type": "entity",
+      "parent": "person",
+      "label": "mother"
+    },
+    "institution.school": {
+      "type": "entity",
+      "parent": "institution",
+      "label": "school as institution"
+    },
+    "object.window": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "window"
+    },
+    "plant.tree": {
+      "type": "entity",
+      "parent": "plant",
+      "label": "tree"
+    },
+    "place.city": {
+      "type": "entity",
+      "parent": "settlement",
+      "label": "city"
+    },
+    "animal.mouse": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "mouse/rodent"
+    },
+    "device.computer_mouse": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "computer mouse"
+    },
+    "person.woman": {
+      "type": "entity",
+      "parent": "person",
+      "label": "adult woman"
+    },
+    "event.visual_attention": {
+      "type": "event",
+      "parent": "event.perception",
+      "label": "directed visual attention"
+    },
+    "event.raise_object": {
+      "type": "event",
+      "label": "lift a physical object",
+      "roles": [
+        "agent",
+        "theme"
+      ],
+      "roleTypes": {
+        "agent": "entity",
+        "theme": "physical_object"
+      }
+    },
+    "event.search": {
+      "type": "event",
+      "label": "active search for an entity",
+      "roles": [
+        "agent",
+        "theme"
+      ],
+      "roleTypes": {
+        "agent": "entity",
+        "theme": "entity"
+      }
+    },
+    "event.auditory_attention": {
+      "type": "event",
+      "parent": "event.perception",
+      "label": "directed auditory attention to an entity"
+    },
+    "event.wait_for_entity": {
+      "type": "event",
+      "label": "wait for an entity",
+      "roles": [
+        "agent",
+        "theme"
+      ],
+      "roleTypes": {
+        "agent": "entity",
+        "theme": "entity"
+      }
+    },
+    "person.sister": {
+      "type": "entity",
+      "parent": "person",
+      "label": "sister"
+    },
+    "person.brother": {
+      "type": "entity",
+      "parent": "person",
+      "label": "brother"
+    },
+    "event.read": {
+      "type": "event",
+      "label": "read written material",
+      "roles": [
+        "agent",
+        "theme"
+      ],
+      "roleTypes": {
+        "agent": "person",
+        "theme": "physical_object"
+      }
+    },
+    "event.help": {
+      "type": "event",
+      "label": "provide help to a person",
+      "roles": [
+        "agent",
+        "theme"
+      ],
+      "roleTypes": {
+        "agent": "person",
+        "theme": "person"
+      }
+    },
+    "person.father": {
+      "type": "entity",
+      "parent": "person",
+      "label": "father"
+    },
+    "event.open": {
+      "type": "event",
+      "label": "open a physical object",
+      "roles": [
+        "agent",
+        "theme"
+      ],
+      "roleTypes": {
+        "agent": "person",
+        "theme": "physical_object"
+      }
+    }
+  },
+  "relationTypes": {
+    "adjacent_to": {
+      "subject": "geographical_feature",
+      "object": "geographical_feature",
+      "symmetric": true
+    },
+    "associated_with": {
+      "subject": "entity",
+      "object": "entity",
+      "symmetric": false
+    }
+  },
+  "coreLanguageVersion": "1.01",
+  "operators": {
+    "logic.negation": {
+      "label": "logical negation",
+      "arity": 1
+    },
+    "logic.conjunction": {
+      "label": "logical conjunction",
+      "arity": 2
+    },
+    "quantifier.universal": {
+      "label": "universal quantification",
+      "arity": 1
+    },
+    "quantifier.exact": {
+      "label": "exact cardinality",
+      "arity": 1,
+      "parameters": {
+        "value": {
+          "type": "integer",
+          "min": 2,
+          "max": 20
+        }
+      }
+    },
+    "modality.ability": {
+      "label": "ability or possibility of a proposition",
+      "arity": 1
+    },
+    "modality.obligation": {
+      "label": "obligation to satisfy a proposition",
+      "arity": 1
+    }
+  },
+  "grammaticalFunctions": {
+    "grammar.article.definite": {
+      "label": "definiteness article"
+    },
+    "grammar.article.indefinite": {
+      "label": "indefiniteness article"
+    },
+    "grammar.relative_marker": {
+      "label": "relative clause marker"
+    },
+    "grammar.complementizer": {
+      "label": "complement clause marker"
+    },
+    "grammar.dative_marker": {
+      "label": "indirect object marker"
+    },
+    "grammar.auxiliary": {
+      "label": "auxiliary verb form"
+    },
+    "grammar.expletive": {
+      "label": "expletive subject"
+    },
+    "grammar.truth_predicate": {
+      "label": "truth-predicate construction"
+    }
+  }
+}

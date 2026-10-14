@@ -1,0 +1,301 @@
+{
+  "schemaVersion": 1,
+  "license": "project-authored",
+  "origin": "Project-authored independent controlled intransitive movement gold, not Oxford material.",
+  "enToPl": [
+    {
+      "id": "A1M-EN-01",
+      "input": "The father goes.",
+      "expected": "Ojciec idzie.",
+      "agent": "person.father",
+      "tense": "present",
+      "polarity": "positive",
+      "concept": "event.movement"
+    },
+    {
+      "id": "A1M-EN-02",
+      "input": "The girl goes.",
+      "expected": "Dziewczynka idzie.",
+      "agent": "person.girl",
+      "tense": "present",
+      "polarity": "positive",
+      "concept": "event.movement"
+    },
+    {
+      "id": "A1M-EN-03",
+      "input": "The boys go.",
+      "expected": "Chłopcy idą.",
+      "agent": "person.boy",
+      "tense": "present",
+      "polarity": "positive",
+      "concept": "event.movement"
+    },
+    {
+      "id": "A1M-EN-04",
+      "input": "The father went.",
+      "expected": "Ojciec szedł.",
+      "agent": "person.father",
+      "tense": "past",
+      "polarity": "positive",
+      "concept": "event.movement"
+    },
+    {
+      "id": "A1M-EN-05",
+      "input": "The girl went.",
+      "expected": "Dziewczynka szła.",
+      "agent": "person.girl",
+      "tense": "past",
+      "polarity": "positive",
+      "concept": "event.movement"
+    },
+    {
+      "id": "A1M-EN-06",
+      "input": "The fathers went.",
+      "expected": "Ojcowie szli.",
+      "agent": "person.father",
+      "tense": "past",
+      "polarity": "positive",
+      "concept": "event.movement"
+    },
+    {
+      "id": "A1M-EN-07",
+      "input": "The sisters went.",
+      "expected": "Siostry szły.",
+      "agent": "person.sister",
+      "tense": "past",
+      "polarity": "positive",
+      "concept": "event.movement"
+    },
+    {
+      "id": "A1M-EN-08",
+      "input": "The father does not go.",
+      "expected": "Ojciec nie idzie.",
+      "agent": "person.father",
+      "tense": "present",
+      "polarity": "negative",
+      "concept": "event.movement"
+    },
+    {
+      "id": "A1M-EN-09",
+      "input": "Does the father go?",
+      "expected": "Czy ojciec idzie?",
+      "agent": "person.father",
+      "tense": "present",
+      "polarity": "positive",
+      "concept": "event.movement"
+    }
+  ],
+  "plToEn": [
+    {
+      "id": "A1M-PL-01",
+      "input": "Ojciec idzie.",
+      "expected": "A father goes.",
+      "agent": "person.father",
+      "tense": "present",
+      "polarity": "positive",
+      "concept": "event.movement"
+    },
+    {
+      "id": "A1M-PL-02",
+      "input": "Dziewczynka idzie.",
+      "expected": "A girl goes.",
+      "agent": "person.girl",
+      "tense": "present",
+      "polarity": "positive",
+      "concept": "event.movement"
+    },
+    {
+      "id": "A1M-PL-03",
+      "input": "Chłopcy idą.",
+      "expected": "Boys go.",
+      "agent": "person.boy",
+      "tense": "present",
+      "polarity": "positive",
+      "concept": "event.movement"
+    },
+    {
+      "id": "A1M-PL-04",
+      "input": "Ojciec szedł.",
+      "expected": "A father went.",
+      "agent": "person.father",
+      "tense": "past",
+      "polarity": "positive",
+      "concept": "event.movement"
+    },
+    {
+      "id": "A1M-PL-05",
+      "input": "Dziewczynka szła.",
+      "expected": "A girl went.",
+      "agent": "person.girl",
+      "tense": "past",
+      "polarity": "positive",
+      "concept": "event.movement"
+    },
+    {
+      "id": "A1M-PL-06",
+      "input": "Ojcowie szli.",
+      "expected": "Fathers went.",
+      "agent": "person.father",
+      "tense": "past",
+      "polarity": "positive",
+      "concept": "event.movement"
+    },
+    {
+      "id": "A1M-PL-07",
+      "input": "Siostry szły.",
+      "expected": "Sisters went.",
+      "agent": "person.sister",
+      "tense": "past",
+      "polarity": "positive",
+      "concept": "event.movement"
+    },
+    {
+      "id": "A1M-PL-08",
+      "input": "Ojciec nie idzie.",
+      "expected": "A father does not go.",
+      "agent": "person.father",
+      "tense": "present",
+      "polarity": "negative",
+      "concept": "event.movement"
+    },
+    {
+      "id": "A1M-PL-09",
+      "input": "Czy ojciec idzie?",
+      "expected": "Does a father go?",
+      "agent": "person.father",
+      "tense": "present",
+      "polarity": "positive",
+      "concept": "event.movement"
+    }
+  ],
+  "morphology": [
+    {
+      "language": "pl",
+      "lexemeId": "pl.isc.1",
+      "features": {
+        "tense": "past",
+        "number": "singular",
+        "gender": "masculine"
+      },
+      "text": "szedł"
+    },
+    {
+      "language": "pl",
+      "lexemeId": "pl.isc.1",
+      "features": {
+        "tense": "past",
+        "number": "singular",
+        "gender": "feminine"
+      },
+      "text": "szła"
+    },
+    {
+      "language": "pl",
+      "lexemeId": "pl.isc.1",
+      "features": {
+        "tense": "past",
+        "number": "singular",
+        "gender": "neuter"
+      },
+      "text": "szło"
+    },
+    {
+      "language": "pl",
+      "lexemeId": "pl.isc.1",
+      "features": {
+        "tense": "past",
+        "number": "plural",
+        "pluralClass": "virile"
+      },
+      "text": "szli"
+    },
+    {
+      "language": "pl",
+      "lexemeId": "pl.isc.1",
+      "features": {
+        "tense": "past",
+        "number": "plural",
+        "pluralClass": "nonvirile"
+      },
+      "text": "szły"
+    },
+    {
+      "language": "pl",
+      "lexemeId": "pl.isc.1",
+      "features": {
+        "tense": "present",
+        "number": "singular",
+        "person": "third"
+      },
+      "text": "idzie"
+    },
+    {
+      "language": "pl",
+      "lexemeId": "pl.isc.1",
+      "features": {
+        "tense": "present",
+        "number": "plural",
+        "person": "third"
+      },
+      "text": "idą"
+    },
+    {
+      "language": "en",
+      "lexemeId": "en.go.1",
+      "features": {
+        "tense": "past"
+      },
+      "text": "went"
+    },
+    {
+      "language": "en",
+      "lexemeId": "en.go.1",
+      "features": {
+        "tense": "present",
+        "number": "singular",
+        "person": "third"
+      },
+      "text": "goes"
+    },
+    {
+      "language": "en",
+      "lexemeId": "en.go.1",
+      "features": {
+        "tense": "present",
+        "number": "plural",
+        "person": "third"
+      },
+      "text": "go"
+    },
+    {
+      "language": "en",
+      "lexemeId": "en.go.1",
+      "features": {
+        "mood": "indicative"
+      },
+      "text": "go"
+    }
+  ],
+  "invalid": [
+    {
+      "from": "pl",
+      "input": "Ojciec idą.",
+      "why": "subject-verb agreement"
+    },
+    {
+      "from": "en",
+      "input": "The girls goes.",
+      "why": "plural subject agreement"
+    },
+    {
+      "from": "en",
+      "input": "The father goes to school.",
+      "why": "unrepresented destination"
+    },
+    {
+      "from": "pl",
+      "input": "Ojciec idzie do szkoły.",
+      "why": "unrepresented destination"
+    }
+  ]
+}

@@ -1,0 +1,3654 @@
+{
+  "version": "1.11",
+  "language": "pl",
+  "provenance": {
+    "source": "flexLingua curated forms",
+    "review": "manual initial prototype",
+    "license": "project authored"
+  },
+  "paradigms": {
+    "pl.noun.masc_animate": {
+      "pos": "NOUN",
+      "slots": [
+        {
+          "features": {
+            "number": "singular",
+            "case": "nom"
+          },
+          "steps": [],
+          "path": [
+            "singular",
+            "nom"
+          ]
+        },
+        {
+          "features": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "a"
+            }
+          ],
+          "path": [
+            "singular",
+            "gen"
+          ]
+        },
+        {
+          "features": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "owi"
+            }
+          ],
+          "path": [
+            "singular",
+            "dat"
+          ]
+        },
+        {
+          "features": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "a"
+            }
+          ],
+          "path": [
+            "singular",
+            "acc"
+          ]
+        },
+        {
+          "features": {
+            "number": "singular",
+            "case": "inst"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "em"
+            }
+          ],
+          "path": [
+            "singular",
+            "inst"
+          ]
+        },
+        {
+          "features": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "ie"
+            }
+          ],
+          "path": [
+            "singular",
+            "loc"
+          ]
+        },
+        {
+          "features": {
+            "number": "singular",
+            "case": "voc"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "ie"
+            }
+          ],
+          "path": [
+            "singular",
+            "voc"
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "y"
+            }
+          ],
+          "path": [
+            "plural",
+            "nom"
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "ów"
+            }
+          ],
+          "path": [
+            "plural",
+            "gen"
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "om"
+            }
+          ],
+          "path": [
+            "plural",
+            "dat"
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "y"
+            }
+          ],
+          "path": [
+            "plural",
+            "acc"
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "case": "inst"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "ami"
+            }
+          ],
+          "path": [
+            "plural",
+            "inst"
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "case": "loc"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "ach"
+            }
+          ],
+          "path": [
+            "plural",
+            "loc"
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "y"
+            }
+          ],
+          "path": [
+            "plural",
+            "voc"
+          ]
+        }
+      ]
+    },
+    "pl.noun.masc_inanimate": {
+      "pos": "NOUN",
+      "extends": "pl.noun.masc_animate",
+      "slots": [
+        {
+          "features": {
+            "number": "singular",
+            "case": "nom"
+          },
+          "steps": [],
+          "path": [
+            "singular",
+            "nom"
+          ]
+        },
+        {
+          "features": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "u"
+            }
+          ],
+          "path": [
+            "singular",
+            "gen"
+          ]
+        },
+        {
+          "features": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "owi"
+            }
+          ],
+          "path": [
+            "singular",
+            "dat"
+          ]
+        },
+        {
+          "features": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "steps": [],
+          "path": [
+            "singular",
+            "acc"
+          ]
+        },
+        {
+          "features": {
+            "number": "singular",
+            "case": "inst"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "em"
+            }
+          ],
+          "path": [
+            "singular",
+            "inst"
+          ]
+        },
+        {
+          "features": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "ie"
+            }
+          ],
+          "path": [
+            "singular",
+            "loc"
+          ]
+        },
+        {
+          "features": {
+            "number": "singular",
+            "case": "voc"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "ie"
+            }
+          ],
+          "path": [
+            "singular",
+            "voc"
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "i"
+            }
+          ],
+          "path": [
+            "plural",
+            "nom"
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "ów"
+            }
+          ],
+          "path": [
+            "plural",
+            "gen"
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "om"
+            }
+          ],
+          "path": [
+            "plural",
+            "dat"
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "i"
+            }
+          ],
+          "path": [
+            "plural",
+            "acc"
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "case": "inst"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "ami"
+            }
+          ],
+          "path": [
+            "plural",
+            "inst"
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "case": "loc"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "ach"
+            }
+          ],
+          "path": [
+            "plural",
+            "loc"
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "i"
+            }
+          ],
+          "path": [
+            "plural",
+            "voc"
+          ]
+        }
+      ]
+    },
+    "pl.noun.feminine_a": {
+      "pos": "NOUN",
+      "slots": [
+        {
+          "features": {
+            "number": "singular",
+            "case": "nom"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "lemma"
+            }
+          ],
+          "path": [
+            "singular",
+            "nom"
+          ]
+        },
+        {
+          "features": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "y"
+            }
+          ],
+          "path": [
+            "singular",
+            "gen"
+          ]
+        },
+        {
+          "features": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "e"
+            }
+          ],
+          "path": [
+            "singular",
+            "dat"
+          ]
+        },
+        {
+          "features": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "ę"
+            }
+          ],
+          "path": [
+            "singular",
+            "acc"
+          ]
+        },
+        {
+          "features": {
+            "number": "singular",
+            "case": "inst"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "ą"
+            }
+          ],
+          "path": [
+            "singular",
+            "inst"
+          ]
+        },
+        {
+          "features": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "e"
+            }
+          ],
+          "path": [
+            "singular",
+            "loc"
+          ]
+        },
+        {
+          "features": {
+            "number": "singular",
+            "case": "voc"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "o"
+            }
+          ],
+          "path": [
+            "singular",
+            "voc"
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "y"
+            }
+          ],
+          "path": [
+            "plural",
+            "nom"
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "steps": [],
+          "path": [
+            "plural",
+            "gen"
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "om"
+            }
+          ],
+          "path": [
+            "plural",
+            "dat"
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "y"
+            }
+          ],
+          "path": [
+            "plural",
+            "acc"
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "case": "inst"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "ami"
+            }
+          ],
+          "path": [
+            "plural",
+            "inst"
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "case": "loc"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "ach"
+            }
+          ],
+          "path": [
+            "plural",
+            "loc"
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "y"
+            }
+          ],
+          "path": [
+            "plural",
+            "voc"
+          ]
+        }
+      ]
+    },
+    "pl.noun.neuter_o": {
+      "pos": "NOUN",
+      "slots": [
+        {
+          "features": {
+            "number": "singular",
+            "case": "nom"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "lemma"
+            }
+          ],
+          "path": [
+            "singular",
+            "nom"
+          ]
+        },
+        {
+          "features": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "a"
+            }
+          ],
+          "path": [
+            "singular",
+            "gen"
+          ]
+        },
+        {
+          "features": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "u"
+            }
+          ],
+          "path": [
+            "singular",
+            "dat"
+          ]
+        },
+        {
+          "features": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "lemma"
+            }
+          ],
+          "path": [
+            "singular",
+            "acc"
+          ]
+        },
+        {
+          "features": {
+            "number": "singular",
+            "case": "inst"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "iem"
+            }
+          ],
+          "path": [
+            "singular",
+            "inst"
+          ]
+        },
+        {
+          "features": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "u"
+            }
+          ],
+          "path": [
+            "singular",
+            "loc"
+          ]
+        },
+        {
+          "features": {
+            "number": "singular",
+            "case": "voc"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "lemma"
+            }
+          ],
+          "path": [
+            "singular",
+            "voc"
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "a"
+            }
+          ],
+          "path": [
+            "plural",
+            "nom"
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "steps": [],
+          "path": [
+            "plural",
+            "gen"
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "om"
+            }
+          ],
+          "path": [
+            "plural",
+            "dat"
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "a"
+            }
+          ],
+          "path": [
+            "plural",
+            "acc"
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "case": "inst"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "ami"
+            }
+          ],
+          "path": [
+            "plural",
+            "inst"
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "case": "loc"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "ach"
+            }
+          ],
+          "path": [
+            "plural",
+            "loc"
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "a"
+            }
+          ],
+          "path": [
+            "plural",
+            "voc"
+          ]
+        }
+      ]
+    },
+    "pl.verb.third_person": {
+      "pos": "VERB",
+      "slots": [
+        {
+          "features": {
+            "tense": "past",
+            "number": "singular",
+            "gender": "masculine"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "pastSingular"
+            },
+            {
+              "op": "append",
+              "value": "ł"
+            }
+          ],
+          "path": [
+            "past",
+            "singular",
+            "masculine"
+          ]
+        },
+        {
+          "features": {
+            "tense": "past",
+            "number": "singular",
+            "gender": "feminine"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "pastSingular"
+            },
+            {
+              "op": "append",
+              "value": "ła"
+            }
+          ],
+          "path": [
+            "past",
+            "singular",
+            "feminine"
+          ]
+        },
+        {
+          "features": {
+            "tense": "past",
+            "number": "singular",
+            "gender": "neuter"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "pastSingular"
+            },
+            {
+              "op": "append",
+              "value": "ło"
+            }
+          ],
+          "path": [
+            "past",
+            "singular",
+            "neuter"
+          ]
+        },
+        {
+          "features": {
+            "tense": "past",
+            "number": "plural",
+            "pluralClass": "virile"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "pastVirile"
+            },
+            {
+              "op": "append",
+              "value": "li"
+            }
+          ],
+          "path": [
+            "past",
+            "plural",
+            "virile"
+          ]
+        },
+        {
+          "features": {
+            "tense": "past",
+            "number": "plural",
+            "pluralClass": "nonvirile"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "pastSingular"
+            },
+            {
+              "op": "append",
+              "value": "ły"
+            }
+          ],
+          "path": [
+            "past",
+            "plural",
+            "nonvirile"
+          ]
+        },
+        {
+          "features": {
+            "tense": "present",
+            "number": "singular",
+            "person": "third"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "presentSingular"
+            }
+          ],
+          "path": [
+            "present",
+            "thirdSingular"
+          ]
+        },
+        {
+          "features": {
+            "tense": "present",
+            "number": "plural",
+            "person": "third"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "presentPlural"
+            }
+          ],
+          "path": [
+            "present",
+            "thirdPlural"
+          ]
+        }
+      ]
+    },
+    "pl.adj.regular": {
+      "pos": "ADJ",
+      "slots": [
+        {
+          "features": {
+            "number": "singular",
+            "gender": "feminine",
+            "case": "nom"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "a"
+            }
+          ]
+        },
+        {
+          "features": {
+            "number": "singular",
+            "gender": "feminine",
+            "case": "acc"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "ą"
+            }
+          ]
+        },
+        {
+          "features": {
+            "number": "singular",
+            "gender": "feminine",
+            "case": "gen"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "ej"
+            }
+          ]
+        },
+        {
+          "features": {
+            "number": "singular",
+            "gender": "feminine",
+            "case": "dat"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "ej"
+            }
+          ]
+        },
+        {
+          "features": {
+            "number": "singular",
+            "gender": "masculine",
+            "case": "nom"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "y"
+            }
+          ]
+        },
+        {
+          "features": {
+            "number": "singular",
+            "gender": "masculine",
+            "case": "gen"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "ego"
+            }
+          ]
+        },
+        {
+          "features": {
+            "number": "singular",
+            "gender": "masculine",
+            "case": "dat"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "emu"
+            }
+          ]
+        },
+        {
+          "features": {
+            "number": "singular",
+            "gender": "masculine",
+            "animacy": "animate",
+            "case": "acc"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "ego"
+            }
+          ]
+        },
+        {
+          "features": {
+            "number": "singular",
+            "gender": "masculine",
+            "animacy": "inanimate",
+            "case": "acc"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "y"
+            }
+          ]
+        },
+        {
+          "features": {
+            "number": "singular",
+            "gender": "neuter",
+            "case": "nom"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "e"
+            }
+          ]
+        },
+        {
+          "features": {
+            "number": "singular",
+            "gender": "neuter",
+            "case": "acc"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "e"
+            }
+          ]
+        },
+        {
+          "features": {
+            "number": "singular",
+            "gender": "neuter",
+            "case": "gen"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "ego"
+            }
+          ]
+        },
+        {
+          "features": {
+            "number": "singular",
+            "gender": "neuter",
+            "case": "dat"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "emu"
+            }
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "nom"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "virile"
+            },
+            {
+              "op": "append",
+              "value": "i"
+            }
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "acc"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "ych"
+            }
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "gen"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "ych"
+            }
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "dat"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "ym"
+            }
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "case": "nom"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "e"
+            }
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "case": "acc"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "e"
+            }
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "case": "gen"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "ych"
+            }
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "case": "dat"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "ym"
+            }
+          ]
+        }
+      ]
+    },
+    "pl.noun.masc_inanimate_hard": {
+      "pos": "NOUN",
+      "extends": "pl.noun.masc_inanimate",
+      "slots": [
+        {
+          "features": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "y"
+            }
+          ],
+          "path": [
+            "plural",
+            "nom"
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "y"
+            }
+          ],
+          "path": [
+            "plural",
+            "acc"
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "y"
+            }
+          ],
+          "path": [
+            "plural",
+            "voc"
+          ]
+        }
+      ]
+    },
+    "pl.noun.neuter_o_plain": {
+      "pos": "NOUN",
+      "extends": "pl.noun.neuter_o",
+      "slots": [
+        {
+          "features": {
+            "number": "singular",
+            "case": "inst"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "em"
+            }
+          ],
+          "path": [
+            "singular",
+            "inst"
+          ]
+        },
+        {
+          "features": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "ie"
+            }
+          ],
+          "path": [
+            "singular",
+            "loc"
+          ]
+        }
+      ]
+    },
+    "pl.noun.feminine_sz": {
+      "pos": "NOUN",
+      "slots": [
+        {
+          "features": {
+            "number": "singular",
+            "case": "nom"
+          },
+          "steps": [],
+          "path": [
+            "singular",
+            "nom"
+          ]
+        },
+        {
+          "features": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "y"
+            }
+          ],
+          "path": [
+            "singular",
+            "gen"
+          ]
+        },
+        {
+          "features": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "y"
+            }
+          ],
+          "path": [
+            "singular",
+            "dat"
+          ]
+        },
+        {
+          "features": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "steps": [],
+          "path": [
+            "singular",
+            "acc"
+          ]
+        },
+        {
+          "features": {
+            "number": "singular",
+            "case": "inst"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "ą"
+            }
+          ],
+          "path": [
+            "singular",
+            "inst"
+          ]
+        },
+        {
+          "features": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "y"
+            }
+          ],
+          "path": [
+            "singular",
+            "loc"
+          ]
+        },
+        {
+          "features": {
+            "number": "singular",
+            "case": "voc"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "y"
+            }
+          ],
+          "path": [
+            "singular",
+            "voc"
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "y"
+            }
+          ],
+          "path": [
+            "plural",
+            "nom"
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "y"
+            }
+          ],
+          "path": [
+            "plural",
+            "gen"
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "om"
+            }
+          ],
+          "path": [
+            "plural",
+            "dat"
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "y"
+            }
+          ],
+          "path": [
+            "plural",
+            "acc"
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "case": "inst"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "ami"
+            }
+          ],
+          "path": [
+            "plural",
+            "inst"
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "case": "loc"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "ach"
+            }
+          ],
+          "path": [
+            "plural",
+            "loc"
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "y"
+            }
+          ],
+          "path": [
+            "plural",
+            "voc"
+          ]
+        }
+      ]
+    },
+    "pl.verb.third_person_particle": {
+      "pos": "VERB",
+      "slots": [
+        {
+          "features": {
+            "tense": "past",
+            "number": "singular",
+            "gender": "masculine"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "pastSingular"
+            },
+            {
+              "op": "append",
+              "value": "ł"
+            },
+            {
+              "op": "appendStem",
+              "key": "particle"
+            }
+          ],
+          "path": [
+            "past",
+            "singular",
+            "masculine"
+          ]
+        },
+        {
+          "features": {
+            "tense": "past",
+            "number": "singular",
+            "gender": "feminine"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "pastSingular"
+            },
+            {
+              "op": "append",
+              "value": "ła"
+            },
+            {
+              "op": "appendStem",
+              "key": "particle"
+            }
+          ],
+          "path": [
+            "past",
+            "singular",
+            "feminine"
+          ]
+        },
+        {
+          "features": {
+            "tense": "past",
+            "number": "singular",
+            "gender": "neuter"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "pastSingular"
+            },
+            {
+              "op": "append",
+              "value": "ło"
+            },
+            {
+              "op": "appendStem",
+              "key": "particle"
+            }
+          ],
+          "path": [
+            "past",
+            "singular",
+            "neuter"
+          ]
+        },
+        {
+          "features": {
+            "tense": "past",
+            "number": "plural",
+            "pluralClass": "virile"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "pastVirile"
+            },
+            {
+              "op": "append",
+              "value": "li"
+            },
+            {
+              "op": "appendStem",
+              "key": "particle"
+            }
+          ],
+          "path": [
+            "past",
+            "plural",
+            "virile"
+          ]
+        },
+        {
+          "features": {
+            "tense": "past",
+            "number": "plural",
+            "pluralClass": "nonvirile"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "pastSingular"
+            },
+            {
+              "op": "append",
+              "value": "ły"
+            },
+            {
+              "op": "appendStem",
+              "key": "particle"
+            }
+          ],
+          "path": [
+            "past",
+            "plural",
+            "nonvirile"
+          ]
+        },
+        {
+          "features": {
+            "tense": "present",
+            "number": "singular",
+            "person": "third"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "presentSingular"
+            },
+            {
+              "op": "appendStem",
+              "key": "particle"
+            }
+          ],
+          "path": [
+            "present",
+            "thirdSingular"
+          ]
+        },
+        {
+          "features": {
+            "tense": "present",
+            "number": "plural",
+            "person": "third"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "presentPlural"
+            },
+            {
+              "op": "appendStem",
+              "key": "particle"
+            }
+          ],
+          "path": [
+            "present",
+            "thirdPlural"
+          ]
+        }
+      ]
+    }
+  },
+  "bindings": [
+    {
+      "lexemeId": "pl.dziewczynka.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "dziewczynk",
+        "lemma": "dziewczynka"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "dziewczynki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "dziewczynce"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "dziewczynce"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "dziewczynki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "dziewczynek"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "dziewczynki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "dziewczynki"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.chlopiec.1",
+      "paradigmId": "pl.noun.masc_animate",
+      "stems": {
+        "base": "chłopiec",
+        "lemma": "chłopiec"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "chłopca"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "chłopcu"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "chłopca"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "inst"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "chłopcem"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "chłopcu"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "chłopcze"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "chłopcy"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "chłopców"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "chłopcom"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "chłopców"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "inst"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "chłopcami"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "chłopcach"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "chłopcy"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.pies.1",
+      "paradigmId": "pl.noun.masc_animate",
+      "stems": {
+        "base": "pies",
+        "lemma": "pies"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "psa"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "psu"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "psa"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "inst"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "psem"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "psie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "psie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "psy"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "psów"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "psom"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "psy"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "inst"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "psami"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "psach"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "psy"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.kot.1",
+      "paradigmId": "pl.noun.masc_animate",
+      "stems": {
+        "base": "kot",
+        "lemma": "kot"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kotu"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kocie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kocie"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.ksiazka.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "książk",
+        "lemma": "książka"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "książki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "książce"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "książce"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "książki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "książek"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "książki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "książki"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.jablko.1",
+      "paradigmId": "pl.noun.neuter_o",
+      "stems": {
+        "base": "jabłk",
+        "lemma": "jabłko"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "jabłek"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.bank.1",
+      "paradigmId": "pl.noun.masc_inanimate",
+      "stems": {
+        "base": "bank",
+        "lemma": "bank"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "inst"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "bankiem"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "banku"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "banku"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.brzeg.1",
+      "paradigmId": "pl.noun.masc_inanimate",
+      "stems": {
+        "base": "brzeg",
+        "lemma": "brzeg"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "inst"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "brzegiem"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "brzegu"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "brzegu"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.lis.1",
+      "paradigmId": "pl.noun.masc_animate",
+      "stems": {
+        "base": "lis",
+        "lemma": "lis"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.dziecko.1",
+      "paradigmId": "pl.noun.neuter_o",
+      "stems": {
+        "base": "dzieck",
+        "lemma": "dziecko"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "dzieci"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "dzieci"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "dzieciom"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "dzieci"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "inst"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "dziećmi"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "dzieciach"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "dzieci"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.dac.1",
+      "paradigmId": "pl.verb.third_person",
+      "stems": {
+        "base": "dać",
+        "pastSingular": "da",
+        "pastVirile": "da",
+        "presentSingular": "daje",
+        "presentPlural": "dają"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.dawac.1",
+      "paradigmId": "pl.verb.third_person",
+      "stems": {
+        "base": "dawać",
+        "pastSingular": "dawa",
+        "pastVirile": "dawa",
+        "presentSingular": "daje",
+        "presentPlural": "dają"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.widziec.1",
+      "paradigmId": "pl.verb.third_person",
+      "stems": {
+        "base": "widzieć",
+        "pastSingular": "widzia",
+        "pastVirile": "widzie",
+        "presentSingular": "widzi",
+        "presentPlural": "widzą"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.big.adj.1",
+      "paradigmId": "pl.adj.regular",
+      "stems": {
+        "base": "duż",
+        "virile": "duz"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.small.adj.1",
+      "paradigmId": "pl.adj.regular",
+      "stems": {
+        "base": "mał",
+        "virile": "mal"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.red.adj.1",
+      "paradigmId": "pl.adj.regular",
+      "stems": {
+        "base": "czerwon",
+        "virile": "czerwon"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.dom.1",
+      "paradigmId": "pl.noun.masc_inanimate_hard",
+      "stems": {
+        "base": "dom"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "domu"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "domu"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.rower.1",
+      "paradigmId": "pl.noun.masc_inanimate_hard",
+      "stems": {
+        "base": "rower"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "rowerze"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "rowerze"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.telefon.1",
+      "paradigmId": "pl.noun.masc_inanimate_hard",
+      "stems": {
+        "base": "telefon"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.ogrod.1",
+      "paradigmId": "pl.noun.masc_inanimate_hard",
+      "stems": {
+        "base": "ogrod"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ogród"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ogród"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ogrodzie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ogrodzie"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.stol.1",
+      "paradigmId": "pl.noun.masc_inanimate_hard",
+      "stems": {
+        "base": "stoł"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "stół"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "stół"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "stole"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "stole"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.las.1",
+      "paradigmId": "pl.noun.masc_inanimate_hard",
+      "stems": {
+        "base": "las"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lesie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lesie"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.mama.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "mam",
+        "lemma": "mama"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "mamie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "mamie"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.szkola.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "szkoł",
+        "lemma": "szkoła"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "szkół"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "szkole"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "szkole"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.rzeka.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "rzek",
+        "lemma": "rzeka"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "rzeki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "rzece"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "rzece"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "rzeki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "rzeki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "rzeki"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.okno.1",
+      "paradigmId": "pl.noun.neuter_o_plain",
+      "stems": {
+        "base": "okn",
+        "lemma": "okno"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "okien"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.drzewo.1",
+      "paradigmId": "pl.noun.neuter_o_plain",
+      "stems": {
+        "base": "drzew",
+        "lemma": "drzewo"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.miasto.1",
+      "paradigmId": "pl.noun.neuter_o_plain",
+      "stems": {
+        "base": "miast",
+        "lemma": "miasto"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "mieście"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.mysz.1",
+      "paradigmId": "pl.noun.feminine_sz",
+      "stems": {
+        "base": "mysz"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.kobieta.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "kobiet",
+        "lemma": "kobieta"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kobiecie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kobiecie"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.patrzec_na.1",
+      "paradigmId": "pl.verb.third_person_particle",
+      "stems": {
+        "base": "patrzeć",
+        "pastSingular": "patrzy",
+        "pastVirile": "patrzy",
+        "presentSingular": "patrzy",
+        "presentPlural": "patrzą",
+        "particle": " na"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.podnosic.1",
+      "paradigmId": "pl.verb.third_person",
+      "stems": {
+        "base": "podnosić",
+        "pastSingular": "podnosi",
+        "pastVirile": "podnosi",
+        "presentSingular": "podnosi",
+        "presentPlural": "podnoszą"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.szukac.1",
+      "paradigmId": "pl.verb.third_person",
+      "stems": {
+        "base": "szukać",
+        "pastSingular": "szuka",
+        "pastVirile": "szuka",
+        "presentSingular": "szuka",
+        "presentPlural": "szukają"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.sluchac.1",
+      "paradigmId": "pl.verb.third_person",
+      "stems": {
+        "base": "słuchać",
+        "pastSingular": "słucha",
+        "pastVirile": "słucha",
+        "presentSingular": "słucha",
+        "presentPlural": "słuchają"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.czekac_na.1",
+      "paradigmId": "pl.verb.third_person_particle",
+      "stems": {
+        "base": "czekać",
+        "pastSingular": "czeka",
+        "pastVirile": "czeka",
+        "presentSingular": "czeka",
+        "presentPlural": "czekają",
+        "particle": " na"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.siostra.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "siostr",
+        "lemma": "siostra"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "siostrze"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "siostrze"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "sióstr"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.brat.1",
+      "paradigmId": "pl.noun.masc_animate",
+      "stems": {
+        "base": "brat",
+        "lemma": "brat"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "bratu"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "bracie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "bracie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "bracia"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "braci"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "braciom"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "braci"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "inst"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "braćmi"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "braciach"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "bracia"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.czytac.1",
+      "paradigmId": "pl.verb.third_person",
+      "stems": {
+        "base": "czytać",
+        "pastSingular": "czyta",
+        "pastVirile": "czyta",
+        "presentSingular": "czyta",
+        "presentPlural": "czytają"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.pomagac.1",
+      "paradigmId": "pl.verb.third_person",
+      "stems": {
+        "base": "pomagać",
+        "pastSingular": "pomaga",
+        "pastVirile": "pomaga",
+        "presentSingular": "pomaga",
+        "presentPlural": "pomagają"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.ojciec.1",
+      "paradigmId": "pl.noun.masc_animate",
+      "stems": {
+        "base": "ojciec",
+        "lemma": "ojciec"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ojca"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ojcu"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ojca"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "inst"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ojcem"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ojcu"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ojcze"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ojcowie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ojców"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ojcom"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ojców"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "inst"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ojcami"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ojcach"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ojcowie"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.isc.1",
+      "paradigmId": "pl.verb.third_person",
+      "stems": {
+        "base": "iść",
+        "pastSingular": "szed",
+        "pastVirile": "sz",
+        "presentSingular": "idzie",
+        "presentPlural": "idą"
+      },
+      "overrides": [
+        {
+          "when": {
+            "tense": "past",
+            "number": "singular",
+            "gender": "feminine"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "szła"
+            }
+          ]
+        },
+        {
+          "when": {
+            "tense": "past",
+            "number": "singular",
+            "gender": "neuter"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "szło"
+            }
+          ]
+        },
+        {
+          "when": {
+            "tense": "past",
+            "number": "plural",
+            "pluralClass": "nonvirile"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "szły"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.pisac.1",
+      "paradigmId": "pl.verb.third_person",
+      "stems": {
+        "base": "pisać",
+        "pastSingular": "pisa",
+        "pastVirile": "pisa",
+        "presentSingular": "pisze",
+        "presentPlural": "piszą"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.otwierac.1",
+      "paradigmId": "pl.verb.third_person",
+      "stems": {
+        "base": "otwierać",
+        "pastSingular": "otwiera",
+        "pastVirile": "otwiera",
+        "presentSingular": "otwiera",
+        "presentPlural": "otwierają"
+      },
+      "overrides": []
+    }
+  ]
+}

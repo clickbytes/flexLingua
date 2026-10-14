@@ -1,0 +1,1113 @@
+{
+  "language": "en",
+  "version": "1.0",
+  "nouns": [
+    {
+      "id": "en.girl.1",
+      "lemma": "girl",
+      "forms": {
+        "singular": "girl",
+        "plural": "girls"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.girl.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.girl"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.boy.1",
+      "lemma": "boy",
+      "forms": {
+        "singular": "boy",
+        "plural": "boys"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.boy.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.boy"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.dog.1",
+      "lemma": "dog",
+      "forms": {
+        "singular": "dog",
+        "plural": "dogs"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.dog.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.dog"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.cat.1",
+      "lemma": "cat",
+      "forms": {
+        "singular": "cat",
+        "plural": "cats"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.cat.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.cat"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.book.1",
+      "lemma": "book",
+      "forms": {
+        "singular": "book",
+        "plural": "books"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.book.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.book"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.apple.1",
+      "lemma": "apple",
+      "forms": {
+        "singular": "apple",
+        "plural": "apples"
+      },
+      "indefiniteArticle": "an",
+      "senses": [
+        {
+          "id": "en.apple.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.apple"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.bank.1",
+      "lemma": "bank",
+      "forms": {
+        "singular": "bank",
+        "plural": "banks"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.bank.finance.1",
+          "priority": 2,
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.financial_institution"
+          }
+        },
+        {
+          "id": "en.bank.river.1",
+          "priority": 0,
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.riverbank"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.hound.1",
+      "lemma": "hound",
+      "forms": {
+        "singular": "hound",
+        "plural": "hounds"
+      },
+      "indefiniteArticle": "a",
+      "priority": -10,
+      "senses": [
+        {
+          "id": "en.hound.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.dog"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.fox.1",
+      "lemma": "fox",
+      "senses": [
+        {
+          "id": "en.fox.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.fox"
+          }
+        }
+      ],
+      "indefiniteArticle": "a",
+      "forms": {}
+    },
+    {
+      "id": "en.child.1",
+      "lemma": "child",
+      "senses": [
+        {
+          "id": "en.child.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.child"
+          }
+        }
+      ],
+      "indefiniteArticle": "a",
+      "forms": {}
+    },
+    {
+      "id": "en.house.1",
+      "lemma": "house",
+      "senses": [
+        {
+          "id": "en.house.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "structure.house"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.bicycle.1",
+      "lemma": "bicycle",
+      "senses": [
+        {
+          "id": "en.bicycle.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.bicycle"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.phone.1",
+      "lemma": "phone",
+      "senses": [
+        {
+          "id": "en.phone.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.phone"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.garden.1",
+      "lemma": "garden",
+      "senses": [
+        {
+          "id": "en.garden.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.garden"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.table.1",
+      "lemma": "table",
+      "senses": [
+        {
+          "id": "en.table.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.table"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.forest.1",
+      "lemma": "forest",
+      "senses": [
+        {
+          "id": "en.forest.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.forest"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.mother.1",
+      "lemma": "mother",
+      "senses": [
+        {
+          "id": "en.mother.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.mother"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.school.1",
+      "lemma": "school",
+      "senses": [
+        {
+          "id": "en.school.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "institution.school"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.river.1",
+      "lemma": "river",
+      "senses": [
+        {
+          "id": "en.river.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.river"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.window.1",
+      "lemma": "window",
+      "senses": [
+        {
+          "id": "en.window.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.window"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.tree.1",
+      "lemma": "tree",
+      "senses": [
+        {
+          "id": "en.tree.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.tree"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.city.1",
+      "lemma": "city",
+      "senses": [
+        {
+          "id": "en.city.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.city"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.mouse.1",
+      "lemma": "mouse",
+      "senses": [
+        {
+          "id": "en.mouse.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.mouse"
+          }
+        },
+        {
+          "id": "en.mouse.1.sense.device",
+          "coreRef": {
+            "kind": "concept",
+            "id": "device.computer_mouse"
+          },
+          "priority": -2
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.woman.1",
+      "lemma": "woman",
+      "senses": [
+        {
+          "id": "en.woman.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.woman"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.sister.1",
+      "lemma": "sister",
+      "forms": {
+        "singular": "sister",
+        "plural": "sisters"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.sister.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.sister"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.brother.1",
+      "lemma": "brother",
+      "forms": {
+        "singular": "brother",
+        "plural": "brothers"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.brother.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.brother"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.father.1",
+      "lemma": "father",
+      "forms": {
+        "singular": "father",
+        "plural": "fathers"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.father.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.father"
+          }
+        }
+      ]
+    }
+  ],
+  "verbs": [
+    {
+      "id": "en.give.1",
+      "lemma": "give",
+      "forms": {
+        "base": "give",
+        "present3sg": "gives",
+        "past": "gave",
+        "present3pl": "give"
+      },
+      "senses": [
+        {
+          "id": "en.give.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.transfer_possession"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.see.1",
+      "lemma": "see",
+      "forms": {
+        "base": "see",
+        "present3sg": "sees",
+        "past": "saw",
+        "present3pl": "see"
+      },
+      "senses": [
+        {
+          "id": "en.see.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.visual_perception"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.go.1",
+      "lemma": "go",
+      "senses": [
+        {
+          "id": "en.go.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.movement"
+          }
+        }
+      ],
+      "forms": {
+        "base": "go",
+        "present3sg": "goes",
+        "present3pl": "go",
+        "past": "went"
+      }
+    },
+    {
+      "id": "en.look_at.1",
+      "lemma": "look at",
+      "forms": {
+        "base": "look at",
+        "present3sg": "looks at",
+        "past": "looked at",
+        "present3pl": "look at"
+      },
+      "senses": [
+        {
+          "id": "en.look_at.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.visual_attention"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.pick_up.1",
+      "lemma": "pick up",
+      "forms": {
+        "base": "pick up",
+        "present3sg": "picks up",
+        "past": "picked up",
+        "present3pl": "pick up"
+      },
+      "senses": [
+        {
+          "id": "en.pick_up.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.raise_object"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.look_for.1",
+      "lemma": "look for",
+      "forms": {
+        "base": "look for",
+        "present3sg": "looks for",
+        "past": "looked for",
+        "present3pl": "look for"
+      },
+      "senses": [
+        {
+          "id": "en.look_for.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.search"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.listen_to.1",
+      "lemma": "listen to",
+      "forms": {
+        "base": "listen to",
+        "present3sg": "listens to",
+        "past": "listened to",
+        "present3pl": "listen to"
+      },
+      "senses": [
+        {
+          "id": "en.listen_to.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.auditory_attention"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.wait_for.1",
+      "lemma": "wait for",
+      "forms": {
+        "base": "wait for",
+        "present3sg": "waits for",
+        "past": "waited for",
+        "present3pl": "wait for"
+      },
+      "senses": [
+        {
+          "id": "en.wait_for.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.wait_for_entity"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.read.1",
+      "lemma": "read",
+      "forms": {
+        "base": "read",
+        "present3sg": "reads",
+        "past": "read",
+        "present3pl": "read"
+      },
+      "senses": [
+        {
+          "id": "en.read.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.read"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.help.1",
+      "lemma": "help",
+      "forms": {
+        "base": "help",
+        "present3sg": "helps",
+        "past": "helped",
+        "present3pl": "help"
+      },
+      "senses": [
+        {
+          "id": "en.help.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.help"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.write.1",
+      "lemma": "write",
+      "forms": {
+        "base": "write",
+        "present3sg": "writes",
+        "present3pl": "write",
+        "past": "wrote"
+      },
+      "senses": [
+        {
+          "id": "en.write.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.write"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.open.1",
+      "lemma": "open",
+      "forms": {
+        "base": "open",
+        "present3sg": "opens",
+        "present3pl": "open",
+        "past": "opened"
+      },
+      "senses": [
+        {
+          "id": "en.open.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.open"
+          }
+        }
+      ]
+    }
+  ],
+  "adjectives": [
+    {
+      "id": "en.big.adj.1",
+      "lemma": "big",
+      "indefiniteArticle": "a",
+      "forms": [
+        {
+          "text": "big"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.big.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.big"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.small.adj.1",
+      "lemma": "small",
+      "indefiniteArticle": "a",
+      "forms": [
+        {
+          "text": "small"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.small.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.small"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.red.adj.1",
+      "lemma": "red",
+      "indefiniteArticle": "a",
+      "forms": [
+        {
+          "text": "red"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.red.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.red"
+          }
+        }
+      ]
+    }
+  ],
+  "degrees": [
+    {
+      "id": "en.very.degree.1",
+      "lemma": "very",
+      "forms": [
+        {
+          "text": "very"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.very.degree.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "degree.very"
+          }
+        }
+      ]
+    }
+  ],
+  "quantifiers": [
+    {
+      "id": "en.all.quant.1",
+      "meaning": {
+        "kind": "universal"
+      },
+      "forms": [
+        {
+          "text": "all",
+          "when": {
+            "number": "plural"
+          }
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.all.quant.1.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "quantifier.universal"
+          }
+        }
+      ],
+      "lemma": "all"
+    },
+    {
+      "id": "en.two.quant.1",
+      "meaning": {
+        "kind": "exact",
+        "value": 2
+      },
+      "forms": [
+        {
+          "text": "two",
+          "when": {
+            "number": "plural"
+          }
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.two.quant.1.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "quantifier.exact",
+            "parameters": {
+              "value": 2
+            }
+          }
+        }
+      ],
+      "lemma": "two"
+    }
+  ],
+  "attitudes": [
+    {
+      "id": "en.believe.1",
+      "lemma": "believe",
+      "forms": {
+        "present": {
+          "singular": "believes",
+          "plural": "believe"
+        },
+        "past": {
+          "singular": "believed",
+          "plural": "believed"
+        }
+      },
+      "senses": [
+        {
+          "id": "en.believe.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.belief"
+          }
+        }
+      ]
+    }
+  ],
+  "lexicalModel": "1.01",
+  "functionWords": [
+    {
+      "id": "en.the.det",
+      "lemma": "the",
+      "pos": "PART",
+      "forms": [
+        {
+          "text": "the"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.the.det.sense.1",
+          "coreRef": {
+            "kind": "grammaticalFunction",
+            "id": "grammar.article.definite"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.a.det",
+      "lemma": "a",
+      "pos": "PART",
+      "forms": [
+        {
+          "text": "a"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.a.det.sense.1",
+          "coreRef": {
+            "kind": "grammaticalFunction",
+            "id": "grammar.article.indefinite"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.an.det",
+      "lemma": "an",
+      "pos": "PART",
+      "forms": [
+        {
+          "text": "an"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.an.det.sense.1",
+          "coreRef": {
+            "kind": "grammaticalFunction",
+            "id": "grammar.article.indefinite"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.not.particle",
+      "lemma": "not",
+      "pos": "PART",
+      "forms": [
+        {
+          "text": "not"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.not.particle.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "logic.negation"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.and.conj",
+      "lemma": "and",
+      "pos": "PART",
+      "forms": [
+        {
+          "text": "and"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.and.conj.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "logic.conjunction"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.to.prep",
+      "lemma": "to",
+      "pos": "PART",
+      "forms": [
+        {
+          "text": "to"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.to.prep.sense.1",
+          "coreRef": {
+            "kind": "grammaticalFunction",
+            "id": "grammar.dative_marker"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.that.comp",
+      "lemma": "that",
+      "pos": "PART",
+      "forms": [
+        {
+          "text": "that"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.that.comp.sense.1",
+          "coreRef": {
+            "kind": "grammaticalFunction",
+            "id": "grammar.complementizer"
+          }
+        },
+        {
+          "id": "en.that.comp.sense.relative",
+          "coreRef": {
+            "kind": "grammaticalFunction",
+            "id": "grammar.relative_marker"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.do.aux",
+      "lemma": "do",
+      "pos": "PART",
+      "forms": [
+        {
+          "text": "do"
+        },
+        {
+          "text": "does"
+        },
+        {
+          "text": "did"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.do.aux.sense.1",
+          "coreRef": {
+            "kind": "grammaticalFunction",
+            "id": "grammar.auxiliary"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.it.expletive",
+      "lemma": "it",
+      "pos": "PART",
+      "forms": [
+        {
+          "text": "it"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.it.expletive.sense.1",
+          "coreRef": {
+            "kind": "grammaticalFunction",
+            "id": "grammar.expletive"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.be.aux",
+      "lemma": "be",
+      "pos": "PART",
+      "forms": [
+        {
+          "text": "is"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.be.aux.sense.1",
+          "coreRef": {
+            "kind": "grammaticalFunction",
+            "id": "grammar.auxiliary"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.truth.predicate",
+      "lemma": "true",
+      "pos": "PART",
+      "forms": [
+        {
+          "text": "true"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.truth.predicate.sense.1",
+          "coreRef": {
+            "kind": "grammaticalFunction",
+            "id": "grammar.truth_predicate"
+          }
+        }
+      ]
+    }
+  ],
+  "modals": [
+    {
+      "id": "en.can.modal",
+      "lemma": "can",
+      "forms": {
+        "positive": {
+          "singular": "can",
+          "plural": "can"
+        },
+        "negative": {
+          "singular": "cannot",
+          "plural": "cannot"
+        }
+      },
+      "senses": [
+        {
+          "id": "en.can.modal.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "modality.ability"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.must.modal",
+      "lemma": "must",
+      "forms": {
+        "positive": {
+          "singular": "must",
+          "plural": "must"
+        },
+        "negative": {
+          "singular": "does not have to",
+          "plural": "do not have to"
+        },
+        "prohibition": {
+          "singular": "must not",
+          "plural": "must not"
+        }
+      },
+      "senses": [
+        {
+          "id": "en.must.modal.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "modality.obligation"
+          }
+        }
+      ]
+    }
+  ]
+}

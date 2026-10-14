@@ -1,0 +1,107 @@
+{
+  "version": "1.0",
+  "language": "tr",
+  "sentence": {
+    "subjectRole": "agent",
+    "terminator": ".",
+    "coordination": {
+      "and": "ve",
+      "wideNegation": null
+    }
+  },
+  "nounPhrase": {
+    "path": "forms.{number}.{case}",
+    "subjectCase": "nom",
+    "allowBare": true,
+    "determiners": {},
+    "qualified": {
+      "layouts": [
+        [
+          "quantifier",
+          "modifiers",
+          "noun"
+        ]
+      ]
+    },
+    "relatives": {
+      "maxDepth": 0,
+      "punctuation": "none",
+      "markers": []
+    }
+  },
+  "verb": {
+    "aspectSource": "unknown",
+    "rules": [
+      {
+        "tense": "past",
+        "polarity": "positive",
+        "when": {},
+        "prefix": [],
+        "path": "forms.past"
+      },
+      {
+        "tense": "past",
+        "polarity": "negative",
+        "when": {},
+        "prefix": [],
+        "path": "forms.pastNegative"
+      },
+      {
+        "tense": "present",
+        "polarity": "positive",
+        "when": {},
+        "prefix": [],
+        "path": "forms.present"
+      },
+      {
+        "tense": "present",
+        "polarity": "negative",
+        "when": {},
+        "prefix": [],
+        "path": "forms.presentNegative"
+      }
+    ],
+    "agreement": {}
+  },
+  "frames": {
+    "event.visual_perception": {
+      "cases": {
+        "agent": "nom",
+        "theme": {
+          "definite": "acc",
+          "indefinite": "nom",
+          "unknown": "acc"
+        }
+      },
+      "linearizations": [
+        [
+          "agent",
+          "theme",
+          "@verb"
+        ]
+      ]
+    },
+    "event.transfer_possession": {
+      "cases": {
+        "agent": "nom",
+        "recipient": "dat",
+        "theme": {
+          "definite": "acc",
+          "indefinite": "nom",
+          "unknown": "acc"
+        }
+      },
+      "linearizations": [
+        [
+          "agent",
+          "recipient",
+          "theme",
+          "@verb"
+        ]
+      ]
+    }
+  },
+  "messages": {
+    "definitenessUnknown": "Source does not specify definiteness; Turkish object marking uses the default definite form."
+  }
+}

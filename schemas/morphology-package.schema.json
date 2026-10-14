@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://flexlingua.local/schemas/morphology-package.schema.json",
+  "title": "flexLingua v1.11 morphology package",
+  "type": "object",
+  "required": ["version", "language", "paradigms", "bindings"],
+  "properties": {
+    "version": {"const": "1.11"},
+    "language": {"type": "string", "pattern": "^[a-z]{2,8}$"},
+    "provenance": {"type": "object"},
+    "paradigms": {
+      "type": "object",
+      "additionalProperties": {"$ref": "#/$defs/paradigm"}
+    },
+    "bindings": {
+      "type": "array", "maxItems": 30000,
+      "items": {"$ref": "#/$defs/binding"}
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "features": {"type": "object", "minProperties": 1, "additionalProperties": {"type": ["string", "integer"]}},
+    "operation": {
+      "type": "object",
+      "required": ["op"],
+      "properties": {
+        "op": {"enum": ["append", "prepend", "stripSuffix", "replaceSuffix", "selectStem", "harmonicSuffix", "softenFinal", "rootTemplate", "reduplicate"]},
+        "value": {"type": "string"}, "from": {"type": "string"}, "to": {"type": "string"},
+        "key": {"type": "string"}, "template": {"type": "string"}, "mode": {"type": "string"}
+      }, "additionalProperties": false
+    },
+    "slot": {
+      "type": "object", "required": ["features", "steps"],
+      "properties": {
+        "features": {"$ref": "#/$defs/features"},
+        "steps": {"type": "array", "maxItems": 16, "items": {"$ref": "#/$defs/operation"}},
+        "path": {"type": "array", "items": {"type": "string"}}
+      },"additionalProperties": false
+    },
+    "paradigm": {
+      "type": "object", "required": ["pos", "slots"],
+      "properties": {
+        "pos": {"enum": ["NOUN", "VERB", "ADJ"]},
+        "extends": {"type": "string"},
+        "slots": {"type": "array", "maxItems": 256, "items": {"$ref": "#/$defs/slot"}}
+      },"additionalProperties": false
+    },
+    "override": {
+      "type": "object", "required": ["when", "mode", "forms"],
+      "properties": {
+        "when": {"$ref": "#/$defs/features"},
+        "mode": {"enum": ["replace", "addVariant", "block"]},
+        "forms": {"type": "array", "maxItems": 8, "items": {
+          "type": "object", "required": ["text"],
+          "properties": {"text": {"type": "string"}, "variant": {"type": "string"}},
+          "additionalProperties": false
+        }}
+      },"additionalProperties": false
+    },
+    "binding": {
+      "type": "object", "required": ["lexemeId", "paradigmId", "stems", "overrides"],
+      "properties": {
+        "lexemeId": {"type": "string"}, "paradigmId": {"type": "string"},
+        "stems": {"type": "object", "additionalProperties": {"type": "string"}},
+        "overrides": {"type": "array", "items": {"$ref": "#/$defs/override"}}
+      },"additionalProperties": false
+    }
+  }
+}

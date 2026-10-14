@@ -1,0 +1,329 @@
+{
+  "version": "1.0",
+  "language": "en",
+  "sentence": {
+    "subjectRole": "agent",
+    "terminator": ".",
+    "coordination": {
+      "and": "and",
+      "wideNegation": "it is not true that"
+    },
+    "complement": {
+      "marker": "that",
+      "comma": false
+    }
+  },
+  "nounPhrase": {
+    "path": "forms.{number}",
+    "allowBare": false,
+    "determiners": {
+      "singular": {
+        "definite": {
+          "literal": "the"
+        },
+        "indefinite": {
+          "lexemeProperty": "indefiniteArticle"
+        }
+      },
+      "plural": {
+        "definite": {
+          "literal": "the"
+        },
+        "indefinite": {
+          "omit": true
+        }
+      }
+    },
+    "defaultDefiniteness": "indefinite",
+    "alternativeDefiniteness": "definite",
+    "qualified": {
+      "maxAdjectives": 3,
+      "maxDegreeDepth": 2,
+      "adjectiveOrder": "before",
+      "degreeOrder": "before",
+      "articleFromFirstModifier": true,
+      "layouts": [
+        [
+          "quantifier",
+          "determiner",
+          "modifiers",
+          "noun"
+        ],
+        [
+          "determiner",
+          "quantifier",
+          "modifiers",
+          "noun"
+        ]
+      ],
+      "layoutByQuantifier": {
+        "universal": 0,
+        "exact": 1
+      }
+    },
+    "relatives": {
+      "maxDepth": 2,
+      "punctuation": "none",
+      "markers": [
+        {
+          "gap": "agent",
+          "text": "that"
+        },
+        {
+          "gap": "agent",
+          "text": "who"
+        },
+        {
+          "gap": "theme",
+          "text": "that"
+        },
+        {
+          "gap": "theme",
+          "text": "which"
+        }
+      ]
+    }
+  },
+  "verb": {
+    "aspectSource": "unknown",
+    "rules": [
+      {
+        "tense": "past",
+        "polarity": "positive",
+        "when": {},
+        "prefix": [],
+        "path": "forms.past"
+      },
+      {
+        "tense": "present",
+        "polarity": "positive",
+        "when": {
+          "subject.number": "singular"
+        },
+        "prefix": [],
+        "path": "forms.present3sg"
+      },
+      {
+        "tense": "present",
+        "polarity": "positive",
+        "when": {
+          "subject.number": "plural"
+        },
+        "prefix": [],
+        "path": "forms.present3pl"
+      },
+      {
+        "tense": "past",
+        "polarity": "negative",
+        "when": {},
+        "prefix": [
+          "did",
+          "not"
+        ],
+        "path": "forms.base"
+      },
+      {
+        "tense": "present",
+        "polarity": "negative",
+        "when": {
+          "subject.number": "singular"
+        },
+        "prefix": [
+          "does",
+          "not"
+        ],
+        "path": "forms.base"
+      },
+      {
+        "tense": "present",
+        "polarity": "negative",
+        "when": {
+          "subject.number": "plural"
+        },
+        "prefix": [
+          "do",
+          "not"
+        ],
+        "path": "forms.base"
+      }
+    ],
+    "agreement": {}
+  },
+  "frames": {
+    "event.transfer_possession": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb",
+          "recipient",
+          "theme"
+        ],
+        [
+          "agent",
+          "@verb",
+          "theme",
+          "@to",
+          "recipient"
+        ]
+      ]
+    },
+    "event.visual_perception": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb",
+          "theme"
+        ]
+      ]
+    },
+    "event.movement": {
+      "cases": {
+        "agent": "nom"
+      },
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ]
+    },
+    "event.visual_attention": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb",
+          "theme"
+        ]
+      ],
+      "whTheme": true
+    },
+    "event.raise_object": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb",
+          "theme"
+        ]
+      ]
+    },
+    "event.search": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb",
+          "theme"
+        ]
+      ],
+      "whTheme": true
+    },
+    "event.auditory_attention": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb",
+          "theme"
+        ]
+      ],
+      "whTheme": true
+    },
+    "event.wait_for_entity": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb",
+          "theme"
+        ]
+      ],
+      "whTheme": true
+    },
+    "event.read": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb",
+          "theme"
+        ]
+      ]
+    },
+    "event.help": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb",
+          "theme"
+        ]
+      ]
+    },
+    "event.write": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb",
+          "theme"
+        ]
+      ]
+    },
+    "event.open": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb",
+          "theme"
+        ]
+      ]
+    }
+  },
+  "messages": {
+    "unknownSubject": "Unrecognized English subject noun phrase.",
+    "unknownVerb": "Unrecognized English verb form.",
+    "agreement": "Verb form does not agree with subject.",
+    "definitenessUnknown": "Source does not specify definiteness for: {roles}; target determiners are selected by an explicit display policy."
+  },
+  "questions": {
+    "yesNo": {
+      "mode": "auxiliary",
+      "auxiliaries": {
+        "past": "did",
+        "presentSingular": "does",
+        "presentPlural": "do"
+      },
+      "baseVerbPath": "forms.base",
+      "negator": "not"
+    },
+    "wh": {
+      "agent": {
+        "marker": "who",
+        "agreement": {
+          "number": "singular",
+          "gender": "masculine",
+          "pluralClass": "nonvirile"
+        }
+      },
+      "theme": {
+        "marker": "what",
+        "order": "auxiliary"
+      }
+    }
+  },
+  "modality": {
+    "infinitivePath": "forms.base",
+    "questionStrategy": "front",
+    "supportedTense": "present"
+  },
+  "anaphora": {
+    "subjectPronouns": [
+      {
+        "text": "she",
+        "concepts": [
+          "person.girl"
+        ]
+      },
+      {
+        "text": "he",
+        "concepts": [
+          "person.boy"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,679 @@
+{
+  "version": "1.11",
+  "language": "en",
+  "provenance": {
+    "source": "flexLingua curated forms",
+    "license": "project authored"
+  },
+  "paradigms": {
+    "en.noun.regular": {
+      "pos": "NOUN",
+      "slots": [
+        {
+          "features": {
+            "number": "singular"
+          },
+          "steps": [],
+          "path": [
+            "singular"
+          ]
+        },
+        {
+          "features": {
+            "number": "plural"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "s"
+            }
+          ],
+          "path": [
+            "plural"
+          ]
+        }
+      ]
+    },
+    "en.noun.sibilant": {
+      "pos": "NOUN",
+      "extends": "en.noun.regular",
+      "slots": [
+        {
+          "features": {
+            "number": "plural"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "es"
+            }
+          ],
+          "path": [
+            "plural"
+          ]
+        }
+      ]
+    },
+    "en.verb.regular": {
+      "pos": "VERB",
+      "slots": [
+        {
+          "features": {
+            "tense": "present",
+            "number": "singular",
+            "person": "third"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "s"
+            }
+          ],
+          "path": [
+            "present3sg"
+          ]
+        },
+        {
+          "features": {
+            "tense": "present",
+            "number": "plural",
+            "person": "third"
+          },
+          "steps": [],
+          "path": [
+            "present3pl"
+          ]
+        },
+        {
+          "features": {
+            "tense": "past"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "ed"
+            }
+          ],
+          "path": [
+            "past"
+          ]
+        },
+        {
+          "features": {
+            "mood": "indicative"
+          },
+          "steps": [],
+          "path": [
+            "base"
+          ]
+        }
+      ]
+    },
+    "en.adj.invariant": {
+      "pos": "ADJ",
+      "slots": [
+        {
+          "features": {
+            "number": "singular"
+          },
+          "steps": []
+        },
+        {
+          "features": {
+            "number": "plural"
+          },
+          "steps": []
+        }
+      ]
+    },
+    "en.noun.consonant_y": {
+      "pos": "NOUN",
+      "extends": "en.noun.regular",
+      "slots": [
+        {
+          "features": {
+            "number": "plural"
+          },
+          "steps": [
+            {
+              "op": "stripSuffix",
+              "value": "y"
+            },
+            {
+              "op": "append",
+              "value": "ies"
+            }
+          ],
+          "path": [
+            "plural"
+          ]
+        }
+      ]
+    },
+    "en.verb.regular_particle": {
+      "pos": "VERB",
+      "slots": [
+        {
+          "features": {
+            "tense": "present",
+            "number": "singular",
+            "person": "third"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "s"
+            },
+            {
+              "op": "appendStem",
+              "key": "particle"
+            }
+          ],
+          "path": [
+            "present3sg"
+          ]
+        },
+        {
+          "features": {
+            "tense": "present",
+            "number": "plural",
+            "person": "third"
+          },
+          "steps": [
+            {
+              "op": "appendStem",
+              "key": "particle"
+            }
+          ],
+          "path": [
+            "present3pl"
+          ]
+        },
+        {
+          "features": {
+            "tense": "past"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "ed"
+            },
+            {
+              "op": "appendStem",
+              "key": "particle"
+            }
+          ],
+          "path": [
+            "past"
+          ]
+        },
+        {
+          "features": {
+            "mood": "indicative"
+          },
+          "steps": [
+            {
+              "op": "appendStem",
+              "key": "particle"
+            }
+          ],
+          "path": [
+            "base"
+          ]
+        }
+      ]
+    }
+  },
+  "bindings": [
+    {
+      "lexemeId": "en.girl.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "girl"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.boy.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "boy"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.dog.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "dog"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.cat.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "cat"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.book.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "book"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.apple.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "apple"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.bank.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "bank"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.hound.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "hound"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.fox.1",
+      "paradigmId": "en.noun.sibilant",
+      "stems": {
+        "base": "fox"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.child.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "child"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "plural"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "children"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "en.give.1",
+      "paradigmId": "en.verb.regular",
+      "stems": {
+        "base": "give"
+      },
+      "overrides": [
+        {
+          "when": {
+            "tense": "past"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "gave"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "en.see.1",
+      "paradigmId": "en.verb.regular",
+      "stems": {
+        "base": "see"
+      },
+      "overrides": [
+        {
+          "when": {
+            "tense": "past"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "saw"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "en.go.1",
+      "paradigmId": "en.verb.regular",
+      "stems": {
+        "base": "go"
+      },
+      "overrides": [
+        {
+          "when": {
+            "tense": "present",
+            "number": "singular",
+            "person": "third"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "goes"
+            }
+          ]
+        },
+        {
+          "when": {
+            "tense": "past"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "went"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "en.big.adj.1",
+      "paradigmId": "en.adj.invariant",
+      "stems": {
+        "base": "big"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.small.adj.1",
+      "paradigmId": "en.adj.invariant",
+      "stems": {
+        "base": "small"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.red.adj.1",
+      "paradigmId": "en.adj.invariant",
+      "stems": {
+        "base": "red"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.house.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "house"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.bicycle.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "bicycle"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.phone.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "phone"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.garden.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "garden"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.table.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "table"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.forest.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "forest"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.mother.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "mother"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.school.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "school"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.river.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "river"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.window.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "window"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tree.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "tree"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.city.1",
+      "paradigmId": "en.noun.consonant_y",
+      "stems": {
+        "base": "city"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.mouse.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "mouse"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "plural"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "mice"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "en.woman.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "woman"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "plural"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "women"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "en.look_at.1",
+      "paradigmId": "en.verb.regular_particle",
+      "stems": {
+        "base": "look",
+        "particle": " at"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.pick_up.1",
+      "paradigmId": "en.verb.regular_particle",
+      "stems": {
+        "base": "pick",
+        "particle": " up"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.look_for.1",
+      "paradigmId": "en.verb.regular_particle",
+      "stems": {
+        "base": "look",
+        "particle": " for"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.listen_to.1",
+      "paradigmId": "en.verb.regular_particle",
+      "stems": {
+        "base": "listen",
+        "particle": " to"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.wait_for.1",
+      "paradigmId": "en.verb.regular_particle",
+      "stems": {
+        "base": "wait",
+        "particle": " for"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.sister.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "sister"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.brother.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "brother"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.read.1",
+      "paradigmId": "en.verb.regular",
+      "stems": {
+        "base": "read"
+      },
+      "overrides": [
+        {
+          "when": {
+            "tense": "past"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "read"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "en.help.1",
+      "paradigmId": "en.verb.regular",
+      "stems": {
+        "base": "help"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.father.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "father"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.write.1",
+      "paradigmId": "en.verb.regular",
+      "stems": {
+        "base": "write"
+      },
+      "overrides": [
+        {
+          "when": {
+            "tense": "past"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "wrote"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "en.open.1",
+      "paradigmId": "en.verb.regular",
+      "stems": {
+        "base": "open"
+      },
+      "overrides": []
+    }
+  ]
+}

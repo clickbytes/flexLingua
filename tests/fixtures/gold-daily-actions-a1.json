@@ -1,0 +1,430 @@
+{
+  "schemaVersion": 1,
+  "license": "project-authored",
+  "origin": "Independent project-authored A1 daily activity gold, not Oxford-derived",
+  "enToPl": [
+    {
+      "id": "A1A-EN-01",
+      "input": "The father writes the book.",
+      "expected": "Ojciec pisze książkę.",
+      "concept": "event.write",
+      "agent": "person.father",
+      "theme": "object.book",
+      "tense": "present",
+      "polarity": "positive",
+      "question": false
+    },
+    {
+      "id": "A1A-EN-02",
+      "input": "The sister wrote the book.",
+      "expected": "Siostra pisała książkę.",
+      "concept": "event.write",
+      "agent": "person.sister",
+      "theme": "object.book",
+      "tense": "past",
+      "polarity": "positive",
+      "question": false
+    },
+    {
+      "id": "A1A-EN-03",
+      "input": "The fathers write the book.",
+      "expected": "Ojcowie piszą książkę.",
+      "concept": "event.write",
+      "agent": "person.father",
+      "theme": "object.book",
+      "tense": "present",
+      "polarity": "positive",
+      "question": false
+    },
+    {
+      "id": "A1A-EN-04",
+      "input": "The sister does not write the book.",
+      "expected": "Siostra nie pisze książki.",
+      "concept": "event.write",
+      "agent": "person.sister",
+      "theme": "object.book",
+      "tense": "present",
+      "polarity": "negative",
+      "question": false
+    },
+    {
+      "id": "A1A-EN-05",
+      "input": "The father opens the book.",
+      "expected": "Ojciec otwiera książkę.",
+      "concept": "event.open",
+      "agent": "person.father",
+      "theme": "object.book",
+      "tense": "present",
+      "polarity": "positive",
+      "question": false
+    },
+    {
+      "id": "A1A-EN-06",
+      "input": "The sister opened the book.",
+      "expected": "Siostra otwierała książkę.",
+      "concept": "event.open",
+      "agent": "person.sister",
+      "theme": "object.book",
+      "tense": "past",
+      "polarity": "positive",
+      "question": false
+    },
+    {
+      "id": "A1A-EN-07",
+      "input": "The sisters open the book.",
+      "expected": "Siostry otwierają książkę.",
+      "concept": "event.open",
+      "agent": "person.sister",
+      "theme": "object.book",
+      "tense": "present",
+      "polarity": "positive",
+      "question": false
+    },
+    {
+      "id": "A1A-EN-08",
+      "input": "The father does not open the book.",
+      "expected": "Ojciec nie otwiera książki.",
+      "concept": "event.open",
+      "agent": "person.father",
+      "theme": "object.book",
+      "tense": "present",
+      "polarity": "negative",
+      "question": false
+    },
+    {
+      "id": "A1A-EN-09",
+      "input": "What does the father open?",
+      "expected": "Co otwiera ojciec?",
+      "concept": "event.open",
+      "agent": "person.father",
+      "theme": null,
+      "tense": "present",
+      "polarity": "positive",
+      "question": true
+    },
+    {
+      "id": "A1A-EN-10",
+      "input": "Does the sister write the book?",
+      "expected": "Czy siostra pisze książkę?",
+      "concept": "event.write",
+      "agent": "person.sister",
+      "theme": "object.book",
+      "tense": "present",
+      "polarity": "positive",
+      "question": true
+    }
+  ],
+  "plToEn": [
+    {
+      "id": "A1A-PL-01",
+      "input": "Ojciec pisze książkę.",
+      "expected": "A father writes a book.",
+      "concept": "event.write",
+      "agent": "person.father",
+      "theme": "object.book",
+      "tense": "present",
+      "polarity": "positive",
+      "question": false
+    },
+    {
+      "id": "A1A-PL-02",
+      "input": "Siostra pisała książkę.",
+      "expected": "A sister wrote a book.",
+      "concept": "event.write",
+      "agent": "person.sister",
+      "theme": "object.book",
+      "tense": "past",
+      "polarity": "positive",
+      "question": false
+    },
+    {
+      "id": "A1A-PL-03",
+      "input": "Ojcowie piszą książkę.",
+      "expected": "Fathers write a book.",
+      "concept": "event.write",
+      "agent": "person.father",
+      "theme": "object.book",
+      "tense": "present",
+      "polarity": "positive",
+      "question": false
+    },
+    {
+      "id": "A1A-PL-04",
+      "input": "Siostra nie pisze książki.",
+      "expected": "A sister does not write a book.",
+      "concept": "event.write",
+      "agent": "person.sister",
+      "theme": "object.book",
+      "tense": "present",
+      "polarity": "negative",
+      "question": false
+    },
+    {
+      "id": "A1A-PL-05",
+      "input": "Ojciec otwiera książkę.",
+      "expected": "A father opens a book.",
+      "concept": "event.open",
+      "agent": "person.father",
+      "theme": "object.book",
+      "tense": "present",
+      "polarity": "positive",
+      "question": false
+    },
+    {
+      "id": "A1A-PL-06",
+      "input": "Siostra otwierała książkę.",
+      "expected": "A sister opened a book.",
+      "concept": "event.open",
+      "agent": "person.sister",
+      "theme": "object.book",
+      "tense": "past",
+      "polarity": "positive",
+      "question": false
+    },
+    {
+      "id": "A1A-PL-07",
+      "input": "Siostry otwierają książkę.",
+      "expected": "Sisters open a book.",
+      "concept": "event.open",
+      "agent": "person.sister",
+      "theme": "object.book",
+      "tense": "present",
+      "polarity": "positive",
+      "question": false
+    },
+    {
+      "id": "A1A-PL-08",
+      "input": "Ojciec nie otwiera książki.",
+      "expected": "A father does not open a book.",
+      "concept": "event.open",
+      "agent": "person.father",
+      "theme": "object.book",
+      "tense": "present",
+      "polarity": "negative",
+      "question": false
+    },
+    {
+      "id": "A1A-PL-09",
+      "input": "Co otwiera ojciec?",
+      "expected": "What does a father open?",
+      "concept": "event.open",
+      "agent": "person.father",
+      "theme": null,
+      "tense": "present",
+      "polarity": "positive",
+      "question": true
+    },
+    {
+      "id": "A1A-PL-10",
+      "input": "Czy siostra pisze książkę?",
+      "expected": "Does a sister write a book?",
+      "concept": "event.write",
+      "agent": "person.sister",
+      "theme": "object.book",
+      "tense": "present",
+      "polarity": "positive",
+      "question": true
+    }
+  ],
+  "morphology": [
+    {
+      "language": "pl",
+      "lexemeId": "pl.pisac.1",
+      "features": {
+        "tense": "present",
+        "number": "singular",
+        "person": "third"
+      },
+      "text": "pisze"
+    },
+    {
+      "language": "pl",
+      "lexemeId": "pl.pisac.1",
+      "features": {
+        "tense": "present",
+        "number": "plural",
+        "person": "third"
+      },
+      "text": "piszą"
+    },
+    {
+      "language": "pl",
+      "lexemeId": "pl.pisac.1",
+      "features": {
+        "tense": "past",
+        "number": "singular",
+        "gender": "masculine"
+      },
+      "text": "pisał"
+    },
+    {
+      "language": "pl",
+      "lexemeId": "pl.pisac.1",
+      "features": {
+        "tense": "past",
+        "number": "singular",
+        "gender": "feminine"
+      },
+      "text": "pisała"
+    },
+    {
+      "language": "pl",
+      "lexemeId": "pl.pisac.1",
+      "features": {
+        "tense": "past",
+        "number": "plural",
+        "pluralClass": "virile"
+      },
+      "text": "pisali"
+    },
+    {
+      "language": "pl",
+      "lexemeId": "pl.otwierac.1",
+      "features": {
+        "tense": "present",
+        "number": "singular",
+        "person": "third"
+      },
+      "text": "otwiera"
+    },
+    {
+      "language": "pl",
+      "lexemeId": "pl.otwierac.1",
+      "features": {
+        "tense": "present",
+        "number": "plural",
+        "person": "third"
+      },
+      "text": "otwierają"
+    },
+    {
+      "language": "pl",
+      "lexemeId": "pl.otwierac.1",
+      "features": {
+        "tense": "past",
+        "number": "singular",
+        "gender": "feminine"
+      },
+      "text": "otwierała"
+    },
+    {
+      "language": "pl",
+      "lexemeId": "pl.otwierac.1",
+      "features": {
+        "tense": "past",
+        "number": "plural",
+        "pluralClass": "virile"
+      },
+      "text": "otwierali"
+    },
+    {
+      "language": "en",
+      "lexemeId": "en.write.1",
+      "features": {
+        "tense": "present",
+        "number": "singular",
+        "person": "third"
+      },
+      "text": "writes"
+    },
+    {
+      "language": "en",
+      "lexemeId": "en.write.1",
+      "features": {
+        "tense": "past"
+      },
+      "text": "wrote"
+    },
+    {
+      "language": "en",
+      "lexemeId": "en.write.1",
+      "features": {
+        "tense": "present",
+        "number": "plural",
+        "person": "third"
+      },
+      "text": "write"
+    },
+    {
+      "language": "en",
+      "lexemeId": "en.open.1",
+      "features": {
+        "tense": "present",
+        "number": "singular",
+        "person": "third"
+      },
+      "text": "opens"
+    },
+    {
+      "language": "en",
+      "lexemeId": "en.open.1",
+      "features": {
+        "tense": "past"
+      },
+      "text": "opened"
+    },
+    {
+      "language": "en",
+      "lexemeId": "en.open.1",
+      "features": {
+        "tense": "present",
+        "number": "plural",
+        "person": "third"
+      },
+      "text": "open"
+    }
+  ],
+  "invalid": [
+    {
+      "from": "en",
+      "input": "The father open the window.",
+      "reason": "singular present requires opens"
+    },
+    {
+      "from": "pl",
+      "input": "Ojciec otwierają okno.",
+      "reason": "singular subject disagrees with verb"
+    },
+    {
+      "from": "en",
+      "input": "The father opens the sister.",
+      "reason": "open.theme must be physical_object"
+    },
+    {
+      "from": "pl",
+      "input": "Siostra otwiera ojca.",
+      "reason": "person cannot be physical open theme"
+    },
+    {
+      "from": "en",
+      "input": "What does the father open the window?",
+      "reason": "filled WH gap"
+    }
+  ],
+  "productiveOnly": [
+    {
+      "id": "A1A-PROD-01",
+      "from": "en",
+      "to": "pl",
+      "input": "The father opens the window.",
+      "expected": "Ojciec otwiera okno.",
+      "concept": "event.open",
+      "agent": "person.father",
+      "theme": "object.window",
+      "tense": "present",
+      "polarity": "positive"
+    },
+    {
+      "id": "A1A-PROD-02",
+      "from": "pl",
+      "to": "en",
+      "input": "Siostra otwierała okno.",
+      "expected": "A sister opened a window.",
+      "concept": "event.open",
+      "agent": "person.sister",
+      "theme": "object.window",
+      "tense": "past",
+      "polarity": "positive"
+    }
+  ]
+}
