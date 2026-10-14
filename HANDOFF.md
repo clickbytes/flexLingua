@@ -1,3 +1,15 @@
+# CHECKPOINT A1 BATCH 7 — katalog i wykonanie testów z sześciu źródeł
+
+**Repo:** tylko `clickbytes/flexLingua`; branch `core/a1-batch7-evidence-ledger-20261014`, baza `6b738f6814caf73812282bef95bc259ed64aaf2d`.
+
+- Dodano `tools/a1-evidence-ledger-lib.mjs`, CLI, pięć testów regresyjnych, nowe skrypty `report:a1-evidence` i `check:a1-evidence`, wymagalność w CI i `check:release`.
+- Sześć fixture'ów: **115** pozytywnych (w tym 2 produktywne `window/okno`), **25** odmów i **60** komórek morfologicznych. Jawnie opisane znaczenia, bez dopowiadania brakujących ról na podstawie parsera.
+- Katalog `--catalog-only` ma wyłącznie `not-run`; zwykła komenda uruchamia sześć faktycznych programów Node i kończy się błędem dla choć jednego niepowodzenia. Simulowane testy funkcjonalne ledger na danych: 14 celów w obu kierunkach, 2 w jednym, 7 bez jawnej adnotacji. NIE jest to procent CEFR ani jeszcze wynik hosted CI.
+- Korekta: brak identyfikatorów u części negatywnych przypadków obsłużony stałym `NEG-<source>-NN` tylko w raporcie; istniejące fixture'y pozostają niezmienione.
+- Prawdziwa walidacja Node w GitHub Actions wymagana przed merge i `HANDOFF` wymaga aktualizacji wyniku. Pozostające błędy GUI/standalone poza CORE: [clickbytes issue #1](https://github.com/clickbytes/flexLingua/issues/1).
+
+---
+
 ## Korekta Batch 7 — różny format negatywnych fixture'ów
 
 W zestawach family/father/movement/actions odmowy były przechowywane bez `id`, podczas gdy G2 ma jawne identyfikatory. Ledger przydziela im deterministyczne `NEG-<source>-NN` tylko na potrzeby raportu; pozytywne przypadki nadal muszą mieć własne unikatowe ID. Nie modyfikowano oryginalnych zbiorów testowych.

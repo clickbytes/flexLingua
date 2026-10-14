@@ -420,3 +420,7 @@ Dodano kontrolowaną konstrukcję `event.movement` w obu językach, odmianę pol
 ## Aktywne repozytorium i CI (14.10.2026)
 
 Dalszy rozwój oraz wszystkie nowe PR i issues odbywają się wyłącznie na **[clickbytes/flexLingua](https://github.com/clickbytes/flexLingua)**. Poprzednie repozytorium jest historycznym źródłem migawki, a nie miejscem dalszych zapisów. Import zachowuje 158 plików i identyczne Git tree SHA; GitHub Actions uruchomiło na nowym koncie runner oraz pełną kolekcję testów Node. [Szczegóły i status CI](docs/migration-clickbytes.md). GUI nadal należy do osobnego agenta.
+
+## A1 Batch 7 — wspólny raport dowodów
+
+`npm run report:a1-evidence` pokazuje katalog 6 autorskich zestawów i wyraźne `not-run`; `npm run check:a1-evidence` rzeczywiście wykonuje ich testy Node, zachowując statusy i dowody per cel. To nie jest procent CEFR A1. [Metodologia i liczby](docs/a1-evidence-ledger.md).
