@@ -2348,12 +2348,20 @@
       "lemma": "móc",
       "forms": {
         "positive": {
-          "singular": "może",
-          "plural": "mogą"
+          "firstSingular": "mogę",
+          "secondSingular": "możesz",
+          "thirdSingular": "może",
+          "firstPlural": "możemy",
+          "secondPlural": "możecie",
+          "thirdPlural": "mogą"
         },
         "negative": {
-          "singular": "nie może",
-          "plural": "nie mogą"
+          "firstSingular": "nie mogę",
+          "secondSingular": "nie możesz",
+          "thirdSingular": "nie może",
+          "firstPlural": "nie możemy",
+          "secondPlural": "nie możecie",
+          "thirdPlural": "nie mogą"
         }
       },
       "senses": [
@@ -2371,12 +2379,20 @@
       "lemma": "musieć",
       "forms": {
         "positive": {
-          "singular": "musi",
-          "plural": "muszą"
+          "firstSingular": "muszę",
+          "secondSingular": "musisz",
+          "thirdSingular": "musi",
+          "firstPlural": "musimy",
+          "secondPlural": "musicie",
+          "thirdPlural": "muszą"
         },
         "negative": {
-          "singular": "nie musi",
-          "plural": "nie muszą"
+          "firstSingular": "nie muszę",
+          "secondSingular": "nie musisz",
+          "thirdSingular": "nie musi",
+          "firstPlural": "nie musimy",
+          "secondPlural": "nie musicie",
+          "thirdPlural": "nie muszą"
         }
       },
       "senses": [

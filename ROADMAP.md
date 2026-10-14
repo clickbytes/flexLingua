@@ -73,7 +73,11 @@ PERS-04 scalono przez [PR #91](https://github.com/clickbytes/flexLingua/pull/91)
 
 ### PERS-05 — angielskie uzgodnienie i pytania
 
-PERS-05 jest w trakcie realizacji na gałęzi `core/p0-pers05-english-agreement`. Angielskie pytania pomocnicze wybierają teraz `do/does` na podstawie osoby i liczby podmiotu; praca obejmuje przeczenia, pytania oraz zachowanie referenta w obu kierunkach PL/EN.
+PERS-05 ukończono w [PR #92](https://github.com/clickbytes/flexLingua/pull/92), merge SHA `7ca0995`; wszystkie trzy jobs przeszły w Actions #38637097580. Angielskie `do/does`, przeczenia, pytania i zachowanie referenta działają w kontrolowanym zakresie PL/EN; nieobsługiwany polski czas przeszły jawnie odmawia.
+
+### PERS-06 — niezależny gold osoby 1./2. i deiksy
+
+PERS-06 jest realizowane na `core/p0-pers06-person-gold`: dodaje 40 autorskich przypadków PL/EN, 10 odmów, modalne paradygmaty wszystkich sześciu osób/liczb oraz osobną bramkę gold w CI i rejestrze dowodów.
 
 ### Kamienie milowe A1
 
@@ -241,7 +245,7 @@ Dołączono znaczenia pisania i otwierania, ich morfologię, testy semantyczne i
 
 ## A1 Batch 7 (14.10.2026)
 
-Scalanie dowodów z sześciu niezależnych fixture'ów: 115 przykładów pozytywnych, 25 odmów, 60 komórek; `check:a1-evidence` uruchamia rzeczywiste testy, a `report:a1-evidence` nie udaje ich wykonania. Pomiar całego CEFR nadal niedostępny. [Opis](docs/a1-evidence-ledger.md). Kolejne batche: osoba 1/2, `być/mieć`, relacje miejsca i kierunku. Prace nad GUI są śledzone w epiku GUI.
+Scalanie dowodów z siedmiu niezależnych fixture'ów: 155 przykładów pozytywnych, 35 odmów, 60 komórek morfologii i 2 komórki productive-only; `check:a1-evidence` uruchamia rzeczywiste testy, a `report:a1-evidence` nie udaje ich wykonania. Pomiar całego CEFR nadal niedostępny. [Opis](docs/a1-evidence-ledger.md). Kolejne batche: `być/mieć` i relacje miejsca oraz kierunku. Prace nad GUI są śledzone w epiku GUI.
 
 ## VAL-01 — zamrożenie autorskiego zakresu A1 (14.10.2026)
 
@@ -253,4 +257,4 @@ Przyjęto kontrakt rozdzielający kotwicę referenta (`speaker`/`addressee`) od 
 
 ## Backlog egzekwowalny i epiki (14.10.2026)
 
-Otwarto **14 epików / 67 tasków** w `clickbytes/flexLingua`; każde ma rodzica, AC i kontrakt plików oraz checklistę. [BACKLOG](docs/planning/BACKLOG.md), [ISSUE_MAP](docs/planning/ISSUE_MAP.json), [EXECUTION_ORDER](docs/planning/EXECUTION_ORDER.md). Epik A1 nie jest certyfikacją CEFR. Po merge PR #91 `main` SHA `d355d87` ma wszystkie trzy jobs green w Actions #38635488680; GUI #1 jest zamknięte, standalone wycofano. Każdy PR wymaga własnego rzeczywistego Actions run; status, SHA i dowody trafiają do issue/PR.
+Otwarto **14 epików / 67 tasków** w `clickbytes/flexLingua`; każde ma rodzica, AC i kontrakt plików oraz checklistę. [BACKLOG](docs/planning/BACKLOG.md), [ISSUE_MAP](docs/planning/ISSUE_MAP.json), [EXECUTION_ORDER](docs/planning/EXECUTION_ORDER.md). Epik A1 nie jest certyfikacją CEFR. Po merge PR #92 `main` SHA `7ca0995` ma wszystkie trzy jobs green w Actions #38637097580; GUI #1 jest zamknięte, standalone wycofano. Każdy PR wymaga własnego rzeczywistego Actions run; status, SHA i dowody trafiają do issue/PR.

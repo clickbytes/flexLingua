@@ -5,7 +5,8 @@ export const EVIDENCE_SOURCES = Object.freeze([
  {id:'father',fixture:'tests/fixtures/gold-father-a1.json',args:['--test','tests/father-a1.test.js']},
  {id:'movement',fixture:'tests/fixtures/gold-movement-a1.json',args:['--test','tests/movement-a1.test.js']},
  {id:'actions',fixture:'tests/fixtures/gold-daily-actions-a1.json',args:['--test','tests/daily-actions-a1.test.js']},
- {id:'composition',fixture:'tests/fixtures/gold-a1-crossbatch.json',args:['--test','tests/a1-crossbatch-composition.test.js']}
+ {id:'composition',fixture:'tests/fixtures/gold-a1-crossbatch.json',args:['--test','tests/a1-crossbatch-composition.test.js']},
+ {id:'person',fixture:'tests/fixtures/gold-person-a1.json',args:['--test','tests/a1-person-gold.test.js']}
 ]);
 const record=x=>x!==null&&typeof x==='object'&&!Array.isArray(x);
 const word=x=>typeof x==='string'&&x.trim().length>0;
@@ -179,6 +180,6 @@ export function buildA1EvidenceLedger({manifest,ontology,corpora,checks}) {
    overlappingInputIds:overlapped.slice(0,25),
    cefr:{level:'A1',percentage:null,status:'not-measured',
      reason:'Small authored and overlapping samples with no representative CEFR denominator.'},
-   release:{verified:false,reason:'Gold suites alone do not verify full Node regression or GUI offline parity.'}
+   release:{verified:false,reason:'Gold suites alone do not verify the full Node regression and release gate.'}
  };
 }

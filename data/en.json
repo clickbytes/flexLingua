@@ -1096,12 +1096,20 @@
       "lemma": "can",
       "forms": {
         "positive": {
-          "singular": "can",
-          "plural": "can"
+          "firstSingular": "can",
+          "secondSingular": "can",
+          "thirdSingular": "can",
+          "firstPlural": "can",
+          "secondPlural": "can",
+          "thirdPlural": "can"
         },
         "negative": {
-          "singular": "cannot",
-          "plural": "cannot"
+          "firstSingular": "cannot",
+          "secondSingular": "cannot",
+          "thirdSingular": "cannot",
+          "firstPlural": "cannot",
+          "secondPlural": "cannot",
+          "thirdPlural": "cannot"
         }
       },
       "senses": [
@@ -1119,16 +1127,28 @@
       "lemma": "must",
       "forms": {
         "positive": {
-          "singular": "must",
-          "plural": "must"
+          "firstSingular": "must",
+          "secondSingular": "must",
+          "thirdSingular": "must",
+          "firstPlural": "must",
+          "secondPlural": "must",
+          "thirdPlural": "must"
         },
         "negative": {
-          "singular": "does not have to",
-          "plural": "do not have to"
+          "firstSingular": "do not have to",
+          "secondSingular": "do not have to",
+          "thirdSingular": "does not have to",
+          "firstPlural": "do not have to",
+          "secondPlural": "do not have to",
+          "thirdPlural": "do not have to"
         },
         "prohibition": {
-          "singular": "must not",
-          "plural": "must not"
+          "firstSingular": "must not",
+          "secondSingular": "must not",
+          "thirdSingular": "must not",
+          "firstPlural": "must not",
+          "secondPlural": "must not",
+          "thirdPlural": "must not"
         }
       },
       "senses": [

@@ -32,7 +32,7 @@ test('G1: CI runs Node, lexical and aggregate release checks without a standalon
     assert.match(workflow,new RegExp(`^  ${name}:$`,'m'));
   }
   for(const run of ['npm test','npm run check:lexicon','npm run check:morphology',
-    'npm run check:gold','npm run check:a1-gold','npm run check:gold-family','npm run check:gold-father','npm run check:gold-movement','npm run check:gold-actions','npm run check:a1-evidence','npm run check:coverage','npm run check:data-provenance',
+    'npm run check:gold','npm run check:a1-gold','npm run check:gold-family','npm run check:gold-father','npm run check:gold-movement','npm run check:gold-actions','npm run check:gold-person','npm run check:a1-evidence','npm run check:coverage','npm run check:data-provenance',
     'npm run check:release']) assert.ok(workflow.includes(`run: ${run}`),`Missing ${run}`);
   assert.doesNotMatch(workflow,/run:\s*npm run build:standalone/);
   assert.doesNotMatch(workflow,/standalone|offline-parity/);
@@ -50,7 +50,7 @@ test('REL-01: Node, lexical and release failures remain independently visible',(
 
 test('G1: each invoked npm command exists in the versioned package scripts',()=>{
   for(const name of ['test','check:lexicon','check:morphology','check:gold',
-    'check:coverage','check:a1-gold','check:gold-family','check:gold-father','check:gold-movement','check:gold-actions','check:a1-evidence','check:data-provenance','check:release']){
+    'check:coverage','check:a1-gold','check:gold-family','check:gold-father','check:gold-movement','check:gold-actions','check:gold-person','check:a1-evidence','check:data-provenance','check:release']){
     assert.equal(typeof pkg.scripts?.[name],'string',`Missing npm script ${name}`);
   }
   assert.match(pkg.scripts['check:release'],/npm test/);
@@ -106,4 +106,10 @@ test('A1 Batch 7: comprehensive evidence audit is mandatory in lexical CI and re
  assert.equal(pkg.scripts['report:a1-evidence'],'node tools/a1-evidence-ledger.mjs --catalog-only');
  assert.equal(pkg.scripts['check:a1-evidence'],'node tools/a1-evidence-ledger.mjs');
  assert.match(pkg.scripts['check:release'],/npm run check:a1-evidence/);
+});
+
+test('PERS-06: person gold is a mandatory independent CI and release gate',()=>{
+ assert.match(workflow,/^      - run: npm run check:gold-person$/m);
+ assert.equal(pkg.scripts['check:gold-person'],'node --test tests/a1-person-gold.test.js');
+ assert.match(pkg.scripts['check:release'],/npm run check:gold-person/);
 });
