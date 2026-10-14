@@ -5,6 +5,7 @@ Ten plik jest nawigacją po dokumentacji. Aktualny cel i priorytety znajdują si
 ## Kierunek rozwoju i sposób pracy
 
 - [A1.0 — strukturalny raport pokrycia](coverage-a1.md) — CLI, miary i ograniczenia.
+- [Autorski zakres A1 flexLingua](a1-scope.md) — zamrożona macierz pojęć i konstrukcji PL/CORE/EN.
 - [Pochodzenie danych](data-provenance.md) — źródła, status licencji i warunki użycia pakietów JSON.
 
 
@@ -69,7 +70,7 @@ Każda istotna zmiana w kodzie lub danych powinna mieć testy i odpowiadającą 
 
 - [F0 Batch 1: lokalny runner bramek CORE](f0-local-gates.md) — pełne testy Node w checkoutcie, niezależnie od startup_failure GitHub Actions.
 
-- [A1 Batch 2: audyt luk](a1-gap-audit.md) — 22 cele, automatyczne rozpoznawanie braków CORE/PL/EN/morfologii/gramatyki/gold.
+- [A1 Batch 2: audyt luk](a1-gap-audit.md) — audyt braków CORE/PL/EN/morfologii/gramatyki/gold.
 
 - [A1 Batch 3: rodzina, czytanie i pomaganie](a1-family-actions.md) — 4 CORE, odmiana, dative/acc, autorski gold.
 

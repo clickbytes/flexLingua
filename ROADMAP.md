@@ -225,6 +225,10 @@ Dołączono znaczenia pisania i otwierania, ich morfologię, testy semantyczne i
 
 Scalanie dowodów z sześciu niezależnych fixture'ów: 115 przykładów pozytywnych, 25 odmów, 60 komórek; `check:a1-evidence` uruchamia rzeczywiste testy, a `report:a1-evidence` nie udaje ich wykonania. Pomiar całego CEFR nadal niedostępny. [Opis](docs/a1-evidence-ledger.md). Kolejne batche: osoba 1/2, `być/mieć`, relacje miejsca i kierunku. GUI osobny agent.
 
+## VAL-01 — zamrożenie autorskiego zakresu A1 (14.10.2026)
+
+Macierz w wersji 2 ustala ograniczony, wewnętrzny zestaw 23 wymaganych jednostek: 16 pojęć i 7 konstrukcji zdarzeniowych. Każda wskazuje sens CORE, mapowanie PL/EN, morfologię, a konstrukcje także ramy obu języków. `audit:a1-gaps` osobno raportuje pokrycie i jawne luki niezależnego G2; brak próbki nie zmienia zakresu `required`. Nie ma zatwierdzonej listy odroczeń ani wykluczeń. CEFR i Oxford pozostają referencjami — macierz nie jest pełnym A1 ani mianownikiem procentu CEFR. [Specyfikacja](docs/a1-scope.md).
+
 ## Backlog egzekwowalny i epiki (14.10.2026)
 
 Otwarto **14 epików / 67 tasków** w `clickbytes/flexLingua`; każde ma rodzica, AC i kontrakt plików oraz checklistę. [BACKLOG](docs/planning/BACKLOG.md), [ISSUE_MAP](docs/planning/ISSUE_MAP.json), [EXECUTION_ORDER](docs/planning/EXECUTION_ORDER.md). Epik A1 nie jest certyfikacją CEFR. Hosted CI na `clickbytes/main` SHA `33132c5` zakończył się sukcesem (run #38616320178, Node 401/401); GUI #1 formalnie pozostało otwarte do akceptacji właściciela. Nowe PR wymagają własnego realnego Actions run i HANDOFF.

@@ -1,11 +1,12 @@
 # CHECKPOINT: REALIZACJA P0 — 2026-10-14
 
-- **Repo:** `clickbytes/flexLingua`; branch `core/p0-rel01-val05`, baza `main` SHA `f3f1a62af1777d7cca4afc52fe3a0b13ad1fed25`.
-- Baza hosted [CI #38620219789](https://github.com/clickbytes/flexLingua/actions/runs/38620219789): wszystkie jobs sukces, `npm test` 405/405. Historyczny [run #38610233253](https://github.com/clickbytes/flexLingua/actions/runs/38610233253) miał 398/401 i trzy regresje GUI/offline, obecnie naprawione w [PR #84](https://github.com/clickbytes/flexLingua/pull/84). GUI #1 pozostaje otwarte do formalnego odbioru.
-- W bieżącym branchu przygotowano REL-01: tabelę historycznych testów → komponent/właściciel/issue oraz aktualny CI baseline; test chroni rozdział bramek.
-- W bieżącym branchu przygotowano VAL-05: inwentarz pochodzenia wszystkich 16 JSON pakietów danych, walidator CI/release i testy. Sześć pakietów jest zapisanych jako project-authored; dziesięć historycznych jest oznaczonych do migracji źródeł/licencji.
-- PR [#86](https://github.com/clickbytes/flexLingua/pull/86) na SHA `473ee4e539d2f6210980a096bfcd3c30e33d2a89` ma zielony [hosted run #38622691670](https://github.com/clickbytes/flexLingua/actions/runs/38622691670): wszystkie jobs sukces, `npm test` 410/410, `check:release` success. Lokalny `npm run check:release` również przechodzi.
-- Następny ready task: VAL-01 #22 po VAL-05 #26; potem PERS-01 #27. Nie traktować treści zaplanowanych issues jako ukończonej implementacji.
+- **Repo:** `clickbytes/flexLingua`; branch `core/p0-val01`, baza `main` SHA `50e15536b93af600782901cae52e4e25cc0eddc1`.
+- REL-01 i VAL-05 są już scalone przez [PR #86](https://github.com/clickbytes/flexLingua/pull/86); Hosted Actions [run #38622971857](https://github.com/clickbytes/flexLingua/actions/runs/38622971857) był zielony, `npm test` 410/410. VAL-05 waliduje pochodzenie 16 pakietów: 6 oznaczono jako project-authored, a 10 wymaga migracji źródła/licencji.
+- **VAL-01 (#22):** macierz A1 v2 zamraża 23 wymagane jednostki (16 pojęć i 7 konstrukcji zdarzeniowych), ich sensy CORE, mapowania PL/EN, morfologię i wymagane ramy konstrukcji. Audyt pokazuje niezależny gold albo jawną lukę. Status zakresu jest oddzielony od statusu wykonania. Oxford/CEFR są tylko referencjami; macierz nie jest pełnym A1 ani mianownikiem procentu CEFR.
+- Zmiany obejmują `data/coverage/a1-targets.json`, `data/provenance.json`, audyt luk, ledger dowodów, testy i dokumentację (`docs/a1-scope.md`, `docs/coverage-a1.md`, `ROADMAP.md`, `docs/planning/ISSUE_POLICY.md`).
+- Lokalna weryfikacja Windows / Node v24.19.0: `npm run check:release` **PASS** (411/411 testów; wszystkie goldy, audyt pochodzenia, standalone i coverage), `npm run check:a1-evidence` **PASS** (6/6 zestawów, 115 pozytywnych przykładów, 25 odmów, 60 komórek morfologii), `git diff --check` **PASS**.
+- PR [#87](https://github.com/clickbytes/flexLingua/pull/87), kod SHA `1b0b9109fef76abd3edea7386405e897f613fb53`: hosted [Actions run #38624062344](https://github.com/clickbytes/flexLingua/actions/runs/38624062344) **PASS** na workflow Node 22; wszystkie cztery jobs, w tym `check:release`, zakończyły się sukcesem, a pełny Node suite miał 411/411.
+- Następny ready task po VAL-01: PERS-01 #27. GUI #1 pozostaje formalnym blockerem odbioru GUI.
 
 ---
 

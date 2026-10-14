@@ -21,9 +21,9 @@ Zob. [G2 original corpus](g2-a1-gold.md): 32 kontrolowane tłumaczenia dwukierun
 
 `npm run report:a1` łączy inwentarz strukturalny ze statusem 32 przekładów i 8 odmów oraz podziałem na kierunki i konstrukcje. `check:a1-gold` to ścisła bramka regresji; **nie** oznacza globalnego pokrycia A1. Zob. [raport G3](g3-a1-report.md).
 
-## A1 Batch 2: autorski rejestr luk
+## VAL-01: zamrożony zakres projektu
 
-`npm run audit:a1-gaps` wypisuje osobno braki w ontologii, słownikach, morfologii, ramach i dowodach gold dla 22 celów kontrolowanego pilotażu. Nie jest mianownikiem CEFR. [Opis](a1-gap-audit.md).
+`data/coverage/a1-targets.json` w wersji 2 definiuje 23 wymagane jednostki: 16 pojęć i 7 konstrukcji zdarzeniowych. Każda pozycja wskazuje sens CORE, mapowanie PL/EN, wymagania morfologii i dowód albo jawny brak w niezależnym fixture G2. Statusy zakresu (`required`, `deferred`, `unsupported`) są oddzielone od statusów wykonania. Obecna macierz nie zawiera zatwierdzonych odroczeń ani wykluczeń. To autorski, ograniczony podzbiór, nie cały CEFR A1. [Specyfikacja zakresu](a1-scope.md) · [opis audytu luk](a1-gap-audit.md).
 
 ## Po Batch 5
 
