@@ -44,9 +44,9 @@ npm run check:release
 
 W izolowanym środowisku JavaScript wykonano kod morfologii na faktycznych danych z repozytorium: **6/6 grup testów przeszło**, sprawdzając 55 niezależnych form i odwrotne analizy. Liczba w pakietach zwiększyła się do **35 związanych leksemów i 86 form EN** oraz **35 leksemów i 455 form PL**. Te liczby to licznik konkretnych form wygenerowanych przez silnik, nie miara pokrycia CEFR.
 
-**Nie wykonano pełnego Node `npm test`, `check:release` ani `check:standalone` na checkout repo.** GitHub Actions dotąd zgłaszało `startup_failure` przed uruchomieniem jobów — [issue #9](https://github.com/ppotepa/flexLingua/issues/9). Realna bramka wydaniowa pozostaje otwarta.
+**Stan historyczny walidacji:** w chwili sporządzenia raportu nie wykonano pełnego Node `npm test` ani `check:release`, a Actions zgłaszało `startup_failure`. Późniejsze pełne release runy przeszły. Kontrola standalone została wycofana.
 
-Dodane reguły obejmują tylko opisane leksemy/komórki (angielski: baza, 3. os. lp/lm, przeszłość; polski: 3. osoba i wybrane formy czasu przeszłego). Nie są kompletnym analizatorem wszystkich czasowników ani systemem odmieniania dowolnych zwrotów. GUI i wygenerowany standalone są zarządzane przez **osobnego agenta** i nie są modyfikowane w tym mikrobatchu.
+Dodane reguły obejmują tylko opisane leksemy/komórki (angielski: baza, 3. os. lp/lm, przeszłość; polski: 3. osoba i wybrane formy czasu przeszłego). Nie są kompletnym analizatorem wszystkich czasowników ani systemem odmieniania dowolnych zwrotów. UI działa przez lokalny HTTP; standalone nie jest już utrzymywany.
 
 ## Następny krok
 

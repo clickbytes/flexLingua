@@ -1,5 +1,7 @@
 # G1a — audyt CI, aktywacja głównych triggerów i kontrola pokrycia CORE
 
+> Archiwalny audyt historycznego workflow. Wszystkie statusy blokad i checklisty poniżej opisują ówczesny stan. Standalone parity i issue #1 zostały wycofane z bieżącego procesu; aktualne bramki są opisane w `package.json` i `.github/workflows/core-engine.yml`.
+
 **Data:** 2026-10-14  
 **Stan:** G1a zaimplementowany na gałęzi roboczej, etap weryfikacji wydania nadal **zablokowany** przez GitHub Actions i brak lokalnego checkoutu. Nie należy przedstawiać G1 jako pełnej certyfikacji.
 

@@ -1,5 +1,7 @@
 # Audyt spójności dokumentacji i repozytorium
 
+> Archiwalny audyt z 12 października 2026. Opisuje ówczesny stan plików i testów; standalone oraz jego testy zostały od tego czasu wycofane. Aktualny UI działa przez lokalny HTTP.
+
 **Data inspekcji:** 2026-10-12  
 **Stan bazowy:** `main` @ `8b3fe6905a8f758f64e9c7178806312bd8ddd01c` (przed korektą odnośników)  
 **Charakter:** kontrola istnienia plików i deklarowanych skryptów, **nie** pełny audyt działania ani wyniki testów.
@@ -39,4 +41,4 @@ W każdym przyszłym wydaniu warto automatycznie sprawdzać lokalne linki Markdo
 
 ## Koordynacja wersji modularnej i offline (zadania 4–5)
 
-Nowy parser/generator pytań PL/EN został dodany w kodzie modułowym i pakietach `data/grammar/{pl,en}.json`. **Agent silnika nie zmieniał GUI**. W kolejnym batchu Studio zsynchronizowano `index-standalone.html` z aktualnym parserem i regułami pytań oraz dodano wizualizację `question` w INTER Explorer. Sprawdzono zachowanie aplikacji offline bez sieci, w tym pytania PL↔EN i dotychczasowe tłumaczenie. **Pełny `npm run check:standalone`, `npm test` i `npm run check:release` nie zostały uruchomione w lokalnym checkout i nadal wymagają weryfikacji przed formalnym wydaniem.**
+Nowy parser/generator pytań PL/EN został dodany w kodzie modułowym i pakietach `data/grammar/{pl,en}.json`. W kolejnym batchu Studio zsynchronizowano `index-standalone.html` z aktualnym parserem i regułami pytań oraz dodano wizualizację `question` w INTER Explorer. Sprawdzono zachowanie aplikacji offline bez sieci, w tym pytania PL↔EN i dotychczasowe tłumaczenie. **W lokalnym checkoutcie z 12 października pełne testy nie były uruchomione; późniejsze release runy przeszły. Test standalone został wycofany.**

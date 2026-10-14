@@ -39,7 +39,7 @@ Brak reguły dla niepoprawnych układów `What does the girl wait?`, `Dziewczynk
 
 ## Testy
 
-`tests/multiword-f3.test.js` (6 grup) i historyczne `tests/multiword-v1.20.test.js` (5 grup), `tests/prepositional-wh-v1.21.test.js` (5 grup). Izolowane wykonanie JavaScript: **16/16 grup przeszło**. Przed scalenieniem i wydaniem wymagane realne `npm test`, `npm run check:lexicon`, `npm run check:morphology`, `npm run check:release` i synchronizacja standalone przez właściciela GUI. Bieżący kontener z Node nie ma DNS do github.com; wcześniejsze GitHub Actions zwracało `startup_failure`. Nie traktować izolowanego V8 jako pełnej regresji Node.
+`tests/multiword-f3.test.js` (6 grup) i historyczne `tests/multiword-v1.20.test.js` (5 grup), `tests/prepositional-wh-v1.21.test.js` (5 grup). Izolowane wykonanie JavaScript: **16/16 grup przeszło**. W chwili sporządzenia raportu pełne testy Node i Actions nie były dostępne; późniejsze pełne release runy przeszły. Standalone zostało wycofane i nie jest wymagane. Nie traktować izolowanego V8 jako pełnej regresji Node.
 
 ## Następne prace
 

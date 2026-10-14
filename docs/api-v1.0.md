@@ -27,7 +27,7 @@ for (const code of ['en', 'pl', 'tr']) {
 }
 ```
 
-The browser and offline HTML bundle both load this same implementation. Offline is generated with `npm run build:standalone`.
+The browser UI loads this implementation through ES modules from the local development server. Direct `file://` opening is unsupported because browsers block the module and JSON requests.
 
 ## Core methods
 

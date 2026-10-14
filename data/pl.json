@@ -634,7 +634,11 @@
       "forms": {
         "present": {
           "thirdSingular": "daje",
-          "thirdPlural": "dają"
+          "thirdPlural": "dają",
+          "firstSingular": "daję",
+          "secondSingular": "dajesz",
+          "firstPlural": "dajemy",
+          "secondPlural": "dajecie"
         },
         "past": {
           "singular": {
@@ -665,7 +669,11 @@
       "forms": {
         "present": {
           "thirdSingular": "widzi",
-          "thirdPlural": "widzą"
+          "thirdPlural": "widzą",
+          "firstSingular": "widzę",
+          "secondSingular": "widzisz",
+          "firstPlural": "widzimy",
+          "secondPlural": "widzicie"
         },
         "past": {
           "singular": {
@@ -696,7 +704,11 @@
       "forms": {
         "present": {
           "thirdSingular": "patrzy na",
-          "thirdPlural": "patrzą na"
+          "thirdPlural": "patrzą na",
+          "firstSingular": "patrzę na",
+          "secondSingular": "patrzysz na",
+          "firstPlural": "patrzymy na",
+          "secondPlural": "patrzycie na"
         },
         "past": {
           "singular": {
@@ -727,7 +739,11 @@
       "forms": {
         "present": {
           "thirdSingular": "podnosi",
-          "thirdPlural": "podnoszą"
+          "thirdPlural": "podnoszą",
+          "firstSingular": "podnoszę",
+          "secondSingular": "podnosisz",
+          "firstPlural": "podnosimy",
+          "secondPlural": "podnosicie"
         },
         "past": {
           "singular": {
@@ -758,7 +774,11 @@
       "forms": {
         "present": {
           "thirdSingular": "szuka",
-          "thirdPlural": "szukają"
+          "thirdPlural": "szukają",
+          "firstSingular": "szukam",
+          "secondSingular": "szukasz",
+          "firstPlural": "szukamy",
+          "secondPlural": "szukacie"
         },
         "past": {
           "singular": {
@@ -789,7 +809,11 @@
       "forms": {
         "present": {
           "thirdSingular": "słucha",
-          "thirdPlural": "słuchają"
+          "thirdPlural": "słuchają",
+          "firstSingular": "słucham",
+          "secondSingular": "słuchasz",
+          "firstPlural": "słuchamy",
+          "secondPlural": "słuchacie"
         },
         "past": {
           "singular": {
@@ -820,7 +844,11 @@
       "forms": {
         "present": {
           "thirdSingular": "czeka na",
-          "thirdPlural": "czekają na"
+          "thirdPlural": "czekają na",
+          "firstSingular": "czekam na",
+          "secondSingular": "czekasz na",
+          "firstPlural": "czekamy na",
+          "secondPlural": "czekacie na"
         },
         "past": {
           "singular": {
@@ -851,7 +879,11 @@
       "forms": {
         "present": {
           "thirdSingular": "czyta",
-          "thirdPlural": "czytają"
+          "thirdPlural": "czytają",
+          "firstSingular": "czytam",
+          "secondSingular": "czytasz",
+          "firstPlural": "czytamy",
+          "secondPlural": "czytacie"
         },
         "past": {
           "singular": {
@@ -882,7 +914,11 @@
       "forms": {
         "present": {
           "thirdSingular": "pomaga",
-          "thirdPlural": "pomagają"
+          "thirdPlural": "pomagają",
+          "firstSingular": "pomagam",
+          "secondSingular": "pomagasz",
+          "firstPlural": "pomagamy",
+          "secondPlural": "pomagacie"
         },
         "past": {
           "singular": {
@@ -913,7 +949,11 @@
       "forms": {
         "present": {
           "thirdSingular": "idzie",
-          "thirdPlural": "idą"
+          "thirdPlural": "idą",
+          "firstSingular": "idę",
+          "secondSingular": "idziesz",
+          "firstPlural": "idziemy",
+          "secondPlural": "idziecie"
         },
         "past": {
           "singular": {
@@ -944,7 +984,11 @@
       "forms": {
         "present": {
           "thirdSingular": "pisze",
-          "thirdPlural": "piszą"
+          "thirdPlural": "piszą",
+          "firstSingular": "piszę",
+          "secondSingular": "piszesz",
+          "firstPlural": "piszemy",
+          "secondPlural": "piszecie"
         },
         "past": {
           "singular": {
@@ -975,7 +1019,11 @@
       "forms": {
         "present": {
           "thirdSingular": "otwiera",
-          "thirdPlural": "otwierają"
+          "thirdPlural": "otwierają",
+          "firstSingular": "otwieram",
+          "secondSingular": "otwierasz",
+          "firstPlural": "otwieramy",
+          "secondPlural": "otwieracie"
         },
         "past": {
           "singular": {
@@ -2213,6 +2261,82 @@
           "coreRef": {
             "kind": "grammaticalFunction",
             "id": "grammar.auxiliary"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.pronoun.ja",
+      "lemma": "ja",
+      "pos": "PRON",
+      "forms": [
+        {
+          "text": "ja"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.pronoun.ja.sense",
+          "coreRef": {
+            "kind": "grammaticalFunction",
+            "id": "grammar.deictic_pronoun"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.pronoun.ty",
+      "lemma": "ty",
+      "pos": "PRON",
+      "forms": [
+        {
+          "text": "ty"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.pronoun.ty.sense",
+          "coreRef": {
+            "kind": "grammaticalFunction",
+            "id": "grammar.deictic_pronoun"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.pronoun.my",
+      "lemma": "my",
+      "pos": "PRON",
+      "forms": [
+        {
+          "text": "my"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.pronoun.my.sense",
+          "coreRef": {
+            "kind": "grammaticalFunction",
+            "id": "grammar.deictic_pronoun"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.pronoun.wy",
+      "lemma": "wy",
+      "pos": "PRON",
+      "forms": [
+        {
+          "text": "wy"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.pronoun.wy.sense",
+          "coreRef": {
+            "kind": "grammaticalFunction",
+            "id": "grammar.deictic_pronoun"
           }
         }
       ]

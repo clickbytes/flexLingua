@@ -3,15 +3,11 @@ import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {coreGatePlan,runCoreGates} from '../tools/check-core-gates-lib.mjs';
 
-test('F0: the offline local runner includes the actual project gates and full test inventory',()=>{
+test('F0: the local runner includes the actual project gates and full test inventory',()=>{
   const plan=coreGatePlan(['z.test.js','a.test.js']);
   assert.deepEqual(plan.map(x=>x.name),
     ['lexicon','morphology','gold','a1-gold','coverage','full-node-tests']);
   assert.deepEqual(plan.at(-1).args,['--test','tests/a.test.js','tests/z.test.js']);
-  assert.equal(plan.some(x=>x.name==='standalone-parity'),false);
-  const withGui=coreGatePlan(['z.test.js'],{includeStandalone:true});
-  assert.deepEqual(withGui.at(-1),{name:'standalone-parity',
-    args:['tools/build-standalone.mjs','--check']});
 });
 
 test('F0: gate planner rejects unsafe paths, duplicates and missing test inventory',()=>{
@@ -46,6 +42,6 @@ test('F0: process errors and timeouts must fail, never be marked green',()=>{
 test('F0: package advertises the local runner but keeps CI/release gates strict',async()=>{
   const pkg=JSON.parse(await readFile(new URL('../package.json',import.meta.url),'utf8'));
   assert.equal(pkg.scripts['check:core-local'],'node tools/check-core-gates.mjs');
-  assert.match(pkg.scripts['check:release'],/check:standalone/);
+  assert.doesNotMatch(pkg.scripts['check:release'],/standalone/);
   assert.match(pkg.scripts['check:release'],/npm test/);
 });

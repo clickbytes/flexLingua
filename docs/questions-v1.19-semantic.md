@@ -56,11 +56,10 @@ Testy `tests/question-semantics.test.js` sprawdzają semantykę CORE, zakres ope
 ~~~sh
 node --test tests/question-semantics.test.js
 npm test
-npm run check:standalone
 ~~~
 
 **Nie deklarujemy przejścia całego npm test bez wykonania go w Node.** Semantyka walidowana izolowanymi kontrolami nie jest zamiennikiem kompletnego testu regresji.
 
-**Właściciel GUI:** osobny agent. Ten batch nie aktualizuje HTML ani CSS. Wygenerowany artefakt `index-standalone.html` będzie wymagał synchronizacji ze zmienionym kodem silnika przez właściciela GUI przed pełnym wydaniem offline; do tego czasu `check:standalone` może zgłaszać niespójność.
+**Aktualizacja procesu:** dawny `index-standalone.html`, generator i kontrola parytetu zostały wycofane. UI działa przez lokalny HTTP; walidację silnika prowadzą testy i `npm run check:release`.
 
 Powiązane: [kontrakt Batch B](batch-b-v1.19.md) i [roadmapa](../ROADMAP.md).

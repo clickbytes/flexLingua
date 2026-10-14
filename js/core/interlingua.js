@@ -14,6 +14,7 @@ export const CLAUSE_VERSION = '0.6';
 export const SEMANTIC_VERSION = '1.0';
 export const QUESTION_VERSION = '1.19';
 export const MODALITY_VERSION = '1.20';
+export const DEICTIC_VERSION = '1.22';
 export const MAX_RELATIVE_DEPTH = 2;
 export const MAX_COORDINATION_CLAUSES = 4;
 export const MAX_MODIFIER_DEPTH = 3;
@@ -22,8 +23,10 @@ export const MAX_DISCOURSE_EVENTS = 8;
 export const MAX_CLAUSE_DEPTH = 5;
 
 export function createEvent(concept, roles, features) {
+  const hasDeictic = Object.values(roles).some(ref => record(ref) && hasOwn(ref, 'referent'));
   return {
-    version: Object.values(roles).some(ref => record(ref) && hasOwn(ref, 'relatives')) ? CLAUSE_VERSION :
+    version: hasDeictic ? DEICTIC_VERSION :
+      Object.values(roles).some(ref => record(ref) && hasOwn(ref, 'relatives')) ? CLAUSE_VERSION :
       Object.values(roles).some(isQualifiedParticipant) ? QUALIFIED_VERSION : INTERLINGUA_VERSION,
     type: 'event',
     concept,
@@ -73,7 +76,22 @@ function validateModifiers(nodes, ontology, parentType, depth, budget) {
   }
 }
 
-function validateReferent(ref, ontology, registry, label, qualifiedAllowed, clauseAllowed = false, relativeDepth = 0) {
+function validateReferent(ref, ontology, registry, label, qualifiedAllowed, clauseAllowed = false, relativeDepth = 0,
+  deicticAllowed = false) {
+  if (record(ref) && hasOwn(ref, 'referent')) {
+    const referent = ref.referent;
+    const agreement = ref.agreement;
+    if (!deicticAllowed || Object.keys(ref).sort().join(',') !== 'agreement,referent' ||
+        !record(referent) || Object.keys(referent).sort().join(',') !== 'anchor,kind' ||
+        referent.kind !== 'deictic' || !['speaker','addressee'].includes(referent.anchor) ||
+        !record(agreement) || Object.keys(agreement).sort().join(',') !== 'number,person' ||
+        !['first','second'].includes(agreement.person) ||
+        !['singular','plural'].includes(agreement.number) ||
+        (referent.anchor === 'speaker') !== (agreement.person === 'first')) {
+      throw new Error(`Invalid deictic participant for ${label}.`);
+    }
+    return;
+  }
   if (!record(ref) || !ontology?.concepts?.[ref.concept] ||
       ontology.concepts[ref.concept].type !== 'entity' ||
       !Object.keys(ref).every(key => ['concept', 'features', 'modifiers', 'quantifier', 'relatives'].includes(key))) {
@@ -175,6 +193,9 @@ export function createDiscourse(events, { coreference = {} } = {}) {
     if (!record(event) || event.type !== 'event' || !record(event.roles)) {
       throw new Error('Discourse only supports independent event clauses.');
     }
+    if (Object.values(event.roles).some(ref => record(ref) && hasOwn(ref, 'referent'))) {
+      throw new Error('UNRESOLVED_DEIXIS: cross-turn participant identity requires explicit session context.');
+    }
     const roles = Object.create(null);
     const currentMentions = new Map();
     for (const [role, entity] of Object.entries(event.roles)) {
@@ -234,9 +255,11 @@ function validateEventShape(node, ontology, registry, qualifiedAllowed = true, c
     }
     if (!hasOwn(node.roles, role)) throw new Error(`Missing semantic role: ${role}`);
     const ref = node.roles[role];
-    validateReferent(ref, ontology, registry, role, qualifiedAllowed, clauseAllowed, depth);
+    validateReferent(ref, ontology, registry, role, qualifiedAllowed, clauseAllowed, depth,
+      node.version === DEICTIC_VERSION);
     const constraint = event.roleTypes?.[role];
-    if (constraint && !ontology.isA(ref.concept, constraint)) {
+    if (constraint && !(hasOwn(ref, 'referent') ? ontology.isA('person', constraint) :
+      ontology.isA(ref.concept, constraint))) {
       throw new Error(`Participant for ${role} violates role type ${constraint}.`);
     }
   }
@@ -360,7 +383,7 @@ function validateQuestion(node, ontology, registry) {
   if (!safeName(node.targetRole) || !record(p) || p.type!=='event' ||
       !['version','type','concept','roles','features'].every(k=>hasOwn(p,k)) ||
       Object.keys(p).length!==5 ||
-      ![INTERLINGUA_VERSION,QUALIFIED_VERSION,CLAUSE_VERSION,SEMANTIC_VERSION].includes(p.version) ||
+      ![INTERLINGUA_VERSION,QUALIFIED_VERSION,CLAUSE_VERSION,SEMANTIC_VERSION,DEICTIC_VERSION].includes(p.version) ||
       !record(p.roles)) {
     throw new Error('Invalid WH question proposition or semantic targetRole.');
   }
@@ -376,7 +399,7 @@ function validateQuestion(node, ontology, registry) {
 function validateClauseTree(node, ontology, registry, depth = 0, gap = null) {
   if (!record(node) || depth > MAX_CLAUSE_DEPTH) throw new Error('Clause tree nesting limit exceeded.');
   if (node.type === 'event') {
-    if (![INTERLINGUA_VERSION, QUALIFIED_VERSION, CLAUSE_VERSION, SEMANTIC_VERSION].includes(node.version)) {
+    if (![INTERLINGUA_VERSION, QUALIFIED_VERSION, CLAUSE_VERSION, SEMANTIC_VERSION, DEICTIC_VERSION].includes(node.version)) {
       throw new Error('Unsupported event version.');
     }
     validateEventShape(node, ontology, registry, node.version !== INTERLINGUA_VERSION,

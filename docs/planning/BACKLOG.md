@@ -2,13 +2,13 @@
 
 ## Stan walidacji w aktywnym repo
 
-Bazowy `clickbytes/main` SHA `f3f1a62af1777d7cca4afc52fe3a0b13ad1fed25` jest **GREEN** w [GitHub Actions #38620219789](https://github.com/clickbytes/flexLingua/actions/runs/38620219789): **405/405** Node, lexical-audits, offline-parity i release-gate — wszystkie jobs `success`. Historyczne 398/401 pochodziły sprzed naprawy GUI/Windows. GUI #1 pozostaje formalnie otwarte, choć kryteria testowe przeszły po [PR #84](https://github.com/clickbytes/flexLingua/pull/84); zamknięcie wymaga zapisania odbioru w issue. Każdy nowy commit wymaga osobnego runu CI.
+Bazowy `clickbytes/main` SHA `b7ea1ef2850971bdd342b3ef76cc8f8843ecbd18` jest **GREEN** w [GitHub Actions #38625444693](https://github.com/clickbytes/flexLingua/actions/runs/38625444693). Wszystkie jobs po merge PR #88 zakończyły się sukcesem. Standalone HTML zostaje wycofany; issue GUI #1 jest zamykane jako nieaktualne, bo historyczne regresje Studio przechodzą w tym runie. Każdy nowy commit wymaga własnego runu CI.
 
 
 **Aktywne repo:** [clickbytes/flexLingua](https://github.com/clickbytes/flexLingua). **Baza planowania:** `d70359ba0d783c32f37eb31cddc6c4abf3ce16e3` (2026-10-14).
 To jest otwarty plan — żadne poniższe zadanie nie jest przez samo zgłoszenie wykonane.
 
-**Razem:** 14 epików · 67 zadań · P0 23, P1 21, P2 9, P3 14. Nie duplikujemy GUI-01: istniejący #1.
+**Razem:** 14 epików · 67 zadań · P0 23, P1 21, P2 9, P3 14. GUI-01 (#1) jest zamykane po wycofaniu standalone i potwierdzeniu testów Studio.
 
 [Mapa ID→issue](ISSUE_MAP.json) · [Manifest najbliższych](backlog-near.json) · [Manifest dalszych](backlog-future.json) · [Issue Policy](ISSUE_POLICY.md) · [Kolejność prac](EXECUTION_ORDER.md) · [Kotwice kodu](IMPLEMENTATION_ANCHORS.md).
 
@@ -38,8 +38,8 @@ To jest otwarty plan — żadne poniższe zadanie nie jest przez samo zgłoszeni
 Ustabilizować rzetelną publikację Node/CORE i offline, bez maskowania błędów GUI.
 
 - [ ] **REL-01 [#18](https://github.com/clickbytes/flexLingua/issues/18)** — Utrwalić bazę błędów CI i kolejność ich domykania. P: P0; blokuje: ready / brak formalnych blockerów. AC: 3; pliki: 4.
-- [ ] **REL-02 [#19](https://github.com/clickbytes/flexLingua/issues/19)** — Skonfigurować egzekwowanie statusów PR oraz politykę merge. P: P0; blokuje: REL-01 [#18](https://github.com/clickbytes/flexLingua/issues/18); GUI-01 [#1](https://github.com/clickbytes/flexLingua/issues/1). AC: 3; pliki: 3.
-- [ ] **REL-03 [#20](https://github.com/clickbytes/flexLingua/issues/20)** — Deterministyczna procedura wydania i wersjonowania. P: P0; blokuje: REL-02 [#19](https://github.com/clickbytes/flexLingua/issues/19); GUI-01 [#1](https://github.com/clickbytes/flexLingua/issues/1). AC: 3; pliki: 5.
+- [ ] **REL-02 [#19](https://github.com/clickbytes/flexLingua/issues/19)** — Skonfigurować egzekwowanie statusów PR oraz politykę merge. P: P0; blokuje: REL-01 [#18](https://github.com/clickbytes/flexLingua/issues/18). AC: 3; pliki: 3.
+- [ ] **REL-03 [#20](https://github.com/clickbytes/flexLingua/issues/20)** — Deterministyczna procedura wydania i wersjonowania. P: P0; blokuje: REL-02 [#19](https://github.com/clickbytes/flexLingua/issues/19). AC: 3; pliki: 5.
 - [ ] **REL-04 [#21](https://github.com/clickbytes/flexLingua/issues/21)** — Granice zasobów, bezpieczeństwo wejścia i odporność regresji. P: P0; blokuje: REL-01 [#18](https://github.com/clickbytes/flexLingua/issues/18). AC: 3; pliki: 5.
 
 ### VAL — [#5](https://github.com/clickbytes/flexLingua/issues/5)
@@ -56,8 +56,8 @@ Zastąpić pozorne procenty rzetelnym, wersjonowanym zbiorem wymagań i wynikami
 
 Wprowadzić neutralną rolę mówcy/adresata i rzeczywistą odmianę ja/ty/my/wy ↔ I/you/we bez zgadywania rodzaju.
 
-- [x] **PERS-01 [#27](https://github.com/clickbytes/flexLingua/issues/27)** — ADR: tożsamość mówcy/adresata i reprezentacja person w CORE. P: P0; VAL-01 [#22](https://github.com/clickbytes/flexLingua/issues/22) scalone; decyzja w [ADR](../adr/person-deixis.md). PERS-02..06 wdrażają kontrakt; AC: 3; pliki: 5.
-- [ ] **PERS-02 [#28](https://github.com/clickbytes/flexLingua/issues/28)** — PL/EN jawne zaimki ja/ty/my/wy oraz I/you/we. P: P0; blokuje: PERS-01 [#27](https://github.com/clickbytes/flexLingua/issues/27). AC: 3; pliki: 5.
+- [x] **PERS-01 [#27](https://github.com/clickbytes/flexLingua/issues/27)** — ADR: tożsamość mówcy/adresata i reprezentacja person w CORE. P: P0; VAL-01 [#22](https://github.com/clickbytes/flexLingua/issues/22) scalone; decyzja w [ADR](../adr/person-deixis.md). PERS-02 wdraża podstawowy kontrakt; PERS-03..06 rozszerzają zgodę, fleksję i gold; AC: 3; pliki: 5.
+- [x] **PERS-02 [#28](https://github.com/clickbytes/flexLingua/issues/28)** — PL/EN jawne zaimki ja/ty/my/wy oraz I/you/we. P: P0; implementacja, gold i testy w bieżącym PR; blokuje: PERS-01 [#27](https://github.com/clickbytes/flexLingua/issues/27). AC: 3; pliki: 5.
 - [ ] **PERS-03 [#29](https://github.com/clickbytes/flexLingua/issues/29)** — Uzgodnienie osoby w parserze i realizatorze zdań. P: P0; blokuje: PERS-01 [#27](https://github.com/clickbytes/flexLingua/issues/27); PERS-02 [#28](https://github.com/clickbytes/flexLingua/issues/28). AC: 3; pliki: 5.
 - [ ] **PERS-04 [#30](https://github.com/clickbytes/flexLingua/issues/30)** — Polska fleksja czasowników: 1./2. osoba teraźniejsza i bezpieczny przeszły. P: P0; blokuje: PERS-03 [#29](https://github.com/clickbytes/flexLingua/issues/29). AC: 3; pliki: 5.
 - [ ] **PERS-05 [#31](https://github.com/clickbytes/flexLingua/issues/31)** — Angielska odmiana I/you/we, auxiliary do/does i pytania. P: P0; blokuje: PERS-03 [#29](https://github.com/clickbytes/flexLingua/issues/29); PERS-04 [#30](https://github.com/clickbytes/flexLingua/issues/30). AC: 3; pliki: 5.
@@ -163,19 +163,19 @@ Przygotować dodawanie N języków przez INTER bez par sztywnych tłumaczeń i r
 
 ### GUI — [#17](https://github.com/clickbytes/flexLingua/issues/17)
 
-Domknąć GUI i offline parity bez ingerencji agenta CORE w interfejs i generowane artefakty.
+Rozwijać Studio, słownik, INTER Explorer i ekran rozmowy. Aplikację uruchamia się przez lokalny HTTP; nie utrzymujemy standalone HTML.
 
-- [ ] **GUI-01 [#1](https://github.com/clickbytes/flexLingua/issues/1)** — Obecny blocker: offline standalone + dwie regresje Studio. P: P0; blokuje: REL-01 [#18](https://github.com/clickbytes/flexLingua/issues/18). AC: 3; pliki: 4.
-- [ ] **GUI-02 [#81](https://github.com/clickbytes/flexLingua/issues/81)** — Zakładka słownika: osoba, morfologia i weryfikowalne błędy. P: P0; blokuje: GUI-01 [#1](https://github.com/clickbytes/flexLingua/issues/1); PERS-04 [#30](https://github.com/clickbytes/flexLingua/issues/30). AC: 3; pliki: 4.
-- [ ] **GUI-03 [#83](https://github.com/clickbytes/flexLingua/issues/83)** — INTER Explorer: role, modal scope, ambiguity i source diagnostics. P: P0; blokuje: GUI-01 [#1](https://github.com/clickbytes/flexLingua/issues/1); VAL-03 [#24](https://github.com/clickbytes/flexLingua/issues/24). AC: 3; pliki: 4.
-- [ ] **GUI-04 [#82](https://github.com/clickbytes/flexLingua/issues/82)** — Ekran rozmowy i osobowości z dostępnością/offline. P: P0; blokuje: GUI-01 [#1](https://github.com/clickbytes/flexLingua/issues/1); DIAL-04 [#56](https://github.com/clickbytes/flexLingua/issues/56); MEM-01 [#58](https://github.com/clickbytes/flexLingua/issues/58). AC: 3; pliki: 5.
+- [x] **GUI-01 [#1](https://github.com/clickbytes/flexLingua/issues/1)** — Wycofano standalone HTML; historyczne regresje Studio są zielone w Actions #38625444693.
+- [ ] **GUI-02 [#81](https://github.com/clickbytes/flexLingua/issues/81)** — Zakładka słownika: osoba, morfologia i weryfikowalne błędy. P: P0; blokuje: PERS-04 [#30](https://github.com/clickbytes/flexLingua/issues/30). AC: 3; pliki: 4.
+- [ ] **GUI-03 [#83](https://github.com/clickbytes/flexLingua/issues/83)** — INTER Explorer: role, modal scope, ambiguity i source diagnostics. P: P0; blokuje: VAL-03 [#24](https://github.com/clickbytes/flexLingua/issues/24). AC: 3; pliki: 4.
+- [ ] **GUI-04 [#82](https://github.com/clickbytes/flexLingua/issues/82)** — Ekran rozmowy i osobowości z dostępnością. P: P0; blokuje: DIAL-04 [#56](https://github.com/clickbytes/flexLingua/issues/56); MEM-01 [#58](https://github.com/clickbytes/flexLingua/issues/58). AC: 3; pliki: 5.
 
 ## Zarządzanie i akceptacja
 
 - Każde issue TASK ma minimum 3 mierzalne AC, operacje per plik, owner, dowody testowe i zależności numerowane GitHub.
 - EPIC zawiera checklistę tych samych numerów i jest otwarty do ukończenia wszystkich kryteriów, nie tylko do napisania kodu.
-- Preferowana ścieżka: kod CORE na małej gałęzi → gold PL/EN, testy negatywne → realne Actions run/SHA → README/docs/HANDOFF.md → PR → merge.
-- Oddzielny agent GUI: `js/ui/**`, `index.html`, `index-standalone.html`, `tests/studio-ui.test.js`, `tests/offline.test.js`.
-- Najnowszy pełny release gate na main jest zielony (405/405). [GUI #1](https://github.com/clickbytes/flexLingua/issues/1) pozostaje otwarte do formalnego odbioru; nie przedstawiać historycznych 398/401 jako bieżącego statusu.
+- Preferowana ścieżka: kod CORE na małej gałęzi → gold PL/EN, testy negatywne → realne Actions run/SHA → README/docs, jeśli wymagane → PR z wynikami i statusem → merge.
+- Obszar GUI: `js/ui/**`, `index.html`, `tests/studio-ui.test.js`. UI działa przez loopback HTTP; nie ma standalone bundle ani testu parytetu offline.
+- Najnowszy pełny release gate na main jest zielony (417/417). Historyczne 398/401 dotyczy awarii sprzed PR #84, nie bieżącego statusu.
 - Zadania A1–C2 nie certyfikują poziomu CEFR bez zaakceptowanego reprezentatywnego benchmarku. Oxford tylko z respektowaniem licencji.
 - Native sub-issues, custom labels i milestones nie były tworzone: konektor nie udostępnia ich konfiguracji; hierarchię utrzymują checklisty i mapa numerów.

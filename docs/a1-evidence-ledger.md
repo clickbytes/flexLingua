@@ -25,7 +25,7 @@ To **przypadki kontrolowane**, nie wymierny procent pokrycia CEFR. Każdy przypa
 ```sh
 npm run report:a1-evidence      # sam katalog, bez testów — verification.status = not-run
 npm run check:a1-evidence       # 6 prawdziwych procesów Node, fail-closed
-npm run check:release          # wymaga także GUI/standalone i pełnego npm test
+npm run check:release          # pełny zestaw kontroli CORE i testów Node
 ```
 
 `check:a1-evidence` uruchamia kolejno:
@@ -38,9 +38,9 @@ W izolowanym teście funkcji na obecnych fixture'ach, przy **symulowanych pozyty
 
 ## Połączenie z CI i własność kodu
 
-`check:a1-evidence` jest częścią `lexical-audits` oraz `check:release`. Zadania GUI wciąż są prowadzone niezależnie w [issue #1](https://github.com/clickbytes/flexLingua/issues/1); brak zielonego standalone uniemożliwia ogłoszenie całego wydania jako gotowego. CORE-agent nie dotyka HTML, CSS, `js/ui` ani `index-standalone.html`.
+`check:a1-evidence` jest częścią `lexical-audits` oraz `check:release`. Standalone HTML i jego parytet CI zostały wycofane. Lokalny UI uruchamia się przez HTTP.
 
 ## Wynik prawdziwego CI po Batch 7
 
-W [GitHub Actions run #38609956499](https://github.com/clickbytes/flexLingua/actions/runs/38609956499) (gałąź PR #3): `lexical-audits` zakończył się **success** razem z nową komendą `check:a1-evidence`. Pełne `npm test` wykonało **401 testów, 398 pass i 3 fail**, wszystkie trzy awarie pozostały wyłącznie w `tests/offline.test.js` i dwóch przypadkach `tests/studio-ui.test.js`. [GUI issue #1](https://github.com/clickbytes/flexLingua/issues/1) pozostaje otwarte. Nie jest to ukończony `check:release`; zależny release-gate jest pomijany, dopóki zadania GUI nie przejdą.
+Historyczny [GitHub Actions run #38609956499](https://github.com/clickbytes/flexLingua/actions/runs/38609956499) (gałąź PR #3) wykonał 401 testów Node: 398 pass i 3 fail w dawnym zakresie offline/Studio. Te regresje naprawiono w [PR #84](https://github.com/clickbytes/flexLingua/pull/84); późniejszy pełny release run #38625444693 był zielony. Dawny wynik nie opisuje aktualnego statusu.
 

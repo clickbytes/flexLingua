@@ -2,7 +2,7 @@
 
 ## Status
 
-Work in progress. This document is the acceptance contract for the first Batch B increment; the features below are not considered implemented until the parser, realization, tests and standalone build all pass.
+Historical acceptance contract for the first Batch B increment. The implementation and release status have since moved on; use current tests and the release gate as evidence. Standalone output is retired and is not a completion requirement.
 
 ## Semantic contract
 
@@ -34,7 +34,7 @@ These examples are now supported in the controlled grammar, subject to existing 
 3. Preserve polarity and tense under question formation.
 4. Reject unsupported question patterns with an explicit diagnostic.
 5. Keep declarative parsing unchanged and preserve existing CORE graph validation.
-6. Regenerate and verify both standalone HTML builds; run the full regression suite.
+6. Run the full regression suite and release gate.
 
 ## Guardrails
 
@@ -45,17 +45,17 @@ These examples are now supported in the controlled grammar, subject to existing 
 
 ## Completion definition
 
-v1.19 is complete only when implementation, bidirectional examples, negative tests, release checks, standalone offline behavior, documentation and one atomic GitHub publication are verified. A documentation-only commit does not complete v1.19.
+v1.19 is complete only when implementation, bidirectional examples, negative tests, release checks, documentation and one atomic GitHub publication are verified. Standalone offline behavior is retired and is not required. A documentation-only commit does not complete v1.19.
 
 ## Implementation checkpoint — 2026-10-12, Task 3
 
 **Implemented in source:** new semantic `question` document `version:'1.19'`, `questionType:'yes_no'|'wh'`, `proposition` and an explicit `targetRole` for WH questions. The interrogated role is **absent** from the event's `roles`, not filled with a dummy entity. CORE JSON validation and round-trip now accept valid question documents. Invalid missing/extra roles and malformed frames are rejected.
 
-**Historical status at Task 3:** Polish/English surface parsing and generation were not yet implemented at that checkpoint. See the newer Task 4/5 checkpoint below. Modal questions, full Node release verification and offline bundling are still pending. **v1.19 is not complete.**
+**Historical status at Task 3:** Polish/English surface parsing and generation were not yet implemented at that checkpoint. See the newer Task 4/5 checkpoint below. Modal questions and full Node release verification were still pending then. Offline bundling has since been retired.
 
 [Semantic contract and tests](questions-v1.19-semantic.md) · `tests/question-semantics.test.js`.
 
-**Offline coordination:** Because another agent owns GUI files, this update does not modify or regenerate HTML. The standalone build must be synchronized and validated before release.
+**Historical coordination note:** the former standalone build and separate GUI synchronization requirement have been retired. The UI runs through local HTTP.
 
 ## Implementation checkpoint — 2026-10-12, Tasks 4 and 5
 
@@ -63,4 +63,4 @@ v1.19 is complete only when implementation, bidirectional examples, negative tes
 
 **Independent regression fixtures:** `tests/fixtures/gold-questions-v1.19.json` contains 12 EN→PL, 10 PL→EN and 9 unsupported samples. Dedicated test suite: `npm run check:questions`.
 
-**Still open:** free-form interrogatives, modal verbs, indirect questions, unsupported roles/frames, full Node regression and standalone synchronization by the separate GUI agent. See [full controlled-language contract](questions-v1.19-pl-en.md).
+**Still open at the time of this checkpoint:** free-form interrogatives, modal verbs, indirect questions and unsupported roles/frames. Full regression and release evidence are tracked by current CI; there is no standalone synchronization task. See [full controlled-language contract](questions-v1.19-pl-en.md).

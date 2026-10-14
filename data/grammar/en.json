@@ -15,6 +15,7 @@
   },
   "nounPhrase": {
     "path": "forms.{number}",
+    "subjectCase": "nom",
     "allowBare": false,
     "determiners": {
       "singular": {
@@ -98,6 +99,7 @@
         "tense": "present",
         "polarity": "positive",
         "when": {
+          "subject.person": "third",
           "subject.number": "singular"
         },
         "prefix": [],
@@ -107,10 +109,25 @@
         "tense": "present",
         "polarity": "positive",
         "when": {
+          "subject.person": "third",
           "subject.number": "plural"
         },
         "prefix": [],
         "path": "forms.present3pl"
+      },
+      {
+        "tense": "present",
+        "polarity": "positive",
+        "when": {"subject.person": "first"},
+        "prefix": [],
+        "path": "forms.base"
+      },
+      {
+        "tense": "present",
+        "polarity": "positive",
+        "when": {"subject.person": "second"},
+        "prefix": [],
+        "path": "forms.base"
       },
       {
         "tense": "past",
@@ -126,6 +143,7 @@
         "tense": "present",
         "polarity": "negative",
         "when": {
+          "subject.person": "third",
           "subject.number": "singular"
         },
         "prefix": [
@@ -138,12 +156,27 @@
         "tense": "present",
         "polarity": "negative",
         "when": {
+          "subject.person": "third",
           "subject.number": "plural"
         },
         "prefix": [
           "do",
           "not"
         ],
+        "path": "forms.base"
+      },
+      {
+        "tense": "present",
+        "polarity": "negative",
+        "when": {"subject.person": "first"},
+        "prefix": ["do", "not"],
+        "path": "forms.base"
+      },
+      {
+        "tense": "present",
+        "polarity": "negative",
+        "when": {"subject.person": "second"},
+        "prefix": ["do", "not"],
         "path": "forms.base"
       }
     ],
@@ -325,5 +358,11 @@
         ]
       }
     ]
-  }
+  },
+  "deicticPronouns": [
+    {"senseId": "en.pronoun.i.sense", "referent": {"kind": "deictic", "anchor": "speaker"}, "person": "first", "number": "singular"},
+    {"senseId": "en.pronoun.you.singular", "referent": {"kind": "deictic", "anchor": "addressee"}, "person": "second", "number": "singular"},
+    {"senseId": "en.pronoun.you.plural", "referent": {"kind": "deictic", "anchor": "addressee"}, "person": "second", "number": "plural"},
+    {"senseId": "en.pronoun.we.sense", "referent": {"kind": "deictic", "anchor": "speaker"}, "person": "first", "number": "plural"}
+  ]
 }

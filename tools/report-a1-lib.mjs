@@ -44,6 +44,6 @@ export function buildA1Report(engine,inventory,corpus){
     cefr:{level:'A1',percentage:null,status:'not-measured',
       reason:'No licensed representative CEFR reference denominator, external evaluation or deployment-wide success rate.'},
     release:{verified:false,
-      reason:'A passing sample cannot certify GitHub Actions, full Node test suite, or generated standalone parity.'}
+      reason:'A passing sample cannot certify GitHub Actions or the full Node test suite.'}
   };
 }

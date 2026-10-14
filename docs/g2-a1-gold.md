@@ -6,6 +6,6 @@ Plik `data/coverage/a1-gold-g2.json` zawiera **32 autorskie przykłady** (16 EN�
 
 `tools/a1-gold-lib.mjs` sprawdza oczekiwany tekst i reprezentację CORE po analizie źródła, ponownej analizie tłumaczenia oraz serializacji/odczycie INTER. Celowo nie porównuje określoności rodzajników angielskich z polską nieoznaczoną określonością; nie usuwa pojęcia, roli, liczby ani zakresu negacji/modalności. `tests/a1-gold-g2.test.js` zawiera walidację schematu, przypadki odmowy i mutację sztucznie uszkadzającą gold oracle.
 
-**Granica:** zdania twierdzące, przeczenia, pytania, modale oraz kilka predykatów wielowyrazowych nie pokrywają pełnych kompetencji A1. Brak reprezentatywnego mianownika; raport CEFR pozostaje `null`. Przed wydaniem potrzebny pełny Node checkout z `npm test`, `check:release` i synchronizacja standalone przez agenta GUI. G1b nadal jest blokowany przez startup GitHub Actions, issue #9.
+**Granica:** zdania twierdzące, przeczenia, pytania, modale oraz kilka predykatów wielowyrazowych nie pokrywają pełnych kompetencji A1. Brak reprezentatywnego mianownika; raport CEFR pozostaje `null`. W chwili sporządzenia raportu pełny Node checkout i Actions nie były dostępne; późniejsze pełne testy i hosted release runy przeszły. Synchronizacja standalone została wycofana.
 
 W G3 należy dodać CLI raportujące liczbę zaliczonych i niezaliczonych przypadków w tym **konkretnym** korpusie, rozbite po języku i konstrukcji.

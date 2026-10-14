@@ -105,6 +105,6 @@ The source-language article may be lost when generating Polish text; the Interli
 
 ## Testing
 
-`npm test` covers the old v0.2–v0.4 contract, new v0.5 construction tests, malformed grammars, agreement and role-preservation matrices, the HTML offline bundle without network requests, and static localhost HTTP serving. `npm run check:standalone` checks that the offline HTML remains exactly reproducible.
+At the time of this version, `npm test` covered the old v0.2–v0.4 contract, new v0.5 construction tests, malformed grammars, agreement and role-preservation matrices, the HTML offline bundle without network requests, and static localhost HTTP serving. The offline bundle and its reproducibility check have since been retired; the current UI runs through local HTTP.
 
 No complete browser visual test or production-scale corpus benchmark is claimed.

@@ -12,7 +12,7 @@
 
 `event.write` is **historically defined with permissive `entity` roles**; this batch does not silently narrow its ontology and therefore does not claim to prohibit nonsensical combinations of arbitrary objects. `event.open` is typed more strictly. No general CEFR A1 compliance is claimed. The A1 project checklist grows from 22 to 23 targets to include `event.open`; it remains a planning subset, **not** a CEFR denominator.
 
-GitHub Actions continues to fail at startup (#9), so full Node `npm test`/`check:release` and GUI standalone parity (#16) require external verification; GUI files are not modified.
+At the time of this report GitHub Actions failed at startup (#9). Later hosted release runs succeeded. Standalone parity and its GUI issue have since been retired; the UI runs through local HTTP.
 
 ## Plain vs. productive morphology — explicit coverage boundary
 

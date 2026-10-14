@@ -13,7 +13,7 @@ Raport JSON osobno oznacza dla każdego celu: `ontologyPresent`; połączenia le
 
 **Luki bazowe:** `event.movement` ma CORE i angielską deklarację, ale nie polskie pokrycie leksykalne/gramatyczne; `person.sister`, `person.brother`, `event.read`, `event.help` są nazwane jako oczekujące na nowy CORE w kolejnym batchu. `person.father` pozostaje planowany. Po dodaniu nowych reguł audyt sam zmieni status z `unmodelled` na strukturalne/empiryczne etapy, **bez ręcznego wpisywania sukcesu**.
 
-Zestaw 40 testów G2/G3 służy jako źródło zweryfikowanych prób; jeżeli jakikolwiek pozytywny gold zacznie się nie zgadzać, CLI kończy się błędem, nie wypisuje pozornie zielonego audytu. Pełny Node checkout i Actions (issue #9) są nadal niezweryfikowane; standalone jest własnością GUI (issue #16). `cefr.percentage` jest stale `null`.
+Zestaw 40 testów G2/G3 służy jako źródło zweryfikowanych prób; jeżeli jakikolwiek pozytywny gold zacznie się nie zgadzać, CLI kończy się błędem, nie wypisuje pozornie zielonego audytu. W chwili sporządzenia raportu pełny Node checkout i Actions nie były zweryfikowane; późniejsze pełne testy i hosted release runy przeszły. Standalone zostało wycofane. `cefr.percentage` jest stale `null`.
 
 ## Zmiany po Batch 3 — osobny gold rodziny i czynności
 

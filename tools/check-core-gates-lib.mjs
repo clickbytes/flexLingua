@@ -8,14 +8,13 @@ const fixed=[
   ['coverage','--test','tests/coverage-a1.test.js']
 ];
 
-export function coreGatePlan(testFiles, {includeStandalone=false}={}){
+export function coreGatePlan(testFiles){
   if(!Array.isArray(testFiles)||testFiles.length<1||testFiles.length>200||
       testFiles.some(file=>!allowedTest.test(file))||
       new Set(testFiles).size!==testFiles.length)
     throw new Error('Core gate requires a unique, bounded *.test.js file inventory.');
   const gates=fixed.map(([name,...args])=>({name,args}));
   gates.push({name:'full-node-tests',args:['--test',...testFiles.slice().sort().map(file=>'tests/'+file)]});
-  if(includeStandalone)gates.push({name:'standalone-parity',args:['tools/build-standalone.mjs','--check']});
   return gates;
 }
 
@@ -37,6 +36,5 @@ export function runCoreGates(plan,{spawn,nodePath='node',cwd}={}){
   return {schemaVersion:1,scope:'local-checkout-only-not-CI-certification',
     status:rows.every(r=>r.passed)?'pass':'fail',
     summary:{total:rows.length,passed:rows.filter(r=>r.passed).length,failed:rows.filter(r=>!r.passed).length},
-    standaloneIncluded:rows.some(r=>r.name==='standalone-parity'),
     githubActionsVerified:false,releaseVerified:false,rows};
 }

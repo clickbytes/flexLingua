@@ -1,5 +1,7 @@
 # G1b — diagnostyka GitHub Actions: minimalny workflow
 
+> Archiwalny raport dawnego `startup_failure`. GitHub Actions później uruchomił pełny release gate; opisywane tu kolejne kroki diagnozy nie są już bieżącymi blockerami. Standalone zostało wycofane.
+
 **Data:** 2026-10-14. **Cel:** odróżnić awarię startu CI od błędu rzeczywistych testów Node bez modyfikowania produkcyjnego workflow `Core Engine CI`.
 
 ## Co wiemy
@@ -17,7 +19,7 @@
 1. Jeśli nowy probe również ma `startup_failure` i 0 jobs, przyczyna jest najprawdopodobniej wspólna dla Actions w repo/konta/organizacji lub infrastruktury (nie można określić której bez komunikatu w UI/support).
 2. Jeśli probe ma zakończony job, porównaj komunikaty i definicje konkretnego `Core Engine CI`; nie ogłaszaj całego release jako poprawnego.
 3. Właściciel repo sprawdza **Settings → Actions → General** oraz ewentualną blokadę limitów/rozliczeń Actions, i szczegółowy komunikat uruchomienia. W razie braku informacji zgłasza GitHub Support dokładne identyfikatory run.
-4. Po przywróceniu Actions: wymusić pełen przebieg `Core Engine CI` na aktualnym `main` i udokumentować wyniki wszystkich realnych jobów oraz `npm test`, `check:a1-gold`, `check:release`, `check:standalone`. Standalone należy do agenta GUI.
+4. Historyczny następny krok po przywróceniu Actions obejmował pełen przebieg `Core Engine CI` i zapis wyników testów. GitHub Actions został później uruchomiony; standalone nie jest bieżącym jobem ani zadaniem GUI.
 
 ## Zakres uprawnień
 

@@ -18,7 +18,7 @@
 - Zakres A1 projektu przechowujemy w wersjonowanej, autorskiej macierzy. Każda jednostka ma stabilny identyfikator, status `required` / `deferred` / `unsupported`, sens CORE, wymagania mapowania PL/EN i morfologii oraz gold albo jawną lukę.
 - Konstrukcja wymaga także ramy gramatycznej w PL i EN. Status zakresu nie zastępuje statusu implementacji ani wyniku testu.
 - CEFR i Oxford są punktami odniesienia. Nie kopiujemy list, definicji ani przykładów bez praw/licencji; autorska macierz nie jest mianownikiem pełnego poziomu CEFR i nie uzasadnia procentu biegłości.
-- Zmiana macierzy wymaga aktualizacji jej dokumentacji, `ROADMAP.md` i `HANDOFF.md` w tym samym PR.
+- Zmiana macierzy wymaga aktualizacji jej dokumentacji i `ROADMAP.md` w tym samym PR. Status pracy i linki do dowodów utrzymuj w powiązanym issue/PR.
 
 ## Definition of Ready (przed rozpoczęciem)
 
@@ -33,9 +33,9 @@
 - [ ] AC na issue spełnione; testy obejmują obie strony PL/EN oraz podstępną odmowę, gdy dotyczy.
 - [ ] Prawdziwe wyniki Node/GitHub Actions z run URL i SHA; nie nazywaj isolated JS odpowiednikiem `npm test`.
 - [ ] `npm test`, odpowiednie `check:gold-*` i `check:release` albo jawny istniejący blocker z numerem issue.
-- [ ] Zaktualizowano odpowiednie docs/README/ROADMAP oraz `HANDOFF.md` w tym samym PR.
+- [ ] Zaktualizowano odpowiednie docs/README/ROADMAP w tym samym PR; status, SHA i Actions są zapisane w powiązanym issue/PR.
 - [ ] Dla leksyki: CORE sense, słowniki, role/ramy, morfologia, autorski gold, provenance/licencja.
-- [ ] Brak przypadkowych zmian `index.html`, `js/ui/**`, `index-standalone.html` w PR agenta CORE.
+- [ ] CORE nie modyfikuje `index.html` ani `js/ui/**`; GUI pozostaje osobnym obszarem własności.
 - [ ] Mały branch → PR → sprawdzenie aktualnego HEAD → bezpieczny squash merge, bez force push.
 - [ ] Jeśli GUI nadal ma niezaliczone testy, **release nie jest green**; issue może być zakończone z dowodem braku nowych regresji, ale epik wydania pozostaje otwarty.
 
@@ -45,14 +45,14 @@
 - [ ] Obserwowalny artefakt, test integracyjny, odmowy i dokumentacja działają.
 - [ ] Powiązane epiki/issue nie mają niezidentyfikowanych blockerów.
 - [ ] Przed zamknięciem zmierzono wynik oraz ograniczenia; nie certyfikowano A1–C2 fikcyjnym procentem.
-- [ ] GUI owner zatwierdził offline gdy epic obejmuje wydanie, UI lub zmieniony model źródła.
+- [ ] GUI owner zatwierdził zmiany interfejsu, gdy epic obejmuje UI.
 
 ## Dowody i wydania
 
 Aktualna bazowa migawka planowania: `f3f1a62af1777d7cca4afc52fe3a0b13ad1fed25`.
-Hosted [CI run #38620219789](https://github.com/clickbytes/flexLingua/actions/runs/38620219789): `npm test=405/405`; `engine-tests`, `lexical-audits`, `offline-parity` i `release-gate` zakończyły się sukcesem. Historyczny wynik 398/401 dotyczy awarii GUI sprzed [PR #84](https://github.com/clickbytes/flexLingua/pull/84). GUI #1 nadal otwarte do formalnego odbioru.
+Hosted [CI run #38625444693](https://github.com/clickbytes/flexLingua/actions/runs/38625444693) na `main` SHA `b7ea1ef`: pełny release gate zakończył się sukcesem (417/417 testów). Ten historyczny run zawierał jeszcze kontrolę standalone. W tej zmianie standalone jest wycofywany; docelowe jobs to `engine-tests`, `lexical-audits` i `release-gate`. Wynik nowego runu należy dodać po merge.
 Referencje: `docs/migration-clickbytes.md`, `docs/a1-evidence-ledger.md`, `docs/development-workflow.md`, `ROADMAP.md`.
 
 ## Aktualizacja realnego CI po GUI PR #84
 
-[Run #38616320178](https://github.com/clickbytes/flexLingua/actions/runs/38616320178) dla `main` SHA `33132c5c` potwierdza 401/401 testów Node, `lexical-audits`, `offline-parity` i `release-gate` **success**. Stan przyszłych tasków i ich dowodów musi pochodzić z konkretnych nowych runów. GUI #1 formalnie pozostaje otwarte do właścicielskiego zamknięcia.
+[Run #38616320178](https://github.com/clickbytes/flexLingua/actions/runs/38616320178) dla `main` SHA `33132c5c` historycznie potwierdził 401/401 testów Node i sukces wszystkich ówczesnych jobs. Bieżący status i dowody tasków muszą pochodzić z runu dla konkretnego SHA.

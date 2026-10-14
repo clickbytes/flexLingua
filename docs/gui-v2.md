@@ -71,11 +71,9 @@ Zmiany GUI dotyczą index.html, js/ui/studio.js i tylko minimalnych wywołań wi
 
 ## Uruchamianie i walidacja
 
-Interfejs działa przez lokalny serwer oraz index-standalone.html (bez połączenia z siecią). Przy każdej zmianie GUI odbuduj wygenerowany artefakt:
+Interfejs działa przez lokalny serwer HTTP i nie wymaga usług zewnętrznych. Otwieranie `index.html` przez `file://` nie jest obsługiwane. Uruchom `start.bat` w Windows albo `npm run dev`, a następnie wykonaj:
 
-    npm run build:standalone
-    npm run check:standalone
     npm test
     npm run check:release
 
-GUI ma odrębne testy tests/studio-ui.test.js, które weryfikują pobieranie rzeczywistych odmian PL/EN, wejściowe formy fleksyjne, brak hasła, zakładki, porównania paradygmatów, pokrycie reguł i wizualizację. Testy istniejących zachowań tests/ui.test.js oraz tests/offline.test.js pozostają aktywne.
+GUI ma odrębne testy `tests/studio-ui.test.js`, które weryfikują pobieranie rzeczywistych odmian PL/EN, wejściowe formy fleksyjne, brak hasła, zakładki, porównania paradygmatów, pokrycie reguł i wizualizację. Testy istniejących zachowań w `tests/ui.test.js` pozostają aktywne.

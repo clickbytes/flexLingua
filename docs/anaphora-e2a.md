@@ -1,7 +1,7 @@
 # E2a — kontrolowane zaimki podmiotu w dwóch zdaniach
 
 **Data:** 2026-10-13  
-**Stan:** mikrobatch E2a, etap 1 — kod źródłowy PL/EN/INTER. Nie obejmuje GUI, offline standalone, swobodnej anafory ani pamięci pomiędzy wywołaniami.
+**Stan:** historyczny mikrobatch E2a, etap 1 — kod źródłowy PL/EN/INTER. Nie obejmuje swobodnej anafory ani pamięci pomiędzy wywołaniami. Standalone zostało wycofane.
 
 ## Semantyka
 
@@ -42,5 +42,5 @@ Wciąż zachowujemy polisemię innych ról: `The girl sees the bank. She sees th
 
 - `tests/anaphora-e2a.test.js` — 6 niezależnych grup testowych, w tym obie strony PL/EN, niejednoznaczność, brak poprzednika, zachowanie polisemi i błędna konfiguracja reguł.
 - W izolowanym interpreterze JavaScript: **16/16** grup testowych E2a+E1+historyczny kontekst przeszło.
-- **Nie uruchomiono** pełnego `npm test`, `npm run check:release` ani sprawdzenia standalone. Zewnętrzny klon GitHuba z lokalnego kontenera nie jest możliwy (DNS); CI GitHub Actions wcześniej zwracał `startup_failure`. Izolowana weryfikacja nie zastępuje Node CLI.
+- **W chwili sporządzenia raportu** nie uruchomiono pełnego `npm test` ani `npm run check:release`; lokalne środowisko nie miało wtedy DNS, a CI zgłaszało `startup_failure`. Późniejsze pełne testy i hosted release runy przeszły. Kontrola standalone została wycofana.
 - Dalszy mikrobatch **E2b**: deklaratywny wybór i kontrolowana realizacja zaimka w zdaniu wynikowym dla już współdzielonych referentów, z regułami bezpiecznej odmowy i bez regresji dla eksplicytnych map `coreference`. Po nim: dalsza anafora z kontekstem obejmującym więcej niż dwa zdania i kontrola przynależności encji.

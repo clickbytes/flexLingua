@@ -44,7 +44,7 @@ The **first matching marker** is used for target generation, while all matching 
 - All new code is in `js/core/grammar.js`, `js/core/interlingua.js`, `js/core/engine.js` and safe tokenization. Language-specific adapters remain thin (`js/languages/en.js` and `pl.js`).
 - A bounded parse budget and memoization prevent unbounded work on recursive candidates. The prototype is not designed for all complex natural-language sentences.
 - Input containing commas is tokenized explicitly; punctuation is not silently dropped. Unsupported commas still fail frame matching.
-- The standalone HTML is **generated from the same modules and JSON**. Run `npm run build:standalone` after any source or dictionary change, then `npm test`.
+- Historical note: standalone HTML was generated from the same modules and JSON. That output and its generator have since been retired. Run `npm test` and `npm run check:release` for current validation; launch the UI through local HTTP.
 - The test suite includes round-trip EN → PL → semantic graph, localized negation, object-role gaps, depth-two nesting, JSON-only rule changes and a matrix of 48 grammatical combinations.
 
 ## Compatibility

@@ -35,7 +35,7 @@ A **lexeme** represents a language-specific lexical unit, not a surface word. Ev
 | 1.08 | Dependency-free review-first UniMorph-style TSV staging importer and provenance | Imported national dictionaries or bulk automatic CORE mappings |
 | 1.09 | Word-form → lexeme → CORE senses, explicit topic-based ranking | General word-sense disambiguation |
 | 1.10 | Arabic 3-consonant root/template morphological fixture with a CORE concept | An Arabic sentence parser or translator |
-| 1.11 | Versioned JS API, compiler emitting finite form/reading table, coverage reports, inspector, offline build and regression tests | A production-scale linguistic platform |
+| 1.11 | Versioned JS API, compiler emitting finite form/reading table, coverage reports, inspector, historical offline build and regression tests | A production-scale linguistic platform |
 
 ## Data and algorithms
 
@@ -97,7 +97,6 @@ The importer does not connect to the Internet, download third-party datasets, in
 npm run check:lexicon
 npm run check:morphology
 node tools/compile-language.mjs pl --output /tmp/flexlingua-pl.json
-npm run build:standalone
 npm run check:release
 ```
 
@@ -110,5 +109,5 @@ The coverage report counts **eligible canonical lexemes** of POS noun/verb/adjec
 - English irregular past forms and plurals are handled by explicit exceptions; other tense/aspect constructions are not asserted to exist.
 - High-vowel harmony and `rootTemplate` are demonstration-level operators; they are not a replacement for a language-complete two-level morphophonological transducer.
 - Derivation, open-ended compounding, arbitrary novel-word guessing, prosodic exponents, free word order and unbounded contextual syntax remain out of scope.
-- Offline browser mode embeds only PL/EN morphology plus the legacy TR *sentence* adapter. Arabic morphology runs through the CLI/tests, not through the UI.
+- The former offline browser mode embedded only PL/EN morphology plus the legacy TR *sentence* adapter; it has been retired. Arabic morphology runs through the CLI/tests, not through the UI.
 - Every active lexeme is mapped to CORE (including function words); inflectional forms are not individual CORE concepts.
