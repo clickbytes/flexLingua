@@ -4,7 +4,7 @@
 - Baza hosted [CI #38620219789](https://github.com/clickbytes/flexLingua/actions/runs/38620219789): wszystkie jobs sukces, `npm test` 405/405. Historyczny [run #38610233253](https://github.com/clickbytes/flexLingua/actions/runs/38610233253) miał 398/401 i trzy regresje GUI/offline, obecnie naprawione w [PR #84](https://github.com/clickbytes/flexLingua/pull/84). GUI #1 pozostaje otwarte do formalnego odbioru.
 - W bieżącym branchu przygotowano REL-01: tabelę historycznych testów → komponent/właściciel/issue oraz aktualny CI baseline; test chroni rozdział bramek.
 - W bieżącym branchu przygotowano VAL-05: inwentarz pochodzenia wszystkich 16 JSON pakietów danych, walidator CI/release i testy. Sześć pakietów jest zapisanych jako project-authored; dziesięć historycznych jest oznaczonych do migracji źródeł/licencji.
-- Lokalne `npm run check:release` przechodzi, w tym `npm test` 410/410. Hosted Actions dla tego branchu jeszcze nie uruchomiono.
+- PR [#86](https://github.com/clickbytes/flexLingua/pull/86) na SHA `473ee4e539d2f6210980a096bfcd3c30e33d2a89` ma zielony [hosted run #38622691670](https://github.com/clickbytes/flexLingua/actions/runs/38622691670): wszystkie jobs sukces, `npm test` 410/410, `check:release` success. Lokalny `npm run check:release` również przechodzi.
 - Następny ready task: VAL-01 #22 po VAL-05 #26; potem PERS-01 #27. Nie traktować treści zaplanowanych issues jako ukończonej implementacji.
 
 ---
