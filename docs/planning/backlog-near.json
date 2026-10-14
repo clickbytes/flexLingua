@@ -1,0 +1,929 @@
+{
+  "schemaVersion": 1,
+  "scope": "Current and near-term remaining flexLingua work; excludes completed Batch 1–7",
+  "repository": "clickbytes/flexLingua",
+  "anchorMain": "d70359ba0d783c32f37eb31cddc6c4abf3ce16e3",
+  "createdOn": "2026-10-14",
+  "epics": [
+    {
+      "id": "REL",
+      "title": "CI, jakość wydania i zarządzanie zmianą",
+      "priority": "P0",
+      "owner": "CORE/Platform",
+      "goal": "Ustabilizować rzetelną publikację Node/CORE i offline, bez maskowania błędów GUI.",
+      "done": [
+        "Na docelowym main Actions runner wykonuje jobs; lexical-audits, engine-tests, offline-parity i release-gate mają wynik success.",
+        "Release zapisuje SHA, wyniki, listę ograniczeń i artefakty; nie usuwa testów by osiągnąć green.",
+        "Zmiany GUI są realizowane tylko przez agenta GUI, a CORE dokumentuje przekazanie."
+      ],
+      "tasks": [
+        {
+          "id": "REL-01",
+          "title": "Utrwalić bazę błędów CI i kolejność ich domykania",
+          "goal": "Skategoryzować ostatnie nieudane testy i odróżnić regresje CORE od GUI.",
+          "files": [
+            ".github/workflows/core-engine.yml",
+            "tests/ci-workflow.test.js",
+            "docs/migration-clickbytes.md",
+            "HANDOFF.md"
+          ],
+          "checks": [
+            "Tabela failing test → komponent → właściciel → powiązany issue; potwierdzona na aktualnym main.",
+            "Wszystkie nowe regresje mają reprodukcję Node i link do rzeczywistego run ID.",
+            "Dokument wskazuje GUI #1 bez duplikacji lub cichego pominięcia błędu."
+          ],
+          "deps": []
+        },
+        {
+          "id": "REL-02",
+          "title": "Skonfigurować egzekwowanie statusów PR oraz politykę merge",
+          "goal": "Doprowadzić do odrzucania PR z niezweryfikowanymi/nieudanymi wymaganymi bramkami.",
+          "files": [
+            ".github/workflows/core-engine.yml",
+            ".github/PULL_REQUEST_TEMPLATE.md",
+            "docs/development-workflow.md"
+          ],
+          "checks": [
+            "Określono wymagane jobs (engine-tests, lexical-audits, offline-parity, release-gate) i branch protection/rulesets na main.",
+            "Testowy PR z błędem w jednej wymaganej bramce jest rzeczywiście blokowany przez politykę GitHub (wymaga działania właściciela ustawień).",
+            "Procedura awaryjnego przywracania/rollback i zasady wyjątków są udokumentowane."
+          ],
+          "deps": [
+            "REL-01",
+            "GUI-01"
+          ]
+        },
+        {
+          "id": "REL-03",
+          "title": "Deterministyczna procedura wydania i wersjonowania",
+          "goal": "Wytwarzać reprodukowalne i audytowalne wydanie CPU/offline.",
+          "files": [
+            "package.json",
+            "tools/check-core-gates.mjs",
+            "tools/build-standalone.mjs",
+            "docs/development-workflow.md",
+            "docs/release-v1.0.md"
+          ],
+          "checks": [
+            "Skrypt/checklista wydania odczytuje SHA, wersję, manifest plików, wyniki Node i zgodność offline.",
+            "Dwa uruchomienia z tym samym drzewem źródeł generują identyczny hash artefaktu lub dokumentują powód deterministycznej różnicy.",
+            "Wersja jest aktualizowana dopiero po prawdziwych bramkach, release notes zawierają ograniczenia i rollback."
+          ],
+          "deps": [
+            "REL-02",
+            "GUI-01"
+          ]
+        },
+        {
+          "id": "REL-04",
+          "title": "Granice zasobów, bezpieczeństwo wejścia i odporność regresji",
+          "goal": "Zapewnić bezpieczne odmowy i budżety czasu/pamięci podczas parsowania.",
+          "files": [
+            "js/core/engine.js",
+            "js/core/grammar.js",
+            "js/core/interlingua.js",
+            "tests/core-json-discourse.test.js",
+            "tests/semantics.test.js"
+          ],
+          "checks": [
+            "Dodano testy wadliwego CORE JSON, niebezpiecznych kluczy, limitów zagnieżdżenia i kombinatoryki.",
+            "Każde odrzucenie ma stabilny kod lub klasę błędu i nie zmienia pamięci rozmowy.",
+            "Benchmark granic zasobów ma jawne progi i działa w lokalnym Node CI bez zależności od sieci."
+          ],
+          "deps": [
+            "REL-01"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "VAL",
+      "title": "A1 — zakres, pomiar jakości i niezależne gold",
+      "priority": "P0",
+      "owner": "CORE/QA",
+      "goal": "Zastąpić pozorne procenty rzetelnym, wersjonowanym zbiorem wymagań i wynikami dwóch kierunków.",
+      "done": [
+        "Opublikowano macierz wymagań A1 z liczbą pokrytych sensów, form, ról, konstrukcji i wyjątków.",
+        "Niezależny, zamrożony benchmark wykazuje odrębne wyniki PL→EN oraz EN→PL, w tym odmowy i błędy semantyczne.",
+        "Progi jakości i wykluczenia są zatwierdzone; raport CEFR nie przywłaszcza certyfikatu."
+      ],
+      "tasks": [
+        {
+          "id": "VAL-01",
+          "title": "Zamrozić specyfikację docelowego A1 i jednostkę pokrycia",
+          "goal": "Oddzielić poziom CEFR od 23-elementowej autorskiej listy kontrolnej.",
+          "files": [
+            "data/coverage/a1-targets.json",
+            "docs/coverage-a1.md",
+            "ROADMAP.md",
+            "docs/planning/ISSUE_POLICY.md"
+          ],
+          "checks": [
+            "Autorska macierz A1 zawiera identyfikatory pojęć i konstrukcji oraz statusy: required/deferred/unsupported.",
+            "Każda jednostka ma wymagany sens CORE, mapowanie PL/EN, morfologię i testy lub jawną lukę.",
+            "Źródła CEFR/Oxford są referencyjne; brak kopiowanych list/definicji bez licencji."
+          ],
+          "deps": [
+            "VAL-05"
+          ]
+        },
+        {
+          "id": "VAL-02",
+          "title": "Utworzyć prawdziwy zamrożony held-out A1 PL↔EN",
+          "goal": "Zmierzyć generalizację na nowych zdaniach spoza projektowania reguł.",
+          "files": [
+            "data/coverage/a1-gold-g2.json",
+            "tests/fixtures/gold-a1-crossbatch.json",
+            "[NEW] data/coverage/a1-heldout-v1.json",
+            "[NEW] tests/a1-heldout.test.js"
+          ],
+          "checks": [
+            "Co najmniej 200 oryginalnych zdań kontrolowanych, minimum 100 dla każdego kierunku; autorzy rozdzieleni od implementujących reguły w miarę możliwości.",
+            "Zestaw ma commit freeze, identyfikatory i jawnie określone role, czas, negację, zakres operatorów i poprawną odmowę.",
+            "Test nie zmienia oracle automatycznie pod aktualną odpowiedź parsera, a wynik raportuje błędy, nie ukrywa ich."
+          ],
+          "deps": [
+            "VAL-01",
+            "PERS-06",
+            "STATE-04"
+          ]
+        },
+        {
+          "id": "VAL-03",
+          "title": "Połączyć katalog i wykonanie benchmarków bez zawyżania metryk",
+          "goal": "Rozszerzyć Batch 7 evidence ledger o śledzenie jakości prób i stabilne wydanie raportów.",
+          "files": [
+            "tools/a1-evidence-ledger-lib.mjs",
+            "tools/a1-evidence-ledger.mjs",
+            "tools/report-a1-lib.mjs",
+            "tests/a1-evidence-ledger.test.js"
+          ],
+          "checks": [
+            "Różnica declared/verified/held-out jest jawna, każdy status wskazuje rzeczywisty proces Node i jego kod.",
+            "Wyniki PL→EN i EN→PL, pozytywne, negatywne, morphology i duplicate są raportowane osobno.",
+            "CLI jest fail-closed na brakujących/mutowanych gold; `cefr.percentage` pozostaje null bez uprawnionego mianownika."
+          ],
+          "deps": [
+            "VAL-01",
+            "VAL-02"
+          ]
+        },
+        {
+          "id": "VAL-04",
+          "title": "Testy metamorficzne, wieloznaczność i odporność na złe wejście",
+          "goal": "Wykrywać podmienione role, aspekt, negację, a także ciche fabrykowanie wyników.",
+          "files": [
+            "tests/a1-gold-g2.test.js",
+            "tests/a1-crossbatch-composition.test.js",
+            "[NEW] tests/a1-metamorphic.test.js",
+            "js/core/interlingua.js"
+          ],
+          "checks": [
+            "Testy mutacji odwracają role, zakres negacji i cechy czasu: oracle musi rozpoznać zmianę.",
+            "Wspierane alternatywy są zwracane jawnie, a brak licencjonowanej konstrukcji skutkuje odmową.",
+            "Cały test jest niezależny od GUI i jest częścią npm test + raportu jakości."
+          ],
+          "deps": [
+            "VAL-01"
+          ]
+        },
+        {
+          "id": "VAL-05",
+          "title": "Rejestr pochodzenia leksyki, licencji i danych ewaluacji",
+          "goal": "Udokumentować źródła każdego nowego zestawu bez naruszania praw Oxford.",
+          "files": [
+            "data/concepts.json",
+            "data/pl.json",
+            "data/en.json",
+            "data/coverage/a1-targets.json",
+            "[NEW] docs/data-provenance.md"
+          ],
+          "checks": [
+            "Każdy pakiet danych ma autora/źródło, licencję, datę wersji i informację o dopuszczalnym użyciu.",
+            "Licencje zewnętrznych zbiorów są ocenione przed importem; chronione listy Oxford nie są kopiowane do repo.",
+            "CI/walidator wykrywa brak wymaganej adnotacji w nowych partiach lub jawnie oznacza legacy do migracji."
+          ],
+          "deps": []
+        }
+      ]
+    },
+    {
+      "id": "PERS",
+      "title": "A1 — 1./2. osoba, deiksa i uzgodnienie podmiotu",
+      "priority": "P0",
+      "owner": "CORE/PL/EN",
+      "goal": "Wprowadzić neutralną rolę mówcy/adresata i rzeczywistą odmianę ja/ty/my/wy ↔ I/you/we bez zgadywania rodzaju.",
+      "done": [
+        "Wspierane wypowiedzi 1./2. osoby są kodowane bez identyfikatorów użytkownika w CORE i parsowane w obu kierunkach.",
+        "Reguły PL i EN są deklaratywne; dokładnie ustalone formy odmiany są odwracalne.",
+        "Korpus gold pytań, negacji, liczby i osoby zachowuje sens i jawnie odmawia niejednoznaczności."
+      ],
+      "tasks": [
+        {
+          "id": "PERS-01",
+          "title": "ADR: tożsamość mówcy/adresata i reprezentacja person w CORE",
+          "goal": "Zaplanować agent=deictic speaker/addressee zamiast pozorowanego rzeczownika `person.girl`.",
+          "files": [
+            "js/core/interlingua.js",
+            "js/core/engine.js",
+            "data/features.json",
+            "data/concepts.json",
+            "[NEW] docs/adr/person-deixis.md"
+          ],
+          "checks": [
+            "ADR porównuje role person/speaker/addressee, deiksę, zmianę punktu widzenia i roundtrip JSON.",
+            "Schemat rozdziela osobę gramatyczną i identyfikację uczestnika; `I` nie wymusza rodzaju ani płci.",
+            "Nieznane speaker/addressee i zamiana perspektywy są obsłużone jawnymi zasadami/odmową."
+          ],
+          "deps": [
+            "VAL-01"
+          ]
+        },
+        {
+          "id": "PERS-02",
+          "title": "PL/EN jawne zaimki ja/ty/my/wy oraz I/you/we",
+          "goal": "Wprowadzić aktywne zaimki podmiotu bez kolizji z istniejącą anaforą he/she/on/ona.",
+          "files": [
+            "data/pl.json",
+            "data/en.json",
+            "data/grammar/pl.json",
+            "data/grammar/en.json",
+            "js/core/grammar.js"
+          ],
+          "checks": [
+            "Dane rozpoznają oraz realizują ja/ty/my/wy i I/you/we w kontrolowanych klauzulach.",
+            "Semantyka rozróżnia speaker/addressee od anafory E2–E4; brak wymyślonych płci/rodzajów.",
+            "Parser i realizator mają symetryczne testy jednostkowe i odmowę błędnej referencji."
+          ],
+          "deps": [
+            "PERS-01"
+          ]
+        },
+        {
+          "id": "PERS-03",
+          "title": "Uzgodnienie osoby w parserze i realizatorze zdań",
+          "goal": "Uogólnić domyślne subject.number na subject.person bez naruszania reguł 3. osoby.",
+          "files": [
+            "js/core/grammar.js",
+            "js/core/features.js",
+            "data/grammar/pl.json",
+            "data/grammar/en.json",
+            "tests/features.test.js"
+          ],
+          "checks": [
+            "`contextFor`, `matchesAgreement` i `parseClause` mają jawne testy subject.person i subject.number.",
+            "Formy 1., 2., 3. osoby i oba numery nie tworzą fałszywych dopasowań.",
+            "Stare gold G2–Batch7 i przynajmniej 401 historycznych testów nie otrzymują nowych regresji CORE."
+          ],
+          "deps": [
+            "PERS-01",
+            "PERS-02"
+          ]
+        },
+        {
+          "id": "PERS-04",
+          "title": "Polska fleksja czasowników: 1./2. osoba teraźniejsza i bezpieczny przeszły",
+          "goal": "Rozszerzyć paradygmaty PL zamiast kodować wyjątki jako zapamiętane zdania.",
+          "files": [
+            "data/morphology/pl.json",
+            "data/morphology/features.json",
+            "js/core/morphology/engine.js",
+            "data/pl.json",
+            "[NEW] tests/a1-person-morphology-pl.test.js"
+          ],
+          "checks": [
+            "Zatwierdzono przykłady czytam/czytasz/czytamy/czytacie oraz przynajmniej dwie nieregularne rodziny.",
+            "Nieznany rodzaj w pierwszej osobie czasu przeszłego nie jest zgadywany; obsługa wariantów lub jawna odmowa.",
+            "Testuje generowanie i analizę odwrotną wszystkich deklarowanych komórek, także błędnych form."
+          ],
+          "deps": [
+            "PERS-03"
+          ]
+        },
+        {
+          "id": "PERS-05",
+          "title": "Angielska odmiana I/you/we, auxiliary do/does i pytania",
+          "goal": "Wprowadzić jawne person-sensitive kontrakty forms oraz pytania i przeczenia.",
+          "files": [
+            "data/morphology/en.json",
+            "data/en.json",
+            "data/grammar/en.json",
+            "js/core/grammar.js",
+            "[NEW] tests/a1-person-english.test.js"
+          ],
+          "checks": [
+            "I/you/we read; I do not read; Do you read? realizują się bez do/does pomyłek.",
+            "3sg does/reads pozostaje poprawne; kontrprzykłady `I reads` i `Does you read?` są odrzucane.",
+            "EN→CORE→PL oraz PL→CORE→EN zachowuje mówcę, adresata, czas i polarność."
+          ],
+          "deps": [
+            "PERS-03",
+            "PERS-04"
+          ]
+        },
+        {
+          "id": "PERS-06",
+          "title": "Niezależny gold 1./2. osoby i deiksy; punkt integracji dialogu",
+          "goal": "Zweryfikować podstawowy dialog z odwróconą perspektywą i przypadki niejednoznaczne.",
+          "files": [
+            "[NEW] tests/fixtures/gold-person-a1.json",
+            "[NEW] tests/a1-person-gold.test.js",
+            "tests/conversation-e4.test.js",
+            "tools/a1-evidence-ledger-lib.mjs"
+          ],
+          "checks": [
+            "Min. 40 nowych, ręcznie zatwierdzonych przypadków PL/EN w obu kierunkach + negatywne warianty.",
+            "Kontroluje `speaker`, `addressee`, agreement, negację, modalność i pytania oraz bezpieczne pronoun realization.",
+            "Korpus ma osobną bramkę CI i zapisany raport; stare 6 fixture'ów pozostają bez modyfikacji oracle."
+          ],
+          "deps": [
+            "PERS-02",
+            "PERS-04",
+            "PERS-05"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "STATE",
+      "title": "A1 — być/mieć, stan, tożsamość i posiadanie",
+      "priority": "P0",
+      "owner": "CORE/PL/EN",
+      "goal": "Rozróżnić w INTER orzeczenie o stanie od posiadania i tożsamości, z nieregularną fleksją obu języków.",
+      "done": [
+        "Trzy odmienne znaczenia (predykacja, tożsamość, posiadanie) nie zlewają się w jedno `event` bez ról.",
+        "Present/past i 1./2./3. osoba są obsługiwane wyłącznie w zadeklarowanym zakresie.",
+        "Oba kierunki mają niezależny gold oraz testy odmów."
+      ],
+      "tasks": [
+        {
+          "id": "STATE-01",
+          "title": "ADR i CORE: predykacja, identyczność, posiadanie",
+          "goal": "Zaprojektować typowane semantyki zamiast fałszywego `event.visual_perception`.",
+          "files": [
+            "data/concepts.json",
+            "js/core/interlingua.js",
+            "js/core/ontology.js",
+            "[NEW] docs/adr/state-possession.md"
+          ],
+          "checks": [
+            "Model rozdziela `X is Y` identyczność, `X is big` orzecznik i `X has Y` relację posiadania.",
+            "Kontrakty ról/typów są wersjonowane i parser CORE JSON odrzuca niepełne struktury.",
+            "ADR opisuje różnice PL/EN, alternatywy i politykę niewspieranych konstrukcji."
+          ],
+          "deps": [
+            "PERS-01"
+          ]
+        },
+        {
+          "id": "STATE-02",
+          "title": "PL: być/mieć, fleksja i kontrolowane ramy",
+          "goal": "Uzupełnić kopułę, posiadanie i negację bez ad hoc par zdań.",
+          "files": [
+            "data/pl.json",
+            "data/grammar/pl.json",
+            "data/morphology/pl.json",
+            "js/core/grammar.js",
+            "[NEW] tests/a1-state-pl.test.js"
+          ],
+          "checks": [
+            "`jestem/jesteś/jest/jesteśmy/jesteście/są`, `mam/masz/ma/mamy/...` mają jawne paradygmaty i odwrotną analizę.",
+            "Wspierane role i przypadki dopełnienia są jednoznaczne; `nie mam książki` ma uzasadnione rządzenie.",
+            "Nieobsługiwane formy i kolizje z `pl.jest.aux` nie powodują cichego tłumaczenia."
+          ],
+          "deps": [
+            "STATE-01",
+            "PERS-04"
+          ]
+        },
+        {
+          "id": "STATE-03",
+          "title": "EN: be/have jako predykaty vs auxiliaries",
+          "goal": "Oddzielić treść semantyczną `am/is/are/was/were` od pomocniczego `do/does`.",
+          "files": [
+            "data/en.json",
+            "data/grammar/en.json",
+            "data/morphology/en.json",
+            "js/core/grammar.js",
+            "[NEW] tests/a1-state-en.test.js"
+          ],
+          "checks": [
+            "`I am`, `you are`, `she is`, `I have`, `does she have?` mają jawne poprawne analizy.",
+            "Błędne `I is`, `does she has?` oraz niejednoznaczne użycie `have` są odrzucane lub wykazywane jako alternatywy.",
+            "Nie ma regresji w historycznych modal/WH i `grammar.auxiliary`."
+          ],
+          "deps": [
+            "STATE-01",
+            "PERS-05"
+          ]
+        },
+        {
+          "id": "STATE-04",
+          "title": "Gold PL↔CORE↔EN dla być/mieć i stanów",
+          "goal": "Zamrozić testy pozytywne/negatywne, z odrębną walidacją semantyczną.",
+          "files": [
+            "[NEW] tests/fixtures/gold-state-a1.json",
+            "[NEW] tests/a1-state-gold.test.js",
+            "tools/a1-evidence-ledger-lib.mjs",
+            "docs/coverage-a1.md"
+          ],
+          "checks": [
+            "Min. 40 niezależnych przykładów dwukierunkowych obejmuje wszystkie trzy znaczenia i negacje.",
+            "Waliduje `CORE JSON`→tekst→analiza CORE bez utraty referencji, czasu i liczby.",
+            "Zły typ referenta i niepoprawna agreement zwracają diagnostykę, nie pozornie poprawny przekład."
+          ],
+          "deps": [
+            "STATE-02",
+            "STATE-03"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "SPACE",
+      "title": "A1 — miejsce, kierunek, liczby i czas",
+      "priority": "P1",
+      "owner": "CORE/PL/EN",
+      "goal": "Dodać podstawowe okoliczniki miejsca/kierunku/czasu, których obecna rama ruchu `event.movement` nie przechowuje.",
+      "done": [
+        "Wprowadzono rozróżnienie lokalizacji od celu ruchu i form przyimkowych bez zgadywania transportu.",
+        "Pytania gdzie/dokąd/kiedy i wybrane jednostki liczbowe mają semantyczny kontrakt.",
+        "Wspierane konstrukcje przechodzą gold obu kierunków; reszta fail-closed."
+      ],
+      "tasks": [
+        {
+          "id": "SPACE-01",
+          "title": "CORE: miejsce vs cel ruchu — typowane role",
+          "goal": "Rozszerzyć model zdarzeń o destination bez modyfikowania znaczenia wcześniejszych zdań `go/iść`.",
+          "files": [
+            "data/concepts.json",
+            "js/core/interlingua.js",
+            "data/grammar/pl.json",
+            "data/grammar/en.json",
+            "[NEW] docs/adr/spatial-roles.md"
+          ],
+          "checks": [
+            "ADR rozróżnia agent/theme/destination/location oraz wymagane typy referentów.",
+            "`The father goes to school` nie traci destination, a stare intransitive `The father goes` nadal działa.",
+            "Zewnętrzny tryb ruchu pieszo vs ogólne `go` ma jawną politykę, nie jest utożsamiany bez dowodu."
+          ],
+          "deps": [
+            "PERS-03"
+          ]
+        },
+        {
+          "id": "SPACE-02",
+          "title": "PL/EN: przyimki kierunku i miejsca, przypadki",
+          "goal": "Zaimplementować ograniczone `do/na/w` i `to/in/on/at` na danych językowych.",
+          "files": [
+            "data/grammar/pl.json",
+            "data/grammar/en.json",
+            "data/pl.json",
+            "data/en.json",
+            "js/core/grammar.js"
+          ],
+          "checks": [
+            "Rząd przypadka PL i angielskie przyimki są jawnie deklarowane i walidowane.",
+            "Przykłady `idzie do szkoły`, `jest w domu` zapisują destination/location bez utraty znaczenia.",
+            "Błędne przyimki, brak celu, niekompletne przypadki są odrzucane, a istniejące F2 WH nie regresuje."
+          ],
+          "deps": [
+            "SPACE-01",
+            "STATE-02"
+          ]
+        },
+        {
+          "id": "SPACE-03",
+          "title": "WH: gdzie, dokąd, skąd; where/to where",
+          "goal": "Pytania o lokalizację i kierunek przez lukę roli CORE.",
+          "files": [
+            "data/grammar/pl.json",
+            "data/grammar/en.json",
+            "js/core/grammar.js",
+            "js/core/interlingua.js",
+            "[NEW] tests/a1-wh-location.test.js"
+          ],
+          "checks": [
+            "Pytania `Gdzie ...?`, `Dokąd ...?`, `Where ...?` mają różne targetRole tam, gdzie semantyka to wymaga.",
+            "Wyjściowy CORE nie ma fikcyjnego referenta w niewypełnionej roli.",
+            "Wypełniona rola WH, błędny szyk i niepoprawny przyimek generują odmowę."
+          ],
+          "deps": [
+            "SPACE-01",
+            "SPACE-02"
+          ]
+        },
+        {
+          "id": "SPACE-04",
+          "title": "Czas zdarzenia vs określenia dziś/jutro/wczoraj",
+          "goal": "Oddzielić deiksę czasu od istniejącego event.features.tense.",
+          "files": [
+            "data/features.json",
+            "data/concepts.json",
+            "js/core/interlingua.js",
+            "data/grammar/pl.json",
+            "data/grammar/en.json"
+          ],
+          "checks": [
+            "Warianty `today/tomorrow/yesterday` mają jawne znaczenie i nie zmieniają samowolnie cech tense.",
+            "Nieznany punkt odniesienia czasu jest reprezentowany jako nieokreślony albo skutkuje odmową.",
+            "W obu kierunkach gold obejmuje zdania proste i spójność odczytów czasowych."
+          ],
+          "deps": [
+            "STATE-01"
+          ]
+        },
+        {
+          "id": "SPACE-05",
+          "title": "Liczebniki, ilości, godziny i proste daty A1",
+          "goal": "Rozszerzyć operator ilości (bez fikcyjnej kompletności kalendarzy).",
+          "files": [
+            "data/pl.json",
+            "data/en.json",
+            "data/concepts.json",
+            "js/core/nominals.js",
+            "data/coverage/a1-targets.json"
+          ],
+          "checks": [
+            "Jawna obsługa liczb 0–20 i liczby mnogiej/przypadka dla uzgodnionego zakresu.",
+            "Zdefiniowane wzorce godzin/dat/ilości mają jednoznaczne wartości CORE, a niewspierane formaty są odrzucane.",
+            "Testy porównują wartości, nie tylko powierzchnie tekstu; brak nieuprawnionej konwersji stref."
+          ],
+          "deps": [
+            "SPACE-04"
+          ]
+        },
+        {
+          "id": "SPACE-06",
+          "title": "Oddzielny gold przestrzenno-czasowy w PL/EN",
+          "goal": "Zamrozić kontrolowane zdania z kierunkiem, miejscem, czasem i ilościami.",
+          "files": [
+            "[NEW] tests/fixtures/gold-space-time-a1.json",
+            "[NEW] tests/a1-space-time.test.js",
+            "tools/a1-evidence-ledger-lib.mjs"
+          ],
+          "checks": [
+            "Min. 60 przykładów PL↔EN, w tym obie strony dla każdej z 4 podkategorii.",
+            "Testy CORE uwzględniają destination/location/time/quantity i negatywne konstrukcje.",
+            "Do raportu trafiają tylko faktyczne wyniki Node; `cefr.percentage` pozostaje null."
+          ],
+          "deps": [
+            "SPACE-02",
+            "SPACE-03",
+            "SPACE-04",
+            "SPACE-05"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "LEX",
+      "title": "A1 — słownictwo, sensy, morfologia i pochodzenie",
+      "priority": "P1",
+      "owner": "CORE/Data/PL/EN",
+      "goal": "Poszerzyć autorski leksem/sens CORE w obu językach, bez dodawania zapamiętanych par zdań.",
+      "done": [
+        "Każdy nowy sens ma niezależne CORE ID i dwukierunkowe mapowania.",
+        "Paradygmaty i wyjątki w PL/EN mają zweryfikowane komórki oraz analizę odwrotną.",
+        "Dla haseł wieloznacznych zgłoszona jest niepewność; źródła i licencje są jawne."
+      ],
+      "tasks": [
+        {
+          "id": "LEX-01",
+          "title": "Rodzina, ludzie, miejsca i przedmioty — kontrolowana partia danych",
+          "goal": "Rozszerzyć istniejące katalogi tematyczne poza minimalne 55/59 leksemów.",
+          "files": [
+            "data/concepts.json",
+            "data/pl.json",
+            "data/en.json",
+            "data/morphology/pl.json",
+            "data/morphology/en.json"
+          ],
+          "checks": [
+            "Partia dodaje 20+ oryginalnych sensów CORE z mapowaniem obu języków oraz metadanymi źródła.",
+            "Każdy nowy rzeczownik ma produktywne formy lub jawny brak komórki, bez ukrywania analizy nieznanego wyrazu.",
+            "Testy kontrolują nazwy pojęć, przypadki liczby i w obie strony powstające zdania."
+          ],
+          "deps": [
+            "VAL-05"
+          ]
+        },
+        {
+          "id": "LEX-02",
+          "title": "Jedzenie, zakupy i codzienne obiekty A1",
+          "goal": "Dodać rzeczowniki/typowane znaczenia obiektów użyteczne dla prostego dialogu.",
+          "files": [
+            "data/concepts.json",
+            "data/pl.json",
+            "data/en.json",
+            "data/morphology/pl.json",
+            "data/morphology/en.json"
+          ],
+          "checks": [
+            "Min. 20 zatwierdzonych sensów z relacjami kategorii i odwrotną analizą form.",
+            "Wieloznaczności są rozdzielone, a nie zmapowane na pierwszy znaleziony odpowiednik.",
+            "Zapisano próbki gold PL/EN i brak przepisanych materiałów Oxford."
+          ],
+          "deps": [
+            "VAL-05",
+            "LEX-01"
+          ]
+        },
+        {
+          "id": "LEX-03",
+          "title": "Czasowniki codzienne z walencją i osobnymi sensami",
+          "goal": "Rozszerzyć zdarzenia typu eat/drink/work/learn/sleep w kontrolowanym zakresie.",
+          "files": [
+            "data/concepts.json",
+            "data/pl.json",
+            "data/en.json",
+            "data/grammar/pl.json",
+            "data/grammar/en.json"
+          ],
+          "checks": [
+            "Dodano co najmniej 10 sensów predykatów ze ścisłymi rolami i przypadkami.",
+            "Kompozycyjne zdania obu kierunków przechodzą analizę/realizację, a niewłaściwe role nie.",
+            "Dla każdego czasownika jest jawna lista obsługiwanych czasów, aspektów i typów rzeczowników."
+          ],
+          "deps": [
+            "LEX-01",
+            "PERS-03"
+          ]
+        },
+        {
+          "id": "LEX-04",
+          "title": "Wyjątki morfologiczne i inne klasy odmiany PL/EN",
+          "goal": "Rozbudować produktywne paradygmaty, zachowując porównanie z legacy.",
+          "files": [
+            "data/morphology/pl.json",
+            "data/morphology/en.json",
+            "js/core/morphology/engine.js",
+            "tests/morphology.test.js",
+            "tests/morphology-tools.test.js"
+          ],
+          "checks": [
+            "Nowe paradygmaty mają komplet zdefiniowanych slots i odwrotne rozpoznanie, a wyjątki nie przeciekają do innych leksemów.",
+            "Co najmniej 50 ręcznie zatwierdzonych komórek nowej partii oraz mutacja sprawdzająca negatywny wynik.",
+            "`materializeInflections(...,{assertLegacy:true})` nie niszczy dotychczasowych tabel."
+          ],
+          "deps": [
+            "LEX-01",
+            "LEX-03"
+          ]
+        },
+        {
+          "id": "LEX-05",
+          "title": "Polisemia, homonimia i kontrolowana odmowa zamiast zgadywania",
+          "goal": "Dodać rozstrzyganie lub alternatywy dla wieloznacznych leksemów na poziomie CORE.",
+          "files": [
+            "data/pl.json",
+            "data/en.json",
+            "data/concepts.json",
+            "js/core/engine.js",
+            "tests/core-lexicon.test.js"
+          ],
+          "checks": [
+            "Co najmniej 10 zatwierdzonych par polisemiczych sensów bez automatycznego sklejania.",
+            "Kontekst uzasadnia selekcję, a przy braku przesłanek zachowujemy konkurujące wyniki lub odmowę.",
+            "Testy wymuszają niezależność znaczenia od pisowni i nie uszkadzają dotychczasowego `bank/mouse`."
+          ],
+          "deps": [
+            "VAL-05"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "GRAM",
+      "title": "A1 — spójność składni i warunków znaczeniowych",
+      "priority": "P1",
+      "owner": "CORE/PL/EN",
+      "goal": "Doprowadzić do kompozycyjności przypadków, pytań, negacji, opisów i kontrolowanych prostych wypowiedzi.",
+      "done": [
+        "Reguły znajdują się w JSON i wspólnym interpreterze, bez ręcznie kodowanych par PL↔EN.",
+        "Nieobsługiwane konstrukcje fail-closed; pytania zachowują typ i rolę, negacja zakres.",
+        "Poziom A1 ma kompletne testy kompozycyjne na jawnie obsługiwanym zakresie."
+      ],
+      "tasks": [
+        {
+          "id": "GRAM-01",
+          "title": "Zaimki osobowe w przypadkach i dzierżawczość A1",
+          "goal": "Rozbudować formy mnie/mi/tobie/twój/my/mine z kontrolą relacji referentów.",
+          "files": [
+            "js/core/nominals.js",
+            "js/core/interlingua.js",
+            "data/grammar/pl.json",
+            "data/grammar/en.json",
+            "[NEW] tests/a1-pronoun-case.test.js"
+          ],
+          "checks": [
+            "Definicje person/case/possessor nie są mieszane z sensem CORE rzeczownika.",
+            "Wspierane PL/EN formy mają jawny typ przypadka/rolę, zgodność, roundtrip oraz odmowy.",
+            "E2a–E4 anafora zachowuje unikalność wcześniejszych referentów."
+          ],
+          "deps": [
+            "PERS-06"
+          ]
+        },
+        {
+          "id": "GRAM-02",
+          "title": "Przymiotniki: zgodność PL (rodzaj/przypadek/liczba) i EN",
+          "goal": "Rozbudować predykację/atrybuty z istniejącego kwalifikowanego modelu nominals.",
+          "files": [
+            "js/core/nominals.js",
+            "data/morphology/pl.json",
+            "data/morphology/en.json",
+            "data/grammar/pl.json",
+            "data/grammar/en.json"
+          ],
+          "checks": [
+            "Min. 3 klasy odmiany PL testowane w wymaganych przypadkach i liczbach.",
+            "Cechy znaczenia (`quality.big/small/red`) nie zawierają językowych końcówek.",
+            "Niepoprawne uzgodnienia i nieznane wyjątki zwracają jasną odmowę."
+          ],
+          "deps": [
+            "STATE-01",
+            "LEX-04"
+          ]
+        },
+        {
+          "id": "GRAM-03",
+          "title": "Negacja, rząd przypadków i zakres operatorów PL/EN",
+          "goal": "Ujednolicić różnice `nie widzę`, `nie mam`, `not`, `scope:not`.",
+          "files": [
+            "js/core/grammar.js",
+            "js/core/interlingua.js",
+            "data/grammar/pl.json",
+            "data/grammar/en.json",
+            "tests/semantics.test.js"
+          ],
+          "checks": [
+            "Testy rozróżniają NOT(P) i P z lokalnym polarity negative w obowiązującym kontrakcie.",
+            "Genitive of negation PL i English do-support działają wyłącznie dla licencjonowanych ram.",
+            "Niedozwolona podwójna negacja, niewspierany zakres lub błędny przypadek są odrzucane."
+          ],
+          "deps": [
+            "STATE-02",
+            "PERS-05"
+          ]
+        },
+        {
+          "id": "GRAM-04",
+          "title": "Pytania i prośby: yes/no, WH, wybrane imperatywy",
+          "goal": "Zunifikować pytania agent/theme/miejsce oraz wybrane dialogowe requests.",
+          "files": [
+            "js/core/grammar.js",
+            "data/grammar/pl.json",
+            "data/grammar/en.json",
+            "js/core/interlingua.js",
+            "tests/question-semantics.test.js"
+          ],
+          "checks": [
+            "WH zostawia rolę pustą; pytania z modalnością zachowują zagnieżdżenie operatorów.",
+            "Co najmniej 20 ręcznie sprawdzonych nowych pytań obu kierunków + błędne szyki/auxiliary.",
+            "Imperatyw ma osobną semantykę dialogową lub jawnie odroczoną implementację — nie udaje zdania oznajmującego."
+          ],
+          "deps": [
+            "PERS-06",
+            "SPACE-03"
+          ]
+        },
+        {
+          "id": "GRAM-05",
+          "title": "Odbiór A1: mieszane zdania/anafory i limitowanie parsera",
+          "goal": "Zamrozić przypadki łączące nowy słownik z istniejącą kompozycją E2–E4/F3.",
+          "files": [
+            "tests/composition-v1.20.test.js",
+            "tests/anaphora-e3.test.js",
+            "tests/a1-crossbatch-composition.test.js",
+            "tools/a1-evidence-ledger-lib.mjs"
+          ],
+          "checks": [
+            "Min. 40 niezależnych kombinacji różnych sensów/struktur z oboma kierunkami.",
+            "Limit grafu, ambiwalencja zaimków i pronoun safety są testowane pozytywnie i negatywnie.",
+            "Zgodność z historycznymi gold i raportem jest weryfikowana w Node Actions."
+          ],
+          "deps": [
+            "GRAM-01",
+            "GRAM-02",
+            "GRAM-03",
+            "GRAM-04"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "DIAL",
+      "title": "Conversation Engine MVP — dialog kontrolowany bez LLM",
+      "priority": "P1",
+      "owner": "CORE/Conversation",
+      "goal": "Umożliwić prostą odpowiedź na pytania i kontynuację rozmowy PL/EN w granicach CORE.",
+      "done": [
+        "Dialog ma deklaratywny automat tur i typowane intent/dialogue act; interfejs językowy pozostaje wymienny.",
+        "W kontekście są bezpieczne tożsamości referentów i jawne źródła odpowiedzi, bez dopowiadania nieznanych faktów.",
+        "Istnieje end-to-end gold rozmów wieloturowych PL/EN i test bezpiecznej odmowy."
+      ],
+      "tasks": [
+        {
+          "id": "DIAL-01",
+          "title": "Schema dialog acts (assert, ask, answer, confirm, clarify, refuse)",
+          "goal": "Zdefiniować odrębną warstwę pragmatyczną ponad istniejącą semantyką zdarzeń.",
+          "files": [
+            "js/core/interlingua.js",
+            "js/core/conversation.js",
+            "data/concepts.json",
+            "[NEW] docs/adr/dialogue-acts.md"
+          ],
+          "checks": [
+            "Jawne typy aktu, payload CORE, limity długości i wersja formatu są udokumentowane.",
+            "Pytanie/odpowiedź nie jest po prostu `event` bez kontekstu; brak danych wymusza clarify/refuse.",
+            "Walidator CORE JSON i testy bezpieczeństwa odrzucają nieznane dialog acts."
+          ],
+          "deps": [
+            "PERS-01",
+            "STATE-01"
+          ]
+        },
+        {
+          "id": "DIAL-02",
+          "title": "Session context: speaker, addressee, focus, unresolved questions",
+          "goal": "Rozwinąć istniejący `ConversationContext` bez niszczenia E4 rollback i limitów.",
+          "files": [
+            "js/core/conversation.js",
+            "js/core/engine.js",
+            "js/core/interlingua.js",
+            "tests/conversation-e4.test.js"
+          ],
+          "checks": [
+            "Każda tura zapisuje rozpoznaną intencję, uczestników i referenty bez traktowania identycznej pisowni jako tożsamości.",
+            "Przy błędzie parsowania, niejednoznaczności lub limicie pamięć nie jest modyfikowana.",
+            "Session API ma reset/snapshot, bounded history oraz test roundtrip stanów."
+          ],
+          "deps": [
+            "PERS-06",
+            "DIAL-01"
+          ]
+        },
+        {
+          "id": "DIAL-03",
+          "title": "Regułowy Response Planner CORE→CORE",
+          "goal": "Wybierać odpowiedź/wyjaśnienie na podstawie jawnych faktów i aktu rozmowy.",
+          "files": [
+            "[NEW] js/core/response-planner.js",
+            "js/core/conversation.js",
+            "js/core/engine.js",
+            "[NEW] tests/response-planner.test.js"
+          ],
+          "checks": [
+            "Planner bez sieci/LLM przyjmuje canonical CORE i zwraca typowany, odtwarzalny plan odpowiedzi.",
+            "Nieznana odpowiedź daje `unknown/clarify/refuse`, nie twierdzi o nieistniejących faktach.",
+            "Tę samą semantykę można zrealizować zarówno w PL, jak i EN; nie ma bezpośrednich par zdań."
+          ],
+          "deps": [
+            "DIAL-01",
+            "DIAL-02"
+          ]
+        },
+        {
+          "id": "DIAL-04",
+          "title": "Conversation Engine API: wieloturowe tłumaczenie, odpowiedzi i błędy",
+          "goal": "Zbudować warstwę koordynującą parser, planner i realizację niezależnie od GUI.",
+          "files": [
+            "[NEW] js/core/dialogue-engine.js",
+            "js/core/engine.js",
+            "js/core/conversation.js",
+            "docs/api-v1.0.md"
+          ],
+          "checks": [
+            "API `nextTurn`/`tryNextTurn` przyjmuje język, session i wypowiedź; zwraca CORE, tekst i diagnostyki.",
+            "Prawdziwe API działa CPU/offline dla PL/EN i zachowuje jawnie wybraną perspektywę.",
+            "Zagrożenia sprawności/niejednoznaczności nie prowadzą do częściowego zapisu sesji."
+          ],
+          "deps": [
+            "DIAL-02",
+            "DIAL-03"
+          ]
+        },
+        {
+          "id": "DIAL-05",
+          "title": "Gold 20+ dwujęzycznych rozmów A1 i regresje bez halucynacji",
+          "goal": "Zamrozić scenariusze end-to-end: poznanie, pytanie, korekta, brak wiedzy.",
+          "files": [
+            "[NEW] tests/fixtures/gold-conversation-a1.json",
+            "[NEW] tests/dialogue-engine-a1.test.js",
+            "tools/a1-evidence-ledger-lib.mjs"
+          ],
+          "checks": [
+            "Min. 20 scenariuszy po 3+ tur, w tym PL/EN i cross-language response.",
+            "Testy obejmują brak odpowiedzi, fałszywe referencje, niejednoznaczność, state rollback oraz jawne confidence.",
+            "Wyniki są raportowane per scena/akt i przechodzą osobną bramkę Node CI."
+          ],
+          "deps": [
+            "DIAL-04",
+            "GRAM-05"
+          ]
+        }
+      ]
+    }
+  ]
+}

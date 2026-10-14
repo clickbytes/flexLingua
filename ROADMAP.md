@@ -224,3 +224,7 @@ Dołączono znaczenia pisania i otwierania, ich morfologię, testy semantyczne i
 ## A1 Batch 7 (14.10.2026)
 
 Scalanie dowodów z sześciu niezależnych fixture'ów: 115 przykładów pozytywnych, 25 odmów, 60 komórek; `check:a1-evidence` uruchamia rzeczywiste testy, a `report:a1-evidence` nie udaje ich wykonania. Pomiar całego CEFR nadal niedostępny. [Opis](docs/a1-evidence-ledger.md). Kolejne batche: osoba 1/2, `być/mieć`, relacje miejsca i kierunku. GUI osobny agent.
+
+## Backlog egzekwowalny i epiki (14.10.2026)
+
+Otwarto **14 epików / 67 tasków** w `clickbytes/flexLingua`; każde ma rodzica, AC i kontrakt plików oraz checklistę. [BACKLOG](docs/planning/BACKLOG.md), [ISSUE_MAP](docs/planning/ISSUE_MAP.json), [EXECUTION_ORDER](docs/planning/EXECUTION_ORDER.md). Epik A1 nie jest certyfikacją CEFR. Hosted CI na `clickbytes/main` SHA `33132c5` zakończył się sukcesem (run #38616320178, Node 401/401); GUI #1 formalnie pozostało otwarte do akceptacji właściciela. Nowe PR wymagają własnego realnego Actions run i HANDOFF.

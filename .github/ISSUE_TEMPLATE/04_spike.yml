@@ -1,0 +1,37 @@
+name: "SPIKE / ADR — decyzja projektowa"
+description: "Ograniczone badanie architektoniczne z hipotezami i kryterium decyzji."
+title: "[SPIKE][P2][CORE] "
+body:
+  - type: input
+    id: parent
+    attributes:
+      label: Epik i kod zadania
+    validations:
+      required: true
+  - type: textarea
+    id: question
+    attributes:
+      label: Konkretne pytanie lub decyzja
+      placeholder: "Który model CORE wybrać i dlaczego?"
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Hipotezy, alternatywy, ryzyka
+    validations:
+      required: true
+  - type: textarea
+    id: experiment
+    attributes:
+      label: Reprodukowalny eksperyment / kryteria wyboru
+      placeholder: "Wskazanie plików, testu, budżetu i mierzalnego wyniku."
+    validations:
+      required: true
+  - type: textarea
+    id: decision
+    attributes:
+      label: Artefakty i Definition of Done
+      placeholder: "- [ ] ADR...\n- [ ] Próbka...\n- [ ] Zadania wdrożenia..."
+    validations:
+      required: true

@@ -1,0 +1,74 @@
+name: "TASK — implementacja lub test"
+description: "Precyzyjna zmiana z listą plików, zależnościami i egzekwowalnym DoD."
+title: "[TASK][P1][CORE] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Każdy TASK zawiera: epik, jeden rezultat, pliki, akceptację pozytywną/negatywną,
+        dowody Node CI i aktualizację HANDOFF.md. Nie zaznaczaj testów, których nie uruchomiono.
+  - type: input
+    id: parent
+    attributes:
+      label: "Kod / link do epiku"
+      placeholder: "PERS-03 / #123"
+    validations:
+      required: true
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priorytet
+      options:
+        - P0
+        - P1
+        - P2
+        - P3
+    validations:
+      required: true
+  - type: dropdown
+    id: owner
+    attributes:
+      label: Strumień odpowiedzialności
+      options:
+        - CORE / data / testy
+        - Platform / CI
+        - GUI / offline (oddzielny agent)
+        - Research
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Jednoznaczny cel i operacje
+      placeholder: "Jaki kontrakt zmieni się i jak będzie zweryfikowany?"
+    validations:
+      required: true
+  - type: textarea
+    id: files
+    attributes:
+      label: Ścieżki / kotwice / operacje per plik
+      description: "Istniejący plik lub oznaczenie [NOWY], operacja ADD/EDIT/TEST/DOC."
+      placeholder: "js/core/grammar.js :: createRuleAdapter -> ..."
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Kryteria odbioru (minimum 3)
+      placeholder: "- [ ] Implementacja...\n- [ ] Testy PL↔EN...\n- [ ] Negatywy..."
+    validations:
+      required: true
+  - type: textarea
+    id: validation
+    attributes:
+      label: Testy i rzeczywiste dowody
+      placeholder: "npm test; check:release; CI run URL; co nie uruchomiono."
+    validations:
+      required: true
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Blocked by / outside scope / ryzyka
+      placeholder: "Depends on: #...\nPoza zakresem: GUI."
+    validations:
+      required: false
