@@ -21,7 +21,7 @@ async function addModule(file) {
       isAbsolute(relativePath)) {
     throw new Error(`Unexpected module path: ${file}`);
   }
-  let source = await readFile(full, 'utf8');
+  let source = (await readFile(full, 'utf8')).replace(/\r/g, '');
   const imports = [];
   source = source.replace(staticImport, (_, specifiers, from) => {
     const names = specifiers.split(',').map(s => s.trim()).filter(Boolean);

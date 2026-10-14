@@ -356,6 +356,7 @@ const { validateFeatureBundle, record, safeName, hasOwn } = __flexModules[3];
  * Surface case, gender and word order never enter the semantic graph.
  */
 
+
 const INTERLINGUA_VERSION = '0.2';
 const DISCOURSE_VERSION = '0.4';
 const QUALIFIED_VERSION = '0.5';
@@ -1017,6 +1018,7 @@ const { createOntology } = __flexModules[5];
 const { record, hasOwn, safeName } = __flexModules[3];
 
 
+
 const CORE_LANGUAGE_VERSION = '1.01';
 const CORE_REFERENCE_KINDS = Object.freeze(['concept', 'operator', 'grammaticalFunction']);
 const CORE_ID = /^[a-zA-Z][a-zA-Z0-9_]*(?:\.[a-zA-Z][a-zA-Z0-9_]*)*$/u;
@@ -1166,6 +1168,9 @@ const { createDiscourse, createCoordination, createNegation, createComplement, m
 const { createFeatureRegistry, record, safeName, hasOwn } = __flexModules[3];
 const { createCoreLanguage } = __flexModules[4];
 const { splitSentences, sentenceText } = __flexModules[6];
+
+
+
 
 
 const MAX_CANDIDATES = 16;
@@ -2243,6 +2248,9 @@ const { createMorphFeatureRegistry, flattenMorphFeatures } = __flexModules[11];
 const { executeOperations, validateOperations } = __flexModules[12];
 
 
+
+
+
 const ID=/^[A-Za-z][A-Za-z0-9_]*(?:\.[A-Za-z0-9_]+)*$/u;
 const MAX_SLOTS=256,MAX_LEXEMES=30000,MAX_ANALYSES=64,MAX_COMPILED_FORMS=300000;
 const clone=structuredClone;
@@ -2427,6 +2435,8 @@ __flexModules[13] = (() => {
 const { participant, modifier, MAX_ENTITY_MODIFIERS, MAX_MODIFIER_DEPTH } = __flexModules[2];
 const { record, safeName, hasOwn } = __flexModules[3];
 const { matchesTokens } = __flexModules[6];
+
+
 
 
 const WORDS = /^[\p{L}]+(?:\s+[\p{L}]+)*$/u;
@@ -2708,6 +2718,11 @@ const { materializeInflections } = __flexModules[10];
 const { createNominalInterpreter } = __flexModules[13];
 const { matchesTokens, sentenceText, tokenize } = __flexModules[6];
 const { record, hasOwn, safeName, unifyFeatures, featureSource, matchesAgreement, matchesConditions } = __flexModules[3];
+
+
+
+
+
 
 
 /**
@@ -4129,6 +4144,7 @@ const { executeOperations } = __flexModules[12];
  * DOM data is written via textContent, not HTML interpolation.
  */
 
+
 const $ = id => document.getElementById(id);
 const LABELS = Object.freeze({
   number: 'Liczba', case: 'Przypadek', tense: 'Czas', person: 'Osoba',
@@ -4979,6 +4995,12 @@ const { createTurkishAdapter } = __flexModules[15];
 const { createMorphology } = __flexModules[10];
 const { createCoreLanguage } = __flexModules[4];
 const { initStudio, renderMeaning } = __flexModules[16];
+
+
+
+
+
+
 
 
 const element = id => document.getElementById(id);
