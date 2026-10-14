@@ -220,3 +220,7 @@ Dołączono znaczenia pisania i otwierania, ich morfologię, testy semantyczne i
 ## Aktywne repozytorium po migracji (14.10.2026)
 
 **Tylko [clickbytes/flexLingua](https://github.com/clickbytes/flexLingua)** przyjmuje nowe commity, PR, issues i wyniki CI. Kod źródłowy historycznie rozwijano w ppotepa; dotychczasowe linki PR pozostają historią. [Migracja i walidacja Actions](docs/migration-clickbytes.md). CORE/GUI to odrębne zadania. Po odblokowaniu runnerów trwa usuwanie realnych regresji Node i synchronizacja standalone przez agenta GUI.
+
+## A1 Batch 7 (14.10.2026)
+
+Scalanie dowodów z sześciu niezależnych fixture'ów: 115 przykładów pozytywnych, 25 odmów, 60 komórek; `check:a1-evidence` uruchamia rzeczywiste testy, a `report:a1-evidence` nie udaje ich wykonania. Pomiar całego CEFR nadal niedostępny. [Opis](docs/a1-evidence-ledger.md). Kolejne batche: osoba 1/2, `być/mieć`, relacje miejsca i kierunku. GUI osobny agent.

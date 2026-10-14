@@ -13,7 +13,7 @@
     "compile:pl": "node tools/compile-language.mjs pl",
     "compile:en": "node tools/compile-language.mjs en",
     "compile:ar": "node tools/compile-language.mjs ar",
-    "check:release": "npm run check:lexicon && npm run check:morphology && npm run check:gold && npm run check:a1-gold && npm run check:gold-family && npm run check:gold-father && npm run check:gold-movement && npm run check:gold-actions && npm run check:standalone && npm test && npm run check:coverage",
+    "check:release": "npm run check:lexicon && npm run check:morphology && npm run check:gold && npm run check:a1-gold && npm run check:gold-family && npm run check:gold-father && npm run check:gold-movement && npm run check:gold-actions && npm run check:a1-evidence && npm run check:standalone && npm test && npm run check:coverage",
     "check:gold": "node tools/verify-gold.mjs",
     "coverage:a1": "node tools/coverage-a1.mjs",
     "check:coverage": "node --test tests/coverage-a1.test.js",
@@ -27,6 +27,8 @@
     "check:gold-family": "node --test tests/family-actions-a1.test.js",
     "check:gold-father": "node --test tests/father-a1.test.js",
     "check:gold-movement": "node --test tests/movement-a1.test.js",
-    "check:gold-actions": "node --test tests/daily-actions-a1.test.js tests/a1-crossbatch-composition.test.js"
+    "check:gold-actions": "node --test tests/daily-actions-a1.test.js tests/a1-crossbatch-composition.test.js",
+    "report:a1-evidence": "node tools/a1-evidence-ledger.mjs --catalog-only",
+    "check:a1-evidence": "node tools/a1-evidence-ledger.mjs"
   }
 }

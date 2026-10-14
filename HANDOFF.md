@@ -1,3 +1,37 @@
+# A1 BATCH 7 — ZWERYFIKOWANY HOSTED CI, 2026-10-14
+
+**Wyłącznie clickbytes/flexLingua.** [Run 38609956499](https://github.com/clickbytes/flexLingua/actions/runs/38609956499) na PR #3: `lexical-audits` **SUCCESS**, włącznie z `check:a1-evidence` i wszystkimi sześcioma autorskimi testami. `npm test`: **401 ogółem, 398 passed, 3 failed**; te trzy to wyłącznie GUI/standalone, zapisane w [issue #1](https://github.com/clickbytes/flexLingua/issues/1). `check:release` nadal nieprzechodzący, nie usuwać ani nie omijać GUI gate. Batch 7 nie modyfikował GUI. Dopiero po naprawie GUI pełny green release i ewentualna aktualizacja wersji.
+
+---
+
+# CHECKPOINT A1 BATCH 7 — katalog i wykonanie testów z sześciu źródeł
+
+**Repo:** tylko `clickbytes/flexLingua`; branch `core/a1-batch7-evidence-ledger-20261014`, baza `6b738f6814caf73812282bef95bc259ed64aaf2d`.
+
+- Dodano `tools/a1-evidence-ledger-lib.mjs`, CLI, pięć testów regresyjnych, nowe skrypty `report:a1-evidence` i `check:a1-evidence`, wymagalność w CI i `check:release`.
+- Sześć fixture'ów: **115** pozytywnych (w tym 2 produktywne `window/okno`), **25** odmów i **60** komórek morfologicznych. Jawnie opisane znaczenia, bez dopowiadania brakujących ról na podstawie parsera.
+- Katalog `--catalog-only` ma wyłącznie `not-run`; zwykła komenda uruchamia sześć faktycznych programów Node i kończy się błędem dla choć jednego niepowodzenia. Simulowane testy funkcjonalne ledger na danych: 14 celów w obu kierunkach, 2 w jednym, 7 bez jawnej adnotacji. NIE jest to procent CEFR ani jeszcze wynik hosted CI.
+- Korekta: brak identyfikatorów u części negatywnych przypadków obsłużony stałym `NEG-<source>-NN` tylko w raporcie; istniejące fixture'y pozostają niezmienione.
+- Prawdziwa walidacja Node w GitHub Actions wymagana przed merge i `HANDOFF` wymaga aktualizacji wyniku. Pozostające błędy GUI/standalone poza CORE: [clickbytes issue #1](https://github.com/clickbytes/flexLingua/issues/1).
+
+---
+
+## Korekta Batch 7 — różny format negatywnych fixture'ów
+
+W zestawach family/father/movement/actions odmowy były przechowywane bez `id`, podczas gdy G2 ma jawne identyfikatory. Ledger przydziela im deterministyczne `NEG-<source>-NN` tylko na potrzeby raportu; pozytywne przypadki nadal muszą mieć własne unikatowe ID. Nie modyfikowano oryginalnych zbiorów testowych.
+
+---
+
+# CHECKPOINT A1 BATCH 7 — clickbytes, 2026-10-14
+
+- Baza w aktywnym repo `clickbytes/flexLingua`: `6b738f6814caf73812282bef95bc259ed64aaf2d`. Zbudowano rejestr **6 oryginalnych fixture'ów** G2, family, father, movement, daily actions i crossbatch. Zbiera oddzielne liczby pozytywnych zdań, odmów i komórek morfologicznych. Nie importuje ani nie kopiuje chronionych list Oxford.
+- `npm run report:a1-evidence` = katalog bez uruchamiania testów (`not-run`); `npm run check:a1-evidence` **uruchamia 6 realnych procesów Node**, raportuje ich kody wyjścia i jest fail-closed. Przyczynę błędu zachowuje w ograniczonym wycinku logów.
+- Poziom CEFR pozostaje `percentage:null`; obecność przykładu i przejście finite gold nie stanowią reprezentatywnego testu A1. Pozorna niezależność źródeł nie oznacza braku nakładających się przykładów.
+- Nowa bramka do release i lexical-audits, testy V8/Node, dokumentacja, bez zmian GUI. Pozostaje otwarte GUI issue #1 oraz stary artefakt standalone.
+- Po merge uzupełnić ten checkpoint rzeczywistym wynikiem Actions na SHA clickbytes/main.
+
+---
+
 # CI FAKTYCZNE WYNIKI POPRAWEK CORE — 2026-10-14
 
 **Repo aktywne tylko clickbytes/flexLingua.** Po importowaniu kompletnej migawki `main`, prawdziwy hosted [run 38607989473](https://github.com/clickbytes/flexLingua/actions/runs/38607989473) uruchomił poprawiony zestaw: **392/395 pass**; `lexical-audits` success, `offline-parity` failure, `engine-tests` failure wyłącznie w trzech testach **GUI**. GUI musi poprawić [issue #1](https://github.com/clickbytes/flexLingua/issues/1): nieaktualny standalone i dwa testy Studio. Żadne zmiany w UI/HTML nie zostały wykonane przez CORE. Przed zielonym release wymagane aktualne `npm test`, `check:standalone`, `check:release` na `main`.

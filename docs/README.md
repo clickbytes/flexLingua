@@ -81,3 +81,5 @@ Każda istotna zmiana w kodzie lub danych powinna mieć testy i odpowiadającą 
 - [A1 Batch 6 composition tests](a1-daily-actions.md#cross-batch-compositionality-tests) — modalities, interrogatives, coordination and discourse.
 
 - [Migracja do clickbytes + rzeczywiste GitHub Actions](migration-clickbytes.md) — aktywne repozytorium, integralność migawki, wykryte regresje.
+
+- [A1 Batch 7: rejestr dowodów i wykonanie testów](a1-evidence-ledger.md) — bez procentu CEFR, autorskie fixture'y, jawne statusy.
