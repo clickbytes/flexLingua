@@ -1,5 +1,7 @@
 # Jak pracujemy
 
+Instrukcje operacyjne dla agentów repozytorium znajdują się w [AGENTS.md](../AGENTS.md). Ten dokument opisuje wspólny proces i źródła informacji.
+
 ## Gdzie znajduje się aktualna informacja
 
 | Informacja | Miejsce |
@@ -12,17 +14,19 @@ GitHub Issues, pull requests i Actions są rejestrem pracy. Repozytorium opisuje
 
 ## Przebieg zadania
 
-1. Wybierz gotowe issue. Upewnij się, że wynik, kryteria odbioru i zależności są zrozumiałe. Doprecyzuj je w issue, jeśli trzeba.
-2. Zrób małą gałąź i implementację. W trakcie uruchamiaj testy dotyczące zmiany.
-3. Otwórz PR powiązany z issue. Opisz rezultat i odnotuj faktycznie wykonane testy.
-4. Sprawdź Actions dla dokładnego SHA PR. Scal po przejściu wymaganych bramek i przeglądu zmian.
-5. Issue zamknij przez PR. Jeśli praca jest zablokowana, zapisz powód i następny krok w issue.
+1. Wybierz jedno gotowe issue. Sprawdź jego epik, zależności, kryteria odbioru i linkowane ADR lub kontrakty.
+2. Zacznij od testu najmniejszego pełnego zachowania. Implementuj mały pionowy zakres i sprawdzaj go testem celowanym.
+3. Po pierwszym spójnym fragmencie, który przechodzi testy celowane, otwórz draft PR powiązany z issue. Wymień pozostałe kryteria i faktycznie uruchomione testy.
+4. Przed zakończeniem uruchom pełny lokalny gate. Sprawdź Actions dla dokładnego SHA PR i przejrzyj zakres zmian.
+5. Scal po przejściu wymaganych bramek i przeglądu. Zamknięcie issue powiąż z PR. Jeśli praca jest zablokowana, zapisz dowód, przyczynę i następny krok w issue.
 
 Zależności i kolejność prac prowadzą GitHub Issues.
 
 ## Testy
 
 Podczas pracy uruchamiaj testy właściwe dla zmiany. Przed zakończeniem użyj `npm run check:release`; skrypt zawiera `npm test`, więc nie trzeba uruchamiać obu poleceń osobno. Wymagany przez konkretną zmianę dodatkowy gold uruchom wtedy, gdy nie jest częścią release gate. Raportuj wynik hostowanego Actions z dokładnym SHA.
+
+W sesji Codex stosuj repozytoryjne zasady CodeGraph i RTK opisane w [AGENTS.md](../AGENTS.md) oraz obowiązujące instrukcje globalne.
 
 Nie deklaruj PASS dla testu, którego nie uruchomiono. Nie zastępuj pełnego testu lokalnego ani Actions izolowanym fragmentem runtime.
 
