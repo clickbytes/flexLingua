@@ -2,7 +2,7 @@
 
 ## Stan walidacji w aktywnym repo
 
-Bazowy `clickbytes/main` SHA `33132c5c246e37b78729c6b4e3603586bb9cc82d` jest już **GREEN** w [GitHub Actions #38616320178](https://github.com/clickbytes/flexLingua/actions/runs/38616320178): **401/401** Node, leksyka/morfologia/gold, offline i release-gate — wszystkie jobs `success`. Historyczne 398/401 były sprzed naprawy GUI/Windows. Istniejące GUI #1 nadal jest formalnie `open`; jego ostateczny odbiór należy do osobnego agenta. Status nowego commita planistycznego należy weryfikować osobnym runem, nie dziedziczyć automatycznie z wcześniejszego SHA.
+Bazowy `clickbytes/main` SHA `f3f1a62af1777d7cca4afc52fe3a0b13ad1fed25` jest **GREEN** w [GitHub Actions #38620219789](https://github.com/clickbytes/flexLingua/actions/runs/38620219789): **405/405** Node, lexical-audits, offline-parity i release-gate — wszystkie jobs `success`. Historyczne 398/401 były sprzed naprawy GUI/Windows. GUI #1 pozostaje formalnie otwarte, choć jego kryteria testowe przechodzą po [PR #84](https://github.com/clickbytes/flexLingua/pull/84); trzeba zapisać formalny odbiór. Każdy nowy commit wymaga osobnego runu CI.
 
 
 **To plan zależności, nie harmonogram kalendarzowy.** Nie twierdzi, że taski zostały wykonane. `clickbytes/flexLingua` pozostaje jedynym repo do zapisu.
@@ -14,7 +14,7 @@ Bazowy `clickbytes/main` SHA `33132c5c246e37b78729c6b4e3603586bb9cc82d` jest ju�
 
 ## Ścieżka krytyczna P0 — jakość i pierwsza osoba
 
-1. [REL-01 #18](https://github.com/clickbytes/flexLingua/issues/18) → [GUI-01 #1](https://github.com/clickbytes/flexLingua/issues/1) (oddzielny agent GUI) → [REL-02 #19](https://github.com/clickbytes/flexLingua/issues/19) → [REL-03 #20](https://github.com/clickbytes/flexLingua/issues/20). GUI #1 dotyczy standalone i dwóch regresji Studio, nie zmian CORE.
+1. [REL-01 #18](https://github.com/clickbytes/flexLingua/issues/18) → [GUI-01 #1](https://github.com/clickbytes/flexLingua/issues/1) (naprawione w PR #84; formalny odbiór do zapisania) → [REL-02 #19](https://github.com/clickbytes/flexLingua/issues/19) → [REL-03 #20](https://github.com/clickbytes/flexLingua/issues/20). GUI #1 dotyczy standalone i dwóch regresji Studio, nie zmian CORE.
 2. [REL-01 #18](https://github.com/clickbytes/flexLingua/issues/18) → [REL-04 #21](https://github.com/clickbytes/flexLingua/issues/21) — walidacja bezpieczeństwa, limitów i testów zasobów.
 3. [VAL-05 #26](https://github.com/clickbytes/flexLingua/issues/26) → [VAL-01 #22](https://github.com/clickbytes/flexLingua/issues/22) — zamrożony zakres A1, legalność źródeł.
 4. [VAL-01 #22](https://github.com/clickbytes/flexLingua/issues/22) → [PERS-01 #27](https://github.com/clickbytes/flexLingua/issues/27): ADR dla speaker/addressee i form 1./2. osoby.
@@ -45,4 +45,4 @@ Bazowy `clickbytes/main` SHA `33132c5c246e37b78729c6b4e3603586bb9cc82d` jest ju�
 3. Nie mylić morfologii językowej z neutralnym CORE; nie zgadywać płci, aspektu, źródeł ani certyfikacji CEFR.
 4. Uruchomić komponentowe Node tests i full `npm test`; dokumentować rzeczywiste wyniki Actions wraz z SHA.
 5. Aktualizować docs/README/ROADMAP i `HANDOFF.md` w tym samym PR; nie zmieniać GUI przez agenta CORE.
-6. `check:release` może pozostać czerwone z powodu znanego GUI #1 — nie usuwać bramki ani ukrywać błędów; nie ogłaszać wydania ukończonym.
+6. Bieżący `check:release` przechodzi na main; zachować wszystkie bramki i aktualizować status na podstawie runu dla konkretnego SHA.

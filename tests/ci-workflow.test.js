@@ -32,19 +32,30 @@ test('G1: independent CI jobs cover release checks and isolate GUI offline parit
     assert.match(workflow,new RegExp(`^  ${name}:$`,'m'));
   }
   for(const run of ['npm test','npm run check:lexicon','npm run check:morphology',
-    'npm run check:gold','npm run check:a1-gold','npm run check:gold-family','npm run check:gold-father','npm run check:gold-movement','npm run check:gold-actions','npm run check:a1-evidence','npm run check:coverage','npm run check:standalone',
+    'npm run check:gold','npm run check:a1-gold','npm run check:gold-family','npm run check:gold-father','npm run check:gold-movement','npm run check:gold-actions','npm run check:a1-evidence','npm run check:coverage','npm run check:data-provenance','npm run check:standalone',
     'npm run check:release']) assert.ok(workflow.includes(`run: ${run}`),`Missing ${run}`);
   assert.doesNotMatch(workflow,/run:\s*npm run build:standalone/);
   assert.doesNotMatch(workflow,/run:\s*npm install/);
 });
 
+test('REL-01: full Node, lexical, offline and release failures remain independently visible',()=>{
+  assert.match(workflow,/^  engine-tests:[\s\S]*?^  lexical-audits:/m);
+  assert.match(workflow,/^  lexical-audits:[\s\S]*?^  offline-parity:/m);
+  assert.match(workflow,/^  offline-parity:[\s\S]*?^  release-gate:/m);
+  assert.match(workflow,/^  engine-tests:[\s\S]*?run: npm test/m);
+  assert.match(workflow,/^  lexical-audits:[\s\S]*?run: npm run check:a1-evidence/m);
+  assert.match(workflow,/^  offline-parity:[\s\S]*?run: npm run check:standalone/m);
+  assert.match(workflow,/^  release-gate:[\s\S]*?run: npm run check:release/m);
+});
+
 test('G1: each invoked npm command exists in the versioned package scripts',()=>{
   for(const name of ['test','check:lexicon','check:morphology','check:gold',
-    'check:coverage','check:a1-gold','check:gold-family','check:gold-father','check:gold-movement','check:gold-actions','check:a1-evidence','check:standalone','check:release']){
+    'check:coverage','check:a1-gold','check:gold-family','check:gold-father','check:gold-movement','check:gold-actions','check:a1-evidence','check:data-provenance','check:standalone','check:release']){
     assert.equal(typeof pkg.scripts?.[name],'string',`Missing npm script ${name}`);
   }
   assert.match(pkg.scripts['check:release'],/npm test/);
   assert.match(pkg.scripts['check:release'],/check:standalone/);
+  assert.match(pkg.scripts['check:release'],/check:data-provenance/);
 });
 
 const probe=await readFile(new URL('../.github/workflows/actions-smoke.yml',import.meta.url),'utf8');

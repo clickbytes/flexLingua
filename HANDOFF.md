@@ -1,11 +1,11 @@
-# CHECKPOINT: MASTER BACKLOG / WSPÓLNY STAN CORE+GUI — 2026-10-14
+# CHECKPOINT: REALIZACJA P0 — 2026-10-14
 
-- **Wyłącznie:** `clickbytes/flexLingua`. Zintegrowano plan z najnowszym `main` SHA `33132c5c246e37b78729c6b4e3603586bb9cc82d` bez utraty zmian GUI/Windows/standalone.
-- Na SHA `33132c5` hosted [Core Engine CI #38616320178](https://github.com/clickbytes/flexLingua/actions/runs/38616320178): **success** (Node `401/401`, `lexical-audits`, `offline-parity`, `release-gate` success). Starszy wynik 398/401 to historyczne problemy, a nie bieżący status tego commita.
-- [GUI #1](https://github.com/clickbytes/flexLingua/issues/1) nadal formalnie OPEN; osobny agent GUI powinien potwierdzić AC i zamknąć, nie tworzyć duplikatu.
-- Wersjonowany backlog: 14 epików #4–#17, 67 zadań (66 nowych, GUI #1), w obu kierunkach kanoniczne `Parent`, `Blocked by`, `Unblocks`, DAG bez cykli. Szablony Issue Forms EPIC/TASK/BUG/SPIKE i PR oraz test backlogu w `npm test`.
-- Ten PR nie dotyka `js/core/**`, `data/**`, `js/ui/**`, `index*.html`, `tools/build-standalone.mjs`, `.gitattributes` ani generatora GUI. Po scaIeniu wymagane osobne potwierdzenie CI na SHA wynikowym PR.
-- Przyszłe batche: `REL-01` #18 i `VAL-05` #26, dalej `VAL-01` #22 i `PERS-01` #27. Handoff w każdym zakończonym batchu.
+- **Repo:** `clickbytes/flexLingua`; branch `core/p0-rel01-val05`, baza `main` SHA `f3f1a62af1777d7cca4afc52fe3a0b13ad1fed25`.
+- Baza hosted [CI #38620219789](https://github.com/clickbytes/flexLingua/actions/runs/38620219789): wszystkie jobs sukces, `npm test` 405/405. Historyczny [run #38610233253](https://github.com/clickbytes/flexLingua/actions/runs/38610233253) miał 398/401 i trzy regresje GUI/offline, obecnie naprawione w [PR #84](https://github.com/clickbytes/flexLingua/pull/84). GUI #1 pozostaje otwarte do formalnego odbioru.
+- W bieżącym branchu przygotowano REL-01: tabelę historycznych testów → komponent/właściciel/issue oraz aktualny CI baseline; test chroni rozdział bramek.
+- W bieżącym branchu przygotowano VAL-05: inwentarz pochodzenia wszystkich 16 JSON pakietów danych, walidator CI/release i testy. Sześć pakietów jest zapisanych jako project-authored; dziesięć historycznych jest oznaczonych do migracji źródeł/licencji.
+- PR [#86](https://github.com/clickbytes/flexLingua/pull/86) na SHA `473ee4e539d2f6210980a096bfcd3c30e33d2a89` ma zielony [hosted run #38622691670](https://github.com/clickbytes/flexLingua/actions/runs/38622691670): wszystkie jobs sukces, `npm test` 410/410, `check:release` success. Lokalny `npm run check:release` również przechodzi.
+- Następny ready task: VAL-01 #22 po VAL-05 #26; potem PERS-01 #27. Nie traktować treści zaplanowanych issues jako ukończonej implementacji.
 
 ---
 
