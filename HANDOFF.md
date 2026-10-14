@@ -1,3 +1,9 @@
+# A1 BATCH 7 — ZWERYFIKOWANY HOSTED CI, 2026-10-14
+
+**Wyłącznie clickbytes/flexLingua.** [Run 38609956499](https://github.com/clickbytes/flexLingua/actions/runs/38609956499) na PR #3: `lexical-audits` **SUCCESS**, włącznie z `check:a1-evidence` i wszystkimi sześcioma autorskimi testami. `npm test`: **401 ogółem, 398 passed, 3 failed**; te trzy to wyłącznie GUI/standalone, zapisane w [issue #1](https://github.com/clickbytes/flexLingua/issues/1). `check:release` nadal nieprzechodzący, nie usuwać ani nie omijać GUI gate. Batch 7 nie modyfikował GUI. Dopiero po naprawie GUI pełny green release i ewentualna aktualizacja wersji.
+
+---
+
 # CHECKPOINT A1 BATCH 7 — katalog i wykonanie testów z sześciu źródeł
 
 **Repo:** tylko `clickbytes/flexLingua`; branch `core/a1-batch7-evidence-ledger-20261014`, baza `6b738f6814caf73812282bef95bc259ed64aaf2d`.
