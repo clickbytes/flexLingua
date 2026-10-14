@@ -4,6 +4,7 @@ import {readFile, mkdtemp, rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {spawnSync} from 'node:child_process';
+import {fileURLToPath} from 'node:url';
 import {createMorphology} from '../js/core/morphology/engine.js';
 import {morphologyCoverage,compileMorphology} from '../js/core/morphology/compiler.js';
 import {importUniMorph} from '../tools/importers/unimorph.mjs';
@@ -13,6 +14,9 @@ const [core,features,pl,en,plSpec,enSpec]=await Promise.all([
   'concepts.json','morphology/features.json','pl.json','en.json','morphology/pl.json','morphology/en.json'].map(load));
 const make=(code,dictionary,spec)=>createMorphology(spec,dictionary,features,{core:createCoreLanguage(core)});
 const morphPL=make('pl',pl,plSpec),morphEN=make('en',en,enSpec);
+const compileLanguageScript=fileURLToPath(new URL('../tools/compile-language.mjs',import.meta.url));
+const unimorphScript=fileURLToPath(new URL('../tools/importers/unimorph.mjs',import.meta.url));
+const unimorphFixture=fileURLToPath(new URL('./fixtures/unimorph-sample.tsv',import.meta.url));
 
 test('v1.08 importer maps only unambiguous, CORE-linked existing lexemes to review staging',async()=>{
  const text=await readFile(new URL('./fixtures/unimorph-sample.tsv',import.meta.url),'utf8');
@@ -66,13 +70,13 @@ test('compile-language CLI writes valid finite table without dependencies',async
  const temp=await mkdtemp(join(tmpdir(),'flexlingua-test-'));
  try{
   const file=join(temp,'en.json');
-  const cmd=spawnSync(process.execPath,[new URL('../tools/compile-language.mjs',import.meta.url).pathname,
+  const cmd=spawnSync(process.execPath,[compileLanguageScript,
     'en','--output',file],{encoding:'utf8'});
   assert.equal(cmd.status,0,cmd.stderr);
   const data=JSON.parse(await readFile(file,'utf8'));
   assert.equal(data.language,'en');
   assert.ok(data.readings.some(x=>x.text==='children'));
-  const bad=spawnSync(process.execPath,[new URL('../tools/compile-language.mjs',import.meta.url).pathname,
+  const bad=spawnSync(process.execPath,[compileLanguageScript,
     'not-a-language'],{encoding:'utf8'});
   assert.notEqual(bad.status,0);
  }finally{await rm(temp,{force:true,recursive:true});}
@@ -82,8 +86,8 @@ test('v1.08 importer CLI writes staging results but not lexicon JSON',async()=>{
  const temp=await mkdtemp(join(tmpdir(),'flexlingua-import-'));
  try{
   const file=join(temp,'staging.json');
-  const cmd=spawnSync(process.execPath,[new URL('../tools/importers/unimorph.mjs',import.meta.url).pathname,
-    '--language','pl','--input',new URL('./fixtures/unimorph-sample.tsv',import.meta.url).pathname,
+  const cmd=spawnSync(process.execPath,[unimorphScript,
+    '--language','pl','--input',unimorphFixture,
     '--source','self-authored','--license','test','--out',file],{encoding:'utf8'});
   assert.equal(cmd.status,0,cmd.stderr);
   const data=JSON.parse(await readFile(file,'utf8'));

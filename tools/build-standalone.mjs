@@ -4,7 +4,7 @@
  * Run: node tools/build-standalone.mjs [--check]
  */
 import { readFile, writeFile } from 'node:fs/promises';
-import { dirname, join, resolve } from 'node:path';
+import { dirname, isAbsolute, join, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -16,7 +16,11 @@ const staticImport = /^\s*import\s*\{([\s\S]*?)\}\s*from\s*['"]([^'"]+)['"];?[ \
 async function addModule(file) {
   const full = resolve(file);
   if (moduleByPath.has(full)) return moduleByPath.get(full);
-  if (!full.startsWith(join(root, 'js') + '/')) throw new Error(`Unexpected module path: ${file}`);
+  const relativePath = relative(join(root, 'js'), full);
+  if (relativePath === '..' || relativePath.startsWith(`..${sep}`) ||
+      isAbsolute(relativePath)) {
+    throw new Error(`Unexpected module path: ${file}`);
+  }
   let source = await readFile(full, 'utf8');
   const imports = [];
   source = source.replace(staticImport, (_, specifiers, from) => {
@@ -76,6 +80,7 @@ if (!bootstrap.test(template)) throw new Error('Cannot locate application bootst
 template = template.replace(bootstrap, `<script id="flexlingua-standalone">\n${compiled}\n</script>`);
 template = template.replace('<span class="chip">INTERLINGUA · 1.12 CORE + MORPH</span>',
   '<span class="chip">INTERLINGUA · OFFLINE 1.12</span>');
+template = template.replace(/\r/g, '');
 const output = join(root, 'index-standalone.html');
 if (process.argv.includes('--check')) {
   const existing = await readFile(output, 'utf8').catch(() => '');

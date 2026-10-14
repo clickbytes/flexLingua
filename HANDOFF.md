@@ -1,3 +1,16 @@
+# CHECKPOINT: naprawa CI i testow Windows/offline — 2026-10-14
+
+**Repo:** `clickbytes/flexLingua`; branch `core/fix-ci-windows-offline-20261014`; baza `main` SHA `d70359ba0d783c32f37eb31cddc6c4abf3ce16e3`. Zmiany sa lokalne na galezi; `main` pozostaje bez zmian.
+
+- Naprawiono trzy czerwone testy CI: asercje liczby paradygmatow licza aktywny pakiet morfologii, a atrapa UI zawiera oba panele wymagane przez `initStudio`.
+- Naprawiono przenosnosc Windows: generator standalone sprawdza granice katalogow przez `path.relative`, a testy CLI konwertuja URL-e przez `fileURLToPath`.
+- Wygenerowano ponownie `index-standalone.html`; `.gitattributes` wymusza LF dla tego artefaktu, a generator zapisuje kanoniczne LF niezaleznie od systemu.
+- Weryfikacja lokalna, Windows / Node v24.19.0: `npm run check:release` **PASS** (`npm test` 401/401; wszystkie audyty i `check:standalone` PASS), `npm run check:questions` **PASS** (15/15), `npm run build:standalone` **PASS**, `git diff --check` **PASS**.
+- Ostatni hosted run przed poprawkami: [38610233253](https://github.com/clickbytes/flexLingua/actions/runs/38610233253), `main` SHA bazowy; fail w offline parity i trzech testach Node. Po wypchnieciu tej galezi wymagany nowy hosted run; wynik pozostaje **pending**.
+- Nie zmieniano zrodlowego GUI/CSS. Aktualizacja pliku offline wynika z wymaganej synchronizacji bundla, a poprawki testow odwzorowuja obecny interfejs.
+
+---
+
 # A1 BATCH 7 — ZWERYFIKOWANY HOSTED CI, 2026-10-14
 
 **Wyłącznie clickbytes/flexLingua.** [Run 38609956499](https://github.com/clickbytes/flexLingua/actions/runs/38609956499) na PR #3: `lexical-audits` **SUCCESS**, włącznie z `check:a1-evidence` i wszystkimi sześcioma autorskimi testami. `npm test`: **401 ogółem, 398 passed, 3 failed**; te trzy to wyłącznie GUI/standalone, zapisane w [issue #1](https://github.com/clickbytes/flexLingua/issues/1). `check:release` nadal nieprzechodzący, nie usuwać ani nie omijać GUI gate. Batch 7 nie modyfikował GUI. Dopiero po naprawie GUI pełny green release i ewentualna aktualizacja wersji.
