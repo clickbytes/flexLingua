@@ -42,8 +42,8 @@
 
 ## Dowody i wydania
 
-Aktualna bazowa migawka planowania: `d70359ba0d783c32f37eb31cddc6c4abf3ce16e3`.
-Hosted CI na tym SHA: `lexical-audits=success`, `npm test=398/401`, pozostałe 3 błędy należą do GUI w issue #1. Nie oznaczać `check:release` jako green.
+Aktualna bazowa migawka planowania: `f3f1a62af1777d7cca4afc52fe3a0b13ad1fed25`.
+Hosted [CI run #38620219789](https://github.com/clickbytes/flexLingua/actions/runs/38620219789): `npm test=405/405`; `engine-tests`, `lexical-audits`, `offline-parity` i `release-gate` zakończyły się sukcesem. Historyczny wynik 398/401 dotyczy awarii GUI sprzed [PR #84](https://github.com/clickbytes/flexLingua/pull/84). GUI #1 nadal otwarte do formalnego odbioru.
 Referencje: `docs/migration-clickbytes.md`, `docs/a1-evidence-ledger.md`, `docs/development-workflow.md`, `ROADMAP.md`.
 
 ## Aktualizacja realnego CI po GUI PR #84

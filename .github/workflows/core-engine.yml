@@ -51,6 +51,7 @@ jobs:
       - run: npm run check:gold-actions
       - run: npm run check:a1-evidence
       - run: npm run check:coverage
+      - run: npm run check:data-provenance
 
   offline-parity:
     name: Generated offline parity (GUI owner)

@@ -5,6 +5,7 @@ Ten plik jest nawigacją po dokumentacji. Aktualny cel i priorytety znajdują si
 ## Kierunek rozwoju i sposób pracy
 
 - [A1.0 — strukturalny raport pokrycia](coverage-a1.md) — CLI, miary i ograniczenia.
+- [Pochodzenie danych](data-provenance.md) — źródła, status licencji i warunki użycia pakietów JSON.
 
 
 - [Roadmapa PL ↔ INTER ↔ EN (A1–C2)](../ROADMAP.md) — etapy, kolejność, kryteria odbioru, przyszła rozmowa i osobowość.

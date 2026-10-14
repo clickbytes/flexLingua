@@ -25,7 +25,9 @@ The engine agent works on CORE, language data, CLI tools, tests and documentatio
 
 - `npm run coverage:a1` — live structural inventory of PL/EN lexemes, CORE senses, morphology bindings and a project-authored A1 pilot.
 - `npm run check:coverage` — checks duplicate IDs, orphan bindings and missing concepts.
+- `npm run check:data-provenance` — verifies package versions, provenance records and legacy migration notes.
 - [A1 coverage methodology](docs/coverage-a1.md) — structural counts are not proof of CEFR A1 competence.
+- [Data provenance](docs/data-provenance.md) — package sources, license status and permitted use.
 - [Existing repository audit](docs/repository-audit.md) — outstanding historical discrepancies stay documented.
 
 **GUI/offline synchronization (2026-10-12):** the Studio update regenerates `index-standalone.html` from the current modular engine and the PL/EN question grammar, so the offline page includes question support and the current interface. Browser-style offline smoke tests were performed without network access; the full Node.js release test commands should still be run on a local checkout before formally marking the release verified.

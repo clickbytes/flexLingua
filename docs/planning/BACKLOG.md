@@ -2,7 +2,7 @@
 
 ## Stan walidacji w aktywnym repo
 
-Bazowy `clickbytes/main` SHA `33132c5c246e37b78729c6b4e3603586bb9cc82d` jest już **GREEN** w [GitHub Actions #38616320178](https://github.com/clickbytes/flexLingua/actions/runs/38616320178): **401/401** Node, leksyka/morfologia/gold, offline i release-gate — wszystkie jobs `success`. Historyczne 398/401 były sprzed naprawy GUI/Windows. Istniejące GUI #1 nadal jest formalnie `open`; jego ostateczny odbiór należy do osobnego agenta. Status nowego commita planistycznego należy weryfikować osobnym runem, nie dziedziczyć automatycznie z wcześniejszego SHA.
+Bazowy `clickbytes/main` SHA `f3f1a62af1777d7cca4afc52fe3a0b13ad1fed25` jest **GREEN** w [GitHub Actions #38620219789](https://github.com/clickbytes/flexLingua/actions/runs/38620219789): **405/405** Node, lexical-audits, offline-parity i release-gate — wszystkie jobs `success`. Historyczne 398/401 pochodziły sprzed naprawy GUI/Windows. GUI #1 pozostaje formalnie otwarte, choć kryteria testowe przeszły po [PR #84](https://github.com/clickbytes/flexLingua/pull/84); zamknięcie wymaga zapisania odbioru w issue. Każdy nowy commit wymaga osobnego runu CI.
 
 
 **Aktywne repo:** [clickbytes/flexLingua](https://github.com/clickbytes/flexLingua). **Baza planowania:** `d70359ba0d783c32f37eb31cddc6c4abf3ce16e3` (2026-10-14).
@@ -176,6 +176,6 @@ Domknąć GUI i offline parity bez ingerencji agenta CORE w interfejs i generowa
 - EPIC zawiera checklistę tych samych numerów i jest otwarty do ukończenia wszystkich kryteriów, nie tylko do napisania kodu.
 - Preferowana ścieżka: kod CORE na małej gałęzi → gold PL/EN, testy negatywne → realne Actions run/SHA → README/docs/HANDOFF.md → PR → merge.
 - Oddzielny agent GUI: `js/ui/**`, `index.html`, `index-standalone.html`, `tests/studio-ui.test.js`, `tests/offline.test.js`.
-- Wydanie wciąż zablokowane przez [GUI #1](https://github.com/clickbytes/flexLingua/issues/1). Realne CI na main: `npm test`: 398/401 pass, 3 GUI failures; lexical-audits success. Nie oznaczać release jako green.
+- Najnowszy pełny release gate na main jest zielony (405/405). [GUI #1](https://github.com/clickbytes/flexLingua/issues/1) pozostaje otwarte do formalnego odbioru; nie przedstawiać historycznych 398/401 jako bieżącego statusu.
 - Zadania A1–C2 nie certyfikują poziomu CEFR bez zaakceptowanego reprezentatywnego benchmarku. Oxford tylko z respektowaniem licencji.
 - Native sub-issues, custom labels i milestones nie były tworzone: konektor nie udostępnia ich konfiguracji; hierarchię utrzymują checklisty i mapa numerów.

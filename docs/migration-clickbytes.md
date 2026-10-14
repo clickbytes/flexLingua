@@ -4,6 +4,20 @@
 
 Właściciel zdecydował, że od 14 października 2026 wszystkie nowe commity, branche, PR-y, issues, wyniki CI i checkpointy `HANDOFF.md` dotyczą tylko `clickbytes/flexLingua`. Stare `ppotepa/flexLingua` jest archiwalnym źródłem historycznej migawki; **nie wykonywać tam nowych zapisów**. Dotychczasowych historycznych odnośników do PR-ów `ppotepa` nie trzeba przepisywać, ponieważ wskazują istniejące prace.
 
+## Bieżąca baza CI i przypisanie regresji — 2026-10-14
+
+Aktualny `main` to `f3f1a62af1777d7cca4afc52fe3a0b13ad1fed25`. [Hosted run #38620219789](https://github.com/clickbytes/flexLingua/actions/runs/38620219789) zakończył wszystkie cztery jobs sukcesem; `npm test` zgłosił **405/405**.
+
+Historyczny [run #38610233253](https://github.com/clickbytes/flexLingua/actions/runs/38610233253), SHA `d70359ba0d783c32f37eb31cddc6c4abf3ce16e3`, miał 398/401 testów Node oraz niezaliczone offline parity. Zlogowane regresje przypisane do GUI-01 [#1](https://github.com/clickbytes/flexLingua/issues/1):
+
+| Nieudany check / test | Komponent i właściciel | Powiązane issue | Wynik na bieżącym main |
+| --- | --- | --- | --- |
+| `check:standalone` i test Node #294: offline HTML nie odpowiadał źródłom | Generator / artefakt offline; strumień GUI | [GUI-01 #1](https://github.com/clickbytes/flexLingua/issues/1) | Naprawione w [PR #84](https://github.com/clickbytes/flexLingua/pull/84); bieżące `offline-parity` przechodzi |
+| Test #369: checkbox podglądu hipotetycznych form oczekiwał 6 opcji, engine zwracał 7 | Studio UI; strumień GUI | [GUI-01 #1](https://github.com/clickbytes/flexLingua/issues/1) | Naprawione w PR #84; bieżące `npm test` przechodzi |
+| Test #371: brakowało szczegółów niezgodności lematu i komórek odmiany | Studio UI; strumień GUI | [GUI-01 #1](https://github.com/clickbytes/flexLingua/issues/1) | Naprawione w PR #84; bieżące `npm test` przechodzi |
+
+Nie ma obecnie czerwonych testów do reprodukcji. Issue #1 pozostaje otwarte tylko do formalnego odbioru właściciela GUI; nie należy opisywać dawnych 398/401 jako bieżącego stanu.
+
 ## Import
 
 - Kopia plików starego źródła na commit `64e3795b7fd8b0ced5d84b52fce44c86106ad54f` została zaimportowana na `clickbytes` commit `17a9b255783027890cc56dcd8141782a40212f7b`.

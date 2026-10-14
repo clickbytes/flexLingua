@@ -1,0 +1,177 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-10-14",
+  "policy": "Every JSON data package is listed with its current version, source, authorship, license status and permitted use. New packages require a record. Legacy packages with incomplete attribution are explicitly blocked from redistribution pending review.",
+  "packages": [
+    {
+      "path": "data/concepts.json",
+      "version": "1.0",
+      "status": "project-authored",
+      "author": "flexLingua project contributors; individual concept authors are not recorded",
+      "source": "Original flexLingua CORE concept, operator and grammatical function inventory",
+      "license": "Project-authored; no separate SPDX license grant is declared in this repository",
+      "reviewedAt": "2026-10-14",
+      "permittedUse": "Used in flexLingua. No third-party lists or definitions are included. External reuse requires rights-holder review because this repository declares no separate data license."
+    },
+    {
+      "path": "data/en.json",
+      "version": "1.0",
+      "status": "project-authored",
+      "author": "flexLingua project contributors; individual entry authors are not recorded",
+      "source": "Original project-maintained English lexical entries; entries are curated in-repository rather than bulk-imported",
+      "license": "Project-authored; no separate SPDX license grant is declared in this repository",
+      "reviewedAt": "2026-10-14",
+      "permittedUse": "Used in flexLingua. No third-party dictionary definitions or protected Oxford lists are included. External reuse requires rights-holder review because this repository declares no separate data license."
+    },
+    {
+      "path": "data/features.json",
+      "version": "0.3",
+      "status": "legacy-review-required",
+      "author": "Not attributed in the existing package metadata",
+      "source": "Historical flexLingua semantic feature configuration; per-entry origin is not recorded",
+      "license": "Unconfirmed; no separate license statement is present in this package",
+      "reviewedAt": "2026-10-14",
+      "permittedUse": "Existing in-repository execution only. Do not redistribute or reuse externally until source and rights are reviewed.",
+      "migrationNote": "Add verified package and entry attribution before expanding or exporting this legacy package."
+    },
+    {
+      "path": "data/grammar/en.json",
+      "version": "1.0",
+      "status": "legacy-review-required",
+      "author": "Not attributed in the existing package metadata",
+      "source": "Historical flexLingua English grammar rules; individual rule authorship is not recorded",
+      "license": "Unconfirmed; no separate license statement is present in this package",
+      "reviewedAt": "2026-10-14",
+      "permittedUse": "Existing in-repository execution only. Do not redistribute or reuse externally until source and rights are reviewed.",
+      "migrationNote": "Add verified authorship and license metadata before expanding or exporting this legacy package."
+    },
+    {
+      "path": "data/grammar/pl.json",
+      "version": "1.0",
+      "status": "legacy-review-required",
+      "author": "Not attributed in the existing package metadata",
+      "source": "Historical flexLingua Polish grammar rules; individual rule authorship is not recorded",
+      "license": "Unconfirmed; no separate license statement is present in this package",
+      "reviewedAt": "2026-10-14",
+      "permittedUse": "Existing in-repository execution only. Do not redistribute or reuse externally until source and rights are reviewed.",
+      "migrationNote": "Add verified authorship and license metadata before expanding or exporting this legacy package."
+    },
+    {
+      "path": "data/grammar/tr.json",
+      "version": "1.0",
+      "status": "legacy-review-required",
+      "author": "Not attributed in the existing package metadata",
+      "source": "Historical flexLingua Turkish grammar rules; individual rule authorship is not recorded",
+      "license": "Unconfirmed; no separate license statement is present in this package",
+      "reviewedAt": "2026-10-14",
+      "permittedUse": "Existing in-repository execution only. Do not redistribute or reuse externally until source and rights are reviewed.",
+      "migrationNote": "Add verified authorship and license metadata before expanding or exporting this legacy package."
+    },
+    {
+      "path": "data/morphology/ar-lexicon.json",
+      "version": "1.01",
+      "status": "legacy-review-required",
+      "author": "Not attributed in the existing package metadata",
+      "source": "Historical empty Arabic lexicon adapter package; entry-level source is not recorded",
+      "license": "Unconfirmed; no separate license statement is present in this package",
+      "reviewedAt": "2026-10-14",
+      "permittedUse": "Existing in-repository execution only. Do not redistribute or reuse externally until source and rights are reviewed.",
+      "migrationNote": "Confirm package authorship and license before adding lexical entries."
+    },
+    {
+      "path": "data/morphology/ar.json",
+      "version": "1.11",
+      "status": "legacy-review-required",
+      "author": "Not attributed in the existing package metadata",
+      "source": "Curated typological demonstration, as declared in the package; individual form sources are not recorded",
+      "license": "Project-authored label exists in package; rights and reuse terms are not specified",
+      "reviewedAt": "2026-10-14",
+      "permittedUse": "Existing in-repository demonstration only. Verify source and rights before reuse or export.",
+      "migrationNote": "Add verified author, version date and permitted-use terms to the package provenance."
+    },
+    {
+      "path": "data/morphology/en.json",
+      "version": "1.11",
+      "status": "legacy-review-required",
+      "author": "Not attributed in the existing package metadata",
+      "source": "flexLingua curated forms, as declared in the package; per-form source is not recorded",
+      "license": "Project-authored label exists in package; rights and reuse terms are not specified",
+      "reviewedAt": "2026-10-14",
+      "permittedUse": "Existing in-repository execution only. Verify source and rights before reuse or export.",
+      "migrationNote": "Add verified author, version date and permitted-use terms to the package provenance."
+    },
+    {
+      "path": "data/morphology/features.json",
+      "version": "1.02",
+      "status": "legacy-review-required",
+      "author": "Not attributed in the existing package metadata",
+      "source": "Historical flexLingua morphology feature schema; individual values are not separately sourced",
+      "license": "Unconfirmed; no separate license statement is present in this package",
+      "reviewedAt": "2026-10-14",
+      "permittedUse": "Existing in-repository execution only. Do not redistribute or reuse externally until source and rights are reviewed.",
+      "migrationNote": "Add verified authorship and license metadata before extending the schema."
+    },
+    {
+      "path": "data/morphology/pl.json",
+      "version": "1.11",
+      "status": "legacy-review-required",
+      "author": "Not attributed in the existing package metadata",
+      "source": "flexLingua curated forms, as declared in the package; per-form source is not recorded",
+      "license": "Project-authored label exists in package; rights and reuse terms are not specified",
+      "reviewedAt": "2026-10-14",
+      "permittedUse": "Existing in-repository execution only. Verify source and rights before reuse or export.",
+      "migrationNote": "Add verified author, version date and permitted-use terms to the package provenance."
+    },
+    {
+      "path": "data/pl.json",
+      "version": "1.0",
+      "status": "project-authored",
+      "author": "flexLingua project contributors; individual entry authors are not recorded",
+      "source": "Original project-maintained Polish lexical entries; entries are curated in-repository rather than bulk-imported",
+      "license": "Project-authored; no separate SPDX license grant is declared in this repository",
+      "reviewedAt": "2026-10-14",
+      "permittedUse": "Used in flexLingua. No third-party dictionary definitions or protected Oxford lists are included. External reuse requires rights-holder review because this repository declares no separate data license."
+    },
+    {
+      "path": "data/tr.json",
+      "version": "1.0",
+      "status": "legacy-review-required",
+      "author": "Not attributed in the existing package metadata",
+      "source": "Historical flexLingua Turkish lexical adapter package; entry-level source is not recorded",
+      "license": "Unconfirmed; no separate license statement is present in this package",
+      "reviewedAt": "2026-10-14",
+      "permittedUse": "Existing in-repository execution only. Do not redistribute or reuse externally until source and rights are reviewed.",
+      "migrationNote": "Add verified entry-level source, author and license before adding or exporting lexical data."
+    },
+    {
+      "path": "data/coverage/a1-gold-g2.json",
+      "version": 1,
+      "status": "project-authored",
+      "author": "flexLingua project contributors; individual case authors are not recorded",
+      "source": "Manually specified controlled PL/EN oracle; not copied from Oxford and not generated from engine output",
+      "license": "Project-authored; no separate SPDX license grant is declared in this repository",
+      "reviewedAt": "2026-10-14",
+      "permittedUse": "Used as an internal regression oracle in flexLingua. External reuse requires rights-holder review because this repository declares no separate data license."
+    },
+    {
+      "path": "data/coverage/a1-pilot.json",
+      "version": 1,
+      "status": "project-authored",
+      "author": "flexLingua project contributors; individual example authors are not recorded",
+      "source": "Small project-authored lexical and sentence pilot; not copied from Oxford",
+      "license": "Project-authored; no separate SPDX license grant is declared in this repository",
+      "reviewedAt": "2026-10-14",
+      "permittedUse": "Used as an internal coverage pilot in flexLingua. It is not a representative CEFR benchmark; external reuse requires rights-holder review."
+    },
+    {
+      "path": "data/coverage/a1-targets.json",
+      "version": 1,
+      "status": "project-authored",
+      "author": "flexLingua project contributors; individual target authors are not recorded",
+      "source": "Project-authored A1 target checklist, deliberately limited and not derived from an Oxford list or CEFR standard",
+      "license": "Project-authored; no separate SPDX license grant is declared in this repository",
+      "reviewedAt": "2026-10-14",
+      "permittedUse": "Used as an internal planning subset in flexLingua. It is not an official CEFR list; external reuse requires rights-holder review."
+    }
+  ]
+}
