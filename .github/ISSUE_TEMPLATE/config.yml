@@ -1,8 +1,9 @@
 blank_issues_enabled: false
 contact_links:
-  - name: "Backlog / priorytety / epiki"
-    url: "https://github.com/clickbytes/flexLingua/blob/main/docs/planning/BACKLOG.md"
-    about: "Sprawdź istniejący kod zadania, zależności i właściciela przed nowym issue."
-  - name: "Kontrakt Issue / DoR / DoD"
-    url: "https://github.com/clickbytes/flexLingua/blob/main/docs/planning/ISSUE_POLICY.md"
-    about: "Zasady kryteriów odbioru, testowania, GUI vs CORE i PR."
+  - name: "Aktualne Issues / backlog"
+    url: "https://github.com/clickbytes/flexLingua/issues"
+    about: "Sprawdź istniejące zadanie, epik i zależności przed dodaniem issue."
+  - name: "Przepływ pracy"
+    url: "https://github.com/clickbytes/flexLingua/blob/main/docs/development-workflow.md"
+    about: "Źródła statusu, PR, Actions i zasady aktualizacji trwałej dokumentacji."
+

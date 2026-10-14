@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - 'core/**'
   pull_request:
     branches:
       - main
@@ -23,10 +22,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: '22'
+          package-manager-cache: false
       - name: Runtime details
         run: node --version && npm --version
       - name: Full Node test suite
@@ -37,10 +37,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: '22'
+          package-manager-cache: false
       - run: npm run check:lexicon
       - run: npm run check:morphology
       - run: npm run check:gold
@@ -56,12 +57,13 @@ jobs:
 
   release-gate:
     name: Aggregate release gate
+    if: ${{ always() }}
     needs: [engine-tests, lexical-audits]
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-      - run: npm run check:release
+      - name: Require both release jobs
+        if: ${{ needs.engine-tests.result != 'success' || needs.lexical-audits.result != 'success' }}
+        run: exit 1
+      - name: Confirm release checks passed
+        run: echo "All release checks passed."

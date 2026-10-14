@@ -20,7 +20,6 @@
     "check:gold-multiword": "node --test tests/multiword-morphology-f3.test.js",
     "report:a1": "node tools/report-a1.mjs",
     "check:a1-gold": "node tools/report-a1.mjs --strict",
-    "check:core-local": "node tools/check-core-gates.mjs",
     "audit:a1-gaps": "node tools/a1-gap-audit.mjs",
     "check:gold-family": "node --test tests/family-actions-a1.test.js",
     "check:gold-father": "node --test tests/father-a1.test.js",

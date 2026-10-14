@@ -10,7 +10,7 @@ body:
         - CORE / parser / INTER
         - PL / EN / morphology
         - CI / release
-        - GUI (oddzielny agent)
+        - GUI / Studio
         - Docs / dane
     validations:
       required: true

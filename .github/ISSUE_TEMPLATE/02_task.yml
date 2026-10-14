@@ -1,17 +1,17 @@
 name: "TASK — implementacja lub test"
-description: "Precyzyjna zmiana z listą plików, zależnościami i egzekwowalnym DoD."
+description: "Jedno zadanie z wynikiem, kryteriami odbioru i weryfikacją."
 title: "[TASK][P1][CORE] "
 body:
   - type: markdown
     attributes:
       value: |
-        Każdy TASK zawiera: epik, jeden rezultat, pliki, akceptację pozytywną/negatywną
-        i dowody Node CI. Status, SHA i linki do Actions zapisuj w issue/PR. Nie zaznaczaj testów, których nie uruchomiono.
+        Jedno issue opisuje jeden rezultat. Kryteria mają być sprawdzalne, a testy adekwatne do zmiany.
+        Powiąż issue z epikiem i blockerami, gdy mają zastosowanie. Aktualny status zapisuj tutaj.
   - type: input
     id: parent
     attributes:
       label: "Kod / link do epiku"
-      placeholder: "PERS-03 / #123"
+      placeholder: "STATE-02 / #123"
     validations:
       required: true
   - type: dropdown
@@ -26,49 +26,50 @@ body:
     validations:
       required: true
   - type: dropdown
-    id: owner
+    id: area
     attributes:
-      label: Strumień odpowiedzialności
+      label: Obszar
       options:
         - CORE / data / testy
         - Platform / CI
-        - GUI (oddzielny agent)
+        - GUI / Studio
         - Research
     validations:
       required: true
   - type: textarea
     id: outcome
     attributes:
-      label: Jednoznaczny cel i operacje
-      placeholder: "Jaki kontrakt zmieni się i jak będzie zweryfikowany?"
+      label: Wynik i zakres
+      placeholder: "Jaki obserwowalny rezultat ma dać to zadanie?"
     validations:
       required: true
   - type: textarea
     id: files
     attributes:
-      label: Ścieżki / kotwice / operacje per plik
-      description: "Istniejący plik lub oznaczenie [NOWY], operacja ADD/EDIT/TEST/DOC."
-      placeholder: "js/core/grammar.js :: createRuleAdapter -> ..."
+      label: Wskazówki implementacyjne (opcjonalnie)
+      description: "Dodaj znane pliki lub symbole, jeśli pomagają rozpocząć pracę."
+      placeholder: "js/core/grammar.js :: createRuleAdapter"
     validations:
-      required: true
+      required: false
   - type: textarea
     id: acceptance
     attributes:
-      label: Kryteria odbioru (minimum 3)
-      placeholder: "- [ ] Implementacja...\n- [ ] Testy PL↔EN...\n- [ ] Negatywy..."
+      label: Kryteria odbioru
+      placeholder: "- [ ] Oczekiwane zachowanie...\n- [ ] Przypadki odmowy..."
     validations:
       required: true
   - type: textarea
     id: validation
     attributes:
-      label: Testy i rzeczywiste dowody
-      placeholder: "npm test; check:release; CI run URL; co nie uruchomiono."
+      label: Weryfikacja
+      placeholder: "Właściwe testy i potrzebne goldy."
     validations:
       required: true
   - type: textarea
     id: dependencies
     attributes:
-      label: Blocked by / outside scope / ryzyka
-      placeholder: "Depends on: #...\nPoza zakresem: GUI."
+      label: Blokery / poza zakresem / ryzyka
+      placeholder: "Blokowane przez: #...\nPoza zakresem: ..."
     validations:
       required: false
+
