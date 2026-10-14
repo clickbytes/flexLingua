@@ -146,6 +146,29 @@
           "event.open"
         ]
       }
+    },
+    {
+      "id": "A1C-12",
+      "from": "en",
+      "to": "pl",
+      "input": "What can the sister read?",
+      "expected": "Co może czytać siostra?",
+      "shape": {
+        "type": "question",
+        "questionType": "wh",
+        "targetRole": "theme",
+        "operator": "modality.ability",
+        "concept": "event.read"
+      }
+    }
+  ],
+  "unsupported": [
+    {
+      "id": "A1C-INVALID-01",
+      "from": "en",
+      "to": "pl",
+      "input": "What can the sister read the book?",
+      "reason": "modal WH target role is already filled"
     }
   ]
 }

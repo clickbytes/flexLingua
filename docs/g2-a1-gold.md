@@ -8,4 +8,6 @@ Plik `data/coverage/a1-gold-g2.json` zawiera **32 autorskie przykłady** (16 EN�
 
 **Granica:** zdania twierdzące, przeczenia, pytania, modale oraz kilka predykatów wielowyrazowych nie pokrywają pełnych kompetencji A1. Brak reprezentatywnego mianownika; raport CEFR pozostaje `null`. W chwili sporządzenia raportu pełny Node checkout i Actions nie były dostępne; późniejsze pełne testy i hosted release runy przeszły. Synchronizacja standalone została wycofana.
 
-W G3 należy dodać CLI raportujące liczbę zaliczonych i niezaliczonych przypadków w tym **konkretnym** korpusie, rozbite po języku i konstrukcji.
+Od VAL-02 G2 jest jawnie oznaczony jako zestaw rozwojowy, a nie held-out. Nowe przykłady ocenia osobny, zamrożony korpus `data/coverage/a1-heldout-v1.json`; walidacja G2 nie wczytuje ani nie modyfikuje H1.
+
+Raport `npm run report:a1` i `npm run check:a1-gold` opisane w [G3](g3-a1-report.md) nadal używają wyłącznie G2. VAL-02 H1 jest oddzielną bramką dla nowych przykładów.

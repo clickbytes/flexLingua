@@ -2,6 +2,8 @@
 
 **Data:** 2026-10-14. **Silnik:** PL ↔ INTER/CORE ↔ EN, offline i Node 22+. **Zakres raportu:** strukturalny manifest 13 pojęć + 32 oryginalne przypadki gold i 8 nieobsługiwanych. Nie jest to formalne pokrycie CEFR A1.
 
+Raport i `check:a1-gold` używają G2 jako zestawu rozwojowego. Held-out VAL-02 H1 jest osobną bramką `check:a1-evidence`; nie jest wliczany do liczników raportu G3.
+
 ## Uruchomienie
 
 ```sh

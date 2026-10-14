@@ -1,10 +1,10 @@
-# A1 Batch 7 — wspólny rejestr niezależnych zestawów gold
+# A1 Batch 8 — wspólny rejestr zestawów gold
 
 **Aktywne repozytorium:** https://github.com/clickbytes/flexLingua
 
 ## Cel
 
-Od Batch G2 i Batch 3–6 istnieje sześć osobnych autorskich fixture'ów, zweryfikowanych w odrębnych testach. PERS-06 dodaje siódmy, niezależny fixture dla osoby 1./2. i deiks. Historyczny `npm run audit:a1-gaps` wykazuje jedynie dowody z zamrożonego G2 i nie powinien ich automatycznie łączyć. `tools/a1-evidence-ledger.mjs` łączy *katalog* dowodów z **rzeczywiście wykonanymi** testami Node, zachowując stary raport bez zmian.
+Rejestr obejmuje wcześniejsze próbki, gold stanów STATE-04 i osobny korpus VAL-02 H1. G2 pozostaje zestawem rozwojowym; H1 ma własne stabilne ID, statyczny gold i testy w obu kierunkach. Autor H1 nie był niezależny od implementacji — rozdzielenie autorów nie było dostępne — więc zestaw nie jest ślepą ani niezależną oceną. `tools/a1-evidence-ledger.mjs` łączy katalog dowodów z **rzeczywiście wykonanymi** testami Node.
 
 ## Zestawy i zakres
 
@@ -15,9 +15,11 @@ Od Batch G2 i Batch 3–6 istnieje sześć osobnych autorskich fixture'ów, zwer
 | Ojciec/father | 16 | 4 | 16 |
 | Ruch iść/go | 18 | 4 | 11 |
 | Pisać/otwierać | 22 (w tym 2 productive-only) | 5 | 15 |
-| Kompozycja/dyskurs | 11 | 0 | 0 |
+| Kompozycja/dyskurs | 12 | 1 | 0 |
 | Osoba/deiksy PERS-06 | 40 | 10 | 0 |
-| **Razem** | **155** | **35** | **60** |
+| Stany STATE-04 | 40 | 8 | 0 |
+| Held-out VAL-02 H1 | 200 (100 na kierunek) | 20 | 0 |
+| **Razem** | **396** | **64** | **60** |
 
 To **przypadki kontrolowane**, nie wymierny procent pokrycia CEFR. Każdy przypadek jest przypisany do własnego pliku źródłowego i testu. W porównaniu przypadków sprawdzamy tylko **jawnie opisane** znaczenia CORE (pojęcie predykatu i te role, które fixture wyraźnie deklaruje); nie wnioskujemy obecności haseł z samej pisowni ani z analizy silnika, aby uniknąć tautologii. Nakładanie się autorstwa, projektowania reguł i oceny nie gwarantuje testu niewidzianych wcześniej zdań.
 
@@ -25,18 +27,20 @@ To **przypadki kontrolowane**, nie wymierny procent pokrycia CEFR. Każdy przypa
 
 ```sh
 npm run report:a1-evidence      # sam katalog, bez testów — verification.status = not-run
-npm run check:a1-evidence       # 7 prawdziwych procesów Node, fail-closed
-npm run check:release          # pełny zestaw kontroli CORE i testów Node
+npm run check:a1-evidence       # 9 procesów Node, fail-closed
+npm run check:release           # pełny zestaw kontroli CORE i testów Node
 ```
 
 `check:a1-evidence` uruchamia kolejno:
 - istniejące `tools/report-a1.mjs --strict` dla G2;
-- testy Node dla rodziny, ojca, ruchu, codziennych czynności i kompozycji.
-- test Node dla 40 przypadków osoby/deiksów oraz 10 błędnych form.
+- testy Node dla rodziny, ojca, ruchu, codziennych czynności i kompozycji;
+- test Node dla 40 przypadków osoby/deiksów oraz 10 błędnych form;
+- `tests/a1-state-gold.test.js` dla 40 zdań stanów i 8 odmów;
+- `tests/a1-heldout.test.js` dla 200 zdań dwukierunkowych i 20 odmów.
 
 Raport zawiera statusy `pass`, `fail`, `not-run` wraz z faktycznym kodem wyjścia oraz oddzielne `annotatedCases` i `verifiedCases`. Jeżeli choć jedna grupa nie przechodzi, CLI zwraca kod 1; jeśli nie uruchomiono żadnej, nie raportuje sukcesu. Dodatkowo raportuje duplikaty wejściowych zdań między zestawami bez udawania, że zbiory są reprezentatywne.
 
-W izolowanym teście funkcji na obecnych fixture'ach, przy **symulowanych pozytywnych wynikach siedmiu grup**, 14 z 23 celów ma jawne dowody w obu kierunkach, 2 w jednym kierunku, a 7 nie jest jawnie opisanych w gold. Są to liczby autorskiej listy 23 celów, **nie** procent CEFR, a przed realnym wykonaniem `check:a1-evidence` żaden stan symulowany nie jest zweryfikowanym testem. `cefr.percentage:null` pozostaje obowiązkowe.
+Rejestr oddziela liczbę jawnie oznaczonych przykładów od rzeczywistych wyników testów. `cefr.percentage:null` pozostaje obowiązkowe.
 
 ## Połączenie z CI i własność kodu
 
@@ -49,4 +53,8 @@ Historyczny [GitHub Actions run #38609956499](https://github.com/clickbytes/flex
 ## Wynik po PERS-06
 
 [PR #93](https://github.com/clickbytes/flexLingua/pull/93) dodał siódmy fixture osoby/deiksów. Hosted [Actions #38639074374](https://github.com/clickbytes/flexLingua/actions/runs/38639074374) na merge SHA `04aeaa811453e8aa8054779af6a903e24dd4e953` zakończył sukcesem wszystkie trzy jobs; rejestr wykazał 7/7 suite pass, 155 prób pozytywnych i 35 odmów. Pełny zestaw Node przeszedł 429/429, a coverage 4/4. CEFR nadal nie jest mierzony.
+
+## VAL-02 H1
+
+`data/coverage/a1-heldout-v1.json` zawiera 100 ręcznie napisanych par PL/EN, ocenianych w obu kierunkach (200 wejść) oraz 20 jawnych odmów. Każdy przykład opisuje role, liczbę, czas, polarność i operatory. Zestaw jest wykonywany z produktywnymi adapterami morfologii potrzebnymi dla użytych haseł; pięć przykładów `open/house` o niezgodnym typie roli poprawiono po pierwszym pilotażu. Teksty docelowe nie były kopiowane z odpowiedzi parsera. Fixture jest statyczny i ma wersję `H1-v1`; test nie aktualizuje oczekiwanego tekstu ani CORE. Hash SHA-256: `2913b8ea0451ee51b321342336a310f5d1f2b2743a8e6b22999ef7e818f3fee3`. Commit zamrażający: `2d58a65c8b4bef711bb3b72f1bb508518a2a4723`. Ponieważ autor gold implementował też reguły, wyniki są dowodem na ustalonym korpusie projektu, nie niezależną ewaluacją ani procentem CEFR.
 
