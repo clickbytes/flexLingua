@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "scope": "Current and near-term remaining flexLingua work; excludes completed Batch 1–7",
   "repository": "clickbytes/flexLingua",
-  "anchorMain": "4c554ca1af0e2973ad2079199ed26d0354994cd2",
+  "anchorMain": "d355d877ae56cc159612ec0280810f0040d5d360",
   "createdOn": "2026-10-14",
   "epics": [
     {
@@ -307,12 +307,23 @@
             "data/en.json",
             "data/grammar/en.json",
             "js/core/grammar.js",
-            "[NEW] tests/a1-person-english.test.js"
+            "tests/questions-translation.test.js",
+            "[NEW] tests/a1-person-english.test.js",
+            "ROADMAP.md",
+            "docs/pers02-deictic-pronouns.md",
+            "docs/migration-clickbytes.md",
+            "docs/planning/BACKLOG.md",
+            "docs/planning/EXECUTION_ORDER.md",
+            "docs/planning/IMPLEMENTATION_ANCHORS.md",
+            "docs/planning/ISSUE_MAP.json",
+            "docs/planning/ISSUE_POLICY.md",
+            "docs/planning/backlog-near.json",
+            "docs/planning/backlog-future.json"
           ],
           "checks": [
-            "I/you/we read; I do not read; Do you read? realizują się bez do/does pomyłek.",
+            "I/you/we read the book; I do not read the book; Do you read the book? realizują się bez do/does pomyłek.",
             "3sg does/reads pozostaje poprawne; kontrprzykłady `I reads` i `Does you read?` są odrzucane.",
-            "EN→CORE→PL oraz PL→CORE→EN zachowuje mówcę, adresata, czas i polarność."
+            "Wspierane formy zachowują mówcę/adresata, czas i polarność w obu kierunkach; angielski past `did` zachowuje czas w CORE, a jego nieobsługiwana składnia PL jawnie odmawia."
           ],
           "deps": [
             "PERS-03",

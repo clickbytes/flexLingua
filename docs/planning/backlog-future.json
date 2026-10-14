@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "scope": "Future deferred flexLingua work and GUI separate-agent tasks",
+  "scope": "Future deferred flexLingua work, including GUI tasks",
   "repository": "clickbytes/flexLingua",
-  "anchorMain": "4c554ca1af0e2973ad2079199ed26d0354994cd2",
+  "anchorMain": "d355d877ae56cc159612ec0280810f0040d5d360",
   "createdOn": "2026-10-14",
   "epics": [
     {

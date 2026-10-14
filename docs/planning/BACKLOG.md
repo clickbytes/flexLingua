@@ -2,10 +2,10 @@
 
 ## Stan walidacji w aktywnym repo
 
-Bazowy `clickbytes/main` SHA `4c554ca1af0e2973ad2079199ed26d0354994cd2` jest **GREEN** w [GitHub Actions #38633750354](https://github.com/clickbytes/flexLingua/actions/runs/38633750354): wszystkie trzy jobs przeszły po merge PR #90. PR #89 wycofał standalone HTML i zamknął GUI #1; PR #90 ukończył PERS-03. UI działa przez loopback HTTP. Każdy nowy commit wymaga własnego runu CI.
+Bazowy `clickbytes/main` SHA `d355d877ae56cc159612ec0280810f0040d5d360` jest **GREEN** w [GitHub Actions #38635488680](https://github.com/clickbytes/flexLingua/actions/runs/38635488680): wszystkie trzy jobs przeszły po merge PR #91. PR #89 wycofał standalone HTML i zamknął GUI #1; PR #90 ukończył PERS-03, a PR #91 ukończył PERS-04. UI działa przez loopback HTTP. Każdy nowy commit wymaga własnego runu CI.
 
 
-**Aktywne repo:** [clickbytes/flexLingua](https://github.com/clickbytes/flexLingua). **Baza planowania:** `4c554ca1af0e2973ad2079199ed26d0354994cd2` (2026-10-14).
+**Aktywne repo:** [clickbytes/flexLingua](https://github.com/clickbytes/flexLingua). **Baza planowania:** `d355d877ae56cc159612ec0280810f0040d5d360` (2026-10-14).
 To jest otwarty plan — żadne poniższe zadanie nie jest przez samo zgłoszenie wykonane.
 
 **Razem:** 14 epików · 67 zadań · P0 23, P1 21, P2 9, P3 14. GUI-01 (#1) jest zamknięte po wycofaniu standalone i potwierdzeniu testów Studio.
@@ -59,8 +59,8 @@ Wprowadzić neutralną rolę mówcy/adresata i rzeczywistą odmianę ja/ty/my/wy
 - [x] **PERS-01 [#27](https://github.com/clickbytes/flexLingua/issues/27)** — ADR: tożsamość mówcy/adresata i reprezentacja person w CORE. P: P0; VAL-01 [#22](https://github.com/clickbytes/flexLingua/issues/22) scalone; decyzja w [ADR](../adr/person-deixis.md). PERS-02 wdraża podstawowy kontrakt; PERS-03..06 rozszerzają zgodę, fleksję i gold; AC: 3; pliki: 5.
 - [x] **PERS-02 [#28](https://github.com/clickbytes/flexLingua/issues/28)** — PL/EN jawne zaimki ja/ty/my/wy oraz I/you/we. P: P0; implementacja, gold i testy scalone w [PR #89](https://github.com/clickbytes/flexLingua/pull/89), commit `21ac04f`; Actions #38631654117 green. PERS-01 [#27](https://github.com/clickbytes/flexLingua/issues/27) spełnione. AC: 3; pliki: 5.
 - [x] **PERS-03 [#29](https://github.com/clickbytes/flexLingua/issues/29)** — Uzgodnienie osoby w parserze i realizatorze zdań. P: P0; scalone w [PR #90](https://github.com/clickbytes/flexLingua/pull/90), merge SHA `4c554ca`; Actions #38633750354 green. AC: 3; pliki: 6.
-- [ ] **PERS-04 [#30](https://github.com/clickbytes/flexLingua/issues/30)** — Polska fleksja czasowników: 1./2. osoba teraźniejsza i bezpieczny przeszły. P: P0; IN PROGRESS; PERS-03 [#29](https://github.com/clickbytes/flexLingua/issues/29) spełnione. AC: 3; pliki: 6.
-- [ ] **PERS-05 [#31](https://github.com/clickbytes/flexLingua/issues/31)** — Angielska odmiana I/you/we, auxiliary do/does i pytania. P: P0; blokuje: PERS-03 [#29](https://github.com/clickbytes/flexLingua/issues/29); PERS-04 [#30](https://github.com/clickbytes/flexLingua/issues/30). AC: 3; pliki: 5.
+- [x] **PERS-04 [#30](https://github.com/clickbytes/flexLingua/issues/30)** — Polska fleksja czasowników: 1./2. osoba teraźniejsza i bezpieczny przeszły. P: P0; scalone w [PR #91](https://github.com/clickbytes/flexLingua/pull/91), SHA `d355d87`; Actions #38635488680 green. AC: 3; pliki: 6.
+- [ ] **PERS-05 [#31](https://github.com/clickbytes/flexLingua/issues/31)** — Angielska odmiana I/you/we, auxiliary do/does i pytania. P: P0; IN PROGRESS na `core/p0-pers05-english-agreement`; zależności PERS-03 [#29](https://github.com/clickbytes/flexLingua/issues/29) i PERS-04 [#30](https://github.com/clickbytes/flexLingua/issues/30) spełnione. AC: 3; pliki: 16.
 - [ ] **PERS-06 [#32](https://github.com/clickbytes/flexLingua/issues/32)** — Niezależny gold 1./2. osoby i deiksy; punkt integracji dialogu. P: P0; blokuje: PERS-02 [#28](https://github.com/clickbytes/flexLingua/issues/28); PERS-04 [#30](https://github.com/clickbytes/flexLingua/issues/30); PERS-05 [#31](https://github.com/clickbytes/flexLingua/issues/31). AC: 3; pliki: 4.
 
 ### STATE — [#7](https://github.com/clickbytes/flexLingua/issues/7)
@@ -176,6 +176,6 @@ Rozwijać Studio, słownik, INTER Explorer i ekran rozmowy. Aplikację uruchamia
 - EPIC zawiera checklistę tych samych numerów i jest otwarty do ukończenia wszystkich kryteriów, nie tylko do napisania kodu.
 - Preferowana ścieżka: kod CORE na małej gałęzi → gold PL/EN, testy negatywne → realne Actions run/SHA → README/docs, jeśli wymagane → PR z wynikami i statusem → merge.
 - Obszar GUI: `js/ui/**`, `index.html`, `tests/studio-ui.test.js`. UI działa przez loopback HTTP; nie ma standalone bundle ani testu parytetu offline.
-- Najnowszy pełny release gate na main jest zielony (417/417). Historyczne 398/401 dotyczy awarii sprzed PR #84, nie bieżącego statusu.
+- Najnowszy pełny release gate na main jest zielony w Actions #38635488680. Historyczne 398/401 dotyczy awarii sprzed PR #84, nie bieżącego statusu.
 - Zadania A1–C2 nie certyfikują poziomu CEFR bez zaakceptowanego reprezentatywnego benchmarku. Oxford tylko z respektowaniem licencji.
 - Native sub-issues, custom labels i milestones nie były tworzone: konektor nie udostępnia ich konfiguracji; hierarchię utrzymują checklisty i mapa numerów.
