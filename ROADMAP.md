@@ -229,6 +229,10 @@ Scalanie dowodów z sześciu niezależnych fixture'ów: 115 przykładów pozytyw
 
 Macierz w wersji 2 ustala ograniczony, wewnętrzny zestaw 23 wymaganych jednostek: 16 pojęć i 7 konstrukcji zdarzeniowych. Każda wskazuje sens CORE, mapowanie PL/EN, morfologię, a konstrukcje także ramy obu języków. `audit:a1-gaps` osobno raportuje pokrycie i jawne luki niezależnego G2; brak próbki nie zmienia zakresu `required`. Nie ma zatwierdzonej listy odroczeń ani wykluczeń. CEFR i Oxford pozostają referencjami — macierz nie jest pełnym A1 ani mianownikiem procentu CEFR. [Specyfikacja](docs/a1-scope.md).
 
+## PERS-01 — ADR osoby deiktycznej (14.10.2026)
+
+Przyjęto kontrakt rozdzielający kotwicę referenta (`speaker`/`addressee`) od gramatycznej osoby i liczby. Przykłady nie kodują płci w `I/you/we`; nieznana liczba angielskiego `you`, nieznany rodzaj w polskim czasie przeszłym i zmiana perspektywy wymagają jawnych alternatyw lub odmowy. ADR uwzględnia roundtrip serializacji oraz ryzyka dla tożsamości E4. To decyzja architektoniczna — runtime nie obsługuje jeszcze nowego schematu. Następne: PERS-02..06. [ADR](docs/adr/person-deixis.md).
+
 ## Backlog egzekwowalny i epiki (14.10.2026)
 
 Otwarto **14 epików / 67 tasków** w `clickbytes/flexLingua`; każde ma rodzica, AC i kontrakt plików oraz checklistę. [BACKLOG](docs/planning/BACKLOG.md), [ISSUE_MAP](docs/planning/ISSUE_MAP.json), [EXECUTION_ORDER](docs/planning/EXECUTION_ORDER.md). Epik A1 nie jest certyfikacją CEFR. Hosted CI na `clickbytes/main` SHA `33132c5` zakończył się sukcesem (run #38616320178, Node 401/401); GUI #1 formalnie pozostało otwarte do akceptacji właściciela. Nowe PR wymagają własnego realnego Actions run i HANDOFF.
