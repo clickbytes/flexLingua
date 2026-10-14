@@ -1,3 +1,9 @@
+## Korekta grafu zależności (2026-10-14)
+
+Wykryto i rozwiązano cykl `REL-01 -> GUI-01 -> REL-01`: audyt diagnostyczny `REL-01` może i musi być wykonany niezależnie od naprawy GUI #1. Zależność `GUI-01 -> REL-01` pozostaje, jako dowód bazowych regresji. Każde kolejne zadanie musi zostać zweryfikowane pod kątem DAG przed publikacją. GUI #1 nie jest duplikowane.
+
+---
+
 # A1 BATCH 7 — ZWERYFIKOWANY HOSTED CI, 2026-10-14
 
 **Wyłącznie clickbytes/flexLingua.** [Run 38609956499](https://github.com/clickbytes/flexLingua/actions/runs/38609956499) na PR #3: `lexical-audits` **SUCCESS**, włącznie z `check:a1-evidence` i wszystkimi sześcioma autorskimi testami. `npm test`: **401 ogółem, 398 passed, 3 failed**; te trzy to wyłącznie GUI/standalone, zapisane w [issue #1](https://github.com/clickbytes/flexLingua/issues/1). `check:release` nadal nieprzechodzący, nie usuwać ani nie omijać GUI gate. Batch 7 nie modyfikował GUI. Dopiero po naprawie GUI pełny green release i ewentualna aktualizacja wersji.

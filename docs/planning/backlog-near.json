@@ -32,9 +32,7 @@
             "Wszystkie nowe regresje mają reprodukcję Node i link do rzeczywistego run ID.",
             "Dokument wskazuje GUI #1 bez duplikacji lub cichego pominięcia błędu."
           ],
-          "deps": [
-            "GUI-01"
-          ]
+          "deps": []
         },
         {
           "id": "REL-02",
