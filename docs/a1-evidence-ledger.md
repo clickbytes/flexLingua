@@ -46,3 +46,7 @@ W izolowanym teście funkcji na obecnych fixture'ach, przy **symulowanych pozyty
 
 Historyczny [GitHub Actions run #38609956499](https://github.com/clickbytes/flexLingua/actions/runs/38609956499) (gałąź PR #3) wykonał 401 testów Node: 398 pass i 3 fail w dawnym zakresie offline/Studio. Te regresje naprawiono w [PR #84](https://github.com/clickbytes/flexLingua/pull/84); późniejszy pełny release run #38625444693 był zielony. Dawny wynik nie opisuje aktualnego statusu.
 
+## Wynik po PERS-06
+
+[PR #93](https://github.com/clickbytes/flexLingua/pull/93) dodał siódmy fixture osoby/deiksów. Hosted [Actions #38639074374](https://github.com/clickbytes/flexLingua/actions/runs/38639074374) na merge SHA `04aeaa811453e8aa8054779af6a903e24dd4e953` zakończył sukcesem wszystkie trzy jobs; rejestr wykazał 7/7 suite pass, 155 prób pozytywnych i 35 odmów. Pełny zestaw Node przeszedł 429/429, a coverage 4/4. CEFR nadal nie jest mierzony.
+

@@ -2,10 +2,10 @@
 
 ## Stan walidacji w aktywnym repo
 
-Bazowy `clickbytes/main` SHA `7ca0995c1dbdbf6eac7e4ab714dc56d1ca223934` jest **GREEN** w [GitHub Actions #38637097580](https://github.com/clickbytes/flexLingua/actions/runs/38637097580): wszystkie trzy jobs przeszły po merge PR #92. PR #89 wycofał standalone HTML i zamknął GUI #1; PR #90 ukończył PERS-03, PR #91 PERS-04, a PR #92 PERS-05. UI działa przez loopback HTTP. Każdy nowy commit wymaga własnego runu CI.
+Bazowy `clickbytes/main` SHA `04aeaa811453e8aa8054779af6a903e24dd4e953` jest **GREEN** w [GitHub Actions #38639074374](https://github.com/clickbytes/flexLingua/actions/runs/38639074374): wszystkie trzy jobs przeszły po merge PR #93. PR #89 wycofał standalone HTML i zamknął GUI #1; PR #90 ukończył PERS-03, PR #91 PERS-04, PR #92 PERS-05, a PR #93 PERS-06. UI działa przez loopback HTTP. Każdy nowy commit wymaga własnego runu CI.
 
 
-**Aktywne repo:** [clickbytes/flexLingua](https://github.com/clickbytes/flexLingua). **Baza planowania:** `7ca0995c1dbdbf6eac7e4ab714dc56d1ca223934` (2026-10-14).
+**Aktywne repo:** [clickbytes/flexLingua](https://github.com/clickbytes/flexLingua). **Baza planowania:** `04aeaa811453e8aa8054779af6a903e24dd4e953` (2026-10-14).
 To jest otwarty plan — żadne poniższe zadanie nie jest przez samo zgłoszenie wykonane.
 
 **Razem:** 14 epików · 67 zadań · P0 23, P1 21, P2 9, P3 14. GUI-01 (#1) jest zamknięte po wycofaniu standalone i potwierdzeniu testów Studio.
@@ -61,7 +61,7 @@ Wprowadzić neutralną rolę mówcy/adresata i rzeczywistą odmianę ja/ty/my/wy
 - [x] **PERS-03 [#29](https://github.com/clickbytes/flexLingua/issues/29)** — Uzgodnienie osoby w parserze i realizatorze zdań. P: P0; scalone w [PR #90](https://github.com/clickbytes/flexLingua/pull/90), merge SHA `4c554ca`; Actions #38633750354 green. AC: 3; pliki: 6.
 - [x] **PERS-04 [#30](https://github.com/clickbytes/flexLingua/issues/30)** — Polska fleksja czasowników: 1./2. osoba teraźniejsza i bezpieczny przeszły. P: P0; scalone w [PR #91](https://github.com/clickbytes/flexLingua/pull/91), SHA `d355d87`; Actions #38635488680 green. AC: 3; pliki: 6.
 - [x] **PERS-05 [#31](https://github.com/clickbytes/flexLingua/issues/31)** — Angielska odmiana I/you/we, auxiliary do/does i pytania. P: P0; scalone w [PR #92](https://github.com/clickbytes/flexLingua/pull/92), merge SHA `7ca0995`; Actions #38637097580 green. AC: 3; pliki: 16.
-- [ ] **PERS-06 [#32](https://github.com/clickbytes/flexLingua/issues/32)** — Niezależny gold 1./2. osoby i deiksy; punkt integracji dialogu. P: P0; IN PROGRESS na `core/p0-pers06-person-gold`; zależności PERS-02 [#28](https://github.com/clickbytes/flexLingua/issues/28), PERS-04 [#30](https://github.com/clickbytes/flexLingua/issues/30) i PERS-05 [#31](https://github.com/clickbytes/flexLingua/issues/31) spełnione. AC: 3; pliki: 23.
+- [x] **PERS-06 [#32](https://github.com/clickbytes/flexLingua/issues/32)** — Niezależny gold 1./2. osoby i deiksy; punkt integracji dialogu. P: P0; scalone w [PR #93](https://github.com/clickbytes/flexLingua/pull/93), SHA `04aeaa8`; Actions #38639074374 green. AC: 3; pliki: 23.
 
 ### STATE — [#7](https://github.com/clickbytes/flexLingua/issues/7)
 
@@ -176,6 +176,6 @@ Rozwijać Studio, słownik, INTER Explorer i ekran rozmowy. Aplikację uruchamia
 - EPIC zawiera checklistę tych samych numerów i jest otwarty do ukończenia wszystkich kryteriów, nie tylko do napisania kodu.
 - Preferowana ścieżka: kod CORE na małej gałęzi → gold PL/EN, testy negatywne → realne Actions run/SHA → README/docs, jeśli wymagane → PR z wynikami i statusem → merge.
 - Obszar GUI: `js/ui/**`, `index.html`, `tests/studio-ui.test.js`. UI działa przez loopback HTTP; nie ma standalone bundle ani testu parytetu offline.
-- Najnowszy pełny release gate na main jest zielony w Actions #38637097580. Historyczne 398/401 dotyczy awarii sprzed PR #84, nie bieżącego statusu.
+- Najnowszy pełny release gate na main jest zielony w Actions #38639074374. Historyczne 398/401 dotyczy awarii sprzed PR #84, nie bieżącego statusu.
 - Zadania A1–C2 nie certyfikują poziomu CEFR bez zaakceptowanego reprezentatywnego benchmarku. Oxford tylko z respektowaniem licencji.
 - Native sub-issues, custom labels i milestones nie były tworzone: konektor nie udostępnia ich konfiguracji; hierarchię utrzymują checklisty i mapa numerów.
