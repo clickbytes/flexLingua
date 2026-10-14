@@ -6,7 +6,7 @@ Właściciel wskazał `clickbytes/flexLingua` jako jedyne aktywne repozytorium d
 
 ## Aktualizacja procesu — 2026-10-14
 
-Bieżąca baza `main` to SHA `b7ea1ef2850971bdd342b3ef76cc8f8843ecbd18`; [Actions #38625444693](https://github.com/clickbytes/flexLingua/actions/runs/38625444693) przeszedł 417/417 testów, w tym historyczny job standalone. W tej gałęzi standalone HTML, generator, test parytetu i job CI są wycofywane; UI działa przez loopback HTTP. Lokalny `npm run check:release` przeszedł 413/413 testów Node oraz 4/4 testy pokrycia. Hosted Actions dla tej zmiany jest wymagane przed merge.
+Bieżąca baza `main` to merge commit `21ac04f62b06f6d7aa5b0c9bc60caf84805e8dfc` z PR #89; [Actions #38631654117](https://github.com/clickbytes/flexLingua/actions/runs/38631654117) zakończył sukcesem wszystkie trzy jobs (`engine-tests`, `lexical-audits`, `release-gate`). PR wycofał standalone HTML, generator, test parytetu i powiązaną bramkę CI; UI działa przez loopback HTTP. Przed merge lokalny `npm run check:release` przeszedł 413/413 testów Node oraz 4/4 testy pokrycia. Issue GUI #1 zamknięto.
 
 Poniższe zapisy opisują wcześniejszą diagnostykę. Podział na osobnego agenta GUI i dawne zadania synchronizacji offline nie obowiązują.
 
@@ -22,7 +22,7 @@ Historyczny [run #38610233253](https://github.com/clickbytes/flexLingua/actions/
 | Test #369: checkbox podglądu hipotetycznych form oczekiwał 6 opcji, engine zwracał 7 | Studio UI; strumień GUI | [GUI-01 #1](https://github.com/clickbytes/flexLingua/issues/1) | Naprawione w PR #84; bieżące `npm test` przechodzi |
 | Test #371: brakowało szczegółów niezgodności lematu i komórek odmiany | Studio UI; strumień GUI | [GUI-01 #1](https://github.com/clickbytes/flexLingua/issues/1) | Naprawione w PR #84; bieżące `npm test` przechodzi |
 
-Nie ma obecnie czerwonych testów do reprodukcji. Issue #1 pozostaje otwarte do merge'a, który usuwa wycofany standalone z produktu i procesu; nie należy opisywać dawnych 398/401 jako bieżącego stanu.
+Nie ma obecnie czerwonych testów do reprodukcji. Issue #1 zamknięto po merge PR #89, który usunął standalone z produktu i procesu; dawny wynik 398/401 nie opisuje bieżącego stanu.
 
 ## Import
 
@@ -36,7 +36,7 @@ Nie ma obecnie czerwonych testów do reprodukcji. Issue #1 pozostaje otwarte do 
 - [Core Engine CI #38607020365](https://github.com/clickbytes/flexLingua/actions/runs/38607020365): Node 22 wystartował, `npm test` wykonało 393 testy — **379 pass / 14 fail**, a nie dawne `startup_failure`.
 - Lexical-audits: leksyka, morfologia, G2, rodzina, ojciec i ruch przeszły, ale trzy testy `check:gold-actions` nie; offline-parity wykrył nieaktualny `index-standalone.html`.
 - Wśród 14 testów nieudanych: siedem testów serializacji dyskursu (prototypy słowników `entities`/`roles`), dwa testy mutacji gold o zbyt kruchych regexach, jedna stara asercja audytu ojca, jeden test zbyt płytkiego progu zagnieżdżenia, trzy GUI/offline (`tests/offline.test.js` oraz dwa `tests/studio-ui.test.js`).
-- CORE patch: po bezpiecznej walidacji nieufnego JSON dyskursu parser odtwarza null-prototype mapy (ochrona i kontrakt API); regresje testów odwołują się do aktualnych ograniczeń. Oddzielny agent musi poprawić GUI/offline.
+- CORE patch: po bezpiecznej walidacji nieufnego JSON dyskursu parser odtwarza null-prototype mapy (ochrona i kontrakt API); regresje testów odwołują się do aktualnych ograniczeń. Późniejsze PR-y naprawiły historyczne regresje UI i wycofały standalone.
 - Wynik pozostaje **niezweryfikowany jako green release**, dopóki nowy `main` nie przejdzie całego `check:release` i offline.
 
 ## Pierwsze wyniki po poprawce CORE

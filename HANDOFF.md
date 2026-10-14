@@ -1,5 +1,7 @@
 # CHECKPOINT: REALIZACJA P0 — 2026-10-14
 
+> **Archiwum, nie wymagany checkpoint.** Status bieżącej pracy, blockerów i następnego kroku prowadź w GitHub issue/PR; nie aktualizuj tego pliku po każdym batchu. Dawne instrukcje o standalone, osobnym agencie GUI i obowiązkowym handoffie opisują wcześniejszy proces. Aktualny `main` po PR #89 to `21ac04f62b06f6d7aa5b0c9bc60caf84805e8dfc`; wszystkie trzy jobs przeszły w [Actions #38631654117](https://github.com/clickbytes/flexLingua/actions/runs/38631654117). Standalone zostało wycofane.
+
 - **Repo:** `clickbytes/flexLingua`; branch `core/p0-pers01-deixis`, baza `main` SHA `f5194d75015f365ae89389724bb726612a9ce5fe`.
 - REL-01 i VAL-05 są scalone przez [PR #86](https://github.com/clickbytes/flexLingua/pull/86). VAL-01 (#22) jest scalone przez [PR #87](https://github.com/clickbytes/flexLingua/pull/87), merge SHA `f5194d75015f365ae89389724bb726612a9ce5fe`. Post-merge [Actions run #38624447251](https://github.com/clickbytes/flexLingua/actions/runs/38624447251) **PASS**; `check:release` i pełne testy na main zakończone sukcesem.
 - Macierz A1 v2 definiuje 23 wymagane jednostki (16 pojęć, 7 konstrukcji), ich sensy CORE, mapowania PL/EN, morfologię i ramy konstrukcji. Oxford/CEFR pozostają referencjami; to nie jest pełny A1 ani mianownik procentu CEFR. VAL-05 inwentaryzuje 16 pakietów danych: 6 project-authored i 10 do migracji źródła/licencji.

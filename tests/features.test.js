@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import {
-  createFeatureRegistry, unifyFeatures, valueAt, featureSource,
+  GRAMMATICAL_PERSON, createFeatureRegistry, unifyFeatures, valueAt, featureSource,
   matchesConditions, matchesAgreement, validateFeatureBundle
 } from '../js/core/features.js';
 
@@ -66,10 +66,33 @@ test('Feature unification rejects unsafe keys from externally parsed JSON', () =
 
 test('Feature source resolution is bounded to subject and event namespaces', () => {
   assert.deepEqual(featureSource('subject.number'), ['subject','number']);
+  assert.deepEqual(featureSource('subject.person'), ['subject','person']);
   assert.equal(valueAt({ subject:{ number:'plural' } }, 'subject.number'), 'plural');
+  assert.equal(valueAt({ subject:{ person:'second' } }, 'subject.person'), 'second');
   for (const invalid of ['source.number','subject.number.sneaky','subject.__proto__','constructor']) {
     assert.throws(() => featureSource(invalid), /feature dependency/);
   }
+});
+
+test('Subject person and number conditions and agreement are exact across the full person-number matrix', () => {
+  assert.deepEqual(Object.values(GRAMMATICAL_PERSON), ['first','second','third']);
+  const mapping = { subjectPerson:'subject.person', subjectNumber:'subject.number' };
+  for (const person of Object.values(GRAMMATICAL_PERSON)) {
+    for (const number of ['singular','plural']) {
+      const context = { subject:{person,number}, event:{} };
+      const bindings = { subjectPerson:person, subjectNumber:number };
+      assert.ok(matchesConditions(context, {'subject.person':person,'subject.number':number}));
+      assert.ok(matchesAgreement(bindings, mapping, context));
+      for (const otherPerson of Object.values(GRAMMATICAL_PERSON).filter(value=>value!==person)) {
+        assert.equal(matchesConditions(context, {'subject.person':otherPerson}), false);
+        assert.equal(matchesAgreement({...bindings,subjectPerson:otherPerson},mapping,context), false);
+      }
+      assert.equal(matchesConditions(context, {'subject.number':number==='singular'?'plural':'singular'}), false);
+      assert.equal(matchesAgreement({...bindings,subjectNumber:number==='singular'?'plural':'singular'},mapping,context), false);
+    }
+  }
+  assert.equal(matchesConditions({subject:{number:'singular'},event:{}},{'subject.person':'third'}),false);
+  assert.equal(matchesAgreement({subjectPerson:'third'}, {subjectPerson:'subject.person'}, {subject:{},event:{}}),false);
 });
 
 test('Feature condition fails when dependent source is unknown', () => {

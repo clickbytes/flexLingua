@@ -396,7 +396,7 @@ Dodano kontrolowaną konstrukcję `event.movement` w obu językach, odmianę pol
 
 ## Aktywne repozytorium i CI (14.10.2026)
 
-Dalszy rozwój oraz wszystkie nowe PR i issues odbywają się wyłącznie na **[clickbytes/flexLingua](https://github.com/clickbytes/flexLingua)**. Poprzednie repozytorium jest historycznym źródłem migawki, a nie miejscem dalszych zapisów. Import zachowuje 158 plików i identyczne Git tree SHA; GitHub Actions uruchomiło na nowym koncie runner oraz pełną kolekcję testów Node. [Szczegóły i status CI](docs/migration-clickbytes.md). GUI nadal należy do osobnego agenta.
+Dalszy rozwój oraz wszystkie nowe PR i issues odbywają się wyłącznie na **[clickbytes/flexLingua](https://github.com/clickbytes/flexLingua)**. Poprzednie repozytorium jest historycznym źródłem migawki, a nie miejscem dalszych zapisów. Import zachowuje 158 plików i identyczne Git tree SHA; GitHub Actions uruchomiło na nowym koncie runner oraz pełną kolekcję testów Node. [Szczegóły i status CI](docs/migration-clickbytes.md). Zmiany CORE i GUI są śledzone we wspólnym repozytorium zgodnie z zakresem plików danego zadania.
 
 ## A1 Batch 7 — wspólny raport dowodów
 
@@ -404,4 +404,4 @@ Dalszy rozwój oraz wszystkie nowe PR i issues odbywają się wyłącznie na **[
 
 ## Backlog issues, epiki i DoD (2026-10-14)
 
-Wszystkie przyszłe prace są zapisane jako **14 epików i 67 tasków** w [clickbytes issues](https://github.com/clickbytes/flexLingua/issues). [Master Backlog](docs/planning/BACKLOG.md) zawiera łącza, zależności i priorytety; [kolejność prac](docs/planning/EXECUTION_ORDER.md), [kotwice kodu](docs/planning/IMPLEMENTATION_ANCHORS.md), [polityka akceptacji](docs/planning/ISSUE_POLICY.md) oraz [szablony dobrych AC](docs/planning/ACCEPTANCE_EXAMPLES.md) umożliwiają pracę małymi batchami. Kody zadań mapuje [ISSUE_MAP.json](docs/planning/ISSUE_MAP.json). Rozwój tylko na `clickbytes`, GUI osobny agent.
+Wszystkie przyszłe prace są zapisane jako **14 epików i 67 tasków** w [clickbytes issues](https://github.com/clickbytes/flexLingua/issues). [Master Backlog](docs/planning/BACKLOG.md) zawiera łącza, zależności i priorytety; [kolejność prac](docs/planning/EXECUTION_ORDER.md), [kotwice kodu](docs/planning/IMPLEMENTATION_ANCHORS.md), [polityka akceptacji](docs/planning/ISSUE_POLICY.md) oraz [szablony dobrych AC](docs/planning/ACCEPTANCE_EXAMPLES.md) umożliwiają pracę małymi batchami. Kody zadań mapuje [ISSUE_MAP.json](docs/planning/ISSUE_MAP.json). Zmiany zapisujemy wyłącznie w `clickbytes/flexLingua`.

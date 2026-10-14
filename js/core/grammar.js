@@ -4,7 +4,7 @@ import { materializeInflections } from './morphology/engine.js';
 import { createNominalInterpreter } from './nominals.js';
 import { matchesTokens, sentenceText, tokenize } from './text.js';
 import {
-  record, hasOwn, safeName, unifyFeatures, featureSource,
+  record, hasOwn, safeName, unifyFeatures, featureSource, GRAMMATICAL_PERSON,
   matchesAgreement, matchesConditions
 } from './features.js';
 
@@ -475,11 +475,11 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
 
   function contextFor(roles, event) {
     const subject = roles[subjectRole];
-    const ref=subject?.value;
-    const deictic=isDeicticReferent(ref);
+    const ref = subject?.value;
+    const agreement = isDeicticReferent(ref) ? ref.agreement : null;
     return { event, subject: subject ? {
-      person: deictic ? ref.agreement.person : 'third',
-      number: deictic ? ref.agreement.number : ref.features.number,
+      person: agreement?.person ?? GRAMMATICAL_PERSON.third,
+      number: agreement?.number ?? ref?.features?.number,
       gender: subject.noun?.gender,
       pluralClass: subject.noun?.pluralClass
     } : {} };
@@ -1402,7 +1402,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     for (const [binding, source] of Object.entries(verbGrammar.agreement)) {
       const [root, name] = featureSource(source);
       const available = root === 'event' ? domains.event[name] :
-        (name==='person' ? ['first','second','third'] :
+        (name==='person' ? Object.values(GRAMMATICAL_PERSON) :
           domains.participant[name] || domains.lexical[name]);
       if (!available) throw new Error(`Unknown agreement source for ${binding}: ${source}`);
     }
@@ -1410,7 +1410,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
       for (const [source, value] of Object.entries(rule.when || {})) {
         const [root, name] = featureSource(source);
         const allowed = root === 'event' ? domains.event[name] :
-          (name==='person' ? ['first','second','third'] :
+          (name==='person' ? Object.values(GRAMMATICAL_PERSON) :
             domains.participant[name] || domains.lexical[name]);
         if (!allowed?.includes(value)) throw new Error(`Unknown conditional feature: ${source}=${value}`);
       }
