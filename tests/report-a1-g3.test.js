@@ -4,6 +4,7 @@ import {readFile} from 'node:fs/promises';
 import {spawnSync} from 'node:child_process';
 import {Engine} from '../js/core/engine.js';
 import {createRuleAdapter} from '../js/core/grammar.js';
+import {EVIDENCE_SOURCES,verifyEvidenceFixture} from '../tools/a1-evidence-ledger-lib.mjs';
 import {buildA1Report} from '../tools/report-a1-lib.mjs';
 
 const load=async p=>JSON.parse(await readFile(new URL('../'+p,import.meta.url),'utf8'));
@@ -24,6 +25,10 @@ test('G3: audited report distinguishes structural, behavioral, and CEFR coverage
   assert.deepEqual(report.behavioral.summary,{total:40,passed:40,failed:0});
   assert.deepEqual(report.behavioral.positive,{total:32,passed:32,failed:0});
   assert.deepEqual(report.behavioral.negative,{total:8,passed:8,failed:0});
+  assert.equal(report.sampleEvidence.classification,'development');
+  assert.deepEqual(report.sampleEvidence.declared,{positive:32,negative:8});
+  assert.deepEqual(report.sampleEvidence.verified,{positive:32,negative:8,status:'pass'});
+  assert.equal(report.sampleEvidence.heldOut.included,false);
   assert.equal(report.structural.pilot.conceptCount,13);
   assert.ok(report.sampleEvidence.pilotConceptsMentionedByGold>0);
   assert.equal(report.sampleEvidence.pilotConceptsTotal,
@@ -61,4 +66,11 @@ test('G3: report CLI works in Node with strict mode and no external runtime depe
   assert.equal(json.behavioral.summary.passed,40);
   assert.equal(json.release.verified,false);
   assert.equal(json.cefr.percentage,null);
+});
+
+test('G3: strict report only accepts the pinned development gold fixture',async()=>{
+  const source=EVIDENCE_SOURCES.find(item=>item.id==='g2');
+  const text=await readFile(new URL('../'+source.fixture,import.meta.url),'utf8');
+  assert.equal(verifyEvidenceFixture('g2',text),source.sha256);
+  assert.throws(()=>verifyEvidenceFixture('g2',text+'\n'),/integrity check failed/);
 });

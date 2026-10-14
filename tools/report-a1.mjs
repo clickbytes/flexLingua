@@ -1,6 +1,7 @@
 import {readFile,writeFile} from 'node:fs/promises';
 import {Engine} from '../js/core/engine.js';
 import {createRuleAdapter} from '../js/core/grammar.js';
+import {verifyEvidenceFixture} from './a1-evidence-ledger-lib.mjs';
 import {buildA1Report} from './report-a1-lib.mjs';
 
 const args=process.argv.slice(2);
@@ -14,12 +15,15 @@ for(let i=0;i<args.length;i++){
 }
 if(args.filter(a=>a==='--output').length>1)throw new Error('Duplicate --output.');
 const load=async p=>JSON.parse(await readFile(new URL('../'+p,import.meta.url),'utf8'));
-const [ontology,features,pl,en,plMorph,enMorph,plGrammar,enGrammar,seed,corpus]=await Promise.all([
+const [ontology,features,pl,en,plMorph,enMorph,plGrammar,enGrammar,seed]=await Promise.all([
   'data/concepts.json','data/features.json','data/pl.json','data/en.json',
   'data/morphology/pl.json','data/morphology/en.json',
   'data/grammar/pl.json','data/grammar/en.json',
-  'data/coverage/a1-pilot.json','data/coverage/a1-gold-g2.json'
+  'data/coverage/a1-pilot.json'
 ].map(load));
+const corpusText=await readFile(new URL('../data/coverage/a1-gold-g2.json',import.meta.url),'utf8');
+verifyEvidenceFixture('g2',corpusText);
+const corpus=JSON.parse(corpusText);
 const engine=new Engine(ontology,features)
   .registerLanguage(createRuleAdapter(pl,plGrammar))
   .registerLanguage(createRuleAdapter(en,enGrammar));

@@ -8,6 +8,16 @@ Rejestr obejmuje wcześniejsze próbki, gold stanów STATE-04 i osobny korpus VA
 
 ## Zestawy i zakres
 
+### VAL-03 — integralność i stabilne wydanie
+
+Każde źródło ma klasyfikację `development`, `regression` albo `held-out`. Raport pokazuje osobno próbki zadeklarowane i próbki z potwierdzonym przejściem testu. H1 jest poza zestawem rozwojowym, ale nie jest niezależną ewaluacją: autorem fixture był implementer.
+
+Ledger przypina SHA-256 do wszystkich dziewięciu plików gold i sprawdza je przed uruchomieniem któregokolwiek zestawu. Zmianę gold należy połączyć z ponownym przeglądem i aktualizacją digestu w `tools/a1-evidence-ledger-lib.mjs`. Brak pliku, niepoprawny JSON albo rozbieżny digest kończy CLI błędem przed zapisem raportu. `tools/report-a1.mjs` sprawdza w ten sam sposób G2.
+
+`sampleQuality.declared` i `sampleQuality.verified` zawierają osobne liczniki EN→PL i PL→EN dla próbek pozytywnych i negatywnych. Morfologia jest rozbita według języka. Duplikaty są wykrywane po normalizacji Unicode NFC, wielkości liter i białych znaków; raport podaje powtórzone obserwacje, grupy z powtórzeniami wewnątrz źródeł i grupy obejmujące wiele źródeł. Te kategorie mogą się pokrywać. `release.id` jest skrótem przypiętych wejść i definicji zestawów, więc nie zmienia się między powtórzeniami przy tych samych danych. Zapis przez `--output` jest atomowy.
+
+Każde uruchomienie zestawu gold ma status, faktyczny PID procesu Node, wersję i ścieżkę runtime, argumenty oraz kod wyjścia. W trybie katalogowym zestawy pozostają `not-run`, mają `exitCode: null` i nie udają uruchomionych procesów. `cefr.percentage` pozostaje `null`, bo repozytorium nie deklaruje licencjonowanego, reprezentatywnego mianownika.
+
 | Zestaw | Pozytywne próbki | Odmowy | Komórki morfologii |
 | --- | ---: | ---: | ---: |
 | G2 | 32 | 8 | 0 |

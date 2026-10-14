@@ -1,4 +1,4 @@
-/** Auditable PL↔INTER↔EN A1 pilot: finite independent text and meaning oracle, NOT a CEFR score. */
+/** Auditable PL↔INTER↔EN A1 pilot: finite project-authored text and meaning oracle, NOT a CEFR score. */
 const directions=new Set(['en:pl','pl:en']);
 const features=new Set(['statement','negation','question','modality','multiword']);
 const word=x=>typeof x==='string'&&x.trim().length>0;
