@@ -180,8 +180,9 @@ test('Checkbox gates experimental unknown-word previews and keeps ordinary looku
   assert.equal(el('dictionary-experimental-settings').hidden, false);
   el('dictionary-part-of-speech').value = 'NOUN';
   el('dictionary-part-of-speech').trigger('change');
-  assert.equal(el('dictionary-paradigm').children.length, 8,
-    'Polish noun filter must show seven noun paradigms and placeholder');
+  assert.equal(el('dictionary-paradigm').children.length,
+    morphologyOverview(engine, 'pl').paradigms.filter(pattern => pattern.pos === 'NOUN').length + 1,
+    'Polish noun filter must show every noun paradigm and the placeholder');
   el('dictionary-paradigm').value = 'pl.noun.masc_animate';
   el('dictionary-paradigm').trigger('change');
   assert.match(el('dictionary-paradigm-guide').textContent, /kot|lis|chłopiec/,
@@ -193,12 +194,14 @@ test('Checkbox gates experimental unknown-word previews and keeps ordinary looku
   assert.match(el('dictionary-status').textContent, /Tryb eksperymentalny/);
   el('dictionary-example-en').trigger('click');
   assert.equal(el('dictionary-language').value, 'en');
-  assert.equal(el('dictionary-paradigm').children.length, 4,
-    'NOUN filter must still be active after changing language; English has three noun classes');
+  assert.equal(el('dictionary-paradigm').children.length,
+    morphologyOverview(engine, 'en').paradigms.filter(pattern => pattern.pos === 'NOUN').length + 1,
+    'NOUN filter must still be active after changing language');
   el('dictionary-part-of-speech').value = '';
   el('dictionary-part-of-speech').trigger('change');
-  assert.equal(el('dictionary-paradigm').children.length, 6,
-    'Clearing the filter must expose all five English patterns');
+  assert.equal(el('dictionary-paradigm').children.length,
+    morphologyOverview(engine, 'en').paradigms.length + 1,
+    'Clearing the filter must expose all English patterns and the placeholder');
   el('dictionary-query').value = 'widget';
   el('dictionary-stem').value = 'widget';
   el('dictionary-paradigm').value = 'en.noun.regular';
@@ -232,7 +235,8 @@ test('Pattern guide sources its examples only from lexemes already bound in the 
 });
 
 test('Hypothetical lemma mismatch and missing-cell details are surfaced by the user interface', () => {
-  const ids = ['tab-translate','tab-dictionary','tab-inter','panel-translate','panel-dictionary','panel-inter',
+  const ids = ['tab-translate','tab-dictionary','tab-inter','tab-coverage',
+    'panel-translate','panel-dictionary','panel-inter','panel-coverage',
     'dictionary-form','dictionary-query','dictionary-language','dictionary-status','dictionary-results',
     'dictionary-example-pl','dictionary-example-inflected','dictionary-example-en',
     'dictionary-experimental','dictionary-experimental-settings',

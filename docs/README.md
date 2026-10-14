@@ -83,10 +83,3 @@ Każda istotna zmiana w kodzie lub danych powinna mieć testy i odpowiadającą 
 - [Migracja do clickbytes + rzeczywiste GitHub Actions](migration-clickbytes.md) — aktywne repozytorium, integralność migawki, wykryte regresje.
 
 - [A1 Batch 7: rejestr dowodów i wykonanie testów](a1-evidence-ledger.md) — bez procentu CEFR, autorskie fixture'y, jawne statusy.
-
-- [Master Backlog — 14 EPIC / 67 TASK i rzeczywiste linki GitHub](planning/BACKLOG.md)
-- [Mapa numerów, parentów i blockerów](planning/ISSUE_MAP.json)
-- [Kolejność realizacji (DAG)](planning/EXECUTION_ORDER.md)
-- [Kotwice semantyki i gramatyki CORE](planning/IMPLEMENTATION_ANCHORS.md)
-- [DoR/DoD i polityka issues](planning/ISSUE_POLICY.md)
-- [Przykłady testowalnych kryteriów odbioru](planning/ACCEPTANCE_EXAMPLES.md)

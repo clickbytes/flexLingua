@@ -1,19 +1,13 @@
-# CHECKPOINT MASTER BACKLOG — clickbytes 2026-10-14
+# CHECKPOINT: naprawa CI i testow Windows/offline — 2026-10-14
 
-- **Aktywne repo:** `clickbytes/flexLingua`; baza `d70359ba0d783c32f37eb31cddc6c4abf3ce16e3`. Branch `core/planning-epics-issues-20261014`.
-- Opublikowano **14 EPIC** (#4–#17) i **67 TASK** (66 nowych #18–#83 + istniejące GUI #1). Odnotowano własność GUI oddzielnego agenta, nie tworzono GUI #1 drugi raz.
-- Każdy EPIC zawiera prawdziwe numery tasków w checklist; 66 nowych TASK ma w body kanoniczne parent / Blocked by / Unblocks. GUI #1 posiada odnośnik do #17 i dependencies w komentarzu, bez niszczenia pierwotnej reprodukcji.
-- DAG zależności **0 cykli**, brak obcych ID, stabilne kody i dane w `docs/planning/backlog-near.json` + `backlog-future.json`. Pierwotny cykl REL-01 ↔ GUI-01 wyeliminowany: REL-01 #18 nie czeka na GUI, GUI #1 zależy od REL-01.
-- `docs/planning/BACKLOG.md` = kompletna mapa, `ISSUE_MAP.json` = JSON numerów i reverse edges, `EXECUTION_ORDER.md` = kolejność, `IMPLEMENTATION_ANCHORS.md` = symbole CORE i pliki, `ISSUE_POLICY.md` = DoR/DoD, `ACCEPTANCE_EXAMPLES.md` = testowalne AC.
-- Zainstalowano w repo szablony GitHub Issue Forms EPIC/TASK/BUG/SPIKE oraz PR. Native subissues/etykiety własne/milestone nie były konfigurowalne dostępnych narzędzi — relacje checklist/odnośników są źródłem prawdy.
-- Test `tests/planning-backlog.test.js` dodany do `npm test`. Po commit/PR należy potwierdzić rzeczywisty Actions run. Dane są planem, nie implementacją.
-- **Znany blocker wydania:** GUI #1, realny Node baseline 398/401 pass, lexical-audits success, standalone/studio wciąż 3 fail. PR planistyczny nie dotyka semantycznego runtime ani GUI.
+**Repo:** `clickbytes/flexLingua`; branch `core/fix-ci-windows-offline-20261014`; baza `main` SHA `d70359ba0d783c32f37eb31cddc6c4abf3ce16e3`; commit `210095f8a42b9b1054f1ebc36a6ff290961bdba4` wypchniety na branch. `main` pozostaje bez zmian; PR nie zostal otwarty.
 
----
-
-## Korekta grafu zależności (2026-10-14)
-
-Wykryto i rozwiązano cykl `REL-01 -> GUI-01 -> REL-01`: audyt diagnostyczny `REL-01` może i musi być wykonany niezależnie od naprawy GUI #1. Zależność `GUI-01 -> REL-01` pozostaje, jako dowód bazowych regresji. Każde kolejne zadanie musi zostać zweryfikowane pod kątem DAG przed publikacją. GUI #1 nie jest duplikowane.
+- Naprawiono trzy czerwone testy CI: asercje liczby paradygmatow licza aktywny pakiet morfologii, a atrapa UI zawiera oba panele wymagane przez `initStudio`.
+- Naprawiono przenosnosc Windows: generator standalone sprawdza granice katalogow przez `path.relative`, a testy CLI konwertuja URL-e przez `fileURLToPath`.
+- Wygenerowano ponownie `index-standalone.html`; `.gitattributes` wymusza LF dla tego artefaktu, a generator zapisuje kanoniczne LF niezaleznie od systemu.
+- Weryfikacja lokalna, Windows / Node v24.19.0: `npm run check:release` **PASS** (`npm test` 401/401; wszystkie audyty i `check:standalone` PASS), `npm run check:questions` **PASS** (15/15), `npm run build:standalone` **PASS**, `git diff --check` **PASS**.
+- Hosted run po pierwszym pushu: [38611724114](https://github.com/clickbytes/flexLingua/actions/runs/38611724114), SHA `a64a324094253bd9d9404607721af704301be5ea`. Testy Studio i audyty leksykonu przeszly; pozostal standalone. Diagnostyka kolejnego runu [38611965415](https://github.com/clickbytes/flexLingua/actions/runs/38611965415) wykazala dodatkowy pusty wiersz: generator normalizowal CRLF dopiero po usuwaniu importow. Moduly sa teraz normalizowane przed regexami, standalone zbudowano ponownie. Finalny hosted [run 38612211939](https://github.com/clickbytes/flexLingua/actions/runs/38612211939) na commit `210095f8a42b9b1054f1ebc36a6ff290961bdba4` **SUCCESS**: `engine-tests`, `lexical-audits`, `offline-parity` i `release-gate` przeszly. `check:release` i `check:questions` lokalnie PASS.
+- Nie zmieniano zrodlowego GUI/CSS. Aktualizacja pliku offline wynika z wymaganej synchronizacji bundla, a poprawki testow odwzorowuja obecny interfejs.
 
 ---
 
