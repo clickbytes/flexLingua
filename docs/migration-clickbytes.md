@@ -6,7 +6,7 @@ Właściciel wskazał `clickbytes/flexLingua` jako jedyne aktywne repozytorium d
 
 ## Aktualizacja procesu — 2026-10-14
 
-Bieżąca baza `main` to merge commit `7ca0995c1dbdbf6eac7e4ab714dc56d1ca223934` z PR #92; [Actions #38637097580](https://github.com/clickbytes/flexLingua/actions/runs/38637097580) zakończył sukcesem wszystkie trzy jobs (`Node unit and regression tests`, `Lexicon morphology gold and A1 checks`, `Aggregate release gate`). PR #89 wycofał standalone HTML, generator, test parytetu i powiązaną bramkę CI; UI działa przez loopback HTTP. PR #90 ukończył PERS-03, PR #91 PERS-04, a PR #92 PERS-05. Issue GUI #1 i PERS-03..05 (#29..31) są zamknięte; PERS-06 #32 jest bieżącą pracą.
+Bieżąca baza `main` to merge commit `04aeaa811453e8aa8054779af6a903e24dd4e953` z PR #93; [Actions #38639074374](https://github.com/clickbytes/flexLingua/actions/runs/38639074374) zakończył sukcesem wszystkie trzy jobs (`Node unit and regression tests`, `Lexicon morphology gold and A1 checks`, `Aggregate release gate`). PR #89 wycofał standalone HTML, generator, test parytetu i powiązaną bramkę CI; UI działa przez loopback HTTP. PR #90 ukończył PERS-03, PR #91 PERS-04, PR #92 PERS-05, a PR #93 PERS-06. Issue GUI #1 i PERS-03..06 (#29..32) są zamknięte.
 
 Poniższe zapisy opisują wcześniejszą diagnostykę. Podział na osobnego agenta GUI i dawne zadania synchronizacji offline nie obowiązują.
 

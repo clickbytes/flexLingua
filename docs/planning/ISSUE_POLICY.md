@@ -49,8 +49,8 @@
 
 ## Dowody i wydania
 
-Aktualna bazowa migawka planowania: `7ca0995c1dbdbf6eac7e4ab714dc56d1ca223934`.
-Hosted [CI run #38637097580](https://github.com/clickbytes/flexLingua/actions/runs/38637097580) na `main` SHA `7ca0995c1dbdbf6eac7e4ab714dc56d1ca223934`: wszystkie trzy jobs zakończyły się sukcesem po merge PR #92. Standalone i jego kontrola zostały usunięte w PR #89; każdy nowy PR wymaga własnego runu na dokładnym SHA.
+Aktualna bazowa migawka planowania: `04aeaa811453e8aa8054779af6a903e24dd4e953`.
+Hosted [CI run #38639074374](https://github.com/clickbytes/flexLingua/actions/runs/38639074374) na `main` SHA `04aeaa811453e8aa8054779af6a903e24dd4e953`: wszystkie trzy jobs zakończyły się sukcesem po merge PR #93. Standalone i jego kontrola zostały usunięte w PR #89; każdy nowy PR wymaga własnego runu na dokładnym SHA.
 Referencje: `docs/migration-clickbytes.md`, `docs/a1-evidence-ledger.md`, `docs/development-workflow.md`, `ROADMAP.md`.
 
 ## Aktualizacja realnego CI po GUI PR #84

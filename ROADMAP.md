@@ -77,7 +77,7 @@ PERS-05 ukończono w [PR #92](https://github.com/clickbytes/flexLingua/pull/92),
 
 ### PERS-06 — niezależny gold osoby 1./2. i deiksy
 
-PERS-06 jest realizowane na `core/p0-pers06-person-gold`: dodaje 40 autorskich przypadków PL/EN, 10 odmów, modalne paradygmaty wszystkich sześciu osób/liczb oraz osobną bramkę gold w CI i rejestrze dowodów.
+PERS-06 ukończono w [PR #93](https://github.com/clickbytes/flexLingua/pull/93), merge SHA `04aeaa811453e8aa8054779af6a903e24dd4e953`; [Actions #38639074374](https://github.com/clickbytes/flexLingua/actions/runs/38639074374) zakończył sukcesem wszystkie trzy jobs. Gold obejmuje 40 autorskich przypadków PL/EN, 10 odmów, zachowanie znaczenia CORE oraz bramkę CI i rejestr dowodów.
 
 ### Kamienie milowe A1
 
@@ -257,4 +257,4 @@ Przyjęto kontrakt rozdzielający kotwicę referenta (`speaker`/`addressee`) od 
 
 ## Backlog egzekwowalny i epiki (14.10.2026)
 
-Otwarto **14 epików / 67 tasków** w `clickbytes/flexLingua`; każde ma rodzica, AC i kontrakt plików oraz checklistę. [BACKLOG](docs/planning/BACKLOG.md), [ISSUE_MAP](docs/planning/ISSUE_MAP.json), [EXECUTION_ORDER](docs/planning/EXECUTION_ORDER.md). Epik A1 nie jest certyfikacją CEFR. Po merge PR #92 `main` SHA `7ca0995` ma wszystkie trzy jobs green w Actions #38637097580; GUI #1 jest zamknięte, standalone wycofano. Każdy PR wymaga własnego rzeczywistego Actions run; status, SHA i dowody trafiają do issue/PR.
+Otwarto **14 epików / 67 tasków** w `clickbytes/flexLingua`; każde ma rodzica, AC i kontrakt plików oraz checklistę. [BACKLOG](docs/planning/BACKLOG.md), [ISSUE_MAP](docs/planning/ISSUE_MAP.json), [EXECUTION_ORDER](docs/planning/EXECUTION_ORDER.md). Epik A1 nie jest certyfikacją CEFR. Po merge PR #93 `main` SHA `04aeaa8` ma wszystkie trzy jobs green w Actions #38639074374; GUI #1 jest zamknięte, standalone wycofano. Każdy PR wymaga własnego rzeczywistego Actions run; status, SHA i dowody trafiają do issue/PR.
