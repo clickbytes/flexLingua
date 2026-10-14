@@ -17,6 +17,14 @@ test('every shipped data package has versioned provenance or an explicit migrati
   assert.equal(result.packages,manifest.packages.length);
 });
 
+test('VAL-02 held-out fixture records its authored source and evaluation limits',()=>{
+const item=manifest.packages.find(x=>x.path==='data/coverage/a1-heldout-v1.json');
+assert.equal(item?.status,'project-authored');
+assert.match(item.author,/no independent author was available/);
+assert.match(item.source,/not generated from parser output/);
+assert.match(item.permittedUse,/not an independent or representative CEFR benchmark/);
+});
+
 test('an unregistered new data package fails the provenance gate',()=>{
   assert.throws(()=>validateDataProvenance(manifest,[...inventory,
     {path:'data/new-batch.json',version:'1.0'}]),/No provenance record/);

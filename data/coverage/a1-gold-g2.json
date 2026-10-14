@@ -3,6 +3,12 @@
   "origin": "Project-authored manually specified controlled PL/EN oracle (not copied from Oxford and not generated from engine output).",
   "license": "project-authored",
   "scope": "controlled-a1-pilot-not-cefr-validation",
+  "dataset": {
+    "id": "G2",
+    "revision": "G2-v1",
+    "role": "development-regression",
+    "heldOutFromVAL02": false
+  },
   "cases": [
     {
       "id": "G2-EN-01",

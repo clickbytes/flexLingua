@@ -33,9 +33,15 @@ function assertGold(engine,row){
 }
 test('A1 Batch 6: cross-batch compositions preserve scope, questions and event order',()=>{
  assert.equal(corpus.license,'project-authored');
- assert.equal(corpus.cases.length,11);
+ assert.equal(corpus.cases.length,12);
  const engine=make();
  for(const row of corpus.cases)assertGold(engine,row);
+ assert.equal(corpus.unsupported.length,1);
+ for(const row of corpus.unsupported){
+  const result=engine.tryTranslate({text:row.input,from:row.from,to:row.to});
+  assert.equal(result.ok,false,row.id+' must refuse: '+row.reason);
+  assert.ok(result.error?.message,row.id+' needs a diagnostic');
+ }
 });
 test('A1 Batch 6: question scope retains WH targetRole inside ability',()=>{
  const q=make().analyze({from:'en',text:'What can the sister open?'});
@@ -44,6 +50,14 @@ test('A1 Batch 6: question scope retains WH targetRole inside ability',()=>{
  assert.equal(q.proposition.operator,'modality.ability');
  assert.equal(Object.hasOwn(q.proposition.operand.roles,'theme'),false);
  assert.equal(q.proposition.operand.roles.agent.concept,'person.sister');
+});
+test('A1 Batch 6: modal WH scope composes with a different event frame',()=>{
+ const q=make().analyze({from:'en',text:'What can the sister read?'});
+ assert.equal(q.questionType,'wh');
+ assert.equal(q.targetRole,'theme');
+ assert.equal(q.proposition.operator,'modality.ability');
+ assert.equal(q.proposition.operand.concept,'event.read');
+ assert.equal(Object.hasOwn(q.proposition.operand.roles,'theme'),false);
 });
 test('A1 Batch 6: independent semantic gold detects tampering',()=>{
  const bad={...corpus.cases[0],shape:{...corpus.cases[0].shape,concept:'event.write'}};

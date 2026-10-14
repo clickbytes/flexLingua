@@ -7,7 +7,8 @@ export const EVIDENCE_SOURCES = Object.freeze([
  {id:'actions',fixture:'tests/fixtures/gold-daily-actions-a1.json',args:['--test','tests/daily-actions-a1.test.js']},
  {id:'composition',fixture:'tests/fixtures/gold-a1-crossbatch.json',args:['--test','tests/a1-crossbatch-composition.test.js']},
  {id:'person',fixture:'tests/fixtures/gold-person-a1.json',args:['--test','tests/a1-person-gold.test.js']},
- {id:'state',fixture:'tests/fixtures/gold-state-a1.json',args:['--test','tests/a1-state-gold.test.js']}
+ {id:'state',fixture:'tests/fixtures/gold-state-a1.json',args:['--test','tests/a1-state-gold.test.js']},
+ {id:'heldout',fixture:'data/coverage/a1-heldout-v1.json',args:['--test','tests/a1-heldout.test.js']}
 ]);
 const record=x=>x!==null&&typeof x==='object'&&!Array.isArray(x);
 const word=x=>typeof x==='string'&&x.trim().length>0;
@@ -26,6 +27,28 @@ function extractRows(id, corpus) {
  }else if(id==='composition'){
    if(!Array.isArray(corpus.cases))throw new Error('Malformed composition fixture.');
    positive=corpus.cases;
+   if(!Array.isArray(corpus.unsupported))throw new Error('Malformed composition refusals.');
+   negative=corpus.unsupported;
+ }else if(id==='heldout'){
+   if(!Array.isArray(corpus.groups)||!Array.isArray(corpus.unsupported))
+     throw new Error('Malformed VAL-02 held-out fixture.');
+   const pairs=corpus.groups.flatMap(group=>{
+     if(!record(group)||!word(group.concept)||!['singular','plural'].includes(group.roleNumber)||
+        !Array.isArray(group.pairs))throw new Error('Invalid VAL-02 semantic group.');
+     return group.pairs.map(pair=>{
+       if(!record(pair)||!word(pair.id)||!word(pair.en)||!word(pair.pl)||
+          !Array.isArray(pair.wrappers))throw new Error('Invalid VAL-02 pair.');
+       const roles=Object.fromEntries(['agent','theme'].filter(role=>pair[role]!==undefined)
+         .map(role=>[role,{concept:pair[role],number:group.roleNumber}]));
+       return {...pair,core:{concept:group.concept,roles,tense:pair.tense,
+         polarity:pair.polarity,wrappers:pair.wrappers}};
+     });
+   });
+   positive=pairs.flatMap(pair=>[
+     {id:pair.id+'-EN',from:'en',to:'pl',input:pair.en,expected:pair.pl,core:pair.core},
+     {id:pair.id+'-PL',from:'pl',to:'en',input:pair.pl,expected:pair.en,core:pair.core}
+   ]);
+   negative=corpus.unsupported;
  }else if(id==='state'){
    if(!Array.isArray(corpus.enToPl)||!Array.isArray(corpus.plToEn)||
       !Array.isArray(corpus.unsupported))throw new Error('Malformed state gold fixture.');

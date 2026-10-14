@@ -16,6 +16,8 @@ const make=()=>new Engine(concepts,features)
 
 test('G2: bounded original corpus has 16 rows per direction and eight refusals',()=>{
   assert.equal(validateA1Gold(corpus),true);
+  assert.equal(corpus.dataset.role,'development-regression');
+  assert.equal(corpus.dataset.heldOutFromVAL02,false);
   assert.equal(corpus.cases.filter(x=>x.from==='en').length,16);
   assert.equal(corpus.cases.filter(x=>x.from==='pl').length,16);
   assert.equal(corpus.unsupported.length,8);

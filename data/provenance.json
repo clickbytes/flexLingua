@@ -172,6 +172,16 @@
       "license": "Project-authored; no separate SPDX license grant is declared in this repository",
       "reviewedAt": "2026-10-14",
       "permittedUse": "Used as an internal planning subset in flexLingua. It is not an official CEFR list; external reuse requires rights-holder review."
+    },
+    {
+      "path": "data/coverage/a1-heldout-v1.json",
+      "version": 1,
+      "status": "project-authored",
+      "author": "flexLingua implementation owner; no independent author was available",
+      "source": "Manually authored controlled PL/EN pairs with static semantic annotations; not copied from Oxford and not generated from parser output",
+      "license": "Project-authored; no separate SPDX license grant is declared in this repository",
+      "reviewedAt": "2026-10-15",
+      "permittedUse": "Used as a finite internal held-out regression sample in flexLingua. It is not an independent or representative CEFR benchmark; external reuse requires rights-holder review."
     }
   ]
 }

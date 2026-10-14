@@ -30,14 +30,17 @@ export function semanticSignature(document){
   throw new Error('Missing or excessively nested gold event.');
 }
 
-export function validateA1Gold(corpus){
+export function validateA1Gold(corpus,{idPrefix='G2',idWidth=2}={}){
+  if(!/^[A-Z0-9]{1,12}$/u.test(idPrefix)||!Number.isInteger(idWidth)||
+      idWidth<2||idWidth>4)throw new Error('Invalid A1 gold ID policy.');
+  const idPattern=new RegExp('^'+idPrefix+'-(?:EN|PL|INVALID)-[0-9]{'+idWidth+'}$','u');
   if(!corpus||corpus.schemaVersion!==1||corpus.license!=='project-authored'||
       !Array.isArray(corpus.cases)||!Array.isArray(corpus.unsupported)||
       !corpus.cases.length||corpus.cases.length>500||corpus.unsupported.length>100)
     throw new Error('Invalid or excessive A1 gold corpus.');
   const ids=new Set(),utterances=new Set(),found=new Set();
   for(const item of [...corpus.cases,...corpus.unsupported]){
-    if(!item||!/^G2-(?:EN|PL|INVALID)-[0-9]{2}$/u.test(item.id||'')||
+    if(!item||!idPattern.test(item.id||'')||
         ids.has(item.id)||!directions.has(item.from+':'+item.to)||
         !word(item.input)||item.input.length>400||utterances.has(item.from+':'+item.input))
       throw new Error('Invalid or duplicate A1 gold item: '+String(item?.id));
@@ -58,8 +61,8 @@ export function validateA1Gold(corpus){
   return true;
 }
 
-export function evaluateA1Gold(engine,corpus){
-  validateA1Gold(corpus);
+export function evaluateA1Gold(engine,corpus,options){
+  validateA1Gold(corpus,options);
   const results=[];
   for(const row of corpus.cases){
     try{
