@@ -1,12 +1,12 @@
 # CHECKPOINT: REALIZACJA P0 — 2026-10-14
 
-- **Repo:** `clickbytes/flexLingua`; branch `core/p0-val01`, baza `main` SHA `50e15536b93af600782901cae52e4e25cc0eddc1`.
-- REL-01 i VAL-05 są już scalone przez [PR #86](https://github.com/clickbytes/flexLingua/pull/86); Hosted Actions [run #38622971857](https://github.com/clickbytes/flexLingua/actions/runs/38622971857) był zielony, `npm test` 410/410. VAL-05 waliduje pochodzenie 16 pakietów: 6 oznaczono jako project-authored, a 10 wymaga migracji źródła/licencji.
-- **VAL-01 (#22):** macierz A1 v2 zamraża 23 wymagane jednostki (16 pojęć i 7 konstrukcji zdarzeniowych), ich sensy CORE, mapowania PL/EN, morfologię i wymagane ramy konstrukcji. Audyt pokazuje niezależny gold albo jawną lukę. Status zakresu jest oddzielony od statusu wykonania. Oxford/CEFR są tylko referencjami; macierz nie jest pełnym A1 ani mianownikiem procentu CEFR.
-- Zmiany obejmują `data/coverage/a1-targets.json`, `data/provenance.json`, audyt luk, ledger dowodów, testy i dokumentację (`docs/a1-scope.md`, `docs/coverage-a1.md`, `ROADMAP.md`, `docs/planning/ISSUE_POLICY.md`).
-- Lokalna weryfikacja Windows / Node v24.19.0: `npm run check:release` **PASS** (411/411 testów; wszystkie goldy, audyt pochodzenia, standalone i coverage), `npm run check:a1-evidence` **PASS** (6/6 zestawów, 115 pozytywnych przykładów, 25 odmów, 60 komórek morfologii), `git diff --check` **PASS**.
-- PR [#87](https://github.com/clickbytes/flexLingua/pull/87), kod SHA `1b0b9109fef76abd3edea7386405e897f613fb53`: hosted [Actions run #38624062344](https://github.com/clickbytes/flexLingua/actions/runs/38624062344) **PASS** na workflow Node 22; wszystkie cztery jobs, w tym `check:release`, zakończyły się sukcesem, a pełny Node suite miał 411/411.
-- Następny ready task po VAL-01: PERS-01 #27. GUI #1 pozostaje formalnym blockerem odbioru GUI.
+- **Repo:** `clickbytes/flexLingua`; branch `core/p0-pers01-deixis`, baza `main` SHA `f5194d75015f365ae89389724bb726612a9ce5fe`.
+- REL-01 i VAL-05 są scalone przez [PR #86](https://github.com/clickbytes/flexLingua/pull/86). VAL-01 (#22) jest scalone przez [PR #87](https://github.com/clickbytes/flexLingua/pull/87), merge SHA `f5194d75015f365ae89389724bb726612a9ce5fe`. Post-merge [Actions run #38624447251](https://github.com/clickbytes/flexLingua/actions/runs/38624447251) **PASS**; `check:release` i pełne testy na main zakończone sukcesem.
+- Macierz A1 v2 definiuje 23 wymagane jednostki (16 pojęć, 7 konstrukcji), ich sensy CORE, mapowania PL/EN, morfologię i ramy konstrukcji. Oxford/CEFR pozostają referencjami; to nie jest pełny A1 ani mianownik procentu CEFR. VAL-05 inwentaryzuje 16 pakietów danych: 6 project-authored i 10 do migracji źródła/licencji.
+- **PERS-01 (#27):** ADR rozstrzyga deiktyczny referent (`speaker`/`addressee`) i osobne cechy osoby/liczby. Podaje JSON dla I/you/we i ja/ty/my/wy, reguły nieznanej liczby/rodzaju/perspektywy, ryzyka E4 i wymagane testy serializacji. To decyzja architektoniczna; runtime pozostaje do wdrożenia w PERS-02..06.
+- Dokumentacja w tym batchu: `docs/adr/person-deixis.md`, `ROADMAP.md`, `docs/README.md`, `docs/planning/BACKLOG.md` i ten plik. Lokalnie `node --test tests/planning-backlog.test.js` **PASS** (4/4), `git diff --check` **PASS**. Post-merge release baseline VAL-01: Node suite 411/411.
+- PR [#88](https://github.com/clickbytes/flexLingua/pull/88), SHA `2199de8819fdf21a5adc2d8bc2095fe32e656995`: hosted [Actions run #38625055925](https://github.com/clickbytes/flexLingua/actions/runs/38625055925) **PASS**; wszystkie cztery jobs, w tym pełny `check:release`, zakończyły się sukcesem.
+- Następny ready task po PERS-01: PERS-02 #28; STATE-01 #33 również odblokowany. GUI #1 pozostaje formalnym blockerem odbioru GUI.
 
 ---
 

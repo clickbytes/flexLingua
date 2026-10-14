@@ -56,7 +56,7 @@ Zastąpić pozorne procenty rzetelnym, wersjonowanym zbiorem wymagań i wynikami
 
 Wprowadzić neutralną rolę mówcy/adresata i rzeczywistą odmianę ja/ty/my/wy ↔ I/you/we bez zgadywania rodzaju.
 
-- [ ] **PERS-01 [#27](https://github.com/clickbytes/flexLingua/issues/27)** — ADR: tożsamość mówcy/adresata i reprezentacja person w CORE. P: P0; blokuje: VAL-01 [#22](https://github.com/clickbytes/flexLingua/issues/22). AC: 3; pliki: 5.
+- [x] **PERS-01 [#27](https://github.com/clickbytes/flexLingua/issues/27)** — ADR: tożsamość mówcy/adresata i reprezentacja person w CORE. P: P0; VAL-01 [#22](https://github.com/clickbytes/flexLingua/issues/22) scalone; decyzja w [ADR](../adr/person-deixis.md). PERS-02..06 wdrażają kontrakt; AC: 3; pliki: 5.
 - [ ] **PERS-02 [#28](https://github.com/clickbytes/flexLingua/issues/28)** — PL/EN jawne zaimki ja/ty/my/wy oraz I/you/we. P: P0; blokuje: PERS-01 [#27](https://github.com/clickbytes/flexLingua/issues/27). AC: 3; pliki: 5.
 - [ ] **PERS-03 [#29](https://github.com/clickbytes/flexLingua/issues/29)** — Uzgodnienie osoby w parserze i realizatorze zdań. P: P0; blokuje: PERS-01 [#27](https://github.com/clickbytes/flexLingua/issues/27); PERS-02 [#28](https://github.com/clickbytes/flexLingua/issues/28). AC: 3; pliki: 5.
 - [ ] **PERS-04 [#30](https://github.com/clickbytes/flexLingua/issues/30)** — Polska fleksja czasowników: 1./2. osoba teraźniejsza i bezpieczny przeszły. P: P0; blokuje: PERS-03 [#29](https://github.com/clickbytes/flexLingua/issues/29). AC: 3; pliki: 5.

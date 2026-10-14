@@ -6,6 +6,7 @@ Ten plik jest nawigacją po dokumentacji. Aktualny cel i priorytety znajdują si
 
 - [A1.0 — strukturalny raport pokrycia](coverage-a1.md) — CLI, miary i ograniczenia.
 - [Autorski zakres A1 flexLingua](a1-scope.md) — zamrożona macierz pojęć i konstrukcji PL/CORE/EN.
+- [ADR: deiktyczna tożsamość mówcy i adresata](adr/person-deixis.md) — decyzja dla `I/you/we` i `ja/ty/my/wy`.
 - [Pochodzenie danych](data-provenance.md) — źródła, status licencji i warunki użycia pakietów JSON.
 
 
