@@ -1,7 +1,9 @@
-import {readFile,writeFile} from 'node:fs/promises';
+import {readFile,rename,rm,writeFile} from 'node:fs/promises';
+import {randomUUID} from 'node:crypto';
+import {resolve} from 'node:path';
 import {spawnSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
-import {EVIDENCE_SOURCES,buildA1EvidenceLedger} from './a1-evidence-ledger-lib.mjs';
+import {EVIDENCE_SOURCES,buildA1EvidenceLedger,sha256Text,verifyEvidenceFixture} from './a1-evidence-ledger-lib.mjs';
 
 const args=process.argv.slice(2);
 const catalogOnly=args.includes('--catalog-only');
@@ -17,15 +19,25 @@ for(let i=0;i<args.length;i++){
 }
 if(args.filter(x=>x==='--catalog-only').length>1||args.filter(x=>x==='--output').length>1)
  throw new Error('Duplicate evidence ledger option.');
-const load=async path=>JSON.parse(await readFile(new URL('../'+path,import.meta.url),'utf8'));
-const [manifest,ontology]=await Promise.all(['data/coverage/a1-targets.json','data/concepts.json'].map(load));
-const corpora=Object.fromEntries(await Promise.all(EVIDENCE_SOURCES.map(async source=>
- [source.id,await load(source.fixture)])));
+
+const loadText=async path=>readFile(new URL('../'+path,import.meta.url),'utf8');
+const [manifestText,ontologyText]=await Promise.all([
+ loadText('data/coverage/a1-targets.json'),loadText('data/concepts.json')
+]);
+const manifest=JSON.parse(manifestText),ontology=JSON.parse(ontologyText);
+const corpora={},fixtureDigests={};
+// Validate every pinned gold file before launching any suite or writing a report.
+for(const source of EVIDENCE_SOURCES){
+ const text=await loadText(source.fixture);
+ fixtureDigests[source.id]=verifyEvidenceFixture(source.id,text);
+ corpora[source.id]=JSON.parse(text);
+}
+
 const cwd=fileURLToPath(new URL('../',import.meta.url));
 const checks={};
 for(const source of EVIDENCE_SOURCES){
  if(catalogOnly){
-   checks[source.id]={status:'not-run',exitCode:null};
+   checks[source.id]={status:'not-run',exitCode:null,execution:null};
    continue;
  }
  const run=spawnSync(process.execPath,source.args,{
@@ -34,11 +46,26 @@ for(const source of EVIDENCE_SOURCES){
  const passed=run.status===0&&!run.error&&!run.signal;
  checks[source.id]={
    status:passed?'pass':'fail',exitCode:run.status??null,
+   execution:{kind:'benchmark',runtime:'node',executable:process.execPath,
+     version:process.version,pid:run.pid??null,args:source.args,
+     exitCode:run.status??null,signal:run.signal??null},
    ...(passed?{}:{error:(run.error?.message||'')+'\n'+String(run.stderr||run.stdout||'').slice(-1600)})
  };
 }
-const report=buildA1EvidenceLedger({manifest,ontology,corpora,checks});
+const report=buildA1EvidenceLedger({manifest,ontology,corpora,checks,
+ inputDigests:{manifest:sha256Text(manifestText),ontology:sha256Text(ontologyText),fixtures:fixtureDigests}});
+report.execution={kind:'ledger',runtime:'node',executable:process.execPath,
+ version:process.version,pid:process.pid,args:process.argv.slice(1)};
 const output=JSON.stringify(report,null,2)+'\n';
-if(outputAt>=0)await writeFile(args[outputAt+1],output,'utf8');
-else process.stdout.write(output);
+if(outputAt>=0){
+ const target=resolve(cwd,args[outputAt+1]);
+ const temporary=target+'.tmp-'+randomUUID();
+ try{
+   await writeFile(temporary,output,{encoding:'utf8',flag:'wx'});
+   await rename(temporary,target);
+ }catch(error){
+   await rm(temporary,{force:true});
+   throw error;
+ }
+}else process.stdout.write(output);
 if(!catalogOnly&&report.verification.status!=='pass')process.exitCode=1;
