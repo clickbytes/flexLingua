@@ -458,6 +458,12 @@
     "grammar.auxiliary": {
       "label": "auxiliary verb form"
     },
+    "grammar.state_copula": {
+      "label": "state copula verb"
+    },
+    "grammar.state_possession": {
+      "label": "state possession verb"
+    },
     "grammar.expletive": {
       "label": "expletive subject"
     },

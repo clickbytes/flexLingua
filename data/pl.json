@@ -1046,6 +1046,52 @@
           }
         }
       ]
+    },
+    {
+      "id": "pl.byc.1",
+      "lemma": "być",
+      "forms": {
+        "present": {
+          "firstSingular": "jestem",
+          "secondSingular": "jesteś",
+          "thirdSingular": "jest",
+          "firstPlural": "jesteśmy",
+          "secondPlural": "jesteście",
+          "thirdPlural": "są"
+        }
+      },
+      "senses": [
+        {
+          "id": "pl.byc.1.sense.1",
+          "coreRef": {
+            "kind": "grammaticalFunction",
+            "id": "grammar.state_copula"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.miec.1",
+      "lemma": "mieć",
+      "forms": {
+        "present": {
+          "firstSingular": "mam",
+          "secondSingular": "masz",
+          "thirdSingular": "ma",
+          "firstPlural": "mamy",
+          "secondPlural": "macie",
+          "thirdPlural": "mają"
+        }
+      },
+      "senses": [
+        {
+          "id": "pl.miec.1.sense.1",
+          "coreRef": {
+            "kind": "grammaticalFunction",
+            "id": "grammar.state_possession"
+          }
+        }
+      ]
     }
   ],
   "adjectives": [

@@ -53,8 +53,10 @@ Wartości ról wynikają z typowanych ramek w `data/concepts.json`. Rejestr jest
 ## Zakres i polityka odmowy
 
 - Parser i writer CORE JSON akceptują trzy kompletne ramki stanu oraz ich negację przez istniejący węzeł `scope`.
-- W tym zadaniu gramatyki PL i EN nie analizują ani nie realizują zdań stanowych. Realizacja stanu do PL lub EN zwraca jawny błąd `Unsupported state construction`.
+- Gramatyka PL obsługuje obecnie czas teraźniejszy i negację dla posiadania (`mieć`) oraz predykacji znaną właściwością (`być` + przymiotnik), z jawnymi paradygmatami i zgodą przymiotnika z podmiotem. Rządzenie dopełnieniem posiadania jest zadeklarowane w gramatyce: biernik w zdaniu twierdzącym, dopełniacz po `nie`.
+- Polska kopuła nie mapuje automatycznie na tożsamość ani predykat klasowy. Zdania o zawodzie, klasie, lokalizacji, egzystencji, strona bierna i użycie posiłkowe `być` nie mają tu licencjonowanej ramy. Predykacja z podmiotem deiktycznym, gdy rodzaj nie wynika z kontraktu, także jest odrzucana.
+- Gramatyka EN nie analizuje ani nie realizuje jeszcze stanów; przekład stanu PL do EN jawnie zwraca błąd `Unsupported state construction` do czasu zadania STATE-03.
 - Stany nie są obecnie obsługiwane jako składniki pytań, koordynacji, komplementów, modalności ani dyskursu. Walidator odrzuca takie struktury, zamiast zgadywać typ zdania.
-- Nieobsługiwane są także przynależność do klasy, zawód, lokalizacja, relacje rodzinne i inne predykaty bez jawnej ramki. Nie wolno mapować ich na istniejące zdarzenie ani na samą tożsamość.
+- Nieobsługiwane są także relacje rodzinne i inne predykaty bez jawnej ramki. Nie wolno mapować ich na istniejące zdarzenie ani na samą tożsamość.
 
-Późniejsze zadania językowe mogą dodać analizę i realizację PL/EN na podstawie tych ramek; powinny zachować wersje kontraktów CORE i wyraźnie zgłaszać nierozstrzygniętą niejednoznaczność.
+Kolejne zadania językowe mogą rozszerzyć analizę i realizację na podstawie tych ramek; powinny zachować wersje kontraktów CORE i wyraźnie zgłaszać nierozstrzygniętą niejednoznaczność.

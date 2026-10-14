@@ -1,4 +1,5 @@
-import { createEvent, createQuestion, createRelativeClause, createModality, createNegation, MAX_RELATIVE_DEPTH } from './interlingua.js';
+import { createEvent, createQuestion, createRelativeClause, createModality, createNegation,
+  createIdentity, createPredication, createPossession, MAX_RELATIVE_DEPTH } from './interlingua.js';
 import { createLexicon } from './lexicon.js';
 import { materializeInflections } from './morphology/engine.js';
 import { createNominalInterpreter } from './nominals.js';
@@ -21,6 +22,19 @@ const LEXEME_ID = /^[a-zA-Z][a-zA-Z0-9_]*(?:\.[a-zA-Z0-9_]+)*$/u;
 const PLACEHOLDER = /^\{([a-zA-Z][a-zA-Z0-9_]*)\}$/u;
 const LITERAL = /^@[\p{L}]+$/u;
 const DEICTIC_FUNCTION = 'grammar.deictic_pronoun';
+const STATE_ROLES = Object.freeze({
+  identity: Object.freeze(['subject','complement']),
+  predication: Object.freeze(['subject']),
+  possession: Object.freeze(['owner','owned'])
+});
+const STATE_FORM_CELLS = Object.freeze([
+  {path:'forms.present.firstSingular',person:'first',number:'singular'},
+  {path:'forms.present.secondSingular',person:'second',number:'singular'},
+  {path:'forms.present.thirdSingular',person:'third',number:'singular'},
+  {path:'forms.present.firstPlural',person:'first',number:'plural'},
+  {path:'forms.present.secondPlural',person:'second',number:'plural'},
+  {path:'forms.present.thirdPlural',person:'third',number:'plural'}
+]);
 const MODAL_AGREEMENT_KEYS = [
   'firstSingular','secondSingular','thirdSingular',
   'firstPlural','secondPlural','thirdPlural'
@@ -343,6 +357,84 @@ function validateGrammar(dictionary, grammar) {
       throw new Error(`Invalid linearizations for ${concept}.`);
     }
   }
+  const stateSenses = (dictionary.verbs || []).flatMap(verb => verb.senses || [])
+    .filter(sense => sense.coreRef?.kind === 'grammaticalFunction' &&
+      ['grammar.state_copula','grammar.state_possession'].includes(sense.coreRef.id));
+  if (grammar.states === undefined) {
+    if (stateSenses.length) throw new Error('Missing state grammar for state verb lexemes.');
+    return grammar;
+  }
+  const states = grammar.states;
+  if (!record(states) ||
+      Object.keys(states).some(key => !['negator','supportedTenses','verbs','frames',
+        'unsupportedVerbs'].includes(key)) ||
+      !['negator','supportedTenses','verbs','frames'].every(key => hasOwn(states,key)) ||
+      !/^[\p{L}]+$/u.test(states.negator || '') ||
+      !Array.isArray(states.supportedTenses) || !states.supportedTenses.length ||
+      !states.supportedTenses.every(safeName) || !record(states.verbs) ||
+      !record(states.frames) ||
+      (states.unsupportedVerbs !== undefined && !Array.isArray(states.unsupportedVerbs))) {
+    throw new Error('Invalid state grammar configuration.');
+  }
+  const configuredFunctions = Object.keys(states.verbs);
+  const actualFunctions = [...new Set(stateSenses.map(sense => sense.coreRef.id))].sort();
+  const unsupportedFunctions=states.unsupportedVerbs || [];
+  const declaredFunctions=[...configuredFunctions,...unsupportedFunctions];
+  if (new Set(declaredFunctions).size!==declaredFunctions.length ||
+      unsupportedFunctions.some(coreFunction=>!LEXEME_ID.test(coreFunction)) ||
+      JSON.stringify(declaredFunctions.slice().sort()) !== JSON.stringify(actualFunctions)) {
+    throw new Error('State grammar and state-verb lexicon do not match.');
+  }
+  const stateKinds = new Set();
+  for (const [coreFunction, kind] of Object.entries(states.verbs)) {
+    if (!LEXEME_ID.test(coreFunction) || !['identity','predication','possession'].includes(kind) ||
+        !hasOwn(states.frames,kind)) {
+      throw new Error(`Invalid state verb mapping: ${coreFunction}`);
+    }
+    stateKinds.add(kind);
+  }
+  if (Object.keys(states.frames).length !== stateKinds.size ||
+      Object.keys(states.frames).some(kind => !stateKinds.has(kind))) {
+    throw new Error('State grammar must define exactly the configured construction frames.');
+  }
+  for (const [kind, frame] of Object.entries(states.frames)) {
+    const roles = STATE_ROLES[kind];
+    const hasPredicate = kind === 'predication';
+    const slots = hasPredicate ? [...roles, frame?.predicateRole] : roles;
+    if (!record(frame) ||
+        Object.keys(frame).some(key => !['subjectRole','cases','linearizations',
+          'allowImplicitDeicticSubject', ...(hasPredicate ? ['predicateRole','predicateCase'] : [])].includes(key)) ||
+        !['subjectRole','cases','linearizations'].every(key => hasOwn(frame,key)) ||
+        (hasPredicate && (frame.predicateRole !== 'predicate' || !safeName(frame.predicateRole) ||
+          !safeName(frame.predicateCase) || frame.allowImplicitDeicticSubject === true)) ||
+        (frame.allowImplicitDeicticSubject !== undefined &&
+          typeof frame.allowImplicitDeicticSubject !== 'boolean') ||
+        frame.subjectRole !== (kind === 'possession' ? 'owner' : 'subject') ||
+        !record(frame.cases) || Object.keys(frame.cases).length !== roles.length ||
+        roles.some(role => !hasOwn(frame.cases,role)) ||
+        !Array.isArray(frame.linearizations) || !frame.linearizations.length ||
+        (hasPredicate && new Set(slots).size !== slots.length)) {
+      throw new Error(`Invalid ${kind} state frame.`);
+    }
+    for (const role of roles) {
+      const mapping = frame.cases[role];
+      if (safeName(mapping)) continue;
+      if (!record(mapping) || Object.keys(mapping).length !== 2 ||
+          !['positive','negative'].every(polarity => safeName(mapping[polarity]))) {
+        throw new Error(`Invalid case mapping for state role ${role}.`);
+      }
+    }
+    for (const sequence of frame.linearizations) {
+      if (!Array.isArray(sequence) || sequence.length !== slots.length + 1 ||
+          sequence.filter(step => step === '@verb').length !== 1 ||
+          sequence.some(step => !(slots.includes(step) || step === '@verb' ||
+            (typeof step === 'string' && LITERAL.test(step)))) ||
+          slots.some(role => sequence.filter(step => step === role).length !== 1) ||
+          (hasPredicate && sequence.indexOf(frame.subjectRole) > sequence.indexOf(frame.predicateRole))) {
+        throw new Error(`Invalid ${kind} state linearization.`);
+      }
+    }
+  }
   return grammar;
 }
 
@@ -371,14 +463,22 @@ function expandLexemes(lexemes, language, partOfSpeech) {
     const senses = multisense ? lexeme.senses : [{ id: lexeme.id, concept: lexeme.concept,
       priority: lexeme.priority || 0 }];
     for (const sense of senses) {
+      const concept = record(sense) ? (sense.concept ||
+        (sense.coreRef?.kind === 'concept' ? sense.coreRef.id : null)) : null;
+      const stateFunction = record(sense) && sense.coreRef?.kind === 'grammaticalFunction'
+        ? sense.coreRef.id : null;
       if (!record(sense) || !LEXEME_ID.test(sense.id || '') ||
           senseIds.has(sense.id) ||
-          !LEXEME_ID.test(sense.concept || '') ||
+          !(LEXEME_ID.test(concept || '') ||
+            (partOfSpeech === 'verb' &&
+              ['grammar.state_copula','grammar.state_possession'].includes(stateFunction))) ||
           !Number.isInteger(sense.priority ?? 0) || Math.abs(sense.priority ?? 0) > 100) {
         throw new Error(`Invalid or duplicate lexical sense: ${sense?.id}`);
       }
       senseIds.add(sense.id);
-      expanded.push({ ...lexeme, concept: sense.concept, senseId: sense.id,
+      expanded.push({ ...lexeme, ...(concept ? {concept} : {}),
+        ...(sense.coreRef ? {coreRef:sense.coreRef} : {}),
+        ...(stateFunction ? {stateFunction} : {}), senseId: sense.id,
         priority: sense.priority || 0 });
     }
   }
@@ -407,7 +507,10 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
   const { nounPhrase, sentence, verb: verbGrammar, frames } = grammar;
   const subjectRole = sentence.subjectRole;
   const nouns = expandLexemes(dictionary.nouns, dictionary.language, 'noun');
-  const verbs = expandLexemes(dictionary.verbs, dictionary.language, 'verb');
+  const expandedVerbs = expandLexemes(dictionary.verbs, dictionary.language, 'verb');
+  const verbs = expandedVerbs.filter(lexeme => !!lexeme.concept);
+  const stateVerbs = expandedVerbs.filter(lexeme =>
+    hasOwn(grammar.states?.verbs || {},lexeme.stateFunction));
   const nounForms = nouns.map(noun => ({ noun, forms: formsAt(noun, nounPhrase.path) }));
   const nominal = createNominalInterpreter({ dictionary, nounPhrase, nounForms });
   // An optional inventory of matrix predicates for propositional complements.
@@ -448,6 +551,24 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
   });
   const verbForms = verbs.flatMap(lexeme => verbGrammar.rules.flatMap(rule =>
     formsAt(lexeme, rule.path).map(form => ({ ...form, lexeme, rule }))));
+  const stateGrammar = grammar.states || null;
+  const stateVerbForms = stateGrammar ? stateVerbs.flatMap(lexeme => {
+    const kind = stateGrammar.verbs[lexeme.stateFunction];
+    const cells = morphology?.has(lexeme.id)
+      ? morphology.paradigm({lexemeId:lexeme.id}).map(form => ({
+        text:form.text, features:form.features
+      }))
+      : STATE_FORM_CELLS.flatMap(cell => formsAt(lexeme,cell.path).map(form => ({
+        text:form.text, features:{tense:'present',person:cell.person,number:cell.number}
+      })));
+    return cells.filter(form => stateGrammar.supportedTenses.includes(form.features?.tense))
+      .map(form => ({
+        kind, lexeme, text:form.text, features:form.features,
+        rule:{tense:form.features.tense,polarity:'positive',prefix:[],when:{
+          'subject.person':form.features.person,'subject.number':form.features.number
+        }}
+      }));
+  }) : [];
   const nounIndex = new Map();
   for (const noun of nouns) {
     if (!nounIndex.has(noun.concept)) nounIndex.set(noun.concept, []);
@@ -481,8 +602,8 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     return nominal.render(ref, noun, form.text, gramCase, fallback);
   }
 
-  function contextFor(roles, event) {
-    const subject = roles[subjectRole];
+  function contextFor(roles, event, grammaticalSubjectRole = subjectRole) {
+    const subject = roles[grammaticalSubjectRole];
     const ref = subject?.value;
     const agreement = isDeicticReferent(ref) ? ref.agreement : null;
     return { event, subject: subject ? {
@@ -503,6 +624,107 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     return length ? at + length : null;
   }
 
+  function stateRoleCase(frame, role, polarity) {
+    const mapping = frame.cases[role];
+    return record(mapping) ? mapping[polarity] : mapping;
+  }
+
+  function implicitStateSubject(features) {
+    const anchor=features.person==='first'?'speaker':
+      features.person==='second'?'addressee':null;
+    if(!anchor)return null;
+    return {referent:{kind:'deictic',anchor},
+      agreement:{person:features.person,number:features.number}};
+  }
+
+  function stateMeaning(kind, roles, features) {
+    if (kind === 'identity') return createIdentity(roles.subject,roles.complement,features);
+    if (kind === 'predication') return createPredication(roles.predicate,roles.subject,features);
+    if (kind === 'possession') return createPossession(roles.owner,roles.owned,features);
+    throw new Error(`Unsupported state construction in ${dictionary.language}.`);
+  }
+
+  function parseStateCandidates(tokens, budget) {
+    if (!stateGrammar) return [];
+    const readings = new Map();
+    for (const base of stateVerbForms) {
+      const frame = stateGrammar.frames[base.kind];
+      const linearizations=frame.linearizations.flatMap(sequence=>{
+        if(!frame.allowImplicitDeicticSubject||!sequence.includes(frame.subjectRole))return [sequence];
+        return [sequence,sequence.filter(step=>step!==frame.subjectRole)];
+      });
+      for (const polarity of ['positive','negative']) {
+        const entry = {...base,rule:{...base.rule,polarity,
+          prefix:polarity==='negative'?[stateGrammar.negator]:[]}};
+        if (!tokens.some((_,index) => matchVerb(tokens,index,entry)!==null)) continue;
+        const features={tense:entry.features.tense,polarity};
+        for(const sequence of linearizations){
+          const implicitSubject=!sequence.includes(frame.subjectRole)
+            ?implicitStateSubject(entry.features):null;
+          if(!sequence.includes(frame.subjectRole)&&!implicitSubject)continue;
+          const initialRoles=implicitSubject
+            ?{[frame.subjectRole]:{value:implicitSubject}}:{};
+          function search(position,index,parsedRoles) {
+            if (++budget.visited > MAX_SEARCH_NODES) {
+              throw new Error('Sentence analysis exceeded the bounded search limit.');
+            }
+            if (position === sequence.length) {
+              if (index !== tokens.length) return;
+              const context=contextFor(parsedRoles,features,frame.subjectRole);
+              if (!matchesConditions(context,entry.rule.when || {})) {
+                budget.agreementFailed=true;
+                return;
+              }
+              const roles=Object.fromEntries(Object.entries(parsedRoles)
+                .map(([role,parsed])=>[role,parsed.value]));
+              const meaning=stateMeaning(base.kind,roles,features);
+              const lexicalSenses={verb:entry.lexeme.senseId};
+              for(const [role,parsed] of Object.entries(parsedRoles)) {
+                if(parsed.senseId)lexicalSenses[role]=parsed.senseId;
+              }
+              const candidate={interlingua:meaning,lexicalSenses,
+                score:(entry.lexeme.priority||0)+Object.values(parsedRoles)
+                  .reduce((score,parsed)=>score+(parsed.noun?.priority||parsed.priority||0),0)};
+              const key=JSON.stringify(meaning),former=readings.get(key);
+              if(!former||candidate.score>former.score)readings.set(key,candidate);
+              return;
+            }
+            const step=sequence[position];
+            if(step==='@verb') {
+              const next=matchVerb(tokens,index,entry);
+              if(next!==null)search(position+1,next,parsedRoles);
+              return;
+            }
+            if(step.startsWith('@')) {
+              const count=matchesTokens(tokens,index,step.slice(1));
+              if(count)search(position+1,index+count,parsedRoles);
+              return;
+            }
+            let phrases;
+            if(step===frame.predicateRole) {
+              const subject=parsedRoles[frame.subjectRole];
+              if(!subject?.noun || isDeicticReferent(subject.value))return;
+              const context={number:subject.value.features.number,case:frame.predicateCase,
+                gender:subject.noun.gender,pluralClass:subject.noun.pluralClass,
+                animacy:subject.noun.animacy};
+              phrases=nominal.readProperty(tokens,index,context);
+            } else {
+              const grammaticalCase=stateRoleCase(frame,step,polarity);
+              phrases=[...readNounPhrases(tokens,index,grammaticalCase,0,budget),
+                ...(step===frame.subjectRole&&grammaticalCase==='nom'
+                  ?readDeicticNounPhrases(tokens,index):[])];
+            }
+            for(const parsed of phrases) {
+              search(position+1,parsed.next,{...parsedRoles,[step]:parsed});
+            }
+          }
+          search(0,0,initialRoles);
+        }
+      }
+    }
+    return [...readings.values()].sort((a,b)=>b.score-a.score).slice(0,MAX_ANALYSES);
+  }
+
   /** Bounded chart-like enumeration for complete clauses or clauses with one semantic gap.
    * Relative clauses are parsed by recursively reusing the SAME frame/lexicon rules.
    * The source marker is language-specific data; no pairwise translation rules exist.
@@ -513,7 +735,8 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     const modalReadings = parseModalCandidates(tokens);
     if (modalReadings.length) return modalReadings;
     const budget = { visited: 0, memo: new Map() };
-    const results = parseClause(tokens, null, null, 0, budget);
+    const stateReadings = parseStateCandidates(tokens,budget);
+    const results = [...stateReadings,...parseClause(tokens, null, null, 0, budget)];
     if (results.length) return results.slice(0, MAX_ANALYSES);
     if (budget.agreementFailed) throw new Error(grammar.messages?.agreement ||
       'Verb form does not agree with subject.');
@@ -1114,6 +1337,54 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     return { candidates, preferred, linearize, roles };
   }
 
+  function realizeState(meaning) {
+    const frame=stateGrammar?.frames?.[meaning?.kind];
+    if(!frame)throw new Error(`Unsupported state construction in ${dictionary.language}.`);
+    if(!stateGrammar.supportedTenses.includes(meaning.features.tense)) {
+      throw new Error(`No ${dictionary.language} state verb form supports ${meaning.features.tense}.`);
+    }
+    const polarity=meaning.features.polarity;
+    if(!['positive','negative'].includes(polarity)) {
+      throw new Error(`Unsupported ${dictionary.language} state polarity.`);
+    }
+    const subject=meaning.roles[frame.subjectRole];
+    const person=isDeicticReferent(subject)?subject.agreement.person:GRAMMATICAL_PERSON.third;
+    const number=isDeicticReferent(subject)?subject.agreement.number:subject.features.number;
+    const verb=stateVerbForms.find(entry=>entry.kind===meaning.kind&&
+      entry.features.tense===meaning.features.tense&&entry.features.person===person&&
+      entry.features.number===number);
+    if(!verb)throw new Error(`No ${dictionary.language} state verb form supports ${meaning.kind}, ${person}, ${number}.`);
+    const prefix=polarity==='negative'?[stateGrammar.negator]:[];
+    const surface=(role)=>{
+      if(role===frame.predicateRole) {
+        if(meaning.kind!=='predication' || isDeicticReferent(subject)) {
+          throw new Error(`Unsupported ${dictionary.language} state predicate subject.`);
+        }
+        const noun=nounByConcept(subject.concept);
+        const context={number:subject.features.number,case:frame.predicateCase,
+          gender:noun.gender,pluralClass:noun.pluralClass,animacy:noun.animacy};
+        return nominal.realizeProperty(meaning.predicate,context);
+      }
+      const ref=meaning.roles[role];
+      if(isDeicticReferent(ref)) {
+        if(role!==frame.subjectRole)throw new Error('Only subject deictic pronouns are supported in state constructions.');
+        return deicticPronounSurface(ref);
+      }
+      if(ref.relatives?.length)throw new Error('Relative clauses in state constructions are unsupported.');
+      const noun=nounByConcept(ref.concept);
+      const gramCase=stateRoleCase(frame,role,polarity);
+      return plainNoun(ref,noun,gramCase,nounPhrase.defaultDefiniteness);
+    };
+    const parts=frame.linearizations[0].flatMap(step=>{
+      if(step==='@verb')return [...prefix,verb.text];
+      if(step.startsWith('@'))return [step.slice(1)];
+      if(step===frame.subjectRole && frame.allowImplicitDeicticSubject &&
+          isDeicticReferent(meaning.roles[step]))return [];
+      return [surface(step)];
+    });
+    return {text:sentenceText([parts.join(' ')],sentence.terminator),warnings:[],alternatives:[]};
+  }
+
 
   /** Realize modality through existing frame role ordering and nominal rules. */
   function realizeModal(node, question = null) {
@@ -1210,6 +1481,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
       throw new Error('Unsupported subject pronoun realization.');
     }
     if(meaning?.type==='question')return realizeQuestion(meaning);
+    if(meaning?.type==='state')return realizeState(meaning);
     if(modalParts(meaning))return realizeModal(meaning);
     const built = renderEvent(meaning, undefined, 0, null, {subjectPronoun});
     const { candidates, preferred, linearize } = built;
@@ -1481,13 +1753,23 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
         }
       }
     }
+    for(const frame of Object.values(stateGrammar?.frames || {})) {
+      const cases=[...Object.values(frame.cases || {}).flatMap(value=>
+        record(value)?Object.values(value):[value]),
+      ...(frame.predicateRole?[frame.predicateCase]:[])];
+      for(const grammaticalCase of cases) {
+        if(!domains.syntactic.case.includes(grammaticalCase)) {
+          throw new Error(`Unknown state grammatical case: ${grammaticalCase}`);
+        }
+      }
+    }
     // Covers nouns, verbs, modifiers, quantifiers, matrix predicates AND
     // function words, including entries the restricted parser does not use yet.
     if (coreLanguage) lexicon.validateCore(coreLanguage);
   }
 
   return {
-    code: grammar.language, analyze, analyzeCandidates, realize, realizeModal, validateOntology, lexicon,
+    code: grammar.language, analyze, analyzeCandidates, realize, realizeState, realizeModal, validateOntology, lexicon,
     analyzeQuestionCandidates:questions?analyzeQuestionCandidates:undefined,
     realizeQuestion:questions?realizeQuestion:undefined,
     parseComplementHeads, realizeComplement,
@@ -1500,6 +1782,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
         propositionalComplements: matrixLexemes.length > 0, wideScopeNegation: !!conjunction.wideNegation,
         aspectEncoding: verbGrammar.aspectSource === 'lexeme',
         questions:!!questions,
+        states:stateVerbForms.length>0,
         anaphora:subjectPronouns.length>0,
         modality:modals.length>0,
         quantifiers: dictionary.quantifiers?.length > 0 } })

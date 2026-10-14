@@ -560,7 +560,12 @@ export class Engine {
         return adapter.realizeModal(node);
       }
       if (node.type === 'state') {
-        throw new Error(`Unsupported state construction in ${to}.`);
+        if (!adapter.realizeState) throw new Error(`Unsupported state construction in ${to}.`);
+        const output=adapter.realizeState(node);
+        if (!output || typeof output.text!=='string' || !output.text.trim()) {
+          throw new Error(`Invalid state realization from adapter: ${to}`);
+        }
+        return output;
       }
       if (node.type === 'event') {
         const output = adapter.realize(node,options);
