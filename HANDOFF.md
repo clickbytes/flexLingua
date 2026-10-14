@@ -1,3 +1,9 @@
+## Korekta Batch 7 — różny format negatywnych fixture'ów
+
+W zestawach family/father/movement/actions odmowy były przechowywane bez `id`, podczas gdy G2 ma jawne identyfikatory. Ledger przydziela im deterministyczne `NEG-<source>-NN` tylko na potrzeby raportu; pozytywne przypadki nadal muszą mieć własne unikatowe ID. Nie modyfikowano oryginalnych zbiorów testowych.
+
+---
+
 # CHECKPOINT A1 BATCH 7 — clickbytes, 2026-10-14
 
 - Baza w aktywnym repo `clickbytes/flexLingua`: `6b738f6814caf73812282bef95bc259ed64aaf2d`. Zbudowano rejestr **6 oryginalnych fixture'ów** G2, family, father, movement, daily actions i crossbatch. Zbiera oddzielne liczby pozytywnych zdań, odmów i komórek morfologicznych. Nie importuje ani nie kopiuje chronionych list Oxford.

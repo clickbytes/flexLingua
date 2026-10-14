@@ -32,7 +32,9 @@ function extractRows(id, corpus) {
      ...corpus.enToPl.map(row=>({...row,from:'en',to:'pl'})),
      ...corpus.plToEn.map(row=>({...row,from:'pl',to:'en'}))
    ];
-   negative=corpus.invalid;
+   // Historic negative fixtures may omit IDs; generate stable source-scoped IDs.
+   negative=corpus.invalid.map((row,i)=>({...row,
+     id:row.id===undefined?('NEG-'+id+'-'+String(i+1).padStart(2,'0')):row.id}));
    morphology=corpus.morphology;
    if(id==='actions'){
      if(!Array.isArray(corpus.productiveOnly))throw new Error('Missing productive-only evidence.');
