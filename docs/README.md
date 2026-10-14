@@ -79,3 +79,5 @@ Każda istotna zmiana w kodzie lub danych powinna mieć testy i odpowiadającą 
 - [A1 Batch 6: daily actions](a1-daily-actions.md) — pisać/write, otwierać/open and independent gold.
 
 - [A1 Batch 6 composition tests](a1-daily-actions.md#cross-batch-compositionality-tests) — modalities, interrogatives, coordination and discourse.
+
+- [Migracja do clickbytes + rzeczywiste GitHub Actions](migration-clickbytes.md) — aktywne repozytorium, integralność migawki, wykryte regresje.

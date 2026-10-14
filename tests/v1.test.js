@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { Engine } from '../js/core/engine.js';
 import { createRuleAdapter } from '../js/core/grammar.js';
 import { createComplement, createNegation, createEvent, participant,
-  validateInterlingua, SEMANTIC_VERSION } from '../js/core/interlingua.js';
+  validateInterlingua, SEMANTIC_VERSION, MAX_CLAUSE_DEPTH } from '../js/core/interlingua.js';
 
 const load = name => JSON.parse(readFileSync(new URL(`../data/${name}`, import.meta.url), 'utf8'));
 const source = Object.fromEntries(['en','pl','tr'].map(lang => [lang, {
@@ -83,8 +83,12 @@ test('deep complement validates without accepting arbitrary clause types', () =>
   assert.throws(()=>validateInterlingua(createComplement('event.belief',ref,{type:'discourse'}),engine.ontology,engine.features),/complement/);
   const wrong={...good,experiencer:participant('object.book')};
   assert.throws(()=>validateInterlingua(wrong,engine.ontology,engine.features),/person/);
-  const tooDeep=createComplement('event.belief',ref,good);
-  assert.throws(()=>validateInterlingua(createComplement('event.belief',ref,tooDeep),engine.ontology,engine.features),/depth|nesting/);
+  // The current clause depth budget is 5; exceed it rather than assuming 4 is excessive.
+  let tooDeep=event;
+  for (let level=0;level<=MAX_CLAUSE_DEPTH;level++) {
+    tooDeep=createComplement('event.belief',ref,tooDeep);
+  }
+  assert.throws(()=>validateInterlingua(tooDeep,engine.ontology,engine.features),/depth|nesting/);
 });
 
 test('Turkish unsupported structures fail visibly, instead of inventing a translation', () => {

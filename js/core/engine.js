@@ -5,6 +5,25 @@ import { splitSentences, sentenceText } from './text.js';
 
 const MAX_CANDIDATES = 16;
 
+/**
+ * The natural-language discourse composer uses null-prototype dictionaries for
+ * semantic entity IDs and role names. JSON.parse creates plain objects; after
+ * validating untrusted CORE input, restore this same internal representation.
+ * Never re-map unvalidated names through Object.prototype.
+ */
+function canonicalizeParsedCoreDocument(node) {
+  if (node.type !== 'discourse') return node;
+  const nullDictionary = source => Object.assign(Object.create(null), source);
+  return {
+    ...node,
+    entities: nullDictionary(node.entities),
+    events: node.events.map(event => ({
+      ...event,
+      roles: nullDictionary(event.roles)
+    }))
+  };
+}
+
 /** Collect semantic participants from bounded clause graphs for topic ranking. */
 function participantsOf(node) {
   if (node?.type === 'question') return participantsOf(node.proposition);
@@ -387,6 +406,8 @@ export class Engine {
       };
       safeGraph(meaning);
       validateInterlingua(meaning, this.ontology, this.features);
+      // JSON serialization drops null prototypes; restore the canonical wire graph.
+      meaning = canonicalizeParsedCoreDocument(meaning);
       return [{ interlingua: meaning, lexicalSenses: {}, score: 0 }];
     }
     const adapter = this.language(from);

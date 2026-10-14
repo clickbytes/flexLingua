@@ -97,7 +97,7 @@ test('A1 Batch 6: distinct write/open meanings and independently mutable oracle'
  assert.equal(e.translate({text:'The sister does not write the book.',from:'en',to:'pl'}).text,
    'Siostra nie pisze książki.');
  const corrupted={...gold.enToPl[0],concept:'event.open'};
- assert.throws(()=>expectGold(writing.interlingua,corrupted),/Expected values to be strictly equal/);
+ assert.throws(()=>expectGold(writing.interlingua,corrupted),{code:'ERR_ASSERTION',message:/A1A-EN-01/});
  assert.equal(gold.license,'project-authored');
  assert.equal(ontology.concepts['event.open'].roleTypes.theme,'physical_object');
 });

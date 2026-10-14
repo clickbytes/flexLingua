@@ -216,3 +216,7 @@ Dołączono PL `iść` do `event.movement`, ograniczona, intransitive gramatyka 
 ## A1 Batch 6 (14.10.2026)
 
 Dołączono znaczenia pisania i otwierania, ich morfologię, testy semantyczne i autorską listę 23 celów (nie kompletny CEFR). [Dokumentacja](docs/a1-daily-actions.md).
+
+## Aktywne repozytorium po migracji (14.10.2026)
+
+**Tylko [clickbytes/flexLingua](https://github.com/clickbytes/flexLingua)** przyjmuje nowe commity, PR, issues i wyniki CI. Kod źródłowy historycznie rozwijano w ppotepa; dotychczasowe linki PR pozostają historią. [Migracja i walidacja Actions](docs/migration-clickbytes.md). CORE/GUI to odrębne zadania. Po odblokowaniu runnerów trwa usuwanie realnych regresji Node i synchronizacja standalone przez agenta GUI.

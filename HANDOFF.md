@@ -1,3 +1,20 @@
+# CI FAKTYCZNE WYNIKI POPRAWEK CORE — 2026-10-14
+
+**Repo aktywne tylko clickbytes/flexLingua.** Po importowaniu kompletnej migawki `main`, prawdziwy hosted [run 38607989473](https://github.com/clickbytes/flexLingua/actions/runs/38607989473) uruchomił poprawiony zestaw: **392/395 pass**; `lexical-audits` success, `offline-parity` failure, `engine-tests` failure wyłącznie w trzech testach **GUI**. GUI musi poprawić [issue #1](https://github.com/clickbytes/flexLingua/issues/1): nieaktualny standalone i dwa testy Studio. Żadne zmiany w UI/HTML nie zostały wykonane przez CORE. Przed zielonym release wymagane aktualne `npm test`, `check:standalone`, `check:release` na `main`.
+
+---
+
+# CHECKPOINT MIGRACJA / GITHUB ACTIONS — 2026-10-14
+
+**JEDYNE AKTYWNE REPO:** https://github.com/clickbytes/flexLingua
+**Nie zapisuj niczego do ppotepa/flexLingua**. Historia dawnych commitów i PR-ów jest archiwalna. Kopia wszystkich 158 plików ma identyczny Git tree SHA `f21ccb19d3a1b1616d4ffea11d4d77f1ed572839`; commit importu `clickbytes/main` = `17a9b255783027890cc56dcd8141782a40212f7b`. Repo clickbytes ma nową historię, bez przepisania dawnej historii commitów.
+
+Prawdziwy [Actions Startup Probe #38607020509](https://github.com/clickbytes/flexLingua/actions/runs/38607020509) przeszedł. [Core Engine CI #38607020365](https://github.com/clickbytes/flexLingua/actions/runs/38607020365) uruchomił Node 22 i pełny `npm test`: **379/393 pass, 14 fail**; poprzedni problem `startup_failure` nie blokuje już hostowanych jobów. Regressions CORE: kanoniczny parse CORE JSON dyskursu musi odtworzyć mapy bez prototypu; dwie stare asercje corpus tamper, asercja ojca i błędny test głębokości komplementu. GUI nadal stale standalone + 2 Studio UI regressions; **nie ruszaj plików GUI** — przekaż oddzielnemu agentowi. Szczegóły: [docs/migration-clickbytes.md](docs/migration-clickbytes.md).
+
+Aktualna praca odbywa się na osobnej gałęzi `core/ci-real-run-regressions-20261014` w **clickbytes**, po aktualizacji muszą być wykonane realne testy GitHub Actions. PR/merge tylko na clickbytes, bez force push, po każdym batchu HANDOFF.md. Nie deklarować green release bez full suite i standalone.
+
+---
+
 # A1 BATCH 6 — cross-batch semantic composition checkpoint
 
 Independent 11-case `tests/fixtures/gold-a1-crossbatch.json` covers modal ability, obligation, modal questions (WH targetRole), coordination and short discourse, combining legacy and new predicates. Isolated real Engine V8 confirmed G2 old gold 40/40 and all 11 constructed cases (correct texts, top-level semantic types). Dedicated Node tests now assert operator scope, event order, target reanalysis, INTER JSON roundtrip and detection of corrupted semantic or surface gold. The combined `check:gold-actions` script runs both test files. Full Node CI remains blocked by Actions `startup_failure`.
