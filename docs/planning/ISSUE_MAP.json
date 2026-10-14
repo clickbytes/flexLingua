@@ -161,7 +161,7 @@
     "GUI": {
       "number": 17,
       "priority": "P0",
-      "owner": "GUI agent (osobny)",
+      "owner": "GUI",
       "children": [
         "GUI-01",
         "GUI-02",
@@ -1012,7 +1012,7 @@
       "number": 1,
       "parent": "GUI",
       "priority": "P0",
-      "owner": "GUI agent (osobny)",
+      "owner": "GUI",
       "blockedBy": [],
       "unblocks": []
     },
@@ -1020,7 +1020,7 @@
       "number": 81,
       "parent": "GUI",
       "priority": "P0",
-      "owner": "GUI agent (osobny)",
+      "owner": "GUI",
       "blockedBy": [
         30
       ],
@@ -1030,7 +1030,7 @@
       "number": 83,
       "parent": "GUI",
       "priority": "P0",
-      "owner": "GUI agent (osobny)",
+      "owner": "GUI",
       "blockedBy": [
         24
       ],
@@ -1040,7 +1040,7 @@
       "number": 82,
       "parent": "GUI",
       "priority": "P0",
-      "owner": "GUI agent (osobny)",
+      "owner": "GUI",
       "blockedBy": [
         56,
         58

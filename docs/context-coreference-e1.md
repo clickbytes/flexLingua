@@ -1,5 +1,7 @@
 # E1 — Bezpieczne jawne powiązania encji między zdaniami
 
+> Raport historyczny z 2026-10-13. Wzmianka o niewykonanym wtedy pełnym release gate nie opisuje obecnego stanu: bieżący `main` przeszedł wszystkie trzy jobs w [Actions #38631654117](https://github.com/clickbytes/flexLingua/actions/runs/38631654117). Wymóg synchronizacji offline i standalone zostały wycofane.
+
 **Data:** 2026-10-13  
 **Status:** mikrobatch E1 — CORE source, bez zmian GUI; nie oznacza pełnego Batch E ani implementacji zaimków.
 
@@ -35,6 +37,6 @@ Kontekst `coreference` nie jest stosowany do `from: 'core'`, pojedynczych zdań 
 
 Testy E1: `tests/coreference-e1-v1.22.test.js`, rozszerzone o regresje `tests/context-coreference-v1.20.test.js`. Sprawdzają zgodne wieloznaczności, niezgodne połączenia, błędne/futurystyczne linki, wierność CORE JSON oraz brak inferencji.
 
-W izolowanym interpreterze modułów JavaScript wykonano **10/10** testów E1 + starszych testów kontekstu. **Nie wykonano pełnego `npm test` ani `npm run check:release`.** Lokalny dostęp sieciowy do GitHuba w środowisku Node jest niedostępny (DNS); GitHub Actions poprzednio zgłaszał `startup_failure`. Nie uznawać samodzielnych testów JS za ukończony release gate. Testy CI i zsynchronizowanie offline przez osobnego agenta GUI pozostają do potwierdzenia.
+W izolowanym interpreterze modułów JavaScript wykonano **10/10** testów E1 + starszych testów kontekstu. W tamtym raporcie nie wykonano pełnego `npm test` ani `npm run check:release`; ówczesny dostęp sieciowy do GitHuba w środowisku Node był niedostępny (DNS), a Actions zgłaszało `startup_failure`. Izolowane testy nie zastępowały wtedy release gate. Późniejszy pełny wynik CI opisuje notatka na początku tego pliku; wymóg synchronizacji offline został wycofany.
 
 **Dalsze mikrobatch E2:** ograniczona, jawna obsługa zaimków z deterministyczną polityką kandydatów, odmową w przypadku wielu zgodnych antecedensów i testami PL/EN. Nie przypisywać tożsamości na podstawie samego wystąpienia `he`, `she`, `on`, `ona`.

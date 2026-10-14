@@ -8,7 +8,7 @@ Polish has a new `pl.isc.1` meaning mapping with a language-specific frame `[age
 
 **Semantic limit:** English `go` is broader than Polish `iść` (which can imply going on foot). This is a controlled approximation for general movement, not universal lexical equivalence. `go to school` and `iść do szkoły` must be refused rather than silently dropping destinations. Do not claim CEFR A1 has been completed.
 
-Actions issue #9 still blocks full Node CI; offline bundle is owned by GUI agent (issue #16).
+Historyczny blocker pełnego Node CI nie obowiązuje: po merge PR #89 bieżący `main` przeszedł wszystkie trzy jobs w [GitHub Actions #38631654117](https://github.com/clickbytes/flexLingua/actions/runs/38631654117). Aplikacja używa lokalnego HTTP; standalone bundle został wycofany.
 
 ## Dowody izolowanej integracji
 

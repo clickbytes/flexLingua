@@ -3,6 +3,11 @@
  * Semantic dimensions are declared in data/features.json, not in a language adapter.
  */
 export const FEATURE_VERSION = '0.3';
+export const GRAMMATICAL_PERSON = Object.freeze({
+  first: 'first',
+  second: 'second',
+  third: 'third'
+});
 const NAME = /^[a-zA-Z][a-zA-Z0-9_]*$/u;
 const FORBIDDEN = new Set(['__proto__', 'prototype', 'constructor']);
 

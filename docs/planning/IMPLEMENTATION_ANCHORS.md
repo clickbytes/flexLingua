@@ -31,6 +31,6 @@ Wymienione ścieżki i symbole zostały sprawdzone w istniejących plikach. Nazw
 - `tests/features.test.js`, `tests/morphology.test.js`, `tests/conversation-e4.test.js`, `tests/a1-crossbatch-composition.test.js`, `tests/a1-evidence-ledger.test.js`: baza regresji i nowe fixture dla Batch 8+.
 - `package.json`: `npm test`, `check:release`, `report:a1-evidence`, `check:a1-evidence`.
 - `.github/workflows/core-engine.yml`: jobs `engine-tests`, `lexical-audits`, `release-gate`.
-- GUI, tylko osobny agent: `js/ui/studio.js`, `index.html`, `tests/studio-ui.test.js`.
+- GUI: `js/ui/studio.js`, `index.html`, `tests/studio-ui.test.js`; uruchomienie przez lokalny HTTP.
 
-Raport bazowy [Actions #38610233253](https://github.com/clickbytes/flexLingua/actions/runs/38610233253): Node 398/401, trzy błędy GUI, lexical-audits success; pełne wydanie nie jest zielone.
+Historyczny raport bazowy [Actions #38610233253](https://github.com/clickbytes/flexLingua/actions/runs/38610233253): Node 398/401 i trzy błędy GUI. Bieżący `main` po PR #89 jest zielony w [Actions #38631654117](https://github.com/clickbytes/flexLingua/actions/runs/38631654117); wszystkie trzy jobs przeszły.

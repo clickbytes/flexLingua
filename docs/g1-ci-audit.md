@@ -1,6 +1,6 @@
 # G1a — audyt CI, aktywacja głównych triggerów i kontrola pokrycia CORE
 
-> Archiwalny audyt historycznego workflow. Wszystkie statusy blokad i checklisty poniżej opisują ówczesny stan. Standalone parity i issue #1 zostały wycofane z bieżącego procesu; aktualne bramki są opisane w `package.json` i `.github/workflows/core-engine.yml`.
+> Archiwalny audyt historycznego workflow. Wszystkie statusy blokad i checklisty poniżej opisują ówczesny stan. Standalone parity i issue #1 zostały wycofane z bieżącego procesu; po PR #89 wszystkie trzy jobs przeszły w [Actions #38631654117](https://github.com/clickbytes/flexLingua/actions/runs/38631654117). Aktualne bramki są opisane w `package.json` i `.github/workflows/core-engine.yml`.
 
 **Data:** 2026-10-14  
 **Stan:** G1a zaimplementowany na gałęzi roboczej, etap weryfikacji wydania nadal **zablokowany** przez GitHub Actions i brak lokalnego checkoutu. Nie należy przedstawiać G1 jako pełnej certyfikacji.
@@ -25,7 +25,7 @@
 | `tests/coverage-a1.test.js` w izolowanym interpreterze JS na pobranych danych `main` i zmianie G1 | **4/4 zaliczone** | nie jest Node test runner; zmierzono `en: 52`, `pl: 47` leksemów, po **2** modalne na język, `cefr.percentage: null` |
 | `npm test` (całe repo) | **NIEURUCHOMIONY** | kontener nie może pobrać repo przez DNS/HTTPS (github.com) |
 | `npm run check:release` | **NIEURUCHOMIONY** | brak kompletnego lokalnego checkoutu; brak uruchomionych jobs GitHub |
-| `npm run check:standalone` | **NIEURUCHOMIONY** | artefakt GUI należy do osobnego agenta; wymaga parytetu ze zmianami CORE |
+| `npm run check:standalone` | **NIEURUCHOMIONY** | historyczna kontrola artefaktu offline; standalone i ten check wycofano w PR #89 |
 
 Nie wolno sumować statycznych 4 testów Node i 4 izolowanych testów pokrycia w jedną liczbę `npm test`.
 

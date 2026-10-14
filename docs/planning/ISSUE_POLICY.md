@@ -50,7 +50,7 @@
 ## Dowody i wydania
 
 Aktualna bazowa migawka planowania: `f3f1a62af1777d7cca4afc52fe3a0b13ad1fed25`.
-Hosted [CI run #38625444693](https://github.com/clickbytes/flexLingua/actions/runs/38625444693) na `main` SHA `b7ea1ef`: pełny release gate zakończył się sukcesem (417/417 testów). Ten historyczny run zawierał jeszcze kontrolę standalone. W tej zmianie standalone jest wycofywany; docelowe jobs to `engine-tests`, `lexical-audits` i `release-gate`. Wynik nowego runu należy dodać po merge.
+Hosted [CI run #38631654117](https://github.com/clickbytes/flexLingua/actions/runs/38631654117) na `main` SHA `21ac04f62b06f6d7aa5b0c9bc60caf84805e8dfc`: wszystkie trzy jobs (`engine-tests`, `lexical-audits`, `release-gate`) zakończyły się sukcesem po merge PR #89. Standalone i jego kontrola zostały usunięte; wcześniejszy run #38625444693 jest historyczną bazą sprzed tej zmiany.
 Referencje: `docs/migration-clickbytes.md`, `docs/a1-evidence-ledger.md`, `docs/development-workflow.md`, `ROADMAP.md`.
 
 ## Aktualizacja realnego CI po GUI PR #84

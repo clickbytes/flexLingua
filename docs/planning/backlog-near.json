@@ -264,12 +264,13 @@
             "js/core/features.js",
             "data/grammar/pl.json",
             "data/grammar/en.json",
-            "tests/features.test.js"
+            "tests/features.test.js",
+            "tests/pers03-subject-agreement.test.js"
           ],
           "checks": [
             "`contextFor`, `matchesAgreement` i `parseClause` mają jawne testy subject.person i subject.number.",
             "Formy 1., 2., 3. osoby i oba numery nie tworzą fałszywych dopasowań.",
-            "Stare gold G2–Batch7 i przynajmniej 401 historycznych testów nie otrzymują nowych regresji CORE."
+            "Pełne `npm run check:release` i hosted GitHub Actions dla PR potwierdzają brak regresji G2–Batch7."
           ],
           "deps": [
             "PERS-01",

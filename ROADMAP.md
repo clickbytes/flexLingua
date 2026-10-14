@@ -61,7 +61,7 @@ Oficjalny punkt odniesienia: https://www.oxfordlearnersdictionaries.com/wordlist
 
 ### PERS-02 — jawne zaimki podmiotu
 
-Implementacja na gałęzi P0 zapisuje podmiot pierwszej/drugiej osoby w CORE `1.22` przez kotwicę `speaker`/`addressee` i oddzielną zgodę gramatyczną `person`/`number`. PL/EN analizują oraz realizują kontrolowane zdania teraźniejsze; angielskie `you` zachowuje wariant singular i plural jako jawne analizy. Anafora trzeciej osoby pozostaje odrębna. Czas przeszły PL i przenoszenie tożsamości między turami pozostają ograniczeniami opisanymi w [PERS-02](docs/pers02-deictic-pronouns.md).
+PERS-02 scalono w [PR #89](https://github.com/clickbytes/flexLingua/pull/89), commit `21ac04f`; jego trzy GitHub Actions jobs są zielone w [runie #38631654117](https://github.com/clickbytes/flexLingua/actions/runs/38631654117). PL/EN analizują oraz realizują kontrolowane zdania teraźniejsze; angielskie `you` zachowuje wariant singular i plural jako jawne analizy. Anafora trzeciej osoby pozostaje odrębna. Czas przeszły PL i przenoszenie tożsamości między turami pozostają ograniczeniami opisanymi w [PERS-02](docs/pers02-deictic-pronouns.md). Bieżące zadanie: PERS-03 — jawna zgodność osoby i liczby.
 
 ### Kamienie milowe A1
 
@@ -229,7 +229,7 @@ Dołączono znaczenia pisania i otwierania, ich morfologię, testy semantyczne i
 
 ## A1 Batch 7 (14.10.2026)
 
-Scalanie dowodów z sześciu niezależnych fixture'ów: 115 przykładów pozytywnych, 25 odmów, 60 komórek; `check:a1-evidence` uruchamia rzeczywiste testy, a `report:a1-evidence` nie udaje ich wykonania. Pomiar całego CEFR nadal niedostępny. [Opis](docs/a1-evidence-ledger.md). Kolejne batche: osoba 1/2, `być/mieć`, relacje miejsca i kierunku. GUI osobny agent.
+Scalanie dowodów z sześciu niezależnych fixture'ów: 115 przykładów pozytywnych, 25 odmów, 60 komórek; `check:a1-evidence` uruchamia rzeczywiste testy, a `report:a1-evidence` nie udaje ich wykonania. Pomiar całego CEFR nadal niedostępny. [Opis](docs/a1-evidence-ledger.md). Kolejne batche: osoba 1/2, `być/mieć`, relacje miejsca i kierunku. Prace nad GUI są śledzone w epiku GUI.
 
 ## VAL-01 — zamrożenie autorskiego zakresu A1 (14.10.2026)
 
@@ -241,4 +241,4 @@ Przyjęto kontrakt rozdzielający kotwicę referenta (`speaker`/`addressee`) od 
 
 ## Backlog egzekwowalny i epiki (14.10.2026)
 
-Otwarto **14 epików / 67 tasków** w `clickbytes/flexLingua`; każde ma rodzica, AC i kontrakt plików oraz checklistę. [BACKLOG](docs/planning/BACKLOG.md), [ISSUE_MAP](docs/planning/ISSUE_MAP.json), [EXECUTION_ORDER](docs/planning/EXECUTION_ORDER.md). Epik A1 nie jest certyfikacją CEFR. Hosted CI na `main` SHA `b7ea1ef` przeszedł w runie #38625444693 (417/417); GUI #1 jest zamykane po wycofaniu standalone i potwierdzeniu testów Studio. Każdy PR wymaga własnego rzeczywistego Actions run; status, SHA i dowody trafiają do issue/PR.
+Otwarto **14 epików / 67 tasków** w `clickbytes/flexLingua`; każde ma rodzica, AC i kontrakt plików oraz checklistę. [BACKLOG](docs/planning/BACKLOG.md), [ISSUE_MAP](docs/planning/ISSUE_MAP.json), [EXECUTION_ORDER](docs/planning/EXECUTION_ORDER.md). Epik A1 nie jest certyfikacją CEFR. Po merge PR #89 `main` SHA `21ac04f` ma wszystkie trzy jobs green w Actions #38631654117; GUI #1 jest zamknięte, standalone wycofano. Każdy PR wymaga własnego rzeczywistego Actions run; status, SHA i dowody trafiają do issue/PR.

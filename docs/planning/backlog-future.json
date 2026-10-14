@@ -544,7 +544,7 @@
       "id": "GUI",
       "title": "GUI: Studio, słownik, dialog i stabilność dostępności",
       "priority": "P0",
-      "owner": "GUI agent (osobny)",
+      "owner": "GUI",
       "goal": "Rozwijać Studio, słownik, dialog i dostępność; interfejs uruchamia się przez lokalny HTTP.",
       "done": [
         "Stan i artefakty GUI są zgodne z aktualnym CORE i produkcyjną morfologią.",
@@ -554,8 +554,8 @@
       "tasks": [
         {
           "id": "GUI-01",
-          "title": "Wycofać standalone i zamknąć historyczny blocker GUI-01",
-          "goal": "Usunąć nieutrzymywany wariant standalone; potwierdzić, że dawne regresje Studio są naprawione na aktualnym main.",
+          "title": "(Ukończone) Wycofać standalone i zamknąć historyczny blocker GUI-01",
+          "goal": "Zadanie zakończone przez PR #89: usunięto nieutrzymywany wariant standalone, a historyczne regresje Studio są naprawione.",
           "files": [
             "js/ui/studio.js",
             "tests/studio-ui.test.js",
@@ -565,7 +565,7 @@
           ],
           "checks": [
             "Generator, plik standalone i test parytetu nie są częścią produktu ani release gate.",
-            "Dwie historyczne regresje Studio (wybór paradygmatu i brakująca komórka) przechodzą w Actions #38625444693.",
+            "Dwie historyczne regresje Studio (wybór paradygmatu i brakująca komórka) przechodzą w Actions #38631654117.",
             "Issue #1 zamknięto jako nieaktualne; interfejs wymaga lokalnego HTTP."
           ],
           "deps": []

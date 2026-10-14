@@ -9,7 +9,7 @@ This release completes the *proposed prototype roadmap* v0.7–v1.0, not the res
 | v0.7 | Finite propositional complements; nested belief and wider negation operand; semantic distinction between local/wide negation involving universal NP | No unrestricted scope calculus or arbitrary embeddings |
 | v0.8 | Third JSON-driven Turkish adapter; SOV, nominative/accusative/dative, case-dependent definiteness and finite negative/positive verbs | Lexicon is small; no Turkish subordinate clauses or complete morphology |
 | v0.9 | More case-aware analysis, finite matrix predicate agreement, bounded semantic recursion, structured error API, cross-language and adversarial tests | Not open-domain NLP; no neural disambiguation |
-| v1.0 | Versioned API, three-language UI, regenerated file:// standalone HTML, docs and regression suite | Not yet an ISO-standard data schema or broad multilingual corpus |
+| v1.0 | Versioned API, three-language UI, docs and regression suite | Generated file:// standalone HTML was retired in October 2026; use the local HTTP UI |
 
 ## Release checklist
 
@@ -20,7 +20,7 @@ npm run dev
 # open http://127.0.0.1:8000/
 ```
 
-The package has no install-time or runtime dependencies. The checked-in standalone HTML is generated from source modules and eight JSON data files. A browser file:// redirect avoids blocked cross-origin ES module/JSON loads.
+The package has no install-time or runtime dependencies. The UI runs through the local HTTP server; no standalone HTML is maintained or generated.
 
 ## Scientific / linguistic caution
 
