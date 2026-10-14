@@ -238,9 +238,11 @@ function validateGrammar(dictionary, grammar) {
       }
     } else if (yesNo.mode==='auxiliary') {
       const aux=yesNo.auxiliaries;
+      const auxiliaryKeys=['past','presentFirst','presentSecond',
+        'presentThirdSingular','presentThirdPlural'];
       if (!allowed(yesNo,['mode','auxiliaries','baseVerbPath','negator']) ||
-          !record(aux) || !['past','presentSingular','presentPlural'].every(key=>word(aux[key])) ||
-          Object.keys(aux).length!==3 ||
+          !record(aux) || !auxiliaryKeys.every(key=>word(aux[key])) ||
+          Object.keys(aux).length!==auxiliaryKeys.length ||
           new Set(Object.values(aux)).size!==3 ||
           !word(yesNo.negator) || !yesNo.baseVerbPath ||
           formPlaceholders(yesNo.baseVerbPath).length ||
@@ -791,9 +793,13 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
   function analyzeAuxiliaryQuestion(tokens,gap,antecedent) {
     const yesNo=questions.yesNo;
     const variants=[
-      {word:yesNo.auxiliaries.past,tense:'past',number:null},
-      {word:yesNo.auxiliaries.presentSingular,tense:'present',number:'singular'},
-      {word:yesNo.auxiliaries.presentPlural,tense:'present',number:'plural'}
+      {word:yesNo.auxiliaries.past,tense:'past',when:null},
+      {word:yesNo.auxiliaries.presentFirst,tense:'present',when:{'subject.person':'first'}},
+      {word:yesNo.auxiliaries.presentSecond,tense:'present',when:{'subject.person':'second'}},
+      {word:yesNo.auxiliaries.presentThirdSingular,tense:'present',when:{
+        'subject.person':'third','subject.number':'singular'}},
+      {word:yesNo.auxiliaries.presentThirdPlural,tense:'present',when:{
+        'subject.person':'third','subject.number':'plural'}}
     ];
     const results=[];
     for(const variant of variants) {
@@ -801,7 +807,8 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
       for(const polarity of ['positive','negative']) {
         const verbEntries=verbForms.filter(entry=>
           entry.rule.tense===variant.tense && entry.rule.polarity===polarity &&
-          (!variant.number || entry.rule.when?.['subject.number']===variant.number))
+          (!variant.when || Object.entries(variant.when).every(([key,value])=>
+            entry.rule.when?.[key]===value)))
           .flatMap(entry=>formsAt(entry.lexeme,yesNo.baseVerbPath).map(base=>({
             ...entry,text:base.text,rule:{...entry.rule,
               prefix:polarity==='negative'?[yesNo.negator]:[]}
@@ -1248,7 +1255,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     const hasArticles=Object.keys(nounPhrase.determiners).length>0;
     const fallback=hasArticles?nounPhrase.defaultDefiniteness:undefined;
     const unspecified=Object.entries(clause.roles).filter(([,ref])=>
-      ref.features.definiteness==='unknown').map(([role])=>role);
+      ref.features?.definiteness==='unknown').map(([role])=>role);
     if(hasArticles&&unspecified.length&&!fallback){
       throw new Error('Missing definiteness display policy for question.');
     }
@@ -1286,8 +1293,12 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
       if(clause.features.tense==='past')return values.past;
       if(clause.features.tense!=='present')throw new Error('Unsupported question tense.');
       const subject=built.roles[subjectRole]?.value;
-      if(subject?.features.number==='singular')return values.presentSingular;
-      if(subject?.features.number==='plural')return values.presentPlural;
+      const person=subject?.agreement?.person || 'third';
+      const number=subject?.agreement?.number ?? subject?.features?.number;
+      if(person==='first')return values.presentFirst;
+      if(person==='second')return values.presentSecond;
+      if(person==='third'&&number==='singular')return values.presentThirdSingular;
+      if(person==='third'&&number==='plural')return values.presentThirdPlural;
       throw new Error('Unsupported question subject agreement.');
     };
     const auxiliaryEntry=()=>{

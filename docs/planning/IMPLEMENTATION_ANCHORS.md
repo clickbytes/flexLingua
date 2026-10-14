@@ -15,7 +15,7 @@ Wymienione ścieżki i symbole zostały sprawdzone w istniejących plikach. Nazw
 - `js/core/grammar.js`: `validateGrammar`, `createRuleAdapter`, `formsAt`, `expandLexemes`, `contextFor`, `parseClause`, `matchVerb`, `renderEvent`, `realizeQuestion`, `realizeModal`, `parseModalCandidates`, `subjectPronounFor` — podstawowe kotwice PERS/STATE/GRAM.
 - `js/core/nominals.js`: `createNominalInterpreter`, wewnętrzne `read`, `render`, `featuresFor` — warstwa case/number/definiteness; nie wrzucać form językowych do INTER.
 - `data/grammar/pl.json`: `verb.rules`, `verb.agreement`, `nounPhrase`, `questions`, `anaphora.subjectPronouns`, `modality`; dzisiaj przede wszystkim 3. osoba (`thirdSingular`, `thirdPlural`) i past gender/class.
-- `data/grammar/en.json`: `forms.present3sg`, `forms.present3pl`, `forms.past`, do/does/did, WH, modalność. Nowe I/you/we nie powinno wejść pod 3sg.
+- `data/grammar/en.json`: `forms.present3sg`, `forms.present3pl`, `forms.past`, do/does/did zależne od osoby i liczby, WH, modalność. Nowe I/you/we nie powinno wejść pod 3sg.
 - `data/pl.json`, `data/en.json`: każdy nowy leksem przez `senses[].coreRef`, żadnych zapamiętanych par zdań w runtime.
 
 ## MORFOLOGIA
@@ -33,4 +33,4 @@ Wymienione ścieżki i symbole zostały sprawdzone w istniejących plikach. Nazw
 - `.github/workflows/core-engine.yml`: jobs `engine-tests`, `lexical-audits`, `release-gate`.
 - GUI: `js/ui/studio.js`, `index.html`, `tests/studio-ui.test.js`; uruchomienie przez lokalny HTTP.
 
-Historyczny raport bazowy [Actions #38610233253](https://github.com/clickbytes/flexLingua/actions/runs/38610233253): Node 398/401 i trzy błędy GUI. Bieżący `main` po PR #90 jest zielony w [Actions #38633750354](https://github.com/clickbytes/flexLingua/actions/runs/38633750354); wszystkie trzy jobs przeszły.
+Historyczny raport bazowy [Actions #38610233253](https://github.com/clickbytes/flexLingua/actions/runs/38610233253): Node 398/401 i trzy błędy GUI. Bieżący `main` po PR #91, SHA `d355d877ae56cc159612ec0280810f0040d5d360`, jest zielony w [Actions #38635488680](https://github.com/clickbytes/flexLingua/actions/runs/38635488680); wszystkie trzy jobs przeszły. PERS-05 rozwija osobowo zależny wybór angielskiego auxiliary w `analyzeAuxiliaryQuestion` i `realizeQuestion`.

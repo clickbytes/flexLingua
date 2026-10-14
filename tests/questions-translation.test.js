@@ -117,7 +117,7 @@ test('v1.19: grammar configuration rejects unsafe or incompatible interrogative 
   altered.questions.wh.agent.marker='<script>';
   assert.throws(()=>createRuleAdapter(en,altered),/interrogative grammar/i);
   altered=structuredClone(enGrammar);
-  altered.questions.yesNo.auxiliaries.presentSingular='did';
+  altered.questions.yesNo.auxiliaries.presentThirdSingular='did';
   assert.throws(()=>createRuleAdapter(en,altered),/auxiliary question grammar/i);
   altered=structuredClone(plGrammar);
   altered.questions.wh.agent.agreement.number='triple';

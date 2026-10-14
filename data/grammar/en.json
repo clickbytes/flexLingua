@@ -317,8 +317,10 @@
       "mode": "auxiliary",
       "auxiliaries": {
         "past": "did",
-        "presentSingular": "does",
-        "presentPlural": "do"
+        "presentFirst": "do",
+        "presentSecond": "do",
+        "presentThirdSingular": "does",
+        "presentThirdPlural": "do"
       },
       "baseVerbPath": "forms.base",
       "negator": "not"
