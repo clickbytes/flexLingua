@@ -1,5 +1,10 @@
 # flexLingua — MASTER BACKLOG: epiki i zadania
 
+## Stan walidacji w aktywnym repo
+
+Bazowy `clickbytes/main` SHA `33132c5c246e37b78729c6b4e3603586bb9cc82d` jest już **GREEN** w [GitHub Actions #38616320178](https://github.com/clickbytes/flexLingua/actions/runs/38616320178): **401/401** Node, leksyka/morfologia/gold, offline i release-gate — wszystkie jobs `success`. Historyczne 398/401 były sprzed naprawy GUI/Windows. Istniejące GUI #1 nadal jest formalnie `open`; jego ostateczny odbiór należy do osobnego agenta. Status nowego commita planistycznego należy weryfikować osobnym runem, nie dziedziczyć automatycznie z wcześniejszego SHA.
+
+
 **Aktywne repo:** [clickbytes/flexLingua](https://github.com/clickbytes/flexLingua). **Baza planowania:** `d70359ba0d783c32f37eb31cddc6c4abf3ce16e3` (2026-10-14).
 To jest otwarty plan — żadne poniższe zadanie nie jest przez samo zgłoszenie wykonane.
 
