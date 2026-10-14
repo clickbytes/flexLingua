@@ -1,6 +1,6 @@
 # CHECKPOINT: REALIZACJA P0 — 2026-10-14
 
-> **Archiwum, nie wymagany checkpoint.** Status bieżącej pracy, blockerów i następnego kroku prowadź w GitHub issue/PR; nie aktualizuj tego pliku po każdym batchu. Dawne instrukcje o standalone, osobnym agencie GUI i obowiązkowym handoffie opisują wcześniejszy proces. Aktualny `main` po PR #89 to `21ac04f62b06f6d7aa5b0c9bc60caf84805e8dfc`; wszystkie trzy jobs przeszły w [Actions #38631654117](https://github.com/clickbytes/flexLingua/actions/runs/38631654117). Standalone zostało wycofane.
+> **Archiwum, nie wymagany checkpoint.** Status bieżącej pracy, blockerów i następnego kroku prowadź w GitHub issue/PR; nie aktualizuj tego pliku po każdym batchu. Dawne instrukcje o standalone, osobnym agencie GUI i obowiązkowym handoffie opisują wcześniejszy proces. Aktualny `main` po PR #90 to `4c554ca1af0e2973ad2079199ed26d0354994cd2`; wszystkie trzy jobs przeszły w [Actions #38633750354](https://github.com/clickbytes/flexLingua/actions/runs/38633750354). Standalone zostało wycofane.
 
 - **Repo:** `clickbytes/flexLingua`; branch `core/p0-pers01-deixis`, baza `main` SHA `f5194d75015f365ae89389724bb726612a9ce5fe`.
 - REL-01 i VAL-05 są scalone przez [PR #86](https://github.com/clickbytes/flexLingua/pull/86). VAL-01 (#22) jest scalone przez [PR #87](https://github.com/clickbytes/flexLingua/pull/87), merge SHA `f5194d75015f365ae89389724bb726612a9ce5fe`. Post-merge [Actions run #38624447251](https://github.com/clickbytes/flexLingua/actions/runs/38624447251) **PASS**; `check:release` i pełne testy na main zakończone sukcesem.

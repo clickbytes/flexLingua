@@ -21,6 +21,6 @@ Kontrolowane zdania `I go.` ↔ `Ja idę.`, `We go.` ↔ `My idziemy.`, `Ty idzi
 
 Pierwsza i druga osoba korzystają z osobnej ścieżki parsera. Zaimki `he/she/on/ona` nadal należą do anafory trzeciej osoby i wymagają wcześniejszego, zgodnego referenta.
 
-Aktualny zakres obejmuje kontrolowane zdania oznajmujące w czasie teraźniejszym. Pierwszo- i drugioosobowy czas przeszły po polsku czeka na zweryfikowane formy i bezpieczne uzgodnienie; zaimki dopełnieniowe należą do osobnego zadania gramatycznego. Przeniesienie kotwicy między turami bez jawnego ID sesji kończy się `UNRESOLVED_DEIXIS`.
+Aktualny zakres obejmuje kontrolowane zdania oznajmujące w czasie teraźniejszym. PERS-04 dodaje generowanie i analizę morfologiczną ograniczonego zestawu form przeszłych pierwszej i drugiej osoby. Forma singular wymaga rodzaju gramatycznego; przy braku tej cechy tłumaczenie do polskiego odmawia wyboru. Ta partia nie dodaje jeszcze pełnej składniowej integracji czasu przeszłego. Zaimki dopełnieniowe należą do osobnego zadania gramatycznego. Przeniesienie kotwicy między turami bez jawnego ID sesji kończy się `UNRESOLVED_DEIXIS`.
 
 Testy i niezależne przykłady znajdują się w [pers02-deixis.test.js](../tests/pers02-deixis.test.js) i [pers02-deixis.json](../tests/fixtures/pers02-deixis.json).

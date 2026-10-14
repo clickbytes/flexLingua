@@ -1819,6 +1819,556 @@
           ]
         }
       ]
+    },
+    "pl.verb.personal_past": {
+      "pos": "VERB",
+      "extends": "pl.verb.third_person",
+      "slots": [
+        {
+          "features": {
+            "tense": "past",
+            "person": "first",
+            "number": "singular",
+            "gender": "masculine"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "pastSingular"
+            },
+            {
+              "op": "append",
+              "value": "łem"
+            }
+          ],
+          "path": [
+            "past",
+            "firstSingular",
+            "masculine"
+          ]
+        },
+        {
+          "features": {
+            "tense": "past",
+            "person": "first",
+            "number": "singular",
+            "gender": "feminine"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "pastSingular"
+            },
+            {
+              "op": "append",
+              "value": "łam"
+            }
+          ],
+          "path": [
+            "past",
+            "firstSingular",
+            "feminine"
+          ]
+        },
+        {
+          "features": {
+            "tense": "past",
+            "person": "first",
+            "number": "plural",
+            "pluralClass": "virile"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "pastVirile"
+            },
+            {
+              "op": "append",
+              "value": "liśmy"
+            }
+          ],
+          "path": [
+            "past",
+            "firstPlural",
+            "virile"
+          ]
+        },
+        {
+          "features": {
+            "tense": "past",
+            "person": "first",
+            "number": "plural",
+            "pluralClass": "nonvirile"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "pastSingular"
+            },
+            {
+              "op": "append",
+              "value": "łyśmy"
+            }
+          ],
+          "path": [
+            "past",
+            "firstPlural",
+            "nonvirile"
+          ]
+        },
+        {
+          "features": {
+            "tense": "past",
+            "person": "second",
+            "number": "singular",
+            "gender": "masculine"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "pastSingular"
+            },
+            {
+              "op": "append",
+              "value": "łeś"
+            }
+          ],
+          "path": [
+            "past",
+            "secondSingular",
+            "masculine"
+          ]
+        },
+        {
+          "features": {
+            "tense": "past",
+            "person": "second",
+            "number": "singular",
+            "gender": "feminine"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "pastSingular"
+            },
+            {
+              "op": "append",
+              "value": "łaś"
+            }
+          ],
+          "path": [
+            "past",
+            "secondSingular",
+            "feminine"
+          ]
+        },
+        {
+          "features": {
+            "tense": "past",
+            "person": "second",
+            "number": "plural",
+            "pluralClass": "virile"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "pastVirile"
+            },
+            {
+              "op": "append",
+              "value": "liście"
+            }
+          ],
+          "path": [
+            "past",
+            "secondPlural",
+            "virile"
+          ]
+        },
+        {
+          "features": {
+            "tense": "past",
+            "person": "second",
+            "number": "plural",
+            "pluralClass": "nonvirile"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "pastSingular"
+            },
+            {
+              "op": "append",
+              "value": "łyście"
+            }
+          ],
+          "path": [
+            "past",
+            "secondPlural",
+            "nonvirile"
+          ]
+        }
+      ]
+    },
+    "pl.verb.personal_am": {
+      "pos": "VERB",
+      "extends": "pl.verb.personal_past",
+      "slots": [
+        {
+          "features": {
+            "tense": "present",
+            "person": "first",
+            "number": "singular"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "personalStem"
+            },
+            {
+              "op": "append",
+              "value": "am"
+            }
+          ],
+          "path": [
+            "present",
+            "firstSingular"
+          ]
+        },
+        {
+          "features": {
+            "tense": "present",
+            "person": "second",
+            "number": "singular"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "personalStem"
+            },
+            {
+              "op": "append",
+              "value": "asz"
+            }
+          ],
+          "path": [
+            "present",
+            "secondSingular"
+          ]
+        },
+        {
+          "features": {
+            "tense": "present",
+            "person": "first",
+            "number": "plural"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "personalStem"
+            },
+            {
+              "op": "append",
+              "value": "amy"
+            }
+          ],
+          "path": [
+            "present",
+            "firstPlural"
+          ]
+        },
+        {
+          "features": {
+            "tense": "present",
+            "person": "second",
+            "number": "plural"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "personalStem"
+            },
+            {
+              "op": "append",
+              "value": "acie"
+            }
+          ],
+          "path": [
+            "present",
+            "secondPlural"
+          ]
+        }
+      ]
+    },
+    "pl.verb.personal_esz": {
+      "pos": "VERB",
+      "extends": "pl.verb.personal_past",
+      "slots": [
+        {
+          "features": {
+            "tense": "present",
+            "person": "first",
+            "number": "singular"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "personalStem"
+            },
+            {
+              "op": "append",
+              "value": "ę"
+            }
+          ],
+          "path": [
+            "present",
+            "firstSingular"
+          ]
+        },
+        {
+          "features": {
+            "tense": "present",
+            "person": "second",
+            "number": "singular"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "personalStem"
+            },
+            {
+              "op": "append",
+              "value": "esz"
+            }
+          ],
+          "path": [
+            "present",
+            "secondSingular"
+          ]
+        },
+        {
+          "features": {
+            "tense": "present",
+            "person": "first",
+            "number": "plural"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "personalStem"
+            },
+            {
+              "op": "append",
+              "value": "emy"
+            }
+          ],
+          "path": [
+            "present",
+            "firstPlural"
+          ]
+        },
+        {
+          "features": {
+            "tense": "present",
+            "person": "second",
+            "number": "plural"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "personalStem"
+            },
+            {
+              "op": "append",
+              "value": "ecie"
+            }
+          ],
+          "path": [
+            "present",
+            "secondPlural"
+          ]
+        }
+      ]
+    },
+    "pl.verb.personal_isz": {
+      "pos": "VERB",
+      "extends": "pl.verb.personal_past",
+      "slots": [
+        {
+          "features": {
+            "tense": "present",
+            "person": "first",
+            "number": "singular"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "personalStem"
+            },
+            {
+              "op": "append",
+              "value": "ę"
+            }
+          ],
+          "path": [
+            "present",
+            "firstSingular"
+          ]
+        },
+        {
+          "features": {
+            "tense": "present",
+            "person": "second",
+            "number": "singular"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "personalStem"
+            },
+            {
+              "op": "append",
+              "value": "isz"
+            }
+          ],
+          "path": [
+            "present",
+            "secondSingular"
+          ]
+        },
+        {
+          "features": {
+            "tense": "present",
+            "person": "first",
+            "number": "plural"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "personalStem"
+            },
+            {
+              "op": "append",
+              "value": "imy"
+            }
+          ],
+          "path": [
+            "present",
+            "firstPlural"
+          ]
+        },
+        {
+          "features": {
+            "tense": "present",
+            "person": "second",
+            "number": "plural"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "personalStem"
+            },
+            {
+              "op": "append",
+              "value": "icie"
+            }
+          ],
+          "path": [
+            "present",
+            "secondPlural"
+          ]
+        }
+      ]
+    },
+    "pl.verb.personal_isc": {
+      "pos": "VERB",
+      "extends": "pl.verb.personal_past",
+      "slots": [
+        {
+          "features": {
+            "tense": "present",
+            "person": "first",
+            "number": "singular"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "personal1s"
+            },
+            {
+              "op": "append",
+              "value": "ę"
+            }
+          ],
+          "path": [
+            "present",
+            "firstSingular"
+          ]
+        },
+        {
+          "features": {
+            "tense": "present",
+            "person": "second",
+            "number": "singular"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "personal2s"
+            },
+            {
+              "op": "append",
+              "value": "iesz"
+            }
+          ],
+          "path": [
+            "present",
+            "secondSingular"
+          ]
+        },
+        {
+          "features": {
+            "tense": "present",
+            "person": "first",
+            "number": "plural"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "personal1p"
+            },
+            {
+              "op": "append",
+              "value": "emy"
+            }
+          ],
+          "path": [
+            "present",
+            "firstPlural"
+          ]
+        },
+        {
+          "features": {
+            "tense": "present",
+            "person": "second",
+            "number": "plural"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "personal2p"
+            },
+            {
+              "op": "append",
+              "value": "cie"
+            }
+          ],
+          "path": [
+            "present",
+            "secondPlural"
+          ]
+        }
+      ]
     }
   },
   "bindings": [
@@ -2607,7 +3157,7 @@
     },
     {
       "lexemeId": "pl.dac.1",
-      "paradigmId": "pl.verb.third_person",
+      "paradigmId": "pl.verb.personal_past",
       "stems": {
         "base": "dać",
         "pastSingular": "da",
@@ -2619,25 +3169,27 @@
     },
     {
       "lexemeId": "pl.dawac.1",
-      "paradigmId": "pl.verb.third_person",
+      "paradigmId": "pl.verb.personal_esz",
       "stems": {
         "base": "dawać",
         "pastSingular": "dawa",
         "pastVirile": "dawa",
         "presentSingular": "daje",
-        "presentPlural": "dają"
+        "presentPlural": "dają",
+        "personalStem": "daj"
       },
       "overrides": []
     },
     {
       "lexemeId": "pl.widziec.1",
-      "paradigmId": "pl.verb.third_person",
+      "paradigmId": "pl.verb.personal_isz",
       "stems": {
         "base": "widzieć",
         "pastSingular": "widzia",
         "pastVirile": "widzie",
         "presentSingular": "widzi",
-        "presentPlural": "widzą"
+        "presentPlural": "widzą",
+        "personalStem": "widz"
       },
       "overrides": []
     },
@@ -3173,25 +3725,27 @@
     },
     {
       "lexemeId": "pl.szukac.1",
-      "paradigmId": "pl.verb.third_person",
+      "paradigmId": "pl.verb.personal_am",
       "stems": {
         "base": "szukać",
         "pastSingular": "szuka",
         "pastVirile": "szuka",
         "presentSingular": "szuka",
-        "presentPlural": "szukają"
+        "presentPlural": "szukają",
+        "personalStem": "szuk"
       },
       "overrides": []
     },
     {
       "lexemeId": "pl.sluchac.1",
-      "paradigmId": "pl.verb.third_person",
+      "paradigmId": "pl.verb.personal_am",
       "stems": {
         "base": "słuchać",
         "pastSingular": "słucha",
         "pastVirile": "słucha",
         "presentSingular": "słucha",
-        "presentPlural": "słuchają"
+        "presentPlural": "słuchają",
+        "personalStem": "słuch"
       },
       "overrides": []
     },
@@ -3386,25 +3940,27 @@
     },
     {
       "lexemeId": "pl.czytac.1",
-      "paradigmId": "pl.verb.third_person",
+      "paradigmId": "pl.verb.personal_am",
       "stems": {
         "base": "czytać",
         "pastSingular": "czyta",
         "pastVirile": "czyta",
         "presentSingular": "czyta",
-        "presentPlural": "czytają"
+        "presentPlural": "czytają",
+        "personalStem": "czyt"
       },
       "overrides": []
     },
     {
       "lexemeId": "pl.pomagac.1",
-      "paradigmId": "pl.verb.third_person",
+      "paradigmId": "pl.verb.personal_am",
       "stems": {
         "base": "pomagać",
         "pastSingular": "pomaga",
         "pastVirile": "pomaga",
         "presentSingular": "pomaga",
-        "presentPlural": "pomagają"
+        "presentPlural": "pomagają",
+        "personalStem": "pomag"
       },
       "overrides": []
     },
@@ -3576,13 +4132,17 @@
     },
     {
       "lexemeId": "pl.isc.1",
-      "paradigmId": "pl.verb.third_person",
+      "paradigmId": "pl.verb.personal_isc",
       "stems": {
         "base": "iść",
         "pastSingular": "szed",
         "pastVirile": "sz",
         "presentSingular": "idzie",
-        "presentPlural": "idą"
+        "presentPlural": "idą",
+        "personal1s": "id",
+        "personal2s": "idz",
+        "personal1p": "idzi",
+        "personal2p": "idzie"
       },
       "overrides": [
         {
@@ -3623,30 +4183,88 @@
               "text": "szły"
             }
           ]
+        },
+        {
+          "when": {
+            "tense": "past",
+            "person": "first",
+            "number": "singular",
+            "gender": "feminine"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "szłam"
+            }
+          ]
+        },
+        {
+          "when": {
+            "tense": "past",
+            "person": "second",
+            "number": "singular",
+            "gender": "feminine"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "szłaś"
+            }
+          ]
+        },
+        {
+          "when": {
+            "tense": "past",
+            "person": "first",
+            "number": "plural",
+            "pluralClass": "nonvirile"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "szłyśmy"
+            }
+          ]
+        },
+        {
+          "when": {
+            "tense": "past",
+            "person": "second",
+            "number": "plural",
+            "pluralClass": "nonvirile"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "szłyście"
+            }
+          ]
         }
       ]
     },
     {
       "lexemeId": "pl.pisac.1",
-      "paradigmId": "pl.verb.third_person",
+      "paradigmId": "pl.verb.personal_esz",
       "stems": {
         "base": "pisać",
         "pastSingular": "pisa",
         "pastVirile": "pisa",
         "presentSingular": "pisze",
-        "presentPlural": "piszą"
+        "presentPlural": "piszą",
+        "personalStem": "pisz"
       },
       "overrides": []
     },
     {
       "lexemeId": "pl.otwierac.1",
-      "paradigmId": "pl.verb.third_person",
+      "paradigmId": "pl.verb.personal_am",
       "stems": {
         "base": "otwierać",
         "pastSingular": "otwiera",
         "pastVirile": "otwiera",
         "presentSingular": "otwiera",
-        "presentPlural": "otwierają"
+        "presentPlural": "otwierają",
+        "personalStem": "otwier"
       },
       "overrides": []
     }

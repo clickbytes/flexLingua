@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "scope": "Current and near-term remaining flexLingua work; excludes completed Batch 1–7",
   "repository": "clickbytes/flexLingua",
-  "anchorMain": "d70359ba0d783c32f37eb31cddc6c4abf3ce16e3",
+  "anchorMain": "4c554ca1af0e2973ad2079199ed26d0354994cd2",
   "createdOn": "2026-10-14",
   "epics": [
     {
@@ -286,7 +286,8 @@
             "data/morphology/features.json",
             "js/core/morphology/engine.js",
             "data/pl.json",
-            "[NEW] tests/a1-person-morphology-pl.test.js"
+            "[NEW] tests/a1-person-morphology-pl.test.js",
+            "docs/pers02-deictic-pronouns.md"
           ],
           "checks": [
             "Zatwierdzono przykłady czytam/czytasz/czytamy/czytacie oraz przynajmniej dwie nieregularne rodziny.",

@@ -61,7 +61,11 @@ Oficjalny punkt odniesienia: https://www.oxfordlearnersdictionaries.com/wordlist
 
 ### PERS-02 — jawne zaimki podmiotu
 
-PERS-02 scalono w [PR #89](https://github.com/clickbytes/flexLingua/pull/89), commit `21ac04f`; jego trzy GitHub Actions jobs są zielone w [runie #38631654117](https://github.com/clickbytes/flexLingua/actions/runs/38631654117). PL/EN analizują oraz realizują kontrolowane zdania teraźniejsze; angielskie `you` zachowuje wariant singular i plural jako jawne analizy. Anafora trzeciej osoby pozostaje odrębna. Czas przeszły PL i przenoszenie tożsamości między turami pozostają ograniczeniami opisanymi w [PERS-02](docs/pers02-deictic-pronouns.md). Bieżące zadanie: PERS-03 — jawna zgodność osoby i liczby.
+PERS-02 scalono w [PR #89](https://github.com/clickbytes/flexLingua/pull/89), commit `21ac04f`; jego trzy GitHub Actions jobs są zielone w [runie #38631654117](https://github.com/clickbytes/flexLingua/actions/runs/38631654117). PL/EN analizują oraz realizują kontrolowane zdania teraźniejsze; angielskie `you` zachowuje wariant singular i plural jako jawne analizy. Anafora trzeciej osoby pozostaje odrębna. Ograniczenia czasu przeszłego PL opisuje [PERS-02](docs/pers02-deictic-pronouns.md): morfologia rozwija się w PERS-04, a tłumaczenie bez znanego rodzaju jawnie odmawia wyboru.
+
+### PERS-03 — zgodność osoby podmiotu
+
+PERS-03 scalono przez [PR #90](https://github.com/clickbytes/flexLingua/pull/90), merge SHA `4c554ca`; testy parsera i realizacji nie dopuszczają niezgodności między osobą i liczbą podmiotu. Wszystkie trzy jobs przeszły w [Actions #38633750354](https://github.com/clickbytes/flexLingua/actions/runs/38633750354). Bieżące zadanie: PERS-04 — produktywna polska fleksja osób 1./2. i bezpieczne formy przeszłe.
 
 ### Kamienie milowe A1
 
@@ -241,4 +245,4 @@ Przyjęto kontrakt rozdzielający kotwicę referenta (`speaker`/`addressee`) od 
 
 ## Backlog egzekwowalny i epiki (14.10.2026)
 
-Otwarto **14 epików / 67 tasków** w `clickbytes/flexLingua`; każde ma rodzica, AC i kontrakt plików oraz checklistę. [BACKLOG](docs/planning/BACKLOG.md), [ISSUE_MAP](docs/planning/ISSUE_MAP.json), [EXECUTION_ORDER](docs/planning/EXECUTION_ORDER.md). Epik A1 nie jest certyfikacją CEFR. Po merge PR #89 `main` SHA `21ac04f` ma wszystkie trzy jobs green w Actions #38631654117; GUI #1 jest zamknięte, standalone wycofano. Każdy PR wymaga własnego rzeczywistego Actions run; status, SHA i dowody trafiają do issue/PR.
+Otwarto **14 epików / 67 tasków** w `clickbytes/flexLingua`; każde ma rodzica, AC i kontrakt plików oraz checklistę. [BACKLOG](docs/planning/BACKLOG.md), [ISSUE_MAP](docs/planning/ISSUE_MAP.json), [EXECUTION_ORDER](docs/planning/EXECUTION_ORDER.md). Epik A1 nie jest certyfikacją CEFR. Po merge PR #90 `main` SHA `4c554ca` ma wszystkie trzy jobs green w Actions #38633750354; GUI #1 jest zamknięte, standalone wycofano. Każdy PR wymaga własnego rzeczywistego Actions run; status, SHA i dowody trafiają do issue/PR.

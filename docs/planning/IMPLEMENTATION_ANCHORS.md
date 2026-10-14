@@ -33,4 +33,4 @@ Wymienione ścieżki i symbole zostały sprawdzone w istniejących plikach. Nazw
 - `.github/workflows/core-engine.yml`: jobs `engine-tests`, `lexical-audits`, `release-gate`.
 - GUI: `js/ui/studio.js`, `index.html`, `tests/studio-ui.test.js`; uruchomienie przez lokalny HTTP.
 
-Historyczny raport bazowy [Actions #38610233253](https://github.com/clickbytes/flexLingua/actions/runs/38610233253): Node 398/401 i trzy błędy GUI. Bieżący `main` po PR #89 jest zielony w [Actions #38631654117](https://github.com/clickbytes/flexLingua/actions/runs/38631654117); wszystkie trzy jobs przeszły.
+Historyczny raport bazowy [Actions #38610233253](https://github.com/clickbytes/flexLingua/actions/runs/38610233253): Node 398/401 i trzy błędy GUI. Bieżący `main` po PR #90 jest zielony w [Actions #38633750354](https://github.com/clickbytes/flexLingua/actions/runs/38633750354); wszystkie trzy jobs przeszły.
