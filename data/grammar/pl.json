@@ -488,6 +488,22 @@
       ]
     }
   },
+  "states": {
+    "negator": "nie",
+    "supportedTenses": ["present"],
+    "verbs": {
+      "grammar.state_possession": "possession"
+    },
+    "unsupportedVerbs": ["grammar.state_copula"],
+    "frames": {
+      "possession": {
+        "subjectRole": "owner",
+        "allowImplicitDeicticSubject": true,
+        "cases": {"owner": "nom", "owned": {"positive": "acc", "negative": "gen"}},
+        "linearizations": [["owner", "@verb", "owned"]]
+      }
+    }
+  },
   "messages": {
     "unknownSubject": "Unrecognized Polish subject noun phrase.",
     "unknownVerb": "Unrecognized Polish verb form.",

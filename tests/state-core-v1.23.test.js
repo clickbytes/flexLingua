@@ -89,7 +89,7 @@ test('STATE-01 allows explicit state negation and refuses unsupported questions,
   assert.throws(()=>engine.realize({interlingua:predication,to:'en'}),/Unsupported state construction in en/);
   assert.throws(()=>engine.realize({interlingua:predication,to:'pl'}),/Unsupported state construction in pl/);
   assert.throws(()=>engine.translate({text:JSON.stringify(possession),from:'core',to:'en'}),/Unsupported state construction in en/);
-  assert.throws(()=>engine.translate({text:JSON.stringify(possession),from:'core',to:'pl'}),/Unsupported state construction in pl/);
+  assert.throws(()=>engine.translate({text:JSON.stringify(possession),from:'core',to:'pl'}),/No pl state verb form supports past/);
   assert.throws(()=>engine.analyze({text:'The girl is big.',from:'en'}));
   assert.throws(()=>engine.analyze({text:'Dziewczynka jest duża.',from:'pl'}));
 });

@@ -2369,6 +2369,28 @@
           ]
         }
       ]
+    },
+    "pl.verb.state_copula": {
+      "pos": "VERB",
+      "slots": [
+        {"features":{"tense":"present","person":"first","number":"singular"},"steps":[{"op":"selectStem","key":"personalStem"},{"op":"append","value":"m"}],"path":["present","firstSingular"]},
+        {"features":{"tense":"present","person":"second","number":"singular"},"steps":[{"op":"selectStem","key":"personalStem"},{"op":"append","value":"ś"}],"path":["present","secondSingular"]},
+        {"features":{"tense":"present","person":"third","number":"singular"},"steps":[{"op":"selectStem","key":"thirdSingular"}],"path":["present","thirdSingular"]},
+        {"features":{"tense":"present","person":"first","number":"plural"},"steps":[{"op":"selectStem","key":"personalStem"},{"op":"append","value":"śmy"}],"path":["present","firstPlural"]},
+        {"features":{"tense":"present","person":"second","number":"plural"},"steps":[{"op":"selectStem","key":"personalStem"},{"op":"append","value":"ście"}],"path":["present","secondPlural"]},
+        {"features":{"tense":"present","person":"third","number":"plural"},"steps":[{"op":"selectStem","key":"thirdPlural"}],"path":["present","thirdPlural"]}
+      ]
+    },
+    "pl.verb.state_possession": {
+      "pos": "VERB",
+      "slots": [
+        {"features":{"tense":"present","person":"first","number":"singular"},"steps":[{"op":"selectStem","key":"personalStem"},{"op":"append","value":"m"}],"path":["present","firstSingular"]},
+        {"features":{"tense":"present","person":"second","number":"singular"},"steps":[{"op":"selectStem","key":"personalStem"},{"op":"append","value":"sz"}],"path":["present","secondSingular"]},
+        {"features":{"tense":"present","person":"third","number":"singular"},"steps":[{"op":"selectStem","key":"personalStem"}],"path":["present","thirdSingular"]},
+        {"features":{"tense":"present","person":"first","number":"plural"},"steps":[{"op":"selectStem","key":"personalStem"},{"op":"append","value":"my"}],"path":["present","firstPlural"]},
+        {"features":{"tense":"present","person":"second","number":"plural"},"steps":[{"op":"selectStem","key":"personalStem"},{"op":"append","value":"cie"}],"path":["present","secondPlural"]},
+        {"features":{"tense":"present","person":"third","number":"plural"},"steps":[{"op":"selectStem","key":"personalStem"},{"op":"append","value":"ją"}],"path":["present","thirdPlural"]}
+      ]
     }
   },
   "bindings": [
@@ -4266,6 +4288,18 @@
         "presentPlural": "otwierają",
         "personalStem": "otwier"
       },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.byc.1",
+      "paradigmId": "pl.verb.state_copula",
+      "stems": {"base":"być","personalStem":"jeste","thirdSingular":"jest","thirdPlural":"są"},
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.miec.1",
+      "paradigmId": "pl.verb.state_possession",
+      "stems": {"base":"mieć","personalStem":"ma"},
       "overrides": []
     }
   ]
