@@ -34,6 +34,17 @@ const expectedPossession = polarity => ({
   features: {tense: 'present', polarity}
 });
 
+const expectedPredication = (polarity, subject = 'object.apple', number = 'singular') => ({
+  version: '1.23',
+  type: 'state',
+  kind: 'predication',
+  predicate: 'quality.big',
+  roles: {
+    subject: {concept: subject, features: {definiteness: 'unknown', number}}
+  },
+  features: {tense: 'present', polarity}
+});
+
 test('STATE-02 declares and reverse-analyzes every present person form of być and mieć', () => {
   const paradigms = [
     ['pl.byc.1', [
@@ -86,14 +97,58 @@ test('STATE-02 uses third-person agreement when the owner is stated', () => {
   assert.equal(engine.realize({interlingua: meaning, to: 'pl'}).text, text);
 });
 
+test('STATE-02 parses and realizes Polish copular property predication with negation', () => {
+  const examples = [
+    ['Jabłko jest duże.', 'positive', 'object.apple', 'singular'],
+    ['Dziewczynka jest duża.', 'positive', 'person.girl', 'singular'],
+    ['Chłopiec jest duży.', 'positive', 'person.boy', 'singular'],
+    ['Jabłka są duże.', 'positive', 'object.apple', 'plural'],
+    ['Jabłko nie jest duże.', 'negative', 'object.apple', 'singular']
+  ];
+
+  for (const [text, polarity, subject, number] of examples) {
+    const meaning = engine.analyze({text, from: 'pl'});
+    assert.deepEqual(meaning, expectedPredication(polarity, subject, number),
+      `${text} has typed predication meaning`);
+    assert.equal(engine.analyzeCandidates({text, from: 'pl'})[0].lexicalSenses.verb,
+      'pl.byc.1.sense.1', 'jest must resolve to the state copula, not pl.jest.aux');
+    assert.equal(engine.realize({interlingua: meaning, to: 'pl'}).text, text);
+
+    const coreJson = engine.realize({interlingua: meaning, to: 'core'}).text;
+    assert.deepEqual(engine.analyze({text: coreJson, from: 'core'}), meaning);
+  }
+});
+
+test('STATE-02 rejects unsupported predication frame declarations', () => {
+  const invalidGrammar = structuredClone(plGrammar);
+  invalidGrammar.states.frames.predication.predicateCase = 'unsupportedCase';
+  assert.throws(() => new Engine(ontology, features)
+    .registerLanguage(createRuleAdapter(pl, invalidGrammar)), /Unknown state grammatical case/);
+
+  const genderlessGrammar = structuredClone(plGrammar);
+  genderlessGrammar.states.frames.predication.allowImplicitDeicticSubject = true;
+  assert.throws(() => createRuleAdapter(pl, genderlessGrammar), /Invalid predication state frame/);
+});
+
 test('STATE-02 refuses unsupported targets, mismatched agreement, and ambiguous copula readings', () => {
   const unsupportedTarget = engine.tryTranslate({text: 'Mam książkę.', from: 'pl', to: 'en'});
   assert.equal(unsupportedTarget.ok, false);
   assert.match(unsupportedTarget.error.message, /Unsupported state construction/);
+  const unsupportedCopulaTarget = engine.tryTranslate({text: 'Jabłko jest duże.', from: 'pl', to: 'en'});
+  assert.equal(unsupportedCopulaTarget.ok, false);
+  assert.match(unsupportedCopulaTarget.error.message, /Unsupported state construction/);
 
   assert.throws(() => engine.analyze({text: 'Ja ma książkę.', from: 'pl'}), /zgadza|agree/iu);
   assert.throws(() => engine.analyze({text: 'Ja jestem książką.', from: 'pl'}),
     /does not match|nie pasuje|konstrukcji/iu);
+  assert.throws(() => engine.analyze({text: 'Jabłko jest duża.', from: 'pl'}),
+    /does not match|nie pasuje|konstrukcji/iu);
+  assert.throws(() => engine.analyze({text: 'Jestem duży.', from: 'pl'}),
+    /does not match|nie pasuje|konstrukcji/iu);
   assert.throws(() => engine.analyze({text: 'Książka jest.', from: 'pl'}),
+    /does not match|nie pasuje|konstrukcji/iu);
+  assert.throws(() => engine.analyze({text: 'Jest książka.', from: 'pl'}),
+    /does not match|nie pasuje|konstrukcji/iu);
+  assert.throws(() => engine.analyze({text: 'Jabłko jest książką.', from: 'pl'}),
     /does not match|nie pasuje|konstrukcji/iu);
 });

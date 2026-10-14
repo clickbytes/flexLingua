@@ -143,6 +143,26 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms }) 
     return results;
   }
 
+  function readProperty(tokens, at, context) {
+    const found = [];
+    for (const lexeme of adjectives) {
+      for (const form of matchingForms(lexeme, context)) {
+        const length = matchesTokens(tokens, at, form.text);
+        if (length) found.push({value: lexeme.concept, senseId: lexeme.senseId || lexeme.id,
+          priority: lexeme.priority || 0, next: at + length});
+      }
+    }
+    return found;
+  }
+
+  function realizeProperty(concept, context) {
+    for (const lexeme of propertyIndex.get(concept) || []) {
+      const form = formFor(lexeme, context);
+      if (form) return form;
+    }
+    throw new Error(`Missing ${dictionary.language} adjective form for ${concept}.`);
+  }
+
   function read(tokens, index, grammaticalCase) {
     const found = [];
     let visited = 0;
@@ -268,6 +288,6 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms }) 
     if (quantifiers.length && layouts.some(layout => !layout.includes('quantifier'))) throw new Error('Missing quantifier grammar slot.');
   }
 
-  return { read, render, validateOntology,
+  return { read, readProperty, realizeProperty, render, validateOntology,
     describe: () => ({ adjectives: adjectives.length, degrees: degrees.length, quantifiers: quantifiers.length }) };
 }

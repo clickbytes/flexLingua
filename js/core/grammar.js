@@ -1,5 +1,5 @@
 import { createEvent, createQuestion, createRelativeClause, createModality, createNegation,
-  createIdentity, createPossession, MAX_RELATIVE_DEPTH } from './interlingua.js';
+  createIdentity, createPredication, createPossession, MAX_RELATIVE_DEPTH } from './interlingua.js';
 import { createLexicon } from './lexicon.js';
 import { materializeInflections } from './morphology/engine.js';
 import { createNominalInterpreter } from './nominals.js';
@@ -24,6 +24,7 @@ const LITERAL = /^@[\p{L}]+$/u;
 const DEICTIC_FUNCTION = 'grammar.deictic_pronoun';
 const STATE_ROLES = Object.freeze({
   identity: Object.freeze(['subject','complement']),
+  predication: Object.freeze(['subject']),
   possession: Object.freeze(['owner','owned'])
 });
 const STATE_FORM_CELLS = Object.freeze([
@@ -386,7 +387,7 @@ function validateGrammar(dictionary, grammar) {
   }
   const stateKinds = new Set();
   for (const [coreFunction, kind] of Object.entries(states.verbs)) {
-    if (!LEXEME_ID.test(coreFunction) || !['identity','possession'].includes(kind) ||
+    if (!LEXEME_ID.test(coreFunction) || !['identity','predication','possession'].includes(kind) ||
         !hasOwn(states.frames,kind)) {
       throw new Error(`Invalid state verb mapping: ${coreFunction}`);
     }
@@ -398,16 +399,21 @@ function validateGrammar(dictionary, grammar) {
   }
   for (const [kind, frame] of Object.entries(states.frames)) {
     const roles = STATE_ROLES[kind];
+    const hasPredicate = kind === 'predication';
+    const slots = hasPredicate ? [...roles, frame?.predicateRole] : roles;
     if (!record(frame) ||
         Object.keys(frame).some(key => !['subjectRole','cases','linearizations',
-          'allowImplicitDeicticSubject'].includes(key)) ||
+          'allowImplicitDeicticSubject', ...(hasPredicate ? ['predicateRole','predicateCase'] : [])].includes(key)) ||
         !['subjectRole','cases','linearizations'].every(key => hasOwn(frame,key)) ||
+        (hasPredicate && (frame.predicateRole !== 'predicate' || !safeName(frame.predicateRole) ||
+          !safeName(frame.predicateCase) || frame.allowImplicitDeicticSubject === true)) ||
         (frame.allowImplicitDeicticSubject !== undefined &&
           typeof frame.allowImplicitDeicticSubject !== 'boolean') ||
-        frame.subjectRole !== (kind === 'identity' ? 'subject' : 'owner') ||
+        frame.subjectRole !== (kind === 'possession' ? 'owner' : 'subject') ||
         !record(frame.cases) || Object.keys(frame.cases).length !== roles.length ||
         roles.some(role => !hasOwn(frame.cases,role)) ||
-        !Array.isArray(frame.linearizations) || !frame.linearizations.length) {
+        !Array.isArray(frame.linearizations) || !frame.linearizations.length ||
+        (hasPredicate && new Set(slots).size !== slots.length)) {
       throw new Error(`Invalid ${kind} state frame.`);
     }
     for (const role of roles) {
@@ -419,11 +425,12 @@ function validateGrammar(dictionary, grammar) {
       }
     }
     for (const sequence of frame.linearizations) {
-      if (!Array.isArray(sequence) || sequence.length !== roles.length + 1 ||
+      if (!Array.isArray(sequence) || sequence.length !== slots.length + 1 ||
           sequence.filter(step => step === '@verb').length !== 1 ||
-          sequence.some(step => !(roles.includes(step) || step === '@verb' ||
+          sequence.some(step => !(slots.includes(step) || step === '@verb' ||
             (typeof step === 'string' && LITERAL.test(step)))) ||
-          roles.some(role => sequence.filter(step => step === role).length !== 1)) {
+          slots.some(role => sequence.filter(step => step === role).length !== 1) ||
+          (hasPredicate && sequence.indexOf(frame.subjectRole) > sequence.indexOf(frame.predicateRole))) {
         throw new Error(`Invalid ${kind} state linearization.`);
       }
     }
@@ -632,6 +639,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
 
   function stateMeaning(kind, roles, features) {
     if (kind === 'identity') return createIdentity(roles.subject,roles.complement,features);
+    if (kind === 'predication') return createPredication(roles.predicate,roles.subject,features);
     if (kind === 'possession') return createPossession(roles.owner,roles.owned,features);
     throw new Error(`Unsupported state construction in ${dictionary.language}.`);
   }
@@ -692,10 +700,20 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
               if(count)search(position+1,index+count,parsedRoles);
               return;
             }
-            const grammaticalCase=stateRoleCase(frame,step,polarity);
-            const phrases=[...readNounPhrases(tokens,index,grammaticalCase,0,budget),
-              ...(step===frame.subjectRole&&grammaticalCase==='nom'
-                ?readDeicticNounPhrases(tokens,index):[])];
+            let phrases;
+            if(step===frame.predicateRole) {
+              const subject=parsedRoles[frame.subjectRole];
+              if(!subject?.noun || isDeicticReferent(subject.value))return;
+              const context={number:subject.value.features.number,case:frame.predicateCase,
+                gender:subject.noun.gender,pluralClass:subject.noun.pluralClass,
+                animacy:subject.noun.animacy};
+              phrases=nominal.readProperty(tokens,index,context);
+            } else {
+              const grammaticalCase=stateRoleCase(frame,step,polarity);
+              phrases=[...readNounPhrases(tokens,index,grammaticalCase,0,budget),
+                ...(step===frame.subjectRole&&grammaticalCase==='nom'
+                  ?readDeicticNounPhrases(tokens,index):[])];
+            }
             for(const parsed of phrases) {
               search(position+1,parsed.next,{...parsedRoles,[step]:parsed});
             }
@@ -1338,6 +1356,15 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     if(!verb)throw new Error(`No ${dictionary.language} state verb form supports ${meaning.kind}, ${person}, ${number}.`);
     const prefix=polarity==='negative'?[stateGrammar.negator]:[];
     const surface=(role)=>{
+      if(role===frame.predicateRole) {
+        if(meaning.kind!=='predication' || isDeicticReferent(subject)) {
+          throw new Error(`Unsupported ${dictionary.language} state predicate subject.`);
+        }
+        const noun=nounByConcept(subject.concept);
+        const context={number:subject.features.number,case:frame.predicateCase,
+          gender:noun.gender,pluralClass:noun.pluralClass,animacy:noun.animacy};
+        return nominal.realizeProperty(meaning.predicate,context);
+      }
       const ref=meaning.roles[role];
       if(isDeicticReferent(ref)) {
         if(role!==frame.subjectRole)throw new Error('Only subject deictic pronouns are supported in state constructions.');
@@ -1723,6 +1750,16 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
         record(value) ? Object.values(value) : [value])) {
         if (!domains.syntactic.case.includes(grammaticalCase)) {
           throw new Error(`Unknown syntactic case: ${grammaticalCase}`);
+        }
+      }
+    }
+    for(const frame of Object.values(stateGrammar?.frames || {})) {
+      const cases=[...Object.values(frame.cases || {}).flatMap(value=>
+        record(value)?Object.values(value):[value]),
+      ...(frame.predicateRole?[frame.predicateCase]:[])];
+      for(const grammaticalCase of cases) {
+        if(!domains.syntactic.case.includes(grammaticalCase)) {
+          throw new Error(`Unknown state grammatical case: ${grammaticalCase}`);
         }
       }
     }

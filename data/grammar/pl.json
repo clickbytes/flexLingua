@@ -492,10 +492,17 @@
     "negator": "nie",
     "supportedTenses": ["present"],
     "verbs": {
+      "grammar.state_copula": "predication",
       "grammar.state_possession": "possession"
     },
-    "unsupportedVerbs": ["grammar.state_copula"],
     "frames": {
+      "predication": {
+        "subjectRole": "subject",
+        "predicateRole": "predicate",
+        "predicateCase": "nom",
+        "cases": {"subject": "nom"},
+        "linearizations": [["subject", "@verb", "predicate"]]
+      },
       "possession": {
         "subjectRole": "owner",
         "allowImplicitDeicticSubject": true,
