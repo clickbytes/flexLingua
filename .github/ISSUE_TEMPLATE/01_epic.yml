@@ -6,12 +6,12 @@ body:
     attributes:
       value: |
         Epik jest jednostką planowania, nie jedną zmianą w kodzie.
-        Linkuj powiązane zadania jako listę - [ ] #numer oraz wymagaj udokumentowanych dowodów zamknięcia.
+        Linkuj powiązane zadania jako listę - [ ] #numer. Wyniki i zależności zapisuj w powiązanych issue.
   - type: input
     id: code
     attributes:
       label: "Kod epiku"
-      description: "Np. PERS, VAL, DIAL (unikalny w BACKLOG.md)."
+      description: "Np. PERS, VAL, DIAL (unikalny wśród kodów epików w GitHub Issues)."
       placeholder: "PERS"
     validations:
       required: true
@@ -34,7 +34,7 @@ body:
         - CORE
         - Data / PL / EN
         - Quality / Platform
-        - GUI (oddzielny agent)
+        - GUI / Studio
         - Research
     validations:
       required: true

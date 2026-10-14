@@ -27,25 +27,33 @@ test('G1: CI has read-only repository access and bounded concurrency',()=>{
   assert.match(workflow,/^    timeout-minutes: (?:15|20)$/m);
 });
 
-test('G1: CI runs Node, lexical and aggregate release checks without a standalone gate',()=>{
+test('G1: CI runs Node and lexical checks behind a lightweight aggregate gate',()=>{
   for(const name of ['engine-tests','lexical-audits','release-gate']){
     assert.match(workflow,new RegExp(`^  ${name}:$`,'m'));
   }
   for(const run of ['npm test','npm run check:lexicon','npm run check:morphology',
-    'npm run check:gold','npm run check:a1-gold','npm run check:gold-family','npm run check:gold-father','npm run check:gold-movement','npm run check:gold-actions','npm run check:gold-person','npm run check:a1-evidence','npm run check:coverage','npm run check:data-provenance',
-    'npm run check:release']) assert.ok(workflow.includes(`run: ${run}`),`Missing ${run}`);
+    'npm run check:gold','npm run check:a1-gold','npm run check:gold-family','npm run check:gold-father','npm run check:gold-movement','npm run check:gold-actions','npm run check:gold-person','npm run check:a1-evidence','npm run check:coverage','npm run check:data-provenance'
+    ]) assert.ok(workflow.includes(`run: ${run}`),`Missing ${run}`);
+  assert.doesNotMatch(workflow,/run:\s*npm run check:release/);
   assert.doesNotMatch(workflow,/run:\s*npm run build:standalone/);
   assert.doesNotMatch(workflow,/standalone|offline-parity/);
   assert.doesNotMatch(workflow,/run:\s*npm install/);
 });
 
-test('REL-01: Node, lexical and release failures remain independently visible',()=>{
+test('REL-01: aggregate gate preserves the CI check while avoiding duplicate execution',()=>{
   assert.match(workflow,/^  engine-tests:[\s\S]*?^  lexical-audits:/m);
   assert.match(workflow,/^  lexical-audits:[\s\S]*?^  release-gate:/m);
   assert.match(workflow,/^  engine-tests:[\s\S]*?run: npm test/m);
   assert.match(workflow,/^  lexical-audits:[\s\S]*?run: npm run check:a1-evidence/m);
-  assert.match(workflow,/^  release-gate:[\s\S]*?needs: \[engine-tests, lexical-audits\]/m);
-  assert.match(workflow,/^  release-gate:[\s\S]*?run: npm run check:release/m);
+  const gate=workflow.match(/^  release-gate:[\s\S]*$/m)?.[0];
+  assert.ok(gate,'Missing release-gate job');
+  assert.match(gate,/^    if: \$\{\{ always\(\) \}\}$/m);
+  assert.match(gate,/^    needs: \[engine-tests, lexical-audits\]$/m);
+  assert.match(gate,/needs\.engine-tests\.result != 'success'/);
+  assert.match(gate,/needs\.lexical-audits\.result != 'success'/);
+  assert.match(gate,/run: exit 1/);
+  assert.match(gate,/run: echo "All release checks passed\."/);
+  assert.doesNotMatch(gate,/actions\/checkout|actions\/setup-node|npm run check:release/);
 });
 
 test('G1: each invoked npm command exists in the versioned package scripts',()=>{
@@ -58,20 +66,6 @@ test('G1: each invoked npm command exists in the versioned package scripts',()=>
   assert.equal(pkg.scripts['build:standalone'],undefined);
   assert.equal(pkg.scripts['check:standalone'],undefined);
   assert.match(pkg.scripts['check:release'],/check:data-provenance/);
-});
-
-const probe=await readFile(new URL('../.github/workflows/actions-smoke.yml',import.meta.url),'utf8');
-test('G1b: probe has only one runner startup job and no project execution',()=>{
-  assert.match(probe,/^name: Actions Startup Probe$/m);
-  assert.match(probe,/^  workflow_dispatch:$/m);
-  assert.match(probe,/^    branches:$/m);
-  assert.match(probe,/^      - main$/m);
-  assert.match(probe,/^  contents: read$/m);
-  assert.match(probe,/^  runner-start:$/m);
-  assert.match(probe,/^    runs-on: ubuntu-latest$/m);
-  assert.match(probe,/^    timeout-minutes: 5$/m);
-  assert.match(probe,/^        run: echo /m);
-  assert.doesNotMatch(probe,/actions\/checkout|actions\/setup-node|npm (?:run|test)|node --test/);
 });
 
 test('A1 Batch 3: separate family gold is enforced in lexical audits and release',()=>{
