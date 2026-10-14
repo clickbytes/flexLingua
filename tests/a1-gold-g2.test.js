@@ -71,3 +71,25 @@ test('G2: role number, scope and WH gap are part of evaluated meaning',()=>{
   assert.deepEqual(wh.wrappers,['question:wh:theme']);
   assert.equal(Object.hasOwn(wh.roles,'theme'),false);
 });
+
+test('VAL-04: role, negation-scope, tense and aspect oracle mutations are detected',()=>{
+  const probes=[
+    {id:'G2-EN-01',mutate:core=>{
+      const agent=core.roles.agent;
+      core.roles.agent=core.roles.theme;
+      core.roles.theme=agent;
+    }},
+    {id:'G2-PL-12',mutate:core=>core.wrappers.reverse()},
+    {id:'G2-EN-03',mutate:core=>{core.tense='present';}},
+    {id:'G2-PL-03',mutate:core=>{core.aspect='perfective';}}
+  ];
+  for(const probe of probes){
+    const changed=structuredClone(corpus);
+    const row=changed.cases.find(item=>item.id===probe.id);
+    probe.mutate(row.core);
+    const result=evaluateA1Gold(make(),changed);
+    const observation=result.results.find(item=>item.id===probe.id);
+    assert.equal(observation.passed,false,probe.id+' mutated oracle must fail');
+    assert.equal(observation.checks.sourceCore,false,probe.id+' source meaning must change');
+  }
+});

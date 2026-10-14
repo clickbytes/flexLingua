@@ -4,7 +4,15 @@ const features=new Set(['statement','negation','question','modality','multiword'
 const word=x=>typeof x==='string'&&x.trim().length>0;
 const stable=x=>Array.isArray(x)?x.map(stable):x&&typeof x==='object'
   ?Object.fromEntries(Object.keys(x).sort().map(k=>[k,stable(x[k])])):x;
-const same=(a,b)=>JSON.stringify(stable(a))===JSON.stringify(stable(b));
+const same=(a,b)=>{
+  const actual=stable(a),expected=stable(b);
+  // Older gold without an aspect field treats aspect as unspecified. Once an
+  // oracle declares it, comparisons become exact and mutations are observable.
+  if(actual&&expected&&!Array.isArray(actual)&&!Array.isArray(expected)&&
+      Object.hasOwn(actual,'wrappers')&&Object.hasOwn(actual,'roles')&&
+      !Object.hasOwn(expected,'aspect'))delete actual.aspect;
+  return JSON.stringify(actual)===JSON.stringify(expected);
+};
 
 export function semanticSignature(document){
   const wrappers=[];
@@ -14,7 +22,8 @@ export function semanticSignature(document){
       return {concept:node.concept,
         roles:Object.fromEntries(Object.entries(node.roles||{}).map(([role,entity])=>
           [role,{concept:entity.concept,number:entity.features?.number}])),
-        tense:node.features?.tense,polarity:node.features?.polarity,wrappers};
+        tense:node.features?.tense,polarity:node.features?.polarity,
+        aspect:node.features?.aspect??'unknown',wrappers};
     }
     if(node.type==='question'){
       wrappers.push('question:'+node.questionType+(node.targetRole?':'+node.targetRole:''));
@@ -52,6 +61,7 @@ export function validateA1Gold(corpus,{idPrefix='G2',idWidth=2}={}){
       !row.core||!word(row.core.concept)||!row.core.roles||
       !Array.isArray(row.core.wrappers)||!['present','past'].includes(row.core.tense)||
       !['positive','negative'].includes(row.core.polarity)||
+      (row.core.aspect!==undefined&&!['perfective','imperfective','unknown'].includes(row.core.aspect))||
       Object.values(row.core.roles).some(r=>!word(r.concept)||
         !['singular','plural'].includes(r.number))||
       row.core.wrappers.some(x=>!word(x)))
