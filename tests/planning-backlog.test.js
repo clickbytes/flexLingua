@@ -57,7 +57,7 @@ test('Planning: all blockers exist, reverse edges match, and dependency DAG has 
   assert.deepEqual(map.tasks[task.id].unblocks,unblocks,task.id);
  }
  assert.deepEqual(byId['REL-01'].deps,[],'CI baseline cannot wait for GUI #1');
- assert.deepEqual(byId['GUI-01'].deps,['REL-01']);
+ assert.deepEqual(byId['GUI-01'].deps,[]);
  assert.ok(epics.every(x=>['P0','P1','P2','P3'].includes(x.priority)));
 });
 
@@ -87,7 +87,7 @@ test('Planning: issue forms and PR template require scope, acceptance and real t
  assert.match(policy,/Definition of Ready/);
  const pr=await readFile(new URL('../.github/PULL_REQUEST_TEMPLATE.md',import.meta.url),'utf8');
  assert.match(pr,/Kryteria odbioru/);
- assert.match(pr,/HANDOFF\.md/);
+ assert.match(pr,/SHA/);
  assert.match(pr,/SHA/);
  const config=await readFile(new URL('../.github/ISSUE_TEMPLATE/config.yml',import.meta.url),'utf8');
  assert.match(config,/blank_issues_enabled:\s*false/);

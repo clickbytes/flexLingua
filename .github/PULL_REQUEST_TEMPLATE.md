@@ -25,14 +25,10 @@
 
 ## Checklist przed merge
 - [ ] Nie wprowadzono regresji względem jawnej bazy CI.
-- [ ] Zaktualizowano README / ROADMAP / właściwe docs / `HANDOFF.md`.
+- [ ] Zaktualizowano README / ROADMAP / właściwe docs, jeśli zmiana tego wymaga.
 - [ ] Nie ogłoszono CEFR ukończonym bez autoryzowanego benchmarku.
 - [ ] Nowe dane mają źródło/licencję i niezależny gold.
-- [ ] Nie modyfikowano cudzej własności (GUI: `index.html`, `js/ui/**`, `index-standalone.html`; CORE: `js/core/**`, `data/**`).
+- [ ] Nie modyfikowano cudzej własności (GUI: `index.html`, `js/ui/**`; CORE: `js/core/**`, `data/**`).
 - [ ] Nie maskowano niezaliczonych testów ani startup_failure.
 - [ ] Zweryfikowano docelowy `main` oraz oczekiwany HEAD przed squash merge.
 
-## Handoff
-- Aktualny SHA main:
-- Zmiany / testy / ograniczenia:
-- Kolejne zadania i zależności:

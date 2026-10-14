@@ -443,6 +443,9 @@
     },
     "grammar.truth_predicate": {
       "label": "truth-predicate construction"
+    },
+    "grammar.deictic_pronoun": {
+      "label": "first- or second-person deictic pronoun"
     }
   }
 }

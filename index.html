@@ -202,6 +202,9 @@
     .footer { margin: 38px 0 0; padding-top: 20px; border-top: 1px solid var(--stroke);
       color: var(--subtle); font-size: 12px; line-height: 1.8; }
     .footer-links { display: flex; flex-wrap: wrap; gap: 15px; margin-top: 7px; }
+    html.file-protocol body > *:not(#file-protocol-warning) { display: none !important; }
+    #file-protocol-warning { display: none; max-width: 700px; margin: 12vh auto; padding: 24px; border: 1px solid #ccd6e0; border-radius: 12px; font: 16px/1.5 system-ui, sans-serif; }
+    html.file-protocol #file-protocol-warning { display: block !important; }
     @media (max-width: 1100px) {
       .app { padding: 0 22px 30px; }
       .layout { grid-template-columns: 190px minmax(0,1fr); gap: 24px; }
@@ -240,9 +243,9 @@
     }
   </style>
   <script id="flexlingua-bootstrap">
-    // Browsers block ES module imports over file://. The offline bundle has no imports or fetches.
+    // The modular app requires HTTP so ES modules and JSON load with normal browser security.
     if (location.protocol === 'file:') {
-      location.replace(new URL('./index-standalone.html', location.href));
+      document.documentElement.classList.add('file-protocol');
     } else {
       const app = document.createElement('script');
       app.type = 'module';
@@ -252,6 +255,10 @@
   </script>
 </head>
 <body>
+  <section id="file-protocol-warning" role="alert" hidden>
+    <h1>Uruchom flexLingua przez lokalny serwer</h1>
+    <p>Ta aplikacja używa modułów JavaScript i plików JSON. Otwórz <code>start.bat</code> w katalogu projektu albo uruchom <code>npm run dev</code>, a następnie przejdź pod adres <code>http://127.0.0.1:8000/</code>.</p>
+  </section>
   <div class="app">
     <header class="topbar">
       <a class="brand" href="./index.html" aria-label="flexLingua Studio — strona główna">
@@ -491,7 +498,6 @@
         <footer class="footer">
           flexLingua to prototyp języka pośredniego i kontrolowanego tłumaczenia. Obsługiwane są wyłącznie konstrukcje i odmiany zadeklarowane w bieżących danych; brak wyniku nie oznacza błędu słownika.
           <div class="footer-links">
-            <a href="./index-standalone.html">Wersja offline</a>
             <a href="./tests/index.html">Testy przeglądarkowe</a>
             <a href="./docs/api-v1.0.md">API / CORE</a>
             <a href="./docs/gui-v2.md">Przewodnik po GUI</a>

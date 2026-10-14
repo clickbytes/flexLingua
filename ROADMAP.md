@@ -4,6 +4,8 @@
 **Status dokumentu:** plan; nie deklaracja ukończonych poziomów CEFR  
 **Bieżący priorytet:** kontrolowane tłumaczenie polski ↔ CORE/INTER ↔ angielski
 
+**Uruchamianie UI:** lokalny HTTP (`start.bat` lub `npm run dev`). Samodzielny plik HTML dla `file://` został wycofany.
+
 > Celem jest jeden niezależny od języka silnik znaczeń i osobne pakiety analizy/realizacji gramatycznej. Nie tworzymy słownika gotowych zdań PL→EN ani translatora opartego na dopasowywaniu fraz.
 
 ## 1. Cel produktu i granice zakresu
@@ -46,16 +48,20 @@ Oficjalny punkt odniesienia: https://www.oxfordlearnersdictionaries.com/wordlist
 
 ### F0: łączymy z rozpoczętym Batch B
 
-- **v1.19 / zadania 3–5:** semantyka pytań CORE, kontrolowane parsowanie i realizacja PL/EN oraz przypadki gold obu kierunków **zaimplementowane w źródłach**. [Dokumentacja i ograniczenia](docs/questions-v1.19-pl-en.md). Pełne testy Node, synchronizacja standalone (agent GUI), modalność i formalne wydanie nadal otwarte.
+- **v1.19 / zadania 3–5:** semantyka pytań CORE, kontrolowane parsowanie i realizacja PL/EN oraz przypadki gold obu kierunków **zaimplementowane w źródłach**. [Dokumentacja i ograniczenia](docs/questions-v1.19-pl-en.md). Modalność i formalne wydanie pozostają w toku. Standalone HTML nie jest wspierany.
 - **v1.20:** parser składniowy z kompozycyjnymi regułami i diagnostyką.
-- **v1.21:** kontekst i semantyka (odniesienia, zachowywanie niejednoznaczności).
-- **v1.22:** konstrukcje wielowyrazowe, idiomy w kontrolowanym zakresie.
+- **CORE event 1.22 (PERS-02):** jawny referent `speaker`/`addressee` i oddzielne cechy zgody `person`/`number`.
+- **F0 v1.21–v1.22:** kontekst, zachowywanie niejednoznaczności i konstrukcje wielowyrazowe w kontrolowanym zakresie.
 - Każda funkcja ma mieć testy obu kierunków oraz testy negatywne. Status „opisano” ≠ status „zaimplementowano”.
 
 ### Zadania F0 / A1.0 — raport realizacji
 
 - **1. Audyt:** skontrolowano istniejące pakiety językowe, numery wersji i skrypty. Brakujące historyczne dokumenty pozostają otwarte; bez modyfikacji GUI.
 - **2. Pokrycie:** wprowadzono autorski pilot 13 pojęć / 10 konstrukcji, CLI, testy i [metodologię](docs/coverage-a1.md). Pokrycie A1 jako poziomu **nie jest jeszcze zmierzone**.
+
+### PERS-02 — jawne zaimki podmiotu
+
+Implementacja na gałęzi P0 zapisuje podmiot pierwszej/drugiej osoby w CORE `1.22` przez kotwicę `speaker`/`addressee` i oddzielną zgodę gramatyczną `person`/`number`. PL/EN analizują oraz realizują kontrolowane zdania teraźniejsze; angielskie `you` zachowuje wariant singular i plural jako jawne analizy. Anafora trzeciej osoby pozostaje odrębna. Czas przeszły PL i przenoszenie tożsamości między turami pozostają ograniczeniami opisanymi w [PERS-02](docs/pers02-deictic-pronouns.md).
 
 ### Kamienie milowe A1
 
@@ -101,7 +107,7 @@ Wartości poniżej to **proponowane cele jakości**, a nie wynik obecnych testó
 - **Co najmniej 95%** semantycznie poprawnych odpowiedzi na **zamrożonym zbiorze niewidzianych wcześniej zdań kontrolowanych**, osobno PL→EN i EN→PL; zbiór nie służy do projektowania reguł.
 - Wszystkie obowiązkowe konstrukcje etapu przechodzą testy kompozycyjne oraz zestaw testów negatywnych (brak cichego fabrykowania odpowiedzi).
 - Zapis i odczyt INTER zachowują role, relacje, negację, czas oraz istotną niepewność. „Round-trip” oceniamy semantycznie, **nie** przez identyczność słów.
-- Testy regresyjne, walidacje danych oraz oba artefakty offline przechodzą kontrolę.
+- Testy regresyjne, walidacje danych oraz testy UI przez lokalny serwer przechodzą kontrolę.
 - Raport poziomu publikuje: **liczbę sprawdzonych haseł, sensów, form, konstrukcji, testów, odsetek poprawności w każdą stronę, wyłączenia i znane ograniczenia**.
 - Nie nazywamy poziomu ukończonym bez jawnego zestawu wymagań, zbioru testowego i wyników.
 
@@ -138,11 +144,11 @@ Nie deklarujemy osiągnięcia tych celów przed implementacją i oddzielnymi kry
 
 ## Etap 1 — C/D/E/F: stan eksperymentalny (`v1.20`)
 
-[PR #1](https://github.com/ppotepa/flexLingua/pull/1) został scalony do `main` jako `2933cfa`. Zawiera implementacje: **C** modalność i rozdzielone zakresy negacji; **D** parser koordynacji oparty o sprawdzanie gramatycznie poprawnych fragmentów; **E** jedynie jawne wiązanie encji między zdaniami (bez automatycznej obsługi zaimków); **F** pierwsze dwa wielowyrazowe sensy (`look at`, `pick up`) i ich odpowiedniki PL. Szczegółowy kontrakt, negatywne przypadki i wymogi publikacji w [docs/stage1-batches-c-f-v1.20.md](docs/stage1-batches-c-f-v1.20.md). Zestaw `npm test` oraz `check:release` **nie został uruchomiony** (GitHub Actions: `startup_failure`). Zgodnie z kryteriami bramki jakości Batch C/D/E/F **nie są oznaczone jako ukończone ani wydane**; aktualizacja GUI standalone pozostaje w gestii osobnego agenta.
+[PR #1](https://github.com/ppotepa/flexLingua/pull/1) został scalony do `main` jako `2933cfa`. Zawiera implementacje: **C** modalność i rozdzielone zakresy negacji; **D** parser koordynacji oparty o sprawdzanie gramatycznie poprawnych fragmentów; **E** jedynie jawne wiązanie encji między zdaniami (bez automatycznej obsługi zaimków); **F** pierwsze dwa wielowyrazowe sensy (`look at`, `pick up`) i ich odpowiedniki PL. Szczegółowy kontrakt, negatywne przypadki i wymogi publikacji w [docs/stage1-batches-c-f-v1.20.md](docs/stage1-batches-c-f-v1.20.md). Zestaw `npm test` oraz `check:release` **nie został uruchomiony** (GitHub Actions: `startup_failure`); to historyczny status z tamtego etapu. Standalone HTML nie należy do bieżącego produktu.
 
 ### Mikrobatch F2 — pytania z przyimkiem (2026-10-13)
 
-Dla `event.visual_attention` z deklaratywnie wskazanym polskim przyimkiem `na` dołączono kontrolowane pytania o lukę `theme`: angielskie `what ... look at` i polskie `na co ... patrzy`. Zakres obejmuje również wybrane pytania modalne i pytania przeczące, a błędny szyk lub brak przyimka ma zwracać diagnostykę. To rozszerzenie częściowego Batch F, nie deklaracja całościowego pokrycia konstrukcji przyimkowych. Bramka: testy `tests/prepositional-wh-v1.21.test.js`, regresje i aktualizacja `HANDOFF.md`.
+Dla `event.visual_attention` z deklaratywnie wskazanym polskim przyimkiem `na` dołączono kontrolowane pytania o lukę `theme`: angielskie `what ... look at` i polskie `na co ... patrzy`. Zakres obejmuje również wybrane pytania modalne i pytania przeczące, a błędny szyk lub brak przyimka ma zwracać diagnostykę. To rozszerzenie częściowego Batch F, nie deklaracja całościowego pokrycia konstrukcji przyimkowych. Bramka: testy `tests/prepositional-wh-v1.21.test.js` i regresje.
 
 ### Mikrobatch E1 — jawne powiązania encji (2026-10-13)
 
@@ -171,11 +177,11 @@ Dodano odrębne sensy CORE: `event.search` (`look for/szukać`), `event.auditory
 
 ### G1a — poprawiona konfiguracja CI, ale blokada runnerów (2026-10-14)
 
-Zmodyfikowano wyzwalacze GitHub Actions na `main`, gałęzie `core/**`, PR i ręczne uruchamianie, rozdzielono testy silnika, leksykonu/morfologii/gold/A1, kontroli standalone i agregat `check:release`. W ramach audytu raport A1 uwzględnia teraz lexemes `modals`, a referencje CORE operator/funkcja są sprawdzane. Testy konfiguracji CI w Node 22: **4/4**. Izolowane testy raportu A1: **4/4**. GitHub Actions dla nowego workflow nadal: `startup_failure` przed utworzeniem jobs — [issue #9](https://github.com/ppotepa/flexLingua/issues/9). Pełne `npm test`, `check:release` i parytet GUI **niewykonane**. Szczegóły: [docs/g1-ci-audit.md](docs/g1-ci-audit.md). G1 nie jest jeszcze ukończony; wymagane rozwiązanie blokady Actions i prawdziwy raport Node.
+Historyczny G1a rozdzielił testy silnika, leksykonu/morfologii/gold/A1, kontrolę standalone i agregat `check:release`. W tej zmianie kontroli standalone już nie ma. W ówczesnym runie GitHub Actions zgłaszał `startup_failure`; pełny release gate został później uruchomiony pomyślnie, m.in. w runie #38625444693. Szczegóły dawnego audytu: [docs/g1-ci-audit.md](docs/g1-ci-audit.md).
 
 ### F3b — produktywna morfologia wyrażeń wielowyrazowych (2026-10-14)
 
-Dodano wspólne reguły `appendStem`, paradygmaty `en.verb.regular_particle` i `pl.verb.third_person_particle`, dziesięć wiązań leksemów oraz **55 jawnie ocenionych form gold** (4 EN i 7 PL na parę). Izolowane testy silnika: **6/6 grup**. Szczegóły w [F3b](docs/multiword-morphology-f3.md). `npm test`, `check:release` i parytet standalone nadal niezweryfikowane (GitHub Actions `startup_failure`, issue #9). GUI prowadzi oddzielny agent. Brak deklaracji ukończenia A1.
+Dodano wspólne reguły `appendStem`, paradygmaty `en.verb.regular_particle` i `pl.verb.third_person_particle`, dziesięć wiązań leksemów oraz **55 jawnie ocenionych form gold** (4 EN i 7 PL na parę). Izolowane testy silnika: **6/6 grup**. Szczegóły w [F3b](docs/multiword-morphology-f3.md). Pełny release gate został zweryfikowany później; standalone parity wycofano. Brak deklaracji ukończenia A1.
 
 ## G2 — niezależny pilot zdań (14.10.2026)
 
@@ -183,7 +189,7 @@ Przygotowano autorski oracle 32 zdań PL/EN w obu kierunkach i 8 odmów, weryfik
 
 ## G3 — kontrolowana ewaluacja A1 (14.10.2026)
 
-Do strukturalnego audytu dołącza deterministyczny, wykonywalny raport z wynikiem skończonej próbki zdań i odmów. Zestaw obejmuje oba kierunki oraz semantykę INTER, nie przekłada się automatycznie na procent A1. Niezależnym warunkiem wydania jest odblokowanie GitHub Actions i pełny Node/release/standalone gate. Zob. [G3](docs/g3-a1-report.md).
+Do strukturalnego audytu dołącza deterministyczny, wykonywalny raport z wynikiem skończonej próbki zdań i odmów. Zestaw obejmuje oba kierunki oraz semantykę INTER, nie przekłada się automatycznie na procent A1. Warunkiem wydania jest pełny Node/release gate na GitHub Actions; standalone nie jest wspierany. Zob. [G3](docs/g3-a1-report.md).
 
 ## G1b — dowodowa diagnoza Actions (14.10.2026)
 
@@ -191,7 +197,7 @@ Dodano niezależny minimalny smoke workflow do odróżnienia awarii startu runne
 
 ## G1b/G2/G3 — stan odbioru po drugim smoke (14.10.2026)
 
-G2/G3 mają wdrożone testy, raport i zestaw gold w repo, lecz pełny CI/release pozostaje niezweryfikowany przez `startup_failure` (issue #9). Workflow probe G1b był wdrażany dwukrotnie; odrębny run nie został potwierdzony. GUI standalone ma oddzielne zadanie #16. Po przywróceniu zadań GitHub Actions dokończyć pełną walidację.
+G2/G3 mają wdrożone testy, raport i zestaw gold w repo. W tamtym momencie CI/release nie był zweryfikowany z powodu `startup_failure` (issue #9). Późniejsze hosted runy potwierdziły pełny release gate. Samodzielny HTML został wycofany.
 
 ## F0 Batch 1 (14.10.2026)
 
@@ -219,7 +225,7 @@ Dołączono znaczenia pisania i otwierania, ich morfologię, testy semantyczne i
 
 ## Aktywne repozytorium po migracji (14.10.2026)
 
-**Tylko [clickbytes/flexLingua](https://github.com/clickbytes/flexLingua)** przyjmuje nowe commity, PR, issues i wyniki CI. Kod źródłowy historycznie rozwijano w ppotepa; dotychczasowe linki PR pozostają historią. [Migracja i walidacja Actions](docs/migration-clickbytes.md). CORE/GUI to odrębne zadania. Po odblokowaniu runnerów trwa usuwanie realnych regresji Node i synchronizacja standalone przez agenta GUI.
+**Tylko [clickbytes/flexLingua](https://github.com/clickbytes/flexLingua)** przyjmuje nowe commity, PR, issues i wyniki CI. Kod źródłowy historycznie rozwijano w ppotepa; dotychczasowe linki PR pozostają historią. [Migracja i walidacja Actions](docs/migration-clickbytes.md). CORE i GUI to odrębne obszary backlogu. Runner działa; UI uruchamia się przez lokalny HTTP, standalone zostało wycofane.
 
 ## A1 Batch 7 (14.10.2026)
 
@@ -235,4 +241,4 @@ Przyjęto kontrakt rozdzielający kotwicę referenta (`speaker`/`addressee`) od 
 
 ## Backlog egzekwowalny i epiki (14.10.2026)
 
-Otwarto **14 epików / 67 tasków** w `clickbytes/flexLingua`; każde ma rodzica, AC i kontrakt plików oraz checklistę. [BACKLOG](docs/planning/BACKLOG.md), [ISSUE_MAP](docs/planning/ISSUE_MAP.json), [EXECUTION_ORDER](docs/planning/EXECUTION_ORDER.md). Epik A1 nie jest certyfikacją CEFR. Hosted CI na `clickbytes/main` SHA `33132c5` zakończył się sukcesem (run #38616320178, Node 401/401); GUI #1 formalnie pozostało otwarte do akceptacji właściciela. Nowe PR wymagają własnego realnego Actions run i HANDOFF.
+Otwarto **14 epików / 67 tasków** w `clickbytes/flexLingua`; każde ma rodzica, AC i kontrakt plików oraz checklistę. [BACKLOG](docs/planning/BACKLOG.md), [ISSUE_MAP](docs/planning/ISSUE_MAP.json), [EXECUTION_ORDER](docs/planning/EXECUTION_ORDER.md). Epik A1 nie jest certyfikacją CEFR. Hosted CI na `main` SHA `b7ea1ef` przeszedł w runie #38625444693 (417/417); GUI #1 jest zamykane po wycofaniu standalone i potwierdzeniu testów Studio. Każdy PR wymaga własnego rzeczywistego Actions run; status, SHA i dowody trafiają do issue/PR.

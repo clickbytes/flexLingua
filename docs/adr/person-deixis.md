@@ -1,6 +1,6 @@
 # ADR: deiktyczna tożsamość mówcy i adresata
 
-- **Status:** przyjęta decyzja dla strumienia PERS; wdrożenie runtime należy do PERS-02 i dalszych zadań.
+- **Status:** przyjęta decyzja dla strumienia PERS; podstawowy runtime CORE/PL/EN wdraża PERS-02, a pełniejsza zgodność i fleksja pozostają w PERS-03..06.
 - **Data:** 2026-10-14.
 - **Zakres:** reprezentacja `I/you/we` i `ja/ty/my/wy` w PL ↔ CORE ↔ EN.
 - **Nie obejmuje:** implementacji parsera, odmiany, UI, mowy zależnej ani trwałego profilu uczestników dialogu.
@@ -116,8 +116,8 @@ Nowy wire format używa osobnej wersji dokumentu `1.22` (niezależnej od wersji 
 
 - `data/concepts.json` pozostaje ontologią pojęć. Nie dodajemy do niej `I`, `you`, `speaker` ani `addressee` jako bytów.
 - `data/features.json` zachowuje obecną domenę dla zwykłych referencji. Osoba i liczba gramatyczna deiktycznej referencji należą do nowego, wersjonowanego `agreement`, walidowanego osobną gałęzią.
-- PERS-02 dodaje leksykalne mapowania `ja/ty/my/wy` i `I/you/we` do tych referencji. PERS-03/04/05 realizują zgodę i formy obu języków; PERS-06 dostarcza niezależny gold oraz testy roundtrip.
-- Ten ADR ustala kontrakt i ryzyka. Nie deklaruje, że runtime już przyjmuje lub tłumaczy nowe dokumenty.
+- PERS-02 dodaje leksykalne mapowania `ja/ty/my/wy` i `I/you/we`, walidowany zapis referencji oraz kontrolowane zdania teraźniejsze PL/EN. PERS-03/04/05 rozszerzają zgodę, fleksję, czas przeszły i pytania; PERS-06 dostarcza niezależny gold integracyjny.
+- Ten ADR ustala kontrakt i ryzyka. Bieżący zakres runtime opisuje [PERS-02](../pers02-deictic-pronouns.md); pozostałe wiersze tabeli testów są wymaganiami dla dalszych zadań.
 
 ## Wymagane testy przy wdrażaniu kontraktu
 

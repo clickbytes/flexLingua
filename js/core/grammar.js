@@ -20,6 +20,11 @@ const MAX_SEARCH_NODES = 180000;
 const LEXEME_ID = /^[a-zA-Z][a-zA-Z0-9_]*(?:\.[a-zA-Z0-9_]+)*$/u;
 const PLACEHOLDER = /^\{([a-zA-Z][a-zA-Z0-9_]*)\}$/u;
 const LITERAL = /^@[\p{L}]+$/u;
+const DEICTIC_FUNCTION = 'grammar.deictic_pronoun';
+
+function isDeicticReferent(ref) {
+  return record(ref) && hasOwn(ref, 'referent');
+}
 
 function own(obj, key) {
   return hasOwn(obj, key) ? obj[key] : undefined;
@@ -122,6 +127,49 @@ function validateGrammar(dictionary, grammar) {
         throw new Error('Invalid subject pronoun declaration.');
       }
       seen.add(entry.text.toLocaleLowerCase(grammar.language));
+    }
+  }
+
+  const deictic=grammar.deicticPronouns;
+  if(deictic!==undefined){
+    const functionWords=dictionary.functionWords || [];
+    const seen=new Set();
+    const seenSenses=new Set();
+    const senses=new Map(functionWords.flatMap(word=>(word.senses||[]).map(sense=>
+      [sense.id,{word,sense}])));
+    if(!Array.isArray(deictic) || deictic.length<3 || deictic.length>8){
+      throw new Error('Invalid deictic pronoun grammar inventory.');
+    }
+    for(const entry of deictic){
+      const found=senses.get(entry?.senseId);
+      const key=JSON.stringify([entry?.referent?.anchor,entry?.person,entry?.number]);
+      if(!record(entry) || Object.keys(entry).sort().join(',')!=='number,person,referent,senseId' ||
+          !LEXEME_ID.test(entry.senseId||'') || !found ||
+          found.sense.coreRef?.kind!=='grammaticalFunction' ||
+          found.sense.coreRef.id!==DEICTIC_FUNCTION ||
+          !record(entry.referent) || Object.keys(entry.referent).sort().join(',')!=='anchor,kind' ||
+          entry.referent.kind!=='deictic' || !['speaker','addressee'].includes(entry.referent.anchor) ||
+          !['first','second'].includes(entry.person) ||
+          !['singular','plural'].includes(entry.number) ||
+          (entry.referent.anchor==='speaker')!==(entry.person==='first') || seen.has(key) ||
+          seenSenses.has(entry.senseId) ||
+          !found.word.forms.every(form=>/^[\p{L}]+$/u.test(form.text||''))){
+        throw new Error('Invalid deictic pronoun declaration.');
+      }
+      seen.add(key);
+      seenSenses.add(entry.senseId);
+      const formTexts=found.word.forms.map(form=>form.text.toLocaleLowerCase(grammar.language));
+      if(formTexts.some(text=>(grammar.anaphora?.subjectPronouns || []).some(item=>
+          item.text.toLocaleLowerCase(grammar.language)===text))){
+        throw new Error('Deictic pronouns cannot overlap the third-person anaphora inventory.');
+      }
+    }
+    const required=[
+      ['speaker','first','singular'],['speaker','first','plural'],
+      ['addressee','second','singular'],['addressee','second','plural']
+    ];
+    if(!required.every(item=>seen.has(JSON.stringify(item)))){
+      throw new Error('Incomplete deictic pronoun agreement inventory.');
     }
   }
 
@@ -383,6 +431,13 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
   const modality = grammar.modality;
   const modals = dictionary.modals || [];
   const subjectPronouns=grammar.anaphora?.subjectPronouns || [];
+  const deicticPronouns=(grammar.deicticPronouns || []).flatMap(entry=>{
+    const word=dictionary.functionWords.find(item=>
+      item.senses?.some(sense=>sense.id===entry.senseId));
+    const sense=word?.senses?.find(item=>item.id===entry.senseId);
+    return (word?.forms || []).map(form=>({text:form.text,senseId:entry.senseId,
+      referent:entry.referent,person:entry.person,number:entry.number,priority:sense?.priority||0}));
+  });
   const verbForms = verbs.flatMap(lexeme => verbGrammar.rules.flatMap(rule =>
     formsAt(lexeme, rule.path).map(form => ({ ...form, lexeme, rule }))));
   const nounIndex = new Map();
@@ -420,10 +475,13 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
 
   function contextFor(roles, event) {
     const subject = roles[subjectRole];
+    const ref=subject?.value;
+    const deictic=isDeicticReferent(ref);
     return { event, subject: subject ? {
-      number: subject.value.features.number,
-      gender: subject.noun.gender,
-      pluralClass: subject.noun.pluralClass
+      person: deictic ? ref.agreement.person : 'third',
+      number: deictic ? ref.agreement.number : ref.features.number,
+      gender: subject.noun?.gender,
+      pluralClass: subject.noun?.pluralClass
     } : {} };
   }
 
@@ -496,7 +554,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
               const candidate = { interlingua: meaning, lexicalSenses: senses,
                 score: (entry.lexeme.priority || 0) + Object.entries(parsedRoles)
                   .filter(([role]) => role !== gap)
-                  .reduce((score, [, parsed]) => score + (parsed.noun.priority || 0), 0) };
+                  .reduce((score, [, parsed]) => score + (parsed.noun?.priority || parsed.priority || 0), 0) };
               const key = JSON.stringify(meaning);
               const former = readings.get(key);
               if (!former || candidate.score > former.score) readings.set(key, candidate);
@@ -518,7 +576,10 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
             const cases = record(caseRule) ? [...new Set(Object.values(caseRule))] :
               [roleCase(frame, step, features)];
             for (const grammaticalCase of cases) {
-              for (const parsed of readNounPhrases(tokens, index, grammaticalCase, depth, budget)) {
+              const phrases=[...readNounPhrases(tokens,index,grammaticalCase,depth,budget),
+                ...(step===subjectRole && grammaticalCase===nounPhrase.subjectCase ?
+                  readDeicticNounPhrases(tokens,index) : [])];
+              for (const parsed of phrases) {
                 if (record(caseRule)) {
                   const implied = Object.keys(caseRule).find(key => key !== 'unknown' &&
                     caseRule[key] === grammaticalCase);
@@ -819,6 +880,18 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     return safe.sort((a,b)=>(b.score||0)-(a.score||0)).slice(0,MAX_ANALYSES);
   }
 
+  function readDeicticNounPhrases(tokens,index) {
+    const found=[];
+    for(const pronoun of deicticPronouns){
+      const size=matchesTokens(tokens,index,pronoun.text);
+      if(!size)continue;
+      found.push({value:{referent:{...pronoun.referent},
+        agreement:{person:pronoun.person,number:pronoun.number}},
+        next:index+size,noun:null,senseId:pronoun.senseId,priority:pronoun.priority});
+    }
+    return found;
+  }
+
   function readNounPhrases(tokens, index, grammaticalCase, depth, budget) {
     const bare = nominal.read(tokens, index, grammaticalCase);
     if (depth >= relativeGrammar.maxDepth) return bare;
@@ -913,6 +986,16 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     return found?{text:found.text,concepts:[...found.concepts]}:null;
   }
 
+  function readDeicticPronoun(text) {
+    if(typeof text!=='string')return [];
+    const tokens=tokenize(text.trim());
+    if(!tokens.length)return [];
+    return readDeicticNounPhrases(tokens,0).map(item=>({
+      text:tokens[0],referent:item.value.referent,agreement:item.value.agreement,
+      senseId:item.senseId
+    }));
+  }
+
   function expandSubjectPronoun(text,referent) {
     const pronoun=readSubjectPronoun(text);
     if(!pronoun || !record(referent) ||
@@ -932,7 +1015,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
 
   /** Safe surface candidate only; semantic antecedent selection belongs to Engine. */
   function subjectPronounFor(ref) {
-    if (!record(ref) || ref.features?.number !== 'singular' ||
+    if (!record(ref) || isDeicticReferent(ref) || ref.features?.number !== 'singular' ||
         !nounIndex.has(ref.concept)) return null;
     const matches = subjectPronouns.filter(item=>item.concepts.includes(ref.concept));
     return matches.length === 1 ? matches[0].text : null;
@@ -944,8 +1027,20 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     return nouns[0];
   }
 
+  function deicticPronounSurface(ref) {
+    const entry=deicticPronouns.find(item=>
+      item.referent.anchor===ref.referent.anchor &&
+      item.person===ref.agreement.person && item.number===ref.agreement.number);
+    if(!entry)throw new Error(`Missing ${dictionary.language} deictic pronoun form.`);
+    return entry.text;
+  }
+
   function nounSurface(role, meaning, frame, fallback, depth) {
     const ref = meaning.roles[role];
+    if(isDeicticReferent(ref)){
+      if(role!==subjectRole)throw new Error('Only subject deictic pronouns are supported in this grammar scope.');
+      return deicticPronounSurface(ref);
+    }
     const noun = nounByConcept(ref.concept);
     const requiredCase = roleCase(frame, role, meaning.features, ref);
     let output = plainNoun(ref, noun, requiredCase, fallback);
@@ -973,7 +1068,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
       throw new Error('Unsupported subject pronoun realization for this event.');
     }
     const roles = Object.fromEntries(Object.entries(meaning.roles).map(([role, ref]) =>
-      [role, { value: ref, noun: nounByConcept(ref.concept) }]));
+      [role, { value: ref, noun: isDeicticReferent(ref) ? null : nounByConcept(ref.concept) }]));
     if (relative) roles[relative.gap] = relative.antecedent;
     const context = contextFor(roles, meaning.features);
     const candidates = verbForms.filter(entry => entry.lexeme.concept === meaning.concept &&
@@ -1099,7 +1194,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     const { candidates, preferred, linearize } = built;
     const unspecifiedRoles = Object.entries(meaning.roles)
       .filter(([role,ref]) => !(subjectPronoun && role === subjectRole) &&
-        ref.features.definiteness === 'unknown').map(([role]) => role);
+        ref.features?.definiteness === 'unknown').map(([role]) => role);
     const withDeterminers = Object.keys(nounPhrase.determiners).length > 0;
     const fallback = withDeterminers ? nounPhrase.defaultDefiniteness : undefined;
     const otherFallback = withDeterminers && unspecifiedRoles.length
@@ -1123,7 +1218,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     }
     const warnings = [];
     if (!withDeterminers && Object.entries(frames[meaning.concept]?.cases || {}).some(([role, cases]) =>
-        record(cases) && meaning.roles[role]?.features.definiteness === 'unknown')) {
+        record(cases) && meaning.roles[role]?.features?.definiteness === 'unknown')) {
       warnings.push(grammar.messages?.definitenessUnknown ||
         'Unspecified definiteness requires a target-language case choice.');
     }
@@ -1307,14 +1402,16 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     for (const [binding, source] of Object.entries(verbGrammar.agreement)) {
       const [root, name] = featureSource(source);
       const available = root === 'event' ? domains.event[name] :
-        domains.participant[name] || domains.lexical[name];
+        (name==='person' ? ['first','second','third'] :
+          domains.participant[name] || domains.lexical[name]);
       if (!available) throw new Error(`Unknown agreement source for ${binding}: ${source}`);
     }
     for (const rule of verbGrammar.rules) {
       for (const [source, value] of Object.entries(rule.when || {})) {
         const [root, name] = featureSource(source);
         const allowed = root === 'event' ? domains.event[name] :
-          domains.participant[name] || domains.lexical[name];
+          (name==='person' ? ['first','second','third'] :
+            domains.participant[name] || domains.lexical[name]);
         if (!allowed?.includes(value)) throw new Error(`Unknown conditional feature: ${source}=${value}`);
       }
     }
@@ -1369,7 +1466,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     analyzeQuestionCandidates:questions?analyzeQuestionCandidates:undefined,
     realizeQuestion:questions?realizeQuestion:undefined,
     parseComplementHeads, realizeComplement,
-    readSubjectPronoun, expandSubjectPronoun, subjectPronounFor, subjectRole,
+    readSubjectPronoun, readDeicticPronoun, expandSubjectPronoun, subjectPronounFor, subjectRole,
     connective: conjunction.and, wideNegation: conjunction.wideNegation,
     describe: () => ({ language: grammar.language, grammarVersion: grammar.version,
       nouns: dictionary.nouns.length, verbs: dictionary.verbs.length, ...nominal.describe(),

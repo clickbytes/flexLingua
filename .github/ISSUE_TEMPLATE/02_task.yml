@@ -5,8 +5,8 @@ body:
   - type: markdown
     attributes:
       value: |
-        Każdy TASK zawiera: epik, jeden rezultat, pliki, akceptację pozytywną/negatywną,
-        dowody Node CI i aktualizację HANDOFF.md. Nie zaznaczaj testów, których nie uruchomiono.
+        Każdy TASK zawiera: epik, jeden rezultat, pliki, akceptację pozytywną/negatywną
+        i dowody Node CI. Status, SHA i linki do Actions zapisuj w issue/PR. Nie zaznaczaj testów, których nie uruchomiono.
   - type: input
     id: parent
     attributes:
@@ -32,7 +32,7 @@ body:
       options:
         - CORE / data / testy
         - Platform / CI
-        - GUI / offline (oddzielny agent)
+        - GUI (oddzielny agent)
         - Research
     validations:
       required: true

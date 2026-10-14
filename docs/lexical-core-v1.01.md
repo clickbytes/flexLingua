@@ -91,8 +91,6 @@ hints do not apply. The UI exposes CORE as a selectable format and a sample.
 ```sh
 npm run check:lexicon
 npm test
-npm run build:standalone
-npm run check:standalone
 node tools/migrate-lexicon.mjs old-lexicon.json migrated-lexicon.json
 ```
 

@@ -1,7 +1,7 @@
 # E3 — kontrolowany dyskurs 3–8 zdań
 
 **Data:** 2026-10-14  
-**Status:** implementacja mikrobatcha E3 w silniku źródłowym; pełne testy Node i standalone pozostają osobnymi bramkami.
+**Status:** historyczny raport mikrobatcha E3 w silniku źródłowym. Pełne testy Node i release gate przeszły później; standalone zostało wycofane.
 
 ## Zakres
 
@@ -40,6 +40,6 @@ Nie ma automatycznej inferencji tożsamości z powtórzonego rzeczownika: zdania
 
 - `tests/anaphora-e3.test.js`: sześć grup dla wielozdaniowych łańcuchów, różnych uczestników, odmowy przy niejednoznaczności, polisemi, limitu ośmiu zdań i ręcznych linków.
 - `tests/anaphora-e2b.test.js`, `tests/anaphora-e2a.test.js`: zachowanie dotychczasowego API i odpowiedzi, przy dostosowaniu jednego starszego kontrprzykładu, który stał się legalnym przypadkiem E3.
-- Izolowane wykonanie V8: **17/17** grup E3, E2b i E2a zaliczonych. Pełne `npm test` i `check:release` nie zostały uruchomione (GitHub DNS niedostępny z lokalnego kontenera). Synchronizacja `index-standalone.html` należy do agenta GUI.
+- Izolowane wykonanie V8: **17/17** grup E3, E2b i E2a zaliczonych. W chwili sporządzenia raportu pełne `npm test` i `check:release` nie były uruchomione; późniejsze pełne testy i release runy przeszły. Synchronizacja standalone została wycofana.
 
 **Następna mała partia E4:** sesyjny `ConversationContext` z jawnym wywołaniem, ograniczonym stanem, kopiowaniem danych i resetem. Nie utożsamiać pamięci operacyjnej między wywołaniami z trwałą pamięcią osobowości.

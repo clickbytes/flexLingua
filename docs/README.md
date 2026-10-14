@@ -1,5 +1,7 @@
 # Dokumentacja flexLingua — indeks
 
+`index-standalone.html`, jego generator, test parytetu offline i bramka CI zostały wycofane. Aktualny UI uruchamiaj przez `start.bat` albo `npm run dev` (loopback HTTP). Wydanie sprawdzaj przez `npm run check:release` i GitHub Actions. Odwołania do standalone w historycznych raportach opisują ówczesny stan; ich dawne checklisty nie są bieżącymi wymaganiami.
+
 Ten plik jest nawigacją po dokumentacji. Aktualny cel i priorytety znajdują się w [ROADMAP.md](../ROADMAP.md), a publiczny opis projektu i instrukcje uruchomienia w [README.md](../README.md).
 
 ## Kierunek rozwoju i sposób pracy
@@ -7,6 +9,7 @@ Ten plik jest nawigacją po dokumentacji. Aktualny cel i priorytety znajdują si
 - [A1.0 — strukturalny raport pokrycia](coverage-a1.md) — CLI, miary i ograniczenia.
 - [Autorski zakres A1 flexLingua](a1-scope.md) — zamrożona macierz pojęć i konstrukcji PL/CORE/EN.
 - [ADR: deiktyczna tożsamość mówcy i adresata](adr/person-deixis.md) — decyzja dla `I/you/we` i `ja/ty/my/wy`.
+- [PERS-02: jawne zaimki podmiotu PL/EN](pers02-deictic-pronouns.md) — wersjonowany CORE, obecne formy, alternatywy `you` i granice dialogu.
 - [Pochodzenie danych](data-provenance.md) — źródła, status licencji i warunki użycia pakietów JSON.
 
 

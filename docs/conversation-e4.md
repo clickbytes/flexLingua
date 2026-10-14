@@ -41,4 +41,4 @@ To nie jest długoterminowa pamięć, baza wiedzy, historia czatu ChatGPT, ani p
 
 `tests/conversation-e4.test.js`: 8 niezależnych grup obejmujących polsko-angielskie przełączenia języków, rozstrzyganie antecedensu, brak zgadywania, polisemię, reset, limit, defensywne kopie snapshotu, brak pamięci między sesjami, rollback oraz wejście CORE. **8/8** przeszło w izolowanym środowisku JavaScript.
 
-`npm test`, `npm run check:release` i `check:standalone` pozostają do uruchomienia w rzeczywistym Node 20+ (kontener ma Node, lecz brak DNS do github.com, a wcześniejszy GitHub Actions zwracał `startup_failure`). Synchronizacja offline należy do agenta GUI.
+W chwili sporządzenia tego raportu `npm test` i `npm run check:release` nie były dostępne w lokalnym środowisku; późniejsze pełne release runy przeszły. Kontrola standalone i synchronizacja offline zostały wycofane.

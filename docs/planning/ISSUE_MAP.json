@@ -179,8 +179,7 @@
       "blockedBy": [],
       "unblocks": [
         19,
-        21,
-        1
+        21
       ]
     },
     "REL-02": {
@@ -189,8 +188,7 @@
       "priority": "P0",
       "owner": "CORE/Platform",
       "blockedBy": [
-        18,
-        1
+        18
       ],
       "unblocks": [
         20
@@ -202,8 +200,7 @@
       "priority": "P0",
       "owner": "CORE/Platform",
       "blockedBy": [
-        19,
-        1
+        19
       ],
       "unblocks": []
     },
@@ -1016,16 +1013,8 @@
       "parent": "GUI",
       "priority": "P0",
       "owner": "GUI agent (osobny)",
-      "blockedBy": [
-        18
-      ],
-      "unblocks": [
-        19,
-        20,
-        81,
-        83,
-        82
-      ]
+      "blockedBy": [],
+      "unblocks": []
     },
     "GUI-02": {
       "number": 81,
@@ -1033,7 +1022,6 @@
       "priority": "P0",
       "owner": "GUI agent (osobny)",
       "blockedBy": [
-        1,
         30
       ],
       "unblocks": []
@@ -1044,7 +1032,6 @@
       "priority": "P0",
       "owner": "GUI agent (osobny)",
       "blockedBy": [
-        1,
         24
       ],
       "unblocks": []
@@ -1055,7 +1042,6 @@
       "priority": "P0",
       "owner": "GUI agent (osobny)",
       "blockedBy": [
-        1,
         56,
         58
       ],

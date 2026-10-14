@@ -147,6 +147,47 @@
         "tense": "present",
         "polarity": "positive",
         "when": {
+          "subject.person": "first",
+          "subject.number": "singular"
+        },
+        "prefix": [],
+        "path": "forms.present.firstSingular"
+      },
+      {
+        "tense": "present",
+        "polarity": "positive",
+        "when": {
+          "subject.person": "second",
+          "subject.number": "singular"
+        },
+        "prefix": [],
+        "path": "forms.present.secondSingular"
+      },
+      {
+        "tense": "present",
+        "polarity": "positive",
+        "when": {
+          "subject.person": "first",
+          "subject.number": "plural"
+        },
+        "prefix": [],
+        "path": "forms.present.firstPlural"
+      },
+      {
+        "tense": "present",
+        "polarity": "positive",
+        "when": {
+          "subject.person": "second",
+          "subject.number": "plural"
+        },
+        "prefix": [],
+        "path": "forms.present.secondPlural"
+      },
+      {
+        "tense": "present",
+        "polarity": "positive",
+        "when": {
+          "subject.person": "third",
           "subject.number": "singular"
         },
         "prefix": [],
@@ -156,6 +197,7 @@
         "tense": "present",
         "polarity": "positive",
         "when": {
+          "subject.person": "third",
           "subject.number": "plural"
         },
         "prefix": [],
@@ -187,6 +229,55 @@
         "tense": "present",
         "polarity": "negative",
         "when": {
+          "subject.person": "first",
+          "subject.number": "singular"
+        },
+        "prefix": [
+          "nie"
+        ],
+        "path": "forms.present.firstSingular"
+      },
+      {
+        "tense": "present",
+        "polarity": "negative",
+        "when": {
+          "subject.person": "second",
+          "subject.number": "singular"
+        },
+        "prefix": [
+          "nie"
+        ],
+        "path": "forms.present.secondSingular"
+      },
+      {
+        "tense": "present",
+        "polarity": "negative",
+        "when": {
+          "subject.person": "first",
+          "subject.number": "plural"
+        },
+        "prefix": [
+          "nie"
+        ],
+        "path": "forms.present.firstPlural"
+      },
+      {
+        "tense": "present",
+        "polarity": "negative",
+        "when": {
+          "subject.person": "second",
+          "subject.number": "plural"
+        },
+        "prefix": [
+          "nie"
+        ],
+        "path": "forms.present.secondPlural"
+      },
+      {
+        "tense": "present",
+        "polarity": "negative",
+        "when": {
+          "subject.person": "third",
           "subject.number": "singular"
         },
         "prefix": [
@@ -198,6 +289,7 @@
         "tense": "present",
         "polarity": "negative",
         "when": {
+          "subject.person": "third",
           "subject.number": "plural"
         },
         "prefix": [
@@ -445,5 +537,11 @@
         ]
       }
     ]
-  }
+  },
+  "deicticPronouns": [
+    {"senseId": "pl.pronoun.ja.sense", "referent": {"kind": "deictic", "anchor": "speaker"}, "person": "first", "number": "singular"},
+    {"senseId": "pl.pronoun.ty.sense", "referent": {"kind": "deictic", "anchor": "addressee"}, "person": "second", "number": "singular"},
+    {"senseId": "pl.pronoun.my.sense", "referent": {"kind": "deictic", "anchor": "speaker"}, "person": "first", "number": "plural"},
+    {"senseId": "pl.pronoun.wy.sense", "referent": {"kind": "deictic", "anchor": "addressee"}, "person": "second", "number": "plural"}
+  ]
 }

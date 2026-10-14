@@ -10,11 +10,11 @@
       "title": "CI, jakość wydania i zarządzanie zmianą",
       "priority": "P0",
       "owner": "CORE/Platform",
-      "goal": "Ustabilizować rzetelną publikację Node/CORE i offline, bez maskowania błędów GUI.",
+      "goal": "Ustabilizować rzetelną publikację Node/CORE bez maskowania błędów GUI.",
       "done": [
-        "Na docelowym main Actions runner wykonuje jobs; lexical-audits, engine-tests, offline-parity i release-gate mają wynik success.",
+        "Na docelowym main Actions runner wykonuje jobs; engine-tests, lexical-audits i release-gate mają wynik success.",
         "Release zapisuje SHA, wyniki, listę ograniczeń i artefakty; nie usuwa testów by osiągnąć green.",
-        "Zmiany GUI są realizowane tylko przez agenta GUI, a CORE dokumentuje przekazanie."
+        "Zmiany źródeł GUI są realizowane przez właściciela GUI; status i dowody są w issue/PR."
       ],
       "tasks": [
         {
@@ -24,13 +24,12 @@
           "files": [
             ".github/workflows/core-engine.yml",
             "tests/ci-workflow.test.js",
-            "docs/migration-clickbytes.md",
-            "HANDOFF.md"
+            "docs/migration-clickbytes.md"
           ],
           "checks": [
             "Tabela failing test → komponent → właściciel → powiązany issue; potwierdzona na aktualnym main.",
             "Wszystkie nowe regresje mają reprodukcję Node i link do rzeczywistego run ID.",
-            "Dokument wskazuje GUI #1 bez duplikacji lub cichego pominięcia błędu."
+            "Dokument rozróżnia historyczne regresje GUI od aktualnych wyników testów."
           ],
           "deps": []
         },
@@ -44,13 +43,12 @@
             "docs/development-workflow.md"
           ],
           "checks": [
-            "Określono wymagane jobs (engine-tests, lexical-audits, offline-parity, release-gate) i branch protection/rulesets na main.",
+            "Określono wymagane jobs (engine-tests, lexical-audits, release-gate) i branch protection/rulesets na main.",
             "Testowy PR z błędem w jednej wymaganej bramce jest rzeczywiście blokowany przez politykę GitHub (wymaga działania właściciela ustawień).",
             "Procedura awaryjnego przywracania/rollback i zasady wyjątków są udokumentowane."
           ],
           "deps": [
-            "REL-01",
-            "GUI-01"
+            "REL-01"
           ]
         },
         {
@@ -60,18 +58,16 @@
           "files": [
             "package.json",
             "tools/check-core-gates.mjs",
-            "tools/build-standalone.mjs",
             "docs/development-workflow.md",
             "docs/release-v1.0.md"
           ],
           "checks": [
-            "Skrypt/checklista wydania odczytuje SHA, wersję, manifest plików, wyniki Node i zgodność offline.",
-            "Dwa uruchomienia z tym samym drzewem źródeł generują identyczny hash artefaktu lub dokumentują powód deterministycznej różnicy.",
+            "Skrypt/checklista wydania odczytuje SHA, wersję, manifest plików i wyniki Node.",
+            "Dwa uruchomienia na tym samym drzewie źródeł dają ten sam wynik bramek i wersję; różnice są jawnie opisane.",
             "Wersja jest aktualizowana dopiero po prawdziwych bramkach, release notes zawierają ograniczenia i rollback."
           ],
           "deps": [
-            "REL-02",
-            "GUI-01"
+            "REL-02"
           ]
         },
         {

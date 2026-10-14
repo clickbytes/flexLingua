@@ -17,8 +17,8 @@ Pierwszy skrypt emituje JSON; drugi uruchamia go w trybie `--strict` i kończy k
 - `structural`: obecność leksykalnych odniesień PL/EN, wiązań paradygmatów i zadeklarowanych konstrukcji; stan inwentarza, nie dowód poprawnego użycia.
 - `behavioral`: wyniki na **skończonym, jawnie określonym korpusie** (po kierunku, rodzaju konstrukcji, szczegółowych kontrolach powierzchni/CORE); 8 odmów pod kategorią `unsupported`.
 - `sampleEvidence`: przecięcie pojęć obecnych w dwóch małych zestawach kontrolnych, z jawną listą brakujących pojęć. Nie liczymy tego jako procentu A1.
-- `cefr.percentage: null`, `release.verified: false`: brak reprezentatywnego mianownika i potwierdzenia Actions/standalone. Ten status nie staje się zielony nawet gdy korpus 40/40 przechodzi lokalnie.
+- `cefr.percentage: null`, `release.verified: false`: brak reprezentatywnego mianownika; wynik A1 nie zmienia się na zielony, nawet gdy korpus 40/40 przechodzi lokalnie. Release gate jest weryfikowany oddzielnie przez testy i Actions; standalone został wycofany.
 
 ## Automatyzacja i granice
 
-`check:a1-gold` dodano do jobs `lexical-audits` i `check:release`, a `tests/report-a1-g3.test.js` uruchamia bezpośrednio raport i CLI Node. Należy nadal testować pełne `npm test` i `check:standalone` na kompletnym checkoutcie. Ostatni sprawdzony push po PR #12 dał [38584238248](https://github.com/ppotepa/flexLingua/actions/runs/38584238248) `startup_failure` (0 jobs), co **nie dowodzi regresji raportu**. Następne kroki G1b wymagają diagnozy ustawień Actions przez właściciela repo, a artefakt standalone aktualizuje odrębny agent GUI.
+`check:a1-gold` dodano do jobs `lexical-audits` i `check:release`, a `tests/report-a1-g3.test.js` uruchamia bezpośrednio raport i CLI Node. W chwili sporządzenia raportu pełne testy nie były dostępne; późniejsze pełne release runy przeszły. Standalone i jego job GUI zostały wycofane. Dawny `startup_failure` opisywany w tym raporcie nie jest bieżącym blockerem.

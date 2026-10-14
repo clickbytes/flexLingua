@@ -32,7 +32,7 @@ test('Bundled local server serves HTML, JS, JSON and safe HTTP errors', async ()
   try {
     for (const [path, expectedType] of [
       ['', 'text/html'], ['js/main.js', 'text/javascript'], ['data/concepts.json', 'application/json'],
-      ['data/grammar/pl.json', 'application/json'], ['index-standalone.html', 'text/html']
+      ['data/grammar/pl.json', 'application/json']
     ]) {
       const response = await fetch(url + path);
       assert.equal(response.status, 200, path);

@@ -1,6 +1,6 @@
 # Etap 1 / Batche C–F — kontrakt roboczy INTER 1.20
 
-**Stan na 13 października 2026:** PR #1 został scalony do `main` jako `2933cfa`. Jest to kod źródłowy silnika; synchronizacja `index-standalone.html` należy do osobnego agenta GUI. **Pełne `npm test` i `check:release` nie zostały wykonane**: GitHub Actions zgłosił `startup_failure` przed startem zadań. Izolowany test 15 przykładów w wykonaniu modułów JS przeszedł, ale nie zastępuje całej regresji Node.
+**Stan na 13 października 2026:** PR #1 został scalony do `main` jako `2933cfa`. W chwili tego raportu pełne `npm test` i `check:release` nie zostały wykonane: GitHub Actions zgłosił `startup_failure` przed startem zadań. Izolowany test 15 przykładów nie zastępował całej regresji Node; późniejsze pełne release runy przeszły. Wymóg synchronizacji standalone został wycofany.
 
 ## C — modalność, czas teraźniejszy
 
@@ -63,7 +63,7 @@ Zestawy: `tests/modalities-v1.20.test.js`, `tests/composition-v1.20.test.js`, `t
 1. Uzyskać uruchomienie pełnych testów Node i wyeliminować wszystkie regresje.
 2. Uzupełnić Batch E: rzeczywistą analizę zaimków, pamięć referencji pomiędzy wypowiedziami i jednoznaczne doprecyzowanie zamiast zgadywania.
 3. Rozszerzyć Batch F o kontrolowane odmienne typy konstrukcji wielowyrazowych, oddzielając operator składniowy od sensu CORE.
-4. Po przeglądzie i synchronizacji standalone przejść do Batch G — niezależnie mierzalnego pakietu A1.
+4. Po przeglądzie przejść do Batch G — niezależnie mierzalnego pakietu A1. Standalone nie jest warunkiem przejścia.
 
 ## Addendum: mikrobatch F2 — kontrolowane pytania z przyimkiem
 

@@ -426,7 +426,7 @@ export class Engine {
           eventWithin(candidate.interlingua)?.roles?.[role]?.concept===concept))
         .map(candidate=>({...candidate,score:(candidate.score||0)+
           (settings.topics||[]).reduce((sum,topic)=>sum+
-            participantsOf(candidate.interlingua).filter(ref=>
+            participantsOf(candidate.interlingua).filter(ref=>ref.concept).filter(ref=>
               this.ontology.relatedToTopic(ref.concept,topic)).length*10,0)}))
         .sort((a,b)=>b.score-a.score).slice(0,MAX_CANDIDATES);
       if(!candidates.length)throw new Error('No semantic question reading matches context constraints.');
@@ -436,6 +436,11 @@ export class Engine {
       });
     }
     const sentences = splitSentences(text, MAX_DISCOURSE_EVENTS);
+    const deicticSlots=sentences.map((sentence,i)=>
+      adapter.readDeicticPronoun?.(sentence)?.length?i:-1).filter(i=>i>=0);
+    if(deicticSlots.length && sentences.length>1){
+      throw new Error('UNRESOLVED_DEIXIS: cross-sentence participant identity requires explicit session context.');
+    }
     const pronounSlots=sentences.map((sentence,i)=>adapter.readSubjectPronoun?.(sentence)?i:-1)
       .filter(i=>i>=0);
     if(pronounSlots.length){
@@ -460,7 +465,7 @@ export class Engine {
         .every(([role, concept]) => eventWithin(candidate.interlingua)?.roles?.[role]?.concept === concept))
         .map(candidate => ({ ...candidate, score: (candidate.score || 0) +
           (settings.topics || []).reduce((sum, topic) => sum +
-            participantsOf(candidate.interlingua).filter(ref =>
+            participantsOf(candidate.interlingua).filter(ref => ref.concept).filter(ref =>
               this.ontology.relatedToTopic(ref.concept, topic)).length * 10, 0) }));
       if (!candidates.length) {
         throw new Error('No semantic reading matches the context constraints.');
@@ -649,7 +654,8 @@ export class Engine {
         'AMBIGUOUS_ANAPHORA' : /anaphora/i.test(error.message) ?
         'UNRESOLVED_ANAPHORA' : /coreference/i.test(error.message) ?
         'INVALID_COREFERENCE' : /Unsupported language/.test(error.message) ?
-        'UNSUPPORTED_LANGUAGE' : /Missing|No .*lexeme|No .*form|no complement|no .*construction|no .*quantifier|does not match|Cannot realize|Unsupported question construction|Unsupported modal|prohibition not available/.test(error.message) ?
+        'UNSUPPORTED_LANGUAGE' : /UNRESOLVED_DEIXIS/i.test(error.message) ?
+        'UNRESOLVED_DEIXIS' : /Missing|No .*lexeme|No .*form|no complement|no .*construction|no .*quantifier|does not match|Cannot realize|Unsupported question construction|Unsupported modal|prohibition not available/.test(error.message) ?
         'UNSUPPORTED_CONSTRUCTION' : 'INVALID_INPUT', message: error.message } };
     }
   }

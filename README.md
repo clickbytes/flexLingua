@@ -11,7 +11,7 @@ Static **meaning-first** language-engine prototype. Source text is parsed into a
 - **[Project roadmap](ROADMAP.md)** — Oxford 3000/5000 as *reference* vocabulary coverage, CEFR stages, quality gates and the later plan for a conversational engine with configurable personality.
 - **[Development and documentation workflow](docs/development-workflow.md)** — architecture rules, mandatory verification, version/release discipline and documentation updates in the same change.
 - **[Documentation index](docs/README.md)** — technical specifications, history, run instructions and in-progress work.
-- **[Batch B question translation](docs/questions-v1.19-pl-en.md)** — controlled PL/EN question parsing and generation implemented in source; **v1.19 release and offline synchronization remain in progress**.
+- **[Batch B question translation](docs/questions-v1.19-pl-en.md)** — controlled PL/EN question parsing and generation implemented in source; **v1.19 release remains in progress**.
 
 **Documentation policy:** every completed language feature needs tests, honest coverage/limitations, and synchronized docs. The future conversational personality and knowledge-research capabilities are not yet implemented. [Known documentation/repository discrepancies](docs/repository-audit.md) are explicitly tracked until resolved.
 
@@ -30,69 +30,48 @@ The engine agent works on CORE, language data, CLI tools, tests and documentatio
 - [Data provenance](docs/data-provenance.md) — package sources, license status and permitted use.
 - [Existing repository audit](docs/repository-audit.md) — outstanding historical discrepancies stay documented.
 
-**GUI/offline synchronization (2026-10-12):** the Studio update regenerates `index-standalone.html` from the current modular engine and the PL/EN question grammar, so the offline page includes question support and the current interface. Browser-style offline smoke tests were performed without network access; the full Node.js release test commands should still be run on a local checkout before formally marking the release verified.
-
-## Run locally, including Windows double-click
+## Run locally through loopback HTTP
 
 [Instrukcja uruchomienia na Windows po polsku](docs/uruchomienie-lokalne.md).
 
-**You can now double-click `index.html` in Windows Explorer.** If the page has the `file://` protocol, it redirects to the generated `index-standalone.html` (all modules and required JSON files embedded, no network requests or CORS problems). You may also open `index-standalone.html` directly. The self-contained file is generated from exactly the same JS and JSON sources as the regular version.
-
-For development with separate JS/JSON files use a local HTTP server:
+The UI requires a local HTTP server. Direct `file://` opening is unsupported because browsers block ES modules and JSON requests from local files.
 
 - **Windows:** double-click `start.bat` in the repository root. It starts a loopback-only server, then opens the browser. Node.js is preferred; if unavailable, Python is used. Close the console to stop the server.
 - **Any platform (Node 20+):** `npm run dev`, then open `http://127.0.0.1:8000/`.
 - **Any platform (Python):** `python -m http.server 8000 --bind 127.0.0.1`, then open `http://127.0.0.1:8000/`.
 
-The modular version still needs HTTP: browsers prevent ES module imports and `fetch()` of JSON from opaque `file://` origins. We do not recommend switching off browser security settings. The `file://` redirect is deliberately separate from the normal HTTP module loader.
-
-After changing JS, JSON or HTML source, regenerate the checked-in standalone artifact(s) and verify them:
+After changing source, run the project checks:
 
 ```sh
-npm run build:standalone
-npm run check:standalone
 npm test                  # Node 20+; no npm install necessary
 # browser contract suite: http://127.0.0.1:8000/tests/index.html
 ```
 
-The build scripts are dependency-free. GitHub Pages and other static HTTP hosts still use the native module + JSON version. In Windows Explorer, **run `git pull` and open `index.html`**; the checked-in `index-standalone.html` supports the offline main page. Historical references to a second `odmiana` page are tracked as a [repository/documentation gap](docs/repository-audit.md), since those files are not present in the current branch.
+GitHub Pages and other static HTTP hosts use the native module + JSON version. For Windows, run `git pull`, then start `start.bat`; close its console to stop the local server. Historical references to a second `odmiana` page are tracked as a [repository/documentation gap](docs/repository-audit.md), since those files are not present in the current branch.
 
 ## Batch A v1.15–v1.18 — Polish/English grammar and word inflection tables
 
 **Historical Batch A description (not verified in the current tree):** the intended second page, `odmiana.html` / `odmiana-standalone.html`, would show human-readable inflection tables for supported Polish lemmas. **Neither page is currently tracked on `main`; do not treat this feature as available.** See the [repository audit](docs/repository-audit.md).
 
-- `Czytam książkę.` → `I read a book.`; implicit 1st/2nd-person subjects are represented in CORE, and Polish output can use `{preferImplicitSubject:true}` to omit their surface pronouns.
-- `I worked.` does not determine the speaker's Polish grammatical gender: return explicit alternatives or supply `{speakerGender:'feminine'}` to obtain `Ja pracowałam.`
-- Third-person pronouns, stressed dative variants, grammatical possessives and reflexives now have CORE-linked analyses; polite `Pan pracuje.` → `You work.` and English `You work.` → `Pan pracuje.` when the caller supplies formal-address context.
-- Seven-case Polish noun/paradigm coverage and completed seven-case **regular adjective** paradigms include animacy and virile/nonvirile distinctions. These are not comprehensive descriptions of all real Polish words.
-- `Czytaj książkę!` → `Read a book!` uses an explicit semantic imperative; the word-level Polish morphology also supports selected **conditional** forms, e.g. `czytałabym`. Compound future remains restricted to specified EN/PL constructions.
-- Run `npm run build:standalone` and `npm run check:release` to validate available standalone artifacts and the supported regression suite.
+- Earlier notes for this batch mentioned subject omission, speaker-gender hints, formal address, possessives/reflexives, and broader case, imperative, conditional, and future coverage. These claims have not been revalidated against the current source tree and are not current capability statements.
+- Run `npm run check:release` to validate the supported regression suite.
 
 The previously referenced `docs/batch-a-v1.18.md` is **not currently present** in `main`. Historical descriptions above require revalidation against the checked-in implementation. This is a **controlled-language prototype**, not free-text translation or a universal Polish inflection dictionary.
 
-## v1.14 — explicit personal pronouns, grammatical person and controlled future
+## PERS-02 — explicit PL/EN subject pronouns
 
-- Polish `ja, ty, my, wy` and English `I, you, we` are **separate PRON lexemes** with obligatory CORE senses `person.speaker` and `person.addressee`; nominative, accusative, dative and genitive forms are data-driven, not stored as invented noun declensions.
-- `subject.person` is derived from the source referent; ordinary nouns are always 3rd person. The shared grammar uses conditional rules and morphology-supplied verb cells for Polish first/second present agreement, while English supports invariant non-third present.
-- New **future** event value and v1.14 semantic document version: `will + base` in English; `będę/będziesz/będzie… + infinitive` for Polish imperfectives and conjugated perfective future for `dać`. Negation and Polish object-case alternation use the existing declarative rules.
-- Ambiguous English **you** returns singular and plural semantic candidates rather than choosing a grammatical number silently. Polish past with first/second-person pronouns is **not generated** unless a future design supplies speaker gender/agreement hints; the current system fails explicitly instead of inventing gender.
-- The earlier 1.13 verb paradigm release was validated locally but **not pushed**. This version includes **both v1.13 and v1.14** on top of the last published v1.12.
+- Polish `ja, ty, my, wy` and English `I, you, we` map to a versioned CORE deictic referent (`speaker` or `addressee`) plus separate grammatical `person` and `number`. No speaker/addressee entities or gender are inferred.
+- Controlled present clauses round-trip through PL ↔ CORE ↔ EN. English `you` keeps singular and plural readings; Polish realization exposes both `Ty` and `Wy` as alternatives.
+- First/second-person pronouns stay separate from third-person `he/she/on/ona` anaphora. Cross-turn identity without an explicit session identity is refused as `UNRESOLVED_DEIXIS`.
+- The current scope does not include object pronouns or Polish first/second-person past-tense forms. See the [PERS-02 contract and examples](docs/pers02-deictic-pronouns.md).
 
 This is still controlled-language analysis and generation, not arbitrary Polish or English. There is no zero-subject Polish parsing, complex person-based complement agreement, or new productive language package beyond PL/EN. Turkish stays legacy-compatible.
 
 The previously referenced `docs/person-future-v1.14.md` is **not currently tracked**; verify historical claims against code and tests.
 
-## v1.13 — person-sensitive productive verb conjugation (PL/EN)
+## Morphology status and PERS follow-up
 
-This release extends the **morphology-only** coverage of Polish and English verbs without creating a pairwise sentence translator or putting inflected tables in new lexeme records. Shared JSON paradigms generate six present-tense person/number forms; Polish past forms additionally distinguish person, gender and plural agreement class. Selected imperative forms and the **simple future of perfective `dać`** are supported. English past is person-invariant; future phrases are **not** treated as one morphological form. Unavailable cells return no candidates rather than fabricated words.
-
-- New CORE-linked verb pairs: `czytać/read`, `pracować/work`, `próbować/try`.
-- Controlled sentence translations such as `The girl reads the book.` → `Dziewczynka czyta książkę.`
-- `data/morphology/{pl,en}.json` contains shared verb paradigms, stem choices, and irregular exceptions. New lexemes in `data/{pl,en}.json` store lemma and CORE senses, **not tables of conjugations**.
-- Inspector controls support verb mood, tense, person, number and Polish past agreement class. It remains a demonstration of the requested cells, not a parser of arbitrary 1st/2nd-person utterances.
-- The historical `check:gold-verbs` command is **not defined** in the current `package.json`; use the available scripts listed above. Earlier verb-coverage counts require revalidation.
-
-The previously referenced `docs/verbs-v1.13.md` is **not currently tracked**; verify historical claims against code and tests.
+The morphology engine generates and analyzes only the cells declared in its JSON paradigms. PERS-02 currently adds controlled present-tense first/second-person forms to the sentence lexicons and grammar; those forms are not a claim of a complete productive paradigm. Polish first/second-person past, broader English agreement/question support, and independent full-form gold belong to PERS-04, PERS-05, and PERS-06.
 
 ## v1.12 — curated PL/EN lexicon expansion and external gold tests
 
@@ -103,7 +82,6 @@ Polish coverage now includes the seven cases in both singular and plural **for t
 ```sh
 npm run check:gold        # checked reference forms + inverse + CORE mappings
 npm run check:release     # all earlier validations and Node regressions
-npm run build:standalone  # regenerate after edits
 ```
 
 Older adapters without morphology retain existing vocabulary and now skip the *new* lexemes lacking explicit form tables instead of failing at registration. To parse or realize the new lemmas, register PL/EN morphology. These expansions are hand-curated reference data, **not** a licensed third-party dictionary import. See [v1.12 data contract and examples](docs/lexicon-v1.12.md). Do not mistake 224 verified noun cells for complete Polish or English.
@@ -149,7 +127,6 @@ validated Interlingua JSON, not a new natural-language spelling scheme.
 ```sh
 npm run check:lexicon   # all active PL/EN entries must resolve to CORE
 npm test                # regression and lexical validation
-npm run check:standalone
 ```
 
 New JS methods: `engine.lookupLexemes({language,lemma})`,
@@ -163,7 +140,7 @@ See [lexical CORE v1.01 specification](docs/lexical-core-v1.01.md).
 - **v0.9:** bounded complement parsing, agreement for Polish matrix predicate past forms, programmatic capability reporting and `tryTranslate()` diagnostics; a three-language golden test suite.
 - **v1.0:** documented public MVP interface, three-language UI, refreshed offline build and regression tests.
 
-Run `npm test` and `npm run check:standalone` for verification. See [API](docs/api-v1.0.md), [grammar contract](docs/grammar-v1.0.md) and [release notes](docs/release-v1.0.md).
+Run `npm test` for verification. See [API](docs/api-v1.0.md), [grammar contract](docs/grammar-v1.0.md) and [release notes](docs/release-v1.0.md).
 
 **Boundary:** this is a controlled-language engine, not a general natural-language translator. The Turkish adapter does not yet handle quantifier phrases, relative clauses or complements. Generic inverse quantifier scope and context-dependent pragmatic interpretation remain future work. Warnings indicate assumptions (e.g. an unspecified definiteness or aspect); target grammar may express a different distinction than the source.
 
@@ -184,7 +161,7 @@ The girl saw the dog.    → Kız köpeği gördü.
 - **Coordination as a semantic operator:** `createCoordination([eventA,eventB])` represents a single conjunction distinct from the sequential multi-event discourse. Connective words are JSON-configured (`and` / `i`).
 - **Explicit wide negation:** `createNegation(createCoordination(...))` represents `not(A and B)`, separate from locally negating event A. Controlled text uses `It is not true that` / `Nie jest prawdą, że` to make wide scope visible.
 - **Topic hints in composed clauses:** nested semantic roles participate in explicit topic scoring, preserving candidate ambiguity (e.g. `bank` inside a relative clause).
-- **Offline/Windows compatibility maintained:** single generated standalone HTML, local `start.bat`, no runtime dependencies.
+- **Historical v0.6 note:** standalone HTML was once supported for `file://`; it was retired in October 2026. The current UI runs through the local server started by `start.bat`.
 - **Backward compatibility:** simple events and qualified referents keep earlier semantic document versions. Lexicon/grammar schema is now v0.6; the feature registry remains v0.3.
 
 Details: [semantics v0.6](docs/semantics-v0.6.md) and [grammar v0.6](docs/grammar-v0.6.md).
@@ -209,7 +186,7 @@ It is not true that the girl saw the dog and the boy saw the cat.
 - **Shared nominal interpreter:** `js/core/nominals.js` reads inflected adjective and numeral entries from JSON; neither language adapter contains a new inflection function.
 - **Case, gender, animacy and number agreement:** PL examples include `duża dziewczynka`, `duzi chłopcy`, `dwie książki`, `małego chłopca` and negated genitive `wszystkich małych książek`.
 - **Configurable NP slot orders:** EN distinguishes `all the dogs` from `the two dogs`, with a lexical article selection rule for `a big apple`; PL has a separate layout.
-- **Offline build preserved:** after `git pull`, `index.html` still redirects to a current `index-standalone.html` for `file://` use.
+- **Historical v0.5 note:** a generated `file://` build was supported then; standalone HTML was retired in October 2026. Current UI runs through a local HTTP server.
 - **Backward compatibility:** plain single events remain `0.2`, plain discourse remains `0.4`, and any graph containing qualified referents is `0.5`.
 
 See [semantics v0.5](docs/semantics-v0.5.md) and [grammar v0.5](docs/grammar-v0.5.md) for the specific schema and limitations.
@@ -261,9 +238,7 @@ index.html → js/main.js
 | `js/core/nominals.js` | Shared JSON-driven qualified NP parsing and realization |
 | `js/core/interlingua.js` | Single event, multi-event discourse, relative clauses and scoped semantic operators |
 | `js/languages/{en,pl}.js` | Lightweight adapters using the common interpreter |
-| `tests/` | Shared browser/Node grammar contract + Node semantic, UI, standalone and HTTP tests |
-| `index-standalone.html` | Generated offline distribution; opened automatically from `index.html` on `file://` |
-| `tools/build-standalone.mjs` | Dependency-free bundler of the current JS modules and JSON dictionaries |
+| `tests/` | Shared browser/Node grammar contract + Node semantic, UI and HTTP tests |
 | `tools/serve.mjs` / `start.bat` | Safe loopback HTTP development server and Windows launcher |
 
 ## Try it
@@ -344,9 +319,9 @@ Develop sentence complements and additional subordination types, richer typed se
 
 ## v1.19 / Task 3 — semantic questions in CORE (backend only)
 
-The engine now defines a separately validated **question** meaning: `yes_no` over a full proposition, or `wh` over an explicit missing semantic role (e.g. `agent`, `theme`). `engine.analyze({from:'core'})` and `engine.realize({to:'core'})` can round-trip this new INTER JSON document version (`1.19`). **Tasks 4–5 now implement controlled question parsing and realization in PL/EN**; see the linked language-specific contract. Broader question types and the standalone offline rebuild remain pending.
+The engine now defines a separately validated **question** meaning: `yes_no` over a full proposition, or `wh` over an explicit missing semantic role (e.g. `agent`, `theme`). `engine.analyze({from:'core'})` and `engine.realize({to:'core'})` can round-trip this new INTER JSON document version (`1.19`). **Tasks 4–5 implement controlled question parsing and realization in PL/EN**; see the linked language-specific contract. Broader question types remain pending. Standalone HTML is not part of the supported product.
 
-See [semantic contract](docs/questions-v1.19-semantic.md), [PL/EN question support](docs/questions-v1.19-pl-en.md) and [Batch B criteria](docs/batch-b-v1.19.md). Run `npm run check:questions` for dedicated tests. **No GUI files were touched**; the separate GUI agent must synchronize and check standalone HTML before an offline release.
+See [semantic contract](docs/questions-v1.19-semantic.md), [PL/EN question support](docs/questions-v1.19-pl-en.md) and [Batch B criteria](docs/batch-b-v1.19.md). Run `npm run check:questions` for dedicated tests. GUI source remains a separate ownership area; local app runs over loopback HTTP.
 
 ## Batch B v1.19 — question semantics (in progress)
 
@@ -356,19 +331,19 @@ Implementation, gold tests and release criteria are tracked in [PL/EN question d
 
 ## Stage 1: Batch C–F / INTER 1.20 (draft PR)
 
-Batch C/D with early E/F were merged to `main` in [PR #1](https://github.com/ppotepa/flexLingua/pull/1), commit `2933cfa`. The engine supports scoped ability/obligation, bounded modal coordination, explicit opt-in discourse identity links and initial multiword predicates. Batch E and F are still incomplete, and the offline standalone GUI is not yet synchronized. See [Stage 1 technical contract](docs/stage1-batches-c-f-v1.20.md). A 15-example isolated JS smoke check succeeded; full Node/npm release checks remain unverified because the GitHub Actions workflow reported `startup_failure`. The existing v1.19 question API and historical INTER event versions are retained.
+Batch C/D with early E/F were merged to `main` in [PR #1](https://github.com/ppotepa/flexLingua/pull/1), commit `2933cfa`. The engine supports scoped ability/obligation, bounded modal coordination, explicit opt-in discourse identity links and initial multiword predicates. Batch E and F were still incomplete in that historical checkpoint. See [Stage 1 technical contract](docs/stage1-batches-c-f-v1.20.md). The 15-example isolated JS smoke check and Actions `startup_failure` describe that old run; later full release runs succeeded. Standalone HTML has since been retired.
 
 ### Small-batch F2: governed-preposition WH (source code)
 
-The new controlled F2 grammar supports `What does the girl look at?` ↔ `Na co patrzy dziewczynka?`, including selected past, negated, and `can` questions, while retaining the semantic `targetRole: theme` gap. Governed prepositions are explicit frame metadata rather than sentence pair templates. See `tests/prepositional-wh-v1.21.test.js` and `HANDOFF.md`. The GUI/offline bundle is still owned separately.
+The controlled F2 grammar supports `What does the girl look at?` ↔ `Na co patrzy dziewczynka?`, including selected past, negated, and `can` questions, while retaining the semantic `targetRole: theme` gap. Governed prepositions are explicit frame metadata rather than sentence pair templates. See `tests/prepositional-wh-v1.21.test.js`.
 
 ### Microbatch E1 — explicit discourse coreference validation
 
-Core source now filters polysemous sentence interpretations against opt-in `context.coreference` constraints **before** selecting the bounded candidate beam. Incorrect role links return `INVALID_COREFERENCE` with source/target identifiers rather than discarding an entire valid analysis. This does not infer pronouns or identities and is not part of the standalone UI until the GUI owner integrates it. See [E1 contract](docs/context-coreference-e1.md).
+Core source filters polysemous sentence interpretations against opt-in `context.coreference` constraints **before** selecting the bounded candidate beam. Incorrect role links return `INVALID_COREFERENCE` with source/target identifiers rather than discarding an entire valid analysis. The UI does not currently expose this option. See [E1 contract](docs/context-coreference-e1.md).
 
 ### E2a — bounded anaphoric subject pronouns (source only)
 
-Controlled two-sentence PL/EN analysis accepts a second-sentence subject pronoun `he/she` or `on/ona` only when **exactly one** semantically compatible `person.boy` or `person.girl` referent occurs in the first event. The CORE discourse shares the exact entity ID, and unsupported or ambiguous references fail explicitly with `UNRESOLVED_ANAPHORA` or `AMBIGUOUS_ANAPHORA`. Target text currently **repeats the noun phrase**, with a warning; generating a target pronoun belongs to E2b. No extra GUI functionality or standalone synchronization is claimed. [Contract and limitations](docs/anaphora-e2a.md).
+Controlled two-sentence PL/EN analysis accepts a second-sentence subject pronoun `he/she` or `on/ona` only when **exactly one** semantically compatible `person.boy` or `person.girl` referent occurs in the first event. The CORE discourse shares the exact entity ID, and unsupported or ambiguous references fail explicitly with `UNRESOLVED_ANAPHORA` or `AMBIGUOUS_ANAPHORA`. Target text currently **repeats the noun phrase**, with a warning; generating a target pronoun belongs to E2b. The UI does not currently expose this path. [Contract and limitations](docs/anaphora-e2a.md).
 
 ### E2b — safe target-language pronouns (opt-in)
 
@@ -376,7 +351,7 @@ The engine accepts `pronounRealization: 'safe'` for `translate()` and `realize()
 
 ### E3 — controlled 3–8-sentence anaphora
 
-The engine now tracks explicitly or pronoun-linked identities across up to eight independent event sentences in one call. An earlier entity is reused only when the subject pronoun is unambiguous across prior *distinct* entities; repeated references to one already-linked entity remain one candidate. `AMBIGUOUS_ANAPHORA` and `UNRESOLVED_ANAPHORA` remain explicit. Optional `pronounRealization:'safe'` also supports later sentences; default noun repetition and legacy CORE remain compatible. [E3 technical contract](docs/anaphora-e3.md). GUI/standalone integration remains separate.
+The engine now tracks explicitly or pronoun-linked identities across up to eight independent event sentences in one call. An earlier entity is reused only when the subject pronoun is unambiguous across prior *distinct* entities; repeated references to one already-linked entity remain one candidate. `AMBIGUOUS_ANAPHORA` and `UNRESOLVED_ANAPHORA` remain explicit. Optional `pronounRealization:'safe'` also supports later sentences; default noun repetition and legacy CORE remain compatible. [E3 technical contract](docs/anaphora-e3.md). GUI integration remains separate.
 
 ### E4 — explicit in-memory ConversationContext (CPU/offline)
 
@@ -384,12 +359,12 @@ The engine offers `new ConversationContext(engine,{maxEvents:8})` from `js/core/
 
 ### F3 — more compositional multiword predicate meanings
 
-Three new separate INTER meanings and PL/EN lexical realizations: `look for/szukać` (`event.search`), `listen to/słuchać` (`event.auditory_attention`) and `wait for/czekać na` (`event.wait_for_entity`). Polish genitive vs preposition-governed accusative remain language-local grammar rules; controlled WH questions, negation and selected ability modal questions use existing compositional adapters rather than sentence-pair templates. Productive bindings for these five verb pairs (plus earlier `look at` / `pick up`) are now present in the morphology packages; [F3b morphology gold](docs/multiword-morphology-f3.md) covers 55 curated forms and inverse checks. Offline GUI synchronization remains the separate GUI agent's responsibility. [F3 technical contract](docs/multiword-f3.md).
+Three new separate INTER meanings and PL/EN lexical realizations: `look for/szukać` (`event.search`), `listen to/słuchać` (`event.auditory_attention`) and `wait for/czekać na` (`event.wait_for_entity`). Polish genitive vs preposition-governed accusative remain language-local grammar rules; controlled WH questions, negation and selected ability modal questions use existing compositional adapters rather than sentence-pair templates. Productive bindings for these five verb pairs (plus earlier `look at` / `pick up`) are now present in the morphology packages; [F3b morphology gold](docs/multiword-morphology-f3.md) covers 55 curated forms and inverse checks. Standalone GUI synchronization has been retired; the UI runs through local HTTP. [F3 technical contract](docs/multiword-f3.md).
 
 
 ### G1a — CI workflow and coverage inventory audit
 
-The versioned GitHub Actions workflow now targets `main`, `core/**`, PRs to main and manual dispatch, separating Node tests, lexicon/morphology/gold/A1, offline parity and the release gate. The A1 structural inventory now counts PL/EN modal operator lexemes and validates CORE operator/function references. **This is not a completed release gate:** GitHub Actions still returns `startup_failure` with zero jobs ([tracked in issue #9](https://github.com/ppotepa/flexLingua/issues/9)); full `npm test`/`check:release` and standalone parity remain unverified. See [G1 audit](docs/g1-ci-audit.md).
+The historical G1a GitHub Actions workflow targeted `main`, `core/**`, PRs and manual dispatch, separating Node tests, lexical audits, standalone parity and the release gate. The A1 structural inventory also counted PL/EN modal lexemes and checked CORE references. Its `startup_failure` was later fixed; hosted full release runs passed. Standalone parity has since been retired. See [G1 audit](docs/g1-ci-audit.md).
 
 ### F3b — productive inflection of multiword verbs (source checkpoint)
 
@@ -397,7 +372,7 @@ The PL/EN morphology engine now supports `appendStem` to attach a particle **aft
 
 ## G3: raport A1 pilot (bez deklaracji poziomu CEFR)
 
-Uruchom `npm run report:a1`, aby otrzymać JSON zawierający inwentarz leksyki oraz wyniki 32 kontrolowanych tłumaczeń w obu kierunkach i 8 negatywnych kontroli. `npm run check:a1-gold` to gate o statusie 0/1; nie jest miarą pełnego A1. Ograniczenia i pola: [docs/g3-a1-report.md](docs/g3-a1-report.md). GitHub Actions pozostaje zablokowane przed startem jobs (issue #9), a GUI/standalone utrzymuje inny agent.
+Uruchom `npm run report:a1`, aby otrzymać JSON zawierający inwentarz leksyki oraz wyniki 32 kontrolowanych tłumaczeń w obu kierunkach i 8 negatywnych kontroli. `npm run check:a1-gold` to gate o statusie 0/1; nie jest miarą pełnego A1. Ograniczenia i pola: [docs/g3-a1-report.md](docs/g3-a1-report.md). Dawna blokada Actions z issue #9 została rozwiązana; GUI pozostaje osobnym obszarem własności.
 
 ## Audyt luk A1 (Batch 2)
 

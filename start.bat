@@ -2,9 +2,6 @@
 setlocal
 cd /d "%~dp0"
 echo flexLingua - lokalny tryb uruchamiania
-if exist "index-standalone.html" (
-  echo Plik bez serwera: index-standalone.html
-)
 where node >nul 2>nul
 if not errorlevel 1 (
   echo Start serwera Node.js. Nacisnij Ctrl+C, aby zakonczyc.
@@ -24,7 +21,7 @@ if not errorlevel 1 (
   goto :end
 )
 echo.
-echo Brak Node.js i Python. Uruchamiam wersje offline bez serwera.
-start "" "%~dp0index-standalone.html"
+echo Brak Node.js i Python. Zainstaluj jedno z tych narzedzi, aby uruchomic serwer lokalny.
+pause
 :end
 endlocal

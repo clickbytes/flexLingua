@@ -2,7 +2,7 @@
 
 ## Stan walidacji w aktywnym repo
 
-Bazowy `clickbytes/main` SHA `f3f1a62af1777d7cca4afc52fe3a0b13ad1fed25` jest **GREEN** w [GitHub Actions #38620219789](https://github.com/clickbytes/flexLingua/actions/runs/38620219789): **405/405** Node, lexical-audits, offline-parity i release-gate — wszystkie jobs `success`. Historyczne 398/401 były sprzed naprawy GUI/Windows. GUI #1 pozostaje formalnie otwarte, choć jego kryteria testowe przechodzą po [PR #84](https://github.com/clickbytes/flexLingua/pull/84); trzeba zapisać formalny odbiór. Każdy nowy commit wymaga osobnego runu CI.
+Bazowy `clickbytes/main` SHA `b7ea1ef2850971bdd342b3ef76cc8f8843ecbd18` jest **GREEN** w [GitHub Actions #38625444693](https://github.com/clickbytes/flexLingua/actions/runs/38625444693). Standalone HTML zostaje wycofany; testy Studio przechodzą na aktualnym main. Każdy nowy commit wymaga osobnego Actions runu.
 
 
 **To plan zależności, nie harmonogram kalendarzowy.** Nie twierdzi, że taski zostały wykonane. `clickbytes/flexLingua` pozostaje jedynym repo do zapisu.
@@ -14,11 +14,11 @@ Bazowy `clickbytes/main` SHA `f3f1a62af1777d7cca4afc52fe3a0b13ad1fed25` jest **G
 
 ## Ścieżka krytyczna P0 — jakość i pierwsza osoba
 
-1. [REL-01 #18](https://github.com/clickbytes/flexLingua/issues/18) → [GUI-01 #1](https://github.com/clickbytes/flexLingua/issues/1) (naprawione w PR #84; formalny odbiór do zapisania) → [REL-02 #19](https://github.com/clickbytes/flexLingua/issues/19) → [REL-03 #20](https://github.com/clickbytes/flexLingua/issues/20). GUI #1 dotyczy standalone i dwóch regresji Studio, nie zmian CORE.
+1. [REL-01 #18](https://github.com/clickbytes/flexLingua/issues/18) → [REL-02 #19](https://github.com/clickbytes/flexLingua/issues/19) → [REL-03 #20](https://github.com/clickbytes/flexLingua/issues/20). GUI-01 #1 zostaje zamknięte jako nieaktualne po wycofaniu standalone i potwierdzeniu testów Studio.
 2. [REL-01 #18](https://github.com/clickbytes/flexLingua/issues/18) → [REL-04 #21](https://github.com/clickbytes/flexLingua/issues/21) — walidacja bezpieczeństwa, limitów i testów zasobów.
 3. [VAL-05 #26](https://github.com/clickbytes/flexLingua/issues/26) → [VAL-01 #22](https://github.com/clickbytes/flexLingua/issues/22) — zamrożony zakres A1, legalność źródeł.
 4. [VAL-01 #22](https://github.com/clickbytes/flexLingua/issues/22) → [PERS-01 #27](https://github.com/clickbytes/flexLingua/issues/27): ADR dla speaker/addressee i form 1./2. osoby.
-5. [PERS-01 #27](https://github.com/clickbytes/flexLingua/issues/27) → [PERS-02 #28](https://github.com/clickbytes/flexLingua/issues/28) → [PERS-03 #29](https://github.com/clickbytes/flexLingua/issues/29): jawne zaimki oraz zgodność osoby/liczby.
+5. [PERS-01 #27](https://github.com/clickbytes/flexLingua/issues/27) → [PERS-02 #28](https://github.com/clickbytes/flexLingua/issues/28) (**w bieżącej realizacji**) → [PERS-03 #29](https://github.com/clickbytes/flexLingua/issues/29): jawne zaimki oraz zgodność osoby/liczby.
 6. [PERS-03 #29](https://github.com/clickbytes/flexLingua/issues/29) → [PERS-04 #30](https://github.com/clickbytes/flexLingua/issues/30) + [PERS-05 #31](https://github.com/clickbytes/flexLingua/issues/31) → [PERS-06 #32](https://github.com/clickbytes/flexLingua/issues/32): odmiana i niezależny gold.
 7. [PERS-01 #27](https://github.com/clickbytes/flexLingua/issues/27) → [STATE-01 #33](https://github.com/clickbytes/flexLingua/issues/33) → [STATE-02 #34](https://github.com/clickbytes/flexLingua/issues/34) + [STATE-03 #35](https://github.com/clickbytes/flexLingua/issues/35) → [STATE-04 #36](https://github.com/clickbytes/flexLingua/issues/36): być/mieć/tożsamość/posiadanie.
 8. [PERS-06 #32](https://github.com/clickbytes/flexLingua/issues/32) + [STATE-04 #36](https://github.com/clickbytes/flexLingua/issues/36) + [VAL-01 #22](https://github.com/clickbytes/flexLingua/issues/22) → [VAL-02 #23](https://github.com/clickbytes/flexLingua/issues/23) → [VAL-03 #24](https://github.com/clickbytes/flexLingua/issues/24): oddzielny held-out, raport jakości.
@@ -44,5 +44,5 @@ Bazowy `clickbytes/main` SHA `f3f1a62af1777d7cca4afc52fe3a0b13ad1fed25` jest **G
 2. Mały branch, najpierw niezależny gold (PL→CORE→EN oraz EN→CORE→PL) i negatywne przykłady, potem kod.
 3. Nie mylić morfologii językowej z neutralnym CORE; nie zgadywać płci, aspektu, źródeł ani certyfikacji CEFR.
 4. Uruchomić komponentowe Node tests i full `npm test`; dokumentować rzeczywiste wyniki Actions wraz z SHA.
-5. Aktualizować docs/README/ROADMAP i `HANDOFF.md` w tym samym PR; nie zmieniać GUI przez agenta CORE.
+5. Aktualizować docs/README/ROADMAP, gdy zmiana tego wymaga; status, SHA i Actions zapisywać w powiązanym issue/PR. CORE nie zmienia źródeł GUI.
 6. Bieżący `check:release` przechodzi na main; zachować wszystkie bramki i aktualizować status na podstawie runu dla konkretnego SHA.

@@ -51,4 +51,4 @@ Każdy identyfikator zakresu `construction.event.*` wskazuje przez `coreRef` na 
 
 ## Pochodzenie i ograniczenia
 
-Macierz jest autorskim artefaktem projektu, a jej pochodzenie i status licencji są zapisane w [`data/provenance.json`](../data/provenance.json). Oznaczenie `project-authored` nie stanowi osobnej deklaracji licencji SPDX. Zmiana zakresu wymaga aktualizacji macierzy, tego opisu, [raportu pokrycia](coverage-a1.md), [roadmapy](../ROADMAP.md), zasad DoR/DoD i `HANDOFF.md` w tym samym PR.
+Macierz jest autorskim artefaktem projektu, a jej pochodzenie i status licencji są zapisane w [`data/provenance.json`](../data/provenance.json). Oznaczenie `project-authored` nie stanowi osobnej deklaracji licencji SPDX. Zmiana zakresu wymaga aktualizacji macierzy, tego opisu, [raportu pokrycia](coverage-a1.md), [roadmapy](../ROADMAP.md) i zasad DoR/DoD w tym samym PR.

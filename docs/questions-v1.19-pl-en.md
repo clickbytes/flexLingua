@@ -103,6 +103,6 @@ npm run check:release
 - `tests/question-semantics.test.js`: kontrakt CORE i nowe możliwości realizacji pytań.
 - Przed publikacją kod i konfigurację wykonano w izolowanym środowisku JS z aktualnymi źródłami repozytorium: **16 przykładów podstawowych, 10 dodatkowych pozytywnych, 11 negatywnych oraz 8 z pełną morfologią** zwróciło oczekiwane wyniki. To **nie jest** wynik pełnego uruchomienia Node `npm test`.
 
-**Ważne dla GUI/offline:** nie zmieniamy `index.html`, `index-standalone.html` ani modułów GUI. Właściciel GUI musi zsynchronizować standalone z nowym silnikiem i wykonać jego testy przed pełnym wydaniem offline. Dlatego całe v1.19 pozostaje etapem w toku.
+**Aktualizacja procesu:** dawny `index-standalone.html` i synchronizacja osobnego artefaktu zostały wycofane. UI działa przez lokalny HTTP. Zakres v1.19 oceniają testy silnika i bieżący release gate, bez testu standalone.
 
 Powiązane: [semantyczny kontrakt pytań](questions-v1.19-semantic.md) · [kryteria Batch B](batch-b-v1.19.md) · [ROADMAP](../ROADMAP.md).

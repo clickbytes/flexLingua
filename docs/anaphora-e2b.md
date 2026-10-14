@@ -46,7 +46,7 @@ Dopiero wtedy `js/core/grammar.js` podmienia **pojedynczy slot `agent` w generow
 
 ## Testy i status wdrożenia
 
-W izolowanym środowisku JavaScript wykonano **16/16** testów: `tests/anaphora-e2b.test.js`, `tests/anaphora-e2a.test.js` oraz `tests/context-coreference-v1.20.test.js`. Sprawdzono także równoważność INTER przy zmianie `pronounRealization`. **Nie wykonano pełnego `npm test` ani `npm run check:release`** — w kontenerze nie ma dostępu DNS do GitHub, a starsze Actions miały `startup_failure`. Wersja `index-standalone.html` pozostaje zadaniem osobnego agenta GUI.
+W izolowanym środowisku JavaScript wykonano **16/16** testów: `tests/anaphora-e2b.test.js`, `tests/anaphora-e2a.test.js` oraz `tests/context-coreference-v1.20.test.js`. Sprawdzono także równoważność INTER przy zmianie `pronounRealization`. W chwili sporządzenia raportu pełny `npm test` i `npm run check:release` nie były dostępne; późniejsze pełne testy i hosted release runy przeszły. `index-standalone.html` został wycofany.
 
 ## Addendum E3 (2026-10-14)
 

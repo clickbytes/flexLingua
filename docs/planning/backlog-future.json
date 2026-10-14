@@ -542,34 +542,33 @@
     },
     {
       "id": "GUI",
-      "title": "GUI i offline: Studio, słownik, dialog i stabilność dostępności",
+      "title": "GUI: Studio, słownik, dialog i stabilność dostępności",
       "priority": "P0",
       "owner": "GUI agent (osobny)",
-      "goal": "Domknąć GUI i offline parity bez ingerencji agenta CORE w interfejs i generowane artefakty.",
+      "goal": "Rozwijać Studio, słownik, dialog i dostępność; interfejs uruchamia się przez lokalny HTTP.",
       "done": [
         "Stan i artefakty GUI są zgodne z aktualnym CORE i produkcyjną morfologią.",
-        "Wszystkie testy UI/standalone przechodzą Node i testy na rzeczywistym widoku.",
+        "Wszystkie testy UI przechodzą w Node i na rzeczywistym widoku przez lokalny HTTP.",
         "Nowe widoki zdolności A1/dialog nie zmieniają samodzielnie semantyki CORE."
       ],
       "tasks": [
         {
           "id": "GUI-01",
-          "title": "Obecny blocker: offline standalone + dwie regresje Studio",
-          "goal": "**Istniejące issue #1**; nie tworzyć duplikatu. Naprawić stale standalone i dwa testy UI wykryte przez hosted CI.",
+          "title": "Wycofać standalone i zamknąć historyczny blocker GUI-01",
+          "goal": "Usunąć nieutrzymywany wariant standalone; potwierdzić, że dawne regresje Studio są naprawione na aktualnym main.",
           "files": [
-            "index-standalone.html",
             "js/ui/studio.js",
             "tests/studio-ui.test.js",
-            "tests/offline.test.js"
+            "index.html",
+            "package.json",
+            ".github/workflows/core-engine.yml"
           ],
           "checks": [
-            "`npm run check:standalone` przechodzi bez modyfikowania artefaktu.",
-            "Dwie historyczne regresje Studio z issue #1 są zielone (wybór paradygmatu i brakująca komórka).",
-            "Aktywny main ma pełny release gate green; zmiana jest w osobnym PR GUI."
+            "Generator, plik standalone i test parytetu nie są częścią produktu ani release gate.",
+            "Dwie historyczne regresje Studio (wybór paradygmatu i brakująca komórka) przechodzą w Actions #38625444693.",
+            "Issue #1 zamknięto jako nieaktualne; interfejs wymaga lokalnego HTTP."
           ],
-          "deps": [
-            "REL-01"
-          ]
+          "deps": []
         },
         {
           "id": "GUI-02",
@@ -584,10 +583,9 @@
           "checks": [
             "Rzeczywisty słownik nie jest mylony z hipotetycznym generatorem, checkbox działa deterministycznie.",
             "Odmiana pierwszej/drugiej osoby i warianty mają poprawne etykiety cech i brakujących form.",
-            "Testy klawiatury, odczytu z/offline oraz formularza pochodzą z aktualnego engine API."
+            "Testy klawiatury, odczytu statusu i formularza pochodzą z aktualnego engine API."
           ],
           "deps": [
-            "GUI-01",
             "PERS-04"
           ]
         },
@@ -607,28 +605,25 @@
             "Zmiana widoku nie zmienia output CORE JSON, a test pokrywa co najmniej trzy typy dokumentów."
           ],
           "deps": [
-            "GUI-01",
             "VAL-03"
           ]
         },
         {
           "id": "GUI-04",
-          "title": "Ekran rozmowy i osobowości z dostępnością/offline",
+          "title": "Ekran rozmowy i osobowości z dostępnością",
           "goal": "Po ukończeniu Conversation Engine dołączyć widok tur i konfigurację profilu.",
           "files": [
             "js/ui/studio.js",
             "index.html",
-            "index-standalone.html",
             "tests/studio-ui.test.js",
             "[NEW] tests/dialogue-ui.test.js"
           ],
           "checks": [
-            "Przeglądarka wyświetla historię tur i rozróżnia speaker/addressee, odmowy, reset i tryb bez sieci.",
+            "Przeglądarka wyświetla historię tur i rozróżnia speaker/addressee, odmowy oraz reset.",
             "Profil osobowości można zmienić tylko w zakresie opcji udostępnionych API.",
-            "Testy dostępności: klawiatura/fokus/ARIA, PL/EN i zgodność wygenerowanego standalone."
+            "Testy dostępności: klawiatura/fokus/ARIA oraz PL/EN."
           ],
           "deps": [
-            "GUI-01",
             "DIAL-04",
             "MEM-01"
           ]

@@ -53,21 +53,9 @@ jobs:
       - run: npm run check:coverage
       - run: npm run check:data-provenance
 
-  offline-parity:
-    name: Generated offline parity (GUI owner)
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-      - name: Verify checked-in standalone without changing it
-        run: npm run check:standalone
-
   release-gate:
     name: Aggregate release gate
-    needs: [engine-tests, lexical-audits, offline-parity]
+    needs: [engine-tests, lexical-audits]
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:

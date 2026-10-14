@@ -18,7 +18,7 @@ Cel `event.movement` nadal nie ma polskiej realizacji, `person.father` pozostaje
 
 ## Status wydania
 
-Wszystkie zmiany wymagają rzeczywistej walidacji Node i offline w pełnym checkoutcie. GitHub-hosted CI pozostaje zablokowane issue #9; standalone jest własnością agenta GUI issue #16. Nie synchronizowano HTML ani `index-standalone.html`.
+W chwili sporządzenia raportu wszystkie zmiany wymagały rzeczywistej walidacji Node i CI; późniejsze pełne testy i hosted release runy przeszły. Standalone i powiązany podział własności zostały wycofane.
 
 ## Udokumentowana niejednoznaczność angielskiego read
 

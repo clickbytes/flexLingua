@@ -133,7 +133,8 @@ export class ConversationContext {
   tryTranslate(request) {
     try {return {ok:true,value:this.translate(request)};}
     catch(error){
-      const code=/Ambiguous anaphora/.test(error.message)?'AMBIGUOUS_ANAPHORA':
+    const code=/UNRESOLVED_DEIXIS/i.test(error.message)?'UNRESOLVED_DEIXIS':
+      /Ambiguous anaphora/.test(error.message)?'AMBIGUOUS_ANAPHORA':
         /Unresolved anaphora/.test(error.message)?'UNRESOLVED_ANAPHORA':
         /Ambiguous conversation meaning/.test(error.message)?'AMBIGUOUS_CONVERSATION_READING':
         /Conversation context limit/.test(error.message)?'CONTEXT_LIMIT':

@@ -1,6 +1,6 @@
 # F0 / Batch 1 — lokalna walidacja bramek CORE
 
-**Data:** 2026-10-14. GitHub Actions nadal zgłasza `startup_failure` przed utworzeniem jobów (issue #9). Nie da się naprawić polityk/billing GitHub zmianą kodu JavaScript i brak podstaw, by wskazać przyczynę.
+**Archiwalny raport:** opisuje wcześniejszy problem `startup_failure` i lokalny runner. Actions później uruchomił pełny release gate. Aktualny zakres bramek wynika z `package.json` i `.github/workflows/core-engine.yml`; standalone nie jest wspierany.
 
 ## Implementacja
 
@@ -12,7 +12,7 @@
 5. `node --test tests/coverage-a1.test.js`
 6. **pełny** `node --test tests/*.test.js` (pliki odkrywane dynamicznie)
 
-Odczytuje wyniki wszystkich bramek nawet przy wcześniejszym błędzie i emituje JSON zawierający exit code, błędy, ograniczony log i czas. Zwraca kod wyjścia 1, jeżeli jakikolwiek check nie przejdzie. Nie używa `npm install`, sieci, LLM ani usług zewnętrznych. Przy `--include-standalone` (lub `npm run check:core-local-standalone`) dodaje na końcu tylko **sprawdzenie** parytetu `tools/build-standalone.mjs --check` bez przebudowy artefaktu GUI. Wersja pakietu 1.12.0 bez zmian.
+Runner zbiera wyniki bramek i emituje JSON zawierający exit code, błędy, ograniczony log i czas. Zwraca kod wyjścia 1, jeżeli jakikolwiek check nie przejdzie. Nie używa `npm install`, sieci, LLM ani usług zewnętrznych. Historyczny wariant `--include-standalone` został usunięty; bieżącą listę testów określa konfiguracja projektu.
 
 ## Rzetelność walidacji
 
@@ -20,4 +20,4 @@ Dodano testy planu, odmów, błędów i propagacji awarii `tests/core-gates-f0.t
 
 ## Dalsze czynności
 
-Właściciel powinien sprawdzić Actions General, limity billing i szczegóły [issue #9](https://github.com/ppotepa/flexLingua/issues/9); nie zamykać sprawy do czasu wykonania rzeczywistych jobów. Artefakt offline pozostaje zadaniem agenta GUI, [issue #16](https://github.com/ppotepa/flexLingua/issues/16).
+W chwili sporządzenia raportu Actions nie uruchamiało jobów. Ten blocker został później rozwiązany i nie jest bieżącym zadaniem. Artefakt offline oraz jego osobne issue GUI zostały wycofane.

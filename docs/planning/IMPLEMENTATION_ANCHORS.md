@@ -30,7 +30,7 @@ Wymienione ścieżki i symbole zostały sprawdzone w istniejących plikach. Nazw
 - `tools/a1-evidence-ledger-lib.mjs`, `tools/a1-evidence-ledger.mjs`: 6 źródeł gold; `--catalog-only` = `not-run`. Nie podawać procentu CEFR bez reprezentatywnego mianownika.
 - `tests/features.test.js`, `tests/morphology.test.js`, `tests/conversation-e4.test.js`, `tests/a1-crossbatch-composition.test.js`, `tests/a1-evidence-ledger.test.js`: baza regresji i nowe fixture dla Batch 8+.
 - `package.json`: `npm test`, `check:release`, `report:a1-evidence`, `check:a1-evidence`.
-- `.github/workflows/core-engine.yml`: jobs `engine-tests`, `lexical-audits`, `offline-parity`, `release-gate`.
-- GUI, tylko osobny agent: `js/ui/studio.js`, `index.html`, `index-standalone.html`, `tests/studio-ui.test.js`, `tests/offline.test.js`.
+- `.github/workflows/core-engine.yml`: jobs `engine-tests`, `lexical-audits`, `release-gate`.
+- GUI, tylko osobny agent: `js/ui/studio.js`, `index.html`, `tests/studio-ui.test.js`.
 
 Raport bazowy [Actions #38610233253](https://github.com/clickbytes/flexLingua/actions/runs/38610233253): Node 398/401, trzy błędy GUI, lexical-audits success; pełne wydanie nie jest zielone.

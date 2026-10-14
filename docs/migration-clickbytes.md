@@ -2,9 +2,15 @@
 
 **Aktywne repozytorium:** https://github.com/clickbytes/flexLingua
 
-Właściciel zdecydował, że od 14 października 2026 wszystkie nowe commity, branche, PR-y, issues, wyniki CI i checkpointy `HANDOFF.md` dotyczą tylko `clickbytes/flexLingua`. Stare `ppotepa/flexLingua` jest archiwalnym źródłem historycznej migawki; **nie wykonywać tam nowych zapisów**. Dotychczasowych historycznych odnośników do PR-ów `ppotepa` nie trzeba przepisywać, ponieważ wskazują istniejące prace.
+Właściciel wskazał `clickbytes/flexLingua` jako jedyne aktywne repozytorium dla commitów, branchy, PR-ów, issues i CI. Osobny checkpoint `HANDOFF.md` nie jest wymagany; aktualny status zapisujemy w issue i PR. Stare `ppotepa/flexLingua` jest archiwalnym źródłem historycznej migawki; nie wykonujemy tam nowych zapisów. Dotychczasowych historycznych odnośników do PR-ów `ppotepa` nie trzeba przepisywać.
 
-## Bieżąca baza CI i przypisanie regresji — 2026-10-14
+## Aktualizacja procesu — 2026-10-14
+
+Bieżąca baza `main` to SHA `b7ea1ef2850971bdd342b3ef76cc8f8843ecbd18`; [Actions #38625444693](https://github.com/clickbytes/flexLingua/actions/runs/38625444693) przeszedł 417/417 testów, w tym historyczny job standalone. W tej gałęzi standalone HTML, generator, test parytetu i job CI są wycofywane; UI działa przez loopback HTTP. Lokalny `npm run check:release` przeszedł 413/413 testów Node oraz 4/4 testy pokrycia. Hosted Actions dla tej zmiany jest wymagane przed merge.
+
+Poniższe zapisy opisują wcześniejszą diagnostykę. Podział na osobnego agenta GUI i dawne zadania synchronizacji offline nie obowiązują.
+
+## Historyczna baza CI i przypisanie regresji — 2026-10-14
 
 Aktualny `main` to `f3f1a62af1777d7cca4afc52fe3a0b13ad1fed25`. [Hosted run #38620219789](https://github.com/clickbytes/flexLingua/actions/runs/38620219789) zakończył wszystkie cztery jobs sukcesem; `npm test` zgłosił **405/405**.
 
@@ -12,17 +18,17 @@ Historyczny [run #38610233253](https://github.com/clickbytes/flexLingua/actions/
 
 | Nieudany check / test | Komponent i właściciel | Powiązane issue | Wynik na bieżącym main |
 | --- | --- | --- | --- |
-| `check:standalone` i test Node #294: offline HTML nie odpowiadał źródłom | Generator / artefakt offline; strumień GUI | [GUI-01 #1](https://github.com/clickbytes/flexLingua/issues/1) | Naprawione w [PR #84](https://github.com/clickbytes/flexLingua/pull/84); bieżące `offline-parity` przechodzi |
+| `check:standalone` i test Node #294: offline HTML nie odpowiadał źródłom | Dawny generator / artefakt offline | [GUI-01 #1](https://github.com/clickbytes/flexLingua/issues/1) | Historyczna regresja została naprawiona w PR #84; kontrolę parytetu wycofano |
 | Test #369: checkbox podglądu hipotetycznych form oczekiwał 6 opcji, engine zwracał 7 | Studio UI; strumień GUI | [GUI-01 #1](https://github.com/clickbytes/flexLingua/issues/1) | Naprawione w PR #84; bieżące `npm test` przechodzi |
 | Test #371: brakowało szczegółów niezgodności lematu i komórek odmiany | Studio UI; strumień GUI | [GUI-01 #1](https://github.com/clickbytes/flexLingua/issues/1) | Naprawione w PR #84; bieżące `npm test` przechodzi |
 
-Nie ma obecnie czerwonych testów do reprodukcji. Issue #1 pozostaje otwarte tylko do formalnego odbioru właściciela GUI; nie należy opisywać dawnych 398/401 jako bieżącego stanu.
+Nie ma obecnie czerwonych testów do reprodukcji. Issue #1 pozostaje otwarte do merge'a, który usuwa wycofany standalone z produktu i procesu; nie należy opisywać dawnych 398/401 jako bieżącego stanu.
 
 ## Import
 
 - Kopia plików starego źródła na commit `64e3795b7fd8b0ced5d84b52fce44c86106ad54f` została zaimportowana na `clickbytes` commit `17a9b255783027890cc56dcd8141782a40212f7b`.
 - Sprawdzono **dokładną równość Git tree SHA** `f21ccb19d3a1b1616d4ffea11d4d77f1ed572839` w obu repozytoriach: 158 plików, w tym workflow, testy, docs, kod CORE i istniejący GUI. To **nowa historia repozytorium**, nie mirror całej historii commitów.
-- Zmiany w GUI, HTML/CSS/JS/UI oraz generowanym `index-standalone.html` nadal należą do osobnego agenta GUI. CORE agent może uruchamiać walidację i zgłaszać problemy w CI, ale nie aktualizuje artefaktu GUI bez przekazania odpowiedzialności.
+- Dawny podział na osobnego agenta GUI dotyczył prac opisanych w historycznych runach. Bieżąca aplikacja ma jeden lokalny HTTP entry point; standalone artefakt i jego synchronizacja zostały wycofane.
 
 ## Pierwsze prawdziwe CI na clickbytes
 
