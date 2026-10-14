@@ -6,6 +6,8 @@ lexemes separate from auxiliary function words. `Be` supports first, second,
 and third person agreement; `have` supports possession statements and
 present/past do-support yes/no questions. English state negation, identity,
 WH questions, and auxiliary uses such as perfect/progressive remain unsupported.
+In a single English state sentence, configured subject pronouns can use their
+lexicon concept mapping directly; event pronouns still require discourse context.
 
 **Status:** przyjęty dla CORE state document `1.23`  
 **Kontrakt ramek:** `stateFrameVersion` `1.0`

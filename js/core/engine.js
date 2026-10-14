@@ -444,6 +444,31 @@ export class Engine {
     const pronounSlots=sentences.map((sentence,i)=>adapter.readSubjectPronoun?.(sentence)?i:-1)
       .filter(i=>i>=0);
     if(pronounSlots.length){
+      if(sentences.length===1 && pronounSlots.length===1 && pronounSlots[0]===0) {
+        let stateReadings=[];
+        try {
+          const direct=this.analyzeSentence(sentences[0],adapter);
+          if(direct.length && direct.every(candidate=>candidate.interlingua.type==='state'))
+            stateReadings=direct;
+        } catch { /* General event anaphora still follows the discourse path below. */ }
+        if(stateReadings.length) {
+          if(settings.coreference!==undefined)
+            throw new Error('Explicit coreference requires at least two discourse sentences.');
+          const candidates=stateReadings.filter(candidate=>
+            Object.entries(settings.senses||{}).every(([role,concept])=>
+              candidate.interlingua.roles?.[role]?.concept===concept))
+            .map(candidate=>({...candidate,score:(candidate.score||0)+
+              (settings.topics||[]).reduce((sum,topic)=>sum+
+                Object.values(candidate.interlingua.roles||{}).filter(ref=>ref.concept)
+                  .filter(ref=>this.ontology.relatedToTopic(ref.concept,topic)).length*10,0)}))
+            .sort((a,b)=>b.score-a.score).slice(0,MAX_CANDIDATES);
+          if(!candidates.length)throw new Error('No semantic reading matches the context constraints.');
+          return candidates.map(candidate=>{
+            validateInterlingua(candidate.interlingua,this.ontology,this.features);
+            return candidate;
+          });
+        }
+      }
       if(pronounSlots[0]===0)
         throw new Error('Unresolved anaphora: first sentence has no antecedent.');
       if(settings.coreference!==undefined)

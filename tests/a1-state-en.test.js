@@ -85,17 +85,14 @@ test('STATE-03 analyzes and realizes be as a typed property predication', () => 
   ];
 
   for (const [text, expected] of examples) {
-    const meaning = text.startsWith('She ')
-      ?english.analyzeCandidates(text)[0].interlingua
-      :engine.analyze({text, from: 'en'});
+    const meaning = engine.analyze({text, from: 'en'});
     assert.deepEqual(meaning, expected);
     const output = engine.realize({interlingua: meaning, to: 'en'}).text;
     assert.deepEqual(engine.analyze({text: output, from: 'en'}), expected);
     assert.deepEqual(engine.analyze({text: engine.realize({interlingua: meaning, to: 'core'}).text,
       from: 'core'}), expected);
   }
-  assert.deepEqual(english.analyzeCandidates('She has a book.')[0].interlingua,
-    possession(girl));
+  assert.deepEqual(engine.analyze({text:'She has a book.',from:'en'}),possession(girl));
 });
 
 test('STATE-03 analyzes have and do-support questions as typed possession', () => {
