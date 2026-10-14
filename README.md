@@ -424,3 +424,7 @@ Dalszy rozwój oraz wszystkie nowe PR i issues odbywają się wyłącznie na **[
 ## A1 Batch 7 — wspólny raport dowodów
 
 `npm run report:a1-evidence` pokazuje katalog 6 autorskich zestawów i wyraźne `not-run`; `npm run check:a1-evidence` rzeczywiście wykonuje ich testy Node, zachowując statusy i dowody per cel. To nie jest procent CEFR A1. [Metodologia i liczby](docs/a1-evidence-ledger.md).
+
+## Backlog issues, epiki i DoD (2026-10-14)
+
+Wszystkie przyszłe prace są zapisane jako **14 epików i 67 tasków** w [clickbytes issues](https://github.com/clickbytes/flexLingua/issues). [Master Backlog](docs/planning/BACKLOG.md) zawiera łącza, zależności i priorytety; [kolejność prac](docs/planning/EXECUTION_ORDER.md), [kotwice kodu](docs/planning/IMPLEMENTATION_ANCHORS.md), [polityka akceptacji](docs/planning/ISSUE_POLICY.md) oraz [szablony dobrych AC](docs/planning/ACCEPTANCE_EXAMPLES.md) umożliwiają pracę małymi batchami. Kody zadań mapuje [ISSUE_MAP.json](docs/planning/ISSUE_MAP.json). Rozwój tylko na `clickbytes`, GUI osobny agent.
