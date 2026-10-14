@@ -21,6 +21,12 @@ const LEXEME_ID = /^[a-zA-Z][a-zA-Z0-9_]*(?:\.[a-zA-Z0-9_]+)*$/u;
 const PLACEHOLDER = /^\{([a-zA-Z][a-zA-Z0-9_]*)\}$/u;
 const LITERAL = /^@[\p{L}]+$/u;
 const DEICTIC_FUNCTION = 'grammar.deictic_pronoun';
+const MODAL_AGREEMENT_KEYS = [
+  'firstSingular','secondSingular','thirdSingular',
+  'firstPlural','secondPlural','thirdPlural'
+];
+const modalAgreementKey = (person, number) =>
+  `${person}${number.charAt(0).toLocaleUpperCase('en')}${number.slice(1)}`;
 
 function isDeicticReferent(ref) {
   return record(ref) && hasOwn(ref, 'referent');
@@ -192,13 +198,13 @@ function validateGrammar(dictionary, grammar) {
           !['modality.ability','modality.obligation'].includes(item.senses[0].coreRef.id) ||
           Object.keys(item.forms).some(k=>!['positive','negative','prohibition'].includes(k)) ||
           !['positive','negative'].every(mode=>record(item.forms[mode]) &&
-            ['singular','plural'].every(num=>legalWord(item.forms[mode][num])) &&
-            Object.keys(item.forms[mode]).length===2) ||
+            MODAL_AGREEMENT_KEYS.every(key=>legalWord(item.forms[mode][key])) &&
+            Object.keys(item.forms[mode]).length===MODAL_AGREEMENT_KEYS.length) ||
           (item.forms.prohibition !== undefined &&
             (item.senses[0].coreRef.id !== 'modality.obligation' ||
               !record(item.forms.prohibition) ||
-              !['singular','plural'].every(num=>legalWord(item.forms.prohibition[num])) ||
-              Object.keys(item.forms.prohibition).length!==2))) {
+              !MODAL_AGREEMENT_KEYS.every(key=>legalWord(item.forms.prohibition[key])) ||
+              Object.keys(item.forms.prohibition).length!==MODAL_AGREEMENT_KEYS.length))) {
         throw new Error('Invalid or unsupported modal lexical paradigm.');
       }
     }
@@ -609,15 +615,16 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
    * Modal auxiliary forms are compositional syntax over existing EVENT
    * frames, bounded search, case assignment and noun phrase morphology.
    */
-  function modalEntries(modal, mode, number, includeModal = true) {
-    if (!modality || !modal.forms[mode]?.[number]) return [];
+  function modalEntries(modal, mode, person, number, includeModal = true) {
+    const modalForm=modal.forms[mode]?.[modalAgreementKey(person,number)];
+    if (!modality || !modalForm) return [];
     return verbs.flatMap(lexeme => formsAt(lexeme,modality.infinitivePath)
-      .filter(form => Object.keys(form.bindings).length === 0)
-      .map(form => ({
-        lexeme, text: includeModal ? modal.forms[mode][number]+' '+form.text : form.text,
+      .filter(verbForm => Object.keys(verbForm.bindings).length === 0)
+      .map(verbForm => ({
+        lexeme, text: includeModal ? modalForm+' '+verbForm.text : verbForm.text,
         bindings: {}, rule: {
           tense:'present', polarity:mode === 'positive' ? 'positive' : 'negative',
-          prefix:[],when:{'subject.number':number}
+          prefix:[],when:{'subject.person':person,'subject.number':number}
         }
       })));
   }
@@ -640,9 +647,9 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     const readings=[];
     for (const modal of modals) for (const mode of ['positive','negative','prohibition']) {
       if (!modal.forms[mode]) continue;
-      for (const number of ['singular','plural']) {
+      for (const person of ['first','second','third']) for (const number of ['singular','plural']) {
         const variants=parseClause(tokens,gap,antecedent,0,questionBudget(),{
-          verbEntries:modalEntries(modal,mode,number),
+          verbEntries:modalEntries(modal,mode,person,number),
           omitGap:!!gap, linearizations
         });
         for (const reading of variants) {
@@ -682,8 +689,8 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
         const gap={value:{features:{number:'singular'}},
           noun:{id:'question_gap'},senseId:null};
         for(const modal of modals)for(const mode of ['positive','negative']){
-          for(const number of ['singular','plural']){
-            const entries=modalEntries(modal,mode,number).filter(e=>
+          for(const person of ['first','second','third']) for(const number of ['singular','plural']){
+            const entries=modalEntries(modal,mode,person,number).filter(e=>
               e.lexeme.concept===concept).flatMap(e=>{
               const text=withoutGovernedPreposition(e.text,frame);
               return text?[{...e,text}]:[];
@@ -702,11 +709,13 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     } else if (modality.questionStrategy==='front' &&
                ![normalizedWord(questions.wh.agent.marker),
                  normalizedWord(questions.wh.theme.marker)].includes(tokens[0])) {
-      for (const modal of modals) for(const number of ['singular','plural']){
-        const length=matchesTokens(tokens,0,modal.forms.positive[number]);
+      for (const modal of modals) for(const person of ['first','second','third'])
+        for(const number of ['singular','plural']){
+        const length=matchesTokens(tokens,0,
+          modal.forms.positive[modalAgreementKey(person,number)]);
         if(!length)continue;
         const readings=parseClause(tokens.slice(length),null,null,0,questionBudget(),{
-          verbEntries:modalEntries(modal,'positive',number,false)
+          verbEntries:modalEntries(modal,'positive',person,number,false)
         });
         add(readings.map(item=>wrapModalReading(item,modal,'positive')),'yes_no');
       }
@@ -730,11 +739,13 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
             });
           add(readings,'wh','theme');
         } else if (tokens[0]===normalizedWord(questions.wh.theme.marker)) {
-          for(const modal of modals) for(const number of ['singular','plural']){
-            const length=matchesTokens(tokens,1,modal.forms.positive[number]);
+          for(const modal of modals) for(const person of ['first','second','third'])
+            for(const number of ['singular','plural']){
+            const length=matchesTokens(tokens,1,
+              modal.forms.positive[modalAgreementKey(person,number)]);
             if(!length)continue;
             const readings=parseClause(tokens.slice(1+length),'theme',gap,0,questionBudget(),{
-              verbEntries:modalEntries(modal,'positive',number,false),omitGap:true
+              verbEntries:modalEntries(modal,'positive',person,number,false),omitGap:true
             });
             add(readings.map(item=>wrapModalReading(item,modal,'positive')),'wh','theme');
           }
@@ -1138,15 +1149,18 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
        throw new Error('Unsupported question construction for a negated English modal.');
     const hasArticles=Object.keys(nounPhrase.determiners).length>0;
     const unknown=Object.entries(event.roles).filter(([,ref])=>
-      ref.features.definiteness==='unknown').map(([r])=>r);
+      ref.features?.definiteness==='unknown').map(([r])=>r);
     const fallback=hasArticles?nounPhrase.defaultDefiniteness:undefined;
     const alternate=hasArticles&&unknown.length?nounPhrase.alternativeDefiniteness:undefined;
     const subject=event.roles[subjectRole];
-    const number=subject?.features.number || (role===subjectRole?q.wh.agent.agreement.number:null);
+    const whAgreement=role===subjectRole?q.wh?.agent?.agreement:null;
+    const person=subject?.agreement?.person ?? whAgreement?.person ?? 'third';
+    const number=subject?.agreement?.number ?? subject?.features?.number ??
+      whAgreement?.number;
     if (!['singular','plural'].includes(number))
       throw new Error('Unsupported modal subject number.');
-    const modalText=modal.forms[mode][number];
-    if(!modalText)throw new Error('Missing modal inflection for subject number.');
+    const modalText=modal.forms[mode][modalAgreementKey(person,number)];
+    if(!modalText)throw new Error('Missing modal inflection for subject agreement.');
     const renderAt=def=>{
       const sequence=question?.questionType==='wh'&&role==='theme'&&
         modality.questionStrategy==='prefix' ? themeOrder(frame)[0] : frame.linearizations[0];

@@ -151,7 +151,7 @@ test('Batch C: modal grammar accepts productive morphology and rejects unsafe fo
   }
   const bad=structuredClone(pg);
   const wrong=structuredClone(pl);
-  wrong.modals[0].forms.positive.singular='!';
+  wrong.modals[0].forms.positive.firstSingular='!';
   assert.throws(()=>createRuleAdapter(wrong,pg),/modal lexical paradigm/);
   bad.modality.infinitivePath='__proto__';
   assert.throws(()=>createRuleAdapter(pl,bad),/modal grammar configuration/);

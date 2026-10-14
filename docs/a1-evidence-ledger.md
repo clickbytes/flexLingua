@@ -4,7 +4,7 @@
 
 ## Cel
 
-Od Batch G2 i Batch 3–6 istnieje sześć osobnych autorskich fixture'ów, zweryfikowanych w odrębnych testach. Historyczny `npm run audit:a1-gaps` wykazuje jedynie dowody z zamrożonego G2 i słusznie nie powinien ich automatycznie łączyć. Nowe, niezależne narzędzie `tools/a1-evidence-ledger.mjs` łączy *katalog* dowodów z **rzeczywiście wykonanymi** testami Node, zachowując stary raport bez zmian.
+Od Batch G2 i Batch 3–6 istnieje sześć osobnych autorskich fixture'ów, zweryfikowanych w odrębnych testach. PERS-06 dodaje siódmy, niezależny fixture dla osoby 1./2. i deiks. Historyczny `npm run audit:a1-gaps` wykazuje jedynie dowody z zamrożonego G2 i nie powinien ich automatycznie łączyć. `tools/a1-evidence-ledger.mjs` łączy *katalog* dowodów z **rzeczywiście wykonanymi** testami Node, zachowując stary raport bez zmian.
 
 ## Zestawy i zakres
 
@@ -16,7 +16,8 @@ Od Batch G2 i Batch 3–6 istnieje sześć osobnych autorskich fixture'ów, zwer
 | Ruch iść/go | 18 | 4 | 11 |
 | Pisać/otwierać | 22 (w tym 2 productive-only) | 5 | 15 |
 | Kompozycja/dyskurs | 11 | 0 | 0 |
-| **Razem** | **115** | **25** | **60** |
+| Osoba/deiksy PERS-06 | 40 | 10 | 0 |
+| **Razem** | **155** | **35** | **60** |
 
 To **przypadki kontrolowane**, nie wymierny procent pokrycia CEFR. Każdy przypadek jest przypisany do własnego pliku źródłowego i testu. W porównaniu przypadków sprawdzamy tylko **jawnie opisane** znaczenia CORE (pojęcie predykatu i te role, które fixture wyraźnie deklaruje); nie wnioskujemy obecności haseł z samej pisowni ani z analizy silnika, aby uniknąć tautologii. Nakładanie się autorstwa, projektowania reguł i oceny nie gwarantuje testu niewidzianych wcześniej zdań.
 
@@ -24,21 +25,22 @@ To **przypadki kontrolowane**, nie wymierny procent pokrycia CEFR. Każdy przypa
 
 ```sh
 npm run report:a1-evidence      # sam katalog, bez testów — verification.status = not-run
-npm run check:a1-evidence       # 6 prawdziwych procesów Node, fail-closed
+npm run check:a1-evidence       # 7 prawdziwych procesów Node, fail-closed
 npm run check:release          # pełny zestaw kontroli CORE i testów Node
 ```
 
 `check:a1-evidence` uruchamia kolejno:
 - istniejące `tools/report-a1.mjs --strict` dla G2;
 - testy Node dla rodziny, ojca, ruchu, codziennych czynności i kompozycji.
+- test Node dla 40 przypadków osoby/deiksów oraz 10 błędnych form.
 
 Raport zawiera statusy `pass`, `fail`, `not-run` wraz z faktycznym kodem wyjścia oraz oddzielne `annotatedCases` i `verifiedCases`. Jeżeli choć jedna grupa nie przechodzi, CLI zwraca kod 1; jeśli nie uruchomiono żadnej, nie raportuje sukcesu. Dodatkowo raportuje duplikaty wejściowych zdań między zestawami bez udawania, że zbiory są reprezentatywne.
 
-W izolowanym teście funkcji na obecnych fixture'ach, przy **symulowanych pozytywnych wynikach sześciu grup**, 14 z 23 celów ma jawne dowody w obu kierunkach, 2 w jednym kierunku, a 7 nie jest jawnie opisanych w gold. Są to liczby autorskiej listy 23 celów, **nie** procent CEFR, a przed realnym wykonaniem `check:a1-evidence` żaden stan symulowany nie jest zweryfikowanym testem. `cefr.percentage:null` pozostaje obowiązkowe.
+W izolowanym teście funkcji na obecnych fixture'ach, przy **symulowanych pozytywnych wynikach siedmiu grup**, 14 z 23 celów ma jawne dowody w obu kierunkach, 2 w jednym kierunku, a 7 nie jest jawnie opisanych w gold. Są to liczby autorskiej listy 23 celów, **nie** procent CEFR, a przed realnym wykonaniem `check:a1-evidence` żaden stan symulowany nie jest zweryfikowanym testem. `cefr.percentage:null` pozostaje obowiązkowe.
 
 ## Połączenie z CI i własność kodu
 
-`check:a1-evidence` jest częścią `lexical-audits` oraz `check:release`. Standalone HTML i jego parytet CI zostały wycofane. Lokalny UI uruchamia się przez HTTP.
+`check:a1-evidence` jest częścią `lexical-audits` oraz `check:release`. Osobny person gold także jest wykonywany przez `check:gold-person` w `lexical-audits` i `check:release`. Lokalny UI uruchamia się przez HTTP.
 
 ## Wynik prawdziwego CI po Batch 7
 

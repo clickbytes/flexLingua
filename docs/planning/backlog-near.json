@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "scope": "Current and near-term remaining flexLingua work; excludes completed Batch 1–7",
   "repository": "clickbytes/flexLingua",
-  "anchorMain": "d355d877ae56cc159612ec0280810f0040d5d360",
+  "anchorMain": "7ca0995c1dbdbf6eac7e4ab714dc56d1ca223934",
   "createdOn": "2026-10-14",
   "epics": [
     {
@@ -338,12 +338,31 @@
             "[NEW] tests/fixtures/gold-person-a1.json",
             "[NEW] tests/a1-person-gold.test.js",
             "tests/conversation-e4.test.js",
-            "tools/a1-evidence-ledger-lib.mjs"
+            "tools/a1-evidence-ledger-lib.mjs",
+            "tests/a1-evidence-ledger.test.js",
+            "tests/modalities-v1.20.test.js",
+            "tests/ci-workflow.test.js",
+            "data/en.json",
+            "data/pl.json",
+            "js/core/grammar.js",
+            "package.json",
+            ".github/workflows/core-engine.yml",
+            "docs/a1-evidence-ledger.md",
+            "docs/pers02-deictic-pronouns.md",
+            "ROADMAP.md",
+            "docs/migration-clickbytes.md",
+            "docs/planning/BACKLOG.md",
+            "docs/planning/EXECUTION_ORDER.md",
+            "docs/planning/IMPLEMENTATION_ANCHORS.md",
+            "docs/planning/ISSUE_MAP.json",
+            "docs/planning/ISSUE_POLICY.md",
+            "docs/planning/backlog-near.json",
+            "docs/planning/backlog-future.json"
           ],
           "checks": [
-            "Min. 40 nowych, ręcznie zatwierdzonych przypadków PL/EN w obu kierunkach + negatywne warianty.",
-            "Kontroluje `speaker`, `addressee`, agreement, negację, modalność i pytania oraz bezpieczne pronoun realization.",
-            "Korpus ma osobną bramkę CI i zapisany raport; stare 6 fixture'ów pozostają bez modyfikacji oracle."
+            "40 nowych autorskich przypadków (20 na kierunek) zachowuje CORE znaczenie przy analizie źródła, tłumaczeniu, analizie wyniku i roundtripie JSON.",
+            "Kontroluje speaker/addressee, wszystkie liczby/osoby, negację, sześć komórek modalnych, pytania, warianty liczby you, bezpieczną realizację w rozmowie oraz 10 błędnych form.",
+            "Korpus ma osobną bramkę CI i wpis w rejestrze; poprzednie sześć fixture'ów nie zmienia orakli."
           ],
           "deps": [
             "PERS-02",

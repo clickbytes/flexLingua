@@ -127,3 +127,22 @@ test('E4: explicit CORE output remains language-neutral and without pronoun toke
     out.conversation.events[1].roles.agent);
   assert.equal(JSON.stringify(out.conversation).includes('"she"'),false);
 });
+
+test('PERS-06: safe pronoun realization preserves speaker and addressee events',()=>{
+  const c=new ConversationContext(engine());
+  const out=c.translate({text:'I see a dog.',from:'en',to:'pl',pronounRealization:'safe'});
+  assert.equal(out.text,'Ja widzę psa.');
+  assert.deepEqual(out.interlingua.roles.agent.referent,
+    {kind:'deictic',anchor:'speaker'});
+  assert.deepEqual(out.interlingua.roles.agent.agreement,
+    {person:'first',number:'singular'});
+  assert.deepEqual(out.conversation,out.interlingua);
+  assert.deepEqual(c.snapshot().interlingua.roles.agent,
+    {referent:{kind:'deictic',anchor:'speaker'},agreement:{person:'first',number:'singular'}});
+
+  const other=new ConversationContext(engine()).translate({text:'Ty widzisz psa.',
+    from:'pl',to:'en',pronounRealization:'safe'});
+  assert.equal(other.text,'You see a dog.');
+  assert.deepEqual(other.interlingua.roles.agent,
+    {referent:{kind:'deictic',anchor:'addressee'},agreement:{person:'second',number:'singular'}});
+});

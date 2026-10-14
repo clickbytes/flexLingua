@@ -6,13 +6,13 @@ Właściciel wskazał `clickbytes/flexLingua` jako jedyne aktywne repozytorium d
 
 ## Aktualizacja procesu — 2026-10-14
 
-Bieżąca baza `main` to merge commit `d355d877ae56cc159612ec0280810f0040d5d360` z PR #91; [Actions #38635488680](https://github.com/clickbytes/flexLingua/actions/runs/38635488680) zakończył sukcesem wszystkie trzy jobs (`Node unit and regression tests`, `Lexicon morphology gold and A1 checks`, `Aggregate release gate`). Wcześniejszy PR #89 wycofał standalone HTML, generator, test parytetu i powiązaną bramkę CI; UI działa przez loopback HTTP. PR #90 ukończył PERS-03, a PR #91 ukończył PERS-04. Issue GUI #1, PERS-03 #29 i PERS-04 #30 są zamknięte; PERS-05 #31 jest bieżącą pracą.
+Bieżąca baza `main` to merge commit `7ca0995c1dbdbf6eac7e4ab714dc56d1ca223934` z PR #92; [Actions #38637097580](https://github.com/clickbytes/flexLingua/actions/runs/38637097580) zakończył sukcesem wszystkie trzy jobs (`Node unit and regression tests`, `Lexicon morphology gold and A1 checks`, `Aggregate release gate`). PR #89 wycofał standalone HTML, generator, test parytetu i powiązaną bramkę CI; UI działa przez loopback HTTP. PR #90 ukończył PERS-03, PR #91 PERS-04, a PR #92 PERS-05. Issue GUI #1 i PERS-03..05 (#29..31) są zamknięte; PERS-06 #32 jest bieżącą pracą.
 
 Poniższe zapisy opisują wcześniejszą diagnostykę. Podział na osobnego agenta GUI i dawne zadania synchronizacji offline nie obowiązują.
 
 ## Historyczna baza CI i przypisanie regresji — 2026-10-14
 
-Aktualny `main` to `f3f1a62af1777d7cca4afc52fe3a0b13ad1fed25`. [Hosted run #38620219789](https://github.com/clickbytes/flexLingua/actions/runs/38620219789) zakończył wszystkie cztery jobs sukcesem; `npm test` zgłosił **405/405**.
+W ówczesnej migawce `main` wskazywał `f3f1a62af1777d7cca4afc52fe3a0b13ad1fed25`. [Hosted run #38620219789](https://github.com/clickbytes/flexLingua/actions/runs/38620219789) zakończył wszystkie cztery jobs sukcesem; `npm test` zgłosił **405/405**. Aktualny status main znajduje się na początku tego dokumentu.
 
 Historyczny [run #38610233253](https://github.com/clickbytes/flexLingua/actions/runs/38610233253), SHA `d70359ba0d783c32f37eb31cddc6c4abf3ce16e3`, miał 398/401 testów Node oraz niezaliczone offline parity. Zlogowane regresje przypisane do GUI-01 [#1](https://github.com/clickbytes/flexLingua/issues/1):
 
