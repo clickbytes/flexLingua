@@ -8,8 +8,9 @@ Structural coverage describes what is declared in repository data. It does not m
 
 - The target inventory is `data/coverage/a1-targets.json`; its scope and statuses are described in [A1 project scope](a1-scope.md).
 - The original sentence corpus is described in [G2](g2-a1-gold.md).
+- STATE-04 adds 40 hand-authored PL↔EN predication and possession examples in `tests/fixtures/gold-state-a1.json` (20 per direction), six CORE round trips across identity, predication, and possession, and explicit refusals for unsupported identity/English negation and malformed agreement. The cases are regression evidence for the declared subset, not a representative language corpus.
 - The combined report and its limits are documented in [G3](g3-a1-report.md).
 - The pilot data in `data/coverage/a1-pilot.json` is authored for this project and is not copied from Oxford.
 
-Run `npm run report:a1` to inspect the current inventory and test evidence. Run `npm run check:a1-gold` to enforce the declared regression checks. Report the tested constructions, directions, and refusals; do not present these checks as CEFR certification.
+Run `npm run report:a1` to inspect the current inventory and test evidence. Run `npm run check:a1-gold` to enforce the declared G2 checks and `npm run check:a1-evidence` to run the independent evidence ledger, including STATE-04. Report the tested constructions, directions, and refusals; do not present these checks as CEFR certification.
 
