@@ -6,7 +6,7 @@
 - Naprawiono przenosnosc Windows: generator standalone sprawdza granice katalogow przez `path.relative`, a testy CLI konwertuja URL-e przez `fileURLToPath`.
 - Wygenerowano ponownie `index-standalone.html`; `.gitattributes` wymusza LF dla tego artefaktu, a generator zapisuje kanoniczne LF niezaleznie od systemu.
 - Weryfikacja lokalna, Windows / Node v24.19.0: `npm run check:release` **PASS** (`npm test` 401/401; wszystkie audyty i `check:standalone` PASS), `npm run check:questions` **PASS** (15/15), `npm run build:standalone` **PASS**, `git diff --check` **PASS**.
-- Ostatni hosted run przed poprawkami: [38610233253](https://github.com/clickbytes/flexLingua/actions/runs/38610233253), `main` SHA bazowy; fail w offline parity i trzech testach Node. Po wypchnieciu tej galezi wymagany nowy hosted run; wynik pozostaje **pending**.
+- Hosted run po pierwszym pushu: [38611724114](https://github.com/clickbytes/flexLingua/actions/runs/38611724114), SHA `a64a324094253bd9d9404607721af704301be5ea`. Testy Studio i audyty leksykonu przeszly; pozostal niezgodny standalone w jobie offline i jednym teście Node. `--check` pokazuje teraz pierwsza roznice i jej fragment; po kolejnym pushu nalezy odczytac ten diff i domknac bundle parity.
 - Nie zmieniano zrodlowego GUI/CSS. Aktualizacja pliku offline wynika z wymaganej synchronizacji bundla, a poprawki testow odwzorowuja obecny interfejs.
 
 ---

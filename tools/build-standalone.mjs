@@ -85,7 +85,14 @@ const output = join(root, 'index-standalone.html');
 if (process.argv.includes('--check')) {
   const existing = await readFile(output, 'utf8').catch(() => '');
   if (template !== existing) {
-    console.error('Offline build is out of date: run node tools/build-standalone.mjs');
+    let offset = 0;
+    while (offset < template.length && template[offset] === existing[offset]) offset++;
+    const start = Math.max(0, offset - 40);
+    const end = offset + 80;
+    const line = template.slice(0, offset).split('\n').length;
+    console.error(`Offline build is out of date at line ${line}: run node tools/build-standalone.mjs`);
+    console.error(`Current: ${JSON.stringify(existing.slice(start, end))}`);
+    console.error(`Built:   ${JSON.stringify(template.slice(start, end))}`);
     process.exitCode = 1;
   } else {
     console.log('Offline HTML bundle is up to date');
