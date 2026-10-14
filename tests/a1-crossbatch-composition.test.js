@@ -31,6 +31,18 @@ function assertGold(engine,row){
  assert.deepEqual(engine.analyze({from:'core',text:JSON.stringify(translation.interlingua)}),
    translation.interlingua,row.id+' INTER JSON roundtrip');
 }
+function eventOf(node){
+ if(node.type==='event')return node;
+ if(node.type==='question')return eventOf(node.proposition);
+ if(node.type==='modality')return eventOf(node.operand);
+ throw new Error('Expected a single controlled event.');
+}
+function roleShape(node){
+ const event=eventOf(node);
+ return {concept:event.concept,
+  roles:Object.fromEntries(Object.entries(event.roles).map(([role,participant])=>
+   [role,{concept:participant.concept,number:participant.features.number}]))};
+}
 test('A1 Batch 6: cross-batch compositions preserve scope, questions and event order',()=>{
  assert.equal(corpus.license,'project-authored');
  assert.equal(corpus.cases.length,12);
@@ -58,6 +70,19 @@ test('A1 Batch 6: modal WH scope composes with a different event frame',()=>{
  assert.equal(q.proposition.operator,'modality.ability');
  assert.equal(q.proposition.operand.concept,'event.read');
  assert.equal(Object.hasOwn(q.proposition.operand.roles,'theme'),false);
+});
+test('VAL-04: role oracle detects a swapped participant in a modal composition',()=>{
+ const row=corpus.cases.find(item=>item.id==='A1C-01');
+ const translated=make().translate({text:row.input,from:row.from,to:row.to});
+ const expected={concept:'event.open',roles:{
+  agent:{concept:'person.father',number:'singular'},
+  theme:{concept:'object.book',number:'singular'}
+ }};
+ assert.deepEqual(roleShape(translated.interlingua),expected);
+ const swapped=structuredClone(translated.interlingua);
+ const event=eventOf(swapped);
+ [event.roles.agent,event.roles.theme]=[event.roles.theme,event.roles.agent];
+ assert.notDeepEqual(roleShape(swapped),expected);
 });
 test('A1 Batch 6: independent semantic gold detects tampering',()=>{
  const bad={...corpus.cases[0],shape:{...corpus.cases[0].shape,concept:'event.write'}};

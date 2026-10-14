@@ -272,6 +272,11 @@ export function materializeEvent(discourse, event) {
 }
 
 function validateEventShape(node, ontology, registry, qualifiedAllowed = true, clauseAllowed = false, depth = 0, gap = null) {
+  const fields = hasOwn(node,'version') || hasOwn(node,'type') ?
+    ['version','type','concept','roles','features'] : ['concept','roles','features'];
+  if (Object.keys(node).length !== fields.length || Object.keys(node).some(key => !fields.includes(key))) {
+    throw new Error('Event document contains unsupported fields.');
+  }
   const event = ontology?.concepts?.[node.concept];
   if (!event || event.type !== 'event' || !Array.isArray(event.roles)) {
     throw new Error(`Unknown event concept: ${node.concept}`);
