@@ -16,6 +16,16 @@
         "unknown"
       ]
     },
+    "state": {
+      "tense": [
+        "past",
+        "present"
+      ],
+      "polarity": [
+        "positive",
+        "negative"
+      ]
+    },
     "participant": {
       "number": [
         "singular",

@@ -2,7 +2,7 @@
 
 ## Stan walidacji w aktywnym repo
 
-Bazowy `clickbytes/main` SHA `04aeaa811453e8aa8054779af6a903e24dd4e953` jest **GREEN** w [GitHub Actions #38639074374](https://github.com/clickbytes/flexLingua/actions/runs/38639074374): wszystkie trzy jobs przeszły po merge PR #93. Standalone HTML i jego test parytetu zostały usunięte; UI działa przez loopback HTTP. Każdy nowy commit wymaga osobnego Actions runu.
+Bazowy `clickbytes/main` SHA `04aeaa811453e8aa8054779af6a903e24dd4e953` jest **GREEN** w [GitHub Actions #38639074374](https://github.com/clickbytes/flexLingua/actions/runs/38639074374): wszystkie trzy jobs przeszły po merge PR #93. UI działa przez loopback HTTP. Każdy nowy commit wymaga osobnego Actions runu.
 
 
 **To plan zależności, nie harmonogram kalendarzowy.** Nie twierdzi, że taski zostały wykonane. `clickbytes/flexLingua` pozostaje jedynym repo do zapisu.
@@ -14,7 +14,7 @@ Bazowy `clickbytes/main` SHA `04aeaa811453e8aa8054779af6a903e24dd4e953` jest **G
 
 ## Ścieżka krytyczna P0 — jakość i pierwsza osoba
 
-1. [REL-01 #18](https://github.com/clickbytes/flexLingua/issues/18) → [REL-02 #19](https://github.com/clickbytes/flexLingua/issues/19) → [REL-03 #20](https://github.com/clickbytes/flexLingua/issues/20). GUI-01 #1 zamknięto przez PR #89 po wycofaniu standalone i potwierdzeniu testów Studio.
+1. [REL-01 #18](https://github.com/clickbytes/flexLingua/issues/18) → [REL-02 #19](https://github.com/clickbytes/flexLingua/issues/19) → [REL-03 #20](https://github.com/clickbytes/flexLingua/issues/20). GUI-01 #1 zamknięto przez PR #89 po potwierdzeniu testów Studio.
 2. [REL-01 #18](https://github.com/clickbytes/flexLingua/issues/18) → [REL-04 #21](https://github.com/clickbytes/flexLingua/issues/21) — walidacja bezpieczeństwa, limitów i testów zasobów.
 3. [VAL-05 #26](https://github.com/clickbytes/flexLingua/issues/26) → [VAL-01 #22](https://github.com/clickbytes/flexLingua/issues/22) — zamrożony zakres A1, legalność źródeł.
 4. [VAL-01 #22](https://github.com/clickbytes/flexLingua/issues/22) → [PERS-01 #27](https://github.com/clickbytes/flexLingua/issues/27): ADR dla speaker/addressee i form 1./2. osoby.

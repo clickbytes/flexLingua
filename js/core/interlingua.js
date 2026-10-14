@@ -6,6 +6,7 @@
  * Surface case, gender and word order never enter the semantic graph.
  */
 import { validateFeatureBundle, record, safeName, hasOwn } from './features.js';
+import { STATE_FRAME_VERSION } from './ontology.js';
 
 export const INTERLINGUA_VERSION = '0.2';
 export const DISCOURSE_VERSION = '0.4';
@@ -15,6 +16,7 @@ export const SEMANTIC_VERSION = '1.0';
 export const QUESTION_VERSION = '1.19';
 export const MODALITY_VERSION = '1.20';
 export const DEICTIC_VERSION = '1.22';
+export const STATE_VERSION = '1.23';
 export const MAX_RELATIVE_DEPTH = 2;
 export const MAX_COORDINATION_CLAUSES = 4;
 export const MAX_MODIFIER_DEPTH = 3;
@@ -37,6 +39,36 @@ export function createEvent(concept, roles, features) {
       aspect: features.aspect || 'unknown'
     }
   };
+}
+
+function stateFeatures(features) {
+  if (!record(features) || Object.keys(features).some(key => !['tense','polarity'].includes(key))) {
+    throw new Error('State features only support tense and polarity.');
+  }
+  return {
+    tense: hasOwn(features,'tense') ? features.tense : 'present',
+    polarity: hasOwn(features,'polarity') ? features.polarity : 'positive'
+  };
+}
+
+function createState(kind, roles, features, predicate) {
+  const state = { version: STATE_VERSION, type: 'state', kind, roles,
+    features: stateFeatures(features) };
+  if (kind === 'predication') state.predicate = predicate;
+  return state;
+}
+
+export function createIdentity(subject, complement, features = {}) {
+  return createState('identity', {subject,complement}, features);
+}
+
+export function createPredication(predicate, subject, features = {}) {
+  if (typeof predicate !== 'string') throw new Error('Predication requires a property concept.');
+  return createState('predication', {subject}, features, predicate);
+}
+
+export function createPossession(owner, owned, features = {}) {
+  return createState('possession', {owner,owned}, features);
 }
 
 /** A referent may carry a bounded tree of language-independent properties and a quantifier. */
@@ -268,6 +300,44 @@ function validateEventShape(node, ontology, registry, qualifiedAllowed = true, c
   }
 }
 
+function validateStateShape(node, ontology, registry) {
+  const frame = ontology?.stateFrames?.[node.kind];
+  const hasPredicate = node.kind === 'predication';
+  const fields = hasPredicate ?
+    ['version','type','kind','predicate','roles','features'] :
+    ['version','type','kind','roles','features'];
+  if (ontology?.stateFrameVersion !== STATE_FRAME_VERSION || !frame ||
+      node.version !== STATE_VERSION || !['identity','predication','possession'].includes(node.kind) ||
+      Object.keys(node).length !== fields.length || Object.keys(node).some(key => !fields.includes(key)) ||
+      !record(node.roles) || Object.keys(node.roles).length !== frame.roles.length ||
+      frame.roles.some(role => !hasOwn(node.roles,role)) ||
+      Object.keys(node.roles).some(role => !frame.roles.includes(role))) {
+    throw new Error('Invalid or unsupported state document or role frame.');
+  }
+  validateFeatureBundle(node.features, registry.domains.state, 'state');
+  for (const role of frame.roles) {
+    const ref = node.roles[role];
+    validateReferent(ref, ontology, registry, role, true, true, 0, true);
+    const concept = hasOwn(ref,'referent') ? 'person' : ref.concept;
+    if (!ontology.isA(concept,frame.roleTypes[role])) {
+      throw new Error(`Participant for ${role} violates state role type ${frame.roleTypes[role]}.`);
+    }
+  }
+  if (hasPredicate) {
+    const predicate = typeof node.predicate === 'string' ? ontology.get(node.predicate) : undefined;
+    if (predicate?.type !== frame.predicateType) {
+      throw new Error('Predication requires a property concept.');
+    }
+    const subject = node.roles.subject;
+    const subjectConcept = hasOwn(subject,'referent') ? 'person' : subject.concept;
+    const domainMatchesFrame = predicate.appliesTo.some(target =>
+      ontology.isA(target,frame.predicateAppliesTo));
+    if (!domainMatchesFrame || !predicate.appliesTo.some(target => ontology.isA(subjectConcept,target))) {
+      throw new Error(`Property ${node.predicate} does not apply to the subject.`);
+    }
+  }
+}
+
 export function createRelativeClause(event, gap) {
   if (!safeName(gap) || !record(event) || !record(event.roles) || !hasOwn(event.roles, gap)) {
     throw new Error('Relative clause requires a present semantic gap role.');
@@ -404,6 +474,9 @@ function validateClauseTree(node, ontology, registry, depth = 0, gap = null) {
     }
     validateEventShape(node, ontology, registry, node.version !== INTERLINGUA_VERSION,
       [CLAUSE_VERSION, SEMANTIC_VERSION].includes(node.version),0,gap);
+  } else if (node.type === 'state') {
+    if (node.version !== STATE_VERSION) throw new Error('Unsupported state version.');
+    validateStateShape(node,ontology,registry);
   } else if (node.type === 'complement') {
     const frame = ontology.get(node.concept);
     if (node.version !== SEMANTIC_VERSION || !frame || frame.type !== 'event' ||
@@ -434,7 +507,7 @@ function validateClauseTree(node, ontology, registry, depth = 0, gap = null) {
   } else if (node.type === 'scope') {
     if (![CLAUSE_VERSION, SEMANTIC_VERSION, MODALITY_VERSION].includes(node.version) || node.operator !== 'not' ||
         !Object.keys(node).every(k => ['version', 'type', 'operator', 'operand'].includes(k)) ||
-        !['coordination','event','complement','modality'].includes(node.operand?.type) ||
+        !['coordination','event','state','complement','modality'].includes(node.operand?.type) ||
         (node.version === CLAUSE_VERSION && node.operand?.type !== 'coordination') ||
         (node.operand?.type === 'modality' && node.version !== MODALITY_VERSION) ||
         (gap && !['event','modality'].includes(node.operand?.type))) {
@@ -465,7 +538,7 @@ export function validateInterlingua(node, ontology, registry) {
     validateQuestion(node, ontology, registry);
     return node;
   }
-  if (['event','coordination','scope','complement','modality'].includes(node.type)) {
+  if (['event','state','coordination','scope','complement','modality'].includes(node.type)) {
     validateClauseTree(node, ontology, registry);
     return node;
   }

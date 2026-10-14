@@ -1,4 +1,4 @@
-import { createDiscourse, createCoordination, createNegation, createComplement, materializeEvent, validateInterlingua, MAX_DISCOURSE_EVENTS, QUESTION_VERSION, MODALITY_VERSION, validateCoreferenceMap, sameDiscourseReferent } from './interlingua.js';
+import { createDiscourse, createCoordination, createNegation, createComplement, materializeEvent, validateInterlingua, MAX_DISCOURSE_EVENTS, QUESTION_VERSION, MODALITY_VERSION, STATE_VERSION, validateCoreferenceMap, sameDiscourseReferent } from './interlingua.js';
 import { createFeatureRegistry, record, safeName, hasOwn } from './features.js';
 import { createCoreLanguage } from './core-language.js';
 import { splitSentences, sentenceText } from './text.js';
@@ -559,6 +559,9 @@ export class Engine {
         if (!adapter.realizeModal) throw new Error(`Unsupported modal construction in ${to}.`);
         return adapter.realizeModal(node);
       }
+      if (node.type === 'state') {
+        throw new Error(`Unsupported state construction in ${to}.`);
+      }
       if (node.type === 'event') {
         const output = adapter.realize(node,options);
         if (!output || typeof output.text !== 'string' || !output.text.trim()) {
@@ -639,7 +642,8 @@ export class Engine {
   /** Stable, serializable discovery interface (does not expose mutable adapters). */
   capabilities() {
     return { interlinguaVersion: '1.0', questionDocumentVersion: QUESTION_VERSION,
-      modalityDocumentVersion: MODALITY_VERSION,
+      modalityDocumentVersion: MODALITY_VERSION, stateDocumentVersion: STATE_VERSION,
+      stateFrameVersion: this.ontology.stateFrameVersion,
       coreLanguage: {code:'core', version:this.core.version, format:'interlingua-json'},
       languages: [...this.languages.values()].map(a =>
       ({ code: a.code, ...a.describe?.() })),
@@ -655,7 +659,7 @@ export class Engine {
         'UNRESOLVED_ANAPHORA' : /coreference/i.test(error.message) ?
         'INVALID_COREFERENCE' : /Unsupported language/.test(error.message) ?
         'UNSUPPORTED_LANGUAGE' : /UNRESOLVED_DEIXIS/i.test(error.message) ?
-        'UNRESOLVED_DEIXIS' : /Missing|No .*lexeme|No .*form|no complement|no .*construction|no .*quantifier|does not match|Cannot realize|Unsupported question construction|Unsupported modal|prohibition not available/.test(error.message) ?
+        'UNRESOLVED_DEIXIS' : /Missing|No .*lexeme|No .*form|no complement|no .*construction|no .*quantifier|does not match|Cannot realize|Unsupported question construction|Unsupported state construction|Unsupported modal|prohibition not available/.test(error.message) ?
         'UNSUPPORTED_CONSTRUCTION' : 'INVALID_INPUT', message: error.message } };
     }
   }

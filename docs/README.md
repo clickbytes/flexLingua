@@ -1,6 +1,6 @@
 # Dokumentacja flexLingua — indeks
 
-`index-standalone.html`, jego generator, test parytetu offline i bramka CI zostały wycofane. Aktualny UI uruchamiaj przez `start.bat` albo `npm run dev` (loopback HTTP). Wydanie sprawdzaj przez `npm run check:release` i GitHub Actions. Odwołania do standalone w historycznych raportach opisują ówczesny stan; ich dawne checklisty nie są bieżącymi wymaganiami.
+Aktualny UI uruchamiaj przez `start.bat` albo `npm run dev` (loopback HTTP). Wydanie sprawdzaj przez `npm run check:release` i GitHub Actions. Historyczne raporty opisują ówczesny stan; ich dawne checklisty nie są bieżącymi wymaganiami.
 
 Ten plik jest nawigacją po dokumentacji. Aktualny cel i priorytety znajdują się w [ROADMAP.md](../ROADMAP.md), a publiczny opis projektu i instrukcje uruchomienia w [README.md](../README.md).
 

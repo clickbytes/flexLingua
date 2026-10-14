@@ -319,7 +319,7 @@ Develop sentence complements and additional subordination types, richer typed se
 
 ## v1.19 / Task 3 — semantic questions in CORE (backend only)
 
-The engine now defines a separately validated **question** meaning: `yes_no` over a full proposition, or `wh` over an explicit missing semantic role (e.g. `agent`, `theme`). `engine.analyze({from:'core'})` and `engine.realize({to:'core'})` can round-trip this new INTER JSON document version (`1.19`). **Tasks 4–5 implement controlled question parsing and realization in PL/EN**; see the linked language-specific contract. Broader question types remain pending. Standalone HTML is not part of the supported product.
+The engine now defines a separately validated **question** meaning: `yes_no` over a full proposition, or `wh` over an explicit missing semantic role (e.g. `agent`, `theme`). `engine.analyze({from:'core'})` and `engine.realize({to:'core'})` can round-trip this new INTER JSON document version (`1.19`). **Tasks 4–5 implement controlled question parsing and realization in PL/EN**; see the linked language-specific contract. Broader question types remain pending.
 
 See [semantic contract](docs/questions-v1.19-semantic.md), [PL/EN question support](docs/questions-v1.19-pl-en.md) and [Batch B criteria](docs/batch-b-v1.19.md). Run `npm run check:questions` for dedicated tests. GUI source remains a separate ownership area; local app runs over loopback HTTP.
 
@@ -331,7 +331,7 @@ Implementation, gold tests and release criteria are tracked in [PL/EN question d
 
 ## Stage 1: Batch C–F / INTER 1.20 (draft PR)
 
-Batch C/D with early E/F were merged to `main` in [PR #1](https://github.com/ppotepa/flexLingua/pull/1), commit `2933cfa`. The engine supports scoped ability/obligation, bounded modal coordination, explicit opt-in discourse identity links and initial multiword predicates. Batch E and F were still incomplete in that historical checkpoint. See [Stage 1 technical contract](docs/stage1-batches-c-f-v1.20.md). The 15-example isolated JS smoke check and Actions `startup_failure` describe that old run; later full release runs succeeded. Standalone HTML has since been retired.
+Batch C/D with early E/F were merged to `main` in [PR #1](https://github.com/ppotepa/flexLingua/pull/1), commit `2933cfa`. The engine supports scoped ability/obligation, bounded modal coordination, explicit opt-in discourse identity links and initial multiword predicates. Batch E and F were still incomplete in that historical checkpoint. See [Stage 1 technical contract](docs/stage1-batches-c-f-v1.20.md). The 15-example isolated JS smoke check and Actions `startup_failure` describe that old run; later full release runs succeeded.
 
 ### Small-batch F2: governed-preposition WH (source code)
 
@@ -359,12 +359,12 @@ The engine offers `new ConversationContext(engine,{maxEvents:8})` from `js/core/
 
 ### F3 — more compositional multiword predicate meanings
 
-Three new separate INTER meanings and PL/EN lexical realizations: `look for/szukać` (`event.search`), `listen to/słuchać` (`event.auditory_attention`) and `wait for/czekać na` (`event.wait_for_entity`). Polish genitive vs preposition-governed accusative remain language-local grammar rules; controlled WH questions, negation and selected ability modal questions use existing compositional adapters rather than sentence-pair templates. Productive bindings for these five verb pairs (plus earlier `look at` / `pick up`) are now present in the morphology packages; [F3b morphology gold](docs/multiword-morphology-f3.md) covers 55 curated forms and inverse checks. Standalone GUI synchronization has been retired; the UI runs through local HTTP. [F3 technical contract](docs/multiword-f3.md).
+Three new separate INTER meanings and PL/EN lexical realizations: `look for/szukać` (`event.search`), `listen to/słuchać` (`event.auditory_attention`) and `wait for/czekać na` (`event.wait_for_entity`). Polish genitive vs preposition-governed accusative remain language-local grammar rules; controlled WH questions, negation and selected ability modal questions use existing compositional adapters rather than sentence-pair templates. Productive bindings for these five verb pairs (plus earlier `look at` / `pick up`) are now present in the morphology packages; [F3b morphology gold](docs/multiword-morphology-f3.md) covers 55 curated forms and inverse checks. [F3 technical contract](docs/multiword-f3.md).
 
 
 ### G1a — CI workflow and coverage inventory audit
 
-The historical G1a GitHub Actions workflow targeted `main`, `core/**`, PRs and manual dispatch, separating Node tests, lexical audits, standalone parity and the release gate. The A1 structural inventory also counted PL/EN modal lexemes and checked CORE references. Its `startup_failure` was later fixed; hosted full release runs passed. Standalone parity has since been retired. See [G1 audit](docs/g1-ci-audit.md).
+The historical G1a GitHub Actions workflow targeted `main`, `core/**`, PRs and manual dispatch, separating Node tests, lexical audits and the release gate. The A1 structural inventory also counted PL/EN modal lexemes and checked CORE references. Its `startup_failure` was later fixed; hosted full release runs passed. See [G1 audit](docs/g1-ci-audit.md).
 
 ### F3b — productive inflection of multiword verbs (source checkpoint)
 
