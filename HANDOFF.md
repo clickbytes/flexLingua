@@ -5,6 +5,7 @@
 - Macierz A1 v2 definiuje 23 wymagane jednostki (16 pojęć, 7 konstrukcji), ich sensy CORE, mapowania PL/EN, morfologię i ramy konstrukcji. Oxford/CEFR pozostają referencjami; to nie jest pełny A1 ani mianownik procentu CEFR. VAL-05 inwentaryzuje 16 pakietów danych: 6 project-authored i 10 do migracji źródła/licencji.
 - **PERS-01 (#27):** ADR rozstrzyga deiktyczny referent (`speaker`/`addressee`) i osobne cechy osoby/liczby. Podaje JSON dla I/you/we i ja/ty/my/wy, reguły nieznanej liczby/rodzaju/perspektywy, ryzyka E4 i wymagane testy serializacji. To decyzja architektoniczna; runtime pozostaje do wdrożenia w PERS-02..06.
 - Dokumentacja w tym batchu: `docs/adr/person-deixis.md`, `ROADMAP.md`, `docs/README.md`, `docs/planning/BACKLOG.md` i ten plik. Lokalnie `node --test tests/planning-backlog.test.js` **PASS** (4/4), `git diff --check` **PASS**. Post-merge release baseline VAL-01: Node suite 411/411.
+- PR [#88](https://github.com/clickbytes/flexLingua/pull/88), SHA `2199de8819fdf21a5adc2d8bc2095fe32e656995`: hosted [Actions run #38625055925](https://github.com/clickbytes/flexLingua/actions/runs/38625055925) **PASS**; wszystkie cztery jobs, w tym pełny `check:release`, zakończyły się sukcesem.
 - Następny ready task po PERS-01: PERS-02 #28; STATE-01 #33 również odblokowany. GUI #1 pozostaje formalnym blockerem odbioru GUI.
 
 ---
