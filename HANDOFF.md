@@ -1,3 +1,9 @@
+# CI FAKTYCZNE WYNIKI POPRAWEK CORE — 2026-10-14
+
+**Repo aktywne tylko clickbytes/flexLingua.** Po importowaniu kompletnej migawki `main`, prawdziwy hosted [run 38607989473](https://github.com/clickbytes/flexLingua/actions/runs/38607989473) uruchomił poprawiony zestaw: **392/395 pass**; `lexical-audits` success, `offline-parity` failure, `engine-tests` failure wyłącznie w trzech testach **GUI**. GUI musi poprawić [issue #1](https://github.com/clickbytes/flexLingua/issues/1): nieaktualny standalone i dwa testy Studio. Żadne zmiany w UI/HTML nie zostały wykonane przez CORE. Przed zielonym release wymagane aktualne `npm test`, `check:standalone`, `check:release` na `main`.
+
+---
+
 # CHECKPOINT MIGRACJA / GITHUB ACTIONS — 2026-10-14
 
 **JEDYNE AKTYWNE REPO:** https://github.com/clickbytes/flexLingua

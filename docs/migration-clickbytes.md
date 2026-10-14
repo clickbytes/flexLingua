@@ -18,3 +18,8 @@ Właściciel zdecydował, że od 14 października 2026 wszystkie nowe commity, b
 - Wśród 14 testów nieudanych: siedem testów serializacji dyskursu (prototypy słowników `entities`/`roles`), dwa testy mutacji gold o zbyt kruchych regexach, jedna stara asercja audytu ojca, jeden test zbyt płytkiego progu zagnieżdżenia, trzy GUI/offline (`tests/offline.test.js` oraz dwa `tests/studio-ui.test.js`).
 - CORE patch: po bezpiecznej walidacji nieufnego JSON dyskursu parser odtwarza null-prototype mapy (ochrona i kontrakt API); regresje testów odwołują się do aktualnych ograniczeń. Oddzielny agent musi poprawić GUI/offline.
 - Wynik pozostaje **niezweryfikowany jako green release**, dopóki nowy `main` nie przejdzie całego `check:release` i offline.
+
+## Pierwsze wyniki po poprawce CORE
+
+[Run 38607989473](https://github.com/clickbytes/flexLingua/actions/runs/38607989473) na branch `core/ci-real-run-regressions-20261014`: `lexical-audits` **success**, `npm test` **392/395 pass**. Pozostałe trzy nieudane przypadki to wyłącznie GUI/offline: `tests/offline.test.js` oraz dwa w `tests/studio-ui.test.js`; opis i warunki odbioru: [issue #1](https://github.com/clickbytes/flexLingua/issues/1). `check:release` **nie przechodzi** i agregat jest pominięty do czasu naprawy GUI. Zmiana CORE wyeliminowała 11 poprzednich błędów regresji, a dwa nowe testy potwierdzają bezpieczną serializację dyskursu. Nie należy tego przedstawiać jako zielonego pełnego wydania.
+
