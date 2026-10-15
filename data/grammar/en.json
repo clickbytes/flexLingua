@@ -1,6 +1,7 @@
 {
   "version": "1.0",
   "language": "en",
+  "replyStyles": {"standard": ".", "emphatic": "!"},
   "sentence": {
     "subjectRole": "agent",
     "terminator": ".",

@@ -1,7 +1,7 @@
 # ADR: versioned personality realization profile
 
 **Status:** Accepted for the currently supported adapter options  
-**Profile version:** `1.0`
+**Profile version:** `1.1`
 
 ## Decision
 
@@ -11,6 +11,7 @@ used. It contains only rendering controls already supported by the engine:
 
 - `pronounRealization`: `repeat` or `safe`;
 - `outputVariant`: `preferred` or `first_alternative`.
+- `replyStyles`: independent `pl` and `en` reply styles, each `standard` or `emphatic`.
 
 The shipped default is `data/personality/default.json`. The runtime exports a
 matching immutable `DEFAULT_PERSONALITY_PROFILE`; no filesystem or network
@@ -25,17 +26,19 @@ gaps. If a requested alternate wording is unavailable, the preferred wording
 is retained with a warning. Unsupported personality controls and unknown keys
 are rejected instead of being silently ignored.
 
-The current grammars do not declare independent formality, warmth, or emotional
-tone variants. Those controls are intentionally absent until the language
-adapters can realize and test them. This avoids storing apparent settings that
-cannot affect output.
+The PL and EN grammars declare the two reply punctuation styles. The style is
+applied only to realized responses, after CORE planning, so the response act and
+proposition remain identical. `emphatic` changes the final period to an
+exclamation mark. Questions and unsupported style names keep standard wording
+with a warning. The profiles do not claim independent formality or warmth.
 
 ## Validation and bounds
 
 The profile schema is `schemas/personality.schema.json` (JSON Schema
-2020-12). Profile IDs are lowercase ASCII identifiers up to 32 characters;
-all realization settings are closed enums. The runtime validator enforces the
-same exact keys, version, ID pattern, and option ranges before realization.
+2020-12). Profile IDs are lowercase ASCII identifiers up to 32 characters.
+The runtime accepts legacy `1.0` profiles and fills their missing reply styles
+with `standard`. Unsupported reply styles are syntactically valid but generate
+a warning and use standard wording; other profile options remain closed enums.
 
 ## Consequences
 

@@ -444,7 +444,7 @@
     },
     {
       "path": "data/personality/default.json",
-      "version": "1.0",
+      "version": "1.1",
       "status": "project-authored",
       "author": "flexLingua project contributors",
       "source": "Original project-authored default for the versioned personality realization profile; contains only flexLingua adapter options",
