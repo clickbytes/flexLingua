@@ -39,6 +39,31 @@
       "type": "category",
       "label": "entity"
     },
+    "temporal_reference": {
+      "type": "category",
+      "parent": "entity",
+      "label": "deictic time reference"
+    },
+    "time.unspecified": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "unspecified time reference"
+    },
+    "time.today": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "today"
+    },
+    "time.tomorrow": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "tomorrow"
+    },
+    "time.yesterday": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "yesterday"
+    },
     "person": {
       "type": "category",
       "parent": "entity",

@@ -2,7 +2,7 @@
  * Language-independent feature inventory and non-destructive feature unification.
  * Semantic dimensions are declared in data/features.json, not in a language adapter.
  */
-export const FEATURE_VERSION = '0.3';
+export const FEATURE_VERSION = '0.4';
 export const GRAMMATICAL_PERSON = Object.freeze({
   first: 'first',
   second: 'second',

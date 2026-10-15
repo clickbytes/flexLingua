@@ -577,6 +577,11 @@
     "questionStrategy": "prefix",
     "supportedTense": "present"
   },
+  "temporalDeixis": {
+    "today": ["dziś", "dzisiaj"],
+    "tomorrow": "jutro",
+    "yesterday": "wczoraj"
+  },
   "anaphora": {
     "subjectPronouns": [
       {

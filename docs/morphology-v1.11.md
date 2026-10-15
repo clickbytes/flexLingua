@@ -16,7 +16,7 @@ CORE Concept / Operator / Grammatical Function
                   └───── Surface forms / reverse analyses
 ```
 
-The CORE lexical model remains `1.01`, the stable semantic graph wire format is still `1.0`, and **morphology is separately versioned `1.11`**. The shared registry `data/morphology/features.json` is version `1.02`; it does not rewrite `data/features.json` (the version `0.3` semantic compatibility registry).
+The CORE lexical model remains `1.01`, the stable semantic graph wire format is still `1.0`, and **morphology is separately versioned `1.11`**. The shared registry `data/morphology/features.json` is version `1.02`; it is separate from `data/features.json` (the version `0.4` semantic compatibility registry).
 
 A **lexeme** represents a language-specific lexical unit, not a surface word. Every canonical PL and EN lexical sense resolves to CORE. Its optional morphology binding is stored in `data/morphology/<lang>.json` with `lexemeId`, `paradigmId`, `stems` and `overrides`. The canonical source dictionary remains the authority for meanings. Morphology results inherit CORE references through that lexeme; they cannot create new concepts by themselves.
 

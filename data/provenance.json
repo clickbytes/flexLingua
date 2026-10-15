@@ -25,36 +25,36 @@
     },
     {
       "path": "data/features.json",
-      "version": "0.3",
+      "version": "0.4",
       "status": "legacy-review-required",
-      "author": "Not attributed in the existing package metadata",
-      "source": "Historical flexLingua semantic feature configuration; per-entry origin is not recorded",
+      "author": "Historical entries are not attributed; the temporal-reference extension is project-authored in SPACE-04",
+      "source": "Historical flexLingua semantic feature configuration plus the bounded event time-reference inventory added for today/tomorrow/yesterday",
       "license": "Unconfirmed; no separate license statement is present in this package",
       "reviewedAt": "2026-10-14",
       "permittedUse": "Existing in-repository execution only. Do not redistribute or reuse externally until source and rights are reviewed.",
-      "migrationNote": "Add verified package and entry attribution before expanding or exporting this legacy package."
+      "migrationNote": "Historical domains still need verified package and entry attribution. The SPACE-04 additions are project-authored; external redistribution remains blocked until the legacy source and rights review is complete."
     },
     {
       "path": "data/grammar/en.json",
       "version": "1.0",
       "status": "legacy-review-required",
-      "author": "Not attributed in the existing package metadata",
-      "source": "Historical flexLingua English grammar rules; individual rule authorship is not recorded",
+      "author": "Historical rules are not attributed; SPACE-04 time-deixis mappings are project-authored",
+      "source": "Historical flexLingua English grammar rules and the bounded today/tomorrow/yesterday realization map added for SPACE-04",
       "license": "Unconfirmed; no separate license statement is present in this package",
-      "reviewedAt": "2026-10-14",
+      "reviewedAt": "2026-10-15",
       "permittedUse": "Existing in-repository execution only. Do not redistribute or reuse externally until source and rights are reviewed.",
-      "migrationNote": "Add verified authorship and license metadata before expanding or exporting this legacy package."
+      "migrationNote": "Historical rule authorship and rights remain unconfirmed. The SPACE-04 mappings are project-authored; external redistribution remains blocked pending review."
     },
     {
       "path": "data/grammar/pl.json",
       "version": "1.0",
       "status": "legacy-review-required",
-      "author": "Not attributed in the existing package metadata",
-      "source": "Historical flexLingua Polish grammar rules; individual rule authorship is not recorded",
+      "author": "Historical rules are not attributed; SPACE-04 time-deixis mappings are project-authored",
+      "source": "Historical flexLingua Polish grammar rules and the bounded dziś/dzisiaj/jutro/wczoraj realization map added for SPACE-04",
       "license": "Unconfirmed; no separate license statement is present in this package",
-      "reviewedAt": "2026-10-14",
+      "reviewedAt": "2026-10-15",
       "permittedUse": "Existing in-repository execution only. Do not redistribute or reuse externally until source and rights are reviewed.",
-      "migrationNote": "Add verified authorship and license metadata before expanding or exporting this legacy package."
+      "migrationNote": "Historical rule authorship and rights remain unconfirmed. The SPACE-04 mappings are project-authored; external redistribution remains blocked pending review."
     },
     {
       "path": "data/grammar/tr.json",

@@ -399,6 +399,11 @@
     "questionStrategy": "front",
     "supportedTense": "present"
   },
+  "temporalDeixis": {
+    "today": "today",
+    "tomorrow": "tomorrow",
+    "yesterday": "yesterday"
+  },
   "anaphora": {
     "subjectPronouns": [
       {
