@@ -20,14 +20,15 @@ test('A1 VAL-03: all ten project-authored fixtures are inventoried',()=>{
  assert.equal(report.totals.sources,10);
  assert.deepEqual({p:report.totals.positive,n:report.totals.negative,
    f:report.totals.morphologyCells,productive:report.totals.productiveOnly},
-   {p:460,n:73,f:60,productive:2});
- assert.equal(report.verification.positiveVerified,460);
+   {p:494,n:73,f:60,productive:2});
+ assert.equal(report.verification.positiveVerified,494);
  const state=report.sources.find(x=>x.id==='state');
  assert.equal(state.samples.positive,40);
  assert.deepEqual(state.byDirection,{'en->pl':20,'pl->en':20});
  const composition=report.sources.find(x=>x.id==='composition');
  assert.deepEqual({positive:composition.samples.positive,negative:composition.samples.negative},
-   {positive:12,negative:1});
+   {positive:46,negative:1});
+ assert.deepEqual(composition.byDirection,{'en->pl':26,'pl->en':20});
  const spacetime=report.sources.find(x=>x.id==='spacetime');
  assert.deepEqual({positive:spacetime.samples.positive,negative:spacetime.samples.negative},
    {positive:64,negative:9});
@@ -48,7 +49,7 @@ test('A1 VAL-03: all ten project-authored fixtures are inventoried',()=>{
      .reduce((sum,row)=>sum+row[kind],0),report.sampleQuality.declared[kind]);
  assert.equal(Object.values(report.sampleQuality.declared.morphologyByLanguage)
    .reduce((sum,count)=>sum+count,0),report.totals.morphologyCells);
- assert.equal(report.sampleQuality.verified.positive,460);
+ assert.equal(report.sampleQuality.verified.positive,494);
  assert.equal(report.targetSummary.total,23);
  assert.deepEqual({concepts:report.targets.filter(x=>x.unitType==='concept').length,
    constructions:report.targets.filter(x=>x.unitType==='construction').length},
