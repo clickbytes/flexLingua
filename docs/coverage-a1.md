@@ -9,6 +9,7 @@ Structural coverage describes what is declared in repository data. It does not m
 - The target inventory is `data/coverage/a1-targets.json`; its scope and statuses are described in [A1 project scope](a1-scope.md).
 - The original sentence corpus is described in [G2](g2-a1-gold.md).
 - STATE-05 adds 48 hand-authored PL↔EN predication and possession examples in `tests/fixtures/gold-state-a1.json` (24 per direction), including present-tense negation and yes/no questions, six CORE round trips across identity, predication, and possession, and explicit refusals for unsupported identity, malformed agreement, and Polish past state realization. The cases are regression evidence for the declared subset, not a representative language corpus.
+- A1-ENPL-03 adds ten project-authored EN↔PL examples for five bare mass-noun beverages in `tests/fixtures/gold-a1-bare-beverages.json`, with explicit refusals for unsupported roles and count nouns. These samples are internal regression evidence, not an independent benchmark or CEFR evidence.
 - The combined report and its limits are documented in [G3](g3-a1-report.md).
 - The pilot data in `data/coverage/a1-pilot.json` is authored for this project and is not copied from Oxford.
 

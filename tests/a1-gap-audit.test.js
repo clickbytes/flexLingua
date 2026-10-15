@@ -23,12 +23,12 @@ const target=(report,id)=>report.targets.find(x=>x.id===id);
 
 test('VAL-01: frozen project scope distinguishes concepts and constructions without CEFR percentage',()=>{
   const report=run();
-  assert.equal(report.targetCount,23);
+  assert.equal(report.targetCount,24);
   assert.equal(report.cefr.percentage,null);
   assert.equal(report.scope,'project-authored-A1-checklist-gaps-not-cefr');
-  assert.equal(Object.values(report.statusCounts).reduce((a,b)=>a+b,0),23);
-  assert.deepEqual(report.scopeStatusCounts,{required:23,deferred:0,unsupported:0});
-  assert.deepEqual(report.unitTypeCounts,{concept:16,construction:7});
+  assert.equal(Object.values(report.statusCounts).reduce((a,b)=>a+b,0),24);
+  assert.deepEqual(report.scopeStatusCounts,{required:24,deferred:0,unsupported:0});
+  assert.deepEqual(report.unitTypeCounts,{concept:16,construction:8});
   assert.equal(report.validation.benchmarkCases,40);
   assert.ok(report.byDomain.family.targets>=4);
 });
@@ -130,8 +130,8 @@ test('A1 Batch 3: structural counters include the four new lexemes in each langu
   assert.equal(report.byDomain.family.bilingualLexical,4,
     'mother, sister, brother and father have PL and EN lexemes');
   assert.equal(report.byDomain.activities.unmodelled,0);
-  assert.equal(report.byDomain.activities.bilingualLexical,7,
-    'all seven planned activities have PL and EN lexemes, including write and open');
+  assert.equal(report.byDomain.activities.bilingualLexical,8,
+    'all eight planned activities have PL and EN lexemes, including drink, write, and open');
   assert.equal(report.cefr.percentage,null);
 });
 
@@ -157,8 +157,8 @@ test('A1 Batch 5: movement is bilingual with frames and remains outside frozen G
 
 test('A1 Batch 6: newly available daily activities gain both lexicons, grammar and morphology',()=>{
  const report=run();
- assert.equal(report.targetCount,23);
- assert.equal(report.byDomain.activities.targets,7);
+ assert.equal(report.targetCount,24);
+ assert.equal(report.byDomain.activities.targets,8);
  for(const id of ['event.write','event.open']){
   const item=target(report,id);
   assert.equal(item.ontologyPresent,true,id);

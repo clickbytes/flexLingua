@@ -482,6 +482,11 @@ function validateGrammar(dictionary, grammar) {
         (frame.caseAlternations !== undefined && typeof frame.caseAlternations !== 'boolean') ||
         (frame.bareRoles !== undefined && (!Array.isArray(frame.bareRoles) ||
           !frame.bareRoles.every(safeName) || new Set(frame.bareRoles).size !== frame.bareRoles.length)) ||
+        (frame.bareRoleConcepts !== undefined && (!record(frame.bareRoleConcepts) ||
+          Object.entries(frame.bareRoleConcepts).some(([role, ids]) => !safeName(role) ||
+            !Array.isArray(ids) || !ids.length || !ids.every(id=>
+              typeof id==='string' && /^[a-z][a-z0-9_.-]*$/u.test(id)) ||
+            new Set(ids).size !== ids.length))) ||
         !Array.isArray(frame.linearizations) || !frame.linearizations.length ||
         !frame.linearizations.every(sequence => Array.isArray(sequence) && sequence.length &&
           sequence.every(step => typeof step === 'string' &&
@@ -743,6 +748,12 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
       }
     }
     return result;
+  }
+
+  function bareRoleAllows(frame, role, concept) {
+    if (!frame.bareRoles?.includes(role)) return false;
+    const restricted = frame.bareRoleConcepts?.[role];
+    return !restricted || restricted.includes(concept);
   }
 
   function deicticCase(grammaticalCase,role) {
@@ -1252,6 +1263,8 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
                 {allowBare:frame.bareRoles?.includes(step) === true}),
                 ...readDeicticNounPhrases(tokens,index,deicticCase(grammaticalCase,step))];
               for (const parsed of phrases) {
+                if (dictionary.language==='en' && parsed.bare && frame.bareRoleConcepts?.[step] &&
+                    !bareRoleAllows(frame,step,parsed.noun.concept)) continue;
                 if (record(caseRule)) {
                   const implied = Object.keys(caseRule).find(key => key !== 'unknown' &&
                     caseRule[key] === grammaticalCase);
@@ -1821,7 +1834,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     }
     const noun = nounByConcept(ref.concept,lexicalRegister);
     let output = plainNoun(ref, noun, requiredCase, fallback,
-      frame.bareRoles?.includes(role) === true);
+      bareRoleAllows(frame,role,ref.concept));
     for (const relative of ref.relatives || []) {
       if (depth >= relativeGrammar.maxDepth) throw new Error('Relative clause realization depth exceeded.');
       const marker = relativeGrammar.markers.find(item => item.gap === relative.gap &&
@@ -2527,6 +2540,15 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
       }
       if (frame.bareRoles && frame.bareRoles.some(role=>!semanticFrame.roles.includes(role))) {
         throw new Error(`Unknown bare noun role for ${verb.concept}`);
+      }
+      for (const [role, ids] of Object.entries(frame.bareRoleConcepts || {})) {
+        const allowedConcepts=frame.capabilities?.themeConcepts;
+        if (!frame.bareRoles?.includes(role) || !semanticFrame.roles.includes(role) ||
+            !Array.isArray(allowedConcepts) || ids.some(id=>
+              !ontology.get(id) || !ontology.isA(id,semanticFrame.roleTypes?.[role]) ||
+              !allowedConcepts.includes(id))) {
+          throw new Error(`Invalid bare role concept for ${verb.concept}.${role}`);
+        }
       }
       for (const sequence of frame.linearizations) {
         const roles = sequence.filter(step => !step.startsWith('@'));

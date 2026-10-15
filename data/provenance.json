@@ -137,6 +137,13 @@
       "migrationNote": "Historical rule authorship and rights remain unconfirmed. The SPACE-04 mappings are project-authored; external redistribution remains blocked pending review. The A2-03 additions are project-authored and remain bounded to the in-repository adapter; no historical data was copied.",
       "authoredBatches": [
         {
+          "issue": "#159",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored bounded English event grammar licensing bare mass-noun beverage themes only for event.drink; no external grammar inventory copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "A1-ENPL-03: water, milk, coffee, and tea as bare beverage themes. Language package: data/grammar/en.json."
+        },
+        {
           "issue": "#45",
           "author": "flexLingua project contributors",
           "source": "Project-authored bounded event frame declarations for eat, drink, work, learn, and sleep.",
@@ -176,6 +183,13 @@
       "permittedUse": "Existing in-repository execution only. Do not redistribute or reuse externally until source and rights are reviewed.",
       "migrationNote": "Historical rule authorship and rights remain unconfirmed. The SPACE-04 mappings are project-authored; external redistribution remains blocked pending review. The A2-03 additions are project-authored and remain bounded to the in-repository adapter; no historical data was copied.",
       "authoredBatches": [
+        {
+          "issue": "#159",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored bounded Polish event grammar licensing bare beverage themes only for event.drink; no external grammar inventory copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "A1-ENPL-03: water, milk, coffee, and tea as bare beverage themes. Language package: data/grammar/pl.json."
+        },
         {
           "issue": "#45",
           "author": "flexLingua project contributors",

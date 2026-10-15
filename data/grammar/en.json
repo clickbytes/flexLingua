@@ -478,6 +478,17 @@
       }
     },
     "event.drink": {
+      "bareRoles": [
+        "theme"
+      ],
+      "bareRoleConcepts": {
+        "theme": [
+          "beverage.water",
+          "beverage.milk",
+          "beverage.coffee",
+          "beverage.tea"
+        ]
+      },
       "linearizations": [
         [
           "agent",
@@ -498,7 +509,11 @@
           "theme": "beverage"
         },
         "themeConcepts": [
-          "beverage.juice"
+          "beverage.juice",
+          "beverage.water",
+          "beverage.milk",
+          "beverage.coffee",
+          "beverage.tea"
         ]
       }
     },
