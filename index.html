@@ -147,6 +147,21 @@
     .coverage-table .button { white-space: nowrap; }
     .coverage-id { display: block; font: 11px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace; color: var(--subtle); }
     .coverage-example { color: var(--muted); font-size: 12px; }
+    .dialogue-toolbar { display: flex; justify-content: space-between; align-items: end; gap: 14px; flex-wrap: wrap; }
+    .dialogue-toolbar .field { width: min(100%, 230px); }
+    .dialogue-settings, .dialogue-compose { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
+    .dialogue-history { display: grid; gap: 12px; margin-top: 16px; }
+    .dialogue-turn { border: 1px solid var(--stroke-light); border-radius: 13px; padding: 14px; background: #101d2b; }
+    .dialogue-turn.refusal { border-color: #934954; background: #372430; }
+    .dialogue-turn h3 { margin: 0 0 8px; font-size: 13px; }
+    .dialogue-turn p { margin: 5px 0 0; overflow-wrap: anywhere; }
+    .dialogue-turn .dialogue-meta { color: var(--muted); font-size: 12px; }
+    .dialogue-turn .dialogue-text { line-height: 1.65; }
+    .dialogue-state { color: var(--muted); margin: 12px 0 0; font-size: 13px; }
+    .dialogue-feedback { min-height: 1.5em; margin: 12px 0 0; color: var(--accent); font-size: 13px; }
+    .dialogue-feedback.error { color: var(--error); }
+    .dialogue-empty { padding: 20px; border: 1px dashed var(--stroke-light); border-radius: 13px; color: var(--muted); }
+    .dialogue-empty p { margin: 0; }
     .experimental-settings .hint { margin: 13px 0 0; }
     .experimental-settings .hint strong { color: var(--text); }
     .tag-experimental { background: #413523; color: #ffdfa2; }
@@ -228,6 +243,7 @@
       .dictionary-search { grid-template-columns: minmax(0,1fr) minmax(0,1fr); }
       .dictionary-search .word-field { grid-column: 1/-1; }
       .dictionary-search .button { width: 100%; }
+      .dialogue-compose, .dialogue-settings { grid-template-columns: 1fr; }
     }
     @media (max-width: 460px) {
       .panel { padding: 16px; border-radius: 14px; }
@@ -280,6 +296,7 @@
             <button class="tab" type="button" id="tab-dictionary" role="tab" aria-controls="panel-dictionary" aria-selected="false" tabindex="-1"><span class="tab-icon" aria-hidden="true">Aa</span>Słownik i odmiany</button>
             <button class="tab" type="button" id="tab-inter" role="tab" aria-controls="panel-inter" aria-selected="false" tabindex="-1"><span class="tab-icon" aria-hidden="true">◇</span>INTER Explorer</button>
             <button class="tab" type="button" id="tab-coverage" role="tab" aria-controls="panel-coverage" aria-selected="false" tabindex="-1"><span class="tab-icon" aria-hidden="true">▤</span>Pokrycie reguł</button>
+            <button class="tab" type="button" id="tab-dialogue" role="tab" aria-controls="panel-dialogue" aria-selected="false" tabindex="-1"><span class="tab-icon" aria-hidden="true">↔</span>Rozmowa</button>
           </nav>
         </div>
         <div class="sidebar-note">
@@ -499,6 +516,70 @@
             <h2 class="panel-title">Jak interpretować liczby?</h2>
             <p class="lead">Paradygmat opisuje zestaw dostępnych komórek odmiany dla pewnej klasy wyrazów. Liczba wygenerowanych form nie jest liczbą poprawnie obsługiwanych słów w całym języku. Reguły nie rozpoznają automatycznie klasy nowego słowa ani wszystkich wyjątków.</p>
             <p class="hint">Przycisk „Przetestuj wzorzec” przenosi wybrany paradygmat do eksperymentalnego podglądu w zakładce „Słownik i odmiany”. Nie dodaje słowa do słownika.</p>
+          </section>
+        </section>
+
+        <section id="panel-dialogue" role="tabpanel" aria-labelledby="tab-dialogue" lang="pl" hidden>
+          <div class="view-head">
+            <p class="eyebrow" id="dialogue-eyebrow">05 / Rozmowa</p>
+            <h1 id="dialogue-heading">Rozmowa w wielu turach</h1>
+            <p class="lead" id="dialogue-intro">Wysyłaj wypowiedzi między jawnie wskazanymi rozmówcami. Historia jest prowadzona przez DialogueEngine.</p>
+          </div>
+          <section class="panel" aria-labelledby="dialogue-controls-heading">
+            <div class="dialogue-toolbar">
+              <div>
+                <h2 class="panel-title" id="dialogue-controls-heading">Ustawienia sesji</h2>
+                <p class="hint" id="dialogue-profile-help">Profil zmienia wyłącznie obsługiwane opcje realizacji tekstu.</p>
+              </div>
+              <label class="field" for="dialogue-ui-language"><span id="dialogue-label-ui-language">Język interfejsu</span>
+                <select id="dialogue-ui-language"><option value="pl">Polski</option><option value="en">English</option></select>
+              </label>
+            </div>
+            <div class="dialogue-settings">
+              <label class="field" for="dialogue-pronouns"><span id="dialogue-label-pronouns">Zaimki</span>
+                <select id="dialogue-pronouns"><option value="repeat">Powtarzaj nazwę / Repeat names</option><option value="safe">Bezpieczny zaimek / Safe pronouns</option></select>
+              </label>
+              <label class="field" for="dialogue-variant"><span id="dialogue-label-variant">Wariant tekstu</span>
+                <select id="dialogue-variant"><option value="preferred">Preferowany / Preferred</option><option value="first_alternative">Pierwsza alternatywa / First alternative</option></select>
+              </label>
+            </div>
+          </section>
+          <section class="panel" aria-labelledby="dialogue-compose-heading">
+            <h2 class="panel-title" id="dialogue-compose-heading">Nowa wypowiedź</h2>
+            <form id="dialogue-form">
+              <div class="dialogue-compose">
+                <label class="field" for="dialogue-speaker"><span id="dialogue-label-speaker">Mówca</span>
+                  <select id="dialogue-speaker"><option value="you">Ty / You</option><option value="assistant">Asystent / Assistant</option></select>
+                </label>
+                <label class="field" for="dialogue-addressee"><span id="dialogue-label-addressee">Adresat</span>
+                  <select id="dialogue-addressee"><option value="assistant">Asystent / Assistant</option><option value="you">Ty / You</option></select>
+                </label>
+                <label class="field" for="dialogue-from"><span id="dialogue-label-from">Język wypowiedzi</span>
+                  <select id="dialogue-from"><option value="pl">Polski</option><option value="en">English</option></select>
+                </label>
+                <label class="field" for="dialogue-to"><span id="dialogue-label-to">Język wyniku</span>
+                  <select id="dialogue-to"><option value="pl">Polski</option><option value="en">English</option></select>
+                </label>
+              </div>
+              <label class="field field-group" for="dialogue-text"><span id="dialogue-label-text">Wypowiedź</span>
+                <textarea id="dialogue-text" rows="3" placeholder="Wpisz jedno zdanie…"></textarea>
+              </label>
+              <div class="editor-footer">
+                <button class="button button-primary" id="dialogue-send" type="submit">Dodaj turę</button>
+                <button class="button" id="dialogue-reply" type="button" disabled>Odpowiedz na pytanie</button>
+                <button class="button button-quiet" id="dialogue-reset" type="button">Resetuj rozmowę</button>
+              </div>
+            </form>
+            <p class="dialogue-feedback" id="dialogue-feedback" role="status" aria-live="polite"></p>
+          </section>
+          <section class="panel" aria-labelledby="dialogue-history-heading">
+            <div class="output-header">
+              <h2 class="panel-title" id="dialogue-history-heading">Historia tur</h2>
+              <span class="output-note" id="dialogue-count">0 / 32</span>
+            </div>
+            <p class="dialogue-state" id="dialogue-state" role="status" aria-live="polite">Rozmowa gotowa.</p>
+            <div class="dialogue-empty" id="dialogue-empty"><p id="dialogue-empty-text">Brak tur. Wpisz wypowiedź, aby rozpocząć.</p></div>
+            <div class="dialogue-history" id="dialogue-history" aria-live="polite" aria-relevant="additions text"></div>
           </section>
         </section>
 

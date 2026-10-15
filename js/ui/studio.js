@@ -833,6 +833,7 @@ function renderCoverageOverview(engine, onTestPattern) {
 /** Accessible tabs with arrow-key/Home/End navigation. */
 export function initStudio(engine) {
   const names = ['translate', 'dictionary', 'inter', 'coverage'];
+  if ($('tab-dialogue') && $('panel-dialogue')) names.push('dialogue');
   const tabs = names.map(name => $('tab-' + name));
   const panels = names.map(name => $('panel-' + name));
   if (tabs.some(tab => !tab) || panels.some(panel => !panel)) return;
