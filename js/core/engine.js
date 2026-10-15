@@ -7,6 +7,8 @@ import {RESOURCE_LIMITS} from './resource-limits.js';
 import {createResponsePlanner, RESPONSE_PLANNER_VERSION} from './response-planner.js';
 import {createDialogueEngine as createDialogueEngineApi, DIALOGUE_ENGINE_VERSION}
   from './dialogue-engine.js';
+import {applyPersonalityProfile, createPersonalityProfile, PERSONALITY_PROFILE_VERSION}
+  from './personality.js';
 
 const MAX_CANDIDATES = 16;
 
@@ -191,7 +193,8 @@ export class Engine {
   }
 
   /** Plan a response in CORE, then realize its proposition with the selected language adapter. */
-  respond({question,facts,clarifyQuestion,to}={}) {
+  respond({question,facts,clarifyQuestion,to,profile}={}) {
+    const personality=createPersonalityProfile(profile);
     if (typeof to !== 'string' || (to !== 'core' && !this.languages.has(to))) {
       throw new Error(`Unsupported response language: ${to}`);
     }
@@ -199,7 +202,7 @@ export class Engine {
     if (!plan.realization) {
       return {plan,text:null,warnings:[],alternatives:[]};
     }
-    const output = this.realize({interlingua:plan.realization,to});
+    const output = this.realize({interlingua:plan.realization,to,profile:personality});
     return {plan,text:output.text,warnings:[...(output.warnings||[])],
       alternatives:[...(output.alternatives||[])]};
   }
@@ -207,6 +210,10 @@ export class Engine {
   /** Create a multi-turn orchestration facade over this Engine. */
   createDialogueEngine() {
     return createDialogueEngineApi(this);
+  }
+
+  validatePersonalityProfile(profile) {
+    return createPersonalityProfile(profile);
   }
 
   validateContext(context = {}) {
@@ -647,7 +654,9 @@ export class Engine {
     return this.analyzeCandidates({ text, from, context })[0].interlingua;
   }
 
-  realize({ interlingua, to, pronounRealization='repeat' }) {
+  realize({ interlingua, to, pronounRealization='repeat', profile }) {
+    const personality=createPersonalityProfile(profile);
+    if (profile !== undefined) pronounRealization=personality.realization.pronounRealization;
     if(!['repeat','safe'].includes(pronounRealization))
       throw new Error('Invalid pronoun realization policy.');
     validateInterlingua(interlingua, this.ontology, this.features);
@@ -731,7 +740,7 @@ export class Engine {
       throw new Error('Unsupported semantic clause node.');
     };
     if (interlingua.type !== 'discourse') {
-      return { ...realizeClause(interlingua), interlingua };
+      return applyPersonalityProfile({...realizeClause(interlingua), interlingua},personality);
     }
     const pronounizedEvents=[];
     const suppressed=[];
@@ -756,13 +765,13 @@ export class Engine {
       return realizeClause(materializeEvent(interlingua,event),
         subjectPronoun?{subjectPronoun}:{});
     });
-    return {
+    return applyPersonalityProfile({
       text: parts.map(part => part.text).join(' '), interlingua,
       warnings: [...parts.flatMap((part, i) => (part.warnings || []).map(warning =>
         `Event ${i + 1}: ${warning}`)),...suppressed],
       alternatives: [],
       ...(pronounRealization==='safe'?{pronounizedEvents}:{})
-    };
+    },personality);
   }
 
   /** Stable, serializable discovery interface (does not expose mutable adapters). */
@@ -771,6 +780,7 @@ export class Engine {
       dialogueActDocumentVersion: DIALOGUE_ACT_VERSION,
       responsePlannerVersion: RESPONSE_PLANNER_VERSION,
       dialogueEngineVersion: DIALOGUE_ENGINE_VERSION,
+      personalityProfileVersion: PERSONALITY_PROFILE_VERSION,
       modalityDocumentVersion: MODALITY_VERSION, stateDocumentVersion: STATE_VERSION,
       stateFrameVersion: this.ontology.stateFrameVersion,
       coreLanguage: {code:'core', version:this.core.version, format:'interlingua-json'},
@@ -793,14 +803,14 @@ export class Engine {
     }
   }
 
-  translate({ text, from, to, context, pronounRealization='repeat' }) {
+  translate({ text, from, to, context, pronounRealization='repeat', profile }) {
     const candidates = this.analyzeCandidates({ text, from, context });
     const results = [];
     let firstError;
     for (const candidate of candidates) {
       try {
         const output = this.realize({ interlingua: candidate.interlingua, to,
-          pronounRealization });
+          pronounRealization,profile });
         results.push({ ...candidate, output });
       } catch (error) {
         firstError ||= error;

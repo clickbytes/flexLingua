@@ -4,9 +4,9 @@ import {ConversationContext} from './conversation.js';
 export const DIALOGUE_ENGINE_VERSION = '1.0';
 
 const NEXT_TURN_FIELDS = new Set([
-  'session','utterance','language','from','to','context','pronounRealization','participants'
+  'session','utterance','language','from','to','context','pronounRealization','participants','profile'
 ]);
-const RESPOND_FIELDS = new Set(['session','to','facts','clarifyQuestion','participants']);
+const RESPOND_FIELDS = new Set(['session','to','facts','clarifyQuestion','participants','profile']);
 
 function diagnostic(code,message,severity='error') {
   return {code,message,severity};
@@ -103,7 +103,7 @@ export class DialogueEngine {
         Object.keys(request).some(key=>!NEXT_TURN_FIELDS.has(key))) {
       throw new Error('Invalid nextTurn request fields.');
     }
-    const {session,utterance,language,from,to,context={},pronounRealization='repeat',participants}=request;
+    const {session,utterance,language,from,to,context={},pronounRealization='repeat',participants,profile}=request;
     this.#session(session);
     if (language !== undefined && from !== undefined && language !== from) {
       throw new Error('Specify one source language using language or from.');
@@ -117,7 +117,7 @@ export class DialogueEngine {
     this.#engine.language(source);
     if (target !== 'core') this.#engine.language(target);
     return {session,translation:{text:parsed.text,from:source,to:target,context,
-      pronounRealization,participants}};
+      pronounRealization,participants,profile}};
   }
 
   #respondArgs(request={}) {
@@ -127,7 +127,8 @@ export class DialogueEngine {
     }
     this.#session(request.session);
     return {session:request.session,options:{to:request.to,facts:request.facts,
-      clarifyQuestion:request.clarifyQuestion,participants:request.participants}};
+      clarifyQuestion:request.clarifyQuestion,participants:request.participants,
+      profile:request.profile}};
   }
 
   /** Parse and realize one utterance, committing the session turn only on success. */
