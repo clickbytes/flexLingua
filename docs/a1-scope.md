@@ -67,7 +67,7 @@ implementacyjny, a nie pełny zakres A1.
 | Niepoliczalne napoje bez rodzajnika (`water`, `milk`, `coffee`, `tea`) jako dopełnienie `drink` | A1-ENPL-03 | Obsługiwane w EN→CORE→PL i PL→CORE→EN; ograniczone do jawnej listy napojów i ramy `drink`. Inne napoje, gołe NP poza tą ramą i gołe rzeczowniki policzalne pozostają odrzucane. |
 | Egzystencjalne lokatywy: `there is/are` + jawne `in/on/at` | A1-ENPL-04 | Obsługiwane pozytywnie w czasie teraźniejszym przez stan CORE `location`; polska realizacja zachowuje relację i referenty. Negacja, pytania i brak jawnej lokacji pozostają odrzucane. |
 | Zaimki anaforyczne bez dostępnego antecedensu | A1-ENPL-05+ | Poza zakresem tej macierzy; nierozwiązane odniesienie jest jawnie odrzucane. |
-| Czas przeszły w polskiej predykacji stanowej | A1-ENPL-06+ | Brak zadeklarowanej polskiej realizacji. |
+| Dodatnia predykacja cechy w czasie przeszłym: `The book was small.` | A1-ENPL-05 | Obsługiwana w PL↔CORE↔EN dla rzeczownikowych podmiotów z pięcioma klasami zgody. Przeszłe przeczenie, pytania i inne rodzaje stanów pozostają odrzucane. |
 
 Statusy tej macierzy nie są wskaźnikiem opanowania CEFR. Każdy batch wymaga
 osobnego golda z poprawnymi wynikami, uzasadnionymi odmowami i kontrolą nowych

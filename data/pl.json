@@ -4387,6 +4387,17 @@
           "firstPlural": "jesteśmy",
           "secondPlural": "jesteście",
           "thirdPlural": "są"
+        },
+        "past": {
+          "singular": {
+            "masculine": "był",
+            "feminine": "była",
+            "neuter": "było"
+          },
+          "plural": {
+            "virile": "byli",
+            "nonvirile": "były"
+          }
         }
       },
       "senses": [
