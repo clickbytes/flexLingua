@@ -63,6 +63,11 @@ test('malformed interrogatives fail semantic validation explicitly',()=>{
  assert.throws(()=>valid({...q,proposition:{...q.proposition,
    features:{...q.proposition.features,tense:'futuristic'}}}),/feature/);
 });
+test('imperative requests are explicitly deferred instead of parsed as statements',()=>{
+ for(const [from,text] of [['en','Read the book.'],['pl','Czytaj książkę.']]){
+  assert.throws(()=>engine.analyze({text,from}),/construction|unsupported/i,`${from}: ${text}`);
+ }
+});
 test('source grammar remains compatible; semantic CORE questions realize through PL and EN',()=>{
  const q=createQuestion(see());
  assert.equal(engine.translate({from:'core',to:'pl',text:JSON.stringify(q)}).text,
