@@ -1715,6 +1715,54 @@
         "base": "port"
       },
       "overrides": []
+    },
+    {
+      "lexemeId": "en.like.verb.1",
+      "paradigmId": "en.verb.regular",
+      "stems": {
+        "base": "like"
+      },
+      "overrides": [
+        {
+          "when": {
+            "tense": "past"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "liked"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "en.want.verb.1",
+      "paradigmId": "en.verb.regular",
+      "stems": {
+        "base": "want"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.prefer.verb.1",
+      "paradigmId": "en.verb.regular",
+      "stems": {
+        "base": "prefer"
+      },
+      "overrides": [
+        {
+          "when": {
+            "tense": "past"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "preferred"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

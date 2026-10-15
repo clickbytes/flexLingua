@@ -1119,6 +1119,91 @@
         },
         "themeConcepts": []
       }
+    },
+    "event.liking": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb",
+          "theme"
+        ]
+      ],
+      "cases": {
+        "agent": "nom",
+        "theme": "acc"
+      },
+      "capabilities": {
+        "tenses": [
+          "present",
+          "past"
+        ],
+        "aspects": [
+          "imperfective"
+        ],
+        "roles": {
+          "agent": "person",
+          "theme": "entity"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.desire": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb",
+          "theme"
+        ]
+      ],
+      "cases": {
+        "agent": "nom",
+        "theme": "acc"
+      },
+      "capabilities": {
+        "tenses": [
+          "present",
+          "past"
+        ],
+        "aspects": [
+          "imperfective"
+        ],
+        "roles": {
+          "agent": "person",
+          "theme": "entity"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.preference": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb",
+          "preferred",
+          "@od",
+          "alternative"
+        ]
+      ],
+      "cases": {
+        "agent": "nom",
+        "preferred": "acc",
+        "alternative": "gen"
+      },
+      "capabilities": {
+        "tenses": [
+          "present",
+          "past"
+        ],
+        "aspects": [
+          "imperfective"
+        ],
+        "roles": {
+          "agent": "person",
+          "preferred": "entity",
+          "alternative": "entity"
+        },
+        "themeConcepts": []
+      }
     }
   },
   "states": {
@@ -1389,5 +1474,15 @@
       "number": "plural",
       "case": "dat"
     }
-  ]
+  ],
+  "comparison": {
+    "marker": "niż",
+    "stateKind": "predication",
+    "subjectCase": "nom",
+    "standardCase": "nom"
+  },
+  "request": {
+    "marker": "proszę",
+    "actionPath": "lemma"
+  }
 }

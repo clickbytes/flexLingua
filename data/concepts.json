@@ -850,6 +850,49 @@
       "type": "entity",
       "parent": "beverage",
       "label": "port wine"
+    },
+    "dialogue_act.request": {
+      "type": "category",
+      "parent": "dialogue_act",
+      "label": "polite request"
+    },
+    "event.liking": {
+      "type": "event",
+      "label": "like or enjoy an entity",
+      "roles": [
+        "agent",
+        "theme"
+      ],
+      "roleTypes": {
+        "agent": "person",
+        "theme": "entity"
+      }
+    },
+    "event.desire": {
+      "type": "event",
+      "label": "want an entity",
+      "roles": [
+        "agent",
+        "theme"
+      ],
+      "roleTypes": {
+        "agent": "person",
+        "theme": "entity"
+      }
+    },
+    "event.preference": {
+      "type": "event",
+      "label": "prefer one entity over another",
+      "roles": [
+        "agent",
+        "preferred",
+        "alternative"
+      ],
+      "roleTypes": {
+        "agent": "person",
+        "preferred": "entity",
+        "alternative": "entity"
+      }
     }
   },
   "relationTypes": {

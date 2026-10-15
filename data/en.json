@@ -2033,6 +2033,63 @@
           }
         }
       ]
+    },
+    {
+      "id": "en.like.verb.1",
+      "lemma": "like",
+      "forms": {
+        "base": "like",
+        "present3sg": "likes",
+        "present3pl": "like",
+        "past": "liked"
+      },
+      "senses": [
+        {
+          "id": "en.like.verb.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.liking"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.want.verb.1",
+      "lemma": "want",
+      "forms": {
+        "base": "want",
+        "present3sg": "wants",
+        "present3pl": "want",
+        "past": "wanted"
+      },
+      "senses": [
+        {
+          "id": "en.want.verb.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.desire"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.prefer.verb.1",
+      "lemma": "prefer",
+      "forms": {
+        "base": "prefer",
+        "present3sg": "prefers",
+        "present3pl": "prefer",
+        "past": "preferred"
+      },
+      "senses": [
+        {
+          "id": "en.prefer.verb.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.preference"
+          }
+        }
+      ]
     }
   ],
   "adjectives": [
@@ -2053,7 +2110,19 @@
             "id": "quality.big"
           }
         }
-      ]
+      ],
+      "comparativeForms": {
+        "greater": [
+          {
+            "text": "bigger"
+          }
+        ],
+        "less": [
+          {
+            "text": "less big"
+          }
+        ]
+      }
     },
     {
       "id": "en.small.adj.1",
@@ -2072,7 +2141,19 @@
             "id": "quality.small"
           }
         }
-      ]
+      ],
+      "comparativeForms": {
+        "greater": [
+          {
+            "text": "smaller"
+          }
+        ],
+        "less": [
+          {
+            "text": "less small"
+          }
+        ]
+      }
     },
     {
       "id": "en.red.adj.1",

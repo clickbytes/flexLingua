@@ -1,5 +1,5 @@
-import { createEvent, createQuestion, createRelativeClause, createModality, createNegation,
-  createIdentity, createPredication, createPossession, createLocation, MAX_RELATIVE_DEPTH } from './interlingua.js';
+import { createEvent, createQuestion, createRelativeClause, createDialogueAct, createModality, createNegation,
+  createIdentity, createPredication, createPossession, createLocation, createComparison, MAX_RELATIVE_DEPTH } from './interlingua.js';
 import { createLexicon } from './lexicon.js';
 import { materializeInflections } from './morphology/engine.js';
 import { createNominalInterpreter } from './nominals.js';
@@ -137,6 +137,20 @@ function validateGrammar(dictionary, grammar) {
       Object.keys(grammar.numericTime).length!==2 ||
       !['clockMarker','dateMarker'].every(key=>/^[\p{L}]+$/u.test(grammar.numericTime[key]||'')))) {
     throw new Error('Invalid numeric clock/date grammar configuration.');
+  }
+  if(grammar.comparison!==undefined && (!record(grammar.comparison) ||
+      Object.keys(grammar.comparison).sort().join(',')!=='marker,standardCase,stateKind,subjectCase' ||
+      !/^[\p{L}]+$/u.test(grammar.comparison.marker||'') ||
+      grammar.comparison.stateKind!=='predication' ||
+      !['nom','acc','gen','dat','loc'].includes(grammar.comparison.subjectCase) ||
+      !['nom','acc','gen','dat','loc'].includes(grammar.comparison.standardCase))) {
+    throw new Error('Invalid comparison grammar configuration.');
+  }
+  if(grammar.request!==undefined && (!record(grammar.request) ||
+      Object.keys(grammar.request).sort().join(',')!=='actionPath,marker' ||
+      !/^[\p{L}]+$/u.test(grammar.request.marker||'') ||
+      !['lemma','forms.base'].includes(grammar.request.actionPath))) {
+    throw new Error('Invalid polite request grammar configuration.');
   }
   if (!safeName(grammar.sentence.subjectRole) ||
       grammar.sentence.terminator !== '.') {
@@ -858,6 +872,57 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     return [...readings.values()].sort((a,b)=>b.score-a.score).slice(0,MAX_ANALYSES);
   }
 
+  function parseComparisonCandidates(tokens,budget) {
+    if(!grammar.comparison || !stateGrammar)return [];
+    const config=grammar.comparison,results=[];
+    const copulas=stateVerbForms.filter(entry=>entry.kind===config.stateKind &&
+      entry.rule.polarity==='positive');
+    for(const subject of readNounPhrases(tokens,0,config.subjectCase,0,budget)) {
+      const noun=subject.noun;
+      const context={number:subject.value.features.number,case:config.subjectCase,
+        ...(noun?.gender?{gender:noun.gender}:{}),
+        ...(noun?.pluralClass?{pluralClass:noun.pluralClass}:{}),
+        ...(noun?.animacy?{animacy:noun.animacy}:{})};
+      for(const copula of copulas) {
+        const afterCopula=matchVerb(tokens,subject.next,copula);
+        if(afterCopula===null)continue;
+        for(const comparison of nominal.readComparative(tokens,afterCopula,context)) {
+          const markerLength=matchesTokens(tokens,comparison.next,config.marker);
+          if(!markerLength)continue;
+          for(const standard of readNounPhrases(tokens,comparison.next+markerLength,
+            config.standardCase,0,budget)) {
+            if(standard.next!==tokens.length)continue;
+            const meaning=createComparison(comparison.value,subject.value,standard.value,
+              comparison.relation,{tense:copula.features.tense,polarity:'positive'});
+            results.push({interlingua:meaning,lexicalSenses:{verb:copula.lexeme.senseId,
+              predicate:comparison.senseId,subject:subject.senseId,standard:standard.senseId},
+              score:(copula.lexeme.priority||0)+(comparison.priority||0)+
+                (subject.noun?.priority||0)+(standard.noun?.priority||0)});
+          }
+        }
+      }
+    }
+    return results.sort((a,b)=>b.score-a.score).slice(0,MAX_ANALYSES);
+  }
+
+  function parseRequestCandidates(tokens,counter) {
+    if(!grammar.request)return [];
+    const markerLength=matchesTokens(tokens,0,grammar.request.marker);
+    if(!markerLength)return [];
+    const entries=verbs.flatMap(lexeme=>formsAt(lexeme,grammar.request.actionPath)
+      .filter(form=>!Object.keys(form.bindings).length)
+      .map(form=>({lexeme,text:form.text,bindings:{},rule:{tense:'present',polarity:'positive',
+        prefix:[],when:{'subject.person':'second','subject.number':'singular'}}})));
+    const addressee={value:{referent:{kind:'deictic',anchor:'addressee'},
+      agreement:{person:'second',number:'singular'}},noun:{id:'request.addressee'},
+      senseId:null,priority:0};
+    const readings=parseClause(tokens.slice(markerLength),subjectRole,addressee,0,
+      questionBudget(counter),{verbEntries:entries});
+    return readings.map(reading=>({interlingua:createDialogueAct('request',{
+      action:reading.interlingua,politeness:'polite'}),lexicalSenses:reading.lexicalSenses,
+      score:reading.score}));
+  }
+
   function readStateSubjectPronouns(tokens,index) {
     const found=[];
     for(const pronoun of subjectPronouns) {
@@ -943,11 +1008,14 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     }
     const tokens = tokenize(text);
     const counter={visited:0};
+    const requestReadings=parseRequestCandidates(tokens,counter);
+    if(requestReadings.length)return requestReadings;
     const modalReadings = parseModalCandidates(tokens,null,null,null,counter);
     if (modalReadings.length) return modalReadings;
     const budget = searchBudget(counter);
+    const comparisonReadings=parseComparisonCandidates(tokens,budget);
     const stateReadings = parseStateCandidates(tokens,budget);
-    const results = [...stateReadings,...parseClause(tokens, null, null, 0, budget)];
+    const results = [...comparisonReadings,...stateReadings,...parseClause(tokens, null, null, 0, budget)];
     if (results.length) return results.slice(0, MAX_ANALYSES);
     if (budget.agreementFailed) throw new Error(grammar.messages?.agreement ||
       'Verb form does not agree with subject.');
@@ -1705,6 +1773,55 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     return {text:sentenceText([parts.join(' ')],sentence.terminator),warnings:[],alternatives:[]};
   }
 
+  function realizeComparison(meaning) {
+    const config=grammar.comparison;
+    if(!config)throw new Error(`Unsupported comparison realization in ${dictionary.language}.`);
+    const subject=meaning.roles.subject,standard=meaning.roles.standard;
+    const subjectNoun=nounByConcept(subject.concept),standardNoun=nounByConcept(standard.concept);
+    if(!subjectNoun||!standardNoun)throw new Error('Missing comparison participant lexeme.');
+    const verb=stateVerbForms.find(entry=>entry.kind===config.stateKind &&
+      entry.features.tense===meaning.features.tense && entry.features.person==='third' &&
+      entry.features.number===subject.features.number);
+    if(!verb)throw new Error(`No ${dictionary.language} copula supports comparison tense/agreement.`);
+    const context={number:subject.features.number,case:config.subjectCase,
+      ...(subjectNoun.gender?{gender:subjectNoun.gender}:{}),
+      ...(subjectNoun.pluralClass?{pluralClass:subjectNoun.pluralClass}:{}),
+      ...(subjectNoun.animacy?{animacy:subjectNoun.animacy}:{})};
+    const property=nominal.realizeComparative(meaning.predicate,meaning.relation,context);
+    const left=plainNoun(subject,subjectNoun,config.subjectCase,nounPhrase.defaultDefiniteness);
+    const right=plainNoun(standard,standardNoun,config.standardCase,nounPhrase.defaultDefiniteness);
+    return {text:sentenceText([[left,verb.text,property,config.marker,right].join(' ')],sentence.terminator),
+      warnings:[],alternatives:[]};
+  }
+
+  function realizeRequest(meaning) {
+    const config=grammar.request,action=meaning?.payload?.action;
+    if(!config||meaning?.type!=='dialogue_act'||meaning.act!=='request'||action?.type!=='event')
+      throw new Error(`Unsupported polite request realization in ${dictionary.language}.`);
+    const candidates=verbs.filter(lexeme=>lexeme.concept===action.concept &&
+      (verbGrammar.aspectSource!=='lexeme' || action.features.aspect==='unknown' ||
+        lexeme.aspect===action.features.aspect))
+      .flatMap(lexeme=>formsAt(lexeme,config.actionPath)
+        .filter(form=>!Object.keys(form.bindings).length).map(form=>({lexeme,text:form.text})));
+    if(!candidates.length || (verbGrammar.aspectSource==='lexeme' &&
+        action.features.aspect==='unknown' && new Set(candidates.map(item=>item.lexeme.aspect)).size>1)) {
+      throw new Error('Missing or ambiguous aspect-specific request verb form.');
+    }
+    const selected=verbGrammar.aspectSource==='unknown'||action.features.aspect==='unknown'
+      ? candidates[0] : candidates.find(item=>item.lexeme.aspect===action.features.aspect);
+    const frame=frames[action.concept];
+    if(!selected||!frame)throw new Error(`No ${dictionary.language} request frame for ${action.concept}.`);
+    const fallback=Object.keys(nounPhrase.determiners).length?nounPhrase.defaultDefiniteness:undefined;
+    const words=frame.linearizations[0].flatMap(step=>{
+      if(step===subjectRole)return [];
+      if(step==='@verb')return [selected.text];
+      if(step.startsWith('@'))return [step.slice(1)];
+      return [nounSurface(step,action,frame,fallback,0)];
+    });
+    return {text:sentenceText([config.marker+' '+words.join(' ')],sentence.terminator),
+      warnings:[],alternatives:[]};
+  }
+
 
   /** Realize modality through existing frame role ordering and nominal rules. */
   function realizeModal(node, question = null) {
@@ -1804,6 +1921,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
       throw new Error('Unsupported subject pronoun realization.');
     }
     if(meaning?.type==='question')return realizeQuestion(meaning);
+    if(meaning?.type==='comparison')return realizeComparison(meaning);
     if(meaning?.type==='state')return realizeState(meaning);
     if(modalParts(meaning))return realizeModal(meaning);
     const built = renderEvent(meaning, undefined, 0, null, {subjectPronoun});
@@ -2182,7 +2300,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
   }
 
   return {
-    code: grammar.language, analyze, analyzeCandidates, realize, realizeState, realizeModal, validateOntology, lexicon,
+    code: grammar.language, analyze, analyzeCandidates, realize, realizeState, realizeComparison, realizeRequest, realizeModal, validateOntology, lexicon,
     analyzeQuestionCandidates:questions?analyzeQuestionCandidates:undefined,
     realizeQuestion:questions?realizeQuestion:undefined,
     parseComplementHeads, realizeComplement,
