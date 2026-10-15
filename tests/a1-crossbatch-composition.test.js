@@ -16,7 +16,9 @@ function shapeOf(node){
  if(node.type==='modality')return {type:node.type,operator:node.operator,concept:node.operand.concept};
  if(node.type==='question')return {
   type:'question',questionType:node.questionType,targetRole:node.targetRole||null,
-  operator:node.proposition.operator,concept:node.proposition.operand.concept
+  operator:node.proposition.operator||null,
+  concept:node.proposition.type==='modality'?node.proposition.operand.concept:
+   node.proposition.type==='state'?'state.'+node.proposition.kind:node.proposition.concept
  };
  if(node.type==='coordination')return {type:'coordination',concepts:node.clauses.map(x=>x.concept)};
  if(node.type==='discourse')return {type:'discourse',concepts:node.events.map(x=>x.concept)};
@@ -45,7 +47,10 @@ function roleShape(node){
 }
 test('A1 Batch 6: cross-batch compositions preserve scope, questions and event order',()=>{
  assert.equal(corpus.license,'project-authored');
- assert.equal(corpus.cases.length,12);
+ assert.equal(corpus.cases.length,46);
+ assert.deepEqual(corpus.cases.reduce((counts,row)=>{
+  counts[row.from+'->'+row.to]++;return counts;
+ },{'en->pl':0,'pl->en':0}),{'en->pl':26,'pl->en':20});
  const engine=make();
  for(const row of corpus.cases)assertGold(engine,row);
  assert.equal(corpus.unsupported.length,1);
