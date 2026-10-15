@@ -22,6 +22,23 @@ session.reset();
 
 Obiekt `ConversationContext` istnieje tylko w pamięci pojedynczego procesu i **nie zmienia stanu zwykłego `Engine`**. Dwie instancje sesji nie współdzielą pamięci. `reset()` usuwa historię, `snapshot()` zwraca defensywną kopię neutralnej semantyki CORE (event lub discourse).
 
+## Opcjonalny lokalny zapis faktów
+
+`MemoryStore` z `js/core/memory-store.js` wymaga lokalnego adaptera `getItem`/`setItem`/`removeItem` (np. `localStorage`). Zapis i odczyt są domyślnie wyłączone; wywołanie `enable()` lub konstrukcja z `enabled:true` oznacza świadome włączenie. `save(snapshot)` zapisuje wyłącznie `snapshot().memory`, `load()` zwraca zwalidowany snapshot, a `delete()` usuwa lokalną kopię również po `disable()`. Runtime nie tworzy adaptera sieciowego i niczego nie wysyła ani nie loguje.
+
+```js
+import {MemoryStore} from './js/core/memory-store.js';
+const store=new MemoryStore({storage:localStorage});
+store.enable();
+store.save(session.snapshot().memory);
+const saved=store.load();
+if(saved)session.importMemory(store.export(saved));
+store.delete();
+session.clearMemory();
+```
+
+`session.exportMemory()` i `session.importMemory(json)` obsługują przeniesienie samych faktów; historia tur pozostaje w bieżącej sesji. Import jest atomowy, wymaga zgodnego `maxFacts` i odrzuca nieznane wersje. Bieżąca wersja formatu to `1`; import rozpoznaje też starszy, bezwersyjny snapshot `{factCount,maxFacts,facts}`. Plik może zawierać tekst wypowiedzi użytkownika, dlatego zapis powinien być włączany tylko świadomie. `clearMemory()` usuwa fakty z sesji, a `delete()` usuwa kopię z adaptera; gwarancja fizycznego usunięcia nośnika zależy od adaptera.
+
 ## Gwarancje
 
 - Każde wywołanie `translate()` przyjmuje dokładnie **jedno wspierane zdanie oznajmujące** i zwraca wynik dla tej jednej wypowiedzi. Poprzednie zdania są kontekstem wewnętrznym, nie są ponownie zwracane w tekście.

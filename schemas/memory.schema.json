@@ -1,0 +1,38 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://clickbytes.github.io/flexLingua/schemas/memory.schema.json",
+  "title":"FlexLingua local session memory export",
+  "type":"object",
+  "additionalProperties":false,
+  "required":["version","memory"],
+  "properties":{
+    "version":{"const":1},
+    "memory":{
+      "type":"object","additionalProperties":false,
+      "required":["factCount","maxFacts","facts"],
+      "properties":{
+        "factCount":{"type":"integer","minimum":0,"maximum":128},
+        "maxFacts":{"type":"integer","minimum":1,"maximum":128},
+        "facts":{"type":"array","maxItems":128,"items":{"$ref":"#/$defs/fact"}}
+      }
+    }
+  },
+  "$defs":{
+    "fact":{
+      "type":"object","required":["id","referent","proposition","source","recordedAt","scope","correction","status"],
+      "properties":{
+        "id":{"type":"string","pattern":"^f[1-9][0-9]*$"},
+        "referent":{"type":"string","minLength":1},
+        "proposition":{"type":"object"},
+        "source":{"type":"object","additionalProperties":false,"required":["turnId","language","text"],
+          "properties":{"turnId":{"type":"string"},"language":{"enum":["pl","en","tr"]},"text":{"type":"string"}}},
+        "recordedAt":{"type":"string","format":"date-time"},
+        "scope":{"const":"session"},
+        "correction":{"type":"object","required":["policy","supersedes"],
+          "properties":{"policy":{"const":"explicit_supersede"},"supersedes":{"type":"array","items":{"type":"string"}}}},
+        "status":{"enum":["active","superseded"]},
+        "supersededBy":{"type":"string"}
+      }
+    }
+  }
+}

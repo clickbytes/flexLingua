@@ -1,4 +1,5 @@
 import {record,safeName} from './features.js';
+import {validateMemorySnapshot} from './memory-store.js';
 
 const clone=value=>structuredClone(value);
 const canonical=value=>{
@@ -42,6 +43,15 @@ export class SessionMemory {
   }
 
   reset() {this.#facts=[];this.#nextId=1;return this.snapshot();}
+
+  restore(snapshot) {
+    const verified=validateMemorySnapshot(snapshot);
+    if(verified.maxFacts!==this.#maxFacts)
+      fail('MEMORY_LIMIT_MISMATCH','Imported memory limit differs from this session.');
+    this.#facts=verified.facts;
+    this.#nextId=verified.facts.length+1;
+    return this.snapshot();
+  }
 
   remember({turn,referent,recordedAt=new Date().toISOString(),scope='session',supersedes=[]}={}) {
     if(!record(turn)||turn.intent!=='assert'||!/^t[1-9][0-9]*$/u.test(turn.id||''))

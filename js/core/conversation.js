@@ -9,6 +9,7 @@ import {record, safeName} from './features.js';
 import {splitSentences} from './text.js';
 import {applyPersonalityProfile, createPersonalityProfile} from './personality.js';
 import {SessionMemory} from './memory.js';
+import {parseMemoryDocument,serializeMemory} from './memory-store.js';
 
 function isDeictic(ref) {
   return record(ref) && record(ref.referent) && ref.referent.kind === 'deictic';
@@ -146,6 +147,12 @@ export class ConversationContext {
     this.#dialogue.reset();
     return this.snapshot();
   }
+
+  exportMemory(){return serializeMemory(this.#memory.snapshot());}
+
+  importMemory(text){return this.#memory.restore(parseMemoryDocument(text));}
+
+  clearMemory(){return this.#memory.reset();}
 
   /** Explicitly approve a source-turn assertion for bounded session memory. */
   remember({turnId,referent,recordedAt,scope='session',supersedes=[]}={}) {
