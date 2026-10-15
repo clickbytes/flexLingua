@@ -30,6 +30,13 @@
           "modifiers",
           "noun"
         ]
+      ],
+      "adjectiveAgreementFeatures": [
+        "number",
+        "gender",
+        "pluralClass",
+        "animacy",
+        "case"
       ]
     },
     "relatives": {

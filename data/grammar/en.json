@@ -60,7 +60,10 @@
       "layoutByQuantifier": {
         "universal": 0,
         "exact": 1
-      }
+      },
+      "adjectiveAgreementFeatures": [
+        "number"
+      ]
     },
     "relatives": {
       "maxDepth": 2,
