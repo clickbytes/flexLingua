@@ -132,7 +132,10 @@ speech-act parsing or direct dialogue-act realization. See the
 CORE question (or an `ask` act) plus up to 32 validated CORE propositions,
 `assert` acts, or discourse documents. It returns a versioned response plan
 with a typed dialogue act, a CORE proposition to realize when one is supported,
-and indices for the facts used. Planning is local and deterministic; it does
+indices for the facts used, and a categorical `confidence` record. `grounded`
+means the answer has matching explicit evidence; `ambiguous` means evidence
+conflicts; `none` means no supported answer was found. This is an evidence
+status, not a calibrated probability. Planning is local and deterministic; it does
 not call a network service or language model. `engine.respond({...request,to})`
 adds target-language realization through the registered grammar. An unknown
 answer has a typed `refuse` act and no fabricated sentence. A caller may supply

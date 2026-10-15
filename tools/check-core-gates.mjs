@@ -185,7 +185,8 @@ async function main() {
   if (ciMode) {
     gateResults = {
       nodeUnitTests: process.env.RELEASE_UNIT_TEST_RESULT || 'unavailable',
-      lexicalAndReleaseAudits: process.env.RELEASE_AUDIT_RESULT || 'unavailable'
+      lexicalAndReleaseAudits: process.env.RELEASE_AUDIT_RESULT || 'unavailable',
+      dialogueGold: process.env.RELEASE_DIALOGUE_RESULT || 'unavailable'
     };
     try {
       const summary = process.env.RELEASE_UNIT_TEST_SUMMARY ?

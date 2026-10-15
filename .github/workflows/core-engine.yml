@@ -81,10 +81,22 @@ jobs:
       - run: npm run check:coverage
       - run: npm run check:data-provenance
 
+  dialogue-gold:
+    name: Bilingual dialogue scenario gold
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+          package-manager-cache: false
+      - run: npm run check:dialogue-gold
+
   release-gate:
     name: Aggregate release gate
     if: ${{ always() }}
-    needs: [engine-tests, lexical-audits]
+    needs: [engine-tests, lexical-audits, dialogue-gold]
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -100,6 +112,7 @@ jobs:
           RELEASE_SOURCE_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
           RELEASE_UNIT_TEST_RESULT: ${{ needs.engine-tests.result }}
           RELEASE_AUDIT_RESULT: ${{ needs.lexical-audits.result }}
+          RELEASE_DIALOGUE_RESULT: ${{ needs.dialogue-gold.result }}
           RELEASE_UNIT_TEST_SUMMARY: ${{ needs.engine-tests.outputs.test-summary }}
           RELEASE_UNIT_TEST_NODE: ${{ needs.engine-tests.outputs.node-version }}
           RELEASE_UNIT_TEST_NPM: ${{ needs.engine-tests.outputs.npm-version }}

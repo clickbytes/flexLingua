@@ -43,7 +43,8 @@ test('REL-03 report is deterministic and release eligibility fails closed', () =
     checkoutSha: 'a'.repeat(40), sourceSha: 'b'.repeat(40), version: '1.12.0',
     runtime: {node: 'v22.0.0', npm: '10.0.0'},
     manifest: buildFileManifest([{path: 'package.json', mode: '100644', sha256: digest('{}')}]),
-    gateResults: {nodeUnitTests: 'success', lexicalAndReleaseAudits: 'success'},
+    gateResults: {nodeUnitTests: 'success', lexicalAndReleaseAudits: 'success',
+      dialogueGold: 'success'},
     nodeTestResults: [{tests: 1, suites: 0, passed: 1, failed: 0}], dirtyFiles: []
   };
   const first = createReleaseReport(input);

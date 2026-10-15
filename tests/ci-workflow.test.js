@@ -28,12 +28,12 @@ test('G1: CI has read-only repository access and bounded concurrency',()=>{
 });
 
 test('G1: CI runs Node and lexical checks behind a lightweight aggregate gate',()=>{
-  for(const name of ['engine-tests','lexical-audits','release-gate']){
+  for(const name of ['engine-tests','lexical-audits','dialogue-gold','release-gate']){
     assert.match(workflow,new RegExp(`^  ${name}:$`,'m'));
   }
-  assert.equal((workflow.match(/actions\/checkout@v7/g)||[]).length,3);
-  assert.equal((workflow.match(/actions\/setup-node@v7/g)||[]).length,3);
-  assert.equal((workflow.match(/package-manager-cache: false/g)||[]).length,3);
+  assert.equal((workflow.match(/actions\/checkout@v7/g)||[]).length,4);
+  assert.equal((workflow.match(/actions\/setup-node@v7/g)||[]).length,4);
+  assert.equal((workflow.match(/package-manager-cache: false/g)||[]).length,4);
   for(const run of ['npm run check:lexicon','npm run check:morphology',
     'npm run check:gold','npm run check:a1-gold','npm run check:gold-family','npm run check:gold-father','npm run check:gold-movement','npm run check:gold-actions','npm run check:gold-person','npm run check:a1-evidence','npm run check:coverage','npm run check:data-provenance'
     ]) assert.ok(workflow.includes(`run: ${run}`),`Missing ${run}`);
@@ -41,19 +41,21 @@ test('G1: CI runs Node and lexical checks behind a lightweight aggregate gate',(
   assert.doesNotMatch(workflow,/run:\s*npm run build:standalone/);
   assert.doesNotMatch(workflow,/standalone|offline-parity/);
   assert.doesNotMatch(workflow,/run:\s*npm install/);
+  assert.match(workflow,/^      - run: npm run check:dialogue-gold$/m);
 });
 
 test('REL-01: aggregate gate preserves the CI check while avoiding duplicate execution',()=>{
   assert.match(workflow,/^  engine-tests:[\s\S]*?^  lexical-audits:/m);
-  assert.match(workflow,/^  lexical-audits:[\s\S]*?^  release-gate:/m);
+  assert.match(workflow,/^  lexical-audits:[\s\S]*?^  dialogue-gold:[\s\S]*?^  release-gate:/m);
   assert.match(workflow,/^  engine-tests:[\s\S]*?npm test 2>&1 \| tee/m);
   assert.match(workflow,/^  lexical-audits:[\s\S]*?run: npm run check:a1-evidence/m);
   const gate=workflow.match(/^  release-gate:[\s\S]*$/m)?.[0];
   assert.ok(gate,'Missing release-gate job');
   assert.match(gate,/^    if: \$\{\{ always\(\) \}\}$/m);
-  assert.match(gate,/^    needs: \[engine-tests, lexical-audits\]$/m);
+  assert.match(gate,/^    needs: \[engine-tests, lexical-audits, dialogue-gold\]$/m);
   assert.match(gate,/RELEASE_UNIT_TEST_RESULT: \$\{\{ needs\.engine-tests\.result \}\}/);
   assert.match(gate,/RELEASE_AUDIT_RESULT: \$\{\{ needs\.lexical-audits\.result \}\}/);
+  assert.match(gate,/RELEASE_DIALOGUE_RESULT: \$\{\{ needs\.dialogue-gold\.result \}\}/);
   assert.match(gate,/RELEASE_UNIT_TEST_SUMMARY: \$\{\{ needs\.engine-tests\.outputs\.test-summary \}\}/);
   assert.match(gate,/run: node tools\/check-core-gates\.mjs --ci/);
   assert.match(gate,/actions\/checkout|actions\/setup-node/);
@@ -62,7 +64,7 @@ test('REL-01: aggregate gate preserves the CI check while avoiding duplicate exe
 
 test('G1: each invoked npm command exists in the versioned package scripts',()=>{
   for(const name of ['test','check:lexicon','check:morphology','check:gold',
-    'check:coverage','check:a1-gold','check:gold-family','check:gold-father','check:gold-movement','check:gold-actions','check:gold-person','check:a1-evidence','check:data-provenance','check:release','check:core-gates']){
+    'check:coverage','check:a1-gold','check:gold-family','check:gold-father','check:gold-movement','check:gold-actions','check:gold-person','check:a1-evidence','check:dialogue-gold','check:data-provenance','check:release','check:core-gates']){
     assert.equal(typeof pkg.scripts?.[name],'string',`Missing npm script ${name}`);
   }
   assert.match(pkg.scripts['check:release'],/npm test/);

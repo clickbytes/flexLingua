@@ -92,17 +92,18 @@ function evidenceRef(row) {
 }
 
 function unknownPlan(question, reason, evidence, clarifyQuestion, engine) {
+  const confidence={level:reason==='ambiguous'?'ambiguous':'none',evidenceCount:evidence.length};
   if (clarifyQuestion) {
     const clarification = questionFrom(clarifyQuestion,engine);
     const act = createDialogueAct('clarify',{inReplyTo:question,question:clarification});
     validateInterlingua(act,engine.ontology,engine.features);
     return {version:RESPONSE_PLANNER_VERSION,type:'response_plan',outcome:'clarify',
-      question,act,realization:clarification,evidence,reason};
+      question,act,realization:clarification,evidence,reason,confidence};
   }
   const act = createDialogueAct('refuse',{question,reason});
   validateInterlingua(act,engine.ontology,engine.features);
   return {version:RESPONSE_PLANNER_VERSION,type:'response_plan',outcome:'unknown',
-    question,act,realization:null,evidence,reason};
+    question,act,realization:null,evidence,reason,confidence};
 }
 
 function yesNoPlan(question, rows, engine, clarifyQuestion) {
@@ -143,7 +144,8 @@ function yesNoPlan(question, rows, engine, clarifyQuestion) {
   validateInterlingua(act,engine.ontology,engine.features);
   validateInterlingua(realization,engine.ontology,engine.features);
   return {version:RESPONSE_PLANNER_VERSION,type:'response_plan',outcome:'answer',
-    question,act,realization,evidence,reason:null};
+    question,act,realization,evidence,reason:null,
+    confidence:{level:'grounded',evidenceCount:evidence.length}};
 }
 
 function whPlan(question, rows, engine, clarifyQuestion) {
@@ -174,7 +176,8 @@ function whPlan(question, rows, engine, clarifyQuestion) {
   validateInterlingua(act,engine.ontology,engine.features);
   validateInterlingua(selected.realization,engine.ontology,engine.features);
   return {version:RESPONSE_PLANNER_VERSION,type:'response_plan',outcome:'answer',
-    question,act,realization:selected.realization,evidence,reason:null};
+    question,act,realization:selected.realization,evidence,reason:null,
+    confidence:{level:'grounded',evidenceCount:evidence.length}};
 }
 
 export function createResponsePlanner(engine) {
