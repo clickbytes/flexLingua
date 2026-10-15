@@ -54,13 +54,12 @@ test('A1 VAL-03: all eleven project-authored fixtures are inventoried',()=>{
  assert.equal(Object.values(report.sampleQuality.declared.morphologyByLanguage)
    .reduce((sum,count)=>sum+count,0),report.totals.morphologyCells);
  assert.equal(report.sampleQuality.verified.positive,510);
- assert.equal(report.targetSummary.total,24);
+ assert.equal(report.targetSummary.total,23);
  assert.deepEqual({concepts:report.targets.filter(x=>x.unitType==='concept').length,
    constructions:report.targets.filter(x=>x.unitType==='construction').length},
-   {concepts:16,constructions:8});
+   {concepts:16,constructions:7});
  assert.ok(report.targets.every(x=>x.scopeStatus==='required'));
  assert.equal(byId(report,'event.open').matrixId,'construction.event.open');
- assert.equal(byId(report,'event.drink').state,'sampled-both-directions');
  assert.equal(report.cefr.percentage,null);
  assert.equal(report.release.verified,false);
  assert.match(report.release.id,/^a1-evidence-v2-[a-f0-9]{20}$/);

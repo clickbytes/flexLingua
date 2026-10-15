@@ -14,7 +14,7 @@ Maszynowym źródłem prawdy jest [`data/coverage/a1-targets.json`](../data/cove
 - `deferred` — rozpoznany kandydat odłożony poza ten zestaw.
 - `unsupported` — jawnie wykluczony z obsługi produktu; brak implementacji sam w sobie nie uzasadnia tego statusu.
 
-W tej wersji wszystkie 24 jednostki są `required`: 16 pojęć i 8 konstrukcji. Nie ma wpisów `deferred` ani `unsupported`, ponieważ backlog nie wskazuje zatwierdzonej listy odroczeń ani wykluczeń. Kandydatów można dodać dopiero z identyfikatorem, sensem CORE oraz jawnymi wymaganiami i lukami.
+W tej wersji wszystkie 23 jednostki są `required`: 16 pojęć i 7 konstrukcji. Nie ma wpisów `deferred` ani `unsupported`, ponieważ backlog nie wskazuje zatwierdzonej listy odroczeń ani wykluczeń. Kandydatów można dodać dopiero z identyfikatorem, sensem CORE oraz jawnymi wymaganiami i lukami.
 
 Wymagania dla każdego wymaganego celu:
 
@@ -35,7 +35,7 @@ Status wykonania w raporcie (`pilot-exercised`, `without-gold`, `missing-*` itd.
 | Miejsca | `structure.house`, `institution.school` | `required` |
 | Opisy | `quality.big`, `quality.small` | `required` |
 
-## Wymagane konstrukcje zdarzeniowe — 8
+## Wymagane konstrukcje zdarzeniowe — 7
 
 Każdy identyfikator zakresu `construction.event.*` wskazuje przez `coreRef` na niezależny sens zdarzenia w CORE. Jego mapowanie obejmuje leksykę, morfologię i ramę walencyjną obu języków.
 
