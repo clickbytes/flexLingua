@@ -4,7 +4,7 @@ export const ONTOLOGY_VERSION = '0.5';
 const CONCEPT_ID = /^[a-zA-Z][a-zA-Z0-9_]*(?:\.[a-zA-Z][a-zA-Z0-9_]*)*$/u;
 const KINDS = new Set(['category', 'entity', 'event', 'property', 'degree']);
 const MAX_CONCEPTS = 10000;
-export const STATE_FRAME_VERSION = '1.1';
+export const STATE_FRAME_VERSION = '1.2';
 const STATE_FRAME_CONTRACTS = Object.freeze({
   identity: Object.freeze({
     roles: Object.freeze(['subject','complement']),
@@ -17,6 +17,11 @@ const STATE_FRAME_CONTRACTS = Object.freeze({
     symmetric: false,
     predicateType: 'property',
     predicateAppliesTo: 'entity'
+  }),
+  classification: Object.freeze({
+    roles: Object.freeze(['subject','category']),
+    roleTypes: Object.freeze({subject:'entity',category:'entity'}),
+    symmetric: false
   }),
   possession: Object.freeze({
     roles: Object.freeze(['owner','owned']),

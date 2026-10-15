@@ -5862,6 +5862,61 @@
           }
         }
       ]
+    },
+    {
+      "id": "pl.prosty.adj.1",
+      "lemma": "prosty",
+      "forms": [
+        {
+          "text": "prosty",
+          "when": {
+            "number": "singular",
+            "gender": "masculine",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "prosta",
+          "when": {
+            "number": "singular",
+            "gender": "feminine",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "proste",
+          "when": {
+            "number": "singular",
+            "gender": "neuter",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "prości",
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "proste",
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "case": "nom"
+          }
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.prosty.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.simple"
+          }
+        }
+      ]
     }
   ],
   "degrees": [
@@ -7895,6 +7950,25 @@
       "senses": [
         {
           "id": "pl.pronoun.wam.sense",
+          "coreRef": {
+            "kind": "grammaticalFunction",
+            "id": "grammar.deictic_pronoun"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.pronoun.to",
+      "lemma": "to",
+      "pos": "PRON",
+      "forms": [
+        {
+          "text": "to"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.pronoun.to.sense",
           "coreRef": {
             "kind": "grammaticalFunction",
             "id": "grammar.deictic_pronoun"

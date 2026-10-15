@@ -175,6 +175,25 @@
           }
         ]
       }
+    ],
+    "demonstratives": [
+      {
+        "distance": "proximal",
+        "forms": [
+          {
+            "text": "this",
+            "when": {
+              "number": "singular"
+            }
+          },
+          {
+            "text": "these",
+            "when": {
+              "number": "plural"
+            }
+          }
+        ]
+      }
     ]
   },
   "verb": {
@@ -719,7 +738,10 @@
       "positive"
     ],
     "verbs": {
-      "grammar.state_copula": "predication",
+      "grammar.state_copula": [
+        "predication",
+        "classification"
+      ],
       "grammar.state_possession": "possession",
       "grammar.state_location": "location"
     },
@@ -782,6 +804,20 @@
             "@verb",
             "@at",
             "location"
+          ]
+        ]
+      },
+      "classification": {
+        "subjectRole": "subject",
+        "cases": {
+          "subject": "nom",
+          "category": "nom"
+        },
+        "linearizations": [
+          [
+            "subject",
+            "@verb",
+            "category"
           ]
         ]
       }
@@ -938,6 +974,16 @@
       "person": "first",
       "number": "plural",
       "case": "acc"
+    },
+    {
+      "senseId": "en.pronoun.this.sense",
+      "referent": {
+        "kind": "deictic",
+        "anchor": "demonstrative"
+      },
+      "person": "third",
+      "number": "singular",
+      "case": "nom"
     }
   ],
   "comparison": {
