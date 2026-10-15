@@ -669,7 +669,14 @@ export class Engine {
         alternatives: [], interlingua };
     }
     if (interlingua.type === 'dialogue_act') {
-      throw new Error('Language realization of dialogue acts is not supported; use CORE JSON.');
+      if(interlingua.act!=='request')
+        throw new Error('Language realization of this dialogue act is not supported; use CORE JSON.');
+      const adapter=this.language(to);
+      if(!adapter.realizeRequest)throw new Error(`Unsupported polite request realization in ${to}.`);
+      const output=adapter.realizeRequest(interlingua);
+      if(!output||typeof output.text!=='string'||!output.text.trim())
+        throw new Error(`Invalid request realization from adapter: ${to}`);
+      return applyPersonalityProfile({...output,interlingua},personality);
     }
     const adapter = this.language(to);
     const realizeClause = (node, options={}) => {
@@ -700,6 +707,10 @@ export class Engine {
           throw new Error(`Invalid state realization from adapter: ${to}`);
         }
         return output;
+      }
+      if (node.type === 'comparison') {
+        if (!adapter.realizeComparison) throw new Error(`Unsupported comparison construction in ${to}.`);
+        return adapter.realizeComparison(node);
       }
       if (node.type === 'event') {
         const output = adapter.realize(node,options);

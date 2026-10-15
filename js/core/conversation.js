@@ -66,6 +66,7 @@ function collectParticipantReferences(node, path, coreferenceEligible = false, o
 function dialogueDocuments(act) {
   const payload=act.payload;
   if (act.act === 'assert') return [{path:'proposition',node:payload.proposition}];
+  if (act.act === 'request') return [{path:'action',node:payload.action}];
   if (act.act === 'clarify') return [
     {path:'context',node:payload.inReplyTo},
     {path:'question',node:payload.question}
@@ -74,6 +75,11 @@ function dialogueDocuments(act) {
 }
 
 function focusForAct(act) {
+  if (act.act === 'request') return {
+    kind:'action',
+    concept:act.payload.action.concept,
+    politeness:act.payload.politeness
+  };
   const question=act.payload.question;
   if (question) {
     return question.questionType === 'wh' ?

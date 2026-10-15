@@ -522,6 +522,91 @@
         },
         "themeConcepts": []
       }
+    },
+    "event.liking": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb",
+          "theme"
+        ]
+      ],
+      "cases": {
+        "agent": "nom",
+        "theme": "acc"
+      },
+      "capabilities": {
+        "tenses": [
+          "present",
+          "past"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "roles": {
+          "agent": "person",
+          "theme": "entity"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.desire": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb",
+          "theme"
+        ]
+      ],
+      "cases": {
+        "agent": "nom",
+        "theme": "acc"
+      },
+      "capabilities": {
+        "tenses": [
+          "present",
+          "past"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "roles": {
+          "agent": "person",
+          "theme": "entity"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.preference": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb",
+          "preferred",
+          "@to",
+          "alternative"
+        ]
+      ],
+      "cases": {
+        "agent": "nom",
+        "preferred": "acc",
+        "alternative": "acc"
+      },
+      "capabilities": {
+        "tenses": [
+          "present",
+          "past"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "roles": {
+          "agent": "person",
+          "preferred": "entity",
+          "alternative": "entity"
+        },
+        "themeConcepts": []
+      }
     }
   },
   "states": {
@@ -754,5 +839,15 @@
       "number": "plural",
       "case": "acc"
     }
-  ]
+  ],
+  "comparison": {
+    "marker": "than",
+    "stateKind": "predication",
+    "subjectCase": "nom",
+    "standardCase": "nom"
+  },
+  "request": {
+    "marker": "please",
+    "actionPath": "forms.base"
+  }
 }

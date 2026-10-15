@@ -22,8 +22,9 @@ export const STATE_VERSION = '1.23';
 export const DIALOGUE_ACT_VERSION = '1.24';
 export const NUMERIC_TIME_VERSION = '1.25';
 export const POSSESSIVE_VERSION = '1.26';
+export const COMPARISON_VERSION = '1.27';
 export const DIALOGUE_ACT_TYPES = Object.freeze([
-  'assert', 'ask', 'answer', 'confirm', 'clarify', 'refuse'
+  'assert', 'ask', 'answer', 'confirm', 'clarify', 'refuse', 'request'
 ]);
 export const DIALOGUE_REFUSAL_REASONS = Object.freeze([
   'ambiguous', 'insufficient_context', 'unsupported', 'out_of_scope'
@@ -94,6 +95,12 @@ export function createPossession(owner, owned, features = {}) {
 
 export function createLocation(subject, location, relation, features = {}) {
   return { ...createState('location', location === undefined ? {subject} : {subject,location}, features), relation };
+}
+
+/** Compare a property degree for two explicit entities, independent of word order. */
+export function createComparison(predicate, subject, standard, relation = 'greater', features = {}) {
+  return {version:COMPARISON_VERSION,type:'comparison',predicate,relation,
+    roles:{subject,standard},features:stateFeatures(features)};
 }
 
 /** A referent may carry a bounded tree of language-independent properties and a quantifier. */
@@ -497,7 +504,7 @@ export function createQuestion(proposition, options = {}) {
     throw new Error('Invalid question options.');
   }
   const {questionType = 'yes_no', targetRole} = options;
-  if (!record(proposition) || !['event','state','scope','coordination','complement','modality'].includes(proposition.type)) {
+  if (!record(proposition) || !['event','state','comparison','scope','coordination','complement','modality'].includes(proposition.type)) {
     throw new Error('A question requires a supported semantic proposition.');
   }
   if (questionType === 'yes_no') {
@@ -533,7 +540,7 @@ function validateQuestion(node, ontology, registry) {
     throw new Error('Invalid or unsupported semantic question document.');
   }
   if (!wh) {
-    if (!['event','state','coordination','scope','complement','modality'].includes(node.proposition?.type)) {
+    if (!['event','state','comparison','coordination','scope','complement','modality'].includes(node.proposition?.type)) {
       throw new Error('Yes/no question requires a supported proposition.');
     }
     validateClauseTree(node.proposition,ontology,registry,1);
@@ -593,7 +600,7 @@ function validateDialogueQuestion(question, ontology, registry) {
 
 function validateDialogueProposition(proposition, ontology, registry) {
   if (!record(proposition) ||
-      !['event','state','coordination','scope','complement','modality'].includes(proposition.type)) {
+      !['event','state','comparison','coordination','scope','complement','modality'].includes(proposition.type)) {
     throw new Error('Dialogue act requires a supported proposition.');
   }
   validateClauseTree(proposition, ontology, registry);
@@ -605,6 +612,27 @@ function validateDialogueContext(context, ontology, registry) {
     return;
   }
   validateDialogueProposition(context, ontology, registry);
+}
+
+function validateComparisonShape(node, ontology, registry) {
+  if (node.version!==COMPARISON_VERSION || node.type!=='comparison' ||
+      !['greater','less'].includes(node.relation) || !record(node.roles) ||
+      Object.keys(node.roles).sort().join(',')!=='standard,subject' ||
+      !record(node.features) || Object.keys(node.features).sort().join(',')!=='polarity,tense' ||
+      Object.keys(node).sort().join(',')!=='features,predicate,relation,roles,type,version') {
+    throw new Error('Invalid or unsupported comparison structure.');
+  }
+  validateFeatureBundle(node.features,registry.domains.state,'comparison');
+  const property=ontology.get(node.predicate);
+  if(property?.type!=='property') throw new Error('Comparison requires a property concept.');
+  for(const role of ['subject','standard']) {
+    const ref=node.roles[role];
+    validateReferent(ref,ontology,registry,role,true,true,0,true);
+    const concept=hasOwn(ref,'referent')?'person':ref.concept;
+    if(!property.appliesTo.some(target=>ontology.isA(concept,target))) {
+      throw new Error(`Comparison property ${node.predicate} does not apply to ${role}.`);
+    }
+  }
 }
 
 function validateDialogueAct(node, ontology, registry) {
@@ -689,6 +717,15 @@ function validateDialogueAct(node, ontology, registry) {
         throw new Error('Unsupported refusal reason.');
       }
       break;
+    case 'request': {
+      if (!hasExactKeys(payload,['action','politeness']) || payload.politeness!=='polite' ||
+          payload.action?.type!=='event' || payload.action.features?.polarity!=='positive' ||
+          payload.action.roles?.agent?.referent?.anchor!=='addressee') {
+        throw new Error('A polite request requires an affirmative event addressed to the listener.');
+      }
+      validateDialogueProposition(payload.action,ontology,registry);
+      break;
+    }
     default:
       throw new Error('Unknown dialogue act: ' + node.act);
   }
@@ -697,7 +734,9 @@ function validateDialogueAct(node, ontology, registry) {
 
 function validateClauseTree(node, ontology, registry, depth = 0, gap = null) {
   if (!record(node) || depth > MAX_CLAUSE_DEPTH) throw new Error('Clause tree nesting limit exceeded.');
-  if (node.type === 'event') {
+  if (node.type === 'comparison') {
+    validateComparisonShape(node,ontology,registry);
+  } else if (node.type === 'event') {
     if (![INTERLINGUA_VERSION, QUALIFIED_VERSION, CLAUSE_VERSION, SEMANTIC_VERSION,
       DEICTIC_VERSION, NUMERIC_TIME_VERSION,POSSESSIVE_VERSION].includes(node.version)) {
       throw new Error('Unsupported event version.');
@@ -730,14 +769,14 @@ function validateClauseTree(node, ontology, registry, depth = 0, gap = null) {
       throw new Error('Invalid semantic coordination.');
     }
     for (const child of node.clauses) {
-      if (!['event','modality','scope'].includes(child?.type))
+      if (!['event','modality','scope','comparison'].includes(child?.type))
         throw new Error('Coordination requires complete event or modal clauses.');
       validateClauseTree(child, ontology, registry, depth + 1);
     }
   } else if (node.type === 'scope') {
     if (![CLAUSE_VERSION, SEMANTIC_VERSION, MODALITY_VERSION].includes(node.version) || node.operator !== 'not' ||
         !Object.keys(node).every(k => ['version', 'type', 'operator', 'operand'].includes(k)) ||
-        !['coordination','event','state','complement','modality'].includes(node.operand?.type) ||
+        !['coordination','event','state','comparison','complement','modality'].includes(node.operand?.type) ||
         (node.version === CLAUSE_VERSION && node.operand?.type !== 'coordination') ||
         (node.operand?.type === 'modality' && node.version !== MODALITY_VERSION) ||
         (gap && !['event','modality'].includes(node.operand?.type))) {
@@ -815,7 +854,7 @@ function validateInterlinguaDocument(node, ontology, registry) {
     validateQuestion(node, ontology, registry);
     return node;
   }
-  if (['event','state','coordination','scope','complement','modality'].includes(node.type)) {
+  if (['event','state','comparison','coordination','scope','complement','modality'].includes(node.type)) {
     validateClauseTree(node, ontology, registry);
     return node;
   }

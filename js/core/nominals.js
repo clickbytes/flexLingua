@@ -37,6 +37,16 @@ function verifySurfaceInventory(entries, kind) {
     }
     ids.add(entry.id);
     if (kind === 'quantifier') meaningKey(entry.meaning);
+    if(kind==='adjective' && entry.comparativeForms!==undefined) {
+      if(!record(entry.comparativeForms) || !Object.keys(entry.comparativeForms).length ||
+          Object.keys(entry.comparativeForms).some(relation=>!['greater','less'].includes(relation)) ||
+          Object.values(entry.comparativeForms).some(forms=>!Array.isArray(forms) ||
+            !forms.length || forms.length>64 || forms.some(form=>!record(form) ||
+              !WORDS.test(form.text||'') || (form.when!==undefined && (!record(form.when) ||
+                Object.entries(form.when).some(([key,value])=>!AGREEMENT_KEYS.has(key)||!safeName(value))))))) {
+        throw new Error(`Invalid comparative adjective forms: ${entry.id}`);
+      }
+    }
     for (const form of entry.forms) {
       if (!record(form) || !WORDS.test(form.text || '') ||
           (form.when !== undefined && (!record(form.when) ||
@@ -176,12 +186,35 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms }) 
     return found;
   }
 
+  function readComparative(tokens,at,context) {
+    const found=[];
+    for(const lexeme of adjectives)for(const relation of Object.keys(lexeme.comparativeForms||{})) {
+      for(const form of lexeme.comparativeForms[relation]) {
+        if(!Object.entries(form.when||{}).every(([key,value])=>context[key]===value))continue;
+        const length=matchesTokens(tokens,at,form.text);
+        if(length)found.push({value:lexeme.concept,relation,senseId:lexeme.senseId||lexeme.id,
+          priority:lexeme.priority||0,next:at+length});
+      }
+    }
+    return found;
+  }
+
   function realizeProperty(concept, context) {
     for (const lexeme of propertyIndex.get(concept) || []) {
       const form = formFor(lexeme, context);
       if (form) return form;
     }
     throw new Error(`Missing ${dictionary.language} adjective form for ${concept}.`);
+  }
+
+  function realizeComparative(concept,relation,context) {
+    for(const lexeme of propertyIndex.get(concept)||[]) {
+      const forms=lexeme.comparativeForms?.[relation]||[];
+      const text=forms.find(form=>Object.entries(form.when||{})
+        .every(([key,value])=>context[key]===value))?.text;
+      if(text)return text;
+    }
+    throw new Error(`Missing ${dictionary.language} comparative form for ${concept} (${relation}).`);
   }
 
   function read(tokens, index, grammaticalCase, { allowBare = false } = {}) {
@@ -330,6 +363,6 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms }) 
     if (quantifiers.length && layouts.some(layout => !layout.includes('quantifier'))) throw new Error('Missing quantifier grammar slot.');
   }
 
-  return { read, readProperty, realizeProperty, render, validateOntology,
+  return { read, readProperty, readComparative, realizeProperty, realizeComparative, render, validateOntology,
     describe: () => ({ adjectives: adjectives.length, degrees: degrees.length, quantifiers: quantifiers.length }) };
 }

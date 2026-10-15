@@ -3217,6 +3217,108 @@
           }
         }
       ]
+    },
+    {
+      "id": "pl.lubic.verb.1",
+      "lemma": "lubić",
+      "forms": {
+        "present": {
+          "firstSingular": "lubię",
+          "secondSingular": "lubisz",
+          "thirdSingular": "lubi",
+          "firstPlural": "lubimy",
+          "secondPlural": "lubicie",
+          "thirdPlural": "lubią"
+        },
+        "past": {
+          "singular": {
+            "masculine": "lubił",
+            "feminine": "lubiła",
+            "neuter": "lubiło"
+          },
+          "plural": {
+            "virile": "lubili",
+            "nonvirile": "lubiły"
+          }
+        }
+      },
+      "senses": [
+        {
+          "id": "pl.lubic.verb.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.liking"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.chciec.verb.1",
+      "lemma": "chcieć",
+      "forms": {
+        "present": {
+          "firstSingular": "chcę",
+          "secondSingular": "chcesz",
+          "thirdSingular": "chce",
+          "firstPlural": "chcemy",
+          "secondPlural": "chcecie",
+          "thirdPlural": "chcą"
+        },
+        "past": {
+          "singular": {
+            "masculine": "chciał",
+            "feminine": "chciała",
+            "neuter": "chciało"
+          },
+          "plural": {
+            "virile": "chcieli",
+            "nonvirile": "chciały"
+          }
+        }
+      },
+      "senses": [
+        {
+          "id": "pl.chciec.verb.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.desire"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.wolec.verb.1",
+      "lemma": "woleć",
+      "forms": {
+        "present": {
+          "firstSingular": "wolę",
+          "secondSingular": "wolisz",
+          "thirdSingular": "woli",
+          "firstPlural": "wolimy",
+          "secondPlural": "wolicie",
+          "thirdPlural": "wolą"
+        },
+        "past": {
+          "singular": {
+            "masculine": "wolał",
+            "feminine": "wolała",
+            "neuter": "wolało"
+          },
+          "plural": {
+            "virile": "woleli",
+            "nonvirile": "wolały"
+          }
+        }
+      },
+      "senses": [
+        {
+          "id": "pl.wolec.verb.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.preference"
+          }
+        }
+      ]
     }
   ],
   "adjectives": [
@@ -3403,7 +3505,93 @@
             "id": "quality.big"
           }
         }
-      ]
+      ],
+      "comparativeForms": {
+        "greater": [
+          {
+            "text": "większy",
+            "when": {
+              "number": "singular",
+              "gender": "masculine",
+              "case": "nom"
+            }
+          },
+          {
+            "text": "większa",
+            "when": {
+              "number": "singular",
+              "gender": "feminine",
+              "case": "nom"
+            }
+          },
+          {
+            "text": "większe",
+            "when": {
+              "number": "singular",
+              "gender": "neuter",
+              "case": "nom"
+            }
+          },
+          {
+            "text": "więksi",
+            "when": {
+              "number": "plural",
+              "pluralClass": "virile",
+              "case": "nom"
+            }
+          },
+          {
+            "text": "większe",
+            "when": {
+              "number": "plural",
+              "pluralClass": "nonvirile",
+              "case": "nom"
+            }
+          }
+        ],
+        "less": [
+          {
+            "text": "mniej duży",
+            "when": {
+              "number": "singular",
+              "gender": "masculine",
+              "case": "nom"
+            }
+          },
+          {
+            "text": "mniej duża",
+            "when": {
+              "number": "singular",
+              "gender": "feminine",
+              "case": "nom"
+            }
+          },
+          {
+            "text": "mniej duże",
+            "when": {
+              "number": "singular",
+              "gender": "neuter",
+              "case": "nom"
+            }
+          },
+          {
+            "text": "mniej duzi",
+            "when": {
+              "number": "plural",
+              "pluralClass": "virile",
+              "case": "nom"
+            }
+          },
+          {
+            "text": "mniej duże",
+            "when": {
+              "number": "plural",
+              "pluralClass": "nonvirile",
+              "case": "nom"
+            }
+          }
+        ]
+      }
     },
     {
       "id": "pl.small.adj.1",
@@ -3588,7 +3776,93 @@
             "id": "quality.small"
           }
         }
-      ]
+      ],
+      "comparativeForms": {
+        "greater": [
+          {
+            "text": "mniejszy",
+            "when": {
+              "number": "singular",
+              "gender": "masculine",
+              "case": "nom"
+            }
+          },
+          {
+            "text": "mniejsza",
+            "when": {
+              "number": "singular",
+              "gender": "feminine",
+              "case": "nom"
+            }
+          },
+          {
+            "text": "mniejsze",
+            "when": {
+              "number": "singular",
+              "gender": "neuter",
+              "case": "nom"
+            }
+          },
+          {
+            "text": "mniejsi",
+            "when": {
+              "number": "plural",
+              "pluralClass": "virile",
+              "case": "nom"
+            }
+          },
+          {
+            "text": "mniejsze",
+            "when": {
+              "number": "plural",
+              "pluralClass": "nonvirile",
+              "case": "nom"
+            }
+          }
+        ],
+        "less": [
+          {
+            "text": "mniej mały",
+            "when": {
+              "number": "singular",
+              "gender": "masculine",
+              "case": "nom"
+            }
+          },
+          {
+            "text": "mniej mała",
+            "when": {
+              "number": "singular",
+              "gender": "feminine",
+              "case": "nom"
+            }
+          },
+          {
+            "text": "mniej małe",
+            "when": {
+              "number": "singular",
+              "gender": "neuter",
+              "case": "nom"
+            }
+          },
+          {
+            "text": "mniej mali",
+            "when": {
+              "number": "plural",
+              "pluralClass": "virile",
+              "case": "nom"
+            }
+          },
+          {
+            "text": "mniej małe",
+            "when": {
+              "number": "plural",
+              "pluralClass": "nonvirile",
+              "case": "nom"
+            }
+          }
+        ]
+      }
     },
     {
       "id": "pl.red.adj.1",

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {Engine} from '../js/core/engine.js';
 import {createRuleAdapter} from '../js/core/grammar.js';
-import {DialogueContext} from '../js/core/conversation.js';
+import {ConversationContext, DialogueContext} from '../js/core/conversation.js';
 import {
   DIALOGUE_ACT_VERSION, MAX_DIALOGUE_ACTS, createDialogueAct, createEvent,
   createQuestion, participant, validateInterlingua
@@ -27,10 +27,10 @@ const personWh=createQuestion(createEvent('event.belief',{content:ref('object.bo
   {questionType:'wh',targetRole:'experiencer'});
 const valid=act=>validateInterlingua(act,engine.ontology,engine.features);
 
-test('dialogue act envelope exposes version and all six ontology backed types',()=>{
+test('dialogue act envelope exposes version and all seven ontology backed types',()=>{
   assert.equal(DIALOGUE_ACT_VERSION,'1.24');
   assert.equal(engine.capabilities().dialogueActDocumentVersion,DIALOGUE_ACT_VERSION);
-  for(const act of ['assert','ask','answer','confirm','clarify','refuse']) {
+  for(const act of ['assert','ask','answer','confirm','clarify','refuse','request']) {
     assert.equal(engine.ontology.isA('dialogue_act.'+act,'dialogue_act'),true);
   }
 });
@@ -45,7 +45,12 @@ test('all dialogue acts validate with explicit, typed CORE payloads',()=>{
     createDialogueAct('confirm',{question:yesNo}),
     createDialogueAct('clarify',{inReplyTo:yesNo,question:wh}),
     createDialogueAct('clarify',{inReplyTo:see(),question:yesNo}),
-    createDialogueAct('refuse',{question:yesNo,reason:'insufficient_context'})
+    createDialogueAct('refuse',{question:yesNo,reason:'insufficient_context'}),
+    createDialogueAct('request',{action:createEvent('event.visual_perception',{
+      agent:{referent:{kind:'deictic',anchor:'addressee'},
+        agreement:{person:'second',number:'singular'}},
+      theme:ref('animal.dog')
+    },{tense:'present',polarity:'positive',aspect:'unknown'}),politeness:'polite'})
   ];
   for(const doc of docs) assert.equal(valid(doc),doc);
 });
@@ -121,4 +126,21 @@ test('DialogueContext bounds history and refuses an answer without an open quest
   context.append(createDialogueAct('assert',{proposition:see()}));
   assert.throws(()=>context.append(createDialogueAct('assert',{proposition:see()})),/history limit/);
   assert.equal(context.snapshot().actCount,1);
+});
+
+test('ConversationContext tracks a polite request as an action focus',()=>{
+  const context=new ConversationContext(engine);
+  const action=createEvent('event.visual_perception',{
+    agent:{referent:{kind:'deictic',anchor:'addressee'},
+      agreement:{person:'second',number:'singular'}},
+    theme:ref('animal.dog')
+  },{tense:'present',polarity:'positive',aspect:'unknown'});
+  const snapshot=context.appendDialogueAct(createDialogueAct('request',{
+    action,politeness:'polite'
+  }));
+  assert.equal(snapshot.turns[0].intent,'request');
+  assert.equal(snapshot.focus.kind,'action');
+  assert.equal(snapshot.focus.concept,'event.visual_perception');
+  assert.equal(snapshot.turns[0].references.length,2);
+  assert.deepEqual(snapshot.pendingQuestions,[]);
 });

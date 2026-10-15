@@ -9874,6 +9874,282 @@
           ]
         }
       ]
+    },
+    {
+      "lexemeId": "pl.lubic.verb.1",
+      "paradigmId": "pl.verb.personal_esz",
+      "stems": {
+        "base": "lubić",
+        "pastSingular": "lubi",
+        "pastVirile": "lubi",
+        "presentSingular": "lubi",
+        "presentPlural": "lub",
+        "personalStem": "lub"
+      },
+      "overrides": [
+        {
+          "when": {
+            "tense": "present",
+            "person": "first",
+            "number": "singular"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lubię"
+            }
+          ]
+        },
+        {
+          "when": {
+            "tense": "present",
+            "person": "second",
+            "number": "singular"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lubisz"
+            }
+          ]
+        },
+        {
+          "when": {
+            "tense": "present",
+            "person": "first",
+            "number": "plural"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lubimy"
+            }
+          ]
+        },
+        {
+          "when": {
+            "tense": "present",
+            "person": "second",
+            "number": "plural"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lubicie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "tense": "present",
+            "person": "third",
+            "number": "singular"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lubi"
+            }
+          ]
+        },
+        {
+          "when": {
+            "tense": "present",
+            "person": "third",
+            "number": "plural"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lubią"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.chciec.verb.1",
+      "paradigmId": "pl.verb.personal_esz",
+      "stems": {
+        "base": "chcieć",
+        "pastSingular": "chcia",
+        "pastVirile": "chcie",
+        "presentSingular": "chce",
+        "presentPlural": "chcie",
+        "personalStem": "chci"
+      },
+      "overrides": [
+        {
+          "when": {
+            "tense": "present",
+            "person": "first",
+            "number": "singular"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "chcę"
+            }
+          ]
+        },
+        {
+          "when": {
+            "tense": "present",
+            "person": "second",
+            "number": "singular"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "chcesz"
+            }
+          ]
+        },
+        {
+          "when": {
+            "tense": "present",
+            "person": "first",
+            "number": "plural"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "chcemy"
+            }
+          ]
+        },
+        {
+          "when": {
+            "tense": "present",
+            "person": "second",
+            "number": "plural"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "chcecie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "tense": "present",
+            "person": "third",
+            "number": "singular"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "chce"
+            }
+          ]
+        },
+        {
+          "when": {
+            "tense": "present",
+            "person": "third",
+            "number": "plural"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "chcą"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.wolec.verb.1",
+      "paradigmId": "pl.verb.personal_isz",
+      "stems": {
+        "base": "woleć",
+        "pastSingular": "wola",
+        "pastVirile": "wole",
+        "presentSingular": "woli",
+        "presentPlural": "wol",
+        "personalStem": "wol"
+      },
+      "overrides": [
+        {
+          "when": {
+            "tense": "present",
+            "person": "first",
+            "number": "singular"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "wolę"
+            }
+          ]
+        },
+        {
+          "when": {
+            "tense": "present",
+            "person": "second",
+            "number": "singular"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "wolisz"
+            }
+          ]
+        },
+        {
+          "when": {
+            "tense": "present",
+            "person": "first",
+            "number": "plural"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "wolimy"
+            }
+          ]
+        },
+        {
+          "when": {
+            "tense": "present",
+            "person": "second",
+            "number": "plural"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "wolicie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "tense": "present",
+            "person": "third",
+            "number": "singular"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "woli"
+            }
+          ]
+        },
+        {
+          "when": {
+            "tense": "present",
+            "person": "third",
+            "number": "plural"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "wolą"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
