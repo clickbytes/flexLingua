@@ -461,6 +461,20 @@
         ]
       ]
     },
+    "event.movement.to_destination": {
+      "cases": {
+        "agent": "nom",
+        "destination": "gen"
+      },
+      "linearizations": [
+        [
+          "agent",
+          "@verb",
+          "@do",
+          "destination"
+        ]
+      ]
+    },
     "event.write": {
       "cases": {
         "agent": "nom",

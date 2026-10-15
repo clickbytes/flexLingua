@@ -163,7 +163,7 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms }) 
     throw new Error(`Missing ${dictionary.language} adjective form for ${concept}.`);
   }
 
-  function read(tokens, index, grammaticalCase) {
+  function read(tokens, index, grammaticalCase, { allowBare = false } = {}) {
     const found = [];
     let visited = 0;
     for (const { noun, forms } of nounForms) for (const form of forms) for (const [layoutIndex, layout] of layouts.entries()) {
@@ -177,7 +177,7 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms }) 
           const firstAdj = state.lexemes[0];
           if (state.quantifier && layoutByQuantifier[state.quantifier.meaning.kind] !== undefined &&
               layoutByQuantifier[state.quantifier.meaning.kind] !== layoutIndex) return;
-          if (!state.determinerChosen && !nounPhrase.allowBare && !state.quantifier) return;
+          if (!state.determinerChosen && !nounPhrase.allowBare && !allowBare && !state.quantifier) return;
           if (qualified.articleFromFirstModifier && state.marker &&
               state.definiteness === 'indefinite' &&
               state.marker !== (firstAdj?.indefiniteArticle || noun.indefiniteArticle)) return;
@@ -217,7 +217,7 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms }) 
               if (!item || len) advance(at + len, { definiteness, marker: item, determinerChosen: true });
             }
           }
-          if (nounPhrase.allowBare || state.quantifier || layout.slice(slotIndex + 1).includes('quantifier')) {
+          if (nounPhrase.allowBare || allowBare || state.quantifier || layout.slice(slotIndex + 1).includes('quantifier')) {
             advance(at, { definiteness: 'unknown', marker: null, determinerChosen: false });
           }
         } else if (step === 'modifiers') {
@@ -231,11 +231,11 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms }) 
     return found;
   }
 
-  function render(ref, noun, nounText, grammaticalCase, fallback) {
+  function render(ref, noun, nounText, grammaticalCase, fallback, { allowBare = false } = {}) {
     const context = featuresFor(noun, ref.features.number, grammaticalCase);
     const def = ref.features.definiteness === 'unknown' ? fallback : ref.features.definiteness;
     const mapping = nounPhrase.determiners[ref.features.number]?.[def];
-    let marker = markerFor(noun, mapping);
+    let marker = allowBare && ref.features.definiteness === 'unknown' ? null : markerFor(noun, mapping);
     const modifierWords = [];
     let firstAdjective = null;
     function renderNode(node, depth) {
@@ -261,7 +261,7 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms }) 
       if (!quantifier) throw new Error(`Missing ${dictionary.language} quantifier form for ${meaningKey(ref.quantifier)}.`);
       if (def !== 'definite') marker = null;
     }
-    if (!nounPhrase.allowBare && marker === undefined && !ref.quantifier) {
+    if (!nounPhrase.allowBare && !allowBare && marker === undefined && !ref.quantifier) {
       throw new Error(`Missing ${def} determiner for ${noun.lemma}.`);
     }
     const slots = { quantifier, determiner: marker || '', modifiers: modifierWords.join(' '), noun: nounText };

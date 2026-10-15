@@ -494,6 +494,13 @@
             "kind": "concept",
             "id": "event.movement"
           }
+        },
+        {
+          "id": "en.go.1.sense.2",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.movement.to_destination"
+          }
         }
       ],
       "forms": {

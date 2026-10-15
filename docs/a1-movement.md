@@ -1,12 +1,14 @@
 # A1 Batch 5 — intransitive movement: iść ↔ go
 
-**Date:** 2026-10-14. Existing neutral `event.movement` has only the `agent` role; destination, travel mode and aspect distinctions are not represented.
+**Date:** 2026-10-15. Intransitive `event.movement` retains its single `agent` role. A separate subtype `event.movement.to_destination` adds a typed `destination` role constrained to the `place` category.
 
 Polish has a new `pl.isc.1` meaning mapping with a language-specific frame `[agent, @verb]`. Productive morphology uses `pl.verb.third_person` and three irregular overrides: `idzie/idą` and `szedł/szła/szło/szli/szły`. EN `en.go.1` and its existing productive paradigm are retained; missing legacy `go/goes/went` forms are filled to support the non-morphological adapter as well.
 
 `tests/fixtures/gold-movement-a1.json` defines independent 9+9 sentences, 11 morphology forms and four negative controls. Both-direction semantic roles, tense, polarity, CORE serialisation and inverse morphological analysis are checked by `tests/movement-a1.test.js`. The new `check:gold-movement` gate belongs in CI and release.
 
-**Semantic limit:** English `go` is broader than Polish `iść` (which can imply going on foot). This is a controlled approximation for general movement, not universal lexical equivalence. `go to school` and `iść do szkoły` must be refused rather than silently dropping destinations. Do not claim CEFR A1 has been completed.
+`The father goes to school.` ↔ `Ojciec idzie do szkoły.` uses the destination subtype. The English grammar permits a bare noun only in this destination role (`go to school`); Polish realizes the destination with `do` plus genitive. An intransitive sentence such as `The father goes.` continues to use `event.movement` and has no inferred destination.
+
+**Semantic limit:** English `go` is broader than Polish `iść`, which can imply going on foot. The shared movement meaning records no travel mode; the current bilingual mapping is a controlled approximation and does not assert that the person walks. Other destinations, modes and aspect distinctions remain outside this slice. Do not claim CEFR A1 has been completed.
 
 Historyczny blocker pełnego Node CI nie obowiązuje: po merge PR #89 bieżący `main` przeszedł wszystkie trzy jobs w [GitHub Actions #38631654117](https://github.com/clickbytes/flexLingua/actions/runs/38631654117). Aplikacja używa lokalnego HTTP; standalone bundle został wycofany.
 

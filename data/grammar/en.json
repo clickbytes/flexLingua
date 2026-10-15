@@ -220,6 +220,19 @@
         ]
       ]
     },
+    "event.movement.to_destination": {
+      "bareRoles": [
+        "destination"
+      ],
+      "linearizations": [
+        [
+          "agent",
+          "@verb",
+          "@to",
+          "destination"
+        ]
+      ]
+    },
     "event.visual_attention": {
       "linearizations": [
         [

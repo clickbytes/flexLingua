@@ -5,7 +5,7 @@ export const EVIDENCE_SOURCES = Object.freeze([
  {id:'g2',fixture:'data/coverage/a1-gold-g2.json',sha256:'82068514a0101ba06fe2d13e8af279409f792c82c75644b4ba59efd7c350c9ab',classification:'development',args:['tools/report-a1.mjs','--strict']},
  {id:'family',fixture:'tests/fixtures/gold-family-actions-a1.json',sha256:'4fefe40031a522f582fe4929458b0c065f3fefae1a3de3314576971aa90e321e',classification:'regression',args:['--test','tests/family-actions-a1.test.js']},
  {id:'father',fixture:'tests/fixtures/gold-father-a1.json',sha256:'82ea606548e9907b6aad0c63c60307e85e456834011f8f6484d0bab656830ca3',classification:'regression',args:['--test','tests/father-a1.test.js']},
- {id:'movement',fixture:'tests/fixtures/gold-movement-a1.json',sha256:'36d8bbd802795e8b664828aa2ad7b3e258908d165c68b25017e227652a446a56',classification:'regression',args:['--test','tests/movement-a1.test.js']},
+ {id:'movement',fixture:'tests/fixtures/gold-movement-a1.json',sha256:'f0cb1c7b9a1023e0135797bcb5d74b8f793e08a93397a2a3b94b80fabb0d7975',classification:'regression',args:['--test','tests/movement-a1.test.js']},
  {id:'actions',fixture:'tests/fixtures/gold-daily-actions-a1.json',sha256:'00a66d5cdf7f25b186fcfd96c153303a790edf8d4ee14647ebf06ee710b37ad2',classification:'regression',args:['--test','tests/daily-actions-a1.test.js']},
  {id:'composition',fixture:'tests/fixtures/gold-a1-crossbatch.json',sha256:'5ebb71fbebc14252ab87c1c8b9140544c6bd70f797401ec4bc0d770c01067443',classification:'regression',args:['--test','tests/a1-crossbatch-composition.test.js']},
  {id:'person',fixture:'tests/fixtures/gold-person-a1.json',sha256:'2b292bf3cbb7ec48c577cb7d1597a0bc7db48a84d5e8b02e3a33890479df61c9',classification:'regression',args:['--test','tests/a1-person-gold.test.js']},
