@@ -240,7 +240,7 @@ function validateGrammar(dictionary, grammar) {
     const allowed=(object,keys)=>record(object) &&
       Object.keys(object).every(key=>keys.includes(key));
     if (!allowed(questions,['yesNo','wh']) || !record(questions.yesNo) ||
-        !allowed(questions.wh,['agent','theme']) ||
+        !allowed(questions.wh,['agent','theme','location','destination']) ||
         !record(questions.wh.agent) || !record(questions.wh.theme) ||
         !word(questions.wh.agent.marker) || !word(questions.wh.theme.marker) ||
         questions.wh.agent.marker===questions.wh.theme.marker ||
@@ -248,6 +248,13 @@ function validateGrammar(dictionary, grammar) {
         !allowed(questions.wh.theme,['marker','caseMarkers','order']) ||
         !['verb_first','auxiliary'].includes(questions.wh.theme.order)) {
       throw new Error('Invalid interrogative grammar configuration.');
+    }
+    if (!record(questions.wh.location) || !word(questions.wh.location.marker) ||
+        !allowed(questions.wh.location,['marker']) ||
+        !record(questions.wh.destination) || !word(questions.wh.destination.marker) ||
+        !word(questions.wh.destination.preposition) ||
+        !allowed(questions.wh.destination,['marker','preposition'])) {
+      throw new Error('Invalid spatial WH grammar configuration.');
     }
     const agreement=questions.wh.agent.agreement;
     if (!record(agreement) || !['number','gender','pluralClass'].every(key=>safeName(agreement[key])) ||
@@ -679,7 +686,13 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     const readings = new Map();
     for (const base of entries) {
       const frame = stateGrammar.frames[base.kind];
+      if(options.gap && (base.kind!=='location' || options.gap!=='location'))continue;
       const linearizations=frame.linearizations.flatMap(sequence=>{
+        if(options.gap==='location') {
+          const reduced=sequence.filter(step=>step!=='location' &&
+            !(step.startsWith('@')&&step!=='@verb'));
+          return [options.invert ? [reduced[1],reduced[0]] : reduced];
+        }
         if(!frame.allowImplicitDeicticSubject||!sequence.includes(frame.subjectRole))return [sequence];
         return [sequence,sequence.filter(step=>step!==frame.subjectRole)];
       });
@@ -708,7 +721,9 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
               }
               const roles=Object.fromEntries(Object.entries(parsedRoles)
                 .map(([role,parsed])=>[role,parsed.value]));
-              const meaning=stateMeaning(base.kind,roles,features,relation);
+              const meaning=base.kind==='location' && options.gap==='location'
+                ?createLocation(roles.subject,undefined,'unspecified',features)
+                :stateMeaning(base.kind,roles,features,relation);
               const lexicalSenses={verb:entry.lexeme.senseId};
               for(const [role,parsed] of Object.entries(parsedRoles)) {
                 if(parsed.senseId)lexicalSenses[role]=parsed.senseId;
@@ -796,9 +811,9 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
   }
 
   function parseClause(tokens, gap, antecedent, depth, budget, options = {}) {
-    const {verbEntries=verbForms,linearizations=null,omitGap=false} = options;
+    const {verbEntries=verbForms,linearizations=null,omitGap=false,skipPreposition=null} = options;
     const memoKey = JSON.stringify([tokens,gap,antecedent?.noun?.id,
-      antecedent?.value,depth,omitGap,linearizations?'question':'declarative']);
+      antecedent?.value,depth,omitGap,linearizations?'question':'declarative',skipPreposition]);
     if (budget.memo.has(memoKey)) return budget.memo.get(memoKey);
     const readings = new Map();
     for (const [concept, frame] of Object.entries(frames)) {
@@ -852,6 +867,10 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
               return;
             }
             if (step.startsWith('@')) {
+              if(step.slice(1)===skipPreposition) {
+                search(position+1,index,parsedRoles);
+                return;
+              }
               const count = matchesTokens(tokens, index, step.slice(1));
               if (count) search(position + 1, index + count, parsedRoles);
               return;
@@ -1079,7 +1098,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     return readings;
   }
 
-  function analyzeAuxiliaryQuestion(tokens,gap,antecedent,counter) {
+  function analyzeAuxiliaryQuestion(tokens,gap,antecedent,counter,options={}) {
     const yesNo=questions.yesNo;
     const variants=[
       {word:yesNo.auxiliaries.past,tense:'past',when:null},
@@ -1103,7 +1122,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
               prefix:polarity==='negative'?[yesNo.negator]:[]}
           })));
         results.push(...parseClause(tokens.slice(1),gap,antecedent,0,questionBudget(counter),{
-          verbEntries,omitGap:!!gap
+          verbEntries,omitGap:!!gap,...options
         }));
       }
     }
@@ -1168,6 +1187,23 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
         }
       }
     };
+    if(tokens[0]===normalizedWord(questions.wh.location.marker)) {
+      add(parseStateCandidates(tokens.slice(1),questionBudget(counter),
+        {gap:'location',invert:true}),'wh','location');
+    }
+    if(tokens[0]===normalizedWord(questions.wh.destination.marker)) {
+      const gap='destination',antecedent=gapSyntax();
+      if(questions.yesNo.mode==='auxiliary') {
+        add(analyzeAuxiliaryQuestion(tokens.slice(1),gap,antecedent,counter,
+          {skipPreposition:questions.wh.destination.preposition}),'wh',gap);
+      } else {
+        const linearizations=frame=>frame.linearizations.filter(sequence=>sequence.includes(gap))
+          .map(sequence=>['@verb',...sequence.filter(step=>step!=='@verb')]);
+        add(parseClause(tokens.slice(1),gap,antecedent,0,questionBudget(counter),{
+          omitGap:true,skipPreposition:questions.wh.destination.preposition,linearizations
+        }),'wh',gap);
+      }
+    }
     add(analyzeAuxiliaryStateQuestion(tokens,counter),'yes_no');
     const mode=questions.yesNo.mode;
     add(parseFrontedPrepositionTheme(tokens,counter),'wh','theme');
@@ -1651,6 +1687,37 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     const wrap=value=>sentenceText([value],'?');
     const withoutPeriod=value=>value.replace(/\.\s*$/u,'');
     const lowerFirst=value=>value.charAt(0).toLocaleLowerCase(grammar.language)+value.slice(1);
+    if(question.questionType==='wh' && question.targetRole==='destination') {
+      const frame=frames[clause.concept];
+      const sequence=frame?.linearizations.find(item=>item.includes('destination'));
+      if(!sequence || clause.features.polarity!=='positive' ||
+         !['present','past'].includes(clause.features.tense)) {
+        throw new Error('Unsupported destination WH question for this event.');
+      }
+      let linearization=sequence.filter(step=>step!==`@${q.wh.destination.preposition}`);
+      if(grammar.language==='pl')linearization=['@verb',...linearization.filter(step=>step!=='@verb')];
+      const relative={gap:'destination',antecedent:{value:{features:{number:'singular'}},
+        noun:{id:'question_gap'},senseId:null}};
+      const built=renderEvent(clause,fallback,0,relative,{sequence:linearization,returnBuilder:true});
+      let text;
+      if(q.yesNo.mode==='auxiliary') {
+        const subject=clause.roles[subjectRole];
+        const person=subject?.agreement?.person||'third';
+        const number=subject?.agreement?.number||subject?.features?.number;
+        const auxiliaries=q.yesNo.auxiliaries;
+        const auxiliary=clause.features.tense==='past'?auxiliaries.past:
+          person==='first'?auxiliaries.presentFirst:
+          person==='second'?auxiliaries.presentSecond:
+          number==='singular'?auxiliaries.presentThirdSingular:auxiliaries.presentThirdPlural;
+        const base=formsAt(built.preferred.lexeme,q.yesNo.baseVerbPath);
+        if(!auxiliary || base.length!==1)throw new Error('Missing destination WH auxiliary or verb form.');
+        const entry={...built.preferred,text:base[0].text,rule:{...built.preferred.rule,prefix:[]}};
+        text=`${q.wh.destination.marker} ${auxiliary} ${built.linearize(entry,fallback)}`;
+      } else {
+        text=`${q.wh.destination.marker} ${built.linearize(built.preferred,fallback)}`;
+      }
+      return {text:wrap(text),warnings:[],alternatives:[]};
+    }
     if(question.questionType==='yes_no'&&q.yesNo.mode==='prefix'){
       const rendered=realize(clause);
       const prefix=text=>wrap(q.yesNo.marker+' '+lowerFirst(withoutPeriod(text)));
@@ -1734,6 +1801,23 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
   }
 
   function realizeStateQuestion(clause,question) {
+    if(question.questionType==='wh' && question.targetRole==='location' &&
+       clause.kind==='location' && clause.features?.tense==='present' &&
+       clause.features?.polarity==='positive') {
+      const frame=stateGrammar.frames.location;
+      const subject=clause.roles[frame.subjectRole];
+      const person=isDeicticReferent(subject)?subject.agreement.person:'third';
+      const number=isDeicticReferent(subject)?subject.agreement.number:subject.features.number;
+      const verb=stateVerbForms.find(entry=>entry.kind==='location' &&
+        entry.features.tense==='present' && entry.features.person===person &&
+        entry.features.number===number);
+      if(!verb)throw new Error('Missing location WH copula form.');
+      const rendered=isDeicticReferent(subject)?deicticPronounSurface(subject):
+        plainNoun(subject,nounByConcept(subject.concept),stateRoleCase(frame,'subject','positive'),
+          nounPhrase.defaultDefiniteness);
+      return {text:sentenceText([`${questions.wh.location.marker} ${verb.text} ${rendered}`],'?'),
+        warnings:[],alternatives:[]};
+    }
     if(question.questionType!=='yes_no' || questions.yesNo.mode!=='auxiliary' ||
        clause.kind!=='possession' || !['present','past'].includes(clause.features?.tense) ||
        clause.features?.polarity!=='positive' ||

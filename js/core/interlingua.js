@@ -82,7 +82,7 @@ export function createPossession(owner, owned, features = {}) {
 }
 
 export function createLocation(subject, location, relation, features = {}) {
-  return { ...createState('location', {subject,location}, features), relation };
+  return { ...createState('location', location === undefined ? {subject} : {subject,location}, features), relation };
 }
 
 /** A referent may carry a bounded tree of language-independent properties and a quantifier. */
@@ -319,7 +319,7 @@ function validateEventShape(node, ontology, registry, qualifiedAllowed = true, c
   }
 }
 
-function validateStateShape(node, ontology, registry) {
+function validateStateShape(node, ontology, registry, gap = null) {
   const frame = ontology?.stateFrames?.[node.kind];
   const hasPredicate = node.kind === 'predication';
   const hasLocation = node.kind === 'location';
@@ -328,15 +328,17 @@ function validateStateShape(node, ontology, registry) {
     ['version','type','kind','roles','features',...(hasLocation?['relation']:[])];
   if (ontology?.stateFrameVersion !== STATE_FRAME_VERSION || !frame ||
       node.version !== STATE_VERSION || !['identity','predication','possession','location'].includes(node.kind) ||
-      (hasLocation && !['interior','surface','point'].includes(node.relation)) ||
+      (hasLocation && !(gap === 'location' && node.relation === 'unspecified') &&
+        !['interior','surface','point'].includes(node.relation)) ||
       Object.keys(node).length !== fields.length || Object.keys(node).some(key => !fields.includes(key)) ||
-      !record(node.roles) || Object.keys(node.roles).length !== frame.roles.length ||
-      frame.roles.some(role => !hasOwn(node.roles,role)) ||
+      !record(node.roles) || Object.keys(node.roles).length !== frame.roles.length - (gap ? 1 : 0) ||
+      frame.roles.some(role => role !== gap && !hasOwn(node.roles,role)) ||
+      (gap && (node.kind !== 'location' || gap !== 'location' || hasOwn(node.roles,gap))) ||
       Object.keys(node.roles).some(role => !frame.roles.includes(role))) {
     throw new Error('Invalid or unsupported state document or role frame.');
   }
   validateFeatureBundle(node.features, registry.domains.state, 'state');
-  for (const role of frame.roles) {
+  for (const role of frame.roles.filter(role => role !== gap)) {
     const ref = node.roles[role];
     validateReferent(ref, ontology, registry, role, true, true, 0, true);
     const concept = hasOwn(ref,'referent') ? 'person' : ref.concept;
@@ -419,6 +421,13 @@ function questionGapEvent(node) {
   return null;
 }
 
+function questionGapNode(node) {
+  if (node?.type === 'event') return node;
+  if (node?.type === 'state' && node.kind === 'location') return node;
+  return questionGapNode(node?.type === 'modality' ? node.operand :
+    node?.type === 'scope' && node.operand?.type === 'modality' ? node.operand : null);
+}
+
 export function createQuestion(proposition, options = {}) {
   if (!record(options) || Object.keys(options).some(k => !['questionType','targetRole'].includes(k))) {
     throw new Error('Invalid question options.');
@@ -432,10 +441,11 @@ export function createQuestion(proposition, options = {}) {
     return {version:QUESTION_VERSION,type:'question',questionType,proposition};
   }
   if (questionType === 'wh') {
-    const event = questionGapEvent(proposition);
-    if (!event || !safeName(targetRole) || !record(event.roles) ||
-        hasOwn(event.roles,targetRole)) {
-      throw new Error('WH question needs an explicit unfilled semantic targetRole in an event.');
+    const target = questionGapNode(proposition);
+    if (!target || !safeName(targetRole) || !record(target.roles) ||
+        hasOwn(target.roles,targetRole) ||
+        (target.type === 'state' && targetRole !== 'location')) {
+      throw new Error('WH question needs an explicit unfilled semantic targetRole.');
     }
     return {version:QUESTION_VERSION,type:'question',questionType,targetRole,proposition};
   }
@@ -466,6 +476,16 @@ function validateQuestion(node, ontology, registry) {
     return;
   }
   const p=node.proposition;
+  if (p?.type === 'state') {
+    const frame=ontology?.stateFrames?.[p.kind];
+    if (!safeName(node.targetRole) || p.kind !== 'location' ||
+        node.targetRole !== 'location' || !frame?.roles.includes(node.targetRole) ||
+        !record(p.roles) || hasOwn(p.roles,node.targetRole)) {
+      throw new Error('Invalid WH state question gap.');
+    }
+    validateClauseTree(p,ontology,registry,1,node.targetRole);
+    return;
+  }
   if (p?.type === 'modality' || (p?.type === 'scope' && p.operand?.type === 'modality')) {
     const event=questionGapEvent(p);
     if (!safeName(node.targetRole) || event?.type !== 'event' ||
@@ -569,8 +589,10 @@ function validateDialogueAct(node, ontology, registry) {
           throw new Error('A WH question requires a participant answer.');
         }
         validateReferent(response.value, ontology, registry, 'answer', true, false, 0, true);
-        const event = questionGapEvent(question.proposition);
-        const constraint = ontology.get(event.concept)?.roleTypes?.[question.targetRole];
+        const target = questionGapNode(question.proposition);
+        const constraint = target.type === 'state'
+          ? ontology.stateFrames[target.kind]?.roleTypes?.[question.targetRole]
+          : ontology.get(target.concept)?.roleTypes?.[question.targetRole];
         const answerType = hasOwn(response.value, 'referent') ? 'person' : response.value.concept;
         if (constraint && !ontology.isA(answerType, constraint)) {
           throw new Error('Answer participant violates question target role type ' + constraint + '.');
@@ -619,7 +641,7 @@ function validateClauseTree(node, ontology, registry, depth = 0, gap = null) {
       [CLAUSE_VERSION, SEMANTIC_VERSION].includes(node.version),0,gap);
   } else if (node.type === 'state') {
     if (node.version !== STATE_VERSION) throw new Error('Unsupported state version.');
-    validateStateShape(node,ontology,registry);
+    validateStateShape(node,ontology,registry,gap);
   } else if (node.type === 'complement') {
     const frame = ontology.get(node.concept);
     if (node.version !== SEMANTIC_VERSION || !frame || frame.type !== 'event' ||

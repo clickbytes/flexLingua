@@ -17,10 +17,11 @@ The existing `event.movement` frame represents intransitive movement with an `ag
 - Do not encode walking or another travel mode. English `go` and Polish `iść` are an approximate lexical mapping for this slice; CORE leaves manner unknown.
 - Represent static location separately as `state.location`, with a subject, a spatial referent, and an explicit relation (`interior`, `surface`, or `point`). Do not encode `be in` as movement.
 - Declare the supported prepositions in the language grammar: English `in/on/at` and Polish `w/na/przy`. Polish location phrases use the locative case; unknown prepositions are refused.
+- Model `where?` as an unfilled `location` role on a static state and `where?/dokąd?` as an unfilled `destination` role on destination-bearing movement. A WH document omits that role; it never stores a dummy place.
 
 ## Consequences
 
-Existing intransitive CORE JSON and gold cases retain their shape. Destinations and static spatial relations are serialized and survive roundtrip independently of the language surface preposition. Unsupported or incomplete prepositional phrases are refused. Origins, routes, destination questions, and manner of travel remain separate future work.
+Existing intransitive CORE JSON and gold cases retain their shape. Destinations and static spatial relations are serialized and survive roundtrip independently of the language surface preposition. Location and destination questions retain distinct role gaps. Unsupported or incomplete prepositional phrases are refused. Origins, routes, and manner of travel remain separate future work.
 
 ## Evidence
 
