@@ -2744,7 +2744,8 @@
         "base": "read",
         "present3sg": "reads",
         "past": "read",
-        "present3pl": "read"
+        "present3pl": "read",
+        "progressive": "reading"
       },
       "senses": [
         {
@@ -2763,7 +2764,8 @@
         "base": "help",
         "present3sg": "helps",
         "past": "helped",
-        "present3pl": "help"
+        "present3pl": "help",
+        "progressive": "helping"
       },
       "senses": [
         {
@@ -2782,7 +2784,8 @@
         "base": "write",
         "present3sg": "writes",
         "present3pl": "write",
-        "past": "wrote"
+        "past": "wrote",
+        "progressive": "writing"
       },
       "senses": [
         {
@@ -2801,7 +2804,8 @@
         "base": "open",
         "present3sg": "opens",
         "present3pl": "open",
-        "past": "opened"
+        "past": "opened",
+        "progressive": "opening"
       },
       "senses": [
         {
@@ -2890,7 +2894,8 @@
         "base": "eat",
         "present3sg": "eats",
         "present3pl": "eat",
-        "past": "ate"
+        "past": "ate",
+        "progressive": "eating"
       },
       "capabilities": {
         "tenses": [
@@ -2929,7 +2934,8 @@
         "base": "drink",
         "present3sg": "drinks",
         "present3pl": "drink",
-        "past": "drank"
+        "past": "drank",
+        "progressive": "drinking"
       },
       "capabilities": {
         "tenses": [

@@ -449,6 +449,7 @@ function validateGrammar(dictionary, grammar) {
   const seen = new Set();
   for (const rule of grammar.verb.rules) {
     if (!safeName(rule.tense) || !safeName(rule.polarity) ||
+        (rule.aspect!==undefined && !['perfective','imperfective','unknown'].includes(rule.aspect)) ||
         !Array.isArray(rule.prefix) ||
         !rule.prefix.every(word => typeof word === 'string' && /^[\p{L}]+$/u.test(word))) {
       throw new Error('Invalid declarative verb rule.');
@@ -457,7 +458,7 @@ function validateGrammar(dictionary, grammar) {
       throw new Error('Unsupported verb form placeholder (missing agreement dependency).');
     }
     validateConditions(rule.when || {});
-    const key = JSON.stringify([rule.tense, rule.polarity,
+    const key = JSON.stringify([rule.tense, rule.polarity,rule.aspect||null,rule.prefix,rule.path,
       Object.entries(rule.when || {}).sort(([a], [b]) => a.localeCompare(b))]);
     if (seen.has(key)) throw new Error(`Duplicate verb rule: ${key}`);
     seen.add(key);
@@ -1236,7 +1237,8 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
               'Sentence analysis exceeded the bounded search limit.');
           }
           const features = { tense: entry.rule.tense, polarity: entry.rule.polarity,
-            aspect: verbGrammar.aspectSource === 'lexeme' ? entry.lexeme.aspect || 'unknown' : 'unknown' };
+            aspect: entry.rule.aspect!==undefined ? entry.rule.aspect :
+              (verbGrammar.aspectSource === 'lexeme' ? entry.lexeme.aspect || 'unknown' : 'unknown') };
           const initialRoles = gap ? { [gap]: antecedent } : {};
           function search(position, index, parsedRoles) {
             if (++budget.counter.visited > MAX_SEARCH_NODES) {
