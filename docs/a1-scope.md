@@ -65,8 +65,9 @@ implementacyjny, a nie pełny zakres A1.
 | Sense `simple` „nieskomplikowany pod względem struktury, projektu lub użycia” | A1-ENPL-01 | Obsługiwany; nie utożsamia się z sensem „łatwy”. |
 | Przeczenie `be/have` i pytania yes/no dla predykacji/posiadania | A1-ENPL-02 | Obsługiwane w teraźniejszości; inne typy pytań i czasy pozostają poza zakresem. |
 | Niepoliczalne napoje bez rodzajnika (`water`, `milk`, `coffee`, `tea`) jako dopełnienie `drink` | A1-ENPL-03 | Obsługiwane w EN→CORE→PL i PL→CORE→EN; ograniczone do jawnej listy napojów i ramy `drink`. Inne napoje, gołe NP poza tą ramą i gołe rzeczowniki policzalne pozostają odrzucane. |
-| Zaimki anaforyczne oraz konstrukcje egzystencjalne | A1-ENPL-04+ | Kandydaci do jawnego rozstrzygnięcia zakresu; brak deklaracji obsługi w tej macierzy. |
-| Czas przeszły w polskiej predykacji stanowej | A1-ENPL-03+ | Brak zadeklarowanej polskiej realizacji. |
+| Egzystencjalne lokatywy: `there is/are` + jawne `in/on/at` | A1-ENPL-04 | Obsługiwane pozytywnie w czasie teraźniejszym przez stan CORE `location`; polska realizacja zachowuje relację i referenty. Negacja, pytania i brak jawnej lokacji pozostają odrzucane. |
+| Zaimki anaforyczne bez dostępnego antecedensu | A1-ENPL-05+ | Poza zakresem tej macierzy; nierozwiązane odniesienie jest jawnie odrzucane. |
+| Czas przeszły w polskiej predykacji stanowej | A1-ENPL-06+ | Brak zadeklarowanej polskiej realizacji. |
 
 Statusy tej macierzy nie są wskaźnikiem opanowania CEFR. Każdy batch wymaga
 osobnego golda z poprawnymi wynikami, uzasadnionymi odmowami i kontrolą nowych
