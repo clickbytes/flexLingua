@@ -1327,6 +1327,238 @@
         "base": "bowl"
       },
       "overrides": []
+    },
+    {
+      "lexemeId": "en.egg.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "egg"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.banana.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "banana"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.orange.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "orange"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.sandwich.1",
+      "paradigmId": "en.noun.sibilant",
+      "stems": {
+        "base": "sandwich"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.soup.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "soup"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.potato.1",
+      "paradigmId": "en.noun.sibilant",
+      "stems": {
+        "base": "potato"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tomato.1",
+      "paradigmId": "en.noun.sibilant",
+      "stems": {
+        "base": "tomato"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.carrot.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "carrot"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.onion.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "onion"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.lemon.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "lemon"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.cookie.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "cookie"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.cake.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "cake"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.pizza.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "pizza"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.pear.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "pear"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.cucumber.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "cucumber"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.pancake.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "pancake"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.bottle.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "bottle"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.box.1",
+      "paradigmId": "en.noun.sibilant",
+      "stems": {
+        "base": "box"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.basket.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "basket"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.ticket.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "ticket"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.coin.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "coin"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.wallet.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "wallet"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.receipt.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "receipt"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.newspaper.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "newspaper"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.card.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "card"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.plate.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "plate"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.spoon.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "spoon"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.fork.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "fork"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.orange.adj.1",
+      "paradigmId": "en.adj.invariant",
+      "stems": {
+        "base": "orange"
+      },
+      "overrides": []
     }
   ]
 }
