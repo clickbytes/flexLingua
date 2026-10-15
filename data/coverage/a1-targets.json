@@ -598,33 +598,6 @@
       }
     },
     {
-      "id": "construction.event.drink",
-      "unitType": "construction",
-      "domain": "activities",
-      "kind": "event",
-      "scopeStatus": "required",
-      "coreRef": {
-        "kind": "concept",
-        "id": "event.drink"
-      },
-      "mapping": {
-        "pl": {
-          "lexicon": "required",
-          "morphology": "required",
-          "grammarFrame": "required"
-        },
-        "en": {
-          "lexicon": "required",
-          "morphology": "required",
-          "grammarFrame": "required"
-        }
-      },
-      "evidence": {
-        "fixture": "data/coverage/a1-gold-g2.json",
-        "requirement": "passing-case-or-explicit-gap"
-      }
-    },
-    {
       "id": "construction.event.open",
       "unitType": "construction",
       "domain": "activities",
