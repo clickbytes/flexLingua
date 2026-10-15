@@ -451,6 +451,16 @@
       "license": "Project-authored; no separate SPDX license grant is declared in this repository",
       "reviewedAt": "2026-10-15",
       "permittedUse": "Used as the default internal presentation profile in flexLingua. External reuse requires review of the repository license and rights."
+    },
+    {
+      "path": "data/coverage/a2-targets.json",
+      "version": 1,
+      "status": "project-authored",
+      "author": "flexLingua project contributors; individual case authors are not recorded",
+      "source": "Original project-authored bounded A2 engine target matrix, separated from A1 and not copied from a CEFR or commercial vocabulary list.",
+      "license": "Project-authored; no separate SPDX license grant is declared in this repository.",
+      "reviewedAt": "2026-10-15",
+      "permittedUse": "Used as an internal test scope in flexLingua. It is not a complete or representative CEFR benchmark; external reuse requires rights-holder review because this repository declares no separate data license."
     }
   ]
 }

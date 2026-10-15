@@ -1,6 +1,7 @@
 import {createHash} from 'node:crypto';
 
 export const DIALOGUE_GOLD_SHA256='31511c82e602783982a54bb091c969d9612833a454bd31c52c3b39914019c163';
+export const A2_GOLD_SHA256='4379e41cca6ab615885f0fc395a0e4249136ca4f1b98df9c3b58a312fb8111c5';
 
 /** Build scene- and act-level results from the separately executed dialogue gold suite. */
 export function buildDialogueGoldReport({fixture,fixtureSha256,results}={}) {
@@ -69,6 +70,111 @@ const opposite=language=>language==='en'?'pl':'en';
 
 export function sha256Text(text) {
  return createHash('sha256').update(text.replace(/\r\n?/g,'\n'),'utf8').digest('hex');
+}
+
+/** Report a separate, finite A2 sample; this never contributes to the A1 ledger. */
+export function buildA2GoldReport({fixture,targets,fixtureSha256,results}={}) {
+ const categories=['future','preference','request','location','purchase','price'];
+ const targetCategories=[...categories,'refusal','semantics'];
+ if(!record(fixture)||fixture.schemaVersion!==1||fixture.suite!=='A2-GOLD-01'||
+    fixture.license!=='project-authored'||!Array.isArray(fixture.cases)||
+    fixture.cases.length<50||!Array.isArray(fixture.unsupported)||
+    fixture.unsupported.length<1||fixture.minimumSentences<100||
+    fixture.sentencesPerCase!==2||fixtureSha256!==A2_GOLD_SHA256||
+    !record(targets)||targets.version!==1||targets.license!=='project-authored'||
+    targets.scope?.completeness!=='project-authored-subset'||
+    targets.scope?.representativeCefrDenominator!==null||
+    !Array.isArray(targets.targets)||!Array.isArray(results)||
+    fixture.cases.length*fixture.sentencesPerCase+fixture.unsupported.length<100)
+   throw new Error('Invalid, unpinned or incomplete A2 gold evidence.');
+ const targetById=new Map();
+ for(const target of targets.targets){
+   if(!record(target)||!word(target.id)||targetById.has(target.id)||
+      !targetCategories.includes(target.category)||target.scopeStatus!=='required'||
+      !record(target.coreRef)||target.coreRef.kind!=='concept'||!word(target.coreRef.id))
+     throw new Error('Invalid A2 gold target: '+String(target?.id));
+   targetById.set(target.id,target);
+ }
+ const fixtureIds=new Set(),caseIds=new Set(),seenInputs=new Set();
+ const constructions=new Set();
+ for(const row of fixture.cases){
+   if(!record(row)||!word(row.id)||fixtureIds.has(row.id)||!categories.includes(row.construction)||
+      !record(row.enToPl)||!word(row.enToPl.input)||!word(row.enToPl.expected)||
+      !record(row.plToEn)||!word(row.plToEn.input)||!word(row.plToEn.expected)||
+      !record(row.semantic)||!word(row.semantic.type))
+     throw new Error('Invalid or duplicate A2 gold case: '+String(row?.id));
+   fixtureIds.add(row.id);caseIds.add(row.id);constructions.add(row.construction);
+   for(const [directionKey,sample] of [['en->pl',row.enToPl],['pl->en',row.plToEn]]){
+     const fingerprint=directionKey+'\u0000'+sample.input.normalize('NFC').trim().replace(/\s+/gu,' ').toLowerCase();
+     if(seenInputs.has(fingerprint))throw new Error('Duplicate A2 gold input: '+row.id+' '+directionKey);
+     seenInputs.add(fingerprint);
+   }
+ }
+ for(const category of categories){
+   if(!constructions.has(category)||!targetById.has('a2.'+category))
+     throw new Error('A2 gold lacks a target or test examples for '+category);
+ }
+ for(const category of ['refusal','semantics'])if(!targetById.has('a2.'+category))
+   throw new Error('A2 gold lacks a target for '+category);
+ const refusalIds=new Set();
+ for(const row of fixture.unsupported){
+   if(!record(row)||!word(row.id)||fixtureIds.has(row.id)||!direction(row.from)||
+      !word(row.input)||!word(row.reason))throw new Error('Invalid A2 refusal fixture: '+String(row?.id));
+   fixtureIds.add(row.id);refusalIds.add(row.id);
+ }
+ const caseResults=new Map(),refusalResults=new Map();
+ for(const result of results){
+   if(!record(result)||!fixtureIds.has(result.id)||
+      (caseIds.has(result.id)?caseResults.has(result.id):refusalResults.has(result.id)))
+     throw new Error('Invalid or duplicate A2 gold result: '+String(result?.id));
+   if(caseIds.has(result.id)){
+     if(!record(result.directions)||!directionKeys.every(key=>statusNames.has(result.directions[key]))||
+        !statusNames.has(result.semantic))throw new Error('Invalid A2 direction/semantic result: '+result.id);
+     caseResults.set(result.id,result);
+   }else{
+     if(!statusNames.has(result.status))throw new Error('Invalid A2 refusal result: '+result.id);
+     refusalResults.set(result.id,result.status);
+   }
+ }
+ if(caseResults.size!==caseIds.size||refusalResults.size!==refusalIds.size)
+   throw new Error('A2 report requires one executed result for every fixture case.');
+ const byConstruction=Object.fromEntries(categories.map(category=>[category,{
+   casePairs:0,sentences:0,passed:0,failed:0,
+   byDirection:{'en->pl':{passed:0,failed:0},'pl->en':{passed:0,failed:0}}
+ }]));
+ const byDirection={'en->pl':{passed:0,failed:0},'pl->en':{passed:0,failed:0}};
+ let semanticChecks=0,semanticPassed=0;
+ for(const row of fixture.cases){
+   const result=caseResults.get(row.id),metric=byConstruction[row.construction];
+   metric.casePairs++;metric.sentences+=2;semanticChecks+=2;
+   const both=directionKeys.every(key=>result.directions[key]==='pass');
+   metric[both?'passed':'failed']++;
+   for(const key of directionKeys){
+     const status=result.directions[key],slot=status==='pass'?'passed':'failed';
+     byDirection[key][slot]++;metric.byDirection[key][slot]++;
+     if(result.semantic==='pass')semanticPassed++;
+   }
+ }
+ const byReason={};let refusalsPassed=0;
+ for(const row of fixture.unsupported){
+   const status=refusalResults.get(row.id),slot=status==='pass'?'passed':'failed';
+   if(status==='pass')refusalsPassed++;
+   const bucket=byReason[row.reason]??=( {passed:0,failed:0,byDirection:{'en->pl':0,'pl->en':0}} );
+   bucket[slot]++;bucket.byDirection[row.from==='en'?'en->pl':'pl->en']++;
+ }
+ const positiveSentences=fixture.cases.length*2,negativeSentences=fixture.unsupported.length;
+ return {schemaVersion:1,suite:fixture.suite,fixtureSha256,
+   scope:'project-authored-a2-subset-not-cefr-completion',
+   totals:{casePairs:fixture.cases.length,positiveSentences,negativeSentences,
+     sentences:positiveSentences+negativeSentences,minimumSentences:fixture.minimumSentences,
+     passedDirections:byDirection['en->pl'].passed+byDirection['pl->en'].passed,
+     failedDirections:byDirection['en->pl'].failed+byDirection['pl->en'].failed,
+     refusalCases:negativeSentences,refusalsPassed,refusalsFailed:negativeSentences-refusalsPassed,
+     semanticChecks,semanticPassed,semanticFailed:semanticChecks-semanticPassed},
+   byDirection,byConstruction,refusal:{passed:refusalsPassed,failed:negativeSentences-refusalsPassed,byReason},
+   semantics:{checks:semanticChecks,passed:semanticPassed,failed:semanticChecks-semanticPassed},
+   cefr:{level:'A2',percentage:null,status:'not-measured',licensedDenominator:null,
+     reason:'The project-authored controlled sample is not representative and has no licensed CEFR denominator.'}};
 }
 
 export function verifyEvidenceFixture(sourceId,text) {
