@@ -1,4 +1,4 @@
-import { createDiscourse, createEventRelation, createCoordination, createNegation, createComplement, materializeEvent, validateInterlingua, MAX_DISCOURSE_EVENTS, QUESTION_VERSION, MODALITY_VERSION, STATE_VERSION, DIALOGUE_ACT_VERSION, validateCoreferenceMap, sameDiscourseReferent } from './interlingua.js';
+import { createDiscourse, createEventRelation, createCoordination, createNegation, createComplement, materializeEvent, validateInterlingua, MAX_DISCOURSE_EVENTS, QUESTION_VERSION, MODALITY_VERSION, STATE_VERSION, DIALOGUE_ACT_VERSION, PASSIVE_VERSION, validateCoreferenceMap, sameDiscourseReferent } from './interlingua.js';
 import { createFeatureRegistry, record, safeName, hasOwn } from './features.js';
 import { createCoreLanguage } from './core-language.js';
 import { splitSentences, sentenceText } from './text.js';
@@ -819,6 +819,7 @@ export class Engine {
   capabilities() {
     return { interlinguaVersion: '1.0', questionDocumentVersion: QUESTION_VERSION,
       eventRelationDocumentVersion: '1.28',
+      passiveEventDocumentVersion: PASSIVE_VERSION,
       dialogueActDocumentVersion: DIALOGUE_ACT_VERSION,
       responsePlannerVersion: RESPONSE_PLANNER_VERSION,
       dialogueEngineVersion: DIALOGUE_ENGINE_VERSION,

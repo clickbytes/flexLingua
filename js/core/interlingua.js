@@ -24,6 +24,7 @@ export const NUMERIC_TIME_VERSION = '1.25';
 export const POSSESSIVE_VERSION = '1.26';
 export const COMPARISON_VERSION = '1.27';
 export const EVENT_RELATIONS_VERSION = '1.28';
+export const PASSIVE_VERSION = '1.29';
 export const EVENT_RELATION_TYPES = Object.freeze([
   'event_relation.before', 'event_relation.after', 'event_relation.because'
 ]);
@@ -41,11 +42,12 @@ export const MAX_DISCOURSE_EVENTS = 8;
 export const MAX_DIALOGUE_ACTS = 32;
 export const MAX_CLAUSE_DEPTH = 5;
 
-export function createEvent(concept, roles, features) {
+export function createEvent(concept, roles, features, {voice,omittedRoles}={}) {
   const hasDeictic = Object.values(roles).some(ref => record(ref) && hasOwn(ref, 'referent'));
   const hasPossessor = Object.values(roles).some(ref => record(ref) && hasOwn(ref,'possessor'));
   const event={
-    version: hasPossessor ? POSSESSIVE_VERSION :
+    version: voice==='passive' || (Array.isArray(omittedRoles)&&omittedRoles.length) ?
+      PASSIVE_VERSION : hasPossessor ? POSSESSIVE_VERSION :
       hasOwn(features,'clockTime') || hasOwn(features,'calendarDate') ? NUMERIC_TIME_VERSION :
       hasDeictic ? DEICTIC_VERSION :
       Object.values(roles).some(ref => record(ref) && hasOwn(ref, 'relatives')) ? CLAUSE_VERSION :
@@ -62,6 +64,8 @@ export function createEvent(concept, roles, features) {
   if(hasOwn(features,'timeReference'))event.timeReference=features.timeReference;
   if(hasOwn(features,'clockTime'))event.clockTime=features.clockTime;
   if(hasOwn(features,'calendarDate'))event.calendarDate=features.calendarDate;
+  if(voice!==undefined)event.voice=voice;
+  if(omittedRoles!==undefined)event.omittedRoles=omittedRoles;
   return event;
 }
 
@@ -303,7 +307,9 @@ export function createDiscourse(events, { coreference = {}, relations = [] } = {
       currentMentions.set(mention,roles[role]);
     }
     for (const [mention,id] of currentMentions) earlierMentions.set(mention,id);
-    return { id: 'e'+(index + 1), concept: event.concept, roles, features: event.features };
+    return { id: 'e'+(index + 1), concept: event.concept, roles, features: event.features,
+      ...(event.voice?{voice:event.voice}:{}),
+      ...(event.omittedRoles?{omittedRoles:[...event.omittedRoles]}:{}) };
   });
   for (const link of links) {
     if (!earlierMentions.has(link.source)) {
@@ -319,7 +325,8 @@ export function createDiscourse(events, { coreference = {}, relations = [] } = {
   });
   assertAcyclicEventRelations(steps,relationEdges);
   return {
-    version: relationEdges.length ? EVENT_RELATIONS_VERSION :
+    version: events.some(event=>event.voice==='passive'||event.omittedRoles?.length)
+        ? PASSIVE_VERSION : relationEdges.length ? EVENT_RELATIONS_VERSION :
       events.some(event=>Object.values(event.roles).some(ref=>record(ref)&&hasOwn(ref,'possessor')))
         ? POSSESSIVE_VERSION :
       events.some(event => event.version === CLAUSE_VERSION) ? CLAUSE_VERSION :
@@ -359,18 +366,20 @@ export function materializeEvent(discourse, event) {
   return createEvent(event.concept, roles, {...event.features,
     ...(event.timeReference?{timeReference:event.timeReference}:{}),
     ...(event.clockTime?{clockTime:event.clockTime}:{}),
-    ...(event.calendarDate?{calendarDate:event.calendarDate}:{})});
+    ...(event.calendarDate?{calendarDate:event.calendarDate}:{})},
+    {voice:event.voice,omittedRoles:event.omittedRoles});
 }
 
 function validateEventShape(node, ontology, registry, qualifiedAllowed = true, clauseAllowed = false, depth = 0, gap = null) {
   const fields = (hasOwn(node,'version') || hasOwn(node,'type') ?
     ['version','type','concept','roles','features'] : ['concept','roles','features'])
-    .concat(['timeReference','clockTime','calendarDate'].filter(key=>hasOwn(node,key)));
+    .concat(['timeReference','clockTime','calendarDate','voice','omittedRoles']
+      .filter(key=>hasOwn(node,key)));
   if (Object.keys(node).length !== fields.length || Object.keys(node).some(key => !fields.includes(key))) {
     throw new Error('Event document contains unsupported fields.');
   }
   const hasNumericTime=hasOwn(node,'clockTime')||hasOwn(node,'calendarDate');
-  if((hasNumericTime && ![NUMERIC_TIME_VERSION,POSSESSIVE_VERSION].includes(node.version)) ||
+  if((hasNumericTime && ![NUMERIC_TIME_VERSION,POSSESSIVE_VERSION,PASSIVE_VERSION].includes(node.version)) ||
       (!hasNumericTime && node.version===NUMERIC_TIME_VERSION)) {
     throw new Error('Numeric time fields require a compatible event version.');
   }
@@ -378,7 +387,8 @@ function validateEventShape(node, ontology, registry, qualifiedAllowed = true, c
   if (!event || event.type !== 'event' || !Array.isArray(event.roles)) {
     throw new Error(`Unknown event concept: ${node.concept}`);
   }
-  if(node.version!==POSSESSIVE_VERSION && Object.values(node.roles||{}).some(ref=>
+  if(![POSSESSIVE_VERSION,PASSIVE_VERSION].includes(node.version) &&
+      Object.values(node.roles||{}).some(ref=>
     record(ref)&&hasOwn(ref,'possessor')))
     throw new Error(`Possessive participants require Interlingua v${POSSESSIVE_VERSION}.`);
   validateFeatureBundle(node.features, registry.domains.event, 'event');
@@ -405,7 +415,20 @@ function validateEventShape(node, ontology, registry, qualifiedAllowed = true, c
        date.month<1||date.month>12||date.day<1||date.day>daysInMonth[date.month-1])
       throw new Error('Invalid Gregorian calendar date.');
   }
-  if (!record(node.roles) || Object.keys(node.roles).length !== event.roles.length - (gap ? 1 : 0)) {
+  const omitted=node.omittedRoles;
+  const passive=node.voice==='passive';
+  if((node.version===PASSIVE_VERSION && !passive) ||
+      (node.voice!==undefined && (!passive || node.version!==PASSIVE_VERSION)) ||
+      (omitted!==undefined && (!passive || node.version!==PASSIVE_VERSION ||
+        !Array.isArray(omitted) || omitted.length!==1 || omitted[0]!=='agent')) ||
+      (!passive && omitted!==undefined)) {
+    throw new Error('Invalid event voice or omitted-role declaration.');
+  }
+  const missing=event.roles.filter(role=>!hasOwn(node.roles||{},role) && role!==gap);
+  const allowedMissing=passive?(omitted||[]):[];
+  if (!record(node.roles) || missing.length!==allowedMissing.length ||
+      missing.some(role=>!allowedMissing.includes(role)) ||
+      Object.keys(node.roles).length !== event.roles.length - (gap ? 1 : 0) - allowedMissing.length) {
     throw new Error('Event roles do not match the semantic frame.');
   }
   for (const role of event.roles) {
@@ -413,10 +436,11 @@ function validateEventShape(node, ontology, registry, qualifiedAllowed = true, c
       if (hasOwn(node.roles, role)) throw new Error(`Relative gap ${role} must not repeat the antecedent.`);
       continue;
     }
+    if(allowedMissing.includes(role))continue;
     if (!hasOwn(node.roles, role)) throw new Error(`Missing semantic role: ${role}`);
     const ref = node.roles[role];
     validateReferent(ref, ontology, registry, role, qualifiedAllowed, clauseAllowed, depth,
-      [DEICTIC_VERSION,NUMERIC_TIME_VERSION,POSSESSIVE_VERSION].includes(node.version));
+      [DEICTIC_VERSION,NUMERIC_TIME_VERSION,POSSESSIVE_VERSION,PASSIVE_VERSION].includes(node.version));
     const constraint = event.roleTypes?.[role];
     if (constraint && !(hasOwn(ref, 'referent') ? ontology.isA('person', constraint) :
       ontology.isA(ref.concept, constraint))) {
@@ -786,11 +810,12 @@ function validateClauseTree(node, ontology, registry, depth = 0, gap = null) {
     validateComparisonShape(node,ontology,registry);
   } else if (node.type === 'event') {
     if (![INTERLINGUA_VERSION, QUALIFIED_VERSION, CLAUSE_VERSION, SEMANTIC_VERSION,
-      DEICTIC_VERSION, NUMERIC_TIME_VERSION,POSSESSIVE_VERSION].includes(node.version)) {
+      DEICTIC_VERSION, NUMERIC_TIME_VERSION,POSSESSIVE_VERSION,PASSIVE_VERSION].includes(node.version)) {
       throw new Error('Unsupported event version.');
     }
     validateEventShape(node, ontology, registry, node.version !== INTERLINGUA_VERSION,
-      [CLAUSE_VERSION, SEMANTIC_VERSION, NUMERIC_TIME_VERSION,POSSESSIVE_VERSION].includes(node.version),0,gap);
+      [CLAUSE_VERSION, SEMANTIC_VERSION, NUMERIC_TIME_VERSION,POSSESSIVE_VERSION,
+        PASSIVE_VERSION].includes(node.version),0,gap);
   } else if (node.type === 'state') {
     if (![STATE_VERSION,POSSESSIVE_VERSION].includes(node.version)) throw new Error('Unsupported state version.');
     validateStateShape(node,ontology,registry,gap);
@@ -907,13 +932,13 @@ function validateInterlinguaDocument(node, ontology, registry) {
     return node;
   }
   if (node.type !== 'discourse' || ![DISCOURSE_VERSION, QUALIFIED_VERSION, CLAUSE_VERSION,
-    POSSESSIVE_VERSION, EVENT_RELATIONS_VERSION].includes(node.version) ||
+    POSSESSIVE_VERSION, EVENT_RELATIONS_VERSION, PASSIVE_VERSION].includes(node.version) ||
       !record(node.entities) || !Array.isArray(node.events) ||
       node.events.length < 2 || node.events.length > MAX_DISCOURSE_EVENTS ||
       !Array.isArray(node.relations)) {
     throw new Error('Unsupported or invalid Interlingua document.');
   }
-  if(![POSSESSIVE_VERSION,EVENT_RELATIONS_VERSION].includes(node.version) &&
+  if(![POSSESSIVE_VERSION,EVENT_RELATIONS_VERSION,PASSIVE_VERSION].includes(node.version) &&
       Object.values(node.entities).some(ref=>
     record(ref)&&hasOwn(ref,'possessor')))
     throw new Error(`Possessive participants require Interlingua v${POSSESSIVE_VERSION}.`);
@@ -935,16 +960,17 @@ function validateInterlinguaDocument(node, ontology, registry) {
     }
     validateEventShape(materializeEvent(node, event), ontology, registry,
       node.version !== DISCOURSE_VERSION,
-      [CLAUSE_VERSION, SEMANTIC_VERSION, EVENT_RELATIONS_VERSION].includes(node.version));
+      [CLAUSE_VERSION, SEMANTIC_VERSION, EVENT_RELATIONS_VERSION,PASSIVE_VERSION].includes(node.version));
   }
   if (node.relations.length < node.events.length - 1 ||
       node.relations.some((edge, i) => !record(edge) ||
         (i<node.events.length-1 && (edge.type !== 'precedes' ||
           edge.from !== node.events[i].id || edge.to !== node.events[i + 1].id)) ||
-        (i>=node.events.length-1 && node.version!==EVENT_RELATIONS_VERSION))) {
+        (i>=node.events.length-1 &&
+          ![EVENT_RELATIONS_VERSION,PASSIVE_VERSION].includes(node.version)))) {
     throw new Error('Discourse sequence relations must form an ordered, acyclic chain.');
   }
-  if(node.version===EVENT_RELATIONS_VERSION) {
+  if([EVENT_RELATIONS_VERSION,PASSIVE_VERSION].includes(node.version)) {
     const explicit=node.relations.slice(node.events.length-1);
     const keys=new Set();
     for(const edge of explicit) {
