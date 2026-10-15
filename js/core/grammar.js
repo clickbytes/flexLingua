@@ -359,6 +359,8 @@ function validateGrammar(dictionary, grammar) {
             !/^[\p{L}]+$/u.test(frame.whTheme.frontPreposition) ||
             grammar.questions?.yesNo?.mode !== 'prefix')) ||
         (frame.caseAlternations !== undefined && typeof frame.caseAlternations !== 'boolean') ||
+        (frame.bareRoles !== undefined && (!Array.isArray(frame.bareRoles) ||
+          !frame.bareRoles.every(safeName) || new Set(frame.bareRoles).size !== frame.bareRoles.length)) ||
         !Array.isArray(frame.linearizations) || !frame.linearizations.length ||
         !frame.linearizations.every(sequence => Array.isArray(sequence) && sequence.length &&
           sequence.every(step => typeof step === 'string' &&
@@ -607,12 +609,12 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
       (key === 'number' ? ref.features.number : noun[key]) === value);
   }
 
-  function plainNoun(ref, noun, gramCase, fallback) {
+  function plainNoun(ref, noun, gramCase, fallback, allowBare = false) {
     const forms = nounForms.find(item => item.noun === noun)?.forms || [];
     const form = forms.find(candidate => candidate.bindings.number === ref.features.number &&
       (candidate.bindings.case === undefined || candidate.bindings.case === gramCase));
     if (!form) throw new Error(`Missing ${ref.features.number}/${gramCase || '-'} noun form for ${noun.lemma}.`);
-    return nominal.render(ref, noun, form.text, gramCase, fallback);
+    return nominal.render(ref, noun, form.text, gramCase, fallback, {allowBare});
   }
 
   function contextFor(roles, event, grammaticalSubjectRole = subjectRole) {
@@ -844,7 +846,8 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
             const cases = record(caseRule) ? [...new Set(Object.values(caseRule))] :
               [roleCase(frame, step, features)];
             for (const grammaticalCase of cases) {
-              const phrases=[...readNounPhrases(tokens,index,grammaticalCase,depth,budget),
+              const phrases=[...readNounPhrases(tokens,index,grammaticalCase,depth,budget,
+                {allowBare:frame.bareRoles?.includes(step) === true}),
                 ...(step===subjectRole && grammaticalCase===nounPhrase.subjectCase ?
                   readDeicticNounPhrases(tokens,index) : [])];
               for (const parsed of phrases) {
@@ -1208,8 +1211,8 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     return found;
   }
 
-  function readNounPhrases(tokens, index, grammaticalCase, depth, budget) {
-    const bare = nominal.read(tokens, index, grammaticalCase);
+  function readNounPhrases(tokens, index, grammaticalCase, depth, budget, options = {}) {
+    const bare = nominal.read(tokens, index, grammaticalCase, options);
     if (depth >= relativeGrammar.maxDepth) return bare;
     const enriched = [...bare];
     for (const base of bare) for (const marker of relativeGrammar.markers) {
@@ -1359,7 +1362,8 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     }
     const noun = nounByConcept(ref.concept);
     const requiredCase = roleCase(frame, role, meaning.features, ref);
-    let output = plainNoun(ref, noun, requiredCase, fallback);
+    let output = plainNoun(ref, noun, requiredCase, fallback,
+      frame.bareRoles?.includes(role) === true);
     for (const relative of ref.relatives || []) {
       if (depth >= relativeGrammar.maxDepth) throw new Error('Relative clause realization depth exceeded.');
       const marker = relativeGrammar.markers.find(item => item.gap === relative.gap &&
@@ -1849,6 +1853,9 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
       if (!frame) throw new Error(`Missing grammatical frame for ${verb.concept}`);
       if (!semanticFrame.roles.includes(subjectRole)) {
         throw new Error('Subject semantic role missing from frame.');
+      }
+      if (frame.bareRoles && frame.bareRoles.some(role=>!semanticFrame.roles.includes(role))) {
+        throw new Error(`Unknown bare noun role for ${verb.concept}`);
       }
       for (const sequence of frame.linearizations) {
         const roles = sequence.filter(step => !step.startsWith('@'));

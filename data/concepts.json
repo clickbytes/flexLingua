@@ -98,14 +98,19 @@
       "parent": "event.perception",
       "label": "visual perception"
     },
-    "institution": {
+    "place": {
       "type": "category",
       "parent": "entity",
+      "label": "place"
+    },
+    "institution": {
+      "type": "category",
+      "parent": "place",
       "label": "institution"
     },
     "geographical_feature": {
       "type": "category",
-      "parent": "entity",
+      "parent": "place",
       "label": "geographical feature"
     },
     "place.financial_institution": {
@@ -204,12 +209,23 @@
     },
     "event.movement": {
       "type": "event",
-      "label": "move to a place",
+      "label": "move generally",
       "roles": [
         "agent"
       ],
       "roleTypes": {
         "agent": "entity"
+      }
+    },
+    "event.movement.to_destination": {
+      "type": "event",
+      "parent": "event.movement",
+      "label": "move to a destination",
+      "roles": [
+        "destination"
+      ],
+      "roleTypes": {
+        "destination": "place"
       }
     },
     "event.write": {
@@ -236,7 +252,7 @@
     },
     "settlement": {
       "type": "category",
-      "parent": "entity",
+      "parent": "place",
       "label": "settlement"
     },
     "structure.house": {

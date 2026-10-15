@@ -289,13 +289,13 @@
     },
     {
       "from": "en",
-      "input": "The father goes to school.",
-      "why": "unrepresented destination"
+      "input": "The father goes to.",
+      "why": "missing destination referent"
     },
     {
       "from": "pl",
-      "input": "Ojciec idzie do szkoły.",
-      "why": "unrepresented destination"
+      "input": "Ojciec idzie do.",
+      "why": "missing destination referent"
     }
   ]
 }

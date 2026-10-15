@@ -974,6 +974,13 @@
             "kind": "concept",
             "id": "event.movement"
           }
+        },
+        {
+          "id": "pl.isc.1.sense.2",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.movement.to_destination"
+          }
         }
       ]
     },

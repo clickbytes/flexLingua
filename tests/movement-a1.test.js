@@ -61,7 +61,7 @@ test('A1 Batch 5: irregular go/iść morphology and inverse readings',()=>{
     .some(x=>x.lexemeId===row.lexemeId),row.text);
  }
 });
-test('A1 Batch 5: fail closed on agreement errors and missing semantic destination',()=>{
+test('A1 Batch 5: fail closed on agreement errors and incomplete destination phrases',()=>{
  assert.equal(gold.invalid.length,4);
  for(const row of gold.invalid){
   const output=make(true).tryTranslate({text:row.input,from:row.from,

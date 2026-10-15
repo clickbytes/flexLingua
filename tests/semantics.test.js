@@ -36,7 +36,10 @@ test('Ontology: type-safe transitive taxonomy and inherited event semantic frame
   assert.ok(ontology.isA('place.riverbank','geographical_feature'));
   assert.ok(!ontology.isA('place.riverbank','institution'));
   assert.deepEqual(ontology.frameRoles('event.visual_perception'),['agent','theme']);
-  assert.deepEqual(ontology.ancestors('place.riverbank'),['geographical_feature','entity']);
+  assert.deepEqual(ontology.ancestors('place.riverbank'),['geographical_feature','place','entity']);
+  assert.ok(ontology.isA('institution.school','place'));
+  assert.deepEqual(ontology.frameRoles('event.movement.to_destination'),['agent','destination']);
+  assert.equal(ontology.get('event.movement.to_destination').roleTypes.destination,'place');
   assert.equal(ontology.get('event.visual_perception').roleTypes.theme, 'entity');
   assert.equal(ontology.get('bogus'),undefined);
 });
