@@ -738,6 +738,98 @@
       "appliesTo": [
         "entity"
       ]
+    },
+    "beverage": {
+      "type": "category",
+      "parent": "physical_object",
+      "label": "beverage"
+    },
+    "knowledge_content": {
+      "type": "category",
+      "parent": "entity",
+      "label": "knowledge content"
+    },
+    "knowledge_content.lesson": {
+      "type": "entity",
+      "parent": "knowledge_content",
+      "label": "lesson"
+    },
+    "event.daily_activity": {
+      "type": "event",
+      "abstract": true,
+      "label": "daily activity",
+      "roles": [
+        "agent"
+      ],
+      "roleTypes": {
+        "agent": "person"
+      }
+    },
+    "event.eat": {
+      "type": "event",
+      "parent": "event.daily_activity",
+      "label": "eat",
+      "roles": [
+        "agent",
+        "theme"
+      ],
+      "roleTypes": {
+        "agent": "person",
+        "theme": "food"
+      }
+    },
+    "event.drink": {
+      "type": "event",
+      "parent": "event.daily_activity",
+      "label": "drink",
+      "roles": [
+        "agent",
+        "theme"
+      ],
+      "roleTypes": {
+        "agent": "person",
+        "theme": "beverage"
+      }
+    },
+    "event.work": {
+      "type": "event",
+      "parent": "event.daily_activity",
+      "label": "work",
+      "roles": [
+        "agent"
+      ],
+      "roleTypes": {
+        "agent": "person"
+      }
+    },
+    "event.learn": {
+      "type": "event",
+      "parent": "event.daily_activity",
+      "label": "learn",
+      "roles": [
+        "agent",
+        "theme"
+      ],
+      "roleTypes": {
+        "agent": "person",
+        "theme": "knowledge_content"
+      }
+    },
+    "event.sleep": {
+      "type": "event",
+      "parent": "event.daily_activity",
+      "label": "sleep",
+      "roles": [
+        "agent"
+      ],
+      "roleTypes": {
+        "agent": "person"
+      }
+    },
+    "beverage.juice": {
+      "type": "entity",
+      "parent": "beverage",
+      "label": "juice"
     }
   },
   "relationTypes": {

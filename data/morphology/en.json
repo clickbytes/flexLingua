@@ -1559,6 +1559,98 @@
         "base": "orange"
       },
       "overrides": []
+    },
+    {
+      "lexemeId": "en.eat.1",
+      "paradigmId": "en.verb.regular",
+      "stems": {
+        "base": "eat"
+      },
+      "overrides": [
+        {
+          "when": {
+            "tense": "past"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ate"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "en.drink.1",
+      "paradigmId": "en.verb.regular",
+      "stems": {
+        "base": "drink"
+      },
+      "overrides": [
+        {
+          "when": {
+            "tense": "past"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "drank"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "en.work.1",
+      "paradigmId": "en.verb.regular",
+      "stems": {
+        "base": "work"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.learn.1",
+      "paradigmId": "en.verb.regular",
+      "stems": {
+        "base": "learn"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.sleep.1",
+      "paradigmId": "en.verb.regular",
+      "stems": {
+        "base": "sleep"
+      },
+      "overrides": [
+        {
+          "when": {
+            "tense": "past"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "slept"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "en.lesson.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "lesson"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.juice.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "juice"
+      },
+      "overrides": []
     }
   ]
 }

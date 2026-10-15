@@ -2277,6 +2277,74 @@
           }
         }
       ]
+    },
+    {
+      "id": "pl.lekcja.1",
+      "lemma": "lekcja",
+      "gender": "feminine",
+      "animacy": "inanimate",
+      "pluralClass": "nonvirile",
+      "paradigmId": "pl.noun.feminine_a",
+      "forms": {
+        "singular": {
+          "nom": "lekcja",
+          "gen": "lekcji",
+          "dat": "lekcji",
+          "acc": "lekcję"
+        },
+        "plural": {
+          "nom": "lekcje",
+          "gen": "lekcji",
+          "dat": "lekcjom",
+          "acc": "lekcje",
+          "inst": "lekcjami",
+          "loc": "lekcjach",
+          "voc": "lekcje"
+        }
+      },
+      "senses": [
+        {
+          "id": "pl.lekcja.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "knowledge_content.lesson"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.sok.1",
+      "lemma": "sok",
+      "gender": "masculine",
+      "animacy": "inanimate",
+      "pluralClass": "nonvirile",
+      "paradigmId": "pl.noun.masc_inanimate_hard",
+      "forms": {
+        "singular": {
+          "nom": "sok",
+          "gen": "soku",
+          "dat": "sokowi",
+          "acc": "sok"
+        },
+        "plural": {
+          "nom": "soki",
+          "gen": "soków",
+          "dat": "sokom",
+          "acc": "soki",
+          "inst": "sokami",
+          "loc": "sokach",
+          "voc": "soki"
+        }
+      },
+      "senses": [
+        {
+          "id": "pl.sok.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "beverage.juice"
+          }
+        }
+      ]
     }
   ],
   "verbs": [
@@ -2783,6 +2851,275 @@
           "coreRef": {
             "kind": "grammaticalFunction",
             "id": "grammar.state_possession"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.eat.1",
+      "lemma": "jeść",
+      "aspect": "imperfective",
+      "forms": {
+        "present": {
+          "firstSingular": "jem",
+          "secondSingular": "jesz",
+          "thirdSingular": "je",
+          "firstPlural": "jemy",
+          "secondPlural": "jecie",
+          "thirdPlural": "jedzą"
+        },
+        "past": {
+          "singular": {
+            "masculine": "jadł",
+            "feminine": "jadła",
+            "neuter": "jadło"
+          },
+          "plural": {
+            "virile": "jedli",
+            "nonvirile": "jadły"
+          }
+        }
+      },
+      "capabilities": {
+        "tenses": [
+          "present",
+          "past"
+        ],
+        "aspects": [
+          "imperfective"
+        ],
+        "polarities": [
+          "positive",
+          "negative"
+        ],
+        "roles": {
+          "agent": "person",
+          "theme": "food"
+        },
+        "themeConcepts": [
+          "food"
+        ]
+      },
+      "senses": [
+        {
+          "id": "pl.eat.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.eat"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.drink.1",
+      "lemma": "pić",
+      "aspect": "imperfective",
+      "forms": {
+        "present": {
+          "firstSingular": "piję",
+          "secondSingular": "pijesz",
+          "thirdSingular": "pije",
+          "firstPlural": "pijemy",
+          "secondPlural": "pijecie",
+          "thirdPlural": "piją"
+        },
+        "past": {
+          "singular": {
+            "masculine": "pił",
+            "feminine": "piła",
+            "neuter": "piło"
+          },
+          "plural": {
+            "virile": "pili",
+            "nonvirile": "piły"
+          }
+        }
+      },
+      "capabilities": {
+        "tenses": [
+          "present",
+          "past"
+        ],
+        "aspects": [
+          "imperfective"
+        ],
+        "polarities": [
+          "positive",
+          "negative"
+        ],
+        "roles": {
+          "agent": "person",
+          "theme": "beverage"
+        },
+        "themeConcepts": [
+          "beverage.juice"
+        ]
+      },
+      "senses": [
+        {
+          "id": "pl.drink.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.drink"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.work.1",
+      "lemma": "pracować",
+      "aspect": "imperfective",
+      "forms": {
+        "present": {
+          "firstSingular": "pracuję",
+          "secondSingular": "pracujesz",
+          "thirdSingular": "pracuje",
+          "firstPlural": "pracujemy",
+          "secondPlural": "pracujecie",
+          "thirdPlural": "pracują"
+        },
+        "past": {
+          "singular": {
+            "masculine": "pracował",
+            "feminine": "pracowała",
+            "neuter": "pracowało"
+          },
+          "plural": {
+            "virile": "pracowali",
+            "nonvirile": "pracowały"
+          }
+        }
+      },
+      "capabilities": {
+        "tenses": [
+          "present",
+          "past"
+        ],
+        "aspects": [
+          "imperfective"
+        ],
+        "polarities": [
+          "positive",
+          "negative"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      },
+      "senses": [
+        {
+          "id": "pl.work.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.work"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.learn.1",
+      "lemma": "uczyć się",
+      "aspect": "imperfective",
+      "forms": {
+        "present": {
+          "firstSingular": "uczę się",
+          "secondSingular": "uczysz się",
+          "thirdSingular": "uczy się",
+          "firstPlural": "uczymy się",
+          "secondPlural": "uczycie się",
+          "thirdPlural": "uczą się"
+        },
+        "past": {
+          "singular": {
+            "masculine": "uczył się",
+            "feminine": "uczyła się",
+            "neuter": "uczyło się"
+          },
+          "plural": {
+            "virile": "uczyli się",
+            "nonvirile": "uczyły się"
+          }
+        }
+      },
+      "capabilities": {
+        "tenses": [
+          "present",
+          "past"
+        ],
+        "aspects": [
+          "imperfective"
+        ],
+        "polarities": [
+          "positive",
+          "negative"
+        ],
+        "roles": {
+          "agent": "person",
+          "theme": "knowledge_content"
+        },
+        "themeConcepts": [
+          "knowledge_content.lesson"
+        ]
+      },
+      "senses": [
+        {
+          "id": "pl.learn.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.learn"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.sleep.1",
+      "lemma": "spać",
+      "aspect": "imperfective",
+      "forms": {
+        "present": {
+          "firstSingular": "śpię",
+          "secondSingular": "śpisz",
+          "thirdSingular": "śpi",
+          "firstPlural": "śpimy",
+          "secondPlural": "śpicie",
+          "thirdPlural": "śpią"
+        },
+        "past": {
+          "singular": {
+            "masculine": "spał",
+            "feminine": "spała",
+            "neuter": "spało"
+          },
+          "plural": {
+            "virile": "spali",
+            "nonvirile": "spały"
+          }
+        }
+      },
+      "capabilities": {
+        "tenses": [
+          "present",
+          "past"
+        ],
+        "aspects": [
+          "imperfective"
+        ],
+        "polarities": [
+          "positive",
+          "negative"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      },
+      "senses": [
+        {
+          "id": "pl.sleep.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.sleep"
           }
         }
       ]

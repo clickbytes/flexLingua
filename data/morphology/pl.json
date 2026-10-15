@@ -9352,6 +9352,279 @@
         "virile": "pomarańczow"
       },
       "overrides": []
+    },
+    {
+      "lexemeId": "pl.eat.1",
+      "paradigmId": "pl.verb.third_person",
+      "stems": {
+        "base": "jeść",
+        "pastSingular": "jad",
+        "pastVirile": "jed",
+        "presentSingular": "je",
+        "presentPlural": "jedzą"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.drink.1",
+      "paradigmId": "pl.verb.third_person",
+      "stems": {
+        "base": "pić",
+        "pastSingular": "pi",
+        "pastVirile": "pi",
+        "presentSingular": "pije",
+        "presentPlural": "piją"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.work.1",
+      "paradigmId": "pl.verb.third_person",
+      "stems": {
+        "base": "pracować",
+        "pastSingular": "pracowa",
+        "pastVirile": "pracowa",
+        "presentSingular": "pracuje",
+        "presentPlural": "pracują"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.learn.1",
+      "paradigmId": "pl.verb.third_person_particle",
+      "stems": {
+        "base": "uczyć się",
+        "pastSingular": "uczy",
+        "pastVirile": "uczy",
+        "presentSingular": "uczy",
+        "presentPlural": "uczą",
+        "particle": " się"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.sleep.1",
+      "paradigmId": "pl.verb.third_person",
+      "stems": {
+        "base": "spać",
+        "pastSingular": "spa",
+        "pastVirile": "spa",
+        "presentSingular": "śpi",
+        "presentPlural": "śpią"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.lekcja.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "lekcj",
+        "lemma": "lekcja"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lekcji"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lekcji"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lekcji"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lekcje"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lekcji"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lekcje"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lekcje"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.sok.1",
+      "paradigmId": "pl.noun.masc_inanimate_hard",
+      "stems": {
+        "base": "sok",
+        "lemma": "sok"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "soku"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "sokowi"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "soki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "soków"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "sokom"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "soki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "inst"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "sokami"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "sokach"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "soki"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
