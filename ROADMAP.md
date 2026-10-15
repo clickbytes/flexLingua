@@ -13,6 +13,7 @@ Polish  ⇄  CORE / INTER  ⇄  English
 The product is a controlled-language prototype. It is not a phrase-pair translator, a general free-text translator, or a claim of CEFR certification.
 
 The initial product scope is Polish and English. Other language packages may be explored after the shared semantic and adapter contracts are stable.
+The existing Turkish package is a limited historical demonstration only; it is not part of PL/EN level evaluation or any CEFR completion claim.
 
 ## Product principles
 
