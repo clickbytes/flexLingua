@@ -28,6 +28,7 @@ test('planner confirms only a matching explicit fact and produces deterministic 
   assert.deepEqual(engine.planResponse({question,facts:[fact]}),first);
   assert.equal(first.version,'1.0');
   assert.equal(first.outcome,'answer');
+  assert.deepEqual(first.confidence,{level:'grounded',evidenceCount:1});
   assert.equal(first.act.act,'confirm');
   assert.deepEqual(first.evidence,[{factIndex:0}]);
   assert.deepEqual(valid(first.act),first.act);
@@ -39,6 +40,7 @@ test('negative answers require an explicit opposite fact; absence remains unknow
   assert.equal(absent.outcome,'unknown');
   assert.equal(absent.act.act,'refuse');
   assert.equal(absent.act.payload.reason,'insufficient_context');
+  assert.deepEqual(absent.confidence,{level:'none',evidenceCount:0});
   assert.equal(absent.realization,null);
 
   const negative=see(undefined,{tense:'present',polarity:'negative',aspect:'unknown'});
@@ -55,6 +57,7 @@ test('conflicting evidence yields ambiguity and never chooses a convenient fact'
   assert.equal(plan.outcome,'unknown');
   assert.equal(plan.act.act,'refuse');
   assert.equal(plan.act.payload.reason,'ambiguous');
+  assert.deepEqual(plan.confidence,{level:'ambiguous',evidenceCount:2});
   assert.deepEqual(plan.evidence,[{factIndex:0},{factIndex:1}]);
 });
 
@@ -65,6 +68,7 @@ test('WH planning fills only a matching semantic gap and uses typed referents',(
   assert.equal(plan.outcome,'answer');
   assert.equal(plan.act.act,'answer');
   assert.deepEqual(plan.act.payload.response,{type:'referent',value:ref('animal.dog')});
+  assert.deepEqual(plan.confidence,{level:'grounded',evidenceCount:1});
   assert.deepEqual(plan.realization,see());
   assert.equal(engine.realize({interlingua:plan.realization,to:'en'}).text,'The girl sees the dog.');
   assert.equal(engine.realize({interlingua:plan.realization,to:'pl'}).text,'Dziewczynka widzi psa.');
@@ -72,6 +76,7 @@ test('WH planning fills only a matching semantic gap and uses typed referents',(
   const conflicting=engine.planResponse({question:wh,facts:[see(),
     see({agent:ref('person.girl'),theme:ref('animal.cat')})]});
   assert.equal(conflicting.act.payload.reason,'ambiguous');
+  assert.deepEqual(conflicting.confidence,{level:'ambiguous',evidenceCount:2});
 });
 
 test('clarification is typed against the pending question and receives language realization',()=>{

@@ -1,5 +1,51 @@
 import {createHash} from 'node:crypto';
 
+export const DIALOGUE_GOLD_SHA256='31511c82e602783982a54bb091c969d9612833a454bd31c52c3b39914019c163';
+
+/** Build scene- and act-level results from the separately executed dialogue gold suite. */
+export function buildDialogueGoldReport({fixture,fixtureSha256,results}={}) {
+ if(!record(fixture)||fixture.schemaVersion!==1||fixture.license!=='project-authored'||
+    !Array.isArray(fixture.scenes)||fixture.scenes.length<20||fixture.scenes.length>100||
+    fixtureSha256!==DIALOGUE_GOLD_SHA256||!Array.isArray(results))
+   throw new Error('Invalid or unpinned dialogue gold fixture/report inputs.');
+ const sceneIds=new Set(),resultById=new Map();
+ for(const scene of fixture.scenes) {
+   if(!record(scene)||!/^DIAL-A1-[0-9]{2,}$/u.test(scene.id)||sceneIds.has(scene.id)||
+      !['en','pl'].includes(scene.from)||scene.to!==(scene.from==='en'?'pl':'en')||
+      !word(scene.fact)||!word(scene.question)||!word(scene.expectedText)||
+      !['answer','confirm'].includes(scene.expectedAct)||scene.expectedOutcome!=='answer'||
+      !record(scene.confidence)||scene.confidence.level!=='grounded'||
+      !Number.isInteger(scene.confidence.evidenceCount)||scene.confidence.evidenceCount<1)
+     throw new Error('Invalid or duplicate dialogue scene: '+String(scene?.id));
+   sceneIds.add(scene.id);
+ }
+ for(const result of results) {
+   if(!record(result)||!sceneIds.has(result.id)||resultById.has(result.id)||
+      !['pass','fail'].includes(result.status))
+     throw new Error('Invalid or duplicate dialogue scene result: '+String(result?.id));
+   resultById.set(result.id,result.status);
+ }
+ if(resultById.size!==sceneIds.size)
+   throw new Error('Dialogue gold report must contain one result for every scene.');
+ const byDirection={'en->pl':{passed:0,failed:0},'pl->en':{passed:0,failed:0}};
+ const byAct=Object.fromEntries(['assert','ask','answer','confirm','refuse'].map(act=>
+   [act,{passed:0,failed:0}]));
+ const scenes=fixture.scenes.map(scene=>{
+   const status=resultById.get(scene.id),direction=scene.from+'->'+scene.to;
+   const key=status==='pass'?'passed':'failed';
+   byDirection[direction][key]++;
+   for(const act of ['assert','ask',scene.expectedAct])byAct[act][key]++;
+   return {id:scene.id,direction,turns:3,acts:[
+     {act:'assert',status},{act:'ask',status},{act:scene.expectedAct,status}
+   ],expectedOutcome:scene.expectedOutcome,confidence:scene.confidence};
+ });
+ const passed=scenes.filter(scene=>scene.acts[0].status==='pass').length;
+ return {schemaVersion:1,suite:'DIAL-05',fixtureSha256,
+   totals:{scenes:scenes.length,passed,failed:scenes.length-passed,
+     minimumTurns:Math.min(...scenes.map(scene=>scene.turns))},
+   byDirection,byAct,scenes};
+}
+
 /** VAL-03: declared sample catalog joined to real Node suite executions. */
 export const EVIDENCE_SOURCES = Object.freeze([
  {id:'g2',fixture:'data/coverage/a1-gold-g2.json',sha256:'82068514a0101ba06fe2d13e8af279409f792c82c75644b4ba59efd7c350c9ab',classification:'development',args:['tools/report-a1.mjs','--strict']},
