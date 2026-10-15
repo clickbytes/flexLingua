@@ -112,6 +112,14 @@ Nowy wire format używa osobnej wersji dokumentu `1.22` (niezależnej od wersji 
 - sprawdzać snapshot → `JSON.stringify`/`JSON.parse` → walidacja → realization bez utraty kotwic, osoby, liczby ani jawnej tożsamości;
 - odrzucić nieznaną kotwicę, niezgodność `speaker/first` i `addressee/second`, nieznaną liczbę, niejednoznaczną perspektywę oraz niejawny link koreferencji.
 
+## GRAM-01: przypadek zaimka i jawny possessor
+
+GRAM-01 rozszerza tę samą deiktyczną tożsamość na wspierane formy dopełnienia: angielskie `me/you/us` oraz polskie `mnie/mi/ciebie/tobie/nas/nam/was/wam`. Gramatyka przypisuje formie wymagany przypadek; `me` i polskie `mnie` są dopuszczone w bierniku, a `mi/tobie` w celowniku. Zdanie z formą w niezgodnym przypadku jest odrzucane.
+
+Possessive determiner nie staje się sensem rzeczownika. CORE dodaje do referenta rzeczownika jawne pole `possessor` zawierające zwykłą referencję `{referent, agreement}` mówcy lub adresata. Na przykład `my book` i `moja książka` mają ten sam koncept `object.book`, a właściciel jest osobną relacją. Polski podzbiór odmienia `mój/twój` dla rodzaju, przypadku i liczby pojedynczej posiadanego rzeczownika. Angielskie `your` zachowuje warianty liczby pojedynczej i mnogiej jako konkurujące odczytania.
+
+Nowy wariant dokumentu `1.26` wersjonuje uczestnika z polem `possessor` i stan posiadania odczytany z konstrukcji `The book is mine` / `Książka jest moja`. Dokumenty bez tego pola nadal używają wcześniejszych wersji. `mine` wymaga znanego posiadania w zdaniu; samodzielne `I see mine` jest odrzucane, bo nie wskazuje referenta posiadanego przedmiotu. Kotwice i identyfikatory zdarzeń nie są łączone przez samą pisownię; testy E2a–E4 pozostają kontrolą regresji.
+
 ## Konsekwencje i podział wdrożenia
 
 - `data/concepts.json` pozostaje ontologią pojęć. Nie dodajemy do niej `I`, `you`, `speaker` ani `addressee` jako bytów.

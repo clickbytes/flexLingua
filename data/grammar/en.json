@@ -83,7 +83,69 @@
           "text": "which"
         }
       ]
-    }
+    },
+    "possessives": [
+      {
+        "anchor": "speaker",
+        "person": "first",
+        "number": "singular",
+        "forms": [
+          {
+            "text": "my"
+          }
+        ],
+        "standaloneForms": [
+          {
+            "text": "mine"
+          }
+        ]
+      },
+      {
+        "anchor": "speaker",
+        "person": "first",
+        "number": "plural",
+        "forms": [
+          {
+            "text": "our"
+          }
+        ],
+        "standaloneForms": [
+          {
+            "text": "ours"
+          }
+        ]
+      },
+      {
+        "anchor": "addressee",
+        "person": "second",
+        "number": "singular",
+        "forms": [
+          {
+            "text": "your"
+          }
+        ],
+        "standaloneForms": [
+          {
+            "text": "yours"
+          }
+        ]
+      },
+      {
+        "anchor": "addressee",
+        "person": "second",
+        "number": "plural",
+        "forms": [
+          {
+            "text": "your"
+          }
+        ],
+        "standaloneForms": [
+          {
+            "text": "yours"
+          }
+        ]
+      }
+    ]
   },
   "verb": {
     "aspectSource": "unknown",
@@ -607,7 +669,8 @@
         "anchor": "speaker"
       },
       "person": "first",
-      "number": "singular"
+      "number": "singular",
+      "case": "nom"
     },
     {
       "senseId": "en.pronoun.you.singular",
@@ -616,7 +679,8 @@
         "anchor": "addressee"
       },
       "person": "second",
-      "number": "singular"
+      "number": "singular",
+      "case": "nom"
     },
     {
       "senseId": "en.pronoun.you.plural",
@@ -625,7 +689,8 @@
         "anchor": "addressee"
       },
       "person": "second",
-      "number": "plural"
+      "number": "plural",
+      "case": "nom"
     },
     {
       "senseId": "en.pronoun.we.sense",
@@ -634,7 +699,48 @@
         "anchor": "speaker"
       },
       "person": "first",
-      "number": "plural"
+      "number": "plural",
+      "case": "nom"
+    },
+    {
+      "senseId": "en.pronoun.me.sense",
+      "referent": {
+        "kind": "deictic",
+        "anchor": "speaker"
+      },
+      "person": "first",
+      "number": "singular",
+      "case": "acc"
+    },
+    {
+      "senseId": "en.pronoun.you.singular",
+      "referent": {
+        "kind": "deictic",
+        "anchor": "addressee"
+      },
+      "person": "second",
+      "number": "singular",
+      "case": "acc"
+    },
+    {
+      "senseId": "en.pronoun.you.plural",
+      "referent": {
+        "kind": "deictic",
+        "anchor": "addressee"
+      },
+      "person": "second",
+      "number": "plural",
+      "case": "acc"
+    },
+    {
+      "senseId": "en.pronoun.us.sense",
+      "referent": {
+        "kind": "deictic",
+        "anchor": "speaker"
+      },
+      "person": "first",
+      "number": "plural",
+      "case": "acc"
     }
   ]
 }

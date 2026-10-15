@@ -21,6 +21,7 @@ export const DEICTIC_VERSION = '1.22';
 export const STATE_VERSION = '1.23';
 export const DIALOGUE_ACT_VERSION = '1.24';
 export const NUMERIC_TIME_VERSION = '1.25';
+export const POSSESSIVE_VERSION = '1.26';
 export const DIALOGUE_ACT_TYPES = Object.freeze([
   'assert', 'ask', 'answer', 'confirm', 'clarify', 'refuse'
 ]);
@@ -37,8 +38,10 @@ export const MAX_CLAUSE_DEPTH = 5;
 
 export function createEvent(concept, roles, features) {
   const hasDeictic = Object.values(roles).some(ref => record(ref) && hasOwn(ref, 'referent'));
+  const hasPossessor = Object.values(roles).some(ref => record(ref) && hasOwn(ref,'possessor'));
   const event={
-    version: hasOwn(features,'clockTime') || hasOwn(features,'calendarDate') ? NUMERIC_TIME_VERSION :
+    version: hasPossessor ? POSSESSIVE_VERSION :
+      hasOwn(features,'clockTime') || hasOwn(features,'calendarDate') ? NUMERIC_TIME_VERSION :
       hasDeictic ? DEICTIC_VERSION :
       Object.values(roles).some(ref => record(ref) && hasOwn(ref, 'relatives')) ? CLAUSE_VERSION :
       Object.values(roles).some(isQualifiedParticipant) ? QUALIFIED_VERSION : INTERLINGUA_VERSION,
@@ -68,7 +71,9 @@ function stateFeatures(features) {
 }
 
 function createState(kind, roles, features, predicate) {
-  const state = { version: STATE_VERSION, type: 'state', kind, roles,
+  const version=Object.values(roles).some(ref=>record(ref)&&hasOwn(ref,'possessor'))
+    ?POSSESSIVE_VERSION:STATE_VERSION;
+  const state = { version, type: 'state', kind, roles,
     features: stateFeatures(features) };
   if (kind === 'predication') state.predicate = predicate;
   return state;
@@ -94,6 +99,7 @@ export function createLocation(subject, location, relation, features = {}) {
 /** A referent may carry a bounded tree of language-independent properties and a quantifier. */
 export function participant(concept, definiteness = 'unknown', number = 'singular', options = {}) {
   const result = { concept, features: { number, definiteness } };
+  if (options.possessor) result.possessor = options.possessor;
   if (options.modifiers?.length) result.modifiers = options.modifiers;
   if (options.quantifier) result.quantifier = options.quantifier;
   if (options.relatives?.length) result.relatives = options.relatives;
@@ -105,7 +111,8 @@ export function modifier(concept, modifiers = []) {
 }
 
 export function isQualifiedParticipant(ref) {
-  return record(ref) && (hasOwn(ref, 'modifiers') || hasOwn(ref, 'quantifier') || hasOwn(ref, 'relatives'));
+  return record(ref) && (hasOwn(ref, 'possessor') || hasOwn(ref, 'modifiers') ||
+    hasOwn(ref, 'quantifier') || hasOwn(ref, 'relatives'));
 }
 
 function validateModifiers(nodes, ontology, parentType, depth, budget) {
@@ -146,7 +153,7 @@ function validateReferent(ref, ontology, registry, label, qualifiedAllowed, clau
   }
   if (!record(ref) || !ontology?.concepts?.[ref.concept] ||
       ontology.concepts[ref.concept].type !== 'entity' ||
-      !Object.keys(ref).every(key => ['concept', 'features', 'modifiers', 'quantifier', 'relatives'].includes(key))) {
+      !Object.keys(ref).every(key => ['concept', 'features', 'possessor', 'modifiers', 'quantifier', 'relatives'].includes(key))) {
     throw new Error(`Invalid participant for ${label}.`);
   }
   validateFeatureBundle(ref.features, registry.domains.participant, `participant ${label}`);
@@ -155,6 +162,10 @@ function validateReferent(ref, ontology, registry, label, qualifiedAllowed, clau
   }
   if (hasOwn(ref, 'modifiers')) {
     validateModifiers(ref.modifiers, ontology, 'entity', 1, { count: 0 });
+  }
+  if (hasOwn(ref,'possessor')) {
+    if(!qualifiedAllowed)throw new Error(`Possessive participants require Interlingua v${POSSESSIVE_VERSION}.`);
+    validateReferent(ref.possessor,ontology,registry,`${label} possessor`,false,false,0,true);
   }
   if (hasOwn(ref, 'relatives')) {
     if (!clauseAllowed || relativeDepth >= MAX_RELATIVE_DEPTH ||
@@ -279,8 +290,12 @@ export function createDiscourse(events, { coreference = {} } = {}) {
     }
   }
   return {
-    version: events.some(event => event.version === CLAUSE_VERSION) ? CLAUSE_VERSION :
-      events.some(event => event.version === QUALIFIED_VERSION) ? QUALIFIED_VERSION : DISCOURSE_VERSION,
+    version: events.some(event=>Object.values(event.roles).some(ref=>record(ref)&&hasOwn(ref,'possessor')))
+        ? POSSESSIVE_VERSION :
+      events.some(event => event.version === CLAUSE_VERSION) ? CLAUSE_VERSION :
+      events.some(event => event.version === QUALIFIED_VERSION) ||
+        events.some(event=>Object.values(event.roles).some(isQualifiedParticipant))
+        ? QUALIFIED_VERSION : DISCOURSE_VERSION,
     type: 'discourse', entities, events: steps,
     relations: steps.slice(1).map((event, i) => ({ type: 'precedes', from: steps[i].id, to: event.id }))
   };
@@ -303,13 +318,17 @@ function validateEventShape(node, ontology, registry, qualifiedAllowed = true, c
     throw new Error('Event document contains unsupported fields.');
   }
   const hasNumericTime=hasOwn(node,'clockTime')||hasOwn(node,'calendarDate');
-  if(hasNumericTime!==(node.version===NUMERIC_TIME_VERSION)) {
-    throw new Error('Numeric time fields require the numeric-time event version.');
+  if((hasNumericTime && ![NUMERIC_TIME_VERSION,POSSESSIVE_VERSION].includes(node.version)) ||
+      (!hasNumericTime && node.version===NUMERIC_TIME_VERSION)) {
+    throw new Error('Numeric time fields require a compatible event version.');
   }
   const event = ontology?.concepts?.[node.concept];
   if (!event || event.type !== 'event' || !Array.isArray(event.roles)) {
     throw new Error(`Unknown event concept: ${node.concept}`);
   }
+  if(node.version!==POSSESSIVE_VERSION && Object.values(node.roles||{}).some(ref=>
+    record(ref)&&hasOwn(ref,'possessor')))
+    throw new Error(`Possessive participants require Interlingua v${POSSESSIVE_VERSION}.`);
   validateFeatureBundle(node.features, registry.domains.event, 'event');
   if(hasOwn(node,'timeReference')) {
     const allowed=registry.domains.eventTimeReference?.value;
@@ -345,7 +364,7 @@ function validateEventShape(node, ontology, registry, qualifiedAllowed = true, c
     if (!hasOwn(node.roles, role)) throw new Error(`Missing semantic role: ${role}`);
     const ref = node.roles[role];
     validateReferent(ref, ontology, registry, role, qualifiedAllowed, clauseAllowed, depth,
-      [DEICTIC_VERSION,NUMERIC_TIME_VERSION].includes(node.version));
+      [DEICTIC_VERSION,NUMERIC_TIME_VERSION,POSSESSIVE_VERSION].includes(node.version));
     const constraint = event.roleTypes?.[role];
     if (constraint && !(hasOwn(ref, 'referent') ? ontology.isA('person', constraint) :
       ontology.isA(ref.concept, constraint))) {
@@ -365,7 +384,8 @@ function validateStateShape(node, ontology, registry, gap = null) {
     ['version','type','kind','predicate','roles','features'] :
     ['version','type','kind','roles','features',...(hasLocation?['relation']:[])];
   if (ontology?.stateFrameVersion !== STATE_FRAME_VERSION || !frame ||
-      node.version !== STATE_VERSION || !['identity','predication','possession','location'].includes(node.kind) ||
+      ![STATE_VERSION,POSSESSIVE_VERSION].includes(node.version) ||
+      !['identity','predication','possession','location'].includes(node.kind) ||
       (hasLocation && !(gap === 'location' && node.relation === 'unspecified') &&
         !['interior','surface','point'].includes(node.relation)) ||
       Object.keys(node).length !== fields.length || Object.keys(node).some(key => !fields.includes(key)) ||
@@ -375,6 +395,9 @@ function validateStateShape(node, ontology, registry, gap = null) {
       Object.keys(node.roles).some(role => !frame.roles.includes(role))) {
     throw new Error('Invalid or unsupported state document or role frame.');
   }
+  if(node.version!==POSSESSIVE_VERSION && Object.values(node.roles).some(ref=>
+    record(ref)&&hasOwn(ref,'possessor')))
+    throw new Error(`Possessive participants require Interlingua v${POSSESSIVE_VERSION}.`);
   validateFeatureBundle(node.features, registry.domains.state, 'state');
   for (const role of frame.roles.filter(role => role !== gap)) {
     const ref = node.roles[role];
@@ -672,13 +695,14 @@ function validateDialogueAct(node, ontology, registry) {
 function validateClauseTree(node, ontology, registry, depth = 0, gap = null) {
   if (!record(node) || depth > MAX_CLAUSE_DEPTH) throw new Error('Clause tree nesting limit exceeded.');
   if (node.type === 'event') {
-    if (![INTERLINGUA_VERSION, QUALIFIED_VERSION, CLAUSE_VERSION, SEMANTIC_VERSION, DEICTIC_VERSION, NUMERIC_TIME_VERSION].includes(node.version)) {
+    if (![INTERLINGUA_VERSION, QUALIFIED_VERSION, CLAUSE_VERSION, SEMANTIC_VERSION,
+      DEICTIC_VERSION, NUMERIC_TIME_VERSION,POSSESSIVE_VERSION].includes(node.version)) {
       throw new Error('Unsupported event version.');
     }
     validateEventShape(node, ontology, registry, node.version !== INTERLINGUA_VERSION,
-      [CLAUSE_VERSION, SEMANTIC_VERSION, NUMERIC_TIME_VERSION].includes(node.version),0,gap);
+      [CLAUSE_VERSION, SEMANTIC_VERSION, NUMERIC_TIME_VERSION,POSSESSIVE_VERSION].includes(node.version),0,gap);
   } else if (node.type === 'state') {
-    if (node.version !== STATE_VERSION) throw new Error('Unsupported state version.');
+    if (![STATE_VERSION,POSSESSIVE_VERSION].includes(node.version)) throw new Error('Unsupported state version.');
     validateStateShape(node,ontology,registry,gap);
   } else if (node.type === 'complement') {
     const frame = ontology.get(node.concept);
@@ -791,12 +815,16 @@ function validateInterlinguaDocument(node, ontology, registry) {
     validateClauseTree(node, ontology, registry);
     return node;
   }
-  if (node.type !== 'discourse' || ![DISCOURSE_VERSION, QUALIFIED_VERSION, CLAUSE_VERSION].includes(node.version) ||
+  if (node.type !== 'discourse' || ![DISCOURSE_VERSION, QUALIFIED_VERSION, CLAUSE_VERSION,
+    POSSESSIVE_VERSION].includes(node.version) ||
       !record(node.entities) || !Array.isArray(node.events) ||
       node.events.length < 2 || node.events.length > MAX_DISCOURSE_EVENTS ||
       !Array.isArray(node.relations)) {
     throw new Error('Unsupported or invalid Interlingua document.');
   }
+  if(node.version!==POSSESSIVE_VERSION && Object.values(node.entities).some(ref=>
+    record(ref)&&hasOwn(ref,'possessor')))
+    throw new Error(`Possessive participants require Interlingua v${POSSESSIVE_VERSION}.`);
   for (const [id, entity] of Object.entries(node.entities)) {
     if (!safeName(id)) throw new Error(`Invalid discourse entity: ${id}`);
     validateReferent(entity, ontology, registry, `entity ${id}`,
