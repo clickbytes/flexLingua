@@ -1,49 +1,185 @@
 /**
- * Bounded, in-memory conversation context for controlled PL/EN event clauses.
- * It does not persist state or infer coreference from repeated nouns.
+ * Bounded, in-memory session for controlled PL/EN clauses and typed CORE acts.
+ * It does not persist state or infer identity from repeated surface text.
  */
-import {createDiscourse, validateInterlingua, MAX_DISCOURSE_EVENTS, MAX_DIALOGUE_ACTS}
+import {createDiscourse, createDialogueAct, validateInterlingua,
+  MAX_DISCOURSE_EVENTS, MAX_DIALOGUE_ACTS}
   from './interlingua.js';
+import {record, safeName} from './features.js';
 import {splitSentences} from './text.js';
+
+function isDeictic(ref) {
+  return record(ref) && record(ref.referent) && ref.referent.kind === 'deictic';
+}
+
+function eventGraph(events, links) {
+  if (!events.length) return null;
+  if (events.length === 1) return events[0];
+  // Existing discourse IDs cannot express turn-scoped speaker/addressee identity.
+  if (events.some(event=>Object.values(event.roles || {}).some(isDeictic))) return null;
+  return createDiscourse(events,{coreference:links});
+}
+
+function validateParticipantIds(value) {
+  if (value === undefined) return {};
+  if (!record(value) || Object.keys(value).some(key=>!['speakerId','addresseeId'].includes(key)) ||
+      Object.values(value).some(id=>!safeName(id))) {
+    throw new Error('Explicit session participants require safe speakerId/addresseeId values.');
+  }
+  return value;
+}
+
+function collectParticipantReferences(node, path, coreferenceEligible = false, out = []) {
+  if (!record(node)) return out;
+  if (node.type === 'question') {
+    return collectParticipantReferences(node.proposition,path+'.proposition',false,out);
+  }
+  if (node.type === 'event' || node.type === 'state') {
+    for (const [role,referent] of Object.entries(node.roles || {})) {
+      out.push({path:path+'.roles.'+role,role,referent,
+        coreferenceEligible:coreferenceEligible && path === 'proposition' &&
+          node.type === 'event'});
+      for (const [index,relative] of (referent.relatives || []).entries()) {
+        collectParticipantReferences(relative.event,
+          path+'.roles.'+role+'.relatives.'+index,false,out);
+      }
+    }
+    return out;
+  }
+  if (node.type === 'scope' || node.type === 'modality') {
+    return collectParticipantReferences(node.operand,path+'.operand',false,out);
+  }
+  if (node.type === 'coordination') {
+    for (const [index,clause] of (node.clauses || []).entries()) {
+      collectParticipantReferences(clause,path+'.clauses.'+index,false,out);
+    }
+    return out;
+  }
+  if (node.type === 'complement') {
+    out.push({path:path+'.experiencer',role:'experiencer',referent:node.experiencer});
+    return collectParticipantReferences(node.content,path+'.content',false,out);
+  }
+  return out;
+}
+
+function dialogueDocuments(act) {
+  const payload=act.payload;
+  if (act.act === 'assert') return [{path:'proposition',node:payload.proposition}];
+  if (act.act === 'clarify') return [
+    {path:'context',node:payload.inReplyTo},
+    {path:'question',node:payload.question}
+  ];
+  return [{path:'question',node:payload.question}];
+}
+
+function focusForAct(act) {
+  const question=act.payload.question;
+  if (question) {
+    return question.questionType === 'wh' ?
+      {kind:'role',role:question.targetRole} :
+      {kind:'question',questionType:question.questionType};
+  }
+  const proposition=act.payload.proposition;
+  if (!proposition) return null;
+  return {
+    kind:'proposition',
+    type:proposition.type,
+    ...(proposition.concept ? {concept:proposition.concept} : {})
+  };
+}
 
 export class ConversationContext {
   #engine;
   #events=[];
   #links={};
+  #turns=[];
+  #dialogue;
   #maxEvents;
+  #maxTurns;
 
-  constructor(engine,{maxEvents=MAX_DISCOURSE_EVENTS}={}) {
+  constructor(engine,{maxEvents=MAX_DISCOURSE_EVENTS,maxTurns=MAX_DIALOGUE_ACTS}={}) {
     if (!engine?.analyzeCandidates || !engine?.realize || !engine?.language ||
         !Number.isInteger(maxEvents) || maxEvents<2 ||
-        maxEvents>MAX_DISCOURSE_EVENTS) {
-      throw new Error('Invalid conversation engine or event limit (2–8).');
+        maxEvents>MAX_DISCOURSE_EVENTS || !Number.isInteger(maxTurns) ||
+        maxTurns<1 || maxTurns>MAX_DIALOGUE_ACTS) {
+      throw new Error('Invalid conversation engine, event limit (2–8), or turn limit (1–32).');
     }
     this.#engine=engine;
     this.#maxEvents=maxEvents;
+    this.#maxTurns=maxTurns;
+    this.#dialogue=new DialogueContext(engine,{maxActs:maxTurns});
   }
 
   snapshot() {
     const events=structuredClone(this.#events);
     const links=structuredClone(this.#links);
-    const interlingua=events.length>=2 ?
-      createDiscourse(events,{coreference:links}) :
-      events.length===1 ? events[0] : null;
-    return {eventCount:events.length,maxEvents:this.#maxEvents,interlingua};
+    const interlingua=eventGraph(events,links);
+    return {
+      eventCount:events.length,
+      maxEvents:this.#maxEvents,
+      turnCount:this.#turns.length,
+      maxTurns:this.#maxTurns,
+      interlingua,
+      turns:structuredClone(this.#turns),
+      pendingQuestions:this.#dialogue.snapshot().pendingQuestions,
+      focus:this.#turns.length ? structuredClone(this.#turns[this.#turns.length-1].focus) : null
+    };
   }
 
   reset() {
     this.#events=[];
     this.#links={};
+    this.#turns=[];
+    this.#dialogue.reset();
     return this.snapshot();
   }
 
-  #root(mention) {
+  #root(mention,links=this.#links) {
     let root=mention;
     for(let n=0;n<MAX_DISCOURSE_EVENTS;n++){
-      if(!Object.hasOwn(this.#links,root))return root;
-      root=this.#links[root];
+      if(!Object.hasOwn(links,root))return root;
+      root=links[root];
     }
     throw new Error('Invalid conversation reference chain.');
+  }
+
+  #assertTurnCapacity() {
+    if(this.#turns.length>=this.#maxTurns)
+      throw new Error('Conversation turn limit reached; reset required.');
+  }
+
+  #turnRecord(act,participants,{eventIndex=null,links=this.#links,surface=null}={}) {
+    const id='t'+(this.#turns.length+1);
+    const speaker=participants.speakerId ? 'actor:'+participants.speakerId : 'turn:'+id+':speaker';
+    const addressee=participants.addresseeId ? 'actor:'+participants.addresseeId :
+      'turn:'+id+':addressee';
+    const mentions=dialogueDocuments(act).flatMap(document=>
+      collectParticipantReferences(document.node,document.path,
+        document.path==='proposition'));
+    if(act.act==='answer' && act.payload.response.type==='referent') {
+      mentions.push({path:'response.value',role:'answer',referent:act.payload.response.value});
+    }
+    const references=mentions.map(mention=>{
+      let referenceId;
+      if(isDeictic(mention.referent)) {
+        const anchor=mention.referent.referent.anchor;
+        referenceId=anchor==='speaker' ? speaker : addressee;
+      } else if(eventIndex!==null && mention.coreferenceEligible) {
+        referenceId='mention:'+this.#root('e'+eventIndex+'.'+mention.role,links);
+      } else {
+        referenceId='turn:'+id+':'+mention.path;
+      }
+      return {role:mention.path,referenceId,referent:structuredClone(mention.referent)};
+    });
+    return {
+      id,
+      intent:act.act,
+      participants:{speaker,addressee},
+      references,
+      focus:focusForAct(act),
+      interlingua:structuredClone(act),
+      ...(surface ? {surface:structuredClone(surface)} : {})
+    };
   }
 
   #antecedents(pronoun) {
@@ -59,20 +195,73 @@ export class ConversationContext {
     return [...found.values()];
   }
 
-  translate({text,from,to,context={},pronounRealization='repeat'}={}) {
+  appendDialogueAct(act,{participants:participantInput}={}) {
+    this.#assertTurnCapacity();
+    const participants=validateParticipantIds(participantInput);
+    const candidate=structuredClone(act);
+    validateInterlingua(candidate,this.#engine.ontology,this.#engine.features);
+    const assertion=candidate.act==='assert' ? candidate.payload.proposition : null;
+    const event=assertion?.type==='event' ? structuredClone(assertion) : null;
+    if(event && this.#events.length>=this.#maxEvents)
+      throw new Error('Conversation context limit reached; reset required.');
+    const events=event ? [...this.#events,event] : this.#events;
+    const graph=eventGraph(events,this.#links);
+    if(graph)validateInterlingua(graph,this.#engine.ontology,this.#engine.features);
+    const turn=this.#turnRecord(candidate,participants,
+      {eventIndex:event ? events.length : null});
+
+    this.#dialogue.append(candidate);
+    if(event)this.#events=events;
+    this.#turns=[...this.#turns,turn];
+    return this.snapshot();
+  }
+
+  translate({text,from,to,context={},pronounRealization='repeat',participants:participantInput}={}) {
     if(!['repeat','safe'].includes(pronounRealization))
       throw new Error('Invalid pronoun realization policy.');
-    if(this.#events.length>=this.#maxEvents)
-      throw new Error('Conversation context limit reached; reset required.');
-    if(typeof text!=='string' || text.includes('?'))
-      throw new Error('Conversation context requires one declarative sentence.');
-    const sentences=splitSentences(text,1);
-    if(sentences.length!==1)
-      throw new Error('Conversation context requires one event per turn.');
+    this.#assertTurnCapacity();
+    if(typeof text!=='string' || !text.trim())
+      throw new Error('Conversation context requires one non-empty sentence.');
     const settings=this.#engine.validateContext(context);
     if(settings.coreference!==undefined)
       throw new Error('Conversation context does not accept manual cross-turn coreference.');
+    const participants=validateParticipantIds(participantInput);
     const adapter=this.#engine.language(from);
+    const sourceText=text.trim();
+
+    if(sourceText.includes('?')) {
+      const readings=this.#engine.analyzeCandidates({text:sourceText,from,context:settings})
+        .filter(item=>item.interlingua?.type==='question');
+      const unique=[];
+      for(const reading of readings) {
+        if(!unique.some(item=>sameQuestion(item.interlingua,reading.interlingua)))
+          unique.push(reading);
+      }
+      if(!unique.length)throw new Error('Conversation question has no supported semantic reading.');
+      if(unique.length!==1)
+        throw new Error('Ambiguous conversation question: specify an explicit sense constraint.');
+      const question=structuredClone(unique[0].interlingua);
+      const act=createDialogueAct('ask',{question});
+      const output=this.#engine.realize({interlingua:question,to});
+      const turn=this.#turnRecord(act,participants,{surface:{
+        source:{language:from,text:sourceText},target:{language:to,text:output.text}
+      }});
+      this.#dialogue.append(act);
+      this.#turns=[...this.#turns,turn];
+      const session=this.snapshot();
+      return {
+        text:output.text,warnings:[...(output.warnings||[])],
+        alternatives:output.alternatives||[],
+        interlingua:question,dialogueAct:act,conversation:session.interlingua,
+        eventCount:this.#events.length,turnCount:this.#turns.length,focus:session.focus
+      };
+    }
+
+    if(this.#events.length>=this.#maxEvents)
+      throw new Error('Conversation context limit reached; reset required.');
+    const sentences=splitSentences(sourceText,1);
+    if(sentences.length!==1)
+      throw new Error('Conversation context requires one event per turn.');
     const source=sentences[0];
     const pronoun=adapter.readSubjectPronoun?.(source);
     let antecedent=null, parsedText=source;
@@ -95,8 +284,8 @@ export class ConversationContext {
     const links={...this.#links};
     if(antecedent)links['e'+(this.#events.length+1)+'.'+adapter.subjectRole]=antecedent.root;
     const events=[...this.#events,event];
-    const graph=events.length>=2?createDiscourse(events,{coreference:links}):event;
-    validateInterlingua(graph,this.#engine.ontology,this.#engine.features);
+    const graph=eventGraph(events,links);
+    if(graph)validateInterlingua(graph,this.#engine.ontology,this.#engine.features);
 
     const baseline=this.#engine.realize({interlingua:event,to});
     let output=baseline,pronounized=false;
@@ -117,14 +306,21 @@ export class ConversationContext {
           'Conversation target pronoun was not safe or available; repeated noun phrase.']};
       }
     }
+    const act=createDialogueAct('assert',{proposition:event});
+    const turn=this.#turnRecord(act,participants,{eventIndex:events.length,links,surface:{
+      source:{language:from,text:sourceText},target:{language:to,text:output.text}
+    }});
     // Commit only after semantic validation and target realization succeed.
+    this.#dialogue.append(act);
     this.#events=events;
     this.#links=links;
+    this.#turns=[...this.#turns,turn];
     return {
       text:output.text, warnings:[...(output.warnings||[])],
       alternatives:output.alternatives||[],
-      interlingua:event, conversation:structuredClone(graph),
-      eventCount:events.length,
+      interlingua:event,dialogueAct:act,conversation:graph?structuredClone(graph):null,
+      eventCount:events.length,turnCount:this.#turns.length,
+      focus:structuredClone(turn.focus),
       ...(antecedent?{anaphora:{antecedent:antecedent.root,
         sourcePronoun:pronoun.text,pronounized}}:{})
     };
@@ -136,8 +332,8 @@ export class ConversationContext {
       const code=error?.code || (/UNRESOLVED_DEIXIS/i.test(error.message)?'UNRESOLVED_DEIXIS':
         /Ambiguous anaphora/.test(error.message)?'AMBIGUOUS_ANAPHORA':
         /Unresolved anaphora/.test(error.message)?'UNRESOLVED_ANAPHORA':
-        /Ambiguous conversation meaning/.test(error.message)?'AMBIGUOUS_CONVERSATION_READING':
-        /Conversation context limit/.test(error.message)?'CONTEXT_LIMIT':
+        /Ambiguous conversation (meaning|question)/.test(error.message)?'AMBIGUOUS_CONVERSATION_READING':
+        /Conversation context limit|Conversation turn limit/.test(error.message)?'CONTEXT_LIMIT':
         /supported semantic reading|requires one event/.test(error.message)?
           'UNSUPPORTED_CONSTRUCTION':'INVALID_INPUT');
       return {ok:false,error:{code,message:error.message}};

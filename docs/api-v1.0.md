@@ -123,3 +123,17 @@ engine.capabilities().dialogueActDocumentVersion === '1.24'.
 The schema and runtime accept CORE JSON only. This extension does not add PL/EN
 speech-act parsing or realization. See the
 [dialogue-act contract and limits](adr/dialogue-acts.md).
+
+## Session context for dialogue turns
+
+ConversationContext keeps a bounded in-memory turn history with reset and
+defensive snapshots. It classifies supported declarative turns as assert and
+controlled yes/no or WH turns as ask; callers can append validated structured
+answers, confirmations, clarifications, or refusals. Snapshots record intent,
+surface input/output, focus, participant references, and unresolved questions.
+An optional participants: {speakerId, addresseeId} mapping explicitly reuses
+stable actor IDs across turns. Without that mapping, deictic speaker/addressee
+references remain turn-scoped, and repeated noun strings do not create identity.
+When existing discourse CORE cannot represent multiple deictic turns without
+guessing identity, the aggregate interlingua snapshot is null while each
+validated turn remains available in turns.

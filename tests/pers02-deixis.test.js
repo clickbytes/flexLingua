@@ -77,15 +77,29 @@ test('deictic schema rejects invalid anchors, agreement and unversioned referenc
   assert.deepEqual(roundTrip,valid);
 });
 
-test('cross-sentence deictic identity is refused without session context', () => {
+test('session turns keep deictic references turn-local unless IDs are explicit', () => {
   const result=engine.tryTranslate({text:'I go. I go.',from:'en',to:'pl'});
   assert.equal(result.ok,false);
   assert.equal(result.error.code,'UNRESOLVED_DEIXIS');
   const conversation=new ConversationContext(engine);
   conversation.translate({text:'I go.',from:'en',to:'pl'});
-  assert.equal(conversation.tryTranslate({text:'I go.',from:'en',to:'pl'})
-    .error.code,'UNRESOLVED_DEIXIS');
-  assert.equal(conversation.snapshot().eventCount,1);
+  conversation.translate({text:'I go.',from:'en',to:'pl'});
+  const snapshot=conversation.snapshot();
+  assert.equal(snapshot.eventCount,2);
+  assert.equal(snapshot.interlingua,null);
+  assert.notEqual(snapshot.turns[0].references[0].referenceId,
+    snapshot.turns[1].references[0].referenceId);
+  assert.deepEqual(snapshot.turns.map(turn=>turn.references[0].referent.referent.anchor),
+    ['speaker','speaker']);
+
+  const mapped=new ConversationContext(engine);
+  for(let index=0;index<2;index++) {
+    mapped.translate({text:'I go.',from:'en',to:'pl',
+      participants:{speakerId:'alice',addresseeId:'assistant'}});
+  }
+  const mappedTurns=mapped.snapshot().turns;
+  assert.equal(mappedTurns[0].references[0].referenceId,
+    mappedTurns[1].references[0].referenceId);
 });
 
 test('productive morphology bridge preserves the explicit person forms', async () => {
