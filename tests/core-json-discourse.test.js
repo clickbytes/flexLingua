@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {Engine} from '../js/core/engine.js';
 import {createRuleAdapter} from '../js/core/grammar.js';
+import {RESOURCE_LIMITS} from '../js/core/resource-limits.js';
 
 const get = async path=>JSON.parse(await readFile(new URL('../'+path,import.meta.url),'utf8'));
 const [ontology,features,pl,en,plGrammar,enGrammar]=await Promise.all([
@@ -33,5 +34,27 @@ test('CORE JSON refuses prototype manipulation before discourse normalization',(
  const original=JSON.stringify(engine.analyze({text,from:'en'}));
  const tampered=original.replace('"p1":','"__proto__":');
  assert.notEqual(tampered,original);
- assert.throws(()=>engine.analyze({text:tampered,from:'core'}),/Unsafe CORE JSON key/);
+ assert.throws(()=>engine.analyze({text:tampered,from:'core'}),error=>
+  error.code==='CORE_JSON_UNSAFE_KEY' && /Unsafe CORE JSON key/.test(error.message));
+});
+
+test('CORE JSON refusals have stable codes for malformed, oversized and unsafe input',()=>{
+ const engine=make();
+ const rejected=(text,code)=>assert.throws(()=>engine.analyze({text,from:'core'}),error=>
+  error.code===code);
+ rejected('{"type":','CORE_JSON_INVALID');
+ rejected(' '.repeat(RESOURCE_LIMITS.coreJsonCodeUnits+1),'CORE_JSON_SIZE_LIMIT');
+ rejected('{"constructor":{}}','CORE_JSON_UNSAFE_KEY');
+ rejected('{"type":"unexpected"}','CORE_SCHEMA_INVALID');
+});
+
+test('CORE JSON bounds nesting and total value count before semantic validation',()=>{
+ const engine=make();
+ const deep='['.repeat(RESOURCE_LIMITS.coreJsonDepth+1)+'0'+
+  ']'.repeat(RESOURCE_LIMITS.coreJsonDepth+1);
+ const broad=JSON.stringify({values:Array.from({length:RESOURCE_LIMITS.coreJsonNodes},()=>null)});
+ assert.throws(()=>engine.analyze({text:deep,from:'core'}),error=>
+  error.code==='CORE_JSON_DEPTH_LIMIT');
+ assert.throws(()=>engine.analyze({text:broad,from:'core'}),error=>
+  error.code==='CORE_JSON_NODE_LIMIT');
 });

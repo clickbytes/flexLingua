@@ -4,6 +4,8 @@ import { createLexicon } from './lexicon.js';
 import { materializeInflections } from './morphology/engine.js';
 import { createNominalInterpreter } from './nominals.js';
 import { matchesTokens, sentenceText, tokenize } from './text.js';
+import {EngineError} from './errors.js';
+import {RESOURCE_LIMITS} from './resource-limits.js';
 import {
   record, hasOwn, safeName, unifyFeatures, featureSource, GRAMMATICAL_PERSON,
   matchesAgreement, matchesConditions
@@ -16,8 +18,9 @@ import {
  * it is not restricted to an S-V-O structure or complements after the verb.
  */
 const GRAMMAR_VERSIONS = new Set(['0.6', '1.0']);
-const MAX_ANALYSES = 16;
-const MAX_SEARCH_NODES = 180000;
+const MAX_ANALYSES = RESOURCE_LIMITS.grammarAnalyses;
+const MAX_SEARCH_NODES = RESOURCE_LIMITS.grammarSearchNodes;
+const searchBudget = counter => ({counter,memo:new Map()});
 const LEXEME_ID = /^[a-zA-Z][a-zA-Z0-9_]*(?:\.[a-zA-Z0-9_]+)*$/u;
 const PLACEHOLDER = /^\{([a-zA-Z][a-zA-Z0-9_]*)\}$/u;
 const LITERAL = /^@[\p{L}]+$/u;
@@ -677,8 +680,9 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
           const initialRoles=implicitSubject
             ?{[frame.subjectRole]:{value:implicitSubject}}:{};
           function search(position,index,parsedRoles) {
-            if (++budget.visited > MAX_SEARCH_NODES) {
-              throw new Error('Sentence analysis exceeded the bounded search limit.');
+            if (++budget.counter.visited > MAX_SEARCH_NODES) {
+              throw new EngineError('GRAMMAR_SEARCH_LIMIT',
+                'Sentence analysis exceeded the bounded search limit.');
             }
             if (position === sequence.length) {
               if (index !== tokens.length) return;
@@ -763,9 +767,10 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
   function analyzeCandidates(text) {
     if(typeof text==='string'&&text.includes('?'))return analyzeQuestionCandidates(text);
     const tokens = tokenize(text);
-    const modalReadings = parseModalCandidates(tokens);
+    const counter={visited:0};
+    const modalReadings = parseModalCandidates(tokens,null,null,null,counter);
     if (modalReadings.length) return modalReadings;
-    const budget = { visited: 0, memo: new Map() };
+    const budget = searchBudget(counter);
     const stateReadings = parseStateCandidates(tokens,budget);
     const results = [...stateReadings,...parseClause(tokens, null, null, 0, budget)];
     if (results.length) return results.slice(0, MAX_ANALYSES);
@@ -790,8 +795,9 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
             aspect: verbGrammar.aspectSource === 'lexeme' ? entry.lexeme.aspect || 'unknown' : 'unknown' };
           const initialRoles = gap ? { [gap]: antecedent } : {};
           function search(position, index, parsedRoles) {
-            if (++budget.visited > MAX_SEARCH_NODES) {
-              throw new Error('Sentence analysis exceeded the bounded search limit.');
+            if (++budget.counter.visited > MAX_SEARCH_NODES) {
+              throw new EngineError('GRAMMAR_SEARCH_LIMIT',
+                'Sentence analysis exceeded the bounded search limit.');
             }
             if (position === sequence.length) {
               if (index !== tokens.length) return;
@@ -896,13 +902,14 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
       lexicalSenses:{...reading.lexicalSenses,modal:modal.senses[0].id}};
   }
 
-  function parseModalCandidates(tokens, gap = null, antecedent = null, linearizations = null) {
+  function parseModalCandidates(tokens, gap = null, antecedent = null, linearizations = null,
+    counter = {visited:0}) {
     if (!modality || !modals.length) return [];
     const readings=[];
     for (const modal of modals) for (const mode of ['positive','negative','prohibition']) {
       if (!modal.forms[mode]) continue;
       for (const person of ['first','second','third']) for (const number of ['singular','plural']) {
-        const variants=parseClause(tokens,gap,antecedent,0,questionBudget(),{
+        const variants=parseClause(tokens,gap,antecedent,0,questionBudget(counter),{
           verbEntries:modalEntries(modal,mode,person,number),
           omitGap:!!gap, linearizations
         });
@@ -924,7 +931,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
       event:prohibition?modal.operand.operand:modal.operand};
   }
 
-  function parseModalQuestionCandidates(tokens) {
+  function parseModalQuestionCandidates(tokens,counter) {
     if (!questions || !modality || !modals.length) return [];
     const result=[];
     const add=(items,kind,role)=>{
@@ -949,7 +956,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
               const text=withoutGovernedPreposition(e.text,frame);
               return text?[{...e,text}]:[];
             });
-            const readings=parseClause(tokens.slice(2),'theme',gap,0,questionBudget(),{
+            const readings=parseClause(tokens.slice(2),'theme',gap,0,questionBudget(counter),{
               verbEntries:entries,omitGap:true,linearizations:themeOrder
             });
             add(readings.map(item=>wrapModalReading(item,modal,mode)),'wh','theme');
@@ -959,7 +966,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     }
     if (questions.yesNo.mode==='prefix' &&
         tokens[0]===normalizedWord(questions.yesNo.marker)) {
-      add(parseModalCandidates(tokens.slice(1)),'yes_no');
+      add(parseModalCandidates(tokens.slice(1),null,null,null,counter),'yes_no');
     } else if (modality.questionStrategy==='front' &&
                ![normalizedWord(questions.wh.agent.marker),
                  normalizedWord(questions.wh.theme.marker)].includes(tokens[0])) {
@@ -968,20 +975,20 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
         const length=matchesTokens(tokens,0,
           modal.forms.positive[modalAgreementKey(person,number)]);
         if(!length)continue;
-        const readings=parseClause(tokens.slice(length),null,null,0,questionBudget(),{
+        const readings=parseClause(tokens.slice(length),null,null,0,questionBudget(counter),{
           verbEntries:modalEntries(modal,'positive',person,number,false)
         });
         add(readings.map(item=>wrapModalReading(item,modal,'positive')),'yes_no');
       }
     } else if (tokens[0]===normalizedWord(questions.wh.agent.marker)) {
-      add(parseModalCandidates(tokens.slice(1),'agent',gapSyntax()),'wh','agent');
+      add(parseModalCandidates(tokens.slice(1),'agent',gapSyntax(),null,counter),'wh','agent');
     } else {
       const words=[questions.wh.theme.marker,
         ...Object.values(questions.wh.theme.caseMarkers||{})].map(normalizedWord);
       if (words.includes(tokens[0])) {
         const gap={value:{features:{number:'singular'}},noun:{id:'question_gap'},senseId:null};
         if (modality.questionStrategy==='prefix') {
-          const readings=parseModalCandidates(tokens.slice(1),'theme',gap,themeOrder)
+          const readings=parseModalCandidates(tokens.slice(1),'theme',gap,themeOrder,counter)
             .filter(item=>{
               const parts=modalParts(item.interlingua);
               const frame=frames[parts.event.concept];
@@ -998,7 +1005,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
             const length=matchesTokens(tokens,1,
               modal.forms.positive[modalAgreementKey(person,number)]);
             if(!length)continue;
-            const readings=parseClause(tokens.slice(1+length),'theme',gap,0,questionBudget(),{
+            const readings=parseClause(tokens.slice(1+length),'theme',gap,0,questionBudget(counter),{
               verbEntries:modalEntries(modal,'positive',person,number,false),omitGap:true
             });
             add(readings.map(item=>wrapModalReading(item,modal,'positive')),'wh','theme');
@@ -1022,7 +1029,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
   const themeOrder=frame=>frame.linearizations.map(seq=>
     ['@verb',...seq.filter(step=>step!=='@verb'&&step!=='theme'),'theme']);
   const normalizedWord=value=>value.toLocaleLowerCase(grammar.language);
-  const questionBudget=()=>({visited:0,memo:new Map()});
+  const questionBudget=counter=>searchBudget(counter);
 
   /** Only a declared governed preposition may move with the queried role. */
   function withoutGovernedPreposition(surface, frame) {
@@ -1035,7 +1042,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     return surface.slice(0,-suffix.length);
   }
 
-  function parseFrontedPrepositionTheme(tokens) {
+  function parseFrontedPrepositionTheme(tokens,counter) {
     if(questions?.yesNo?.mode!=='prefix')return [];
     const readings=[];
     for(const [concept,frame] of Object.entries(frames)){
@@ -1048,14 +1055,14 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
         const text=withoutGovernedPreposition(entry.text,frame);
         return text?[{...entry,text}]:[];
       });
-      readings.push(...parseClause(tokens.slice(2),'theme',syntacticGap,0,questionBudget(),{
+      readings.push(...parseClause(tokens.slice(2),'theme',syntacticGap,0,questionBudget(counter),{
         verbEntries:entries,omitGap:true,linearizations:themeOrder
       }));
     }
     return readings;
   }
 
-  function analyzeAuxiliaryQuestion(tokens,gap,antecedent) {
+  function analyzeAuxiliaryQuestion(tokens,gap,antecedent,counter) {
     const yesNo=questions.yesNo;
     const variants=[
       {word:yesNo.auxiliaries.past,tense:'past',when:null},
@@ -1078,7 +1085,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
             ...entry,text:base.text,rule:{...entry.rule,
               prefix:polarity==='negative'?[yesNo.negator]:[]}
           })));
-        results.push(...parseClause(tokens.slice(1),gap,antecedent,0,questionBudget(),{
+        results.push(...parseClause(tokens.slice(1),gap,antecedent,0,questionBudget(counter),{
           verbEntries,omitGap:!!gap
         }));
       }
@@ -1086,7 +1093,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     return results;
   }
 
-  function analyzeAuxiliaryStateQuestion(tokens) {
+  function analyzeAuxiliaryStateQuestion(tokens,counter) {
     if(questions.yesNo.mode!=='auxiliary')return [];
     const yesNo=questions.yesNo;
     const variants=[
@@ -1113,7 +1120,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
               'subject.number':variant.number}:{})
           }}
         })));
-      const readings=parseStateCandidates(tokens.slice(1),questionBudget(),{
+      const readings=parseStateCandidates(tokens.slice(1),questionBudget(counter),{
         entries,polarities:['positive']
       });
       results.push(...readings);
@@ -1131,7 +1138,8 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     }
     const tokens=tokenize(text.trim().slice(0,-1)+'.');
     if(tokens.length<2)throw new Error('Unsupported question construction.');
-    const modalReadings=parseModalQuestionCandidates(tokens);
+    const counter={visited:0};
+    const modalReadings=parseModalQuestionCandidates(tokens,counter);
     if(modalReadings.length)return modalReadings;
     const results=[];
     const add=(readings,kind,targetRole)=>{
@@ -1143,16 +1151,16 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
         }
       }
     };
-    add(analyzeAuxiliaryStateQuestion(tokens),'yes_no');
+    add(analyzeAuxiliaryStateQuestion(tokens,counter),'yes_no');
     const mode=questions.yesNo.mode;
-    add(parseFrontedPrepositionTheme(tokens),'wh','theme');
+    add(parseFrontedPrepositionTheme(tokens,counter),'wh','theme');
     if(mode==='prefix' && tokens[0]===normalizedWord(questions.yesNo.marker)) {
-      add(parseClause(tokens.slice(1),null,null,0,questionBudget()),'yes_no');
+      add(parseClause(tokens.slice(1),null,null,0,questionBudget(counter)),'yes_no');
     } else if(mode==='auxiliary' && Object.values(questions.yesNo.auxiliaries)
         .some(word=>tokens[0]===normalizedWord(word))) {
-      add(analyzeAuxiliaryQuestion(tokens,null,null),'yes_no');
+      add(analyzeAuxiliaryQuestion(tokens,null,null,counter),'yes_no');
     } else if(tokens[0]===normalizedWord(questions.wh.agent.marker)) {
-      add(parseClause(tokens.slice(1),'agent',gapSyntax(),0,questionBudget(),{
+      add(parseClause(tokens.slice(1),'agent',gapSyntax(),0,questionBudget(counter),{
         omitGap:true
       }),'wh','agent');
     } else {
@@ -1163,10 +1171,10 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
         const syntacticGap={value:{features:{number:'singular'}},
           noun:{id:'question_gap'},senseId:null};
         const readings=mode==='prefix'
-          ? parseClause(tokens.slice(1),'theme',syntacticGap,0,questionBudget(),{
+          ? parseClause(tokens.slice(1),'theme',syntacticGap,0,questionBudget(counter),{
             omitGap:true,linearizations:themeOrder
           })
-          : analyzeAuxiliaryQuestion(tokens.slice(1),'theme',syntacticGap);
+          : analyzeAuxiliaryQuestion(tokens.slice(1),'theme',syntacticGap,counter);
         add(readings.filter(item=>{
           if(mode==='auxiliary')return marker===normalizedWord(questions.wh.theme.marker);
           const frame=frames[item.interlingua.concept];

@@ -2,6 +2,8 @@ import { createDiscourse, createCoordination, createNegation, createComplement, 
 import { createFeatureRegistry, record, safeName, hasOwn } from './features.js';
 import { createCoreLanguage } from './core-language.js';
 import { splitSentences, sentenceText } from './text.js';
+import {EngineError, isResourceLimitError} from './errors.js';
+import {RESOURCE_LIMITS} from './resource-limits.js';
 
 const MAX_CANDIDATES = 16;
 
@@ -22,6 +24,50 @@ function canonicalizeParsedCoreDocument(node) {
       roles: nullDictionary(event.roles)
     }))
   };
+}
+
+function assertCoreJsonDepth(text) {
+  let depth=0, inString=false, escaped=false;
+  for (const character of text) {
+    if (inString) {
+      if (escaped) escaped=false;
+      else if (character==='\\') escaped=true;
+      else if (character==='"') inString=false;
+      continue;
+    }
+    if (character==='"') inString=true;
+    else if (character==='{' || character==='[') {
+      depth++;
+      if (depth > RESOURCE_LIMITS.coreJsonDepth) {
+        throw new EngineError('CORE_JSON_DEPTH_LIMIT',
+          `CORE JSON nesting exceeds ${RESOURCE_LIMITS.coreJsonDepth} levels.`);
+      }
+    } else if (character==='}' || character===']') depth--;
+  }
+}
+
+function assertSafeCoreJsonGraph(root) {
+  const stack=[{value:root,depth:0}];
+  let visited=0;
+  while(stack.length) {
+    const {value,depth}=stack.pop();
+    if(++visited>RESOURCE_LIMITS.coreJsonNodes) {
+      throw new EngineError('CORE_JSON_NODE_LIMIT',
+        `CORE JSON exceeds ${RESOURCE_LIMITS.coreJsonNodes} values.`);
+    }
+    if(!value || typeof value!=='object')continue;
+    if(depth>RESOURCE_LIMITS.coreJsonDepth) {
+      throw new EngineError('CORE_JSON_DEPTH_LIMIT',
+        `CORE JSON nesting exceeds ${RESOURCE_LIMITS.coreJsonDepth} levels.`);
+    }
+    const keys=Object.keys(value);
+    if(keys.some(key=>['__proto__','prototype','constructor'].includes(key))) {
+      throw new EngineError('CORE_JSON_UNSAFE_KEY','Unsafe CORE JSON key.');
+    }
+    for(let index=keys.length-1;index>=0;index--) {
+      stack.push({value:value[keys[index]],depth:depth+1});
+    }
+  }
 }
 
 /** Collect semantic participants from bounded clause graphs for topic ranking. */
@@ -295,7 +341,7 @@ export class Engine {
    * This is deliberately NOT naive free-text splitting across unrecognized structures.
    */
   analyzeSentence(sentence, adapter, depth = 0) {
-    if (depth > 3) throw new Error('Complement nesting depth exceeded.');
+    if (depth > 3) throw new EngineError('COMPLEMENT_DEPTH_LIMIT','Complement nesting depth exceeded.');
     const text = sentence.trim().replace(/\.\s*$/u, '');
     const prefix = adapter.wideNegation;
     const normal = text.toLocaleLowerCase();
@@ -317,7 +363,10 @@ export class Engine {
     let atomic=[], atomError;
     try {
       atomic=adapter.analyzeCandidates(body+'.');
-    } catch (error) { atomError=error; }
+    } catch (error) {
+      if(isResourceLimitError(error))throw error;
+      atomError=error;
+    }
     // Prefer a complete grammatical analysis over text splitting: an "and"
     // inside a licensed noun/relative constituent is not a clause boundary.
     if(atomic.length) return scoped ? atomic.map(item=>({
@@ -329,8 +378,10 @@ export class Engine {
     const pattern=new RegExp('\\s+'+connective+'\\s+','giu');
     const fragments=body.split(pattern);
     if(fragments.length===1) throw atomError || new Error('Unsupported source sentence.');
-    if(fragments.length>8 || fragments.some(part=>!part.trim()))
-      throw new Error('Invalid or excessive clause coordination.');
+    if(fragments.length>8)
+      throw new EngineError('GRAMMAR_COORDINATION_LIMIT','Coordination exceeds eight clauses.');
+    if(fragments.some(part=>!part.trim()))
+      throw new Error('Invalid clause coordination.');
 
     // Chart-style boundary discovery: each span must parse as a complete
     // clause. No unconditional splitting on every connective is performed.
@@ -343,7 +394,10 @@ export class Engine {
         candidates=adapter.analyzeCandidates(
           fragments.slice(start,end).join(' '+connective+' ')+'.')
           .filter(item=>['event','modality','scope'].includes(item.interlingua.type));
-      } catch { /* Invalid span is a rejected parse, not a phrase boundary. */ }
+      } catch (error) {
+        if(isResourceLimitError(error))throw error;
+        /* Invalid span is a rejected parse, not a phrase boundary. */
+      }
       cache.set(key,candidates.slice(0,MAX_CANDIDATES));
       return cache.get(key);
     };
@@ -384,31 +438,39 @@ export class Engine {
   analyzeCandidates({ text, from, context = {} }) {
     const settings = this.validateContext(context);
     if (from === 'core') {
-      if (typeof text !== 'string' || text.length > 200000) throw new Error('Invalid CORE JSON document size.');
+      if (typeof text !== 'string') {
+        throw new EngineError('CORE_JSON_TYPE_INVALID','CORE JSON input must be a string.');
+      }
+      if (text.length > RESOURCE_LIMITS.coreJsonCodeUnits) {
+        throw new EngineError('CORE_JSON_SIZE_LIMIT','Invalid CORE JSON document size.');
+      }
       if (settings.coreference !== undefined) {
-        throw new Error('Explicit coreference cannot be applied to a CORE JSON document.');
+        throw new EngineError('INVALID_COREFERENCE',
+          'Explicit coreference cannot be applied to a CORE JSON document.');
       }
       if (Object.keys(settings.senses || {}).length || (settings.topics || []).length) {
-        throw new Error('CORE documents do not need source-language sense disambiguation.');
+        throw new EngineError('CORE_JSON_CONTEXT_INVALID',
+          'CORE documents do not need source-language sense disambiguation.');
       }
+      assertCoreJsonDepth(text);
       let meaning;
       try { meaning = JSON.parse(text); }
-      catch { throw new Error('Invalid CORE JSON document.'); }
-      // Never pass prototype-changing keys to future object merging utilities.
-      const safeGraph = (node, depth = 0) => {
-        if (depth > 32) throw new Error('CORE JSON nesting is too deep.');
-        if (node && typeof node === 'object') {
-          if (Object.keys(node).some(key => ['__proto__','prototype','constructor'].includes(key))) {
-            throw new Error('Unsafe CORE JSON key.');
-          }
-          Object.values(node).forEach(inner => safeGraph(inner, depth + 1));
-        }
-      };
-      safeGraph(meaning);
-      validateInterlingua(meaning, this.ontology, this.features);
+      catch (error) {
+        throw new EngineError('CORE_JSON_INVALID','Invalid CORE JSON document.',{cause:error});
+      }
+      assertSafeCoreJsonGraph(meaning);
+      try { validateInterlingua(meaning, this.ontology, this.features); }
+      catch (error) {
+        if(isResourceLimitError(error))throw error;
+        throw new EngineError('CORE_SCHEMA_INVALID',error.message,{cause:error});
+      }
       // JSON serialization drops null prototypes; restore the canonical wire graph.
       meaning = canonicalizeParsedCoreDocument(meaning);
       return [{ interlingua: meaning, lexicalSenses: {}, score: 0 }];
+    }
+    if(typeof text==='string' && text.length>RESOURCE_LIMITS.sourceTextCodeUnits) {
+      throw new EngineError('SOURCE_TEXT_SIZE_LIMIT',
+        `Source text exceeds ${RESOURCE_LIMITS.sourceTextCodeUnits} UTF-16 code units.`);
     }
     const adapter = this.language(from);
     if(typeof text==='string'&&text.includes('?')) {
@@ -450,7 +512,10 @@ export class Engine {
           const direct=this.analyzeSentence(sentences[0],adapter);
           if(direct.length && direct.every(candidate=>candidate.interlingua.type==='state'))
             stateReadings=direct;
-        } catch { /* General event anaphora still follows the discourse path below. */ }
+        } catch (error) {
+          if(isResourceLimitError(error))throw error;
+          /* General event anaphora still follows the discourse path below. */
+        }
         if(stateReadings.length) {
           if(settings.coreference!==undefined)
             throw new Error('Explicit coreference requires at least two discourse sentences.');
@@ -684,13 +749,13 @@ export class Engine {
   tryTranslate(request) {
     try { return { ok: true, value: this.translate(request) }; }
     catch (error) {
-      return { ok: false, error: { code: /Ambiguous anaphora/.test(error.message) ?
+      return { ok: false, error: { code: error?.code || (/Ambiguous anaphora/.test(error.message) ?
         'AMBIGUOUS_ANAPHORA' : /anaphora/i.test(error.message) ?
         'UNRESOLVED_ANAPHORA' : /coreference/i.test(error.message) ?
         'INVALID_COREFERENCE' : /Unsupported language/.test(error.message) ?
         'UNSUPPORTED_LANGUAGE' : /UNRESOLVED_DEIXIS/i.test(error.message) ?
         'UNRESOLVED_DEIXIS' : /Missing|No .*lexeme|No .*form|no complement|no .*construction|no .*quantifier|does not match|Cannot realize|Unsupported question construction|Unsupported state construction|Unsupported modal|prohibition not available/.test(error.message) ?
-        'UNSUPPORTED_CONSTRUCTION' : 'INVALID_INPUT', message: error.message } };
+        'UNSUPPORTED_CONSTRUCTION' : 'INVALID_INPUT'), message: error.message } };
     }
   }
 
