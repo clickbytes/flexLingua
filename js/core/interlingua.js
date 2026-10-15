@@ -19,11 +19,19 @@ export const QUESTION_VERSION = '1.19';
 export const MODALITY_VERSION = '1.20';
 export const DEICTIC_VERSION = '1.22';
 export const STATE_VERSION = '1.23';
+export const DIALOGUE_ACT_VERSION = '1.24';
+export const DIALOGUE_ACT_TYPES = Object.freeze([
+  'assert', 'ask', 'answer', 'confirm', 'clarify', 'refuse'
+]);
+export const DIALOGUE_REFUSAL_REASONS = Object.freeze([
+  'ambiguous', 'insufficient_context', 'unsupported', 'out_of_scope'
+]);
 export const MAX_RELATIVE_DEPTH = 2;
 export const MAX_COORDINATION_CLAUSES = 4;
 export const MAX_MODIFIER_DEPTH = 3;
 export const MAX_ENTITY_MODIFIERS = 3;
 export const MAX_DISCOURSE_EVENTS = 8;
+export const MAX_DIALOGUE_ACTS = 32;
 export const MAX_CLAUSE_DEPTH = 5;
 
 export function createEvent(concept, roles, features) {
@@ -428,6 +436,14 @@ export function createQuestion(proposition, options = {}) {
   throw new Error('Unsupported semantic question type.');
 }
 
+/** Build a versioned pragmatic envelope; validate it with validateInterlingua. */
+export function createDialogueAct(act, payload) {
+  if (!DIALOGUE_ACT_TYPES.includes(act)) {
+    throw new Error('Unsupported dialogue act.');
+  }
+  return {version:DIALOGUE_ACT_VERSION,type:'dialogue_act',act,payload};
+}
+
 function validateQuestion(node, ontology, registry) {
   const wh=node.questionType==='wh';
   const fields=wh?['version','type','questionType','targetRole','proposition']:
@@ -471,6 +487,120 @@ function validateQuestion(node, ontology, registry) {
   if (hasOwn(p.roles,node.targetRole)) throw new Error('WH targetRole must be an unfilled semantic gap.');
   validateEventShape(p,ontology,registry,p.version!==INTERLINGUA_VERSION,
     [CLAUSE_VERSION,SEMANTIC_VERSION].includes(p.version),0,node.targetRole);
+}
+
+function hasExactKeys(value, fields) {
+  return record(value) && Object.keys(value).length === fields.length &&
+    fields.every(field => hasOwn(value, field));
+}
+
+function validateDialogueQuestion(question, ontology, registry) {
+  if (!record(question) || question.type !== 'question') {
+    throw new Error('Dialogue act requires an explicit semantic question.');
+  }
+  validateQuestion(question, ontology, registry);
+}
+
+function validateDialogueProposition(proposition, ontology, registry) {
+  if (!record(proposition) ||
+      !['event','state','coordination','scope','complement','modality'].includes(proposition.type)) {
+    throw new Error('Dialogue act requires a supported proposition.');
+  }
+  validateClauseTree(proposition, ontology, registry);
+}
+
+function validateDialogueContext(context, ontology, registry) {
+  if (record(context) && context.type === 'question') {
+    validateDialogueQuestion(context, ontology, registry);
+    return;
+  }
+  validateDialogueProposition(context, ontology, registry);
+}
+
+function validateDialogueAct(node, ontology, registry) {
+  if (!hasExactKeys(node, ['version','type','act','payload']) ||
+      node.version !== DIALOGUE_ACT_VERSION || node.type !== 'dialogue_act') {
+    throw new Error('Invalid or unsupported dialogue act document.');
+  }
+  const concept = 'dialogue_act.' + node.act;
+  if (!DIALOGUE_ACT_TYPES.includes(node.act) ||
+      ontology?.get(concept)?.type !== 'category' ||
+      !ontology?.isA?.(concept, 'dialogue_act')) {
+    throw new Error('Unknown dialogue act: ' + node.act);
+  }
+  const payload = node.payload;
+  if (!record(payload)) throw new Error('Dialogue act payload must be an object.');
+
+  switch (node.act) {
+    case 'assert':
+      if (!hasExactKeys(payload, ['proposition'])) {
+        throw new Error('Assert payload requires only proposition.');
+      }
+      validateDialogueProposition(payload.proposition, ontology, registry);
+      break;
+    case 'ask':
+      if (!hasExactKeys(payload, ['question'])) {
+        throw new Error('Ask payload requires only question.');
+      }
+      validateDialogueQuestion(payload.question, ontology, registry);
+      break;
+    case 'answer': {
+      if (!hasExactKeys(payload, ['question','response'])) {
+        throw new Error('Answer payload requires question context and response.');
+      }
+      const question = payload.question;
+      validateDialogueQuestion(question, ontology, registry);
+      const response = payload.response;
+      if (!hasExactKeys(response, ['type','value'])) {
+        throw new Error('Answer response requires exactly type and value.');
+      }
+      if (question.questionType === 'yes_no') {
+        if (response.type !== 'yes_no' || typeof response.value !== 'boolean') {
+          throw new Error('A yes/no question requires a boolean answer.');
+        }
+      } else {
+        if (response.type !== 'referent') {
+          throw new Error('A WH question requires a participant answer.');
+        }
+        validateReferent(response.value, ontology, registry, 'answer', true, false, 0, true);
+        const event = questionGapEvent(question.proposition);
+        const constraint = ontology.get(event.concept)?.roleTypes?.[question.targetRole];
+        const answerType = hasOwn(response.value, 'referent') ? 'person' : response.value.concept;
+        if (constraint && !ontology.isA(answerType, constraint)) {
+          throw new Error('Answer participant violates question target role type ' + constraint + '.');
+        }
+      }
+      break;
+    }
+    case 'confirm':
+      if (!hasExactKeys(payload, ['question'])) {
+        throw new Error('Confirm payload requires only question context.');
+      }
+      validateDialogueQuestion(payload.question, ontology, registry);
+      if (payload.question.questionType !== 'yes_no') {
+        throw new Error('Confirm requires a yes/no question.');
+      }
+      break;
+    case 'clarify':
+      if (!hasExactKeys(payload, ['inReplyTo','question'])) {
+        throw new Error('Clarify payload requires prior context and a clarifying question.');
+      }
+      validateDialogueContext(payload.inReplyTo, ontology, registry);
+      validateDialogueQuestion(payload.question, ontology, registry);
+      break;
+    case 'refuse':
+      if (!hasExactKeys(payload, ['question','reason'])) {
+        throw new Error('Refuse payload requires question context and reason.');
+      }
+      validateDialogueQuestion(payload.question, ontology, registry);
+      if (!DIALOGUE_REFUSAL_REASONS.includes(payload.reason)) {
+        throw new Error('Unsupported refusal reason.');
+      }
+      break;
+    default:
+      throw new Error('Unknown dialogue act: ' + node.act);
+  }
+  return node;
 }
 
 function validateClauseTree(node, ontology, registry, depth = 0, gap = null) {
@@ -583,6 +713,10 @@ export function validateInterlingua(node, ontology, registry) {
 
 function validateInterlinguaDocument(node, ontology, registry) {
   if (!record(node)) throw new Error('Unsupported or invalid Interlingua document.');
+  if (node.type === 'dialogue_act') {
+    validateDialogueAct(node, ontology, registry);
+    return node;
+  }
   if (node.type === 'question') {
     validateQuestion(node, ontology, registry);
     return node;

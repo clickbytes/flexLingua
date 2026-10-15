@@ -1,4 +1,4 @@
-import { createDiscourse, createCoordination, createNegation, createComplement, materializeEvent, validateInterlingua, MAX_DISCOURSE_EVENTS, QUESTION_VERSION, MODALITY_VERSION, STATE_VERSION, validateCoreferenceMap, sameDiscourseReferent } from './interlingua.js';
+import { createDiscourse, createCoordination, createNegation, createComplement, materializeEvent, validateInterlingua, MAX_DISCOURSE_EVENTS, QUESTION_VERSION, MODALITY_VERSION, STATE_VERSION, DIALOGUE_ACT_VERSION, validateCoreferenceMap, sameDiscourseReferent } from './interlingua.js';
 import { createFeatureRegistry, record, safeName, hasOwn } from './features.js';
 import { createCoreLanguage } from './core-language.js';
 import { splitSentences, sentenceText } from './text.js';
@@ -627,6 +627,9 @@ export class Engine {
       return { text: JSON.stringify(interlingua, null, 2), warnings: [],
         alternatives: [], interlingua };
     }
+    if (interlingua.type === 'dialogue_act') {
+      throw new Error('Language realization of dialogue acts is not supported; use CORE JSON.');
+    }
     const adapter = this.language(to);
     const realizeClause = (node, options={}) => {
       if (node.type === 'question') {
@@ -737,6 +740,7 @@ export class Engine {
   /** Stable, serializable discovery interface (does not expose mutable adapters). */
   capabilities() {
     return { interlinguaVersion: '1.0', questionDocumentVersion: QUESTION_VERSION,
+      dialogueActDocumentVersion: DIALOGUE_ACT_VERSION,
       modalityDocumentVersion: MODALITY_VERSION, stateDocumentVersion: STATE_VERSION,
       stateFrameVersion: this.ontology.stateFrameVersion,
       coreLanguage: {code:'core', version:this.core.version, format:'interlingua-json'},

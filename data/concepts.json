@@ -1,6 +1,40 @@
 {
   "version": "1.0",
   "concepts": {
+    "dialogue_act": {
+      "type": "category",
+      "label": "dialogue act"
+    },
+    "dialogue_act.assert": {
+      "type": "category",
+      "parent": "dialogue_act",
+      "label": "assert"
+    },
+    "dialogue_act.ask": {
+      "type": "category",
+      "parent": "dialogue_act",
+      "label": "ask"
+    },
+    "dialogue_act.answer": {
+      "type": "category",
+      "parent": "dialogue_act",
+      "label": "answer"
+    },
+    "dialogue_act.confirm": {
+      "type": "category",
+      "parent": "dialogue_act",
+      "label": "confirm"
+    },
+    "dialogue_act.clarify": {
+      "type": "category",
+      "parent": "dialogue_act",
+      "label": "clarify"
+    },
+    "dialogue_act.refuse": {
+      "type": "category",
+      "parent": "dialogue_act",
+      "label": "refuse"
+    },
     "entity": {
       "type": "category",
       "label": "entity"

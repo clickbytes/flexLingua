@@ -111,3 +111,15 @@ The new `question` document has `version:'1.19'`, `questionType:'yes_no'|'wh'` a
 API: `createQuestion(proposition, {questionType, targetRole})`, `validateInterlingua(question,...)`, `engine.analyze({from:'core',text:json})`, `engine.realize({to:'core',interlingua:question})`. Capability detection: `engine.capabilities().questionDocumentVersion === '1.19'`.
 
 [Semantic question contract](questions-v1.19-semantic.md) · [PL/EN parser and generator, limits, tests](questions-v1.19-pl-en.md).
+
+## v1.24 extension — dialogue acts in CORE JSON
+
+The versioned dialogue_act envelope separates assert, ask, answer, confirm,
+clarify and refuse from event semantics. Replies carry their question context
+and typed content. DialogueContext checks bounded in-memory turn order. The
+contract is advertised as
+engine.capabilities().dialogueActDocumentVersion === '1.24'.
+
+The schema and runtime accept CORE JSON only. This extension does not add PL/EN
+speech-act parsing or realization. See the
+[dialogue-act contract and limits](adr/dialogue-acts.md).
