@@ -1451,6 +1451,42 @@
           }
         }
       ]
+    },
+    {
+      "id": "en.lesson.1",
+      "lemma": "lesson",
+      "forms": {
+        "singular": "lesson",
+        "plural": "lessons"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.lesson.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "knowledge_content.lesson"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.juice.1",
+      "lemma": "juice",
+      "forms": {
+        "singular": "juice",
+        "plural": "juices"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.juice.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "beverage.juice"
+          }
+        }
+      ]
     }
   ],
   "verbs": [
@@ -1755,6 +1791,195 @@
           "coreRef": {
             "kind": "grammaticalFunction",
             "id": "grammar.state_possession"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.eat.1",
+      "lemma": "eat",
+      "forms": {
+        "base": "eat",
+        "present3sg": "eats",
+        "present3pl": "eat",
+        "past": "ate"
+      },
+      "capabilities": {
+        "tenses": [
+          "present",
+          "past"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "polarities": [
+          "positive",
+          "negative"
+        ],
+        "roles": {
+          "agent": "person",
+          "theme": "food"
+        },
+        "themeConcepts": [
+          "food"
+        ]
+      },
+      "senses": [
+        {
+          "id": "en.eat.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.eat"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.drink.1",
+      "lemma": "drink",
+      "forms": {
+        "base": "drink",
+        "present3sg": "drinks",
+        "present3pl": "drink",
+        "past": "drank"
+      },
+      "capabilities": {
+        "tenses": [
+          "present",
+          "past"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "polarities": [
+          "positive",
+          "negative"
+        ],
+        "roles": {
+          "agent": "person",
+          "theme": "beverage"
+        },
+        "themeConcepts": [
+          "beverage.juice"
+        ]
+      },
+      "senses": [
+        {
+          "id": "en.drink.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.drink"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.work.1",
+      "lemma": "work",
+      "forms": {
+        "base": "work",
+        "present3sg": "works",
+        "present3pl": "work",
+        "past": "worked"
+      },
+      "capabilities": {
+        "tenses": [
+          "present",
+          "past"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "polarities": [
+          "positive",
+          "negative"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      },
+      "senses": [
+        {
+          "id": "en.work.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.work"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.learn.1",
+      "lemma": "learn",
+      "forms": {
+        "base": "learn",
+        "present3sg": "learns",
+        "present3pl": "learn",
+        "past": "learned"
+      },
+      "capabilities": {
+        "tenses": [
+          "present",
+          "past"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "polarities": [
+          "positive",
+          "negative"
+        ],
+        "roles": {
+          "agent": "person",
+          "theme": "knowledge_content"
+        },
+        "themeConcepts": [
+          "knowledge_content.lesson"
+        ]
+      },
+      "senses": [
+        {
+          "id": "en.learn.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.learn"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.sleep.1",
+      "lemma": "sleep",
+      "forms": {
+        "base": "sleep",
+        "present3sg": "sleeps",
+        "present3pl": "sleep",
+        "past": "slept"
+      },
+      "capabilities": {
+        "tenses": [
+          "present",
+          "past"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "polarities": [
+          "positive",
+          "negative"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      },
+      "senses": [
+        {
+          "id": "en.sleep.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.sleep"
           }
         }
       ]

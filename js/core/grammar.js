@@ -893,12 +893,26 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
       antecedent?.value,depth,omitGap,linearizations?'question':'declarative',skipPreposition]);
     if (budget.memo.has(memoKey)) return budget.memo.get(memoKey);
     const readings = new Map();
+    const matchedVerbEntries = new Map();
     for (const [concept, frame] of Object.entries(frames)) {
-      for (const sequence of linearizations ? linearizations(frame) : frame.linearizations) {
+      let entries = matchedVerbEntries.get(concept);
+      if (!entries) {
+        entries = verbEntries.filter(entry => entry.lexeme.concept === concept &&
+          tokens.some((_, i) => matchVerb(tokens, i, entry) !== null));
+        matchedVerbEntries.set(concept, entries);
+      }
+      const sequences = linearizations ? linearizations(frame) : frame.linearizations;
+      if (sequences.length > MAX_ANALYSES) {
+        throw new EngineError('GRAMMAR_SEARCH_LIMIT',
+          'Sentence analysis exceeded the bounded search limit.');
+      }
+      for (const sequence of sequences) {
         if (gap && !sequence.includes(gap)) continue;
-        for (const entry of verbEntries) {
-          if (entry.lexeme.concept !== concept ||
-              !tokens.some((_, i) => matchVerb(tokens, i, entry) !== null)) continue;
+        for (const entry of entries) {
+          if (++budget.counter.visited > MAX_SEARCH_NODES) {
+            throw new EngineError('GRAMMAR_SEARCH_LIMIT',
+              'Sentence analysis exceeded the bounded search limit.');
+          }
           const features = { tense: entry.rule.tense, polarity: entry.rule.polarity,
             aspect: verbGrammar.aspectSource === 'lexeme' ? entry.lexeme.aspect || 'unknown' : 'unknown' };
           const initialRoles = gap ? { [gap]: antecedent } : {};

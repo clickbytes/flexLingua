@@ -26,6 +26,12 @@
           "source": "Original project-authored food and shopping object concepts, English/Polish lexical senses, and controlled inflection forms; no third-party lexicon or protected list was copied.",
           "license": "Project-authored; the repository declares no separate SPDX data license.",
           "scope": "28 bilingual food and everyday shopping noun concepts; English orange is separately mapped as fruit and color."
+        },
+        {
+          "issue": "#45",
+          "author": "flexLingua project contributors",
+          "source": "Original project-authored daily activity event frames, beverage and lesson concepts, and strict role type relations; no external list was imported.",
+          "license": "Project-authored; the repository declares no separate SPDX data license."
         }
       ]
     },
@@ -52,6 +58,12 @@
           "source": "Original project-authored food and shopping object concepts, English/Polish lexical senses, and controlled inflection forms; no third-party lexicon or protected list was copied.",
           "license": "Project-authored; the repository declares no separate SPDX data license.",
           "scope": "28 bilingual food and everyday shopping noun concepts; English orange is separately mapped as fruit and color."
+        },
+        {
+          "issue": "#45",
+          "author": "flexLingua project contributors",
+          "source": "Original English predicate lexemes, sense mappings, and declared tense/aspect/role capabilities; no third-party lexicon was copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license."
         }
       ]
     },
@@ -75,7 +87,15 @@
       "license": "Unconfirmed; no separate license statement is present in this package",
       "reviewedAt": "2026-10-15",
       "permittedUse": "Existing in-repository execution only. Do not redistribute or reuse externally until source and rights are reviewed.",
-      "migrationNote": "Historical rule authorship and rights remain unconfirmed. The SPACE-04 mappings are project-authored; external redistribution remains blocked pending review."
+      "migrationNote": "Historical rule authorship and rights remain unconfirmed. The SPACE-04 mappings are project-authored; external redistribution remains blocked pending review.",
+      "authoredBatches": [
+        {
+          "issue": "#45",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored bounded event frame declarations for eat, drink, work, learn, and sleep.",
+          "license": "Project-authored; the repository declares no separate SPDX data license."
+        }
+      ]
     },
     {
       "path": "data/grammar/pl.json",
@@ -86,7 +106,15 @@
       "license": "Unconfirmed; no separate license statement is present in this package",
       "reviewedAt": "2026-10-15",
       "permittedUse": "Existing in-repository execution only. Do not redistribute or reuse externally until source and rights are reviewed.",
-      "migrationNote": "Historical rule authorship and rights remain unconfirmed. The SPACE-04 mappings are project-authored; external redistribution remains blocked pending review."
+      "migrationNote": "Historical rule authorship and rights remain unconfirmed. The SPACE-04 mappings are project-authored; external redistribution remains blocked pending review.",
+      "authoredBatches": [
+        {
+          "issue": "#45",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored bounded event frame, case, aspect, tense, and typed theme declarations for eat, drink, work, learn, and sleep.",
+          "license": "Project-authored; the repository declares no separate SPDX data license."
+        }
+      ]
     },
     {
       "path": "data/grammar/tr.json",
@@ -145,6 +173,12 @@
           "source": "Original project-authored food and shopping object concepts, English/Polish lexical senses, and controlled inflection forms; no third-party lexicon or protected list was copied.",
           "license": "Project-authored; the repository declares no separate SPDX data license.",
           "scope": "28 bilingual food and everyday shopping noun concepts; English orange is separately mapped as fruit and color."
+        },
+        {
+          "issue": "#45",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored English regular verb bindings and irregular past overrides for the LEX-03 predicate set.",
+          "license": "Project-authored; the repository declares no separate SPDX data license."
         }
       ]
     },
@@ -183,6 +217,12 @@
           "source": "Original project-authored food and shopping object concepts, English/Polish lexical senses, and controlled inflection forms; no third-party lexicon or protected list was copied.",
           "license": "Project-authored; the repository declares no separate SPDX data license.",
           "scope": "28 bilingual food and everyday shopping noun concepts; English orange is separately mapped as fruit and color."
+        },
+        {
+          "issue": "#45",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored finite Polish verb paradigms bindings for the LEX-03 predicate set.",
+          "license": "Project-authored; the repository declares no separate SPDX data license."
         }
       ]
     },
@@ -209,6 +249,12 @@
           "source": "Original project-authored food and shopping object concepts, English/Polish lexical senses, and controlled inflection forms; no third-party lexicon or protected list was copied.",
           "license": "Project-authored; the repository declares no separate SPDX data license.",
           "scope": "28 bilingual food and everyday shopping noun concepts; English orange is separately mapped as fruit and color."
+        },
+        {
+          "issue": "#45",
+          "author": "flexLingua project contributors",
+          "source": "Original Polish predicate lexemes, aspect annotations, inflection tables, sense mappings, and declared tense/aspect/role capabilities; no third-party lexicon was copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license."
         }
       ]
     },

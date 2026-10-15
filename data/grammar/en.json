@@ -118,14 +118,18 @@
       {
         "tense": "present",
         "polarity": "positive",
-        "when": {"subject.person": "first"},
+        "when": {
+          "subject.person": "first"
+        },
         "prefix": [],
         "path": "forms.base"
       },
       {
         "tense": "present",
         "polarity": "positive",
-        "when": {"subject.person": "second"},
+        "when": {
+          "subject.person": "second"
+        },
         "prefix": [],
         "path": "forms.base"
       },
@@ -168,15 +172,25 @@
       {
         "tense": "present",
         "polarity": "negative",
-        "when": {"subject.person": "first"},
-        "prefix": ["do", "not"],
+        "when": {
+          "subject.person": "first"
+        },
+        "prefix": [
+          "do",
+          "not"
+        ],
         "path": "forms.base"
       },
       {
         "tense": "present",
         "polarity": "negative",
-        "when": {"subject.person": "second"},
-        "prefix": ["do", "not"],
+        "when": {
+          "subject.person": "second"
+        },
+        "prefix": [
+          "do",
+          "not"
+        ],
         "path": "forms.base"
       }
     ],
@@ -317,12 +331,134 @@
           "theme"
         ]
       ]
+    },
+    "event.eat": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb",
+          "theme"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present",
+          "past"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "roles": {
+          "agent": "person",
+          "theme": "food"
+        },
+        "themeConcepts": [
+          "food"
+        ]
+      }
+    },
+    "event.drink": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb",
+          "theme"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present",
+          "past"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "roles": {
+          "agent": "person",
+          "theme": "beverage"
+        },
+        "themeConcepts": [
+          "beverage.juice"
+        ]
+      }
+    },
+    "event.work": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present",
+          "past"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.learn": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb",
+          "theme"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present",
+          "past"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "roles": {
+          "agent": "person",
+          "theme": "knowledge_content"
+        },
+        "themeConcepts": [
+          "knowledge_content.lesson"
+        ]
+      }
+    },
+    "event.sleep": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present",
+          "past"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
     }
   },
   "states": {
     "negator": "not",
-    "supportedTenses": ["present", "past"],
-    "supportedPolarities": ["positive"],
+    "supportedTenses": [
+      "present",
+      "past"
+    ],
+    "supportedPolarities": [
+      "positive"
+    ],
     "verbs": {
       "grammar.state_copula": "predication",
       "grammar.state_possession": "possession",
@@ -333,22 +469,61 @@
         "subjectRole": "subject",
         "predicateRole": "predicate",
         "predicateCase": "nom",
-        "cases": {"subject": "nom"},
-        "linearizations": [["subject", "@verb", "predicate"]]
+        "cases": {
+          "subject": "nom"
+        },
+        "linearizations": [
+          [
+            "subject",
+            "@verb",
+            "predicate"
+          ]
+        ]
       },
       "possession": {
         "subjectRole": "owner",
-        "cases": {"owner": "nom", "owned": "acc"},
-        "linearizations": [["owner", "@verb", "owned"]]
+        "cases": {
+          "owner": "nom",
+          "owned": "acc"
+        },
+        "linearizations": [
+          [
+            "owner",
+            "@verb",
+            "owned"
+          ]
+        ]
       },
       "location": {
         "subjectRole": "subject",
-        "cases": {"subject": "nom", "location": "loc"},
-        "prepositions": {"in": "interior", "on": "surface", "at": "point"},
+        "cases": {
+          "subject": "nom",
+          "location": "loc"
+        },
+        "prepositions": {
+          "in": "interior",
+          "on": "surface",
+          "at": "point"
+        },
         "linearizations": [
-          ["subject", "@verb", "@in", "location"],
-          ["subject", "@verb", "@on", "location"],
-          ["subject", "@verb", "@at", "location"]
+          [
+            "subject",
+            "@verb",
+            "@in",
+            "location"
+          ],
+          [
+            "subject",
+            "@verb",
+            "@on",
+            "location"
+          ],
+          [
+            "subject",
+            "@verb",
+            "@at",
+            "location"
+          ]
         ]
       }
     }
@@ -425,9 +600,41 @@
     ]
   },
   "deicticPronouns": [
-    {"senseId": "en.pronoun.i.sense", "referent": {"kind": "deictic", "anchor": "speaker"}, "person": "first", "number": "singular"},
-    {"senseId": "en.pronoun.you.singular", "referent": {"kind": "deictic", "anchor": "addressee"}, "person": "second", "number": "singular"},
-    {"senseId": "en.pronoun.you.plural", "referent": {"kind": "deictic", "anchor": "addressee"}, "person": "second", "number": "plural"},
-    {"senseId": "en.pronoun.we.sense", "referent": {"kind": "deictic", "anchor": "speaker"}, "person": "first", "number": "plural"}
+    {
+      "senseId": "en.pronoun.i.sense",
+      "referent": {
+        "kind": "deictic",
+        "anchor": "speaker"
+      },
+      "person": "first",
+      "number": "singular"
+    },
+    {
+      "senseId": "en.pronoun.you.singular",
+      "referent": {
+        "kind": "deictic",
+        "anchor": "addressee"
+      },
+      "person": "second",
+      "number": "singular"
+    },
+    {
+      "senseId": "en.pronoun.you.plural",
+      "referent": {
+        "kind": "deictic",
+        "anchor": "addressee"
+      },
+      "person": "second",
+      "number": "plural"
+    },
+    {
+      "senseId": "en.pronoun.we.sense",
+      "referent": {
+        "kind": "deictic",
+        "anchor": "speaker"
+      },
+      "person": "first",
+      "number": "plural"
+    }
   ]
 }
