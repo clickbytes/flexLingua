@@ -640,6 +640,12 @@
     "evidence": {
       "fixture": "data/coverage/a1-gold-g2.json",
       "rule": "A target must have at least one passing independent case or the audit must report an explicit not-exercised gap."
+    },
+    "numericQuantities": {
+      "operator": "quantifier.exact",
+      "minimum": 0,
+      "maximum": 20,
+      "languages": ["en", "pl"]
     }
   }
 }

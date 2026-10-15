@@ -869,6 +869,566 @@
         }
       ],
       "lemma": "two"
+    },
+    {
+      "id": "en.zero.quant.1",
+      "meaning": {
+        "kind": "exact",
+        "value": 0
+      },
+      "forms": [
+        {
+          "text": "zero",
+          "when": {
+            "number": "plural"
+          }
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.number.0.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "quantifier.exact",
+            "parameters": {
+              "value": 0
+            }
+          }
+        }
+      ],
+      "lemma": "zero"
+    },
+    {
+      "id": "en.one.quant.1",
+      "meaning": {
+        "kind": "exact",
+        "value": 1
+      },
+      "forms": [
+        {
+          "text": "one",
+          "when": {
+            "number": "singular"
+          }
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.number.1.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "quantifier.exact",
+            "parameters": {
+              "value": 1
+            }
+          }
+        }
+      ],
+      "lemma": "one"
+    },
+    {
+      "id": "en.three.quant.1",
+      "meaning": {
+        "kind": "exact",
+        "value": 3
+      },
+      "forms": [
+        {
+          "text": "three",
+          "when": {
+            "number": "plural"
+          }
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.number.3.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "quantifier.exact",
+            "parameters": {
+              "value": 3
+            }
+          }
+        }
+      ],
+      "lemma": "three"
+    },
+    {
+      "id": "en.four.quant.1",
+      "meaning": {
+        "kind": "exact",
+        "value": 4
+      },
+      "forms": [
+        {
+          "text": "four",
+          "when": {
+            "number": "plural"
+          }
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.number.4.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "quantifier.exact",
+            "parameters": {
+              "value": 4
+            }
+          }
+        }
+      ],
+      "lemma": "four"
+    },
+    {
+      "id": "en.five.quant.1",
+      "meaning": {
+        "kind": "exact",
+        "value": 5
+      },
+      "forms": [
+        {
+          "text": "five",
+          "when": {
+            "number": "plural"
+          }
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.number.5.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "quantifier.exact",
+            "parameters": {
+              "value": 5
+            }
+          }
+        }
+      ],
+      "lemma": "five"
+    },
+    {
+      "id": "en.six.quant.1",
+      "meaning": {
+        "kind": "exact",
+        "value": 6
+      },
+      "forms": [
+        {
+          "text": "six",
+          "when": {
+            "number": "plural"
+          }
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.number.6.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "quantifier.exact",
+            "parameters": {
+              "value": 6
+            }
+          }
+        }
+      ],
+      "lemma": "six"
+    },
+    {
+      "id": "en.seven.quant.1",
+      "meaning": {
+        "kind": "exact",
+        "value": 7
+      },
+      "forms": [
+        {
+          "text": "seven",
+          "when": {
+            "number": "plural"
+          }
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.number.7.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "quantifier.exact",
+            "parameters": {
+              "value": 7
+            }
+          }
+        }
+      ],
+      "lemma": "seven"
+    },
+    {
+      "id": "en.eight.quant.1",
+      "meaning": {
+        "kind": "exact",
+        "value": 8
+      },
+      "forms": [
+        {
+          "text": "eight",
+          "when": {
+            "number": "plural"
+          }
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.number.8.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "quantifier.exact",
+            "parameters": {
+              "value": 8
+            }
+          }
+        }
+      ],
+      "lemma": "eight"
+    },
+    {
+      "id": "en.nine.quant.1",
+      "meaning": {
+        "kind": "exact",
+        "value": 9
+      },
+      "forms": [
+        {
+          "text": "nine",
+          "when": {
+            "number": "plural"
+          }
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.number.9.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "quantifier.exact",
+            "parameters": {
+              "value": 9
+            }
+          }
+        }
+      ],
+      "lemma": "nine"
+    },
+    {
+      "id": "en.ten.quant.1",
+      "meaning": {
+        "kind": "exact",
+        "value": 10
+      },
+      "forms": [
+        {
+          "text": "ten",
+          "when": {
+            "number": "plural"
+          }
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.number.10.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "quantifier.exact",
+            "parameters": {
+              "value": 10
+            }
+          }
+        }
+      ],
+      "lemma": "ten"
+    },
+    {
+      "id": "en.eleven.quant.1",
+      "meaning": {
+        "kind": "exact",
+        "value": 11
+      },
+      "forms": [
+        {
+          "text": "eleven",
+          "when": {
+            "number": "plural"
+          }
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.number.11.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "quantifier.exact",
+            "parameters": {
+              "value": 11
+            }
+          }
+        }
+      ],
+      "lemma": "eleven"
+    },
+    {
+      "id": "en.twelve.quant.1",
+      "meaning": {
+        "kind": "exact",
+        "value": 12
+      },
+      "forms": [
+        {
+          "text": "twelve",
+          "when": {
+            "number": "plural"
+          }
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.number.12.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "quantifier.exact",
+            "parameters": {
+              "value": 12
+            }
+          }
+        }
+      ],
+      "lemma": "twelve"
+    },
+    {
+      "id": "en.thirteen.quant.1",
+      "meaning": {
+        "kind": "exact",
+        "value": 13
+      },
+      "forms": [
+        {
+          "text": "thirteen",
+          "when": {
+            "number": "plural"
+          }
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.number.13.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "quantifier.exact",
+            "parameters": {
+              "value": 13
+            }
+          }
+        }
+      ],
+      "lemma": "thirteen"
+    },
+    {
+      "id": "en.fourteen.quant.1",
+      "meaning": {
+        "kind": "exact",
+        "value": 14
+      },
+      "forms": [
+        {
+          "text": "fourteen",
+          "when": {
+            "number": "plural"
+          }
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.number.14.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "quantifier.exact",
+            "parameters": {
+              "value": 14
+            }
+          }
+        }
+      ],
+      "lemma": "fourteen"
+    },
+    {
+      "id": "en.fifteen.quant.1",
+      "meaning": {
+        "kind": "exact",
+        "value": 15
+      },
+      "forms": [
+        {
+          "text": "fifteen",
+          "when": {
+            "number": "plural"
+          }
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.number.15.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "quantifier.exact",
+            "parameters": {
+              "value": 15
+            }
+          }
+        }
+      ],
+      "lemma": "fifteen"
+    },
+    {
+      "id": "en.sixteen.quant.1",
+      "meaning": {
+        "kind": "exact",
+        "value": 16
+      },
+      "forms": [
+        {
+          "text": "sixteen",
+          "when": {
+            "number": "plural"
+          }
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.number.16.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "quantifier.exact",
+            "parameters": {
+              "value": 16
+            }
+          }
+        }
+      ],
+      "lemma": "sixteen"
+    },
+    {
+      "id": "en.seventeen.quant.1",
+      "meaning": {
+        "kind": "exact",
+        "value": 17
+      },
+      "forms": [
+        {
+          "text": "seventeen",
+          "when": {
+            "number": "plural"
+          }
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.number.17.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "quantifier.exact",
+            "parameters": {
+              "value": 17
+            }
+          }
+        }
+      ],
+      "lemma": "seventeen"
+    },
+    {
+      "id": "en.eighteen.quant.1",
+      "meaning": {
+        "kind": "exact",
+        "value": 18
+      },
+      "forms": [
+        {
+          "text": "eighteen",
+          "when": {
+            "number": "plural"
+          }
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.number.18.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "quantifier.exact",
+            "parameters": {
+              "value": 18
+            }
+          }
+        }
+      ],
+      "lemma": "eighteen"
+    },
+    {
+      "id": "en.nineteen.quant.1",
+      "meaning": {
+        "kind": "exact",
+        "value": 19
+      },
+      "forms": [
+        {
+          "text": "nineteen",
+          "when": {
+            "number": "plural"
+          }
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.number.19.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "quantifier.exact",
+            "parameters": {
+              "value": 19
+            }
+          }
+        }
+      ],
+      "lemma": "nineteen"
+    },
+    {
+      "id": "en.twenty.quant.1",
+      "meaning": {
+        "kind": "exact",
+        "value": 20
+      },
+      "forms": [
+        {
+          "text": "twenty",
+          "when": {
+            "number": "plural"
+          }
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.number.20.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "quantifier.exact",
+            "parameters": {
+              "value": 20
+            }
+          }
+        }
+      ],
+      "lemma": "twenty"
     }
   ],
   "attitudes": [

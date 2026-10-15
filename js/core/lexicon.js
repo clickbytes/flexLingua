@@ -27,7 +27,7 @@ function quantifierCore(meaning) {
     return {kind:'operator',id:'quantifier.universal'};
   }
   if (meaning?.kind === 'exact' && Number.isSafeInteger(meaning.value) &&
-      meaning.value >= 2 && meaning.value <= 20 && Object.keys(meaning).length === 2) {
+      meaning.value >= 0 && meaning.value <= 20 && Object.keys(meaning).length === 2) {
     return {kind:'operator',id:'quantifier.exact',parameters:{value:meaning.value}};
   }
   throw new Error('Invalid lexical quantifier meaning.');
