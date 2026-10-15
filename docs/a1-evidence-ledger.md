@@ -4,7 +4,7 @@
 
 ## Cel
 
-Rejestr obejmuje wcześniejsze próbki, gold stanów STATE-04 i osobny korpus VAL-02 H1. G2 pozostaje zestawem rozwojowym; H1 ma własne stabilne ID, statyczny gold i testy w obu kierunkach. Autor H1 nie był niezależny od implementacji — rozdzielenie autorów nie było dostępne — więc zestaw nie jest ślepą ani niezależną oceną. `tools/a1-evidence-ledger.mjs` łączy katalog dowodów z **rzeczywiście wykonanymi** testami Node.
+Rejestr obejmuje wcześniejsze próbki, gold stanów STATE-05 i osobny korpus VAL-02 H1. G2 pozostaje zestawem rozwojowym; H1 ma własne stabilne ID, statyczny gold i testy w obu kierunkach. Autor H1 nie był niezależny od implementacji — rozdzielenie autorów nie było dostępne — więc zestaw nie jest ślepą ani niezależną oceną. `tools/a1-evidence-ledger.mjs` łączy katalog dowodów z **rzeczywiście wykonanymi** testami Node.
 
 ## Zestawy i zakres
 
@@ -27,9 +27,9 @@ Każde uruchomienie zestawu gold ma status, faktyczny PID procesu Node, wersję 
 | Pisać/otwierać | 22 (w tym 2 productive-only) | 5 | 15 |
 | Kompozycja/dyskurs | 12 | 1 | 0 |
 | Osoba/deiksy PERS-06 | 40 | 10 | 0 |
-| Stany STATE-04 | 40 | 8 | 0 |
+| Stany STATE-05 | 48 | 7 | 0 |
 | Held-out VAL-02 H1 | 200 (100 na kierunek) | 20 | 0 |
-| **Razem** | **396** | **64** | **60** |
+| **Razem** | **404** | **63** | **60** |
 
 To **przypadki kontrolowane**, nie wymierny procent pokrycia CEFR. Każdy przypadek jest przypisany do własnego pliku źródłowego i testu. W porównaniu przypadków sprawdzamy tylko **jawnie opisane** znaczenia CORE (pojęcie predykatu i te role, które fixture wyraźnie deklaruje); nie wnioskujemy obecności haseł z samej pisowni ani z analizy silnika, aby uniknąć tautologii. Nakładanie się autorstwa, projektowania reguł i oceny nie gwarantuje testu niewidzianych wcześniej zdań.
 

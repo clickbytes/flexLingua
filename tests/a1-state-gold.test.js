@@ -38,6 +38,8 @@ function coreDocument(row) {
 
 function signature(document) {
   let node=document;
+  if(node.type==='question')return {kind:'question',questionType:node.questionType,
+    proposition:signature(node.proposition)};
   let polarity='positive';
   if(node.type==='scope'&&node.operator==='not'){
     polarity='negative';
@@ -58,15 +60,15 @@ function signature(document) {
   };
 }
 
-test('STATE-04 freezes 40 independent bilingual state examples with semantic gold',()=>{
-  assert.equal(gold.schemaVersion,1);
+test('STATE-05 freezes 48 independent bilingual state examples with semantic gold',()=>{
+  assert.equal(gold.schemaVersion,2);
   assert.equal(gold.license,'project-authored');
-  assert.equal(gold.enToPl.length,20);
-  assert.equal(gold.plToEn.length,20);
-  assert.equal(new Set(gold.enToPl.map(row=>row.input)).size,20);
-  assert.equal(new Set(gold.plToEn.map(row=>row.input)).size,20);
-  assert.equal(new Set(gold.enToPl.map(row=>JSON.stringify(row.core))).size,20);
-  assert.equal(new Set(gold.plToEn.map(row=>JSON.stringify(row.core))).size,20);
+  assert.equal(gold.enToPl.length,24);
+  assert.equal(gold.plToEn.length,24);
+  assert.equal(new Set(gold.enToPl.map(row=>row.input)).size,24);
+  assert.equal(new Set(gold.plToEn.map(row=>row.input)).size,24);
+  assert.equal(new Set(gold.enToPl.map(row=>JSON.stringify(row.core))).size,24);
+  assert.equal(new Set(gold.plToEn.map(row=>JSON.stringify(row.core))).size,24);
 
   for(const [rows,from,to] of [[gold.enToPl,'en','pl'],[gold.plToEn,'pl','en']]){
     for(const row of rows){
@@ -84,7 +86,7 @@ test('STATE-04 freezes 40 independent bilingual state examples with semantic gol
   }
 });
 
-test('STATE-04 CORE gold preserves identity, predication, possession, negation, tense, and number',()=>{
+test('STATE-05 CORE gold preserves identity, predication, possession, negation, tense, and number',()=>{
   assert.equal(gold.coreCases.length,6);
   assert.deepEqual(new Set(gold.coreCases.map(row=>row.kind)),
     new Set(['identity','predication','possession']));
@@ -106,9 +108,9 @@ test('STATE-04 CORE gold preserves identity, predication, possession, negation, 
   }
 });
 
-test('STATE-04 unsupported identity, English state negation, and bad agreement return diagnostics',()=>{
+test('STATE-05 retains identity, malformed agreement, and unsupported tense refusals',()=>{
   assert.ok(gold.unsupported.some(row=>row.reason==='identity-language-frame-unavailable'));
-  assert.ok(gold.unsupported.some(row=>row.reason==='english-state-negation-unavailable'));
+  assert.ok(gold.unsupported.some(row=>row.reason==='invalid-auxiliary-agreement'));
   assert.ok(gold.unsupported.some(row=>row.reason==='invalid-subject-agreement'));
   assert.ok(gold.unsupported.some(row=>row.reason==='invalid-adjective-agreement'));
   for(const row of gold.unsupported){

@@ -735,7 +735,8 @@
       "past"
     ],
     "supportedPolarities": [
-      "positive"
+      "positive",
+      "negative"
     ],
     "verbs": {
       "grammar.state_copula": [
@@ -821,6 +822,11 @@
           ]
         ]
       }
+    },
+    "negativeStrategies": {
+      "predication": "postverbal",
+      "classification": "postverbal",
+      "possession": "do-support"
     }
   },
   "messages": {

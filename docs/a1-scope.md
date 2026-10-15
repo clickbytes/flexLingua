@@ -62,7 +62,7 @@ implementacyjny, a nie pełny zakres A1.
 | Predykacja cechy: `This book is small.` | A1-ENPL-01 | Obsługiwana w czasie teraźniejszym, z zachowaniem modyfikatora w CORE. |
 | Predykacja klasowa: `This is a book.` | A1-ENPL-01 | Osobny kierunkowy węzeł CORE `classification`; nie używa `identity`. |
 | Sense `simple` „nieskomplikowany pod względem struktury, projektu lub użycia” | A1-ENPL-01 | Obsługiwany; nie utożsamia się z sensem „łatwy”. |
-| Przeczenie `be/have` i pytania stanowe | A1-ENPL-02 | Niezrealizowane; osobny batch. |
+| Przeczenie `be/have` i pytania yes/no dla predykacji/posiadania | A1-ENPL-02 | Obsługiwane w teraźniejszości; inne typy pytań i czasy pozostają poza zakresem. |
 | Niepoliczalne rzeczowniki bez rodzajnika, zaimki i konstrukcje egzystencjalne | A1-ENPL-03+ | Kandydaci do jawnego rozstrzygnięcia zakresu; brak deklaracji obsługi. |
 | Czas przeszły w polskiej predykacji stanowej | A1-ENPL-03+ | Brak zadeklarowanej polskiej realizacji. |
 

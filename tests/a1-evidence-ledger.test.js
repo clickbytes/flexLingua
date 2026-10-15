@@ -20,11 +20,11 @@ test('A1 VAL-03: all ten project-authored fixtures are inventoried',()=>{
  assert.equal(report.totals.sources,10);
  assert.deepEqual({p:report.totals.positive,n:report.totals.negative,
    f:report.totals.morphologyCells,productive:report.totals.productiveOnly},
-   {p:494,n:73,f:60,productive:2});
- assert.equal(report.verification.positiveVerified,494);
+   {p:502,n:72,f:60,productive:2});
+ assert.equal(report.verification.positiveVerified,502);
  const state=report.sources.find(x=>x.id==='state');
- assert.equal(state.samples.positive,40);
- assert.deepEqual(state.byDirection,{'en->pl':20,'pl->en':20});
+ assert.equal(state.samples.positive,48);
+ assert.deepEqual(state.byDirection,{'en->pl':24,'pl->en':24});
  const composition=report.sources.find(x=>x.id==='composition');
  assert.deepEqual({positive:composition.samples.positive,negative:composition.samples.negative},
    {positive:46,negative:1});
@@ -49,7 +49,7 @@ test('A1 VAL-03: all ten project-authored fixtures are inventoried',()=>{
      .reduce((sum,row)=>sum+row[kind],0),report.sampleQuality.declared[kind]);
  assert.equal(Object.values(report.sampleQuality.declared.morphologyByLanguage)
    .reduce((sum,count)=>sum+count,0),report.totals.morphologyCells);
- assert.equal(report.sampleQuality.verified.positive,494);
+ assert.equal(report.sampleQuality.verified.positive,502);
  assert.equal(report.targetSummary.total,23);
  assert.deepEqual({concepts:report.targets.filter(x=>x.unitType==='concept').length,
    constructions:report.targets.filter(x=>x.unitType==='construction').length},
