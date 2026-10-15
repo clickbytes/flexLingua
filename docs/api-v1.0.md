@@ -37,8 +37,8 @@ The browser UI loads this implementation through ES modules from the local devel
 | `capabilities()` | JSON-serializable language inventory, parser/realizer support and schema versions. |
 | `analyze({text,from,context?})` | Select one preferred semantic reading; no disambiguation promise. |
 | `analyzeCandidates({text,from,context?})` | Return bounded semantic alternatives with scores and lexical senses. |
-| `realize({interlingua,to})` | Generate target text, warnings and grammatical alternatives. |
-| `translate({text,from,to,context?})` | Analyze → interlingua → realize; return semantic and grammar alternatives. Throws on unsupported input. |
+| `realize({interlingua,to,lexicalRegister?})` | Generate target text, warnings and grammatical alternatives. `lexicalRegister` accepts `neutral` (default), `formal` or `plain` for event nouns. |
+| `translate({text,from,to,context?,lexicalRegister?})` | Analyze → interlingua → realize; return semantic and grammar alternatives. Throws on unsupported input. The register option controls target event nouns only. |
 | `tryTranslate(request)` | Same operation with `{ok:true,value}` or `{ok:false,error:{code,message}}`; suitable for UIs. |
 
 ```js

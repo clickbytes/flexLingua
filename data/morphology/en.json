@@ -2067,6 +2067,262 @@
       "stems": {
         "base": "cost"
       }
+    },
+    {
+      "lexemeId": "en.c1_interpretation.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "interpretation"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.c1_argumentation.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "argumentation"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.c1_deliberation.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "deliberation"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.c1_verification.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "verification"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.c1_implementation.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "implementation"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.c1_recommendation.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "recommendation"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.c1_classification.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "classification"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.c1_identification.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "identification"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.c1_conceptualization.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "conceptualization"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.c1_generalization.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "generalization"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.c1_specification.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "specification"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.c1_evaluation.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "evaluation"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.c1_calibration.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "calibration"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.c1_coordination.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "coordination"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.c1_communication.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "communication"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.c1_moderation.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "moderation"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.c1_negotiation.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "negotiation"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.c1_mediation.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "mediation"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.c1_legislation.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "legislation"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.c1_administration.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "administration"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.c1_regulation.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "regulation"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.c1_representation.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "representation"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.c1_presentation.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "presentation"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.c1_documentation.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "documentation"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.c1_demonstration.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "demonstration"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.c1_simulation.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "simulation"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.c1_optimization.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "optimization"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.c1_transformation.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "transformation"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.c1_adaptation.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "adaptation"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.c1_integration.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "integration"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.c1_verification_plain.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "check"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.c1_recommendation_plain.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "tip"
+      },
+      "overrides": []
     }
   ]
 }

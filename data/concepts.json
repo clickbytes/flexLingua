@@ -1101,6 +1101,161 @@
       "type": "category",
       "parent": "physical_object",
       "label": "vehicle"
+    },
+    "abstract_process": {
+      "type": "category",
+      "parent": "entity",
+      "label": "abstract process"
+    },
+    "abstract.interpretation": {
+      "type": "entity",
+      "parent": "abstract_process",
+      "label": "interpretation"
+    },
+    "abstract.argumentation": {
+      "type": "entity",
+      "parent": "abstract_process",
+      "label": "argumentation"
+    },
+    "abstract.deliberation": {
+      "type": "entity",
+      "parent": "abstract_process",
+      "label": "deliberation"
+    },
+    "abstract.verification": {
+      "type": "entity",
+      "parent": "abstract_process",
+      "label": "verification"
+    },
+    "abstract.implementation": {
+      "type": "entity",
+      "parent": "abstract_process",
+      "label": "implementation"
+    },
+    "abstract.recommendation": {
+      "type": "entity",
+      "parent": "abstract_process",
+      "label": "recommendation"
+    },
+    "abstract.classification": {
+      "type": "entity",
+      "parent": "abstract_process",
+      "label": "classification"
+    },
+    "abstract.identification": {
+      "type": "entity",
+      "parent": "abstract_process",
+      "label": "identification"
+    },
+    "abstract.conceptualization": {
+      "type": "entity",
+      "parent": "abstract_process",
+      "label": "conceptualization"
+    },
+    "abstract.generalization": {
+      "type": "entity",
+      "parent": "abstract_process",
+      "label": "generalization"
+    },
+    "abstract.specification": {
+      "type": "entity",
+      "parent": "abstract_process",
+      "label": "specification"
+    },
+    "abstract.evaluation": {
+      "type": "entity",
+      "parent": "abstract_process",
+      "label": "evaluation"
+    },
+    "abstract.calibration": {
+      "type": "entity",
+      "parent": "abstract_process",
+      "label": "calibration"
+    },
+    "abstract.coordination": {
+      "type": "entity",
+      "parent": "abstract_process",
+      "label": "coordination"
+    },
+    "abstract.communication": {
+      "type": "entity",
+      "parent": "abstract_process",
+      "label": "communication"
+    },
+    "abstract.moderation": {
+      "type": "entity",
+      "parent": "abstract_process",
+      "label": "moderation"
+    },
+    "abstract.negotiation": {
+      "type": "entity",
+      "parent": "abstract_process",
+      "label": "negotiation"
+    },
+    "abstract.mediation": {
+      "type": "entity",
+      "parent": "abstract_process",
+      "label": "mediation"
+    },
+    "abstract.legislation": {
+      "type": "entity",
+      "parent": "abstract_process",
+      "label": "legislation"
+    },
+    "abstract.administration": {
+      "type": "entity",
+      "parent": "abstract_process",
+      "label": "administration"
+    },
+    "abstract.regulation": {
+      "type": "entity",
+      "parent": "abstract_process",
+      "label": "regulation"
+    },
+    "abstract.representation": {
+      "type": "entity",
+      "parent": "abstract_process",
+      "label": "representation"
+    },
+    "abstract.presentation": {
+      "type": "entity",
+      "parent": "abstract_process",
+      "label": "presentation"
+    },
+    "abstract.documentation": {
+      "type": "entity",
+      "parent": "abstract_process",
+      "label": "documentation"
+    },
+    "abstract.demonstration": {
+      "type": "entity",
+      "parent": "abstract_process",
+      "label": "demonstration"
+    },
+    "abstract.simulation": {
+      "type": "entity",
+      "parent": "abstract_process",
+      "label": "simulation"
+    },
+    "abstract.optimization": {
+      "type": "entity",
+      "parent": "abstract_process",
+      "label": "optimization"
+    },
+    "abstract.transformation": {
+      "type": "entity",
+      "parent": "abstract_process",
+      "label": "transformation"
+    },
+    "abstract.adaptation": {
+      "type": "entity",
+      "parent": "abstract_process",
+      "label": "adaptation"
+    },
+    "abstract.integration": {
+      "type": "entity",
+      "parent": "abstract_process",
+      "label": "integration"
     }
   },
   "relationTypes": {

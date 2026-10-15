@@ -734,11 +734,14 @@ export class Engine {
     return this.analyzeCandidates({ text, from, context })[0].interlingua;
   }
 
-  realize({ interlingua, to, pronounRealization='repeat', profile }) {
+  realize({ interlingua, to, pronounRealization='repeat', profile,
+    lexicalRegister='neutral' }) {
     const personality=createPersonalityProfile(profile);
     if (profile !== undefined) pronounRealization=personality.realization.pronounRealization;
     if(!['repeat','safe'].includes(pronounRealization))
       throw new Error('Invalid pronoun realization policy.');
+    if(!['neutral','formal','plain'].includes(lexicalRegister))
+      throw new Error('Invalid lexical register.');
     validateInterlingua(interlingua, this.ontology, this.features);
     if (to === 'core') {
       return { text: JSON.stringify(interlingua, null, 2), warnings: [],
@@ -789,7 +792,7 @@ export class Engine {
         return adapter.realizeComparison(node);
       }
       if (node.type === 'event') {
-        const output = adapter.realize(node,options);
+        const output = adapter.realize(node,{...options,lexicalRegister});
         if (!output || typeof output.text !== 'string' || !output.text.trim()) {
           throw new Error(`Invalid realization from adapter: ${to}`);
         }
@@ -915,14 +918,15 @@ export class Engine {
     }
   }
 
-  translate({ text, from, to, context, pronounRealization='repeat', profile }) {
+  translate({ text, from, to, context, pronounRealization='repeat', profile,
+    lexicalRegister='neutral' }) {
     const candidates = this.analyzeCandidates({ text, from, context });
     const results = [];
     let firstError;
     for (const candidate of candidates) {
       try {
         const output = this.realize({ interlingua: candidate.interlingua, to,
-          pronounRealization,profile });
+          pronounRealization,profile,lexicalRegister });
         results.push({ ...candidate, output });
       } catch (error) {
         firstError ||= error;
