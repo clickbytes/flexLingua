@@ -1763,6 +1763,310 @@
           ]
         }
       ]
+    },
+    {
+      "lexemeId": "en.bread.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "bread"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.water.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "water"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.milk.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "milk"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.coffee.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "coffee"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tea.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "tea"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.bus.1",
+      "paradigmId": "en.noun.sibilant",
+      "stems": {
+        "base": "bus"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.train.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "train"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.hotel.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "hotel"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.restaurant.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "restaurant"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.airport.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "airport"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.street.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "street"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.map.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "map"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.suitcase.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "suitcase"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.passport.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "passport"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.market.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "market"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.euro.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "euro"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.dollar.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "dollar"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.zloty.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "zloty"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.stop.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "stop"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.platform.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "platform"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.reservation.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "reservation"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.luggage.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "luggage"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.travel.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "travel"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.charger.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "charger"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.cafe.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "cafe"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.taxi.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "taxi"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.pharmacy.1",
+      "paradigmId": "en.noun.regular",
+      "overrides": [
+        {
+          "when": {
+            "number": "plural"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "pharmacies"
+            }
+          ]
+        }
+      ],
+      "stems": {
+        "base": "pharmacy"
+      }
+    },
+    {
+      "lexemeId": "en.bridge.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "bridge"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.road.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "road"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.cash.1",
+      "paradigmId": "en.noun.sibilant",
+      "overrides": [
+        {
+          "when": {
+            "number": "plural"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "cash"
+            }
+          ]
+        }
+      ],
+      "stems": {
+        "base": "cash"
+      }
+    },
+    {
+      "lexemeId": "en.buy.1",
+      "paradigmId": "en.verb.regular",
+      "overrides": [
+        {
+          "when": {
+            "tense": "past"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "bought"
+            }
+          ]
+        }
+      ],
+      "stems": {
+        "base": "buy"
+      }
+    },
+    {
+      "lexemeId": "en.cost.1",
+      "paradigmId": "en.verb.regular",
+      "overrides": [
+        {
+          "when": {
+            "tense": "past"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "cost"
+            }
+          ]
+        }
+      ],
+      "stems": {
+        "base": "cost"
+      }
     }
   ]
 }

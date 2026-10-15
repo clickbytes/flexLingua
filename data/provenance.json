@@ -38,6 +38,13 @@
           "author": "flexLingua project contributors",
           "source": "Original project-authored pilot/remote-control and harbor/port-wine CORE senses; no external lexical list imported.",
           "license": "Project-authored; the repository declares no separate SPDX data license."
+        },
+        {
+          "issue": "#65",
+          "author": "flexLingua project contributors",
+          "source": "Original project-authored service-domain concepts and typed purchase/cost event frames; no external vocabulary or source list copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "30 bilingual service and travel entity concepts, currency and vehicle categories, and purchase/cost event concepts with explicit currency-typed roles."
         }
       ]
     },
@@ -83,6 +90,13 @@
           "source": "Project-authored deictic personal-pronoun case forms linked to the existing grammatical-function CORE sense; no external pronoun inventory was imported.",
           "license": "Project-authored; the repository declares no separate SPDX data license.",
           "scope": "Controlled nominative and object-case forms for first- and second-person pronouns. Language package: data/en.json."
+        },
+        {
+          "issue": "#65",
+          "author": "flexLingua project contributors",
+          "source": "Original project-authored English service and travel senses, bounded transaction verbs, and explicit surface forms; no external dictionary list imported.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "30 new English lexical senses and the buy/cost event predicates."
         }
       ]
     },
@@ -106,7 +120,7 @@
       "license": "Unconfirmed; no separate license statement is present in this package",
       "reviewedAt": "2026-10-15",
       "permittedUse": "Existing in-repository execution only. Do not redistribute or reuse externally until source and rights are reviewed.",
-      "migrationNote": "Historical rule authorship and rights remain unconfirmed. The SPACE-04 mappings are project-authored; external redistribution remains blocked pending review.",
+      "migrationNote": "Historical rule authorship and rights remain unconfirmed. The SPACE-04 mappings are project-authored; external redistribution remains blocked pending review. The A2-03 additions are project-authored and remain bounded to the in-repository adapter; no historical data was copied.",
       "authoredBatches": [
         {
           "issue": "#45",
@@ -127,6 +141,13 @@
           "source": "Project-authored case-governed personal pronoun and agreement-marked possessive grammar; no external inventory was imported.",
           "license": "Project-authored; the repository declares no separate data license.",
           "scope": "Nominative/object deictic pronouns and possessor realization for data/grammar/en.json."
+        },
+        {
+          "issue": "#65",
+          "author": "flexLingua project contributors",
+          "source": "Original bounded English grammar frames for purchase and explicit prices; no external rule inventory copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "Controlled present/past purchase and cost frames."
         }
       ]
     },
@@ -139,7 +160,7 @@
       "license": "Unconfirmed; no separate license statement is present in this package",
       "reviewedAt": "2026-10-15",
       "permittedUse": "Existing in-repository execution only. Do not redistribute or reuse externally until source and rights are reviewed.",
-      "migrationNote": "Historical rule authorship and rights remain unconfirmed. The SPACE-04 mappings are project-authored; external redistribution remains blocked pending review.",
+      "migrationNote": "Historical rule authorship and rights remain unconfirmed. The SPACE-04 mappings are project-authored; external redistribution remains blocked pending review. The A2-03 additions are project-authored and remain bounded to the in-repository adapter; no historical data was copied.",
       "authoredBatches": [
         {
           "issue": "#45",
@@ -160,6 +181,13 @@
           "source": "Project-authored case-governed personal pronoun and agreement-marked possessive grammar; no external inventory was imported.",
           "license": "Project-authored; the repository declares no separate data license.",
           "scope": "Nominative/object deictic pronouns and possessor realization for data/grammar/pl.json."
+        },
+        {
+          "issue": "#65",
+          "author": "flexLingua project contributors",
+          "source": "Original bounded Polish grammar frames for purchase and explicit prices; no external rule inventory copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "Controlled imperfective kupować/kosztować frames."
         }
       ]
     },
@@ -205,7 +233,7 @@
       "license": "Project-authored label exists in package; rights and reuse terms are not specified",
       "reviewedAt": "2026-10-15",
       "permittedUse": "Existing in-repository execution only. Verify source and rights before reuse or export.",
-      "migrationNote": "Add verified author, version date and permitted-use terms to the package provenance.",
+      "migrationNote": "Add verified author, version date and permitted-use terms to the package provenance. The A2-03 additions are project-authored and remain bounded to the in-repository adapter; no historical data was copied.",
       "authoredBatches": [
         {
           "issue": "#43",
@@ -238,6 +266,13 @@
           "author": "flexLingua project contributors",
           "source": "Productive regular noun bindings for the LEX-05 English ambiguity examples.",
           "license": "Project-authored; the repository declares no separate SPDX data license."
+        },
+        {
+          "issue": "#65",
+          "author": "flexLingua project contributors",
+          "source": "Original inflection bindings for the project-authored service lexemes and buy/cost verbs.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "English plural and verb form mappings for the A2-03 additions."
         }
       ]
     },
@@ -261,7 +296,7 @@
       "license": "Project-authored label exists in package; rights and reuse terms are not specified",
       "reviewedAt": "2026-10-15",
       "permittedUse": "Existing in-repository execution only. Verify source and rights before reuse or export.",
-      "migrationNote": "Add verified author, version date and permitted-use terms to the package provenance.",
+      "migrationNote": "Add verified author, version date and permitted-use terms to the package provenance. The A2-03 additions are project-authored and remain bounded to the in-repository adapter; no historical data was copied.",
       "authoredBatches": [
         {
           "issue": "#43",
@@ -294,6 +329,13 @@
           "author": "flexLingua project contributors",
           "source": "Productive Polish pilot and port declension bindings for the LEX-05 ambiguity examples.",
           "license": "Project-authored; the repository declares no separate SPDX data license."
+        },
+        {
+          "issue": "#65",
+          "author": "flexLingua project contributors",
+          "source": "Original inflection bindings and explicitly curated forms for the project-authored service lexemes and transaction verbs.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "Polish case/number mappings and kupować/kosztować conjugations for the A2-03 additions."
         }
       ]
     },
@@ -339,6 +381,13 @@
           "source": "Project-authored deictic personal-pronoun case forms linked to the existing grammatical-function CORE sense; no external pronoun inventory was imported.",
           "license": "Project-authored; the repository declares no separate SPDX data license.",
           "scope": "Controlled nominative and object-case forms for first- and second-person pronouns. Language package: data/pl.json."
+        },
+        {
+          "issue": "#65",
+          "author": "flexLingua project contributors",
+          "source": "Original project-authored Polish service and travel senses, inflected forms, and transaction verb paradigms; no external dictionary list imported.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "30 new Polish lexical senses and the kupować/kosztować event predicates."
         }
       ]
     },

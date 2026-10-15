@@ -1537,6 +1537,546 @@
           }
         }
       ]
+    },
+    {
+      "id": "en.bread.1",
+      "lemma": "bread",
+      "forms": {
+        "singular": "bread",
+        "plural": "breads"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.bread.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.bread"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.water.1",
+      "lemma": "water",
+      "forms": {
+        "singular": "water",
+        "plural": "waters"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.water.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "beverage.water"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.milk.1",
+      "lemma": "milk",
+      "forms": {
+        "singular": "milk",
+        "plural": "milks"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.milk.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "beverage.milk"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.coffee.1",
+      "lemma": "coffee",
+      "forms": {
+        "singular": "coffee",
+        "plural": "coffees"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.coffee.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "beverage.coffee"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.tea.1",
+      "lemma": "tea",
+      "forms": {
+        "singular": "tea",
+        "plural": "teas"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tea.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "beverage.tea"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.bus.1",
+      "lemma": "bus",
+      "forms": {
+        "singular": "bus",
+        "plural": "buses"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.bus.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "vehicle.bus"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.train.1",
+      "lemma": "train",
+      "forms": {
+        "singular": "train",
+        "plural": "trains"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.train.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "vehicle.train"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.hotel.1",
+      "lemma": "hotel",
+      "forms": {
+        "singular": "hotel",
+        "plural": "hotels"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.hotel.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.hotel"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.restaurant.1",
+      "lemma": "restaurant",
+      "forms": {
+        "singular": "restaurant",
+        "plural": "restaurants"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.restaurant.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.restaurant"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.airport.1",
+      "lemma": "airport",
+      "forms": {
+        "singular": "airport",
+        "plural": "airports"
+      },
+      "indefiniteArticle": "an",
+      "senses": [
+        {
+          "id": "en.airport.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.airport"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.street.1",
+      "lemma": "street",
+      "forms": {
+        "singular": "street",
+        "plural": "streets"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.street.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.street"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.map.1",
+      "lemma": "map",
+      "forms": {
+        "singular": "map",
+        "plural": "maps"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.map.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.map"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.suitcase.1",
+      "lemma": "suitcase",
+      "forms": {
+        "singular": "suitcase",
+        "plural": "suitcases"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.suitcase.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.suitcase"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.passport.1",
+      "lemma": "passport",
+      "forms": {
+        "singular": "passport",
+        "plural": "passports"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.passport.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.passport"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.market.1",
+      "lemma": "market",
+      "forms": {
+        "singular": "market",
+        "plural": "markets"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.market.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.market"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.euro.1",
+      "lemma": "euro",
+      "forms": {
+        "singular": "euro",
+        "plural": "euros"
+      },
+      "indefiniteArticle": "an",
+      "senses": [
+        {
+          "id": "en.euro.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "currency.euro"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.dollar.1",
+      "lemma": "dollar",
+      "forms": {
+        "singular": "dollar",
+        "plural": "dollars"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.dollar.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "currency.dollar"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.zloty.1",
+      "lemma": "zloty",
+      "forms": {
+        "singular": "zloty",
+        "plural": "zlotys"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.zloty.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "currency.zloty"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.stop.1",
+      "lemma": "stop",
+      "forms": {
+        "singular": "stop",
+        "plural": "stops"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.stop.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.stop"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.platform.1",
+      "lemma": "platform",
+      "forms": {
+        "singular": "platform",
+        "plural": "platforms"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.platform.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.platform"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.reservation.1",
+      "lemma": "reservation",
+      "forms": {
+        "singular": "reservation",
+        "plural": "reservations"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.reservation.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.reservation"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.luggage.1",
+      "lemma": "luggage",
+      "forms": {
+        "singular": "luggage",
+        "plural": "luggages"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.luggage.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.luggage"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.travel.1",
+      "lemma": "travel",
+      "forms": {
+        "singular": "travel",
+        "plural": "travels"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.travel.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.journey"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.charger.1",
+      "lemma": "charger",
+      "forms": {
+        "singular": "charger",
+        "plural": "chargers"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.charger.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.charger"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.cafe.1",
+      "lemma": "cafe",
+      "forms": {
+        "singular": "cafe",
+        "plural": "cafes"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.cafe.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.cafe"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.taxi.1",
+      "lemma": "taxi",
+      "forms": {
+        "singular": "taxi",
+        "plural": "taxis"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.taxi.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "vehicle.taxi"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.pharmacy.1",
+      "lemma": "pharmacy",
+      "forms": {
+        "singular": "pharmacy",
+        "plural": "pharmacies"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.pharmacy.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.pharmacy"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.bridge.1",
+      "lemma": "bridge",
+      "forms": {
+        "singular": "bridge",
+        "plural": "bridges"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.bridge.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.bridge"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.road.1",
+      "lemma": "road",
+      "forms": {
+        "singular": "road",
+        "plural": "roads"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.road.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.road"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.cash.1",
+      "lemma": "cash",
+      "forms": {
+        "singular": "cash",
+        "plural": "cash"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.cash.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.cash"
+          }
+        }
+      ]
     }
   ],
   "verbs": [
@@ -2087,6 +2627,44 @@
           "coreRef": {
             "kind": "concept",
             "id": "event.preference"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.buy.1",
+      "lemma": "buy",
+      "forms": {
+        "base": "buy",
+        "present3sg": "buys",
+        "present3pl": "buy",
+        "past": "bought"
+      },
+      "senses": [
+        {
+          "id": "en.buy.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.purchase"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.cost.1",
+      "lemma": "cost",
+      "forms": {
+        "base": "cost",
+        "present3sg": "costs",
+        "present3pl": "cost",
+        "past": "cost"
+      },
+      "senses": [
+        {
+          "id": "en.cost.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.cost"
           }
         }
       ]

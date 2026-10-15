@@ -10150,6 +10150,3370 @@
           ]
         }
       ]
+    },
+    {
+      "lexemeId": "pl.kupowac.verb.1",
+      "paradigmId": "pl.verb.personal_esz",
+      "stems": {
+        "base": "kupować",
+        "pastSingular": "kupowa",
+        "pastVirile": "kupowa",
+        "presentSingular": "kupuje",
+        "presentPlural": "kupuj",
+        "personalStem": "kupuj"
+      },
+      "overrides": [
+        {
+          "when": {
+            "tense": "present",
+            "person": "first",
+            "number": "singular"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kupuję"
+            }
+          ]
+        },
+        {
+          "when": {
+            "tense": "present",
+            "person": "second",
+            "number": "singular"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kupujesz"
+            }
+          ]
+        },
+        {
+          "when": {
+            "tense": "present",
+            "person": "third",
+            "number": "singular"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kupuje"
+            }
+          ]
+        },
+        {
+          "when": {
+            "tense": "present",
+            "person": "first",
+            "number": "plural"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kupujemy"
+            }
+          ]
+        },
+        {
+          "when": {
+            "tense": "present",
+            "person": "second",
+            "number": "plural"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kupujecie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "tense": "present",
+            "person": "third",
+            "number": "plural"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kupują"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.kosztowac.verb.1",
+      "paradigmId": "pl.verb.personal_esz",
+      "stems": {
+        "base": "kosztować",
+        "pastSingular": "kosztowa",
+        "pastVirile": "kosztowa",
+        "presentSingular": "kosztuje",
+        "presentPlural": "kosztuj",
+        "personalStem": "kosztuj"
+      },
+      "overrides": [
+        {
+          "when": {
+            "tense": "present",
+            "person": "first",
+            "number": "singular"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kosztuję"
+            }
+          ]
+        },
+        {
+          "when": {
+            "tense": "present",
+            "person": "second",
+            "number": "singular"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kosztujesz"
+            }
+          ]
+        },
+        {
+          "when": {
+            "tense": "present",
+            "person": "third",
+            "number": "singular"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kosztuje"
+            }
+          ]
+        },
+        {
+          "when": {
+            "tense": "present",
+            "person": "first",
+            "number": "plural"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kosztujemy"
+            }
+          ]
+        },
+        {
+          "when": {
+            "tense": "present",
+            "person": "second",
+            "number": "plural"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kosztujecie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "tense": "present",
+            "person": "third",
+            "number": "plural"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kosztują"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.chleb.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "chleb",
+        "lemma": "chleb"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "chleb"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "chleba"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "chlebowi"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "chleb"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "chleby"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "chlebów"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "chlebom"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "chleb"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.woda.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "woda",
+        "lemma": "woda"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "woda"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "wody"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "wodzie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "wodę"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "wody"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "wód"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "wodom"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "wody"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.mleko.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "mleko",
+        "lemma": "mleko"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "mleko"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "mleka"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "mleku"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "mleko"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "mleka"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "mlek"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "mlekom"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "mleka"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.kawa.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "kawa",
+        "lemma": "kawa"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kawa"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kawy"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kawie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kawę"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kawy"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kaw"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kawom"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kawy"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.herbata.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "herbata",
+        "lemma": "herbata"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "herbata"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "herbaty"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "herbacie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "herbatę"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "herbaty"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "herbat"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "herbatom"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "herbaty"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.autobus.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "autobus",
+        "lemma": "autobus"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "autobus"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "autobusu"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "autobusowi"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "autobus"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "autobusy"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "autobusów"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "autobusom"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "autobusy"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.pociag.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "pociąg",
+        "lemma": "pociąg"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "pociąg"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "pociągu"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "pociągowi"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "pociąg"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "pociągi"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "pociągów"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "pociągom"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "pociągi"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.hotel.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "hotel",
+        "lemma": "hotel"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "hotel"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "hotelu"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "hotelowi"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "hotel"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "hotele"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "hoteli"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "hotelom"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "hotele"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.restauracja.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "restauracja",
+        "lemma": "restauracja"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "restauracja"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "restauracji"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "restauracji"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "restaurację"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "restauracje"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "restauracji"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "restauracjom"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "restauracje"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.lotnisko.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "lotnisko",
+        "lemma": "lotnisko"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lotnisko"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lotniska"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lotnisku"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lotnisko"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lotniska"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lotnisk"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lotniskom"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lotniska"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.ulica.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "ulica",
+        "lemma": "ulica"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ulica"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ulicy"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ulicy"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ulicę"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ulice"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ulic"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ulicom"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ulice"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.mapa.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "mapa",
+        "lemma": "mapa"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "mapa"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "mapy"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "mapie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "mapę"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "mapy"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "map"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "mapom"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "mapy"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.walizka.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "walizka",
+        "lemma": "walizka"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "walizka"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "walizki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "walizce"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "walizkę"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "walizki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "walizek"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "walizkom"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "walizki"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.paszport.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "paszport",
+        "lemma": "paszport"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "paszport"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "paszportu"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "paszportowi"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "paszport"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "paszporty"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "paszportów"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "paszportom"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "paszporty"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.targ.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "targ",
+        "lemma": "targ"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "targ"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "targu"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "targowi"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "targ"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "targi"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "targów"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "targom"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "targi"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.euro.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "euro",
+        "lemma": "euro"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "euro"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "euro"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "euro"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "euro"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "euro"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "euro"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "euro"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "euro"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.dolar.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "dolar",
+        "lemma": "dolar"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "dolar"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "dolara"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "dolarowi"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "dolar"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "dolary"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "dolarów"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "dolarom"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "dolary"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.zloty.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "złoty",
+        "lemma": "złoty"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "złoty"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "złotego"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "złotemu"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "złoty"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "złote"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "złotych"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "złotym"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "złote"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.przystanek.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "przystanek",
+        "lemma": "przystanek"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "przystanek"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "przystanku"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "przystankowi"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "przystanek"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "przystanki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "przystanków"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "przystankom"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "przystanki"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.peron.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "peron",
+        "lemma": "peron"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "peron"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "peronu"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "peronowi"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "peron"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "perony"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "peronów"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "peronom"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "perony"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.rezerwacja.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "rezerwacja",
+        "lemma": "rezerwacja"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "rezerwacja"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "rezerwacji"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "rezerwacji"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "rezerwację"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "rezerwacje"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "rezerwacji"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "rezerwacjom"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "rezerwacje"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.bagaz.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "bagaż",
+        "lemma": "bagaż"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "bagaż"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "bagażu"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "bagażowi"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "bagaż"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "bagaże"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "bagaży"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "bagażom"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "bagaże"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.podroz.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "podróż",
+        "lemma": "podróż"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "podróż"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "podróży"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "podróży"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "podróż"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "podróże"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "podróży"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "podróżom"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "podróże"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.ladowarka.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "ładowarka",
+        "lemma": "ładowarka"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ładowarka"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ładowarki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ładowarce"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ładowarkę"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ładowarki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ładowarek"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ładowarkom"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ładowarki"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.kawiarnia.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "kawiarnia",
+        "lemma": "kawiarnia"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kawiarnia"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kawiarni"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kawiarni"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kawiarnię"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kawiarnie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kawiarni"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kawiarniom"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kawiarnie"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.taksowka.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "taksówka",
+        "lemma": "taksówka"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "taksówka"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "taksówki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "taksówce"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "taksówkę"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "taksówki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "taksówek"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "taksówkom"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "taksówki"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.apteka.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "apteka",
+        "lemma": "apteka"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "apteka"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "apteki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "aptece"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "aptekę"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "apteki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "aptek"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "aptekom"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "apteki"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.most.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "most",
+        "lemma": "most"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "most"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "mostu"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "mostowi"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "most"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "mosty"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "mostów"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "mostom"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "mosty"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.droga.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "droga",
+        "lemma": "droga"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "droga"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "drogi"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "drodze"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "drogę"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "drogi"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "dróg"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "drogom"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "drogi"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.gotowka.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "gotówka",
+        "lemma": "gotówka"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "gotówka"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "gotówki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "gotówce"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "gotówkę"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "gotówki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "gotówek"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "gotówkom"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "gotówki"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

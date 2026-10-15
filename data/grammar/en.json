@@ -607,6 +607,62 @@
         },
         "themeConcepts": []
       }
+    },
+    "event.purchase": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb",
+          "theme"
+        ]
+      ],
+      "cases": {
+        "agent": "nom",
+        "theme": "acc"
+      },
+      "capabilities": {
+        "tenses": [
+          "present",
+          "past"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "roles": {
+          "agent": "person",
+          "theme": "entity"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.cost": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb",
+          "theme"
+        ]
+      ],
+      "cases": {
+        "agent": "nom",
+        "theme": "acc"
+      },
+      "capabilities": {
+        "tenses": [
+          "present",
+          "past"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "roles": {
+          "agent": "entity",
+          "theme": "currency"
+        },
+        "themeConcepts": [
+          "currency"
+        ]
+      }
     }
   },
   "states": {
