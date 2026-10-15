@@ -1533,6 +1533,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
       for(const polarity of ['positive','negative']) {
         const verbEntries=verbForms.filter(entry=>
           entry.rule.tense===variant.tense && entry.rule.polarity===polarity &&
+          entry.rule.aspect===undefined &&
           (!variant.when || Object.entries(variant.when).every(([key,value])=>
             entry.rule.when?.[key]===value)))
           .flatMap(entry=>formsAt(entry.lexeme,yesNo.baseVerbPath).map(base=>({

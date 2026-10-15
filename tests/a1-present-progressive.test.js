@@ -72,6 +72,17 @@ test('A1-ENPL-06 refuses forms outside its positive present event contract',()=>
   }
 });
 
+test('A1-ENPL-06 keeps simple do-support questions unambiguous',()=>{
+  for(const text of ['Does the mother write a book?','Does the girl read a book?',
+      'Does the girl eat a sandwich?','Does the girl drink tea?',
+      'Does the father help the sister?','Does the father open a book?']) {
+    const readings=engine.analyzeCandidates({from:'en',text});
+    assert.equal(readings.length,1,text);
+    assert.equal(readings[0].interlingua.proposition.features.aspect,'unknown',
+      text+' remains simple present');
+  }
+});
+
 test('A1-ENPL-06 grammar rejects an unrecognized progressive aspect label',()=>{
   const invalid=structuredClone(enGrammar);
   invalid.verb.rules.find(rule=>rule.path==='forms.progressive').aspect='progressive';
