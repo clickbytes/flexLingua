@@ -191,6 +191,13 @@
       "migrationNote": "Historical rule authorship and rights remain unconfirmed. The SPACE-04 mappings are project-authored; external redistribution remains blocked pending review. The A2-03 additions are project-authored and remain bounded to the in-repository adapter; no historical data was copied.",
       "authoredBatches": [
         {
+          "issue": "#165",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored bounded positive Polish past predication rules for typed CORE predication; no external grammar inventory copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "A1-ENPL-05: positive past be + adjective statements only, with past negation/questions and other state kinds refused. Language package: data/grammar/pl.json."
+        },
+        {
           "issue": "#159",
           "author": "flexLingua project contributors",
           "source": "Project-authored bounded Polish event grammar licensing bare beverage themes only for event.drink; no external grammar inventory copied.",
@@ -271,6 +278,13 @@
       "migrationNote": "Add verified author, version date and permitted-use terms to the package provenance. The A2-03 additions are project-authored and remain bounded to the in-repository adapter; no historical data was copied.",
       "authoredBatches": [
         {
+          "issue": "#165",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored Polish past copula cells and explicit irregular forms; no external morphology table copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "A1-ENPL-05: third-person past być cells for three singular genders and virile/nonvirile plural. Language package: data/morphology/pl.json."
+        },
+        {
           "issue": "#43",
           "author": "flexLingua project contributors",
           "source": "Original project-authored concepts, English/Polish lexical senses and productive noun morphology; no third-party lexicon or protected list was copied.",
@@ -340,6 +354,13 @@
       "permittedUse": "Existing in-repository execution only. Verify source and rights before reuse or export.",
       "migrationNote": "Add verified author, version date and permitted-use terms to the package provenance. The A2-03 additions are project-authored and remain bounded to the in-repository adapter; no historical data was copied.",
       "authoredBatches": [
+        {
+          "issue": "#165",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored Polish past forms for the copular state lexeme; no external lexical entry copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "A1-ENPL-05: positive past state predication copula forms. Language package: data/pl.json."
+        },
         {
           "issue": "#43",
           "author": "flexLingua project contributors",

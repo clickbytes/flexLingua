@@ -1392,8 +1392,10 @@
   "states": {
     "negator": "nie",
     "supportedTenses": [
-      "present"
+      "present",
+      "past"
     ],
+    "pastPredication": "positive_statement",
     "verbs": {
       "grammar.state_copula": [
         "predication",

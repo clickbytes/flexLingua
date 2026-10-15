@@ -45,7 +45,12 @@ const STATE_FORM_CELLS = Object.freeze([
   {path:'forms.past.thirdSingular',tense:'past',person:'third',number:'singular'},
   {path:'forms.past.firstPlural',tense:'past',person:'first',number:'plural'},
   {path:'forms.past.secondPlural',tense:'past',person:'second',number:'plural'},
-  {path:'forms.past.thirdPlural',tense:'past',person:'third',number:'plural'}
+  {path:'forms.past.thirdPlural',tense:'past',person:'third',number:'plural'},
+  {path:'forms.past.singular.masculine',tense:'past',person:'third',number:'singular',gender:'masculine'},
+  {path:'forms.past.singular.feminine',tense:'past',person:'third',number:'singular',gender:'feminine'},
+  {path:'forms.past.singular.neuter',tense:'past',person:'third',number:'singular',gender:'neuter'},
+  {path:'forms.past.plural.virile',tense:'past',person:'third',number:'plural',pluralClass:'virile'},
+  {path:'forms.past.plural.nonvirile',tense:'past',person:'third',number:'plural',pluralClass:'nonvirile'}
 ]);
 const MODAL_AGREEMENT_KEYS = [
   'firstSingular','secondSingular','thirdSingular',
@@ -504,6 +509,7 @@ function validateGrammar(dictionary, grammar) {
   const states = grammar.states;
   if (!record(states) ||
       Object.keys(states).some(key => !['negator','supportedTenses','supportedPolarities','verbs','frames',
+        'pastPredication',
         'unsupportedVerbs','negativeStrategies'].includes(key)) ||
       !['negator','supportedTenses','verbs','frames'].every(key => hasOwn(states,key)) ||
       !/^[\p{L}]+$/u.test(states.negator || '') ||
@@ -520,6 +526,10 @@ function validateGrammar(dictionary, grammar) {
           !['preverbal','postverbal','do-support'].includes(strategy)))) ||
       (states.unsupportedVerbs !== undefined && !Array.isArray(states.unsupportedVerbs))) {
     throw new Error('Invalid state grammar configuration.');
+  }
+  if(states.pastPredication!==undefined && (states.pastPredication!=='positive_statement' ||
+      !states.supportedTenses.includes('past') || !hasOwn(states.frames,'predication'))) {
+    throw new Error('Invalid past predication state contract.');
   }
   const configuredFunctions = Object.keys(states.verbs);
   const actualFunctions = [...new Set(stateSenses.map(sense => sense.coreRef.id))].sort();
@@ -729,13 +739,18 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
         text:form.text, features:form.features
       }))
       : STATE_FORM_CELLS.flatMap(cell => formsAt(lexeme,cell.path).map(form => ({
-        text:form.text, features:{tense:cell.tense,person:cell.person,number:cell.number}
+        text:form.text, features:{tense:cell.tense,person:cell.person,number:cell.number,
+          ...(cell.gender?{gender:cell.gender}:{}),
+          ...(cell.pluralClass?{pluralClass:cell.pluralClass}:{})}
       })));
     return cells.filter(form => stateGrammar.supportedTenses.includes(form.features?.tense))
-      .flatMap(form => kinds.map(kind => ({
+      .flatMap(form => kinds.filter(kind=>!(stateGrammar.pastPredication==='positive_statement' &&
+        form.features.tense==='past' && kind!=='predication')).map(kind => ({
         kind, lexeme, text:form.text, features:form.features,
         rule:{tense:form.features.tense,polarity:'positive',prefix:[],when:{
-          'subject.person':form.features.person,'subject.number':form.features.number
+          'subject.person':form.features.person,'subject.number':form.features.number,
+          ...(form.features.gender?{'subject.gender':form.features.gender}:{}),
+          ...(form.features.pluralClass?{'subject.pluralClass':form.features.pluralClass}:{})
         }}
       })));
   }) : [];
@@ -851,6 +866,8 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     const readings = new Map();
     for (const base of entries) {
       const frame = stateGrammar.frames[base.kind];
+      if(stateGrammar.pastPredication==='positive_statement' && base.features.tense==='past' &&
+          (base.kind!=='predication' || options.question))continue;
       if(options.gap && (base.kind!=='location' || options.gap!=='location'))continue;
       const linearizations=frame.linearizations.flatMap(sequence=>{
         if(frame.existentialMarker && sequence.includes('@'+frame.existentialMarker) &&
@@ -866,6 +883,8 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
         return [sequence,sequence.filter(step=>step!==frame.subjectRole)];
       });
       for (const polarity of polarities) {
+        if(stateGrammar.pastPredication==='positive_statement' && base.features.tense==='past' &&
+            polarity!=='positive')continue;
         const negativeStrategy=stateGrammar.negativeStrategies?.[base.kind]||'preverbal';
         if(polarity==='negative'&&negativeStrategy==='do-support'&&!options.doSupport)continue;
         const postverbal=polarity==='negative'&&negativeStrategy==='postverbal';
@@ -1624,7 +1643,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     add(parseFrontedPrepositionTheme(tokens,counter),'wh','theme');
     if(mode==='prefix' && tokens[0]===normalizedWord(questions.yesNo.marker)) {
       add(parseStateCandidates(tokens.slice(1),questionBudget(counter),{
-        polarities:['positive']}),'yes_no');
+        polarities:['positive'],question:true}),'yes_no');
       add(parseClause(tokens.slice(1),null,null,0,questionBudget(counter)),'yes_no');
     } else if(mode==='auxiliary' && Object.values(questions.yesNo.auxiliaries)
         .some(word=>tokens[0]===normalizedWord(word))) {
@@ -1924,9 +1943,19 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     const subject=meaning.roles[frame.subjectRole];
     const person=isDeicticReferent(subject)?subject.agreement.person:GRAMMATICAL_PERSON.third;
     const number=isDeicticReferent(subject)?subject.agreement.number:subject.features.number;
+    if(stateGrammar.pastPredication==='positive_statement' && meaning.features.tense==='past') {
+      if(meaning.kind!=='predication') {
+        throw new Error(`No ${dictionary.language} state verb form supports past.`);
+      }
+      if(polarity!=='positive')throw new Error(`Unsupported ${dictionary.language} past state polarity.`);
+    }
+    const subjectNoun=isDeicticReferent(subject)?null:nounByConcept(subject.concept);
+    const subjectContext={subject:{person,number,
+      ...(subjectNoun?.gender?{gender:subjectNoun.gender}:{}),
+      ...(subjectNoun?.pluralClass?{pluralClass:subjectNoun.pluralClass}:{})}};
     const verb=stateVerbForms.find(entry=>entry.kind===meaning.kind&&
       entry.features.tense===meaning.features.tense&&entry.features.person===person&&
-      entry.features.number===number);
+      entry.features.number===number&&matchesConditions(subjectContext,entry.rule.when));
     if(!verb)throw new Error(`No ${dictionary.language} state verb form supports ${meaning.kind}, ${person}, ${number}.`);
     if(dictionary.language==='en'&&polarity==='negative'&&meaning.features.tense!=='present') {
       throw new Error(`Unsupported ${dictionary.language} state polarity.`);
@@ -1937,7 +1966,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
         if(meaning.kind!=='predication') {
           throw new Error(`Unsupported ${dictionary.language} state predicate subject.`);
         }
-        const noun=isDeicticReferent(subject)?null:nounByConcept(subject.concept);
+        const noun=subjectNoun;
         const context={number:isDeicticReferent(subject)
           ?subject.agreement.number:subject.features.number,case:frame.predicateCase,
           ...(noun?.gender?{gender:noun.gender}:{}),
@@ -2377,6 +2406,10 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
         warnings:[],alternatives:[]};
     }
     if(question.questionType==='yes_no'&&questions.yesNo.mode==='prefix') {
+      if(stateGrammar.pastPredication==='positive_statement' &&
+          clause.features?.tense==='past') {
+        throw new Error(`Unsupported ${dictionary.language} past state question.`);
+      }
       const rendered=realize(clause);
       const lower=rendered.text.charAt(0).toLocaleLowerCase(grammar.language)+rendered.text.slice(1);
       const text=sentenceText([questions.yesNo.marker+' '+lower.replace(/[.]$/u,'')],'?');

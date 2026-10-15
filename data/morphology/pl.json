@@ -2555,6 +2555,76 @@
             "present",
             "thirdPlural"
           ]
+        },
+        {
+          "features": {
+            "tense": "past",
+            "person": "third",
+            "number": "singular",
+            "gender": "masculine"
+          },
+          "steps": [],
+          "path": [
+            "past",
+            "singular",
+            "masculine"
+          ]
+        },
+        {
+          "features": {
+            "tense": "past",
+            "person": "third",
+            "number": "singular",
+            "gender": "feminine"
+          },
+          "steps": [],
+          "path": [
+            "past",
+            "singular",
+            "feminine"
+          ]
+        },
+        {
+          "features": {
+            "tense": "past",
+            "person": "third",
+            "number": "singular",
+            "gender": "neuter"
+          },
+          "steps": [],
+          "path": [
+            "past",
+            "singular",
+            "neuter"
+          ]
+        },
+        {
+          "features": {
+            "tense": "past",
+            "person": "third",
+            "number": "plural",
+            "pluralClass": "virile"
+          },
+          "steps": [],
+          "path": [
+            "past",
+            "plural",
+            "virile"
+          ]
+        },
+        {
+          "features": {
+            "tense": "past",
+            "person": "third",
+            "number": "plural",
+            "pluralClass": "nonvirile"
+          },
+          "steps": [],
+          "path": [
+            "past",
+            "plural",
+            "nonvirile"
+          ]
         }
       ]
     },
@@ -4757,7 +4827,68 @@
         "thirdSingular": "jest",
         "thirdPlural": "są"
       },
-      "overrides": []
+      "overrides": [
+        {
+          "when": {
+            "tense": "past",
+            "person": "third",
+            "number": "singular",
+            "gender": "masculine"
+          },
+          "mode": "replace",
+          "forms": [
+            {"text": "był"}
+          ]
+        },
+        {
+          "when": {
+            "tense": "past",
+            "person": "third",
+            "number": "singular",
+            "gender": "feminine"
+          },
+          "mode": "replace",
+          "forms": [
+            {"text": "była"}
+          ]
+        },
+        {
+          "when": {
+            "tense": "past",
+            "person": "third",
+            "number": "singular",
+            "gender": "neuter"
+          },
+          "mode": "replace",
+          "forms": [
+            {"text": "było"}
+          ]
+        },
+        {
+          "when": {
+            "tense": "past",
+            "person": "third",
+            "number": "plural",
+            "pluralClass": "virile"
+          },
+          "mode": "replace",
+          "forms": [
+            {"text": "byli"}
+          ]
+        },
+        {
+          "when": {
+            "tense": "past",
+            "person": "third",
+            "number": "plural",
+            "pluralClass": "nonvirile"
+          },
+          "mode": "replace",
+          "forms": [
+            {"text": "były"}
+          ]
+        }
+      ]
     },
     {
       "lexemeId": "pl.miec.1",
