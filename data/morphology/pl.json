@@ -2373,23 +2373,251 @@
     "pl.verb.state_copula": {
       "pos": "VERB",
       "slots": [
-        {"features":{"tense":"present","person":"first","number":"singular"},"steps":[{"op":"selectStem","key":"personalStem"},{"op":"append","value":"m"}],"path":["present","firstSingular"]},
-        {"features":{"tense":"present","person":"second","number":"singular"},"steps":[{"op":"selectStem","key":"personalStem"},{"op":"append","value":"ś"}],"path":["present","secondSingular"]},
-        {"features":{"tense":"present","person":"third","number":"singular"},"steps":[{"op":"selectStem","key":"thirdSingular"}],"path":["present","thirdSingular"]},
-        {"features":{"tense":"present","person":"first","number":"plural"},"steps":[{"op":"selectStem","key":"personalStem"},{"op":"append","value":"śmy"}],"path":["present","firstPlural"]},
-        {"features":{"tense":"present","person":"second","number":"plural"},"steps":[{"op":"selectStem","key":"personalStem"},{"op":"append","value":"ście"}],"path":["present","secondPlural"]},
-        {"features":{"tense":"present","person":"third","number":"plural"},"steps":[{"op":"selectStem","key":"thirdPlural"}],"path":["present","thirdPlural"]}
+        {
+          "features": {
+            "tense": "present",
+            "person": "first",
+            "number": "singular"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "personalStem"
+            },
+            {
+              "op": "append",
+              "value": "m"
+            }
+          ],
+          "path": [
+            "present",
+            "firstSingular"
+          ]
+        },
+        {
+          "features": {
+            "tense": "present",
+            "person": "second",
+            "number": "singular"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "personalStem"
+            },
+            {
+              "op": "append",
+              "value": "ś"
+            }
+          ],
+          "path": [
+            "present",
+            "secondSingular"
+          ]
+        },
+        {
+          "features": {
+            "tense": "present",
+            "person": "third",
+            "number": "singular"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "thirdSingular"
+            }
+          ],
+          "path": [
+            "present",
+            "thirdSingular"
+          ]
+        },
+        {
+          "features": {
+            "tense": "present",
+            "person": "first",
+            "number": "plural"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "personalStem"
+            },
+            {
+              "op": "append",
+              "value": "śmy"
+            }
+          ],
+          "path": [
+            "present",
+            "firstPlural"
+          ]
+        },
+        {
+          "features": {
+            "tense": "present",
+            "person": "second",
+            "number": "plural"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "personalStem"
+            },
+            {
+              "op": "append",
+              "value": "ście"
+            }
+          ],
+          "path": [
+            "present",
+            "secondPlural"
+          ]
+        },
+        {
+          "features": {
+            "tense": "present",
+            "person": "third",
+            "number": "plural"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "thirdPlural"
+            }
+          ],
+          "path": [
+            "present",
+            "thirdPlural"
+          ]
+        }
       ]
     },
     "pl.verb.state_possession": {
       "pos": "VERB",
       "slots": [
-        {"features":{"tense":"present","person":"first","number":"singular"},"steps":[{"op":"selectStem","key":"personalStem"},{"op":"append","value":"m"}],"path":["present","firstSingular"]},
-        {"features":{"tense":"present","person":"second","number":"singular"},"steps":[{"op":"selectStem","key":"personalStem"},{"op":"append","value":"sz"}],"path":["present","secondSingular"]},
-        {"features":{"tense":"present","person":"third","number":"singular"},"steps":[{"op":"selectStem","key":"personalStem"}],"path":["present","thirdSingular"]},
-        {"features":{"tense":"present","person":"first","number":"plural"},"steps":[{"op":"selectStem","key":"personalStem"},{"op":"append","value":"my"}],"path":["present","firstPlural"]},
-        {"features":{"tense":"present","person":"second","number":"plural"},"steps":[{"op":"selectStem","key":"personalStem"},{"op":"append","value":"cie"}],"path":["present","secondPlural"]},
-        {"features":{"tense":"present","person":"third","number":"plural"},"steps":[{"op":"selectStem","key":"personalStem"},{"op":"append","value":"ją"}],"path":["present","thirdPlural"]}
+        {
+          "features": {
+            "tense": "present",
+            "person": "first",
+            "number": "singular"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "personalStem"
+            },
+            {
+              "op": "append",
+              "value": "m"
+            }
+          ],
+          "path": [
+            "present",
+            "firstSingular"
+          ]
+        },
+        {
+          "features": {
+            "tense": "present",
+            "person": "second",
+            "number": "singular"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "personalStem"
+            },
+            {
+              "op": "append",
+              "value": "sz"
+            }
+          ],
+          "path": [
+            "present",
+            "secondSingular"
+          ]
+        },
+        {
+          "features": {
+            "tense": "present",
+            "person": "third",
+            "number": "singular"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "personalStem"
+            }
+          ],
+          "path": [
+            "present",
+            "thirdSingular"
+          ]
+        },
+        {
+          "features": {
+            "tense": "present",
+            "person": "first",
+            "number": "plural"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "personalStem"
+            },
+            {
+              "op": "append",
+              "value": "my"
+            }
+          ],
+          "path": [
+            "present",
+            "firstPlural"
+          ]
+        },
+        {
+          "features": {
+            "tense": "present",
+            "person": "second",
+            "number": "plural"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "personalStem"
+            },
+            {
+              "op": "append",
+              "value": "cie"
+            }
+          ],
+          "path": [
+            "present",
+            "secondPlural"
+          ]
+        },
+        {
+          "features": {
+            "tense": "present",
+            "person": "third",
+            "number": "plural"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "personalStem"
+            },
+            {
+              "op": "append",
+              "value": "ją"
+            }
+          ],
+          "path": [
+            "present",
+            "thirdPlural"
+          ]
+        }
       ]
     }
   },
@@ -4293,14 +4521,2893 @@
     {
       "lexemeId": "pl.byc.1",
       "paradigmId": "pl.verb.state_copula",
-      "stems": {"base":"być","personalStem":"jeste","thirdSingular":"jest","thirdPlural":"są"},
+      "stems": {
+        "base": "być",
+        "personalStem": "jeste",
+        "thirdSingular": "jest",
+        "thirdPlural": "są"
+      },
       "overrides": []
     },
     {
       "lexemeId": "pl.miec.1",
       "paradigmId": "pl.verb.state_possession",
-      "stems": {"base":"mieć","personalStem":"ma"},
+      "stems": {
+        "base": "mieć",
+        "personalStem": "ma"
+      },
       "overrides": []
+    },
+    {
+      "lexemeId": "pl.babcia.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "babci",
+        "lemma": "babcia"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "babci"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "babci"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "babci"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "babciu"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "babcie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "babć"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "babcie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "babcie"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.dziadek.1",
+      "paradigmId": "pl.noun.masc_animate",
+      "stems": {
+        "base": "dziadek",
+        "lemma": "dziadek"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "dziadka"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "dziadkowi"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "dziadka"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "inst"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "dziadkiem"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "dziadku"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "dziadku"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "dziadkowie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "dziadków"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "dziadkom"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "dziadków"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "inst"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "dziadkami"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "dziadkach"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "dziadkowie"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.ciocia.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "cioci",
+        "lemma": "ciocia"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "cioci"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "cioci"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "cioci"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ciociu"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ciocie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ciocie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ciocie"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.wujek.1",
+      "paradigmId": "pl.noun.masc_animate",
+      "stems": {
+        "base": "wujek",
+        "lemma": "wujek"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "wujka"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "wujkowi"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "wujka"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "inst"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "wujkiem"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "wujku"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "wujku"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "wujkowie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "wujków"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "wujkom"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "wujków"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "inst"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "wujkami"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "wujkach"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "wujkowie"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.kuzyn.1",
+      "paradigmId": "pl.noun.masc_animate",
+      "stems": {
+        "base": "kuzyn",
+        "lemma": "kuzyn"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kuzyni"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kuzynów"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kuzyni"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.syn.1",
+      "paradigmId": "pl.noun.masc_animate",
+      "stems": {
+        "base": "syn",
+        "lemma": "syn"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "synu"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "synu"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "synowie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "synów"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "synowie"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.corka.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "córk",
+        "lemma": "córka"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "córki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "córce"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "córce"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "córki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "córek"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "córki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "córki"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.nauczyciel.1",
+      "paradigmId": "pl.noun.masc_animate",
+      "stems": {
+        "base": "nauczyciel",
+        "lemma": "nauczyciel"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "nauczycielu"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "nauczycielu"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "nauczyciele"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "nauczycieli"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "nauczycieli"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "nauczyciele"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.student.1",
+      "paradigmId": "pl.noun.masc_animate",
+      "stems": {
+        "base": "student",
+        "lemma": "student"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "studencie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "studencie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "studenci"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "studentów"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "studenci"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.lekarz.1",
+      "paradigmId": "pl.noun.masc_animate",
+      "stems": {
+        "base": "lekarz",
+        "lemma": "lekarz"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lekarzu"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lekarzu"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lekarze"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lekarzy"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lekarze"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.przyjaciel.1",
+      "paradigmId": "pl.noun.masc_animate",
+      "stems": {
+        "base": "przyjaciel",
+        "lemma": "przyjaciel"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "przyjacielu"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "przyjacielu"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "przyjaciele"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "przyjaciół"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "przyjaciołom"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "przyjaciół"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "inst"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "przyjaciółmi"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "przyjaciołach"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "przyjaciele"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.sasiad.1",
+      "paradigmId": "pl.noun.masc_animate",
+      "stems": {
+        "base": "sąsiad",
+        "lemma": "sąsiad"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "sąsiedzie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "sąsiedzie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "sąsiedzi"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "sąsiadów"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "sąsiedzi"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.pokoj.1",
+      "paradigmId": "pl.noun.masc_inanimate_hard",
+      "stems": {
+        "base": "pokój",
+        "lemma": "pokój"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "pokoju"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "pokojowi"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "inst"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "pokojem"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "pokoju"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "pokoju"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "pokoje"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "pokoi"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "pokojom"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "pokoje"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "inst"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "pokojami"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "pokojach"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "pokoje"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.kuchnia.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "kuchni",
+        "lemma": "kuchnia"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kuchni"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kuchni"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kuchni"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kuchnie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kuchnie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kuchnie"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.sklep.1",
+      "paradigmId": "pl.noun.masc_inanimate_hard",
+      "stems": {
+        "base": "sklep",
+        "lemma": "sklep"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.dworzec.1",
+      "paradigmId": "pl.noun.masc_inanimate_hard",
+      "stems": {
+        "base": "dworzec",
+        "lemma": "dworzec"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "dworca"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "dworcowi"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "inst"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "dworcem"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "dworcu"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "dworcu"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "dworce"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "dworców"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "dworcom"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "dworce"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "inst"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "dworcami"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "dworcach"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "dworce"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.park.1",
+      "paradigmId": "pl.noun.masc_inanimate_hard",
+      "stems": {
+        "base": "park",
+        "lemma": "park"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "inst"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "parkiem"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "parku"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "parku"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "parki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "parki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "parki"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.szpital.1",
+      "paradigmId": "pl.noun.masc_inanimate_hard",
+      "stems": {
+        "base": "szpital",
+        "lemma": "szpital"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "szpitala"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "szpitalu"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "szpitalu"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "szpitale"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "szpitali"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "szpitale"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "szpitale"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.biuro.1",
+      "paradigmId": "pl.noun.neuter_o_plain",
+      "stems": {
+        "base": "biuro",
+        "lemma": "biuro"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "biura"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "biuru"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "inst"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "biurem"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "biurze"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "biura"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "biur"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "biurom"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "biura"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "inst"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "biurami"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "biurach"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "biura"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.biblioteka.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "bibliotek",
+        "lemma": "biblioteka"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "biblioteki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "bibliotece"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "bibliotece"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "biblioteki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "biblioteki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "biblioteki"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.krzeslo.1",
+      "paradigmId": "pl.noun.neuter_o_plain",
+      "stems": {
+        "base": "krzesło",
+        "lemma": "krzesło"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "krzesła"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "krzesłu"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "inst"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "krzesłem"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "krześle"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "krzesła"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "krzeseł"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "krzesłom"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "krzesła"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "inst"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "krzesłami"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "krzesłach"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "krzesła"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.klucz.1",
+      "paradigmId": "pl.noun.masc_inanimate_hard",
+      "stems": {
+        "base": "klucz",
+        "lemma": "klucz"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "klucza"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kluczu"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kluczu"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "klucze"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kluczy"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "klucze"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "klucze"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.kubek.1",
+      "paradigmId": "pl.noun.masc_inanimate_hard",
+      "stems": {
+        "base": "kubek",
+        "lemma": "kubek"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kubka"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kubkowi"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "inst"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kubkiem"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kubku"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kubku"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kubki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kubków"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kubkom"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kubki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "inst"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kubkami"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kubkach"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kubki"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.samochod.1",
+      "paradigmId": "pl.noun.masc_inanimate_hard",
+      "stems": {
+        "base": "samochód",
+        "lemma": "samochód"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "samochodu"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "samochodowi"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "inst"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "samochodem"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "samochodzie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "samochodzie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "samochody"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "samochodów"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "samochodom"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "samochody"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "inst"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "samochodami"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "samochodach"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "samochody"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.pilka.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "piłk",
+        "lemma": "piłka"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "piłki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "piłce"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "piłce"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "piłki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "piłek"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "piłki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "piłki"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.torba.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "torb",
+        "lemma": "torba"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "torbie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "torbie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "toreb"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.lozko.1",
+      "paradigmId": "pl.noun.neuter_o_plain",
+      "stems": {
+        "base": "łóżko",
+        "lemma": "łóżko"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "łóżka"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "łóżku"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "inst"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "łóżkiem"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "łóżku"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "łóżka"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "łóżek"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "łóżkom"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "łóżka"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "inst"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "łóżkami"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "łóżkach"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "łóżka"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.miska.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "misk",
+        "lemma": "miska"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "miski"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "misce"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "misce"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "miski"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "misek"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "miski"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "miski"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

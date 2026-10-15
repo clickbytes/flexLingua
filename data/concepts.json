@@ -446,6 +446,146 @@
         "agent": "person",
         "theme": "physical_object"
       }
+    },
+    "person.grandmother": {
+      "type": "entity",
+      "parent": "person",
+      "label": "grandmother"
+    },
+    "person.grandfather": {
+      "type": "entity",
+      "parent": "person",
+      "label": "grandfather"
+    },
+    "person.aunt": {
+      "type": "entity",
+      "parent": "person",
+      "label": "aunt"
+    },
+    "person.uncle": {
+      "type": "entity",
+      "parent": "person",
+      "label": "uncle"
+    },
+    "person.cousin": {
+      "type": "entity",
+      "parent": "person",
+      "label": "cousin"
+    },
+    "person.son": {
+      "type": "entity",
+      "parent": "person",
+      "label": "son"
+    },
+    "person.daughter": {
+      "type": "entity",
+      "parent": "person",
+      "label": "daughter"
+    },
+    "person.teacher": {
+      "type": "entity",
+      "parent": "person",
+      "label": "teacher"
+    },
+    "person.student": {
+      "type": "entity",
+      "parent": "person",
+      "label": "student"
+    },
+    "person.doctor": {
+      "type": "entity",
+      "parent": "person",
+      "label": "doctor"
+    },
+    "person.friend": {
+      "type": "entity",
+      "parent": "person",
+      "label": "friend"
+    },
+    "person.neighbor": {
+      "type": "entity",
+      "parent": "person",
+      "label": "neighbor"
+    },
+    "place.room": {
+      "type": "entity",
+      "parent": "place",
+      "label": "room"
+    },
+    "place.kitchen": {
+      "type": "entity",
+      "parent": "place",
+      "label": "kitchen"
+    },
+    "place.shop": {
+      "type": "entity",
+      "parent": "place",
+      "label": "shop"
+    },
+    "place.station": {
+      "type": "entity",
+      "parent": "place",
+      "label": "station"
+    },
+    "place.park": {
+      "type": "entity",
+      "parent": "place",
+      "label": "park"
+    },
+    "place.hospital": {
+      "type": "entity",
+      "parent": "place",
+      "label": "hospital"
+    },
+    "place.office": {
+      "type": "entity",
+      "parent": "place",
+      "label": "office"
+    },
+    "place.library": {
+      "type": "entity",
+      "parent": "place",
+      "label": "library"
+    },
+    "object.chair": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "chair"
+    },
+    "object.key": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "key"
+    },
+    "object.cup": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "cup"
+    },
+    "object.car": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "car"
+    },
+    "object.ball": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "ball"
+    },
+    "object.bag": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "bag"
+    },
+    "object.bed": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "bed"
+    },
+    "object.bowl": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "lamp"
     }
   },
   "relationTypes": {
@@ -463,25 +603,47 @@
   "stateFrameVersion": "1.1",
   "stateFrames": {
     "identity": {
-      "roles": ["subject", "complement"],
-      "roleTypes": {"subject": "entity", "complement": "entity"},
+      "roles": [
+        "subject",
+        "complement"
+      ],
+      "roleTypes": {
+        "subject": "entity",
+        "complement": "entity"
+      },
       "symmetric": true
     },
     "predication": {
-      "roles": ["subject"],
-      "roleTypes": {"subject": "entity"},
+      "roles": [
+        "subject"
+      ],
+      "roleTypes": {
+        "subject": "entity"
+      },
       "symmetric": false,
       "predicateType": "property",
       "predicateAppliesTo": "entity"
     },
     "possession": {
-      "roles": ["owner", "owned"],
-      "roleTypes": {"owner": "entity", "owned": "entity"},
+      "roles": [
+        "owner",
+        "owned"
+      ],
+      "roleTypes": {
+        "owner": "entity",
+        "owned": "entity"
+      },
       "symmetric": false
     },
     "location": {
-      "roles": ["subject", "location"],
-      "roleTypes": {"subject": "entity", "location": "entity"},
+      "roles": [
+        "subject",
+        "location"
+      ],
+      "roleTypes": {
+        "subject": "entity",
+        "location": "entity"
+      },
       "symmetric": false
     }
   },

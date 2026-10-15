@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-"reviewedAt": "2026-10-15",
+  "reviewedAt": "2026-10-15",
   "policy": "Every JSON data package is listed with its current version, source, authorship, license status and permitted use. New packages require a record. Legacy packages with incomplete attribution are explicitly blocked from redistribution pending review.",
   "packages": [
     {
@@ -8,20 +8,38 @@
       "version": "1.0",
       "status": "project-authored",
       "author": "flexLingua project contributors; individual concept authors are not recorded",
-      "source": "Original flexLingua CORE concept, operator and grammatical function inventory",
+      "source": "Original flexLingua CORE inventory, including the project-authored 28-concept LEX-01 batch; no external definition list was imported.",
       "license": "Project-authored; no separate SPDX license grant is declared in this repository",
-      "reviewedAt": "2026-10-14",
-      "permittedUse": "Used in flexLingua. No third-party lists or definitions are included. External reuse requires rights-holder review because this repository declares no separate data license."
+      "reviewedAt": "2026-10-15",
+      "permittedUse": "Used in flexLingua. No third-party lists or definitions are included. External reuse requires rights-holder review because this repository declares no separate data license.",
+      "authoredBatches": [
+        {
+          "issue": "#43",
+          "author": "flexLingua project contributors",
+          "source": "Original project-authored concepts, English/Polish lexical senses and productive noun morphology; no third-party lexicon or protected list was copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "28 new bilingual noun concepts covering family, people, places and objects."
+        }
+      ]
     },
     {
       "path": "data/en.json",
       "version": "1.0",
       "status": "project-authored",
       "author": "flexLingua project contributors; individual entry authors are not recorded",
-      "source": "Original project-maintained English lexical entries; entries are curated in-repository rather than bulk-imported",
+      "source": "Original project-maintained English lexical entries, including 28 project-authored LEX-01 senses curated in-repository rather than bulk-imported.",
       "license": "Project-authored; no separate SPDX license grant is declared in this repository",
-      "reviewedAt": "2026-10-14",
-      "permittedUse": "Used in flexLingua. No third-party dictionary definitions or protected Oxford lists are included. External reuse requires rights-holder review because this repository declares no separate data license."
+      "reviewedAt": "2026-10-15",
+      "permittedUse": "Used in flexLingua. No third-party dictionary definitions or protected Oxford lists are included. External reuse requires rights-holder review because this repository declares no separate data license.",
+      "authoredBatches": [
+        {
+          "issue": "#43",
+          "author": "flexLingua project contributors",
+          "source": "Original project-authored concepts, English/Polish lexical senses and productive noun morphology; no third-party lexicon or protected list was copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "28 new bilingual noun concepts covering family, people, places and objects."
+        }
+      ]
     },
     {
       "path": "data/features.json",
@@ -94,11 +112,20 @@
       "version": "1.11",
       "status": "legacy-review-required",
       "author": "Not attributed in the existing package metadata",
-      "source": "flexLingua curated forms, as declared in the package; per-form source is not recorded",
+      "source": "Historical flexLingua curated forms plus LEX-01 project-authored productive noun bindings. Historical entry attribution remains incomplete.",
       "license": "Project-authored label exists in package; rights and reuse terms are not specified",
-      "reviewedAt": "2026-10-14",
+      "reviewedAt": "2026-10-15",
       "permittedUse": "Existing in-repository execution only. Verify source and rights before reuse or export.",
-      "migrationNote": "Add verified author, version date and permitted-use terms to the package provenance."
+      "migrationNote": "Add verified author, version date and permitted-use terms to the package provenance.",
+      "authoredBatches": [
+        {
+          "issue": "#43",
+          "author": "flexLingua project contributors",
+          "source": "Original project-authored concepts, English/Polish lexical senses and productive noun morphology; no third-party lexicon or protected list was copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "28 new bilingual noun concepts covering family, people, places and objects."
+        }
+      ]
     },
     {
       "path": "data/morphology/features.json",
@@ -116,21 +143,39 @@
       "version": "1.11",
       "status": "legacy-review-required",
       "author": "Not attributed in the existing package metadata",
-      "source": "flexLingua curated forms, as declared in the package; per-form source is not recorded",
+      "source": "Historical flexLingua curated forms plus LEX-01 project-authored productive noun bindings and explicit irregular-cell overrides. Historical entry attribution remains incomplete.",
       "license": "Project-authored label exists in package; rights and reuse terms are not specified",
-      "reviewedAt": "2026-10-14",
+      "reviewedAt": "2026-10-15",
       "permittedUse": "Existing in-repository execution only. Verify source and rights before reuse or export.",
-      "migrationNote": "Add verified author, version date and permitted-use terms to the package provenance."
+      "migrationNote": "Add verified author, version date and permitted-use terms to the package provenance.",
+      "authoredBatches": [
+        {
+          "issue": "#43",
+          "author": "flexLingua project contributors",
+          "source": "Original project-authored concepts, English/Polish lexical senses and productive noun morphology; no third-party lexicon or protected list was copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "28 new bilingual noun concepts covering family, people, places and objects."
+        }
+      ]
     },
     {
       "path": "data/pl.json",
       "version": "1.0",
       "status": "project-authored",
       "author": "flexLingua project contributors; individual entry authors are not recorded",
-      "source": "Original project-maintained Polish lexical entries; entries are curated in-repository rather than bulk-imported",
+      "source": "Original project-maintained Polish lexical entries, including 28 project-authored LEX-01 senses and reviewed inflection cells; no external lexicon was imported.",
       "license": "Project-authored; no separate SPDX license grant is declared in this repository",
-      "reviewedAt": "2026-10-14",
-      "permittedUse": "Used in flexLingua. No third-party dictionary definitions or protected Oxford lists are included. External reuse requires rights-holder review because this repository declares no separate data license."
+      "reviewedAt": "2026-10-15",
+      "permittedUse": "Used in flexLingua. No third-party dictionary definitions or protected Oxford lists are included. External reuse requires rights-holder review because this repository declares no separate data license.",
+      "authoredBatches": [
+        {
+          "issue": "#43",
+          "author": "flexLingua project contributors",
+          "source": "Original project-authored concepts, English/Polish lexical senses and productive noun morphology; no third-party lexicon or protected list was copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "28 new bilingual noun concepts covering family, people, places and objects."
+        }
+      ]
     },
     {
       "path": "data/tr.json",

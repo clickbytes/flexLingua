@@ -113,64 +113,148 @@
       "pos": "VERB",
       "slots": [
         {
-          "features": {"tense":"present","person":"first","number":"singular"},
+          "features": {
+            "tense": "present",
+            "person": "first",
+            "number": "singular"
+          },
           "steps": [],
-          "path": ["present","firstSingular"]
+          "path": [
+            "present",
+            "firstSingular"
+          ]
         },
         {
-          "features": {"tense":"present","person":"second","number":"singular"},
+          "features": {
+            "tense": "present",
+            "person": "second",
+            "number": "singular"
+          },
           "steps": [],
-          "path": ["present","secondSingular"]
+          "path": [
+            "present",
+            "secondSingular"
+          ]
         },
         {
-          "features": {"tense":"present","person":"third","number":"singular"},
+          "features": {
+            "tense": "present",
+            "person": "third",
+            "number": "singular"
+          },
           "steps": [],
-          "path": ["present","thirdSingular"]
+          "path": [
+            "present",
+            "thirdSingular"
+          ]
         },
         {
-          "features": {"tense":"present","person":"first","number":"plural"},
+          "features": {
+            "tense": "present",
+            "person": "first",
+            "number": "plural"
+          },
           "steps": [],
-          "path": ["present","firstPlural"]
+          "path": [
+            "present",
+            "firstPlural"
+          ]
         },
         {
-          "features": {"tense":"present","person":"second","number":"plural"},
+          "features": {
+            "tense": "present",
+            "person": "second",
+            "number": "plural"
+          },
           "steps": [],
-          "path": ["present","secondPlural"]
+          "path": [
+            "present",
+            "secondPlural"
+          ]
         },
         {
-          "features": {"tense":"present","person":"third","number":"plural"},
+          "features": {
+            "tense": "present",
+            "person": "third",
+            "number": "plural"
+          },
           "steps": [],
-          "path": ["present","thirdPlural"]
+          "path": [
+            "present",
+            "thirdPlural"
+          ]
         },
         {
-          "features": {"tense":"past","person":"first","number":"singular"},
+          "features": {
+            "tense": "past",
+            "person": "first",
+            "number": "singular"
+          },
           "steps": [],
-          "path": ["past","firstSingular"]
+          "path": [
+            "past",
+            "firstSingular"
+          ]
         },
         {
-          "features": {"tense":"past","person":"second","number":"singular"},
+          "features": {
+            "tense": "past",
+            "person": "second",
+            "number": "singular"
+          },
           "steps": [],
-          "path": ["past","secondSingular"]
+          "path": [
+            "past",
+            "secondSingular"
+          ]
         },
         {
-          "features": {"tense":"past","person":"third","number":"singular"},
+          "features": {
+            "tense": "past",
+            "person": "third",
+            "number": "singular"
+          },
           "steps": [],
-          "path": ["past","thirdSingular"]
+          "path": [
+            "past",
+            "thirdSingular"
+          ]
         },
         {
-          "features": {"tense":"past","person":"first","number":"plural"},
+          "features": {
+            "tense": "past",
+            "person": "first",
+            "number": "plural"
+          },
           "steps": [],
-          "path": ["past","firstPlural"]
+          "path": [
+            "past",
+            "firstPlural"
+          ]
         },
         {
-          "features": {"tense":"past","person":"second","number":"plural"},
+          "features": {
+            "tense": "past",
+            "person": "second",
+            "number": "plural"
+          },
           "steps": [],
-          "path": ["past","secondPlural"]
+          "path": [
+            "past",
+            "secondPlural"
+          ]
         },
         {
-          "features": {"tense":"past","person":"third","number":"plural"},
+          "features": {
+            "tense": "past",
+            "person": "third",
+            "number": "plural"
+          },
           "steps": [],
-          "path": ["past","thirdPlural"]
+          "path": [
+            "past",
+            "thirdPlural"
+          ]
         }
       ]
     },
@@ -179,9 +263,13 @@
       "extends": "en.verb.state",
       "slots": [
         {
-          "features": {"mood":"indicative"},
+          "features": {
+            "mood": "indicative"
+          },
           "steps": [],
-          "path": ["base"]
+          "path": [
+            "base"
+          ]
         }
       ]
     },
@@ -754,111 +842,491 @@
     {
       "lexemeId": "en.be.state.1",
       "paradigmId": "en.verb.state",
-      "stems": {"base":"be"},
+      "stems": {
+        "base": "be"
+      },
       "overrides": [
         {
-          "when":{"person":"first","number":"singular","tense":"present"},
-          "mode":"replace",
-          "forms":[{"text":"am"}]
+          "when": {
+            "person": "first",
+            "number": "singular",
+            "tense": "present"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "am"
+            }
+          ]
         },
         {
-          "when":{"person":"second","number":"singular","tense":"present"},
-          "mode":"replace",
-          "forms":[{"text":"are"}]
+          "when": {
+            "person": "second",
+            "number": "singular",
+            "tense": "present"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "are"
+            }
+          ]
         },
         {
-          "when":{"person":"third","number":"singular","tense":"present"},
-          "mode":"replace",
-          "forms":[{"text":"is"}]
+          "when": {
+            "person": "third",
+            "number": "singular",
+            "tense": "present"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "is"
+            }
+          ]
         },
         {
-          "when":{"person":"first","number":"plural","tense":"present"},
-          "mode":"replace",
-          "forms":[{"text":"are"}]
+          "when": {
+            "person": "first",
+            "number": "plural",
+            "tense": "present"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "are"
+            }
+          ]
         },
         {
-          "when":{"person":"second","number":"plural","tense":"present"},
-          "mode":"replace",
-          "forms":[{"text":"are"}]
+          "when": {
+            "person": "second",
+            "number": "plural",
+            "tense": "present"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "are"
+            }
+          ]
         },
         {
-          "when":{"person":"third","number":"plural","tense":"present"},
-          "mode":"replace",
-          "forms":[{"text":"are"}]
+          "when": {
+            "person": "third",
+            "number": "plural",
+            "tense": "present"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "are"
+            }
+          ]
         },
         {
-          "when":{"person":"first","number":"singular","tense":"past"},
-          "mode":"replace",
-          "forms":[{"text":"was"}]
+          "when": {
+            "person": "first",
+            "number": "singular",
+            "tense": "past"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "was"
+            }
+          ]
         },
         {
-          "when":{"person":"second","number":"singular","tense":"past"},
-          "mode":"replace",
-          "forms":[{"text":"were"}]
+          "when": {
+            "person": "second",
+            "number": "singular",
+            "tense": "past"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "were"
+            }
+          ]
         },
         {
-          "when":{"person":"third","number":"singular","tense":"past"},
-          "mode":"replace",
-          "forms":[{"text":"was"}]
+          "when": {
+            "person": "third",
+            "number": "singular",
+            "tense": "past"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "was"
+            }
+          ]
         },
         {
-          "when":{"person":"first","number":"plural","tense":"past"},
-          "mode":"replace",
-          "forms":[{"text":"were"}]
+          "when": {
+            "person": "first",
+            "number": "plural",
+            "tense": "past"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "were"
+            }
+          ]
         },
         {
-          "when":{"person":"second","number":"plural","tense":"past"},
-          "mode":"replace",
-          "forms":[{"text":"were"}]
+          "when": {
+            "person": "second",
+            "number": "plural",
+            "tense": "past"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "were"
+            }
+          ]
         },
         {
-          "when":{"person":"third","number":"plural","tense":"past"},
-          "mode":"replace",
-          "forms":[{"text":"were"}]
+          "when": {
+            "person": "third",
+            "number": "plural",
+            "tense": "past"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "were"
+            }
+          ]
         }
       ]
     },
     {
       "lexemeId": "en.have.state.1",
       "paradigmId": "en.verb.state.base",
-      "stems": {"base":"have"},
+      "stems": {
+        "base": "have"
+      },
       "overrides": [
         {
-          "when":{"person":"third","number":"singular","tense":"present"},
-          "mode":"replace",
-          "forms":[{"text":"has"}]
+          "when": {
+            "person": "third",
+            "number": "singular",
+            "tense": "present"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "has"
+            }
+          ]
         },
         {
-          "when":{"person":"first","number":"singular","tense":"past"},
-          "mode":"replace",
-          "forms":[{"text":"had"}]
+          "when": {
+            "person": "first",
+            "number": "singular",
+            "tense": "past"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "had"
+            }
+          ]
         },
         {
-          "when":{"person":"second","number":"singular","tense":"past"},
-          "mode":"replace",
-          "forms":[{"text":"had"}]
+          "when": {
+            "person": "second",
+            "number": "singular",
+            "tense": "past"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "had"
+            }
+          ]
         },
         {
-          "when":{"person":"third","number":"singular","tense":"past"},
-          "mode":"replace",
-          "forms":[{"text":"had"}]
+          "when": {
+            "person": "third",
+            "number": "singular",
+            "tense": "past"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "had"
+            }
+          ]
         },
         {
-          "when":{"person":"first","number":"plural","tense":"past"},
-          "mode":"replace",
-          "forms":[{"text":"had"}]
+          "when": {
+            "person": "first",
+            "number": "plural",
+            "tense": "past"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "had"
+            }
+          ]
         },
         {
-          "when":{"person":"second","number":"plural","tense":"past"},
-          "mode":"replace",
-          "forms":[{"text":"had"}]
+          "when": {
+            "person": "second",
+            "number": "plural",
+            "tense": "past"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "had"
+            }
+          ]
         },
         {
-          "when":{"person":"third","number":"plural","tense":"past"},
-          "mode":"replace",
-          "forms":[{"text":"had"}]
+          "when": {
+            "person": "third",
+            "number": "plural",
+            "tense": "past"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "had"
+            }
+          ]
         }
       ]
+    },
+    {
+      "lexemeId": "en.grandmother.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "grandmother"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.grandfather.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "grandfather"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.aunt.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "aunt"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.uncle.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "uncle"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.cousin.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "cousin"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.son.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "son"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.daughter.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "daughter"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.teacher.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "teacher"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.student.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "student"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.doctor.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "doctor"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.friend.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "friend"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.neighbor.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "neighbor"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.room.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "room"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.kitchen.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "kitchen"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.shop.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "shop"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.station.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "station"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.park.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "park"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.hospital.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "hospital"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.office.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "office"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.library.1",
+      "paradigmId": "en.noun.consonant_y",
+      "stems": {
+        "base": "library"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.chair.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "chair"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.key.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "key"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.cup.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "cup"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.car.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "car"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.ball.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "ball"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.bag.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "bag"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.bed.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "bed"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.bowl.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "bowl"
+      },
+      "overrides": []
     }
   ]
 }
