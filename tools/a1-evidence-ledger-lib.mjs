@@ -58,6 +58,7 @@ export const EVIDENCE_SOURCES = Object.freeze([
  {id:'composition',fixture:'tests/fixtures/gold-a1-crossbatch.json',sha256:'dadf9698a7f572b059e1ec2b006d9314d31f844995df35701843b1775db0ce8d',classification:'regression',args:['--test','tests/a1-crossbatch-composition.test.js']},
  {id:'person',fixture:'tests/fixtures/gold-person-a1.json',sha256:'2b292bf3cbb7ec48c577cb7d1597a0bc7db48a84d5e8b02e3a33890479df61c9',classification:'regression',args:['--test','tests/a1-person-gold.test.js']},
  {id:'state',fixture:'tests/fixtures/gold-state-a1.json',sha256:'bb31fa232f550ef92c1dbdc1676349b66f059ed28249e995cbc5b161089ae64b',classification:'regression',args:['--test','tests/a1-state-gold.test.js']},
+ {id:'barebeverages',fixture:'tests/fixtures/gold-a1-bare-beverages.json',sha256:'4716ca1dc5b6d021a69dc0cba4d99222b2a904aa08bd399fa4219a36482be231',classification:'regression',args:['--test','tests/a1-bare-beverages.test.js']},
  {id:'spacetime',fixture:'tests/fixtures/gold-space-time-a1.json',sha256:'03a6ff2530977242b8becd6c9c18ae07b3a986e8d5508672980aea2f3ca17357',classification:'regression',args:['--test','tests/a1-space-time.test.js']},
  {id:'heldout',fixture:'data/coverage/a1-heldout-v1.json',sha256:'2913b8ea0451ee51b321342336a310f5d1f2b2743a8e6b22999ef7e818f3fee3',classification:'held-out',authorIndependent:false,args:['--test','tests/a1-heldout.test.js']}
 ]);

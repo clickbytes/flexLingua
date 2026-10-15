@@ -14,7 +14,7 @@ Maszynowym źródłem prawdy jest [`data/coverage/a1-targets.json`](../data/cove
 - `deferred` — rozpoznany kandydat odłożony poza ten zestaw.
 - `unsupported` — jawnie wykluczony z obsługi produktu; brak implementacji sam w sobie nie uzasadnia tego statusu.
 
-W tej wersji wszystkie 23 jednostki są `required`. Nie ma wpisów `deferred` ani `unsupported`, ponieważ backlog nie wskazuje zatwierdzonej listy odroczeń ani wykluczeń. Kandydatów można dodać dopiero z identyfikatorem, sensem CORE oraz jawnymi wymaganiami i lukami.
+W tej wersji wszystkie 24 jednostki są `required`: 16 pojęć i 8 konstrukcji. Nie ma wpisów `deferred` ani `unsupported`, ponieważ backlog nie wskazuje zatwierdzonej listy odroczeń ani wykluczeń. Kandydatów można dodać dopiero z identyfikatorem, sensem CORE oraz jawnymi wymaganiami i lukami.
 
 Wymagania dla każdego wymaganego celu:
 
@@ -35,7 +35,7 @@ Status wykonania w raporcie (`pilot-exercised`, `without-gold`, `missing-*` itd.
 | Miejsca | `structure.house`, `institution.school` | `required` |
 | Opisy | `quality.big`, `quality.small` | `required` |
 
-## Wymagane konstrukcje zdarzeniowe — 7
+## Wymagane konstrukcje zdarzeniowe — 8
 
 Każdy identyfikator zakresu `construction.event.*` wskazuje przez `coreRef` na niezależny sens zdarzenia w CORE. Jego mapowanie obejmuje leksykę, morfologię i ramę walencyjną obu języków.
 
@@ -48,6 +48,7 @@ Każdy identyfikator zakresu `construction.event.*` wskazuje przez `coreRef` na 
 | `construction.event.read` | `event.read` | `required` |
 | `construction.event.help` | `event.help` | `required` |
 | `construction.event.open` | `event.open` | `required` |
+| `construction.event.drink` | `event.drink` | `required` |
 
 ## Osobna macierz konstrukcji EN→PL
 
@@ -63,7 +64,8 @@ implementacyjny, a nie pełny zakres A1.
 | Predykacja klasowa: `This is a book.` | A1-ENPL-01 | Osobny kierunkowy węzeł CORE `classification`; nie używa `identity`. |
 | Sense `simple` „nieskomplikowany pod względem struktury, projektu lub użycia” | A1-ENPL-01 | Obsługiwany; nie utożsamia się z sensem „łatwy”. |
 | Przeczenie `be/have` i pytania yes/no dla predykacji/posiadania | A1-ENPL-02 | Obsługiwane w teraźniejszości; inne typy pytań i czasy pozostają poza zakresem. |
-| Niepoliczalne rzeczowniki bez rodzajnika, zaimki i konstrukcje egzystencjalne | A1-ENPL-03+ | Kandydaci do jawnego rozstrzygnięcia zakresu; brak deklaracji obsługi. |
+| Niepoliczalne napoje bez rodzajnika (`water`, `milk`, `coffee`, `tea`) jako dopełnienie `drink` | A1-ENPL-03 | Obsługiwane w EN→CORE→PL i PL→CORE→EN; ograniczone do jawnej listy napojów i ramy `drink`. Inne napoje, gołe NP poza tą ramą i gołe rzeczowniki policzalne pozostają odrzucane. |
+| Zaimki anaforyczne oraz konstrukcje egzystencjalne | A1-ENPL-04+ | Kandydaci do jawnego rozstrzygnięcia zakresu; brak deklaracji obsługi w tej macierzy. |
 | Czas przeszły w polskiej predykacji stanowej | A1-ENPL-03+ | Brak zadeklarowanej polskiej realizacji. |
 
 Statusy tej macierzy nie są wskaźnikiem opanowania CEFR. Każdy batch wymaga

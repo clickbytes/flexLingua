@@ -264,6 +264,7 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms }) 
           if(state.demonstrative)options.demonstrative=state.demonstrative;
           found.push({ value: participant(noun.concept, state.demonstrative?'definite':state.definiteness, number, options),
             noun, senseId: noun.senseId, next: at,
+            bare: !state.determinerChosen && !state.demonstrative && !state.quantifier,
             modifierSenses: state.lexemes.map(lex => lex.id),
             quantifierSense: state.quantifier?.id });
           return;
