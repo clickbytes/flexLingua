@@ -10,6 +10,7 @@ export const EVIDENCE_SOURCES = Object.freeze([
  {id:'composition',fixture:'tests/fixtures/gold-a1-crossbatch.json',sha256:'5ebb71fbebc14252ab87c1c8b9140544c6bd70f797401ec4bc0d770c01067443',classification:'regression',args:['--test','tests/a1-crossbatch-composition.test.js']},
  {id:'person',fixture:'tests/fixtures/gold-person-a1.json',sha256:'2b292bf3cbb7ec48c577cb7d1597a0bc7db48a84d5e8b02e3a33890479df61c9',classification:'regression',args:['--test','tests/a1-person-gold.test.js']},
  {id:'state',fixture:'tests/fixtures/gold-state-a1.json',sha256:'61ba671790dbe8dc029a533adb03aadbbcce03761b10bb99cb20ee2e0cbbdafa',classification:'regression',args:['--test','tests/a1-state-gold.test.js']},
+ {id:'spacetime',fixture:'tests/fixtures/gold-space-time-a1.json',sha256:'03a6ff2530977242b8becd6c9c18ae07b3a986e8d5508672980aea2f3ca17357',classification:'regression',args:['--test','tests/a1-space-time.test.js']},
  {id:'heldout',fixture:'data/coverage/a1-heldout-v1.json',sha256:'2913b8ea0451ee51b321342336a310f5d1f2b2743a8e6b22999ef7e818f3fee3',classification:'held-out',authorIndependent:false,args:['--test','tests/a1-heldout.test.js']}
 ]);
 
@@ -75,6 +76,19 @@ function extractRows(id,corpus) {
      ...corpus.plToEn.map(row=>({...row,from:'pl',to:'en'}))
    ];
    negative=corpus.unsupported;
+ }else if(id==='spacetime'){
+   if(!Array.isArray(corpus.pairs)||!Array.isArray(corpus.unsupported))
+     throw new Error('Malformed SPACE-06 gold fixture.');
+   positive=corpus.pairs.flatMap(pair=>{
+     if(!record(pair)||!word(pair.id)||!['direction','location','time','quantity'].includes(pair.category)||
+        !word(pair.en)||!word(pair.pl)||!record(pair.core))
+       throw new Error('Invalid SPACE-06 bilingual pair.');
+     return [
+       {id:pair.id+'-EN',from:'en',to:'pl',input:pair.en,expected:pair.pl,core:pair.core},
+       {id:pair.id+'-PL',from:'pl',to:'en',input:pair.pl,expected:pair.en,core:pair.core}
+     ];
+   });
+   negative=corpus.unsupported;
  }else{
    if(!Array.isArray(corpus.enToPl)||!Array.isArray(corpus.plToEn)||
       !Array.isArray(corpus.morphology)||!Array.isArray(corpus.invalid))
@@ -102,7 +116,10 @@ function explicitConcepts(row) {
  const concepts=[];
  if(row.core){
    if(!record(row.core))throw new Error('Invalid semantic gold signature');
-   if(['identity','predication','possession'].includes(row.core.kind)){
+   if(row.core.type==='state'){
+     for(const role of Object.values(row.core.roles||{}))
+       if(role?.concept)concepts.push(role.concept);
+   }else if(['identity','predication','possession'].includes(row.core.kind)){
      if(row.core.kind==='predication')concepts.push(row.core.predicate);
      for(const role of Object.values(row.core.roles||{}))
        if(role?.concept)concepts.push(role.concept);
