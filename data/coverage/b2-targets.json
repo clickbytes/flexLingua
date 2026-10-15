@@ -1,0 +1,14 @@
+{
+  "version":1,
+  "origin":"Project-authored bounded B2 development sample; not a CEFR specification or representative benchmark.",
+  "license":"project-authored",
+  "scope":{"completeness":"project-authored-subset","minimumCases":100,"caseCount":100,
+    "directionSplit":{"en->pl":50,"pl->en":50},"representativeCefrDenominator":null},
+  "targets":[
+    {"category":"passive","cases":20,"focus":"voice and agent omission"},
+    {"category":"conditionals","cases":20,"focus":"real if-then and otherwise scope"},
+    {"category":"event_relations","cases":20,"focus":"explicit typed causality versus sequence"},
+    {"category":"polysemy","cases":20,"focus":"retain multiple candidate senses"},
+    {"category":"phraseology","cases":20,"focus":"explicit refusal for unimplemented idioms"}
+  ]
+}

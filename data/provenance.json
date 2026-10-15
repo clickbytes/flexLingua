@@ -461,6 +461,26 @@
       "license": "Project-authored; no separate SPDX license grant is declared in this repository.",
       "reviewedAt": "2026-10-15",
       "permittedUse": "Used as an internal test scope in flexLingua. It is not a complete or representative CEFR benchmark; external reuse requires rights-holder review because this repository declares no separate data license."
+    },
+    {
+      "path": "data/coverage/b1-targets.json",
+      "version": 1,
+      "status": "project-authored",
+      "author": "flexLingua project contributors; individual case authors are not recorded",
+      "source": "Original project-authored bounded B1 target matrix and controlled template combinations; not copied from CEFR or third-party lists.",
+      "license": "Project-authored; no separate SPDX license grant is declared in this repository.",
+      "reviewedAt": "2026-10-15",
+      "permittedUse": "Internal finite B1 development sample only; not independently reviewed or representative of CEFR."
+    },
+    {
+      "path": "data/coverage/b2-targets.json",
+      "version": 1,
+      "status": "project-authored",
+      "author": "flexLingua project contributors; individual case authors are not recorded",
+      "source": "Original project-authored bounded B2 target matrix and controlled template combinations; not copied from CEFR or third-party lists.",
+      "license": "Project-authored; no separate SPDX license grant is declared in this repository.",
+      "reviewedAt": "2026-10-15",
+      "permittedUse": "Internal finite B2 development sample only; not independently reviewed or representative of CEFR."
     }
   ]
 }
