@@ -2,6 +2,7 @@ import { record, hasOwn, safeName } from '../features.js';
 import { createLexicon } from '../lexicon.js';
 import { createMorphFeatureRegistry, flattenMorphFeatures } from './features.js';
 import { executeOperations, validateOperations } from './operations.js';
+import {MORPHOLOGY_ADAPTER_CONTRACT_VERSION} from '../adapter-contract.js';
 
 const ID=/^[A-Za-z][A-Za-z0-9_]*(?:\.[A-Za-z0-9_]+)*$/u;
 const MAX_SLOTS=256,MAX_LEXEMES=30000,MAX_ANALYSES=64,MAX_COMPILED_FORMS=300000;
@@ -106,9 +107,21 @@ export function createMorphology(spec, dictionary, featureSpec, {core}={}) {
     bindings.set(item.lexemeId,Object.freeze({lexeme:lex,paradigmId:item.paradigmId,forms}));
   }
   const output=entry=>clone(entry);
-  return Object.freeze({language:spec.language,version:'1.11',registry,
+  return Object.freeze({language:spec.language,version:'1.11',
+    contractVersion:MORPHOLOGY_ADAPTER_CONTRACT_VERSION,registry,
     lexicon:lexical,paradigms:resolved,
     has:lexemeId=>bindings.has(lexemeId),
+    availability({lexemeId,features={},exact=true}={}){
+      const binding=bindings.get(lexemeId);
+      if(!binding)return {supported:false,reason:'unknown_lexeme'};
+      let query;
+      try{query=flattenMorphFeatures(features,registry);}
+      catch{return {supported:false,reason:'unsupported_feature'};}
+      const found=binding.forms.some(form=>matches(query,form.features)&&
+        (!exact||Object.keys(query).length===Object.keys(form.features).length));
+      return found?{supported:true,reason:null}:
+        {supported:false,reason:'missing_or_blocked_cell'};
+    },
     generate({lexemeId,features={},exact=true}){
       const binding=bindings.get(lexemeId);
       if(!binding)throw new Error(`Unsupported morphology lexeme: ${lexemeId}`);

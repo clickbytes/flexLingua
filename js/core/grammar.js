@@ -6,6 +6,7 @@ import { createNominalInterpreter } from './nominals.js';
 import { matchesTokens, sentenceText, tokenize } from './text.js';
 import {EngineError} from './errors.js';
 import {RESOURCE_LIMITS} from './resource-limits.js';
+import {LANGUAGE_ADAPTER_CONTRACT_VERSION} from './adapter-contract.js';
 import {
   record, hasOwn, safeName, unifyFeatures, featureSource, GRAMMATICAL_PERSON,
   matchesAgreement, matchesConditions
@@ -2419,7 +2420,8 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
   }
 
   return {
-    code: grammar.language, analyze, analyzeCandidates, realize, realizeState, realizeComparison, realizeRequest, realizeModal, validateOntology, lexicon,
+    code: grammar.language, contractVersion:LANGUAGE_ADAPTER_CONTRACT_VERSION,
+    analyze, analyzeCandidates, realize, realizeState, realizeComparison, realizeRequest, realizeModal, validateOntology, lexicon,
     analyzeQuestionCandidates:questions?analyzeQuestionCandidates:undefined,
     realizeQuestion:questions?realizeQuestion:undefined,
     parseComplementHeads, realizeComplement,

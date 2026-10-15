@@ -88,6 +88,11 @@ Nesting and candidate counts are deliberately bounded. Cross-sentence coreferenc
 
 `createRuleAdapter(lexiconJSON, grammarJSON)` implements `code`, `analyze`, `analyzeCandidates`, `realize`, `validateOntology`, `describe`, `parseComplementHeads` and `realizeComplement`. Most decisions are declarative. The shared JS interpreter implements syntax search, feature agreement, case selection and realization.
 
+Registration enforces [language adapter contract 1.0](adr/language-adapter.md).
+Morphology adapters expose `availability()`, and
+`engine.morphologyAvailability({language,lexemeId,features,exact?})` reports
+unsupported lexemes, features and paradigm cells without guessing a form.
+
 The grammar and lexicon schema is **v1.0** for EN, PL and TR. `data/features.json` stays on its own version (0.4), and the Interlingua nodes keep their individual serialization versions. Adding a new language does not require editing pairwise language translators, but it **does** require lexicon and grammar data, and must be tested for typological coverage.
 
 ## Supported constructions by adapter
