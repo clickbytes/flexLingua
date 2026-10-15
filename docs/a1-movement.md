@@ -8,6 +8,8 @@ Polish has a new `pl.isc.1` meaning mapping with a language-specific frame `[age
 
 `The father goes to school.` ↔ `Ojciec idzie do szkoły.` uses the destination subtype. The English grammar permits a bare noun only in this destination role (`go to school`); Polish realizes the destination with `do` plus genitive. An intransitive sentence such as `The father goes.` continues to use `event.movement` and has no inferred destination.
 
+Static location is represented separately as `state.location`: `Ojciec jest w domu.` ↔ `A father is in a house.` The CORE relation preserves interior (`w`/`in`), surface (`na`/`on`), or point (`przy`/`at`) readings. Polish location phrases use the locative case. The grammar is a finite preposition list, not a general case government model; origins, routes and other locative prepositions remain unsupported.
+
 **Semantic limit:** English `go` is broader than Polish `iść`, which can imply going on foot. The shared movement meaning records no travel mode; the current bilingual mapping is a controlled approximation and does not assert that the person walks. Other destinations, modes and aspect distinctions remain outside this slice. Do not claim CEFR A1 has been completed.
 
 Historyczny blocker pełnego Node CI nie obowiązuje: po merge PR #89 bieżący `main` przeszedł wszystkie trzy jobs w [GitHub Actions #38631654117](https://github.com/clickbytes/flexLingua/actions/runs/38631654117). Aplikacja używa lokalnego HTTP; standalone bundle został wycofany.

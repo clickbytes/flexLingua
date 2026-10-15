@@ -81,6 +81,10 @@ export function createPossession(owner, owned, features = {}) {
   return createState('possession', {owner,owned}, features);
 }
 
+export function createLocation(subject, location, relation, features = {}) {
+  return { ...createState('location', {subject,location}, features), relation };
+}
+
 /** A referent may carry a bounded tree of language-independent properties and a quantifier. */
 export function participant(concept, definiteness = 'unknown', number = 'singular', options = {}) {
   const result = { concept, features: { number, definiteness } };
@@ -318,11 +322,13 @@ function validateEventShape(node, ontology, registry, qualifiedAllowed = true, c
 function validateStateShape(node, ontology, registry) {
   const frame = ontology?.stateFrames?.[node.kind];
   const hasPredicate = node.kind === 'predication';
+  const hasLocation = node.kind === 'location';
   const fields = hasPredicate ?
     ['version','type','kind','predicate','roles','features'] :
-    ['version','type','kind','roles','features'];
+    ['version','type','kind','roles','features',...(hasLocation?['relation']:[])];
   if (ontology?.stateFrameVersion !== STATE_FRAME_VERSION || !frame ||
-      node.version !== STATE_VERSION || !['identity','predication','possession'].includes(node.kind) ||
+      node.version !== STATE_VERSION || !['identity','predication','possession','location'].includes(node.kind) ||
+      (hasLocation && !['interior','surface','point'].includes(node.relation)) ||
       Object.keys(node).length !== fields.length || Object.keys(node).some(key => !fields.includes(key)) ||
       !record(node.roles) || Object.keys(node.roles).length !== frame.roles.length ||
       frame.roles.some(role => !hasOwn(node.roles,role)) ||

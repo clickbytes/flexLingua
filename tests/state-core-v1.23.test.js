@@ -31,6 +31,7 @@ test('STATE-01 exposes separate, typed identity, predication, and possession mea
   assert.equal(engine.capabilities().stateFrameVersion,STATE_FRAME_VERSION);
   assert.equal(engine.ontology.stateFrames.identity.symmetric,true);
   assert.equal(engine.ontology.stateFrames.possession.symmetric,false);
+  assert.equal(engine.ontology.stateFrames.location.roleTypes.location,'entity');
   assert.deepEqual(Object.keys(identity.roles).sort(),['complement','subject']);
   assert.equal(identity.roles.subject.concept,'person.girl');
   assert.equal(identity.roles.complement.concept,'person.girl');
