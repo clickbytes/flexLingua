@@ -1487,6 +1487,56 @@
           }
         }
       ]
+    },
+    {
+      "id": "en.pilot.1",
+      "lemma": "pilot",
+      "forms": {
+        "singular": "pilot",
+        "plural": "pilots"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.pilot.1.sense.person",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.pilot"
+          }
+        },
+        {
+          "id": "en.pilot.1.sense.device",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.remote_control"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.port.1",
+      "lemma": "port",
+      "forms": {
+        "singular": "port",
+        "plural": "ports"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.port.1.sense.harbor",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.harbor"
+          }
+        },
+        {
+          "id": "en.port.1.sense.wine",
+          "coreRef": {
+            "kind": "concept",
+            "id": "beverage.port_wine"
+          }
+        }
+      ]
     }
   ],
   "verbs": [

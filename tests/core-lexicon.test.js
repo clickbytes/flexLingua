@@ -2,19 +2,23 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { Engine } from '../js/core/engine.js';
+import { createMorphology } from '../js/core/morphology/engine.js';
 import { createRuleAdapter } from '../js/core/grammar.js';
 import { createCoreLanguage } from '../js/core/core-language.js';
 import { createLexicon, migrateLexicon } from '../js/core/lexicon.js';
 
 const load = async path => JSON.parse(await readFile(new URL(`../data/${path}`, import.meta.url),'utf8'));
-const [concepts,features,en,pl,tr,enGrammar,plGrammar,trGrammar] = await Promise.all([
+const [concepts,features,en,pl,tr,enGrammar,plGrammar,trGrammar,enMorphSpec,plMorphSpec,morphFeatures] = await Promise.all([
   'concepts.json','features.json','en.json','pl.json','tr.json',
-  'grammar/en.json','grammar/pl.json','grammar/tr.json'].map(load));
+  'grammar/en.json','grammar/pl.json','grammar/tr.json',
+  'morphology/en.json','morphology/pl.json','morphology/features.json'].map(load));
 const core = createCoreLanguage(concepts);
 const engine = new Engine(concepts,features)
   .registerLanguage(createRuleAdapter(en,enGrammar))
   .registerLanguage(createRuleAdapter(pl,plGrammar))
   .registerLanguage(createRuleAdapter(tr,trGrammar));
+engine.registerMorphology(createMorphology(enMorphSpec,en,morphFeatures,{core}));
+engine.registerMorphology(createMorphology(plMorphSpec,pl,morphFeatures,{core}));
 const copy = x => structuredClone(x);
 
 test('CORE exposes concepts, typed operators and grammatical functions', () => {
@@ -55,6 +59,66 @@ test('lexeme lookup is case-insensitive and returns stable distinct lexical sens
   assert.equal(engine.lookupLexemes({language:'en',lemma:'nonexistent'}).length,0);
   assert.equal(engine.lexemesForCore({language:'pl',coreRef:{kind:'concept',id:'animal.cat'}})[0].lemma,'kot');
   assert.equal(engine.lexemesForCore({language:'en',coreRef:{kind:'concept',id:'animal.dog'}}).length,2);
+});
+
+test('at least ten approved polysemous sense pairs remain distinct in CORE', () => {
+  let pairCount=0;
+  for(const data of [en,pl])for(const group of Object.values(data))if(Array.isArray(group)){
+    for(const lexeme of group.filter(entry=>Array.isArray(entry.senses)&&entry.senses.length>1)){
+      const coreIds=lexeme.senses.map(sense=>sense.coreRef.id);
+      const distinctMeanings=new Set(coreIds);
+      if(distinctMeanings.size>1){
+        assert.equal(distinctMeanings.size,coreIds.length,`${lexeme.id} meanings were merged`);
+        pairCount+=distinctMeanings.size*(distinctMeanings.size-1)/2;
+      }
+    }
+  }
+  assert.ok(pairCount>=10,`expected at least 10 distinct sense pairs, found ${pairCount}`);
+
+  const expected = {
+    pilot: ['person.pilot','object.remote_control'],
+    port: ['place.harbor','beverage.port_wine']
+  };
+  for (const [language,data,prefix] of [['en',en,'en'],['pl',pl,'pl']]) {
+    for (const [lemma,conceptIds] of Object.entries(expected)) {
+      const lexeme=engine.lookupLexemes({language,lemma})[0];
+      assert.ok(lexeme,`${language} ${lemma}`);
+      assert.deepEqual(lexeme.senses.map(sense=>sense.coreRef.id),conceptIds);
+      assert.equal(new Set(lexeme.senses.map(sense=>sense.id)).size,2);
+      assert.ok(lexeme.senses.every(sense=>sense.id.startsWith(`${prefix}.${lemma}.`)));
+    }
+  }
+  assert.deepEqual(engine.lookupLexemes({language:'en',lemma:'bank'})[0].senses.map(s=>s.coreRef.id),
+    ['place.financial_institution','place.riverbank']);
+  assert.deepEqual(engine.lookupLexemes({language:'en',lemma:'mouse'})[0].senses.map(s=>s.coreRef.id),
+    ['animal.mouse','device.computer_mouse']);
+});
+
+test('explicit topics rank polysemous readings while unsupported context preserves ambiguity', () => {
+  for (const [language,word,topic,preferred] of [
+    ['en','pilot','physical_object','object.remote_control'],
+    ['pl','pilota','physical_object','object.remote_control'],
+    ['en','port','beverage','beverage.port_wine'],
+    ['pl','portu','beverage','beverage.port_wine']
+  ]) {
+    const bare=engine.resolveWord({language,text:word});
+    assert.deepEqual(new Set(bare.map(reading=>reading.coreRef.id)),
+      new Set(preferred==='object.remote_control' ? ['person.pilot','object.remote_control'] :
+        ['place.harbor','beverage.port_wine']),
+      `${language} ${word} keeps both meanings without evidence`);
+    const ranked=engine.resolveWord({language,text:word,context:{topics:[topic]}});
+    assert.deepEqual(new Set(ranked.map(reading=>reading.coreRef.id)),
+      new Set(bare.map(reading=>reading.coreRef.id)),`${language} ${word} topic does not filter`);
+    assert.equal(ranked[0].coreRef.id,preferred,
+      `${language} ${word} explicit topic should change the preferred reading`);
+  }
+  const unqualified=engine.analyzeCandidates({text:'The girl sees the pilot.',from:'en'});
+  const meanings=new Set(unqualified.map(candidate=>candidate.interlingua.roles.theme.concept));
+  assert.deepEqual(meanings,new Set(['person.pilot','object.remote_control']));
+  const personContext=engine.analyzeCandidates({text:'The girl sees the pilot.',from:'en',
+    context:{topics:['person']}});
+  assert.equal(personContext[0].interlingua.roles.theme.concept,'person.pilot');
+  assert.ok(personContext.some(candidate=>candidate.interlingua.roles.theme.concept==='object.remote_control'));
 });
 
 test('grammatical function words and semantic operators have separate CORE references', () => {

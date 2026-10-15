@@ -1699,6 +1699,22 @@
         "base": "juice"
       },
       "overrides": []
+    },
+    {
+      "lexemeId": "en.pilot.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "pilot"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.port.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "port"
+      },
+      "overrides": []
     }
   ]
 }
