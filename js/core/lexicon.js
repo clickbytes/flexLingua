@@ -53,7 +53,7 @@ function normalizeSense(sense, category, lexeme, strict) {
       throw new Error(`Incompatible quantifier CORE mapping: ${sense.id}`);
     }
   } else if (category === 'modals') {
-    if (ref.kind !== 'operator' || !['modality.ability','modality.obligation'].includes(ref.id)) {
+    if (ref.kind !== 'operator' || !['modality.ability','modality.obligation','modality.intention'].includes(ref.id)) {
       throw new Error(`Invalid modality CORE mapping: ${sense.id}`);
     }
   } else if (category === 'functionWords') {

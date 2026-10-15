@@ -3169,6 +3169,29 @@
           }
         }
       ]
+    },
+    {
+      "id": "en.going_to.modal",
+      "lemma": "going to",
+      "forms": {
+        "positive": {
+          "firstSingular": "am going to",
+          "secondSingular": "are going to",
+          "thirdSingular": "is going to",
+          "firstPlural": "are going to",
+          "secondPlural": "are going to",
+          "thirdPlural": "are going to"
+        }
+      },
+      "senses": [
+        {
+          "id": "en.going_to.modal.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "modality.intention"
+          }
+        }
+      ]
     }
   ]
 }
