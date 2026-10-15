@@ -5,6 +5,7 @@ import {Engine} from '../js/core/engine.js';
 import {createMorphology, materializeInflections} from '../js/core/morphology/engine.js';
 import {createMorphFeatureRegistry,flattenMorphFeatures} from '../js/core/morphology/features.js';
 import {executeOperations} from '../js/core/morphology/operations.js';
+import {createCoreLanguage} from '../js/core/core-language.js';
 import {createEnglishAdapter} from '../js/languages/en.js';
 import {createPolishAdapter} from '../js/languages/pl.js';
 const load=async p=>JSON.parse(await readFile(new URL(`../data/${p}`,import.meta.url),'utf8'));
@@ -150,4 +151,99 @@ test('v1.11 pathological or unknown morphology input fails closed',()=>{
  assert.throws(()=>createMorphology(unbound,pl,features,{core:engine.core}),/lacks canonical CORE/);
  const unsafe=copy(plSpec);unsafe.paradigms['pl.noun.masc_animate'].slots[0].steps=[{op:'eval',value:'danger'}];
  assert.throws(()=>createMorphology(unsafe,pl,features,{core:engine.core}),/Unknown morphology operation/);
+});
+
+test('v1.12 Polish exception classes and English f/fe plurals cover 50 authored cells',()=>{
+ const fixtureOntology=copy(concepts);
+ Object.assign(fixtureOntology.concepts,{
+  'fixture.wife':{type:'entity',parent:'person',label:'wife'},
+  'fixture.knife':{type:'entity',parent:'physical_object',label:'knife'},
+  'fixture.wolf':{type:'entity',parent:'animal',label:'wolf'},
+  'fixture.leaf':{type:'entity',parent:'plant',label:'leaf'}
+ });
+ const fixtureCore=createCoreLanguage(fixtureOntology);
+ const plFixture=copy(pl),plFixtureSpec=copy(plSpec);
+ plFixture.nouns.push({id:'pl.stacja.1',lemma:'stacja',forms:{
+  singular:{nom:'stacja',gen:'stacji',dat:'stacji',acc:'stację',inst:'stacją',loc:'stacji',voc:'stacjo'},
+  plural:{nom:'stacje',gen:'stacji',dat:'stacjom',acc:'stacje',inst:'stacjami',loc:'stacjach',voc:'stacje'}
+ },senses:[{id:'pl.stacja.1.sense.1',coreRef:{kind:'concept',id:'place.station'}}]});
+ plFixtureSpec.bindings.push({lexemeId:'pl.stacja.1',paradigmId:'pl.noun.feminine_cja',
+  stems:{base:'stacj',lemma:'stacja'},overrides:[]});
+ const plFixtureMorph=createMorphology(plFixtureSpec,plFixture,features,{core:fixtureCore});
+ const enFixture=copy(en),enFixtureSpec=copy(enSpec);
+ const EnglishGold=[
+  ['wife','fixture.wife','en.noun.fe_to_ves','wives'],
+  ['knife','fixture.knife','en.noun.fe_to_ves','knives'],
+  ['wolf','fixture.wolf','en.noun.f_to_ves','wolves'],
+  ['leaf','fixture.leaf','en.noun.f_to_ves','leaves']
+ ];
+ for(const [lemma,concept] of EnglishGold){
+  const id=`en.fixture.${lemma}.1`;
+  enFixture.nouns.push({id,lemma,forms:{singular:lemma,plural:`${lemma}s`},senses:[{
+   id:`${id}.sense.1`,coreRef:{kind:'concept',id:concept}
+  }]});
+  enFixtureSpec.bindings.push({lexemeId:id,paradigmId:EnglishGold.find(row=>row[0]===lemma)[2],
+   stems:{base:lemma},overrides:[]});
+ }
+ const enFixtureMorph=createMorphology(enFixtureSpec,enFixture,features,{core:fixtureCore});
+ const cells=[];
+ const plGold=[
+  ['pl.lekcja.1',[
+   ['singular','nom','lekcja'],['singular','gen','lekcji'],['singular','dat','lekcji'],
+   ['singular','acc','lekcję'],['singular','inst','lekcją'],['singular','loc','lekcji'],
+   ['singular','voc','lekcjo'],['plural','nom','lekcje'],['plural','gen','lekcji'],
+   ['plural','dat','lekcjom'],['plural','acc','lekcje'],['plural','inst','lekcjami'],
+   ['plural','loc','lekcjach'],['plural','voc','lekcje']
+  ]],
+  ['pl.dziecko.1',[
+   ['singular','nom','dziecko'],['singular','gen','dziecka'],['singular','dat','dziecku'],
+   ['singular','acc','dziecko'],['singular','inst','dzieckiem'],['singular','loc','dziecku'],
+   ['singular','voc','dziecko'],['plural','nom','dzieci'],['plural','gen','dzieci'],
+   ['plural','dat','dzieciom'],['plural','acc','dzieci'],['plural','inst','dziećmi'],
+   ['plural','loc','dzieciach'],['plural','voc','dzieci']
+  ]],
+  ['pl.stacja.1',[
+   ['singular','nom','stacja'],['singular','gen','stacji'],['singular','dat','stacji'],
+   ['singular','acc','stację'],['singular','inst','stacją'],['singular','loc','stacji'],
+   ['singular','voc','stacjo'],['plural','nom','stacje'],['plural','gen','stacji'],
+   ['plural','dat','stacjom'],['plural','acc','stacje'],['plural','inst','stacjami'],
+   ['plural','loc','stacjach'],['plural','voc','stacje']
+  ]]
+ ];
+ for(const [lexemeId,rows] of plGold)for(const [number,gramCase,text] of rows){
+  cells.push({language:'pl',lexemeId,features:{number,case:gramCase},text,morph:plFixtureMorph});
+ }
+ for(const [lemma,,paradigmId,plural] of EnglishGold){
+  const lexemeId=`en.fixture.${lemma}.1`;
+  cells.push({language:'en',lexemeId,features:{number:'singular'},text:lemma,morph:enFixtureMorph});
+  cells.push({language:'en',lexemeId,features:{number:'plural'},text:plural,morph:enFixtureMorph});
+  assert.equal(enFixtureSpec.bindings.find(b=>b.lexemeId===lexemeId).paradigmId,paradigmId);
+ }
+ assert.equal(cells.length,50);
+ assert.equal(plFixtureMorph.paradigms.get('pl.noun.feminine_cja').slots.size,14);
+ assert.equal(plFixtureMorph.paradigms.get('pl.noun.neuter_irregular_plural').slots.size,14);
+ for(const {lexemeId,features:cell,text,morph} of cells){
+  const generated=morph.generate({lexemeId,features:cell});
+  assert.deepEqual(generated.map(form=>form.text),[text],`${lexemeId} ${JSON.stringify(cell)}`);
+  assert.ok(morph.analyze({text}).some(form=>form.lexemeId===lexemeId&&
+   JSON.stringify(form.features)===JSON.stringify(cell)),`${lexemeId} inverse ${text}`);
+ }
+ const exception=plFixtureMorph.generate({lexemeId:'pl.lekcja.1',features:{number:'plural',case:'nom'}})[0];
+ assert.equal(exception.source,'rule');
+ assert.deepEqual(generation('pl','pl.kot.1',{number:'plural',case:'nom'}),['koty']);
+ assert.deepEqual(enFixtureMorph.generate({lexemeId:'en.fox.1',features:{number:'plural'}}).map(x=>x.text),['foxes']);
+});
+
+test('v1.12 legacy assertion preserves original form tables and catches a mutated class',()=>{
+ const before=copy(pl);
+ const materialized=materializeInflections(pl,plMorph,{assertLegacy:true});
+ assert.deepEqual(pl,before);
+ assert.deepEqual(pl.nouns.find(x=>x.id==='pl.dziecko.1').forms,{});
+ assert.equal(materialized.nouns.find(x=>x.id==='pl.dziecko.1').forms.plural.inst,'dziećmi');
+ const changed=copy(plSpec);
+ const slot=changed.paradigms['pl.noun.feminine_cja'].slots.find(x=>
+  x.features.number==='singular'&&x.features.case==='gen');
+ slot.steps[0].value='u';
+ const broken=createMorphology(changed,pl,features,{core:engine.core});
+ assert.throws(()=>materializeInflections(pl,broken,{assertLegacy:true}),/Legacy form discrepancy for pl.lekcja.1/);
 });

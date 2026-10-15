@@ -66,6 +66,18 @@ test('v1.11 coverage reports exactly what is bound, not arbitrary word counts',(
  assert.ok(report.missingLexemes.includes('pl.kot.1'));
 });
 
+test('v1.12 compiled tables retain the Polish exception classes and inverse cells',()=>{
+ const compiled=compileMorphology(morphPL);
+ const child=compiled.readings.filter(row=>row.lexemeId==='pl.dziecko.1');
+ const lesson=compiled.readings.filter(row=>row.lexemeId==='pl.lekcja.1');
+ assert.ok(child.some(row=>row.text==='dzieciom'&&row.features.case==='dat'));
+ assert.ok(child.some(row=>row.text==='dziećmi'&&row.features.case==='inst'));
+ assert.ok(lesson.some(row=>row.text==='lekcji'&&row.features.number==='singular'&&row.features.case==='gen'));
+ assert.ok(lesson.some(row=>row.text==='lekcjami'&&row.features.number==='plural'&&row.features.case==='inst'));
+ assert.ok(!lesson.some(row=>row.text==='lekcjy'));
+ assert.ok(morphPL.analyze({text:'lekcji'}).some(row=>row.lexemeId==='pl.lekcja.1'&&row.features.case==='gen'));
+});
+
 test('compile-language CLI writes valid finite table without dependencies',async()=>{
  const temp=await mkdtemp(join(tmpdir(),'flexlingua-test-'));
  try{

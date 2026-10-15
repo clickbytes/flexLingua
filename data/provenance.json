@@ -179,6 +179,12 @@
           "author": "flexLingua project contributors",
           "source": "Project-authored English regular verb bindings and irregular past overrides for the LEX-03 predicate set.",
           "license": "Project-authored; the repository declares no separate SPDX data license."
+        },
+        {
+          "issue": "#46",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored English -f/-fe to -ves noun paradigms and lexeme-scoped exception fixtures.",
+          "license": "Project-authored; the repository declares no separate SPDX data license."
         }
       ]
     },
@@ -222,6 +228,12 @@
           "issue": "#45",
           "author": "flexLingua project contributors",
           "source": "Project-authored finite Polish verb paradigms bindings for the LEX-03 predicate set.",
+          "license": "Project-authored; the repository declares no separate SPDX data license."
+        },
+        {
+          "issue": "#46",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored complete Polish -cja and neuter irregular plural paradigms with independently checked nominative, oblique and inverse cells.",
           "license": "Project-authored; the repository declares no separate SPDX data license."
         }
       ]

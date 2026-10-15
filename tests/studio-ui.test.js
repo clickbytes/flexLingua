@@ -426,8 +426,8 @@ test('Coverage navigation selects a pattern, while comparison keeps every result
   el('dictionary-compare').checked = true;
   el('dictionary-compare').trigger('change');
   assert.equal(el('dictionary-compare-settings').hidden, false);
-  assert.equal(el('dictionary-compare-paradigm').children.length, 7,
-    'Six alternative Polish noun patterns plus the placeholder');
+  assert.equal(el('dictionary-compare-paradigm').children.length, 9,
+    'Eight alternative Polish noun patterns plus the placeholder');
   el('dictionary-compare-paradigm').value = 'pl.noun.masc_inanimate';
   el('dictionary-form').trigger('submit');
   const surface = allText(el('dictionary-results'));

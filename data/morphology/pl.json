@@ -2619,6 +2619,254 @@
           ]
         }
       ]
+    },
+    "pl.noun.feminine_cja": {
+      "pos": "NOUN",
+      "extends": "pl.noun.feminine_a",
+      "slots": [
+        {
+          "features": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "i"
+            }
+          ],
+          "path": [
+            "singular",
+            "gen"
+          ]
+        },
+        {
+          "features": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "i"
+            }
+          ],
+          "path": [
+            "singular",
+            "dat"
+          ]
+        },
+        {
+          "features": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "i"
+            }
+          ],
+          "path": [
+            "singular",
+            "loc"
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "e"
+            }
+          ],
+          "path": [
+            "plural",
+            "nom"
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "i"
+            }
+          ],
+          "path": [
+            "plural",
+            "gen"
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "e"
+            }
+          ],
+          "path": [
+            "plural",
+            "acc"
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "e"
+            }
+          ],
+          "path": [
+            "plural",
+            "voc"
+          ]
+        }
+      ]
+    },
+    "pl.noun.neuter_irregular_plural": {
+      "pos": "NOUN",
+      "extends": "pl.noun.neuter_o",
+      "slots": [
+        {
+          "features": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "pluralStem"
+            }
+          ],
+          "path": [
+            "plural",
+            "nom"
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "pluralStem"
+            }
+          ],
+          "path": [
+            "plural",
+            "gen"
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "pluralStem"
+            },
+            {
+              "op": "append",
+              "value": "om"
+            }
+          ],
+          "path": [
+            "plural",
+            "dat"
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "pluralStem"
+            }
+          ],
+          "path": [
+            "plural",
+            "acc"
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "case": "inst"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "pluralInstStem"
+            },
+            {
+              "op": "append",
+              "value": "mi"
+            }
+          ],
+          "path": [
+            "plural",
+            "inst"
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "case": "loc"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "pluralStem"
+            },
+            {
+              "op": "append",
+              "value": "ach"
+            }
+          ],
+          "path": [
+            "plural",
+            "loc"
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "steps": [
+            {
+              "op": "selectStem",
+              "key": "pluralStem"
+            }
+          ],
+          "path": [
+            "plural",
+            "voc"
+          ]
+        }
+      ]
     }
   },
   "bindings": [
@@ -3313,97 +3561,14 @@
     },
     {
       "lexemeId": "pl.dziecko.1",
-      "paradigmId": "pl.noun.neuter_o",
+      "paradigmId": "pl.noun.neuter_irregular_plural",
       "stems": {
         "base": "dzieck",
-        "lemma": "dziecko"
+        "lemma": "dziecko",
+        "pluralStem": "dzieci",
+        "pluralInstStem": "dzieć"
       },
-      "overrides": [
-        {
-          "when": {
-            "number": "plural",
-            "case": "nom"
-          },
-          "mode": "replace",
-          "forms": [
-            {
-              "text": "dzieci"
-            }
-          ]
-        },
-        {
-          "when": {
-            "number": "plural",
-            "case": "gen"
-          },
-          "mode": "replace",
-          "forms": [
-            {
-              "text": "dzieci"
-            }
-          ]
-        },
-        {
-          "when": {
-            "number": "plural",
-            "case": "dat"
-          },
-          "mode": "replace",
-          "forms": [
-            {
-              "text": "dzieciom"
-            }
-          ]
-        },
-        {
-          "when": {
-            "number": "plural",
-            "case": "acc"
-          },
-          "mode": "replace",
-          "forms": [
-            {
-              "text": "dzieci"
-            }
-          ]
-        },
-        {
-          "when": {
-            "number": "plural",
-            "case": "inst"
-          },
-          "mode": "replace",
-          "forms": [
-            {
-              "text": "dziećmi"
-            }
-          ]
-        },
-        {
-          "when": {
-            "number": "plural",
-            "case": "loc"
-          },
-          "mode": "replace",
-          "forms": [
-            {
-              "text": "dzieciach"
-            }
-          ]
-        },
-        {
-          "when": {
-            "number": "plural",
-            "case": "voc"
-          },
-          "mode": "replace",
-          "forms": [
-            {
-              "text": "dzieci"
-            }
-          ]
-        }
-      ]
+      "overrides": []
     },
     {
       "lexemeId": "pl.dac.1",
@@ -9416,97 +9581,12 @@
     },
     {
       "lexemeId": "pl.lekcja.1",
-      "paradigmId": "pl.noun.feminine_a",
+      "paradigmId": "pl.noun.feminine_cja",
       "stems": {
         "base": "lekcj",
         "lemma": "lekcja"
       },
-      "overrides": [
-        {
-          "when": {
-            "number": "singular",
-            "case": "gen"
-          },
-          "mode": "replace",
-          "forms": [
-            {
-              "text": "lekcji"
-            }
-          ]
-        },
-        {
-          "when": {
-            "number": "singular",
-            "case": "dat"
-          },
-          "mode": "replace",
-          "forms": [
-            {
-              "text": "lekcji"
-            }
-          ]
-        },
-        {
-          "when": {
-            "number": "singular",
-            "case": "loc"
-          },
-          "mode": "replace",
-          "forms": [
-            {
-              "text": "lekcji"
-            }
-          ]
-        },
-        {
-          "when": {
-            "number": "plural",
-            "case": "nom"
-          },
-          "mode": "replace",
-          "forms": [
-            {
-              "text": "lekcje"
-            }
-          ]
-        },
-        {
-          "when": {
-            "number": "plural",
-            "case": "gen"
-          },
-          "mode": "replace",
-          "forms": [
-            {
-              "text": "lekcji"
-            }
-          ]
-        },
-        {
-          "when": {
-            "number": "plural",
-            "case": "acc"
-          },
-          "mode": "replace",
-          "forms": [
-            {
-              "text": "lekcje"
-            }
-          ]
-        },
-        {
-          "when": {
-            "number": "plural",
-            "case": "voc"
-          },
-          "mode": "replace",
-          "forms": [
-            {
-              "text": "lekcje"
-            }
-          ]
-        }
-      ]
+      "overrides": []
     },
     {
       "lexemeId": "pl.sok.1",
