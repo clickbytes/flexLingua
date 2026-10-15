@@ -1,0 +1,3155 @@
+{
+  "schemaVersion": 1,
+  "license": "project-authored",
+  "origin": "Original controlled combinations of manually specified sentence templates and lexical slots; authored for this finite development sample, not independently reviewed and not CEFR representative.",
+  "levels": {
+    "B1": {
+      "minimumCases": 100
+    },
+    "B2": {
+      "minimumCases": 100
+    }
+  },
+  "cases": [
+    {
+      "id": "B1-001",
+      "level": "B1",
+      "construction": "event_relations",
+      "direction": "en->pl",
+      "input": "The girl sees the dog. The boy sees the cat.",
+      "context": {
+        "eventRelations": [
+          {
+            "type": "because",
+            "from": "e1",
+            "to": "e2"
+          }
+        ]
+      },
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.visual_perception",
+          "event.visual_perception"
+        ],
+        "relation": "event_relation.because"
+      }
+    },
+    {
+      "id": "B1-002",
+      "level": "B1",
+      "construction": "event_relations",
+      "direction": "en->pl",
+      "input": "The girl sees the dog. The girl opens the book.",
+      "context": {
+        "eventRelations": [
+          {
+            "type": "because",
+            "from": "e1",
+            "to": "e2"
+          }
+        ]
+      },
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.visual_perception",
+          "event.open"
+        ],
+        "relation": "event_relation.because"
+      }
+    },
+    {
+      "id": "B1-003",
+      "level": "B1",
+      "construction": "event_relations",
+      "direction": "en->pl",
+      "input": "The girl sees the dog. The boy reads the book.",
+      "context": {
+        "eventRelations": [
+          {
+            "type": "because",
+            "from": "e1",
+            "to": "e2"
+          }
+        ]
+      },
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.visual_perception",
+          "event.read"
+        ],
+        "relation": "event_relation.because"
+      }
+    },
+    {
+      "id": "B1-004",
+      "level": "B1",
+      "construction": "event_relations",
+      "direction": "en->pl",
+      "input": "The girl sees the dog. The girl sees the cat.",
+      "context": {
+        "eventRelations": [
+          {
+            "type": "because",
+            "from": "e1",
+            "to": "e2"
+          }
+        ]
+      },
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.visual_perception",
+          "event.visual_perception"
+        ],
+        "relation": "event_relation.because"
+      }
+    },
+    {
+      "id": "B1-005",
+      "level": "B1",
+      "construction": "event_relations",
+      "direction": "en->pl",
+      "input": "The girl sees the dog. The boy opens the box.",
+      "context": {
+        "eventRelations": [
+          {
+            "type": "because",
+            "from": "e1",
+            "to": "e2"
+          }
+        ]
+      },
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.visual_perception",
+          "event.open"
+        ],
+        "relation": "event_relation.because"
+      }
+    },
+    {
+      "id": "B1-006",
+      "level": "B1",
+      "construction": "event_relations",
+      "direction": "en->pl",
+      "input": "The boy sees the cat. The girl sees the dog.",
+      "context": {
+        "eventRelations": [
+          {
+            "type": "because",
+            "from": "e1",
+            "to": "e2"
+          }
+        ]
+      },
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.visual_perception",
+          "event.visual_perception"
+        ],
+        "relation": "event_relation.because"
+      }
+    },
+    {
+      "id": "B1-007",
+      "level": "B1",
+      "construction": "event_relations",
+      "direction": "en->pl",
+      "input": "The boy sees the cat. The girl opens the book.",
+      "context": {
+        "eventRelations": [
+          {
+            "type": "because",
+            "from": "e1",
+            "to": "e2"
+          }
+        ]
+      },
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.visual_perception",
+          "event.open"
+        ],
+        "relation": "event_relation.because"
+      }
+    },
+    {
+      "id": "B1-008",
+      "level": "B1",
+      "construction": "event_relations",
+      "direction": "en->pl",
+      "input": "The boy sees the cat. The boy reads the book.",
+      "context": {
+        "eventRelations": [
+          {
+            "type": "because",
+            "from": "e1",
+            "to": "e2"
+          }
+        ]
+      },
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.visual_perception",
+          "event.read"
+        ],
+        "relation": "event_relation.because"
+      }
+    },
+    {
+      "id": "B1-009",
+      "level": "B1",
+      "construction": "event_relations",
+      "direction": "en->pl",
+      "input": "The boy sees the cat. The girl sees the cat.",
+      "context": {
+        "eventRelations": [
+          {
+            "type": "because",
+            "from": "e1",
+            "to": "e2"
+          }
+        ]
+      },
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.visual_perception",
+          "event.visual_perception"
+        ],
+        "relation": "event_relation.because"
+      }
+    },
+    {
+      "id": "B1-010",
+      "level": "B1",
+      "construction": "event_relations",
+      "direction": "en->pl",
+      "input": "The boy sees the cat. The boy opens the box.",
+      "context": {
+        "eventRelations": [
+          {
+            "type": "because",
+            "from": "e1",
+            "to": "e2"
+          }
+        ]
+      },
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.visual_perception",
+          "event.open"
+        ],
+        "relation": "event_relation.because"
+      }
+    },
+    {
+      "id": "B1-011",
+      "level": "B1",
+      "construction": "event_relations",
+      "direction": "pl->en",
+      "input": "Dziewczynka widzi psa. Chłopiec widzi kota.",
+      "context": {
+        "eventRelations": [
+          {
+            "type": "because",
+            "from": "e1",
+            "to": "e2"
+          }
+        ]
+      },
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.visual_perception",
+          "event.visual_perception"
+        ],
+        "relation": "event_relation.because"
+      }
+    },
+    {
+      "id": "B1-012",
+      "level": "B1",
+      "construction": "event_relations",
+      "direction": "pl->en",
+      "input": "Dziewczynka widzi psa. Dziewczynka otwiera książkę.",
+      "context": {
+        "eventRelations": [
+          {
+            "type": "because",
+            "from": "e1",
+            "to": "e2"
+          }
+        ]
+      },
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.visual_perception",
+          "event.open"
+        ],
+        "relation": "event_relation.because"
+      }
+    },
+    {
+      "id": "B1-013",
+      "level": "B1",
+      "construction": "event_relations",
+      "direction": "pl->en",
+      "input": "Dziewczynka widzi psa. Chłopiec czyta książkę.",
+      "context": {
+        "eventRelations": [
+          {
+            "type": "because",
+            "from": "e1",
+            "to": "e2"
+          }
+        ]
+      },
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.visual_perception",
+          "event.read"
+        ],
+        "relation": "event_relation.because"
+      }
+    },
+    {
+      "id": "B1-014",
+      "level": "B1",
+      "construction": "event_relations",
+      "direction": "pl->en",
+      "input": "Dziewczynka widzi psa. Dziewczynka widzi kota.",
+      "context": {
+        "eventRelations": [
+          {
+            "type": "because",
+            "from": "e1",
+            "to": "e2"
+          }
+        ]
+      },
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.visual_perception",
+          "event.visual_perception"
+        ],
+        "relation": "event_relation.because"
+      }
+    },
+    {
+      "id": "B1-015",
+      "level": "B1",
+      "construction": "event_relations",
+      "direction": "pl->en",
+      "input": "Dziewczynka widzi psa. Chłopiec otwiera pudełko.",
+      "context": {
+        "eventRelations": [
+          {
+            "type": "because",
+            "from": "e1",
+            "to": "e2"
+          }
+        ]
+      },
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.visual_perception",
+          "event.open"
+        ],
+        "relation": "event_relation.because"
+      }
+    },
+    {
+      "id": "B1-016",
+      "level": "B1",
+      "construction": "event_relations",
+      "direction": "pl->en",
+      "input": "Chłopiec widzi kota. Dziewczynka widzi psa.",
+      "context": {
+        "eventRelations": [
+          {
+            "type": "because",
+            "from": "e1",
+            "to": "e2"
+          }
+        ]
+      },
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.visual_perception",
+          "event.visual_perception"
+        ],
+        "relation": "event_relation.because"
+      }
+    },
+    {
+      "id": "B1-017",
+      "level": "B1",
+      "construction": "event_relations",
+      "direction": "pl->en",
+      "input": "Chłopiec widzi kota. Dziewczynka otwiera książkę.",
+      "context": {
+        "eventRelations": [
+          {
+            "type": "because",
+            "from": "e1",
+            "to": "e2"
+          }
+        ]
+      },
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.visual_perception",
+          "event.open"
+        ],
+        "relation": "event_relation.because"
+      }
+    },
+    {
+      "id": "B1-018",
+      "level": "B1",
+      "construction": "event_relations",
+      "direction": "pl->en",
+      "input": "Chłopiec widzi kota. Chłopiec czyta książkę.",
+      "context": {
+        "eventRelations": [
+          {
+            "type": "because",
+            "from": "e1",
+            "to": "e2"
+          }
+        ]
+      },
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.visual_perception",
+          "event.read"
+        ],
+        "relation": "event_relation.because"
+      }
+    },
+    {
+      "id": "B1-019",
+      "level": "B1",
+      "construction": "event_relations",
+      "direction": "pl->en",
+      "input": "Chłopiec widzi kota. Dziewczynka widzi kota.",
+      "context": {
+        "eventRelations": [
+          {
+            "type": "because",
+            "from": "e1",
+            "to": "e2"
+          }
+        ]
+      },
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.visual_perception",
+          "event.visual_perception"
+        ],
+        "relation": "event_relation.because"
+      }
+    },
+    {
+      "id": "B1-020",
+      "level": "B1",
+      "construction": "event_relations",
+      "direction": "pl->en",
+      "input": "Chłopiec widzi kota. Chłopiec otwiera pudełko.",
+      "context": {
+        "eventRelations": [
+          {
+            "type": "because",
+            "from": "e1",
+            "to": "e2"
+          }
+        ]
+      },
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.visual_perception",
+          "event.open"
+        ],
+        "relation": "event_relation.because"
+      }
+    },
+    {
+      "id": "B1-021",
+      "level": "B1",
+      "construction": "composition",
+      "direction": "en->pl",
+      "input": "The girl believes that the girl saw the dog.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "complement",
+        "concept": "event.belief",
+        "contentConcept": "event.visual_perception"
+      }
+    },
+    {
+      "id": "B1-022",
+      "level": "B1",
+      "construction": "composition",
+      "direction": "en->pl",
+      "input": "The girl believed that the girl saw the dog.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "complement",
+        "concept": "event.belief",
+        "contentConcept": "event.visual_perception"
+      }
+    },
+    {
+      "id": "B1-023",
+      "level": "B1",
+      "construction": "composition",
+      "direction": "en->pl",
+      "input": "The girl believes that the girl saw the cat.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "complement",
+        "concept": "event.belief",
+        "contentConcept": "event.visual_perception"
+      }
+    },
+    {
+      "id": "B1-024",
+      "level": "B1",
+      "construction": "composition",
+      "direction": "en->pl",
+      "input": "The girl believed that the girl saw the cat.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "complement",
+        "concept": "event.belief",
+        "contentConcept": "event.visual_perception"
+      }
+    },
+    {
+      "id": "B1-025",
+      "level": "B1",
+      "construction": "composition",
+      "direction": "en->pl",
+      "input": "The girl believes that the boy saw the dog.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "complement",
+        "concept": "event.belief",
+        "contentConcept": "event.visual_perception"
+      }
+    },
+    {
+      "id": "B1-026",
+      "level": "B1",
+      "construction": "composition",
+      "direction": "en->pl",
+      "input": "The girl believed that the boy saw the dog.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "complement",
+        "concept": "event.belief",
+        "contentConcept": "event.visual_perception"
+      }
+    },
+    {
+      "id": "B1-027",
+      "level": "B1",
+      "construction": "composition",
+      "direction": "en->pl",
+      "input": "The girl believes that the boy saw the cat.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "complement",
+        "concept": "event.belief",
+        "contentConcept": "event.visual_perception"
+      }
+    },
+    {
+      "id": "B1-028",
+      "level": "B1",
+      "construction": "composition",
+      "direction": "en->pl",
+      "input": "The girl believed that the boy saw the cat.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "complement",
+        "concept": "event.belief",
+        "contentConcept": "event.visual_perception"
+      }
+    },
+    {
+      "id": "B1-029",
+      "level": "B1",
+      "construction": "composition",
+      "direction": "en->pl",
+      "input": "The boy believes that the girl saw the dog.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "complement",
+        "concept": "event.belief",
+        "contentConcept": "event.visual_perception"
+      }
+    },
+    {
+      "id": "B1-030",
+      "level": "B1",
+      "construction": "composition",
+      "direction": "en->pl",
+      "input": "The boy believed that the girl saw the dog.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "complement",
+        "concept": "event.belief",
+        "contentConcept": "event.visual_perception"
+      }
+    },
+    {
+      "id": "B1-031",
+      "level": "B1",
+      "construction": "composition",
+      "direction": "pl->en",
+      "input": "Dziewczynka wierzy, że dziewczynka widziała psa.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "complement",
+        "concept": "event.belief",
+        "contentConcept": "event.visual_perception"
+      }
+    },
+    {
+      "id": "B1-032",
+      "level": "B1",
+      "construction": "composition",
+      "direction": "pl->en",
+      "input": "Dziewczynka wierzyła, że dziewczynka widziała psa.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "complement",
+        "concept": "event.belief",
+        "contentConcept": "event.visual_perception"
+      }
+    },
+    {
+      "id": "B1-033",
+      "level": "B1",
+      "construction": "composition",
+      "direction": "pl->en",
+      "input": "Dziewczynka wierzy, że dziewczynka widziała kota.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "complement",
+        "concept": "event.belief",
+        "contentConcept": "event.visual_perception"
+      }
+    },
+    {
+      "id": "B1-034",
+      "level": "B1",
+      "construction": "composition",
+      "direction": "pl->en",
+      "input": "Dziewczynka wierzyła, że dziewczynka widziała kota.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "complement",
+        "concept": "event.belief",
+        "contentConcept": "event.visual_perception"
+      }
+    },
+    {
+      "id": "B1-035",
+      "level": "B1",
+      "construction": "composition",
+      "direction": "pl->en",
+      "input": "Dziewczynka wierzy, że chłopiec widział psa.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "complement",
+        "concept": "event.belief",
+        "contentConcept": "event.visual_perception"
+      }
+    },
+    {
+      "id": "B1-036",
+      "level": "B1",
+      "construction": "composition",
+      "direction": "pl->en",
+      "input": "Dziewczynka wierzyła, że chłopiec widział psa.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "complement",
+        "concept": "event.belief",
+        "contentConcept": "event.visual_perception"
+      }
+    },
+    {
+      "id": "B1-037",
+      "level": "B1",
+      "construction": "composition",
+      "direction": "pl->en",
+      "input": "Dziewczynka wierzy, że chłopiec widział kota.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "complement",
+        "concept": "event.belief",
+        "contentConcept": "event.visual_perception"
+      }
+    },
+    {
+      "id": "B1-038",
+      "level": "B1",
+      "construction": "composition",
+      "direction": "pl->en",
+      "input": "Dziewczynka wierzyła, że chłopiec widział kota.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "complement",
+        "concept": "event.belief",
+        "contentConcept": "event.visual_perception"
+      }
+    },
+    {
+      "id": "B1-039",
+      "level": "B1",
+      "construction": "composition",
+      "direction": "pl->en",
+      "input": "Chłopiec wierzy, że dziewczynka widziała psa.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "complement",
+        "concept": "event.belief",
+        "contentConcept": "event.visual_perception"
+      }
+    },
+    {
+      "id": "B1-040",
+      "level": "B1",
+      "construction": "composition",
+      "direction": "pl->en",
+      "input": "Chłopiec wierzył, że dziewczynka widziała psa.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "complement",
+        "concept": "event.belief",
+        "contentConcept": "event.visual_perception"
+      }
+    },
+    {
+      "id": "B1-041",
+      "level": "B1",
+      "construction": "discourse",
+      "direction": "en->pl",
+      "input": "The girl opens the book. The girl sees the dog.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.open",
+          "event.visual_perception"
+        ],
+        "relation": "precedes"
+      }
+    },
+    {
+      "id": "B1-042",
+      "level": "B1",
+      "construction": "discourse",
+      "direction": "en->pl",
+      "input": "The girl opens the book. The boy sees the cat.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.open",
+          "event.visual_perception"
+        ],
+        "relation": "precedes"
+      }
+    },
+    {
+      "id": "B1-043",
+      "level": "B1",
+      "construction": "discourse",
+      "direction": "en->pl",
+      "input": "The girl opens the book. The boy reads the book.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.open",
+          "event.read"
+        ],
+        "relation": "precedes"
+      }
+    },
+    {
+      "id": "B1-044",
+      "level": "B1",
+      "construction": "discourse",
+      "direction": "en->pl",
+      "input": "The girl opens the book. The girl sees the cat.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.open",
+          "event.visual_perception"
+        ],
+        "relation": "precedes"
+      }
+    },
+    {
+      "id": "B1-045",
+      "level": "B1",
+      "construction": "discourse",
+      "direction": "en->pl",
+      "input": "The girl opens the book. The boy opens the box.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.open",
+          "event.open"
+        ],
+        "relation": "precedes"
+      }
+    },
+    {
+      "id": "B1-046",
+      "level": "B1",
+      "construction": "discourse",
+      "direction": "en->pl",
+      "input": "The boy reads the book. The girl sees the dog.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.read",
+          "event.visual_perception"
+        ],
+        "relation": "precedes"
+      }
+    },
+    {
+      "id": "B1-047",
+      "level": "B1",
+      "construction": "discourse",
+      "direction": "en->pl",
+      "input": "The boy reads the book. The boy sees the cat.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.read",
+          "event.visual_perception"
+        ],
+        "relation": "precedes"
+      }
+    },
+    {
+      "id": "B1-048",
+      "level": "B1",
+      "construction": "discourse",
+      "direction": "en->pl",
+      "input": "The boy reads the book. The girl opens the book.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.read",
+          "event.open"
+        ],
+        "relation": "precedes"
+      }
+    },
+    {
+      "id": "B1-049",
+      "level": "B1",
+      "construction": "discourse",
+      "direction": "en->pl",
+      "input": "The boy reads the book. The girl sees the cat.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.read",
+          "event.visual_perception"
+        ],
+        "relation": "precedes"
+      }
+    },
+    {
+      "id": "B1-050",
+      "level": "B1",
+      "construction": "discourse",
+      "direction": "en->pl",
+      "input": "The boy reads the book. The boy opens the box.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.read",
+          "event.open"
+        ],
+        "relation": "precedes"
+      }
+    },
+    {
+      "id": "B1-051",
+      "level": "B1",
+      "construction": "discourse",
+      "direction": "pl->en",
+      "input": "Dziewczynka otwiera książkę. Dziewczynka widzi psa.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.open",
+          "event.visual_perception"
+        ],
+        "relation": "precedes"
+      }
+    },
+    {
+      "id": "B1-052",
+      "level": "B1",
+      "construction": "discourse",
+      "direction": "pl->en",
+      "input": "Dziewczynka otwiera książkę. Chłopiec widzi kota.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.open",
+          "event.visual_perception"
+        ],
+        "relation": "precedes"
+      }
+    },
+    {
+      "id": "B1-053",
+      "level": "B1",
+      "construction": "discourse",
+      "direction": "pl->en",
+      "input": "Dziewczynka otwiera książkę. Chłopiec czyta książkę.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.open",
+          "event.read"
+        ],
+        "relation": "precedes"
+      }
+    },
+    {
+      "id": "B1-054",
+      "level": "B1",
+      "construction": "discourse",
+      "direction": "pl->en",
+      "input": "Dziewczynka otwiera książkę. Dziewczynka widzi kota.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.open",
+          "event.visual_perception"
+        ],
+        "relation": "precedes"
+      }
+    },
+    {
+      "id": "B1-055",
+      "level": "B1",
+      "construction": "discourse",
+      "direction": "pl->en",
+      "input": "Dziewczynka otwiera książkę. Chłopiec otwiera pudełko.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.open",
+          "event.open"
+        ],
+        "relation": "precedes"
+      }
+    },
+    {
+      "id": "B1-056",
+      "level": "B1",
+      "construction": "discourse",
+      "direction": "pl->en",
+      "input": "Chłopiec czyta książkę. Dziewczynka widzi psa.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.read",
+          "event.visual_perception"
+        ],
+        "relation": "precedes"
+      }
+    },
+    {
+      "id": "B1-057",
+      "level": "B1",
+      "construction": "discourse",
+      "direction": "pl->en",
+      "input": "Chłopiec czyta książkę. Chłopiec widzi kota.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.read",
+          "event.visual_perception"
+        ],
+        "relation": "precedes"
+      }
+    },
+    {
+      "id": "B1-058",
+      "level": "B1",
+      "construction": "discourse",
+      "direction": "pl->en",
+      "input": "Chłopiec czyta książkę. Dziewczynka otwiera książkę.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.read",
+          "event.open"
+        ],
+        "relation": "precedes"
+      }
+    },
+    {
+      "id": "B1-059",
+      "level": "B1",
+      "construction": "discourse",
+      "direction": "pl->en",
+      "input": "Chłopiec czyta książkę. Dziewczynka widzi kota.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.read",
+          "event.visual_perception"
+        ],
+        "relation": "precedes"
+      }
+    },
+    {
+      "id": "B1-060",
+      "level": "B1",
+      "construction": "discourse",
+      "direction": "pl->en",
+      "input": "Chłopiec czyta książkę. Chłopiec otwiera pudełko.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.read",
+          "event.open"
+        ],
+        "relation": "precedes"
+      }
+    },
+    {
+      "id": "B1-061",
+      "level": "B1",
+      "construction": "polysemy",
+      "direction": "en->pl",
+      "input": "The girl sees the bank.",
+      "expectation": {
+        "status": "ambiguous",
+        "minReadings": 2,
+        "senses": [
+          "place.financial_institution",
+          "place.riverbank"
+        ]
+      }
+    },
+    {
+      "id": "B1-062",
+      "level": "B1",
+      "construction": "polysemy",
+      "direction": "en->pl",
+      "input": "The boy sees the bank.",
+      "expectation": {
+        "status": "ambiguous",
+        "minReadings": 2,
+        "senses": [
+          "place.financial_institution",
+          "place.riverbank"
+        ]
+      }
+    },
+    {
+      "id": "B1-063",
+      "level": "B1",
+      "construction": "polysemy",
+      "direction": "en->pl",
+      "input": "The girl saw the bank.",
+      "expectation": {
+        "status": "ambiguous",
+        "minReadings": 2,
+        "senses": [
+          "place.financial_institution",
+          "place.riverbank"
+        ]
+      }
+    },
+    {
+      "id": "B1-064",
+      "level": "B1",
+      "construction": "polysemy",
+      "direction": "en->pl",
+      "input": "The boy saw the bank.",
+      "expectation": {
+        "status": "ambiguous",
+        "minReadings": 2,
+        "senses": [
+          "place.financial_institution",
+          "place.riverbank"
+        ]
+      }
+    },
+    {
+      "id": "B1-065",
+      "level": "B1",
+      "construction": "polysemy",
+      "direction": "en->pl",
+      "input": "A girl sees the bank.",
+      "expectation": {
+        "status": "ambiguous",
+        "minReadings": 2,
+        "senses": [
+          "place.financial_institution",
+          "place.riverbank"
+        ]
+      }
+    },
+    {
+      "id": "B1-066",
+      "level": "B1",
+      "construction": "polysemy",
+      "direction": "en->pl",
+      "input": "A boy sees the bank.",
+      "expectation": {
+        "status": "ambiguous",
+        "minReadings": 2,
+        "senses": [
+          "place.financial_institution",
+          "place.riverbank"
+        ]
+      }
+    },
+    {
+      "id": "B1-067",
+      "level": "B1",
+      "construction": "polysemy",
+      "direction": "en->pl",
+      "input": "A girl saw the bank.",
+      "expectation": {
+        "status": "ambiguous",
+        "minReadings": 2,
+        "senses": [
+          "place.financial_institution",
+          "place.riverbank"
+        ]
+      }
+    },
+    {
+      "id": "B1-068",
+      "level": "B1",
+      "construction": "polysemy",
+      "direction": "en->pl",
+      "input": "A boy saw the bank.",
+      "expectation": {
+        "status": "ambiguous",
+        "minReadings": 2,
+        "senses": [
+          "place.financial_institution",
+          "place.riverbank"
+        ]
+      }
+    },
+    {
+      "id": "B1-069",
+      "level": "B1",
+      "construction": "polysemy",
+      "direction": "en->pl",
+      "input": "The girls see the bank.",
+      "expectation": {
+        "status": "ambiguous",
+        "minReadings": 2,
+        "senses": [
+          "place.financial_institution",
+          "place.riverbank"
+        ]
+      }
+    },
+    {
+      "id": "B1-070",
+      "level": "B1",
+      "construction": "polysemy",
+      "direction": "en->pl",
+      "input": "The boys see the bank.",
+      "expectation": {
+        "status": "ambiguous",
+        "minReadings": 2,
+        "senses": [
+          "place.financial_institution",
+          "place.riverbank"
+        ]
+      }
+    },
+    {
+      "id": "B1-071",
+      "level": "B1",
+      "construction": "polysemy",
+      "direction": "pl->en",
+      "input": "Dziewczynka widzi pilota.",
+      "expectation": {
+        "status": "ambiguous",
+        "minReadings": 2,
+        "senses": [
+          "person.pilot",
+          "object.remote_control"
+        ]
+      }
+    },
+    {
+      "id": "B1-072",
+      "level": "B1",
+      "construction": "polysemy",
+      "direction": "pl->en",
+      "input": "Chłopiec widzi pilota.",
+      "expectation": {
+        "status": "ambiguous",
+        "minReadings": 2,
+        "senses": [
+          "person.pilot",
+          "object.remote_control"
+        ]
+      }
+    },
+    {
+      "id": "B1-073",
+      "level": "B1",
+      "construction": "polysemy",
+      "direction": "pl->en",
+      "input": "Dziewczynka widziała pilota.",
+      "expectation": {
+        "status": "ambiguous",
+        "minReadings": 2,
+        "senses": [
+          "person.pilot",
+          "object.remote_control"
+        ]
+      }
+    },
+    {
+      "id": "B1-074",
+      "level": "B1",
+      "construction": "polysemy",
+      "direction": "pl->en",
+      "input": "Chłopiec widział pilota.",
+      "expectation": {
+        "status": "ambiguous",
+        "minReadings": 2,
+        "senses": [
+          "person.pilot",
+          "object.remote_control"
+        ]
+      }
+    },
+    {
+      "id": "B1-075",
+      "level": "B1",
+      "construction": "polysemy",
+      "direction": "pl->en",
+      "input": "Dziewczynki widzą pilota.",
+      "expectation": {
+        "status": "ambiguous",
+        "minReadings": 2,
+        "senses": [
+          "person.pilot",
+          "object.remote_control"
+        ]
+      }
+    },
+    {
+      "id": "B1-076",
+      "level": "B1",
+      "construction": "polysemy",
+      "direction": "pl->en",
+      "input": "Chłopcy widzą pilota.",
+      "expectation": {
+        "status": "ambiguous",
+        "minReadings": 2,
+        "senses": [
+          "person.pilot",
+          "object.remote_control"
+        ]
+      }
+    },
+    {
+      "id": "B1-077",
+      "level": "B1",
+      "construction": "polysemy",
+      "direction": "pl->en",
+      "input": "Ojciec widzi pilota.",
+      "expectation": {
+        "status": "ambiguous",
+        "minReadings": 2,
+        "senses": [
+          "person.pilot",
+          "object.remote_control"
+        ]
+      }
+    },
+    {
+      "id": "B1-078",
+      "level": "B1",
+      "construction": "polysemy",
+      "direction": "pl->en",
+      "input": "Ojciec widział pilota.",
+      "expectation": {
+        "status": "ambiguous",
+        "minReadings": 2,
+        "senses": [
+          "person.pilot",
+          "object.remote_control"
+        ]
+      }
+    },
+    {
+      "id": "B1-079",
+      "level": "B1",
+      "construction": "polysemy",
+      "direction": "pl->en",
+      "input": "Siostra widzi pilota.",
+      "expectation": {
+        "status": "ambiguous",
+        "minReadings": 2,
+        "senses": [
+          "person.pilot",
+          "object.remote_control"
+        ]
+      }
+    },
+    {
+      "id": "B1-080",
+      "level": "B1",
+      "construction": "polysemy",
+      "direction": "pl->en",
+      "input": "Brat widzi pilota.",
+      "expectation": {
+        "status": "ambiguous",
+        "minReadings": 2,
+        "senses": [
+          "person.pilot",
+          "object.remote_control"
+        ]
+      }
+    },
+    {
+      "id": "B1-081",
+      "level": "B1",
+      "construction": "phraseology",
+      "direction": "en->pl",
+      "input": "The girl broke the ice.",
+      "expectation": {
+        "status": "unsupported"
+      }
+    },
+    {
+      "id": "B1-082",
+      "level": "B1",
+      "construction": "phraseology",
+      "direction": "en->pl",
+      "input": "The boy spilled the beans.",
+      "expectation": {
+        "status": "unsupported"
+      }
+    },
+    {
+      "id": "B1-083",
+      "level": "B1",
+      "construction": "phraseology",
+      "direction": "en->pl",
+      "input": "The girl hit the sack.",
+      "expectation": {
+        "status": "unsupported"
+      }
+    },
+    {
+      "id": "B1-084",
+      "level": "B1",
+      "construction": "phraseology",
+      "direction": "en->pl",
+      "input": "The boy missed the boat.",
+      "expectation": {
+        "status": "unsupported"
+      }
+    },
+    {
+      "id": "B1-085",
+      "level": "B1",
+      "construction": "phraseology",
+      "direction": "en->pl",
+      "input": "The girl let the cat out of the bag.",
+      "expectation": {
+        "status": "unsupported"
+      }
+    },
+    {
+      "id": "B1-086",
+      "level": "B1",
+      "construction": "phraseology",
+      "direction": "en->pl",
+      "input": "The boy burned the midnight oil.",
+      "expectation": {
+        "status": "unsupported"
+      }
+    },
+    {
+      "id": "B1-087",
+      "level": "B1",
+      "construction": "phraseology",
+      "direction": "en->pl",
+      "input": "The girl bit the bullet.",
+      "expectation": {
+        "status": "unsupported"
+      }
+    },
+    {
+      "id": "B1-088",
+      "level": "B1",
+      "construction": "phraseology",
+      "direction": "en->pl",
+      "input": "The boy jumped the gun.",
+      "expectation": {
+        "status": "unsupported"
+      }
+    },
+    {
+      "id": "B1-089",
+      "level": "B1",
+      "construction": "phraseology",
+      "direction": "en->pl",
+      "input": "The girl called it a day.",
+      "expectation": {
+        "status": "unsupported"
+      }
+    },
+    {
+      "id": "B1-090",
+      "level": "B1",
+      "construction": "phraseology",
+      "direction": "en->pl",
+      "input": "The boy took a rain check.",
+      "expectation": {
+        "status": "unsupported"
+      }
+    },
+    {
+      "id": "B1-091",
+      "level": "B1",
+      "construction": "phraseology",
+      "direction": "pl->en",
+      "input": "Dziewczynka rzuciła grochem o ścianę.",
+      "expectation": {
+        "status": "unsupported"
+      }
+    },
+    {
+      "id": "B1-092",
+      "level": "B1",
+      "construction": "phraseology",
+      "direction": "pl->en",
+      "input": "Chłopiec wyłożył kawę na ławę.",
+      "expectation": {
+        "status": "unsupported"
+      }
+    },
+    {
+      "id": "B1-093",
+      "level": "B1",
+      "construction": "phraseology",
+      "direction": "pl->en",
+      "input": "Dziewczynka wzięła nogi za pas.",
+      "expectation": {
+        "status": "unsupported"
+      }
+    },
+    {
+      "id": "B1-094",
+      "level": "B1",
+      "construction": "phraseology",
+      "direction": "pl->en",
+      "input": "Chłopiec owijał w bawełnę.",
+      "expectation": {
+        "status": "unsupported"
+      }
+    },
+    {
+      "id": "B1-095",
+      "level": "B1",
+      "construction": "phraseology",
+      "direction": "pl->en",
+      "input": "Dziewczynka grała pierwsze skrzypce.",
+      "expectation": {
+        "status": "unsupported"
+      }
+    },
+    {
+      "id": "B1-096",
+      "level": "B1",
+      "construction": "phraseology",
+      "direction": "pl->en",
+      "input": "Chłopiec ugryzł się w język.",
+      "expectation": {
+        "status": "unsupported"
+      }
+    },
+    {
+      "id": "B1-097",
+      "level": "B1",
+      "construction": "phraseology",
+      "direction": "pl->en",
+      "input": "Dziewczynka miała muchy w nosie.",
+      "expectation": {
+        "status": "unsupported"
+      }
+    },
+    {
+      "id": "B1-098",
+      "level": "B1",
+      "construction": "phraseology",
+      "direction": "pl->en",
+      "input": "Chłopiec trafił kulą w płot.",
+      "expectation": {
+        "status": "unsupported"
+      }
+    },
+    {
+      "id": "B1-099",
+      "level": "B1",
+      "construction": "phraseology",
+      "direction": "pl->en",
+      "input": "Dziewczynka puściła parę z ust.",
+      "expectation": {
+        "status": "unsupported"
+      }
+    },
+    {
+      "id": "B1-100",
+      "level": "B1",
+      "construction": "phraseology",
+      "direction": "pl->en",
+      "input": "Chłopiec trzymał rękę na pulsie.",
+      "expectation": {
+        "status": "unsupported"
+      }
+    },
+    {
+      "id": "B2-001",
+      "level": "B2",
+      "construction": "passive",
+      "direction": "en->pl",
+      "input": "The book was opened by the girl.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "event",
+        "voice": "passive",
+        "concept": "event.open",
+        "agentOmitted": false
+      }
+    },
+    {
+      "id": "B2-002",
+      "level": "B2",
+      "construction": "passive",
+      "direction": "en->pl",
+      "input": "The book was opened.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "event",
+        "voice": "passive",
+        "concept": "event.open",
+        "agentOmitted": true
+      }
+    },
+    {
+      "id": "B2-003",
+      "level": "B2",
+      "construction": "passive",
+      "direction": "en->pl",
+      "input": "The box was opened by the girl.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "event",
+        "voice": "passive",
+        "concept": "event.open",
+        "agentOmitted": false
+      }
+    },
+    {
+      "id": "B2-004",
+      "level": "B2",
+      "construction": "passive",
+      "direction": "en->pl",
+      "input": "The box was opened.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "event",
+        "voice": "passive",
+        "concept": "event.open",
+        "agentOmitted": true
+      }
+    },
+    {
+      "id": "B2-005",
+      "level": "B2",
+      "construction": "passive",
+      "direction": "en->pl",
+      "input": "The apple was opened by the girl.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "event",
+        "voice": "passive",
+        "concept": "event.open",
+        "agentOmitted": false
+      }
+    },
+    {
+      "id": "B2-006",
+      "level": "B2",
+      "construction": "passive",
+      "direction": "en->pl",
+      "input": "The apple was opened.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "event",
+        "voice": "passive",
+        "concept": "event.open",
+        "agentOmitted": true
+      }
+    },
+    {
+      "id": "B2-007",
+      "level": "B2",
+      "construction": "passive",
+      "direction": "en->pl",
+      "input": "The key was opened by the girl.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "event",
+        "voice": "passive",
+        "concept": "event.open",
+        "agentOmitted": false
+      }
+    },
+    {
+      "id": "B2-008",
+      "level": "B2",
+      "construction": "passive",
+      "direction": "en->pl",
+      "input": "The key was opened.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "event",
+        "voice": "passive",
+        "concept": "event.open",
+        "agentOmitted": true
+      }
+    },
+    {
+      "id": "B2-009",
+      "level": "B2",
+      "construction": "passive",
+      "direction": "en->pl",
+      "input": "The books were opened by the girl.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "event",
+        "voice": "passive",
+        "concept": "event.open",
+        "agentOmitted": false
+      }
+    },
+    {
+      "id": "B2-010",
+      "level": "B2",
+      "construction": "passive",
+      "direction": "en->pl",
+      "input": "The books were opened.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "event",
+        "voice": "passive",
+        "concept": "event.open",
+        "agentOmitted": true
+      }
+    },
+    {
+      "id": "B2-011",
+      "level": "B2",
+      "construction": "passive",
+      "direction": "pl->en",
+      "input": "Książka została otwarta przez dziewczynkę.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "event",
+        "voice": "passive",
+        "concept": "event.open",
+        "agentOmitted": false
+      }
+    },
+    {
+      "id": "B2-012",
+      "level": "B2",
+      "construction": "passive",
+      "direction": "pl->en",
+      "input": "Książka została otwarta.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "event",
+        "voice": "passive",
+        "concept": "event.open",
+        "agentOmitted": true
+      }
+    },
+    {
+      "id": "B2-013",
+      "level": "B2",
+      "construction": "passive",
+      "direction": "pl->en",
+      "input": "Pudełko zostało otwarte przez dziewczynkę.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "event",
+        "voice": "passive",
+        "concept": "event.open",
+        "agentOmitted": false
+      }
+    },
+    {
+      "id": "B2-014",
+      "level": "B2",
+      "construction": "passive",
+      "direction": "pl->en",
+      "input": "Pudełko zostało otwarte.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "event",
+        "voice": "passive",
+        "concept": "event.open",
+        "agentOmitted": true
+      }
+    },
+    {
+      "id": "B2-015",
+      "level": "B2",
+      "construction": "passive",
+      "direction": "pl->en",
+      "input": "Jabłko zostało otwarte przez dziewczynkę.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "event",
+        "voice": "passive",
+        "concept": "event.open",
+        "agentOmitted": false
+      }
+    },
+    {
+      "id": "B2-016",
+      "level": "B2",
+      "construction": "passive",
+      "direction": "pl->en",
+      "input": "Jabłko zostało otwarte.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "event",
+        "voice": "passive",
+        "concept": "event.open",
+        "agentOmitted": true
+      }
+    },
+    {
+      "id": "B2-017",
+      "level": "B2",
+      "construction": "passive",
+      "direction": "pl->en",
+      "input": "Klucz został otwarty przez dziewczynkę.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "event",
+        "voice": "passive",
+        "concept": "event.open",
+        "agentOmitted": false
+      }
+    },
+    {
+      "id": "B2-018",
+      "level": "B2",
+      "construction": "passive",
+      "direction": "pl->en",
+      "input": "Klucz został otwarty.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "event",
+        "voice": "passive",
+        "concept": "event.open",
+        "agentOmitted": true
+      }
+    },
+    {
+      "id": "B2-019",
+      "level": "B2",
+      "construction": "passive",
+      "direction": "pl->en",
+      "input": "Książki zostały otwarte przez dziewczynkę.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "event",
+        "voice": "passive",
+        "concept": "event.open",
+        "agentOmitted": false
+      }
+    },
+    {
+      "id": "B2-020",
+      "level": "B2",
+      "construction": "passive",
+      "direction": "pl->en",
+      "input": "Książki zostały otwarte.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "event",
+        "voice": "passive",
+        "concept": "event.open",
+        "agentOmitted": true
+      }
+    },
+    {
+      "id": "B2-021",
+      "level": "B2",
+      "construction": "conditionals",
+      "direction": "en->pl",
+      "input": "If the girl opens the book, then the girl reads the book.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "conditional",
+        "kind": "real",
+        "conditionConcept": "event.open",
+        "consequenceConcept": "event.read"
+      }
+    },
+    {
+      "id": "B2-022",
+      "level": "B2",
+      "construction": "conditionals",
+      "direction": "en->pl",
+      "input": "If the girl opens the book, then the girl opens the book.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "conditional",
+        "kind": "real",
+        "conditionConcept": "event.open",
+        "consequenceConcept": "event.open"
+      }
+    },
+    {
+      "id": "B2-023",
+      "level": "B2",
+      "construction": "conditionals",
+      "direction": "en->pl",
+      "input": "If the girl opens the book, then the boy reads the book.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "conditional",
+        "kind": "real",
+        "conditionConcept": "event.open",
+        "consequenceConcept": "event.read"
+      }
+    },
+    {
+      "id": "B2-024",
+      "level": "B2",
+      "construction": "conditionals",
+      "direction": "en->pl",
+      "input": "If the girl opens the book, then the boy opens the book.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "conditional",
+        "kind": "real",
+        "conditionConcept": "event.open",
+        "consequenceConcept": "event.open"
+      }
+    },
+    {
+      "id": "B2-025",
+      "level": "B2",
+      "construction": "conditionals",
+      "direction": "en->pl",
+      "input": "If the boy opens the book, then the girl reads the book.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "conditional",
+        "kind": "real",
+        "conditionConcept": "event.open",
+        "consequenceConcept": "event.read"
+      }
+    },
+    {
+      "id": "B2-026",
+      "level": "B2",
+      "construction": "conditionals",
+      "direction": "en->pl",
+      "input": "If the boy opens the book, then the girl opens the book.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "conditional",
+        "kind": "real",
+        "conditionConcept": "event.open",
+        "consequenceConcept": "event.open"
+      }
+    },
+    {
+      "id": "B2-027",
+      "level": "B2",
+      "construction": "conditionals",
+      "direction": "en->pl",
+      "input": "If the boy opens the book, then the boy reads the book.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "conditional",
+        "kind": "real",
+        "conditionConcept": "event.open",
+        "consequenceConcept": "event.read"
+      }
+    },
+    {
+      "id": "B2-028",
+      "level": "B2",
+      "construction": "conditionals",
+      "direction": "en->pl",
+      "input": "If the boy opens the book, then the boy opens the book.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "conditional",
+        "kind": "real",
+        "conditionConcept": "event.open",
+        "consequenceConcept": "event.open"
+      }
+    },
+    {
+      "id": "B2-029",
+      "level": "B2",
+      "construction": "conditionals",
+      "direction": "en->pl",
+      "input": "If the girl opens the book, then the girl reads the book, otherwise the girl opens the book.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "conditional",
+        "kind": "real",
+        "conditionConcept": "event.open",
+        "consequenceConcept": "event.read"
+      }
+    },
+    {
+      "id": "B2-030",
+      "level": "B2",
+      "construction": "conditionals",
+      "direction": "en->pl",
+      "input": "If the girl opens the book, then the boy reads the book, otherwise the boy opens the book.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "conditional",
+        "kind": "real",
+        "conditionConcept": "event.open",
+        "consequenceConcept": "event.read"
+      }
+    },
+    {
+      "id": "B2-031",
+      "level": "B2",
+      "construction": "conditionals",
+      "direction": "pl->en",
+      "input": "Jeśli dziewczynka otwiera książkę, to dziewczynka czyta książkę.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "conditional",
+        "kind": "real",
+        "conditionConcept": "event.open",
+        "consequenceConcept": "event.read"
+      }
+    },
+    {
+      "id": "B2-032",
+      "level": "B2",
+      "construction": "conditionals",
+      "direction": "pl->en",
+      "input": "Jeśli dziewczynka otwiera książkę, to dziewczynka otwiera książkę.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "conditional",
+        "kind": "real",
+        "conditionConcept": "event.open",
+        "consequenceConcept": "event.open"
+      }
+    },
+    {
+      "id": "B2-033",
+      "level": "B2",
+      "construction": "conditionals",
+      "direction": "pl->en",
+      "input": "Jeśli dziewczynka otwiera książkę, to chłopiec czyta książkę.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "conditional",
+        "kind": "real",
+        "conditionConcept": "event.open",
+        "consequenceConcept": "event.read"
+      }
+    },
+    {
+      "id": "B2-034",
+      "level": "B2",
+      "construction": "conditionals",
+      "direction": "pl->en",
+      "input": "Jeśli dziewczynka otwiera książkę, to chłopiec otwiera książkę.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "conditional",
+        "kind": "real",
+        "conditionConcept": "event.open",
+        "consequenceConcept": "event.open"
+      }
+    },
+    {
+      "id": "B2-035",
+      "level": "B2",
+      "construction": "conditionals",
+      "direction": "pl->en",
+      "input": "Jeśli chłopiec otwiera książkę, to dziewczynka czyta książkę.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "conditional",
+        "kind": "real",
+        "conditionConcept": "event.open",
+        "consequenceConcept": "event.read"
+      }
+    },
+    {
+      "id": "B2-036",
+      "level": "B2",
+      "construction": "conditionals",
+      "direction": "pl->en",
+      "input": "Jeśli chłopiec otwiera książkę, to dziewczynka otwiera książkę.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "conditional",
+        "kind": "real",
+        "conditionConcept": "event.open",
+        "consequenceConcept": "event.open"
+      }
+    },
+    {
+      "id": "B2-037",
+      "level": "B2",
+      "construction": "conditionals",
+      "direction": "pl->en",
+      "input": "Jeśli chłopiec otwiera książkę, to chłopiec czyta książkę.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "conditional",
+        "kind": "real",
+        "conditionConcept": "event.open",
+        "consequenceConcept": "event.read"
+      }
+    },
+    {
+      "id": "B2-038",
+      "level": "B2",
+      "construction": "conditionals",
+      "direction": "pl->en",
+      "input": "Jeśli chłopiec otwiera książkę, to chłopiec otwiera książkę.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "conditional",
+        "kind": "real",
+        "conditionConcept": "event.open",
+        "consequenceConcept": "event.open"
+      }
+    },
+    {
+      "id": "B2-039",
+      "level": "B2",
+      "construction": "conditionals",
+      "direction": "pl->en",
+      "input": "Jeśli dziewczynka otwiera książkę, to dziewczynka czyta książkę, w przeciwnym razie dziewczynka otwiera książkę.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "conditional",
+        "kind": "real",
+        "conditionConcept": "event.open",
+        "consequenceConcept": "event.read"
+      }
+    },
+    {
+      "id": "B2-040",
+      "level": "B2",
+      "construction": "conditionals",
+      "direction": "pl->en",
+      "input": "Jeśli dziewczynka otwiera książkę, to chłopiec czyta książkę, w przeciwnym razie chłopiec otwiera książkę.",
+      "expectation": {
+        "status": "supported",
+        "semanticType": "conditional",
+        "kind": "real",
+        "conditionConcept": "event.open",
+        "consequenceConcept": "event.read"
+      }
+    },
+    {
+      "id": "B2-041",
+      "level": "B2",
+      "construction": "event_relations",
+      "direction": "en->pl",
+      "input": "The girl sees the cat. The girl sees the dog.",
+      "context": {
+        "eventRelations": [
+          {
+            "type": "because",
+            "from": "e1",
+            "to": "e2"
+          }
+        ]
+      },
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.visual_perception",
+          "event.visual_perception"
+        ],
+        "relation": "event_relation.because"
+      }
+    },
+    {
+      "id": "B2-042",
+      "level": "B2",
+      "construction": "event_relations",
+      "direction": "en->pl",
+      "input": "The girl sees the cat. The boy sees the cat.",
+      "context": {
+        "eventRelations": [
+          {
+            "type": "because",
+            "from": "e1",
+            "to": "e2"
+          }
+        ]
+      },
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.visual_perception",
+          "event.visual_perception"
+        ],
+        "relation": "event_relation.because"
+      }
+    },
+    {
+      "id": "B2-043",
+      "level": "B2",
+      "construction": "event_relations",
+      "direction": "en->pl",
+      "input": "The girl sees the cat. The girl opens the book.",
+      "context": {
+        "eventRelations": [
+          {
+            "type": "because",
+            "from": "e1",
+            "to": "e2"
+          }
+        ]
+      },
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.visual_perception",
+          "event.open"
+        ],
+        "relation": "event_relation.because"
+      }
+    },
+    {
+      "id": "B2-044",
+      "level": "B2",
+      "construction": "event_relations",
+      "direction": "en->pl",
+      "input": "The girl sees the cat. The boy reads the book.",
+      "context": {
+        "eventRelations": [
+          {
+            "type": "because",
+            "from": "e1",
+            "to": "e2"
+          }
+        ]
+      },
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.visual_perception",
+          "event.read"
+        ],
+        "relation": "event_relation.because"
+      }
+    },
+    {
+      "id": "B2-045",
+      "level": "B2",
+      "construction": "event_relations",
+      "direction": "en->pl",
+      "input": "The girl sees the cat. The boy opens the box.",
+      "context": {
+        "eventRelations": [
+          {
+            "type": "because",
+            "from": "e1",
+            "to": "e2"
+          }
+        ]
+      },
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.visual_perception",
+          "event.open"
+        ],
+        "relation": "event_relation.because"
+      }
+    },
+    {
+      "id": "B2-046",
+      "level": "B2",
+      "construction": "event_relations",
+      "direction": "en->pl",
+      "input": "The boy opens the box. The girl sees the dog.",
+      "context": {
+        "eventRelations": [
+          {
+            "type": "because",
+            "from": "e1",
+            "to": "e2"
+          }
+        ]
+      },
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.open",
+          "event.visual_perception"
+        ],
+        "relation": "event_relation.because"
+      }
+    },
+    {
+      "id": "B2-047",
+      "level": "B2",
+      "construction": "event_relations",
+      "direction": "en->pl",
+      "input": "The boy opens the box. The boy sees the cat.",
+      "context": {
+        "eventRelations": [
+          {
+            "type": "because",
+            "from": "e1",
+            "to": "e2"
+          }
+        ]
+      },
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.open",
+          "event.visual_perception"
+        ],
+        "relation": "event_relation.because"
+      }
+    },
+    {
+      "id": "B2-048",
+      "level": "B2",
+      "construction": "event_relations",
+      "direction": "en->pl",
+      "input": "The boy opens the box. The girl opens the book.",
+      "context": {
+        "eventRelations": [
+          {
+            "type": "because",
+            "from": "e1",
+            "to": "e2"
+          }
+        ]
+      },
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.open",
+          "event.open"
+        ],
+        "relation": "event_relation.because"
+      }
+    },
+    {
+      "id": "B2-049",
+      "level": "B2",
+      "construction": "event_relations",
+      "direction": "en->pl",
+      "input": "The boy opens the box. The boy reads the book.",
+      "context": {
+        "eventRelations": [
+          {
+            "type": "because",
+            "from": "e1",
+            "to": "e2"
+          }
+        ]
+      },
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.open",
+          "event.read"
+        ],
+        "relation": "event_relation.because"
+      }
+    },
+    {
+      "id": "B2-050",
+      "level": "B2",
+      "construction": "event_relations",
+      "direction": "en->pl",
+      "input": "The boy opens the box. The girl sees the cat.",
+      "context": {
+        "eventRelations": [
+          {
+            "type": "because",
+            "from": "e1",
+            "to": "e2"
+          }
+        ]
+      },
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.open",
+          "event.visual_perception"
+        ],
+        "relation": "event_relation.because"
+      }
+    },
+    {
+      "id": "B2-051",
+      "level": "B2",
+      "construction": "event_relations",
+      "direction": "pl->en",
+      "input": "Dziewczynka widzi kota. Dziewczynka widzi psa.",
+      "context": {
+        "eventRelations": [
+          {
+            "type": "because",
+            "from": "e1",
+            "to": "e2"
+          }
+        ]
+      },
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.visual_perception",
+          "event.visual_perception"
+        ],
+        "relation": "event_relation.because"
+      }
+    },
+    {
+      "id": "B2-052",
+      "level": "B2",
+      "construction": "event_relations",
+      "direction": "pl->en",
+      "input": "Dziewczynka widzi kota. Chłopiec widzi kota.",
+      "context": {
+        "eventRelations": [
+          {
+            "type": "because",
+            "from": "e1",
+            "to": "e2"
+          }
+        ]
+      },
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.visual_perception",
+          "event.visual_perception"
+        ],
+        "relation": "event_relation.because"
+      }
+    },
+    {
+      "id": "B2-053",
+      "level": "B2",
+      "construction": "event_relations",
+      "direction": "pl->en",
+      "input": "Dziewczynka widzi kota. Dziewczynka otwiera książkę.",
+      "context": {
+        "eventRelations": [
+          {
+            "type": "because",
+            "from": "e1",
+            "to": "e2"
+          }
+        ]
+      },
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.visual_perception",
+          "event.open"
+        ],
+        "relation": "event_relation.because"
+      }
+    },
+    {
+      "id": "B2-054",
+      "level": "B2",
+      "construction": "event_relations",
+      "direction": "pl->en",
+      "input": "Dziewczynka widzi kota. Chłopiec czyta książkę.",
+      "context": {
+        "eventRelations": [
+          {
+            "type": "because",
+            "from": "e1",
+            "to": "e2"
+          }
+        ]
+      },
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.visual_perception",
+          "event.read"
+        ],
+        "relation": "event_relation.because"
+      }
+    },
+    {
+      "id": "B2-055",
+      "level": "B2",
+      "construction": "event_relations",
+      "direction": "pl->en",
+      "input": "Dziewczynka widzi kota. Chłopiec otwiera pudełko.",
+      "context": {
+        "eventRelations": [
+          {
+            "type": "because",
+            "from": "e1",
+            "to": "e2"
+          }
+        ]
+      },
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.visual_perception",
+          "event.open"
+        ],
+        "relation": "event_relation.because"
+      }
+    },
+    {
+      "id": "B2-056",
+      "level": "B2",
+      "construction": "event_relations",
+      "direction": "pl->en",
+      "input": "Chłopiec otwiera pudełko. Dziewczynka widzi psa.",
+      "context": {
+        "eventRelations": [
+          {
+            "type": "because",
+            "from": "e1",
+            "to": "e2"
+          }
+        ]
+      },
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.open",
+          "event.visual_perception"
+        ],
+        "relation": "event_relation.because"
+      }
+    },
+    {
+      "id": "B2-057",
+      "level": "B2",
+      "construction": "event_relations",
+      "direction": "pl->en",
+      "input": "Chłopiec otwiera pudełko. Chłopiec widzi kota.",
+      "context": {
+        "eventRelations": [
+          {
+            "type": "because",
+            "from": "e1",
+            "to": "e2"
+          }
+        ]
+      },
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.open",
+          "event.visual_perception"
+        ],
+        "relation": "event_relation.because"
+      }
+    },
+    {
+      "id": "B2-058",
+      "level": "B2",
+      "construction": "event_relations",
+      "direction": "pl->en",
+      "input": "Chłopiec otwiera pudełko. Dziewczynka otwiera książkę.",
+      "context": {
+        "eventRelations": [
+          {
+            "type": "because",
+            "from": "e1",
+            "to": "e2"
+          }
+        ]
+      },
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.open",
+          "event.open"
+        ],
+        "relation": "event_relation.because"
+      }
+    },
+    {
+      "id": "B2-059",
+      "level": "B2",
+      "construction": "event_relations",
+      "direction": "pl->en",
+      "input": "Chłopiec otwiera pudełko. Chłopiec czyta książkę.",
+      "context": {
+        "eventRelations": [
+          {
+            "type": "because",
+            "from": "e1",
+            "to": "e2"
+          }
+        ]
+      },
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.open",
+          "event.read"
+        ],
+        "relation": "event_relation.because"
+      }
+    },
+    {
+      "id": "B2-060",
+      "level": "B2",
+      "construction": "event_relations",
+      "direction": "pl->en",
+      "input": "Chłopiec otwiera pudełko. Dziewczynka widzi kota.",
+      "context": {
+        "eventRelations": [
+          {
+            "type": "because",
+            "from": "e1",
+            "to": "e2"
+          }
+        ]
+      },
+      "expectation": {
+        "status": "supported",
+        "semanticType": "discourse",
+        "eventConcepts": [
+          "event.open",
+          "event.visual_perception"
+        ],
+        "relation": "event_relation.because"
+      }
+    },
+    {
+      "id": "B2-061",
+      "level": "B2",
+      "construction": "polysemy",
+      "direction": "en->pl",
+      "input": "The girl sees the port.",
+      "expectation": {
+        "status": "ambiguous",
+        "minReadings": 2,
+        "senses": [
+          "place.harbor",
+          "beverage.port_wine"
+        ]
+      }
+    },
+    {
+      "id": "B2-062",
+      "level": "B2",
+      "construction": "polysemy",
+      "direction": "en->pl",
+      "input": "The boy sees the port.",
+      "expectation": {
+        "status": "ambiguous",
+        "minReadings": 2,
+        "senses": [
+          "place.harbor",
+          "beverage.port_wine"
+        ]
+      }
+    },
+    {
+      "id": "B2-063",
+      "level": "B2",
+      "construction": "polysemy",
+      "direction": "en->pl",
+      "input": "The girl saw the port.",
+      "expectation": {
+        "status": "ambiguous",
+        "minReadings": 2,
+        "senses": [
+          "place.harbor",
+          "beverage.port_wine"
+        ]
+      }
+    },
+    {
+      "id": "B2-064",
+      "level": "B2",
+      "construction": "polysemy",
+      "direction": "en->pl",
+      "input": "The boy saw the port.",
+      "expectation": {
+        "status": "ambiguous",
+        "minReadings": 2,
+        "senses": [
+          "place.harbor",
+          "beverage.port_wine"
+        ]
+      }
+    },
+    {
+      "id": "B2-065",
+      "level": "B2",
+      "construction": "polysemy",
+      "direction": "en->pl",
+      "input": "A girl sees the port.",
+      "expectation": {
+        "status": "ambiguous",
+        "minReadings": 2,
+        "senses": [
+          "place.harbor",
+          "beverage.port_wine"
+        ]
+      }
+    },
+    {
+      "id": "B2-066",
+      "level": "B2",
+      "construction": "polysemy",
+      "direction": "en->pl",
+      "input": "A boy sees the port.",
+      "expectation": {
+        "status": "ambiguous",
+        "minReadings": 2,
+        "senses": [
+          "place.harbor",
+          "beverage.port_wine"
+        ]
+      }
+    },
+    {
+      "id": "B2-067",
+      "level": "B2",
+      "construction": "polysemy",
+      "direction": "en->pl",
+      "input": "A girl saw the port.",
+      "expectation": {
+        "status": "ambiguous",
+        "minReadings": 2,
+        "senses": [
+          "place.harbor",
+          "beverage.port_wine"
+        ]
+      }
+    },
+    {
+      "id": "B2-068",
+      "level": "B2",
+      "construction": "polysemy",
+      "direction": "en->pl",
+      "input": "A boy saw the port.",
+      "expectation": {
+        "status": "ambiguous",
+        "minReadings": 2,
+        "senses": [
+          "place.harbor",
+          "beverage.port_wine"
+        ]
+      }
+    },
+    {
+      "id": "B2-069",
+      "level": "B2",
+      "construction": "polysemy",
+      "direction": "en->pl",
+      "input": "The girls see the port.",
+      "expectation": {
+        "status": "ambiguous",
+        "minReadings": 2,
+        "senses": [
+          "place.harbor",
+          "beverage.port_wine"
+        ]
+      }
+    },
+    {
+      "id": "B2-070",
+      "level": "B2",
+      "construction": "polysemy",
+      "direction": "en->pl",
+      "input": "The boys see the port.",
+      "expectation": {
+        "status": "ambiguous",
+        "minReadings": 2,
+        "senses": [
+          "place.harbor",
+          "beverage.port_wine"
+        ]
+      }
+    },
+    {
+      "id": "B2-071",
+      "level": "B2",
+      "construction": "polysemy",
+      "direction": "pl->en",
+      "input": "Dziewczynka widzi port.",
+      "expectation": {
+        "status": "ambiguous",
+        "minReadings": 2,
+        "senses": [
+          "place.harbor",
+          "beverage.port_wine"
+        ]
+      }
+    },
+    {
+      "id": "B2-072",
+      "level": "B2",
+      "construction": "polysemy",
+      "direction": "pl->en",
+      "input": "Chłopiec widzi port.",
+      "expectation": {
+        "status": "ambiguous",
+        "minReadings": 2,
+        "senses": [
+          "place.harbor",
+          "beverage.port_wine"
+        ]
+      }
+    },
+    {
+      "id": "B2-073",
+      "level": "B2",
+      "construction": "polysemy",
+      "direction": "pl->en",
+      "input": "Dziewczynka widziała port.",
+      "expectation": {
+        "status": "ambiguous",
+        "minReadings": 2,
+        "senses": [
+          "place.harbor",
+          "beverage.port_wine"
+        ]
+      }
+    },
+    {
+      "id": "B2-074",
+      "level": "B2",
+      "construction": "polysemy",
+      "direction": "pl->en",
+      "input": "Chłopiec widział port.",
+      "expectation": {
+        "status": "ambiguous",
+        "minReadings": 2,
+        "senses": [
+          "place.harbor",
+          "beverage.port_wine"
+        ]
+      }
+    },
+    {
+      "id": "B2-075",
+      "level": "B2",
+      "construction": "polysemy",
+      "direction": "pl->en",
+      "input": "Dziewczynki widzą port.",
+      "expectation": {
+        "status": "ambiguous",
+        "minReadings": 2,
+        "senses": [
+          "place.harbor",
+          "beverage.port_wine"
+        ]
+      }
+    },
+    {
+      "id": "B2-076",
+      "level": "B2",
+      "construction": "polysemy",
+      "direction": "pl->en",
+      "input": "Chłopcy widzą port.",
+      "expectation": {
+        "status": "ambiguous",
+        "minReadings": 2,
+        "senses": [
+          "place.harbor",
+          "beverage.port_wine"
+        ]
+      }
+    },
+    {
+      "id": "B2-077",
+      "level": "B2",
+      "construction": "polysemy",
+      "direction": "pl->en",
+      "input": "Ojciec widzi port.",
+      "expectation": {
+        "status": "ambiguous",
+        "minReadings": 2,
+        "senses": [
+          "place.harbor",
+          "beverage.port_wine"
+        ]
+      }
+    },
+    {
+      "id": "B2-078",
+      "level": "B2",
+      "construction": "polysemy",
+      "direction": "pl->en",
+      "input": "Ojciec widział port.",
+      "expectation": {
+        "status": "ambiguous",
+        "minReadings": 2,
+        "senses": [
+          "place.harbor",
+          "beverage.port_wine"
+        ]
+      }
+    },
+    {
+      "id": "B2-079",
+      "level": "B2",
+      "construction": "polysemy",
+      "direction": "pl->en",
+      "input": "Siostra widzi port.",
+      "expectation": {
+        "status": "ambiguous",
+        "minReadings": 2,
+        "senses": [
+          "place.harbor",
+          "beverage.port_wine"
+        ]
+      }
+    },
+    {
+      "id": "B2-080",
+      "level": "B2",
+      "construction": "polysemy",
+      "direction": "pl->en",
+      "input": "Brat widzi port.",
+      "expectation": {
+        "status": "ambiguous",
+        "minReadings": 2,
+        "senses": [
+          "place.harbor",
+          "beverage.port_wine"
+        ]
+      }
+    },
+    {
+      "id": "B2-081",
+      "level": "B2",
+      "construction": "phraseology",
+      "direction": "en->pl",
+      "input": "The girl read between the lines.",
+      "expectation": {
+        "status": "unsupported"
+      }
+    },
+    {
+      "id": "B2-082",
+      "level": "B2",
+      "construction": "phraseology",
+      "direction": "en->pl",
+      "input": "The boy turned a blind eye.",
+      "expectation": {
+        "status": "unsupported"
+      }
+    },
+    {
+      "id": "B2-083",
+      "level": "B2",
+      "construction": "phraseology",
+      "direction": "en->pl",
+      "input": "The girl kept her cards close to her chest.",
+      "expectation": {
+        "status": "unsupported"
+      }
+    },
+    {
+      "id": "B2-084",
+      "level": "B2",
+      "construction": "phraseology",
+      "direction": "en->pl",
+      "input": "The boy put two and two together.",
+      "expectation": {
+        "status": "unsupported"
+      }
+    },
+    {
+      "id": "B2-085",
+      "level": "B2",
+      "construction": "phraseology",
+      "direction": "en->pl",
+      "input": "The girl drew the short straw.",
+      "expectation": {
+        "status": "unsupported"
+      }
+    },
+    {
+      "id": "B2-086",
+      "level": "B2",
+      "construction": "phraseology",
+      "direction": "en->pl",
+      "input": "The boy went out on a limb.",
+      "expectation": {
+        "status": "unsupported"
+      }
+    },
+    {
+      "id": "B2-087",
+      "level": "B2",
+      "construction": "phraseology",
+      "direction": "en->pl",
+      "input": "The girl swept it under the rug.",
+      "expectation": {
+        "status": "unsupported"
+      }
+    },
+    {
+      "id": "B2-088",
+      "level": "B2",
+      "construction": "phraseology",
+      "direction": "en->pl",
+      "input": "The boy took the bull by the horns.",
+      "expectation": {
+        "status": "unsupported"
+      }
+    },
+    {
+      "id": "B2-089",
+      "level": "B2",
+      "construction": "phraseology",
+      "direction": "en->pl",
+      "input": "The girl threw in the towel.",
+      "expectation": {
+        "status": "unsupported"
+      }
+    },
+    {
+      "id": "B2-090",
+      "level": "B2",
+      "construction": "phraseology",
+      "direction": "en->pl",
+      "input": "The boy was on thin ice.",
+      "expectation": {
+        "status": "unsupported"
+      }
+    },
+    {
+      "id": "B2-091",
+      "level": "B2",
+      "construction": "phraseology",
+      "direction": "pl->en",
+      "input": "Dziewczynka czytała między wierszami.",
+      "expectation": {
+        "status": "unsupported"
+      }
+    },
+    {
+      "id": "B2-092",
+      "level": "B2",
+      "construction": "phraseology",
+      "direction": "pl->en",
+      "input": "Chłopiec przymknął na to oko.",
+      "expectation": {
+        "status": "unsupported"
+      }
+    },
+    {
+      "id": "B2-093",
+      "level": "B2",
+      "construction": "phraseology",
+      "direction": "pl->en",
+      "input": "Dziewczynka postawiła wszystko na jedną kartę.",
+      "expectation": {
+        "status": "unsupported"
+      }
+    },
+    {
+      "id": "B2-094",
+      "level": "B2",
+      "construction": "phraseology",
+      "direction": "pl->en",
+      "input": "Chłopiec połączył fakty.",
+      "expectation": {
+        "status": "unsupported"
+      }
+    },
+    {
+      "id": "B2-095",
+      "level": "B2",
+      "construction": "phraseology",
+      "direction": "pl->en",
+      "input": "Dziewczynka wyciągnęła krótszą słomkę.",
+      "expectation": {
+        "status": "unsupported"
+      }
+    },
+    {
+      "id": "B2-096",
+      "level": "B2",
+      "construction": "phraseology",
+      "direction": "pl->en",
+      "input": "Chłopiec szedł po cienkim lodzie.",
+      "expectation": {
+        "status": "unsupported"
+      }
+    },
+    {
+      "id": "B2-097",
+      "level": "B2",
+      "construction": "phraseology",
+      "direction": "pl->en",
+      "input": "Dziewczynka zamiotła sprawę pod dywan.",
+      "expectation": {
+        "status": "unsupported"
+      }
+    },
+    {
+      "id": "B2-098",
+      "level": "B2",
+      "construction": "phraseology",
+      "direction": "pl->en",
+      "input": "Chłopiec chwycił byka za rogi.",
+      "expectation": {
+        "status": "unsupported"
+      }
+    },
+    {
+      "id": "B2-099",
+      "level": "B2",
+      "construction": "phraseology",
+      "direction": "pl->en",
+      "input": "Dziewczynka rzuciła ręcznik.",
+      "expectation": {
+        "status": "unsupported"
+      }
+    },
+    {
+      "id": "B2-100",
+      "level": "B2",
+      "construction": "phraseology",
+      "direction": "pl->en",
+      "input": "Chłopiec stąpał po kruchym lodzie.",
+      "expectation": {
+        "status": "unsupported"
+      }
+    }
+  ]
+}
