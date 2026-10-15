@@ -184,6 +184,12 @@ function validateGrammar(dictionary, grammar) {
       grammar.sentence.terminator !== '.') {
     throw new Error('Invalid sentence configuration.');
   }
+  if(grammar.replyStyles!==undefined &&
+      (!record(grammar.replyStyles) ||
+       Object.keys(grammar.replyStyles).sort().join(',')!=='emphatic,standard' ||
+       grammar.replyStyles.standard!=='.' || grammar.replyStyles.emphatic!=='!')) {
+    throw new Error('Invalid reply style grammar configuration.');
+  }
   if(grammar.conditional!==undefined&&(!record(grammar.conditional)||
       Object.keys(grammar.conditional).sort().join(',')!=='if,otherwise,then'||
       Object.values(grammar.conditional).some(marker=>
@@ -2420,6 +2426,16 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     readSubjectPronoun, readDeicticPronoun, expandSubjectPronoun, subjectPronounFor, subjectRole,
     connective: conjunction.and, wideNegation: conjunction.wideNegation,
     conditional:grammar.conditional,
+    styleReply:(output,style)=>{
+      const suffix=grammar.replyStyles?.[style];
+      if(!suffix || !output.text?.endsWith('.'))return {...output,
+        warnings:[...(output.warnings||[]),
+          `Reply style ${style} is unavailable in ${grammar.language}; standard wording was kept.`]};
+      if(suffix==='.')return output;
+      return {...output,text:output.text.slice(0,-1)+suffix,
+        alternatives:(output.alternatives||[]).map(value=>
+          value.endsWith('.')?value.slice(0,-1)+suffix:value)};
+    },
     describe: () => ({ language: grammar.language, grammarVersion: grammar.version,
       nouns: dictionary.nouns.length, verbs: dictionary.verbs.length, ...nominal.describe(),
       nounSenses: nouns.length, verbSenses: verbs.length, frames: Object.keys(frames).length,

@@ -207,8 +207,11 @@ export class Engine {
       return {plan,text:null,warnings:[],alternatives:[]};
     }
     const output = this.realize({interlingua:plan.realization,to,profile:personality});
-    return {plan,text:output.text,warnings:[...(output.warnings||[])],
-      alternatives:[...(output.alternatives||[])]};
+    const style=personality.realization.replyStyles[to]||'standard';
+    const adapter=to==='core'?null:this.language(to);
+    const styled=adapter?.styleReply ? adapter.styleReply(output,style) : output;
+    return {plan,text:styled.text,warnings:[...(styled.warnings||[])],
+      alternatives:[...(styled.alternatives||[])]};
   }
 
   /** Create a multi-turn orchestration facade over this Engine. */

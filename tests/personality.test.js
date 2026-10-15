@@ -30,7 +30,7 @@ const profile=(id,pronounRealization,outputVariant='preferred')=>({
 });
 
 test('default JSON and runtime default share the closed versioned schema',()=>{
-  assert.equal(engine.capabilities().personalityProfileVersion,'1.0');
+  assert.equal(engine.capabilities().personalityProfileVersion,'1.1');
   assert.deepEqual(profileJson,DEFAULT_PERSONALITY_PROFILE);
   assert.deepEqual(createPersonalityProfile(),profileJson);
   assert.deepEqual(profileSchema.required,['version','id','realization']);
@@ -41,7 +41,7 @@ test('default JSON and runtime default share the closed versioned schema',()=>{
 
 test('profile validator rejects unknown keys, invalid versions, IDs and option ranges',()=>{
   assert.throws(()=>createPersonalityProfile({...profileJson,extra:true}),/Invalid personality/);
-  assert.throws(()=>createPersonalityProfile({...profileJson,version:'1.1'}),/Invalid personality/);
+  assert.throws(()=>createPersonalityProfile({...profileJson,version:'2.0'}),/Invalid personality/);
   assert.throws(()=>createPersonalityProfile({...profileJson,id:'Bad ID'}),/Invalid personality/);
   assert.throws(()=>createPersonalityProfile(profile('casual','guess')),/Invalid personality/);
   assert.throws(()=>createPersonalityProfile(profile('casual','safe','invented')),/Invalid personality/);
