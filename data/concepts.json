@@ -118,6 +118,25 @@
         "theme"
       ]
     },
+    "event_relation": {
+      "type": "category",
+      "label": "event relation"
+    },
+    "event_relation.before": {
+      "type": "category",
+      "parent": "event_relation",
+      "label": "before"
+    },
+    "event_relation.after": {
+      "type": "category",
+      "parent": "event_relation",
+      "label": "after"
+    },
+    "event_relation.because": {
+      "type": "category",
+      "parent": "event_relation",
+      "label": "because (cause to consequence)"
+    },
     "event.visual_perception": {
       "type": "event",
       "parent": "event.perception",

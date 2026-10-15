@@ -23,6 +23,10 @@ export const DIALOGUE_ACT_VERSION = '1.24';
 export const NUMERIC_TIME_VERSION = '1.25';
 export const POSSESSIVE_VERSION = '1.26';
 export const COMPARISON_VERSION = '1.27';
+export const EVENT_RELATIONS_VERSION = '1.28';
+export const EVENT_RELATION_TYPES = Object.freeze([
+  'event_relation.before', 'event_relation.after', 'event_relation.because'
+]);
 export const DIALOGUE_ACT_TYPES = Object.freeze([
   'assert', 'ask', 'answer', 'confirm', 'clarify', 'refuse', 'request'
 ]);
@@ -252,11 +256,21 @@ export function sameDiscourseReferent(left, right) {
   return record(left) && record(right) &&
     referentFingerprint(left) === referentFingerprint(right);
 }
-export function createDiscourse(events, { coreference = {} } = {}) {
+export function createEventRelation(type, from, to) {
+  const relationType=typeof type==='string' && type.startsWith('event_relation.') ?
+    type : 'event_relation.'+type;
+  if(!EVENT_RELATION_TYPES.includes(relationType) || typeof from!=='string' || typeof to!=='string')
+    throw new Error('Invalid typed event relation.');
+  return {type:relationType,from,to};
+}
+
+export function createDiscourse(events, { coreference = {}, relations = [] } = {}) {
   if (!Array.isArray(events) || events.length < 2 || events.length > MAX_DISCOURSE_EVENTS) {
     throw new Error('Discourse requires 2–8 events.');
   }
   const links = validateCoreferenceMap(coreference, events.length);
+  if(!Array.isArray(relations) || relations.length>MAX_DISCOURSE_EVENTS*2)
+    throw new Error('Invalid or excessive event relations.');
   const targets = new Map(links.map(link=>[link.source,link]));
   const entities = Object.create(null);
   const earlierMentions = new Map();
@@ -296,16 +310,47 @@ export function createDiscourse(events, { coreference = {} } = {}) {
       throw new Error('Unknown discourse coreference source role: ' + link.source + '.');
     }
   }
+  const relationEdges=relations.map(relation=>{
+    if(!record(relation) || Object.keys(relation).sort().join(',')!=='from,to,type' ||
+        !EVENT_RELATION_TYPES.includes(relation.type) ||
+        !steps.some(event=>event.id===relation.from) || !steps.some(event=>event.id===relation.to) ||
+        relation.from===relation.to)throw new Error('Invalid or unresolved typed event relation.');
+    return {...relation};
+  });
+  assertAcyclicEventRelations(steps,relationEdges);
   return {
-    version: events.some(event=>Object.values(event.roles).some(ref=>record(ref)&&hasOwn(ref,'possessor')))
+    version: relationEdges.length ? EVENT_RELATIONS_VERSION :
+      events.some(event=>Object.values(event.roles).some(ref=>record(ref)&&hasOwn(ref,'possessor')))
         ? POSSESSIVE_VERSION :
       events.some(event => event.version === CLAUSE_VERSION) ? CLAUSE_VERSION :
       events.some(event => event.version === QUALIFIED_VERSION) ||
         events.some(event=>Object.values(event.roles).some(isQualifiedParticipant))
         ? QUALIFIED_VERSION : DISCOURSE_VERSION,
     type: 'discourse', entities, events: steps,
-    relations: steps.slice(1).map((event, i) => ({ type: 'precedes', from: steps[i].id, to: event.id }))
+    relations: [
+      ...steps.slice(1).map((event, i) => ({ type: 'precedes', from: steps[i].id, to: event.id })),
+      ...relationEdges
+    ]
   };
+}
+
+function assertAcyclicEventRelations(events, relations) {
+  const adjacency=new Map(events.map(event=>[event.id,[]]));
+  for(const relation of relations) {
+    const {from,to,type}=relation;
+    // "after" reverses the stored assertion direction; because is cause -> effect.
+    adjacency.get(type==='event_relation.after'?to:from).push(
+      type==='event_relation.after'?from:to);
+  }
+  const visiting=new Set(),visited=new Set();
+  const visit=id=>{
+    if(visiting.has(id))throw new Error('Event relation dependencies must be acyclic.');
+    if(visited.has(id))return;
+    visiting.add(id);
+    for(const next of adjacency.get(id))visit(next);
+    visiting.delete(id);visited.add(id);
+  };
+  for(const event of events)visit(event.id);
 }
 
 export function materializeEvent(discourse, event) {
@@ -862,13 +907,14 @@ function validateInterlinguaDocument(node, ontology, registry) {
     return node;
   }
   if (node.type !== 'discourse' || ![DISCOURSE_VERSION, QUALIFIED_VERSION, CLAUSE_VERSION,
-    POSSESSIVE_VERSION].includes(node.version) ||
+    POSSESSIVE_VERSION, EVENT_RELATIONS_VERSION].includes(node.version) ||
       !record(node.entities) || !Array.isArray(node.events) ||
       node.events.length < 2 || node.events.length > MAX_DISCOURSE_EVENTS ||
       !Array.isArray(node.relations)) {
     throw new Error('Unsupported or invalid Interlingua document.');
   }
-  if(node.version!==POSSESSIVE_VERSION && Object.values(node.entities).some(ref=>
+  if(![POSSESSIVE_VERSION,EVENT_RELATIONS_VERSION].includes(node.version) &&
+      Object.values(node.entities).some(ref=>
     record(ref)&&hasOwn(ref,'possessor')))
     throw new Error(`Possessive participants require Interlingua v${POSSESSIVE_VERSION}.`);
   for (const [id, entity] of Object.entries(node.entities)) {
@@ -888,11 +934,31 @@ function validateInterlinguaDocument(node, ontology, registry) {
       }
     }
     validateEventShape(materializeEvent(node, event), ontology, registry,
-      node.version !== DISCOURSE_VERSION, [CLAUSE_VERSION, SEMANTIC_VERSION].includes(node.version));
+      node.version !== DISCOURSE_VERSION,
+      [CLAUSE_VERSION, SEMANTIC_VERSION, EVENT_RELATIONS_VERSION].includes(node.version));
   }
-  if (node.relations.length !== node.events.length - 1 ||
-      node.relations.some((edge, i) => !record(edge) || edge.type !== 'precedes' ||
-        edge.from !== node.events[i].id || edge.to !== node.events[i + 1].id)) {
+  if (node.relations.length < node.events.length - 1 ||
+      node.relations.some((edge, i) => !record(edge) ||
+        (i<node.events.length-1 && (edge.type !== 'precedes' ||
+          edge.from !== node.events[i].id || edge.to !== node.events[i + 1].id)) ||
+        (i>=node.events.length-1 && node.version!==EVENT_RELATIONS_VERSION))) {
+    throw new Error('Discourse sequence relations must form an ordered, acyclic chain.');
+  }
+  if(node.version===EVENT_RELATIONS_VERSION) {
+    const explicit=node.relations.slice(node.events.length-1);
+    const keys=new Set();
+    for(const edge of explicit) {
+      if(!record(edge) || Object.keys(edge).sort().join(',')!=='from,to,type' ||
+          !EVENT_RELATION_TYPES.includes(edge.type) || !ontology.isA(edge.type,'event_relation') || !ids.has(edge.from) ||
+          !ids.has(edge.to) || edge.from===edge.to) {
+        throw new Error('Typed event relations must reference existing events.');
+      }
+      const key=[edge.type,edge.from,edge.to].join(':');
+      if(keys.has(key))throw new Error('Duplicate typed event relation.');
+      keys.add(key);
+    }
+    assertAcyclicEventRelations(node.events,explicit);
+  } else if(node.relations.length!==node.events.length-1) {
     throw new Error('Discourse sequence relations must form an ordered, acyclic chain.');
   }
   return node;
