@@ -65,6 +65,13 @@ W nowej zakładce liczby pochodzą w czasie działania z `Engine.morphology(lang
 
 Akcja **„Przetestuj wzorzec”** otwiera formularz słownika z ręcznie wybranym językiem, częścią mowy i wzorcem. Nie wpisuje automatycznie słowa ani nie twierdzi, że wzorzec będzie dla niego poprawny.
 
+## Podgląd INTER i alternatywnych odczytań
+
+- Inspektor pokazuje niezmieniony graf wybrany przez silnik. W dyskursie rozwija identyfikatory encji do ich pojęć i cech, zachowując widoczny identyfikator referentu przy roli.
+- Każdy dostępny alternatywny sens lub czas ma własny graf semantyczny obok wybranego odczytania; dane alternatywy nadal pochodzą z `Engine.translate`.
+- Widok pokazuje cechy czasu, aspektu i negacji oraz operator i docelową rolę pytania. Nie wylicza ponownie znaczenia.
+- Odmowy silnika z kodem, np. błędny CORE JSON, wyświetlają ten kod obok komunikatu.
+
 ## Granica odpowiedzialności
 
 Zmiany GUI dotyczą index.html, js/ui/studio.js i tylko minimalnych wywołań widoku z js/main.js. Nie ingerują w js/core/, js/languages/, data/, API silnika ani algorytmy. Zakładki są dostępne z klawiatury (strzałki, Home, End), pola są opisane, a ekrany responsywne.

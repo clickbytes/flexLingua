@@ -57,7 +57,8 @@ test('Tabs, all-form tables, missing lemmas and INTER visualizer work without ch
     'dictionary-form', 'dictionary-query', 'dictionary-language',
     'dictionary-status', 'dictionary-results', 'dictionary-example-pl',
     'dictionary-example-inflected', 'dictionary-example-en',
-    'meaning-empty', 'meaning-summary', 'meaning-tree', 'coverage-overview'
+    'meaning-empty', 'meaning-summary', 'meaning-tree', 'meaning-alternatives-panel',
+    'meaning-alternatives', 'coverage-overview'
   ];
   const elements = new Map(ids.map(id => [id, new ElementStub()]));
   const el = id => elements.get(id);
@@ -93,13 +94,44 @@ test('Tabs, all-form tables, missing lemmas and INTER visualizer work without ch
   assert.equal(el('meaning-empty').hidden, true);
   assert.match(allText(el('meaning-tree')), /event.visual_perception/);
   assert.match(allText(el('meaning-tree')), /animal.dog/);
+  assert.match(allText(el('meaning-tree')), /Czas: przeszły/);
+  assert.match(allText(el('meaning-tree')), /Biegunowość: twierdząca/);
   const question = engine.analyze({ text: 'Did the girl see the dog?', from: 'en' });
   renderMeaning(question);
   assert.match(allText(el('meaning-tree')), /Pytanie zamknięte/);
   assert.match(allText(el('meaning-tree')), /Treść pytania/);
   assert.match(allText(el('meaning-tree')), /animal.dog/);
+  const whQuestion = engine.analyze({ text: 'What did the girl see?', from: 'en' });
+  renderMeaning(whQuestion);
+  assert.match(allText(el('meaning-tree')), /Obiekt \/ theme/);
+  const negative = engine.analyze({
+    text: 'The girl did not see the dog.', from: 'en'
+  });
+  renderMeaning(negative);
+  assert.match(allText(el('meaning-tree')), /Biegunowość: przecząca/);
+  const negated = engine.analyze({
+    text: 'It is not true that the girl saw the dog.', from: 'en'
+  });
+  renderMeaning(negated);
+  assert.match(allText(el('meaning-tree')), /Operator: negacja/);
+  const discourse = engine.analyze({
+    text: 'The girl saw the dog. The boy saw the cat.', from: 'en'
+  });
+  renderMeaning(discourse);
+  assert.match(allText(el('meaning-tree')), /person\.girl/);
+  assert.match(allText(el('meaning-tree')), /animal\.dog/);
+  assert.match(allText(el('meaning-tree')), /Identyfikator referentu: p1/);
+  const ambiguous = engine.translate({
+    text: 'The girl saw a bank.', from: 'en', to: 'pl'
+  });
+  renderMeaning(ambiguous.interlingua, ambiguous.semanticAlternatives);
+  assert.ok(ambiguous.semanticAlternatives.length > 0);
+  assert.equal(el('meaning-alternatives-panel').hidden, false);
+  assert.ok(el('meaning-alternatives').children.length > 0);
+  assert.match(allText(el('meaning-alternatives')), /Czas:|past|przesz/);
   renderMeaning(null);
   assert.equal(el('meaning-empty').hidden, false);
+  assert.equal(el('meaning-alternatives-panel').hidden, true);
 });
 
 test('HTML keeps existing UI hook IDs and new tab panels', async () => {
@@ -109,6 +141,7 @@ test('HTML keeps existing UI hook IDs and new tab panels', async () => {
     'context-topic', 'morph-generate', 'morph-analyze', 'morph-output',
     'inspector', 'copy', 'status', 'sample-question', 'studio-tabs', 'dictionary-form',
     'dictionary-query', 'dictionary-results', 'meaning-tree',
+    'meaning-alternatives-panel', 'meaning-alternatives',
     'tab-coverage', 'panel-coverage', 'coverage-overview',
     'dictionary-experimental', 'dictionary-compare', 'dictionary-compare-paradigm',
     'dictionary-part-of-speech', 'dictionary-paradigm-guide',

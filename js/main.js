@@ -55,7 +55,7 @@ function translate() {
     });
     element('result').textContent = result.text;
     element('inspector').textContent = JSON.stringify(result.interlingua, null, 2);
-    renderMeaning(result.interlingua);
+    renderMeaning(result.interlingua, result.semanticAlternatives);
     showMessages(element('warnings'), result.warnings, 'warning', 'Uwaga: ');
     showMessages(element('alternatives'), result.alternatives, 'alternative', 'Wariant gramatyczny: ');
     showMessages(element('semantic-alternatives'), result.semanticAlternatives.map(item =>
@@ -64,7 +64,8 @@ function translate() {
     lastMeaning = result.interlingua;
     element('copy').disabled = false;
   } catch (error) {
-    showMessages(element('warnings'), [error.message], 'warning error', 'Nieobsługiwana konstrukcja: ');
+    const diagnostic = error.code ? `${error.code}: ${error.message}` : error.message;
+    showMessages(element('warnings'), [diagnostic], 'warning error', 'Nieobsługiwana konstrukcja: ');
   }
 }
 
