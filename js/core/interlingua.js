@@ -817,8 +817,8 @@ function validateClauseTree(node, ontology, registry, depth = 0, gap = null) {
       throw new Error('Invalid semantic coordination.');
     }
     for (const child of node.clauses) {
-      if (!['event','modality','scope','comparison'].includes(child?.type))
-        throw new Error('Coordination requires complete event or modal clauses.');
+      if (!['event','modality','scope','comparison','complement'].includes(child?.type))
+        throw new Error('Coordination requires complete event, modal or complement clauses.');
       validateClauseTree(child, ontology, registry, depth + 1);
     }
   } else if (node.type === 'scope') {

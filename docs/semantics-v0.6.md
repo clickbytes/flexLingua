@@ -77,7 +77,15 @@ The helper removes the gap argument and retains the other semantic roles. Realiz
 }
 ```
 
-The two placeholder events above illustrate only the structure: real events **must contain complete semantic roles and feature bundles**. Use `createCoordination([completeEvent1, completeEvent2])`. The number of child event clauses is 2–4; nested coordinations are deliberately rejected until they can be parsed without losing structure. Connector spellings are in `data/grammar/{en,pl}.json` (`and` / `i`). A coordination of events is not converted into two independent discourse entities and is not an event sequence. Each member retains its own polarity and participant references; shared identity must be represented explicitly rather than inferred from spelling.
+The two placeholder events above illustrate only the structure: real events **must contain complete semantic roles and feature bundles**. Use `createCoordination([completeClause1, completeClause2])`. The number of child clauses is 2–4. Each child may be a complete event, modal clause, scoped clause, comparison, or finite propositional complement. Nested coordinations are rejected. Connector spellings are in `data/grammar/{en,pl}.json` (`and` / `i`). A coordination is not converted into two independent discourse entities and is not an event sequence. Each member retains its own polarity and participant references; shared identity must be represented explicitly rather than inferred from spelling.
+
+The PL/EN parser uses bounded chart-style spans to find complete coordinated
+clauses. A coordinated complement such as “The girl believes that the boy sees
+the dog and the boy believes that the girl sees a cat” is represented as
+`coordination(complement(event), complement(event))`. Relative clauses inside
+the embedded event keep their explicit role gap. Analysis is capped at 16
+candidate readings, four coordinated clauses, and the existing CORE clause
+tree depth; over-limit or malformed spans are rejected.
 
 ## Operator precedence and scope
 
@@ -109,7 +117,7 @@ These are **constrained, unambiguous semantic trees**; arbitrary propositional l
 - Controlled language PL/EN only; this is not a general parser of arbitrary subordinate clauses.
 - Gap roles currently include `agent` and `theme` in provided relative-marker tables. Arbitrary semantic roles can be validated but require an appropriate language-specific marker to be rendered.
 - Relative nesting depth ≤2; quantifier scope is not a full semantic calculus.
-- No relative-clause coordination, complement clauses (`that` as a sentential argument), conditionals, temporal subordinators, arbitrary coreference or ellipsis.
-- Text-level coordination is recognized as top-level clauses separated by the configured word, not by general syntactic parsing. The marker within another construction can yield an explicit unsupported-construction error.
+- No relative-clause coordination, conditionals, temporal subordinators, arbitrary coreference or ellipsis. Finite `that/że` complements are limited to configured belief predicates and supported event/modal content.
+- Text-level coordination uses chart-checked spans separated by the configured word; it is not general syntactic parsing. Nested coordination and unsupported uses of the marker are rejected.
 - Morphological paradigms, lexical inventory and article selection are still a deliberately small demonstration.
 - The familiar `.analyze()` method gives the preferred reading; `.analyzeCandidates()` exposes bounded semantic ambiguity. Maximum 16 readings; exhaustive ambiguity is not guaranteed.
