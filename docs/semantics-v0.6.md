@@ -87,6 +87,18 @@ the embedded event keep their explicit role gap. Analysis is capped at 16
 candidate readings, four coordinated clauses, and the existing CORE clause
 tree depth; over-limit or malformed spans are rejected.
 
+## Passive event realization (CORE 1.29)
+
+The bounded passive construction currently covers past `event.open` clauses in
+PL and EN. CORE retains the same `agent` and `theme` role mapping as the active
+event and records `voice:'passive'` so the target can use its passive agreement
+paradigm. An omitted external agent is absent from `roles` and listed in
+`omittedRoles:['agent']`; no actor is fabricated. A known but unidentified
+person can instead be represented explicitly as `person.unknown`. EN uses
+`was/were opened`; PL tables the auxiliary and participle across singular
+gender and plural class. Other passive tenses, event frames, passive clauses
+with local negative polarity and relative-clause themes are rejected until configured.
+
 ## Operator precedence and scope
 
 ```text

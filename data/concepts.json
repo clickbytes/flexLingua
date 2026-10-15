@@ -84,6 +84,11 @@
       "parent": "person",
       "label": "girl"
     },
+    "person.unknown": {
+      "type": "entity",
+      "parent": "person",
+      "label": "unidentified person"
+    },
     "person.boy": {
       "type": "entity",
       "parent": "person",

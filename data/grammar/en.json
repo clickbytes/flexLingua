@@ -13,6 +13,18 @@
       "comma": false
     }
   },
+  "passive": {
+    "agentMarker": "by",
+    "agentCase": "acc",
+    "events": {
+      "event.open": {
+        "past": {
+          "auxiliary": { "singular": "was", "plural": "were" },
+          "participle": { "singular": "opened", "plural": "opened" }
+        }
+      }
+    }
+  },
   "nounPhrase": {
     "path": "forms.{number}",
     "subjectCase": "nom",

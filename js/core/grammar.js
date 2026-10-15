@@ -146,6 +146,34 @@ function validateGrammar(dictionary, grammar) {
       !['nom','acc','gen','dat','loc'].includes(grammar.comparison.standardCase))) {
     throw new Error('Invalid comparison grammar configuration.');
   }
+  if(grammar.passive!==undefined) {
+    const passive=grammar.passive;
+    const validCell=cell=>(typeof cell==='string'&&/^[\p{L}]+$/u.test(cell))||
+      (record(cell)&&Object.keys(cell).length>0&&Object.entries(cell).every(([key,value])=>
+        ['masculine','feminine','neuter','virile','nonvirile'].includes(key)&&
+        typeof value==='string'&&/^[\p{L}]+$/u.test(value)));
+    if(!record(passive)||Object.keys(passive).sort().join(',')!=='agentCase,agentMarker,events'||
+        !/^[\p{L}]+$/u.test(passive.agentMarker||'')||
+        !['acc','dat','gen','loc'].includes(passive.agentCase)||!record(passive.events)||
+        Object.keys(passive.events).length<1||Object.keys(passive.events).length>8) {
+      throw new Error('Invalid passive voice grammar configuration.');
+    }
+    for(const [concept,tenses] of Object.entries(passive.events)) {
+      const frame=grammar.frames[concept];
+      if(!record(tenses)||Object.keys(tenses).length!==1||!hasOwn(tenses,'past')||
+          !frame||!frame.linearizations?.some(sequence=>sequence.includes('theme'))||
+          !dictionary.verbs.some(verb=>verb.senses?.some(sense=>sense.coreRef?.id===concept))) {
+        throw new Error(`Invalid passive event frame: ${concept}`);
+      }
+      const paradigm=tenses.past;
+      if(!record(paradigm)||Object.keys(paradigm).sort().join(',')!=='auxiliary,participle'||
+          ['auxiliary','participle'].some(key=>!record(paradigm[key])||
+            Object.keys(paradigm[key]).sort().join(',')!=='plural,singular'||
+            !Object.values(paradigm[key]).every(validCell))) {
+        throw new Error(`Invalid passive past paradigm: ${concept}`);
+      }
+    }
+  }
   if(grammar.request!==undefined && (!record(grammar.request) ||
       Object.keys(grammar.request).sort().join(',')!=='actionPath,marker' ||
       !/^[\p{L}]+$/u.test(grammar.request.marker||'') ||
@@ -950,6 +978,58 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     return found;
   }
 
+  function passiveCell(cell,parsed) {
+    const byNumber=cell?.[parsed.value.features.number];
+    if(typeof byNumber==='string')return byNumber;
+    if(!record(byNumber))return null;
+    const key=parsed.value.features.number==='singular'?
+      parsed.noun.gender:parsed.noun.pluralClass;
+    return byNumber[key]||null;
+  }
+
+  function parsePassiveCandidates(tokens,counter) {
+    if(!grammar.passive)return [];
+    const budget=searchBudget(counter),readings=new Map();
+    for(const [concept,tenses] of Object.entries(grammar.passive.events)) {
+      for(const [tense,paradigm] of Object.entries(tenses)) {
+        const themes=readNounPhrases(tokens,0,'nom',0,budget);
+        for(const theme of themes) {
+          const auxiliary=passiveCell(paradigm.auxiliary,theme);
+          const participle=passiveCell(paradigm.participle,theme);
+          if(!auxiliary||!participle||tokens[theme.next]!==normalizedWord(auxiliary)||
+              tokens[theme.next+1]!==normalizedWord(participle))continue;
+          const after=theme.next+2,baseRoles={theme:theme.value};
+          if(after===tokens.length) {
+            const meaning=createEvent(concept,baseRoles,
+              {tense,polarity:'positive',aspect:'unknown'},
+              {voice:'passive',omittedRoles:['agent']});
+            const candidate={interlingua:meaning,
+              lexicalSenses:{theme:theme.senseId,verb:null},score:theme.priority||0};
+            const key=JSON.stringify(meaning),former=readings.get(key);
+            if(!former||candidate.score>former.score)readings.set(key,candidate);
+            continue;
+          }
+          const markerSize=matchesTokens(tokens,after,grammar.passive.agentMarker);
+          if(!markerSize)continue;
+          const agents=readNounPhrases(tokens,after+markerSize,grammar.passive.agentCase,0,budget);
+          for(const agent of agents) {
+            if(agent.next!==tokens.length)continue;
+            const meaning=createEvent(concept,{...baseRoles,agent:agent.value},
+              {tense,polarity:'positive',aspect:'unknown'},{voice:'passive'});
+            const candidate={interlingua:meaning,
+              lexicalSenses:{theme:theme.senseId,verb:null,
+                ...(agent.senseId?{agent:agent.senseId}:{})},
+              score:(theme.priority||0)+(agent.priority||0)};
+            const key=JSON.stringify(meaning),former=readings.get(key);
+            if(!former||candidate.score>former.score)readings.set(key,candidate);
+          }
+        }
+      }
+    }
+    return [...readings.values()].sort((left,right)=>right.score-left.score)
+      .slice(0,MAX_ANALYSES);
+  }
+
   /** Bounded chart-like enumeration for complete clauses or clauses with one semantic gap.
    * Relative clauses are parsed by recursively reusing the SAME frame/lexicon rules.
    * The source marker is language-specific data; no pairwise translation rules exist.
@@ -980,7 +1060,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
               ...(item.interlingua.clockTime?{clockTime:item.interlingua.clockTime}:{}),
               ...(item.interlingua.calendarDate?{calendarDate:item.interlingua.calendarDate}:{}),
               ...(kind==='clock'?{clockTime:parsed}:{calendarDate:parsed})
-            })
+            },{voice:item.interlingua.voice,omittedRoles:item.interlingua.omittedRoles})
           }));
         }
       }
@@ -999,7 +1079,8 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
             const timed=readings.filter(item=>item.interlingua.type==='event').map(item=>({
               ...item,
               interlingua:createEvent(item.interlingua.concept,item.interlingua.roles,
-                {...item.interlingua.features,timeReference:reference})
+                {...item.interlingua.features,timeReference:reference},
+                {voice:item.interlingua.voice,omittedRoles:item.interlingua.omittedRoles})
             }));
             if(timed.length)return timed;
           }
@@ -1008,6 +1089,8 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     }
     const tokens = tokenize(text);
     const counter={visited:0};
+    const passiveReadings=parsePassiveCandidates(tokens,counter);
+    if(passiveReadings.length)return passiveReadings;
     const requestReadings=parseRequestCandidates(tokens,counter);
     if(requestReadings.length)return requestReadings;
     const modalReadings = parseModalCandidates(tokens,null,null,null,counter);
@@ -1773,6 +1856,29 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     return {text:sentenceText([parts.join(' ')],sentence.terminator),warnings:[],alternatives:[]};
   }
 
+  function realizePassive(meaning) {
+    const paradigm=grammar.passive?.events?.[meaning.concept]?.[meaning.features.tense];
+    if(!paradigm||meaning.features.polarity!=='positive' || meaning.features.aspect!=='unknown')
+      throw new Error(`Unsupported passive realization for ${meaning.concept}.`);
+    const theme=meaning.roles.theme;
+    if(!theme || theme.relatives?.length)
+      throw new Error('Passive realization requires a supported theme without relative clauses.');
+    const noun=nounByConcept(theme.concept),parsed={value:theme,noun};
+    const auxiliary=passiveCell(paradigm.auxiliary,parsed);
+    const participle=passiveCell(paradigm.participle,parsed);
+    if(!auxiliary||!participle)
+      throw new Error(`Missing passive agreement forms for ${theme.concept}.`);
+    const fallback=Object.keys(nounPhrase.determiners).length?
+      nounPhrase.defaultDefiniteness:undefined;
+    const parts=[plainNoun(theme,noun,'nom',fallback),auxiliary,participle];
+    if(meaning.roles.agent) {
+      const agent=meaning.roles.agent,nounForAgent=nounByConcept(agent.concept);
+      parts.push(grammar.passive.agentMarker,
+        plainNoun(agent,nounForAgent,grammar.passive.agentCase,fallback));
+    }
+    return {text:sentenceText([parts]),warnings:[],alternatives:[]};
+  }
+
   function realizeComparison(meaning) {
     const config=grammar.comparison;
     if(!config)throw new Error(`Unsupported comparison realization in ${dictionary.language}.`);
@@ -1923,6 +2029,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     if(meaning?.type==='question')return realizeQuestion(meaning);
     if(meaning?.type==='comparison')return realizeComparison(meaning);
     if(meaning?.type==='state')return realizeState(meaning);
+    if(meaning?.voice==='passive')return realizePassive(meaning);
     if(modalParts(meaning))return realizeModal(meaning);
     const built = renderEvent(meaning, undefined, 0, null, {subjectPronoun});
     const { candidates, preferred, linearize } = built;

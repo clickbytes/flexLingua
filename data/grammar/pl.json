@@ -14,6 +14,24 @@
       "subjectCase": "nom"
     }
   },
+  "passive": {
+    "agentMarker": "przez",
+    "agentCase": "acc",
+    "events": {
+      "event.open": {
+        "past": {
+          "auxiliary": {
+            "singular": { "masculine": "został", "feminine": "została", "neuter": "zostało" },
+            "plural": { "virile": "zostali", "nonvirile": "zostały" }
+          },
+          "participle": {
+            "singular": { "masculine": "otwarty", "feminine": "otwarta", "neuter": "otwarte" },
+            "plural": { "virile": "otwarci", "nonvirile": "otwarte" }
+          }
+        }
+      }
+    }
+  },
   "nounPhrase": {
     "path": "forms.{number}.{case}",
     "subjectCase": "nom",
