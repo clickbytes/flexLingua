@@ -9,6 +9,9 @@ import {createDialogueEngine as createDialogueEngineApi, DIALOGUE_ENGINE_VERSION
   from './dialogue-engine.js';
 import {applyPersonalityProfile, createPersonalityProfile, PERSONALITY_PROFILE_VERSION}
   from './personality.js';
+import {validateLanguageAdapter,validateMorphologyAdapter,
+  LANGUAGE_ADAPTER_CONTRACT_VERSION,MORPHOLOGY_ADAPTER_CONTRACT_VERSION}
+  from './adapter-contract.js';
 
 const MAX_CANDIDATES = 16;
 
@@ -108,11 +111,7 @@ export class Engine {
   }
 
   registerLanguage(adapter) {
-    if (!adapter?.code || typeof adapter.analyze !== 'function' ||
-        typeof adapter.realize !== 'function') {
-      throw new Error('Language adapter must expose code, analyze() and realize().');
-    }
-    if (adapter.code === 'core') throw new Error('CORE is reserved for Interlingua JSON.');
+    validateLanguageAdapter(adapter);
     if (this.languages.has(adapter.code)) throw new Error(`Duplicate language: ${adapter.code}`);
     if (typeof adapter.validateOntology === 'function') {
       adapter.validateOntology(this.ontology, this.features, this.core);
@@ -123,10 +122,7 @@ export class Engine {
 
   /** Morphology has its own adapter contract and need not implement sentence syntax. */
   registerMorphology(adapter) {
-    if (!adapter?.language || typeof adapter.generate !== 'function' ||
-        typeof adapter.analyze !== 'function' || typeof adapter.paradigm !== 'function') {
-      throw new Error('Invalid morphology adapter.');
-    }
+    validateMorphologyAdapter(adapter);
     if (this.morphologies.has(adapter.language)) throw new Error(`Duplicate morphology: ${adapter.language}`);
     if (!adapter.lexicon?.validateCore(this.core)) throw new Error('Unvalidated morphology CORE lexicon.');
     this.morphologies.set(adapter.language, adapter);
@@ -137,6 +133,10 @@ export class Engine {
     const adapter = this.morphologies.get(language);
     if (!adapter) throw new Error(`Unsupported morphology language: ${language}`);
     return adapter;
+  }
+
+  morphologyAvailability({language,lexemeId,features,exact=true}) {
+    return this.morphology(language).availability({lexemeId,features,exact});
   }
 
   inflect({language,lexemeId,features}) {
@@ -891,6 +891,8 @@ export class Engine {
       responsePlannerVersion: RESPONSE_PLANNER_VERSION,
       dialogueEngineVersion: DIALOGUE_ENGINE_VERSION,
       personalityProfileVersion: PERSONALITY_PROFILE_VERSION,
+      languageAdapterContractVersion:LANGUAGE_ADAPTER_CONTRACT_VERSION,
+      morphologyAdapterContractVersion:MORPHOLOGY_ADAPTER_CONTRACT_VERSION,
       modalityDocumentVersion: MODALITY_VERSION, stateDocumentVersion: STATE_VERSION,
       stateFrameVersion: this.ontology.stateFrameVersion,
       coreLanguage: {code:'core', version:this.core.version, format:'interlingua-json'},
