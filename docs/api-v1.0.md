@@ -121,8 +121,30 @@ contract is advertised as
 engine.capabilities().dialogueActDocumentVersion === '1.24'.
 
 The schema and runtime accept CORE JSON only. This extension does not add PL/EN
-speech-act parsing or realization. See the
+speech-act parsing or direct dialogue-act realization. See the
 [dialogue-act contract and limits](adr/dialogue-acts.md).
+
+## v1.0 extension — deterministic response planning
+
+`engine.planResponse({question,facts,clarifyQuestion?})` accepts a validated
+CORE question (or an `ask` act) plus up to 32 validated CORE propositions,
+`assert` acts, or discourse documents. It returns a versioned response plan
+with a typed dialogue act, a CORE proposition to realize when one is supported,
+and indices for the facts used. Planning is local and deterministic; it does
+not call a network service or language model. `engine.respond({...request,to})`
+adds target-language realization through the registered grammar. An unknown
+answer has a typed `refuse` act and no fabricated sentence. A caller may supply
+a semantic `clarifyQuestion`; it becomes a typed clarification and is realized
+as a question.
+
+The initial rule set matches complete semantic propositions. Yes/no answers
+need an explicit matching or polarity-opposite fact; absence never means
+"no". WH answers fill one declared event-role gap when the remaining event
+semantics match exactly. Conflicting facts produce `ambiguous`; unsupported
+questions and missing facts remain unknown. This is a bounded rule subset, not
+general inference. The capability is advertised as
+`engine.capabilities().responsePlannerVersion === '1.0'`. See the
+[response-planner contract and limits](adr/response-planner.md).
 
 ## Session context for dialogue turns
 
@@ -137,3 +159,8 @@ references remain turn-scoped, and repeated noun strings do not create identity.
 When existing discourse CORE cannot represent multiple deictic turns without
 guessing identity, the aggregate interlingua snapshot is null while each
 validated turn remains available in turns.
+
+`ConversationContext.planResponse()` uses its latest pending question and
+explicit prior assert turns. `ConversationContext.respond({to,...})` plans,
+realizes and appends the typed reply; the pending question is resolved only
+after a successful plan and realization.

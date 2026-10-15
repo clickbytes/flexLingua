@@ -216,6 +216,32 @@ export class ConversationContext {
     return this.snapshot();
   }
 
+  /** Plan against the latest pending question and explicit assert turns in this session. */
+  planResponse({facts,clarifyQuestion}={}) {
+    const pending=this.#dialogue.snapshot().pendingQuestions;
+    if(!pending.length)throw new Error('Conversation has no pending question to answer.');
+    const assertions=facts===undefined ? this.#turns
+      .filter(turn=>turn.intent==='assert')
+      .map(turn=>turn.interlingua.payload.proposition) : facts;
+    return this.#engine.planResponse({question:pending[pending.length-1],
+      facts:assertions,clarifyQuestion});
+  }
+
+  /** Realize and append a planned reply; session state changes only after planning succeeds. */
+  respond({facts,clarifyQuestion,to,participants}={}) {
+    this.#assertTurnCapacity();
+    const pending=this.#dialogue.snapshot().pendingQuestions;
+    if(!pending.length)throw new Error('Conversation has no pending question to answer.');
+    const assertions=facts===undefined ? this.#turns
+      .filter(turn=>turn.intent==='assert')
+      .map(turn=>turn.interlingua.payload.proposition) : facts;
+    const response=this.#engine.respond({question:pending[pending.length-1],
+      facts:assertions,clarifyQuestion,to});
+    const session=this.appendDialogueAct(response.plan.act,{participants});
+    return {...response,dialogueAct:response.plan.act,
+      conversation:session.interlingua,turnCount:this.#turns.length,focus:session.focus};
+  }
+
   translate({text,from,to,context={},pronounRealization='repeat',participants:participantInput}={}) {
     if(!['repeat','safe'].includes(pronounRealization))
       throw new Error('Invalid pronoun realization policy.');
