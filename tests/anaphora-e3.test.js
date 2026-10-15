@@ -33,6 +33,12 @@ test('E3: three linked pronoun sentences share one CORE entity and round-trip',(
     assert.deepEqual(e.analyze({text:JSON.stringify(output.interlingua),from:'core'}),
       output.interlingua);
   }
+  const reading=e.analyzeCandidates({from:'en',text:
+    'The girl sees the dog. She sees the cat. She sees the book.'})[0];
+  assert.deepEqual(reading.anaphoraTrace.map(item=>item.antecedent),
+    ['e1.agent','e1.agent']);
+  assert.equal(reading.interlingua.events[0].roles.agent,
+    reading.interlingua.events[2].roles.agent);
 });
 
 test('E3: multiple earlier entities remain distinguishable; no recency shortcut',()=>{
@@ -92,7 +98,9 @@ test('E3: exactly eight events are bounded, ninth and initial pronoun are reject
   assert.equal(new Set(output.events.map(x=>x.roles.agent)).size,1);
   const result=e.realize({interlingua:output,to:'pl',pronounRealization:'safe'});
   assert.equal(result.pronounizedEvents.length,7);
-  assert.equal(e.tryTranslate({text:eight+' She sees the cat.',from:'en',to:'pl'}).ok,false);
+  const ninth=e.tryTranslate({text:eight+' She sees the cat.',from:'en',to:'pl'});
+  assert.equal(ninth.ok,false);
+  assert.equal(ninth.error.code,'DISCOURSE_EVENT_LIMIT');
   assert.equal(e.tryTranslate({text:'She sees the cat. The girl sees the dog. She sees the book.',
     from:'en',to:'pl'}).error.code,'UNRESOLVED_ANAPHORA');
 });
