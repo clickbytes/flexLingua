@@ -72,6 +72,7 @@ The project should grow only when its contracts and evidence grow with it:
 - Test semantic preservation in both translation directions.
 - Include unsupported, ambiguous, and malformed inputs.
 - Keep structural coverage distinct from language proficiency.
+- Keep each controlled level's gold scope separate, and report sample counts by construction and direction. A finite project-authored A2 sample is not a representative CEFR benchmark; leave the full-level percentage unknown.
 - Do not announce CEFR completion without a documented benchmark and reviewed results.
 
 ## Work tracking

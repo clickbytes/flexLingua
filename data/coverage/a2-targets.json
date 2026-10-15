@@ -1,0 +1,165 @@
+{
+  "version": 1,
+  "origin": "Project-authored bounded A2 engine target matrix; not a complete CEFR specification or vocabulary list.",
+  "license": "project-authored",
+  "scope": {
+    "completeness": "project-authored-subset",
+    "minimumSentences": 100,
+    "sentenceCount": 110,
+    "representativeCefrDenominator": null
+  },
+  "targets": [
+    {
+      "id": "a2.future",
+      "unitType": "construction",
+      "category": "future",
+      "label": "future and intention",
+      "scopeStatus": "required",
+      "coreRef": {
+        "kind": "concept",
+        "id": "modality.intention"
+      },
+      "mapping": {
+        "en->pl": "required",
+        "pl->en": "required"
+      },
+      "evidence": {
+        "fixture": "tests/fixtures/gold-a2.json",
+        "requirement": "case-and-explicit-status"
+      }
+    },
+    {
+      "id": "a2.preference",
+      "unitType": "concept",
+      "category": "preference",
+      "label": "preferences with two explicit alternatives",
+      "scopeStatus": "required",
+      "coreRef": {
+        "kind": "concept",
+        "id": "event.preference"
+      },
+      "mapping": {
+        "en->pl": "required",
+        "pl->en": "required"
+      },
+      "evidence": {
+        "fixture": "tests/fixtures/gold-a2.json",
+        "requirement": "case-and-explicit-status"
+      }
+    },
+    {
+      "id": "a2.request",
+      "unitType": "concept",
+      "category": "request",
+      "label": "polite request acts",
+      "scopeStatus": "required",
+      "coreRef": {
+        "kind": "concept",
+        "id": "dialogue_act.request"
+      },
+      "mapping": {
+        "en->pl": "required",
+        "pl->en": "required"
+      },
+      "evidence": {
+        "fixture": "tests/fixtures/gold-a2.json",
+        "requirement": "case-and-explicit-status"
+      }
+    },
+    {
+      "id": "a2.location",
+      "unitType": "concept",
+      "category": "location",
+      "label": "typed destinations and bounded time",
+      "scopeStatus": "required",
+      "coreRef": {
+        "kind": "concept",
+        "id": "event.movement.to_destination"
+      },
+      "mapping": {
+        "en->pl": "required",
+        "pl->en": "required"
+      },
+      "evidence": {
+        "fixture": "tests/fixtures/gold-a2.json",
+        "requirement": "case-and-explicit-status"
+      }
+    },
+    {
+      "id": "a2.purchase",
+      "unitType": "concept",
+      "category": "purchase",
+      "label": "exact item quantities",
+      "scopeStatus": "required",
+      "coreRef": {
+        "kind": "concept",
+        "id": "event.purchase"
+      },
+      "mapping": {
+        "en->pl": "required",
+        "pl->en": "required"
+      },
+      "evidence": {
+        "fixture": "tests/fixtures/gold-a2.json",
+        "requirement": "case-and-explicit-status"
+      }
+    },
+    {
+      "id": "a2.price",
+      "unitType": "concept",
+      "category": "price",
+      "label": "explicit amount and currency",
+      "scopeStatus": "required",
+      "coreRef": {
+        "kind": "concept",
+        "id": "event.cost"
+      },
+      "mapping": {
+        "en->pl": "required",
+        "pl->en": "required"
+      },
+      "evidence": {
+        "fixture": "tests/fixtures/gold-a2.json",
+        "requirement": "case-and-explicit-status"
+      }
+    },
+    {
+      "id": "a2.refusal",
+      "unitType": "construction",
+      "category": "refusal",
+      "label": "negative input and correct refusal",
+      "scopeStatus": "required",
+      "coreRef": {
+        "kind": "concept",
+        "id": "event.cost"
+      },
+      "mapping": {
+        "en->pl": "required",
+        "pl->en": "required"
+      },
+      "evidence": {
+        "fixture": "tests/fixtures/gold-a2.json",
+        "requirement": "case-and-explicit-status"
+      }
+    },
+    {
+      "id": "a2.semantics",
+      "unitType": "construction",
+      "category": "semantics",
+      "label": "typed semantic roles and CORE round trip",
+      "scopeStatus": "required",
+      "coreRef": {
+        "kind": "concept",
+        "id": "event.preference"
+      },
+      "mapping": {
+        "en->pl": "required",
+        "pl->en": "required"
+      },
+      "evidence": {
+        "fixture": "tests/fixtures/gold-a2.json",
+        "requirement": "case-and-explicit-status"
+      }
+    }
+  ]
+}
