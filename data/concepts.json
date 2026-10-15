@@ -893,6 +893,190 @@
         "preferred": "entity",
         "alternative": "entity"
       }
+    },
+    "object.bread": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "bread"
+    },
+    "beverage.water": {
+      "type": "entity",
+      "parent": "beverage",
+      "label": "water"
+    },
+    "beverage.milk": {
+      "type": "entity",
+      "parent": "beverage",
+      "label": "milk"
+    },
+    "beverage.coffee": {
+      "type": "entity",
+      "parent": "beverage",
+      "label": "coffee"
+    },
+    "beverage.tea": {
+      "type": "entity",
+      "parent": "beverage",
+      "label": "tea"
+    },
+    "vehicle.bus": {
+      "type": "entity",
+      "parent": "vehicle",
+      "label": "bus"
+    },
+    "vehicle.train": {
+      "type": "entity",
+      "parent": "vehicle",
+      "label": "train"
+    },
+    "place.hotel": {
+      "type": "entity",
+      "parent": "place",
+      "label": "hotel"
+    },
+    "place.restaurant": {
+      "type": "entity",
+      "parent": "place",
+      "label": "restaurant"
+    },
+    "place.airport": {
+      "type": "entity",
+      "parent": "place",
+      "label": "airport"
+    },
+    "place.street": {
+      "type": "entity",
+      "parent": "place",
+      "label": "street"
+    },
+    "object.map": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "map"
+    },
+    "object.suitcase": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "suitcase"
+    },
+    "object.passport": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "passport"
+    },
+    "place.market": {
+      "type": "entity",
+      "parent": "place",
+      "label": "market"
+    },
+    "currency.euro": {
+      "type": "entity",
+      "parent": "currency",
+      "label": "euro"
+    },
+    "currency.dollar": {
+      "type": "entity",
+      "parent": "currency",
+      "label": "dollar"
+    },
+    "currency.zloty": {
+      "type": "entity",
+      "parent": "currency",
+      "label": "zloty"
+    },
+    "place.stop": {
+      "type": "entity",
+      "parent": "place",
+      "label": "stop"
+    },
+    "place.platform": {
+      "type": "entity",
+      "parent": "place",
+      "label": "platform"
+    },
+    "object.reservation": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "reservation"
+    },
+    "object.luggage": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "luggage"
+    },
+    "object.charger": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "charger"
+    },
+    "place.cafe": {
+      "type": "entity",
+      "parent": "place",
+      "label": "cafe"
+    },
+    "vehicle.taxi": {
+      "type": "entity",
+      "parent": "vehicle",
+      "label": "taxi"
+    },
+    "place.pharmacy": {
+      "type": "entity",
+      "parent": "place",
+      "label": "pharmacy"
+    },
+    "place.bridge": {
+      "type": "entity",
+      "parent": "place",
+      "label": "bridge"
+    },
+    "place.road": {
+      "type": "entity",
+      "parent": "place",
+      "label": "road"
+    },
+    "object.cash": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "cash"
+    },
+    "currency": {
+      "type": "category",
+      "parent": "entity",
+      "label": "currency"
+    },
+    "event.purchase": {
+      "type": "event",
+      "label": "purchase",
+      "roles": [
+        "agent",
+        "theme"
+      ],
+      "roleTypes": {
+        "agent": "person",
+        "theme": "entity"
+      }
+    },
+    "event.cost": {
+      "type": "event",
+      "label": "explicit price",
+      "roles": [
+        "agent",
+        "theme"
+      ],
+      "roleTypes": {
+        "agent": "entity",
+        "theme": "currency"
+      }
+    },
+    "object.journey": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "journey"
+    },
+    "vehicle": {
+      "type": "category",
+      "parent": "physical_object",
+      "label": "vehicle"
     }
   },
   "relationTypes": {

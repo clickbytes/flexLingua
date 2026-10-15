@@ -381,6 +381,9 @@ function validateEventShape(node, ontology, registry, qualifiedAllowed = true, c
   for (const role of Object.keys(node.roles)) {
     if (!event.roles.includes(role)) throw new Error(`Unexpected semantic role: ${role}`);
   }
+  if(node.concept==='event.cost' && node.roles.theme.quantifier?.kind!=='exact') {
+    throw new Error('A price must include an exact numeric amount and currency.');
+  }
 }
 
 function validateStateShape(node, ontology, registry, gap = null) {

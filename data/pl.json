@@ -2431,6 +2431,906 @@
           }
         }
       ]
+    },
+    {
+      "id": "pl.chleb.1",
+      "lemma": "chleb",
+      "gender": "masculine",
+      "forms": {
+        "singular": {
+          "nom": "chleb",
+          "gen": "chleba",
+          "dat": "chlebowi",
+          "acc": "chleb"
+        },
+        "plural": {
+          "nom": "chleby",
+          "gen": "chlebów",
+          "dat": "chlebom",
+          "acc": "chleb"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.chleb.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.bread"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.woda.1",
+      "lemma": "woda",
+      "gender": "feminine",
+      "forms": {
+        "singular": {
+          "nom": "woda",
+          "gen": "wody",
+          "dat": "wodzie",
+          "acc": "wodę"
+        },
+        "plural": {
+          "nom": "wody",
+          "gen": "wód",
+          "dat": "wodom",
+          "acc": "wody"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.woda.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "beverage.water"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.mleko.1",
+      "lemma": "mleko",
+      "gender": "neuter",
+      "forms": {
+        "singular": {
+          "nom": "mleko",
+          "gen": "mleka",
+          "dat": "mleku",
+          "acc": "mleko"
+        },
+        "plural": {
+          "nom": "mleka",
+          "gen": "mlek",
+          "dat": "mlekom",
+          "acc": "mleka"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.mleko.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "beverage.milk"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.kawa.1",
+      "lemma": "kawa",
+      "gender": "feminine",
+      "forms": {
+        "singular": {
+          "nom": "kawa",
+          "gen": "kawy",
+          "dat": "kawie",
+          "acc": "kawę"
+        },
+        "plural": {
+          "nom": "kawy",
+          "gen": "kaw",
+          "dat": "kawom",
+          "acc": "kawy"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.kawa.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "beverage.coffee"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.herbata.1",
+      "lemma": "herbata",
+      "gender": "feminine",
+      "forms": {
+        "singular": {
+          "nom": "herbata",
+          "gen": "herbaty",
+          "dat": "herbacie",
+          "acc": "herbatę"
+        },
+        "plural": {
+          "nom": "herbaty",
+          "gen": "herbat",
+          "dat": "herbatom",
+          "acc": "herbaty"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.herbata.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "beverage.tea"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.autobus.1",
+      "lemma": "autobus",
+      "gender": "masculine",
+      "forms": {
+        "singular": {
+          "nom": "autobus",
+          "gen": "autobusu",
+          "dat": "autobusowi",
+          "acc": "autobus"
+        },
+        "plural": {
+          "nom": "autobusy",
+          "gen": "autobusów",
+          "dat": "autobusom",
+          "acc": "autobusy"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.autobus.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "vehicle.bus"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.pociag.1",
+      "lemma": "pociąg",
+      "gender": "masculine",
+      "forms": {
+        "singular": {
+          "nom": "pociąg",
+          "gen": "pociągu",
+          "dat": "pociągowi",
+          "acc": "pociąg"
+        },
+        "plural": {
+          "nom": "pociągi",
+          "gen": "pociągów",
+          "dat": "pociągom",
+          "acc": "pociągi"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.pociag.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "vehicle.train"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.hotel.1",
+      "lemma": "hotel",
+      "gender": "masculine",
+      "forms": {
+        "singular": {
+          "nom": "hotel",
+          "gen": "hotelu",
+          "dat": "hotelowi",
+          "acc": "hotel"
+        },
+        "plural": {
+          "nom": "hotele",
+          "gen": "hoteli",
+          "dat": "hotelom",
+          "acc": "hotele"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.hotel.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.hotel"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.restauracja.1",
+      "lemma": "restauracja",
+      "gender": "feminine",
+      "forms": {
+        "singular": {
+          "nom": "restauracja",
+          "gen": "restauracji",
+          "dat": "restauracji",
+          "acc": "restaurację"
+        },
+        "plural": {
+          "nom": "restauracje",
+          "gen": "restauracji",
+          "dat": "restauracjom",
+          "acc": "restauracje"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.restauracja.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.restaurant"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.lotnisko.1",
+      "lemma": "lotnisko",
+      "gender": "neuter",
+      "forms": {
+        "singular": {
+          "nom": "lotnisko",
+          "gen": "lotniska",
+          "dat": "lotnisku",
+          "acc": "lotnisko"
+        },
+        "plural": {
+          "nom": "lotniska",
+          "gen": "lotnisk",
+          "dat": "lotniskom",
+          "acc": "lotniska"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.lotnisko.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.airport"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.ulica.1",
+      "lemma": "ulica",
+      "gender": "feminine",
+      "forms": {
+        "singular": {
+          "nom": "ulica",
+          "gen": "ulicy",
+          "dat": "ulicy",
+          "acc": "ulicę"
+        },
+        "plural": {
+          "nom": "ulice",
+          "gen": "ulic",
+          "dat": "ulicom",
+          "acc": "ulice"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.ulica.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.street"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.mapa.1",
+      "lemma": "mapa",
+      "gender": "feminine",
+      "forms": {
+        "singular": {
+          "nom": "mapa",
+          "gen": "mapy",
+          "dat": "mapie",
+          "acc": "mapę"
+        },
+        "plural": {
+          "nom": "mapy",
+          "gen": "map",
+          "dat": "mapom",
+          "acc": "mapy"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.mapa.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.map"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.walizka.1",
+      "lemma": "walizka",
+      "gender": "feminine",
+      "forms": {
+        "singular": {
+          "nom": "walizka",
+          "gen": "walizki",
+          "dat": "walizce",
+          "acc": "walizkę"
+        },
+        "plural": {
+          "nom": "walizki",
+          "gen": "walizek",
+          "dat": "walizkom",
+          "acc": "walizki"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.walizka.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.suitcase"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.paszport.1",
+      "lemma": "paszport",
+      "gender": "masculine",
+      "forms": {
+        "singular": {
+          "nom": "paszport",
+          "gen": "paszportu",
+          "dat": "paszportowi",
+          "acc": "paszport"
+        },
+        "plural": {
+          "nom": "paszporty",
+          "gen": "paszportów",
+          "dat": "paszportom",
+          "acc": "paszporty"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.paszport.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.passport"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.targ.1",
+      "lemma": "targ",
+      "gender": "masculine",
+      "forms": {
+        "singular": {
+          "nom": "targ",
+          "gen": "targu",
+          "dat": "targowi",
+          "acc": "targ"
+        },
+        "plural": {
+          "nom": "targi",
+          "gen": "targów",
+          "dat": "targom",
+          "acc": "targi"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.targ.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.market"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.euro.1",
+      "lemma": "euro",
+      "gender": "neuter",
+      "forms": {
+        "singular": {
+          "nom": "euro",
+          "gen": "euro",
+          "dat": "euro",
+          "acc": "euro"
+        },
+        "plural": {
+          "nom": "euro",
+          "gen": "euro",
+          "dat": "euro",
+          "acc": "euro"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.euro.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "currency.euro"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.dolar.1",
+      "lemma": "dolar",
+      "gender": "masculine",
+      "forms": {
+        "singular": {
+          "nom": "dolar",
+          "gen": "dolara",
+          "dat": "dolarowi",
+          "acc": "dolar"
+        },
+        "plural": {
+          "nom": "dolary",
+          "gen": "dolarów",
+          "dat": "dolarom",
+          "acc": "dolary"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.dolar.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "currency.dollar"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.zloty.1",
+      "lemma": "złoty",
+      "gender": "masculine",
+      "forms": {
+        "singular": {
+          "nom": "złoty",
+          "gen": "złotego",
+          "dat": "złotemu",
+          "acc": "złoty"
+        },
+        "plural": {
+          "nom": "złote",
+          "gen": "złotych",
+          "dat": "złotym",
+          "acc": "złote"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.zloty.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "currency.zloty"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.przystanek.1",
+      "lemma": "przystanek",
+      "gender": "masculine",
+      "forms": {
+        "singular": {
+          "nom": "przystanek",
+          "gen": "przystanku",
+          "dat": "przystankowi",
+          "acc": "przystanek"
+        },
+        "plural": {
+          "nom": "przystanki",
+          "gen": "przystanków",
+          "dat": "przystankom",
+          "acc": "przystanki"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.przystanek.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.stop"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.peron.1",
+      "lemma": "peron",
+      "gender": "masculine",
+      "forms": {
+        "singular": {
+          "nom": "peron",
+          "gen": "peronu",
+          "dat": "peronowi",
+          "acc": "peron"
+        },
+        "plural": {
+          "nom": "perony",
+          "gen": "peronów",
+          "dat": "peronom",
+          "acc": "perony"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.peron.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.platform"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.rezerwacja.1",
+      "lemma": "rezerwacja",
+      "gender": "feminine",
+      "forms": {
+        "singular": {
+          "nom": "rezerwacja",
+          "gen": "rezerwacji",
+          "dat": "rezerwacji",
+          "acc": "rezerwację"
+        },
+        "plural": {
+          "nom": "rezerwacje",
+          "gen": "rezerwacji",
+          "dat": "rezerwacjom",
+          "acc": "rezerwacje"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.rezerwacja.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.reservation"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.bagaz.1",
+      "lemma": "bagaż",
+      "gender": "masculine",
+      "forms": {
+        "singular": {
+          "nom": "bagaż",
+          "gen": "bagażu",
+          "dat": "bagażowi",
+          "acc": "bagaż"
+        },
+        "plural": {
+          "nom": "bagaże",
+          "gen": "bagaży",
+          "dat": "bagażom",
+          "acc": "bagaże"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.bagaz.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.luggage"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.podroz.1",
+      "lemma": "podróż",
+      "gender": "feminine",
+      "forms": {
+        "singular": {
+          "nom": "podróż",
+          "gen": "podróży",
+          "dat": "podróży",
+          "acc": "podróż"
+        },
+        "plural": {
+          "nom": "podróże",
+          "gen": "podróży",
+          "dat": "podróżom",
+          "acc": "podróże"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.podroz.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.journey"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.ladowarka.1",
+      "lemma": "ładowarka",
+      "gender": "feminine",
+      "forms": {
+        "singular": {
+          "nom": "ładowarka",
+          "gen": "ładowarki",
+          "dat": "ładowarce",
+          "acc": "ładowarkę"
+        },
+        "plural": {
+          "nom": "ładowarki",
+          "gen": "ładowarek",
+          "dat": "ładowarkom",
+          "acc": "ładowarki"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.ladowarka.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.charger"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.kawiarnia.1",
+      "lemma": "kawiarnia",
+      "gender": "feminine",
+      "forms": {
+        "singular": {
+          "nom": "kawiarnia",
+          "gen": "kawiarni",
+          "dat": "kawiarni",
+          "acc": "kawiarnię"
+        },
+        "plural": {
+          "nom": "kawiarnie",
+          "gen": "kawiarni",
+          "dat": "kawiarniom",
+          "acc": "kawiarnie"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.kawiarnia.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.cafe"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.taksowka.1",
+      "lemma": "taksówka",
+      "gender": "feminine",
+      "forms": {
+        "singular": {
+          "nom": "taksówka",
+          "gen": "taksówki",
+          "dat": "taksówce",
+          "acc": "taksówkę"
+        },
+        "plural": {
+          "nom": "taksówki",
+          "gen": "taksówek",
+          "dat": "taksówkom",
+          "acc": "taksówki"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.taksowka.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "vehicle.taxi"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.apteka.1",
+      "lemma": "apteka",
+      "gender": "feminine",
+      "forms": {
+        "singular": {
+          "nom": "apteka",
+          "gen": "apteki",
+          "dat": "aptece",
+          "acc": "aptekę"
+        },
+        "plural": {
+          "nom": "apteki",
+          "gen": "aptek",
+          "dat": "aptekom",
+          "acc": "apteki"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.apteka.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.pharmacy"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.most.1",
+      "lemma": "most",
+      "gender": "masculine",
+      "forms": {
+        "singular": {
+          "nom": "most",
+          "gen": "mostu",
+          "dat": "mostowi",
+          "acc": "most"
+        },
+        "plural": {
+          "nom": "mosty",
+          "gen": "mostów",
+          "dat": "mostom",
+          "acc": "mosty"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.most.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.bridge"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.droga.1",
+      "lemma": "droga",
+      "gender": "feminine",
+      "forms": {
+        "singular": {
+          "nom": "droga",
+          "gen": "drogi",
+          "dat": "drodze",
+          "acc": "drogę"
+        },
+        "plural": {
+          "nom": "drogi",
+          "gen": "dróg",
+          "dat": "drogom",
+          "acc": "drogi"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.droga.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.road"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.gotowka.1",
+      "lemma": "gotówka",
+      "gender": "feminine",
+      "forms": {
+        "singular": {
+          "nom": "gotówka",
+          "gen": "gotówki",
+          "dat": "gotówce",
+          "acc": "gotówkę"
+        },
+        "plural": {
+          "nom": "gotówki",
+          "gen": "gotówek",
+          "dat": "gotówkom",
+          "acc": "gotówki"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.gotowka.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.cash"
+          }
+        }
+      ]
     }
   ],
   "verbs": [
@@ -3316,6 +4216,76 @@
           "coreRef": {
             "kind": "concept",
             "id": "event.preference"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.kupowac.verb.1",
+      "lemma": "kupować",
+      "aspect": "imperfective",
+      "forms": {
+        "present": {
+          "firstSingular": "kupuję",
+          "secondSingular": "kupujesz",
+          "thirdSingular": "kupuje",
+          "firstPlural": "kupujemy",
+          "secondPlural": "kupujecie",
+          "thirdPlural": "kupują"
+        },
+        "past": {
+          "singular": {
+            "masculine": "kupował",
+            "feminine": "kupowała",
+            "neuter": "kupowało"
+          },
+          "plural": {
+            "virile": "kupowali",
+            "nonvirile": "kupowały"
+          }
+        }
+      },
+      "senses": [
+        {
+          "id": "pl.kupowac.verb.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.purchase"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.kosztowac.verb.1",
+      "lemma": "kosztować",
+      "aspect": "imperfective",
+      "forms": {
+        "present": {
+          "firstSingular": "kosztuję",
+          "secondSingular": "kosztujesz",
+          "thirdSingular": "kosztuje",
+          "firstPlural": "kosztujemy",
+          "secondPlural": "kosztujecie",
+          "thirdPlural": "kosztują"
+        },
+        "past": {
+          "singular": {
+            "masculine": "kosztował",
+            "feminine": "kosztowała",
+            "neuter": "kosztowało"
+          },
+          "plural": {
+            "virile": "kosztowali",
+            "nonvirile": "kosztowały"
+          }
+        }
+      },
+      "senses": [
+        {
+          "id": "pl.kosztowac.verb.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.cost"
           }
         }
       ]
