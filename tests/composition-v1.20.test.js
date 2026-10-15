@@ -4,7 +4,7 @@ import {readFile} from 'node:fs/promises';
 import {Engine} from '../js/core/engine.js';
 import {createRuleAdapter} from '../js/core/grammar.js';
 import {validateInterlingua,createCoordination,createModality,createNegation,
-  createEvent,participant,MAX_CLAUSE_DEPTH} from '../js/core/interlingua.js';
+  createComplement,createEvent,participant,MAX_CLAUSE_DEPTH} from '../js/core/interlingua.js';
 
 const load=async path=>JSON.parse(await readFile(new URL('../data/'+path,import.meta.url),'utf8'));
 const [concepts,features,en,pl,eg,pg]=await Promise.all(
@@ -94,4 +94,69 @@ test('Batch D: modal events compose inside validated propositional complements',
   const restored=engine.analyze({text:expected,from:'pl'});
   assert.equal(restored.content.type,'modality');
   assert.deepEqual(engine.analyze({text:JSON.stringify(result.interlingua),from:'core'}),result.interlingua);
+});
+
+test('B1B2-02: coordinated complements parse and realize in both directions',()=>{
+  const engine=make();
+  const english='The girl believes that the boy sees the dog and the boy believes that the girl sees a cat.';
+  const polish='Dziewczynka wierzy, że chłopiec widzi psa i chłopiec wierzy, że dziewczynka widzi kota.';
+  const forward=engine.translate({text:english,from:'en',to:'pl'});
+  assert.equal(forward.text,polish);
+  assert.equal(forward.interlingua.type,'coordination');
+  assert.deepEqual(forward.interlingua.clauses.map(clause=>clause.type),['complement','complement']);
+  assert.deepEqual(engine.analyze({text:JSON.stringify(forward.interlingua),from:'core'}),
+    forward.interlingua);
+  const reverse=engine.translate({text:polish,from:'pl',to:'en'});
+  assert.equal(reverse.text,
+    'A girl believes that a boy sees a dog and a boy believes that a girl sees a cat.');
+  assert.deepEqual(reverse.interlingua.clauses.map(clause=>clause.type),['complement','complement']);
+  assert.deepEqual(engine.analyze({text:reverse.text,from:'en'}).clauses.map(clause=>clause.type),
+    ['complement','complement']);
+});
+
+test('B1B2-02: relative clauses stay inside embedded propositions in PL and EN',()=>{
+  const engine=make();
+  const english='The girl believes that the boy who saw the dog sees the cat.';
+  const polish='Dziewczynka wierzy, że chłopiec, który widział psa, widzi kota.';
+  const forward=engine.translate({text:english,from:'en',to:'pl'});
+  assert.equal(forward.text,polish);
+  const embedded=forward.interlingua.content;
+  assert.equal(embedded.type,'event');
+  assert.equal(embedded.roles.agent.relatives[0].gap,'agent');
+  const reverse=engine.translate({text:polish,from:'pl',to:'en'});
+  assert.equal(reverse.interlingua.type,'complement');
+  assert.equal(reverse.interlingua.content.roles.agent.relatives[0].gap,'agent');
+  assert.deepEqual(engine.analyze({text:JSON.stringify(reverse.interlingua),from:'core'}),
+    reverse.interlingua);
+});
+
+test('B1B2-02: coordinated complements retain negation scope and enforce bounds',()=>{
+  const engine=make();
+  const negated='It is not true that the girl believes that the boy sees the dog and the boy believes that the girl sees a cat.';
+  const result=engine.translate({text:negated,from:'en',to:'pl'});
+  assert.equal(result.interlingua.type,'scope');
+  assert.equal(result.interlingua.operand.type,'coordination');
+  assert.deepEqual(result.interlingua.operand.clauses.map(clause=>clause.type),
+    ['complement','complement']);
+  assert.equal(engine.analyze({text:result.text,from:'pl'}).type,'scope');
+
+  const one=engine.analyze({text:'The girl believes that the boy sees the dog.',from:'en'});
+  const tooMany=structuredClone(result.interlingua.operand);
+  tooMany.clauses=Array(5).fill(tooMany.clauses[0]);
+  assert.throws(()=>validateInterlingua(tooMany,engine.ontology,engine.features),
+    /Invalid semantic coordination/);
+  const malformed=structuredClone(result.interlingua);
+  delete malformed.operand.clauses[0].content.roles.theme;
+  assert.throws(()=>validateInterlingua(malformed,engine.ontology,engine.features),
+    /Event roles|semantic role/);
+  const fiveClauses=Array(5).fill('The girl believes that the boy sees the dog').join(' and ')+'.';
+  const fourClauses=Array(4).fill('The girl believes that the boy sees the dog').join(' and ')+'.';
+  assert.equal(engine.analyze({text:fourClauses,from:'en'}).clauses.length,4);
+  assert.equal(engine.tryTranslate({text:fiveClauses,from:'en',to:'pl'}).ok,false);
+
+  let nested=one;
+  for(let index=0;index<MAX_CLAUSE_DEPTH;index++)
+    nested=createComplement('event.belief',participant('person.girl','definite'),nested);
+  assert.throws(()=>validateInterlingua(nested,engine.ontology,engine.features),
+    /Clause tree nesting limit/);
 });

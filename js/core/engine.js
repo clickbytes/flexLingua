@@ -394,18 +394,6 @@ export class Engine {
     const normal = text.toLocaleLowerCase();
     const scoped = typeof prefix === 'string' && normal.startsWith(prefix.toLocaleLowerCase() + ' ');
     const body = scoped ? text.slice(prefix.length).trim() : text;
-    const possibleComplements = adapter.parseComplementHeads?.(body) || [];
-    if (possibleComplements.length) {
-      const results = possibleComplements.flatMap(head =>
-        this.analyzeSentence(head.content, adapter, depth + 1).map(inner => ({
-          interlingua: createComplement(head.concept, head.experiencer,
-            inner.interlingua, head.tense),
-          lexicalSenses: { matrix: head.senseId, content: inner.lexicalSenses },
-          score: inner.score || 0
-        })));
-      return scoped ? results.map(item => ({ ...item,
-        interlingua: createNegation(item.interlingua) })) : results;
-    }
     const connective = adapter.connective;
     let atomic=[], atomError;
     try {
@@ -419,16 +407,12 @@ export class Engine {
     if(atomic.length) return scoped ? atomic.map(item=>({
       ...item,interlingua:createNegation(item.interlingua)
     })) : atomic;
-    if(typeof connective!=='string' || !connective)
-      throw atomError || new Error('Unsupported source sentence.');
-
-    const pattern=new RegExp('\\s+'+connective+'\\s+','giu');
-    const fragments=body.split(pattern);
-    if(fragments.length===1) throw atomError || new Error('Unsupported source sentence.');
+    const pattern=typeof connective==='string'&&connective ?
+      new RegExp('\\s+'+connective+'\\s+','giu') : null;
+    const fragments=pattern?body.split(pattern):[body];
     if(fragments.length>8)
       throw new EngineError('GRAMMAR_COORDINATION_LIMIT','Coordination exceeds eight clauses.');
-    if(fragments.some(part=>!part.trim()))
-      throw new Error('Invalid clause coordination.');
+    if(fragments.some(part=>!part.trim()))throw new Error('Invalid clause coordination.');
 
     // Chart-style boundary discovery: each span must parse as a complete
     // clause. No unconditional splitting on every connective is performed.
@@ -438,9 +422,24 @@ export class Engine {
       if(cache.has(key))return cache.get(key);
       let candidates=[];
       try {
-        candidates=adapter.analyzeCandidates(
-          fragments.slice(start,end).join(' '+connective+' ')+'.')
-          .filter(item=>['event','modality','scope'].includes(item.interlingua.type));
+        const span=fragments.slice(start,end).join(' '+connective+' ')+'.';
+        try {
+          candidates=adapter.analyzeCandidates(span)
+            .filter(item=>['event','modality','scope'].includes(item.interlingua.type));
+        } catch(error) {
+          if(isResourceLimitError(error))throw error;
+          /* This span may instead be a typed propositional complement. */
+        }
+        if(!candidates.length && end===start+1) {
+          const heads=adapter.parseComplementHeads?.(span.replace(/\.\s*$/u,''))||[];
+          candidates=heads.flatMap(head=>
+            this.analyzeSentence(head.content,adapter,depth+1).map(inner=>({
+              interlingua:createComplement(head.concept,head.experiencer,
+                inner.interlingua,head.tense),
+              lexicalSenses:{matrix:head.senseId,content:inner.lexicalSenses},
+              score:inner.score||0
+            })));
+        }
       } catch (error) {
         if(isResourceLimitError(error))throw error;
         /* Invalid span is a rejected parse, not a phrase boundary. */
@@ -448,8 +447,8 @@ export class Engine {
       cache.set(key,candidates.slice(0,MAX_CANDIDATES));
       return cache.get(key);
     };
-    let frontier=[{at:0,clauses:[],senses:{},score:0}],complete=[];
-    for(let depth=0;depth<4 && frontier.length;depth++){
+    let frontier=fragments.length>1 ? [{at:0,clauses:[],senses:{},score:0}] : [],complete=[];
+    for(let level=0;level<4 && frontier.length;level++){
       const next=[];
       for(const state of frontier){
         for(let end=state.at+1;end<=fragments.length;end++){
@@ -457,25 +456,37 @@ export class Engine {
           for(const item of candidates){
             const advanced={
               at:end,clauses:[...state.clauses,item.interlingua],
-              senses:{...state.senses,['c'+(depth+1)]:item.lexicalSenses},
+              senses:{...state.senses,['c'+(level+1)]:item.lexicalSenses},
               score:state.score+(item.score||0)
             };
             if(end===fragments.length) {
               if(advanced.clauses.length>=2)complete.push(advanced);
-            } else if(depth<3) next.push(advanced);
+            } else if(level<3) next.push(advanced);
           }
         }
       }
       frontier=next.sort((left,right)=>right.score-left.score).slice(0,MAX_CANDIDATES);
       complete=complete.sort((left,right)=>right.score-left.score).slice(0,MAX_CANDIDATES);
     }
-    if(!complete.length)
-      throw atomError || new Error('Unsupported compound clause or nested connective.');
-    return complete.map(item=>({
+    if(complete.length)return complete.map(item=>({
       interlingua:scoped?createNegation(createCoordination(item.clauses)):
         createCoordination(item.clauses),
       lexicalSenses:item.senses,score:item.score
     }));
+
+    const possibleComplements=adapter.parseComplementHeads?.(body) || [];
+    if(possibleComplements.length) {
+      const results=possibleComplements.flatMap(head=>
+        this.analyzeSentence(head.content,adapter,depth+1).map(inner=>({
+          interlingua:createComplement(head.concept,head.experiencer,
+            inner.interlingua,head.tense),
+          lexicalSenses:{matrix:head.senseId,content:inner.lexicalSenses},
+          score:inner.score||0
+        })));
+      return scoped?results.map(item=>({...item,
+        interlingua:createNegation(item.interlingua)})):results;
+    }
+    throw atomError || new Error('Unsupported compound clause or nested connective.');
   }
 
   /**
