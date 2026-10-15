@@ -134,6 +134,52 @@ test('Tabs, all-form tables, missing lemmas and INTER visualizer work without ch
   assert.equal(el('meaning-alternatives-panel').hidden, true);
 });
 
+test('Dictionary renders real first/second-person forms and labels omitted hypothetical cells', () => {
+  const ids = [
+    'tab-translate', 'tab-dictionary', 'tab-inter', 'tab-coverage',
+    'panel-translate', 'panel-dictionary', 'panel-inter', 'panel-coverage',
+    'dictionary-form', 'dictionary-query', 'dictionary-language', 'dictionary-status',
+    'dictionary-results', 'dictionary-experimental', 'dictionary-experimental-settings',
+    'dictionary-compare', 'dictionary-compare-settings', 'dictionary-compare-paradigm',
+    'dictionary-part-of-speech', 'dictionary-paradigm-guide', 'dictionary-paradigm',
+    'dictionary-stem', 'dictionary-additional-stems', 'coverage-overview'
+  ];
+  const elements = new Map(ids.map(id => [id, new ElementStub()]));
+  const el = id => elements.get(id);
+  globalThis.document = { getElementById: el, createElement: () => new ElementStub() };
+  el('dictionary-language').value = 'pl';
+  initStudio(engine);
+
+  el('dictionary-query').value = 'czytam';
+  el('dictionary-form').trigger('submit');
+  const realForms = allText(el('dictionary-results'));
+  for (const surface of ['czytam', 'czytasz', 'czytamy', 'czytacie']) {
+    assert.match(realForms, new RegExp(surface));
+  }
+  assert.match(realForms, /Osoba: pierwsza/);
+  assert.match(realForms, /Osoba: druga/);
+  assert.match(realForms, /Liczba: pojedyncza/);
+  assert.match(realForms, /Liczba: mnoga/);
+  assert.doesNotMatch(realForms, /HIPOTEZA/);
+
+  el('dictionary-query').value = 'fotoczyt';
+  el('dictionary-experimental').checked = true;
+  el('dictionary-experimental').trigger('change');
+  el('dictionary-part-of-speech').value = 'VERB';
+  el('dictionary-part-of-speech').trigger('change');
+  el('dictionary-paradigm').value = 'pl.verb.personal_am';
+  el('dictionary-paradigm').trigger('change');
+  el('dictionary-stem').value = 'fotoczyt';
+  el('dictionary-form').trigger('submit');
+  const hypothetical = allText(el('dictionary-results'));
+  assert.match(hypothetical, /Niedostępne komórki/);
+  assert.match(hypothetical, /Osoba: pierwsza/);
+  assert.match(hypothetical, /Osoba: druga/);
+  assert.match(hypothetical, /Liczba: pojedyncza/);
+  assert.match(hypothetical, /Liczba: mnoga/);
+  assert.match(el('dictionary-status').textContent, /Tryb eksperymentalny/);
+});
+
 test('HTML keeps existing UI hook IDs and new tab panels', async () => {
   const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
   for (const id of ['translate-form', 'result', 'warnings', 'alternatives',
