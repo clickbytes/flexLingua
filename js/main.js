@@ -5,6 +5,7 @@ import { createTurkishAdapter } from './languages/tr.js';
 import { createMorphology } from './core/morphology/engine.js';
 import { createCoreLanguage } from './core/core-language.js';
 import { initStudio, renderMeaning } from './ui/studio.js';
+import { initDialoguePanel } from './ui/dialogue.js';
 
 const element = id => document.getElementById(id);
 let engine;
@@ -95,6 +96,7 @@ async function init() {
     element('status').textContent = 'CORE v1.12 + produktywna morfologia PL/EN, reguły JSON; TR kompatybilny v1.0';
     element('translate').disabled = false;
     initStudio(engine);
+    initDialoguePanel(engine);
   } catch (error) {
     element('status').textContent = `Błąd ładowania: ${error.message}`;
     return;
