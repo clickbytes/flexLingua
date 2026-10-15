@@ -257,6 +257,15 @@
           "not"
         ],
         "path": "forms.base"
+      },
+      {
+        "tense": "future",
+        "polarity": "positive",
+        "when": {},
+        "prefix": [
+          "will"
+        ],
+        "path": "forms.base"
       }
     ],
     "agreement": {}

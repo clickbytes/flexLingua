@@ -2449,6 +2449,14 @@
             "virile": "dali",
             "nonvirile": "dały"
           }
+        },
+        "future": {
+          "firstSingular": "dam",
+          "secondSingular": "dasz",
+          "thirdSingular": "da",
+          "firstPlural": "damy",
+          "secondPlural": "dacie",
+          "thirdPlural": "dadzą"
         }
       },
       "senses": [
@@ -6051,6 +6059,29 @@
           "coreRef": {
             "kind": "operator",
             "id": "modality.obligation"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.zamierzac.modal",
+      "lemma": "zamierzać",
+      "forms": {
+        "positive": {
+          "firstSingular": "zamierzam",
+          "secondSingular": "zamierzasz",
+          "thirdSingular": "zamierza",
+          "firstPlural": "zamierzamy",
+          "secondPlural": "zamierzacie",
+          "thirdPlural": "zamierzają"
+        }
+      },
+      "senses": [
+        {
+          "id": "pl.zamierzac.modal.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "modality.intention"
           }
         }
       ]

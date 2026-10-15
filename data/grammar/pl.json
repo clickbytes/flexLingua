@@ -636,6 +636,150 @@
           "nie"
         ],
         "path": "forms.present.thirdPlural"
+      },
+      {
+        "tense": "future",
+        "polarity": "positive",
+        "when": {
+          "subject.person": "first",
+          "subject.number": "singular",
+          "event.aspect": "imperfective"
+        },
+        "prefix": [
+          "będę"
+        ],
+        "path": "lemma"
+      },
+      {
+        "tense": "future",
+        "polarity": "positive",
+        "when": {
+          "subject.person": "second",
+          "subject.number": "singular",
+          "event.aspect": "imperfective"
+        },
+        "prefix": [
+          "będziesz"
+        ],
+        "path": "lemma"
+      },
+      {
+        "tense": "future",
+        "polarity": "positive",
+        "when": {
+          "subject.person": "third",
+          "subject.number": "singular",
+          "event.aspect": "imperfective"
+        },
+        "prefix": [
+          "będzie"
+        ],
+        "path": "lemma"
+      },
+      {
+        "tense": "future",
+        "polarity": "positive",
+        "when": {
+          "subject.person": "first",
+          "subject.number": "plural",
+          "event.aspect": "imperfective"
+        },
+        "prefix": [
+          "będziemy"
+        ],
+        "path": "lemma"
+      },
+      {
+        "tense": "future",
+        "polarity": "positive",
+        "when": {
+          "subject.person": "second",
+          "subject.number": "plural",
+          "event.aspect": "imperfective"
+        },
+        "prefix": [
+          "będziecie"
+        ],
+        "path": "lemma"
+      },
+      {
+        "tense": "future",
+        "polarity": "positive",
+        "when": {
+          "subject.person": "third",
+          "subject.number": "plural",
+          "event.aspect": "imperfective"
+        },
+        "prefix": [
+          "będą"
+        ],
+        "path": "lemma"
+      },
+      {
+        "tense": "future",
+        "polarity": "positive",
+        "when": {
+          "subject.person": "first",
+          "subject.number": "singular",
+          "event.aspect": "perfective"
+        },
+        "prefix": [],
+        "path": "forms.future.firstSingular"
+      },
+      {
+        "tense": "future",
+        "polarity": "positive",
+        "when": {
+          "subject.person": "second",
+          "subject.number": "singular",
+          "event.aspect": "perfective"
+        },
+        "prefix": [],
+        "path": "forms.future.secondSingular"
+      },
+      {
+        "tense": "future",
+        "polarity": "positive",
+        "when": {
+          "subject.person": "third",
+          "subject.number": "singular",
+          "event.aspect": "perfective"
+        },
+        "prefix": [],
+        "path": "forms.future.thirdSingular"
+      },
+      {
+        "tense": "future",
+        "polarity": "positive",
+        "when": {
+          "subject.person": "first",
+          "subject.number": "plural",
+          "event.aspect": "perfective"
+        },
+        "prefix": [],
+        "path": "forms.future.firstPlural"
+      },
+      {
+        "tense": "future",
+        "polarity": "positive",
+        "when": {
+          "subject.person": "second",
+          "subject.number": "plural",
+          "event.aspect": "perfective"
+        },
+        "prefix": [],
+        "path": "forms.future.secondPlural"
+      },
+      {
+        "tense": "future",
+        "polarity": "positive",
+        "when": {
+          "subject.person": "third",
+          "subject.number": "plural",
+          "event.aspect": "perfective"
+        },
+        "prefix": [],
+        "path": "forms.future.thirdPlural"
       }
     ],
     "agreement": {

@@ -352,9 +352,9 @@ export function contractTests(engine, fixtures) {
       eq(meaning.roles.agent.features.number, 'dual');
       eq(modified.realize({ interlingua: meaning, to: 'en' }).text, 'The dodogs see a cat.');
     }],
-    ['REGISTRY: new tense future via JSON and form rules alone', () => {
+    ['REGISTRY: existing future feature uses an independently configured English rule', () => {
       const modified = configured(data => {
-        data.features.domains.event.tense.push('future');
+        data.enGrammar.verb.rules = data.enGrammar.verb.rules.filter(rule=>rule.tense!=='future');
         data.enGrammar.verb.rules.push({ tense:'future', polarity:'positive',
           when: {}, prefix:['will'], path:'forms.base' });
       });

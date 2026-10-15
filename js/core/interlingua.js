@@ -451,8 +451,11 @@ export function createNegation(operand) {
  * NOT(OBLIGATION(P)) differ from OBLIGATION(NOT(P)), a prohibition.
  */
 export function createModality(operator, operand) {
-  if (!['modality.ability','modality.obligation'].includes(operator) ||
+  if (!['modality.ability','modality.obligation','modality.intention'].includes(operator) ||
       !record(operand) || !['event','scope'].includes(operand.type) ||
+      (operator === 'modality.intention' &&
+        (operand.type !== 'event' || operand.features?.tense !== 'future' ||
+          operand.features?.polarity !== 'positive')) ||
       (operand.type === 'scope' &&
         (operator !== 'modality.obligation' || operand.operator !== 'not' ||
           operand.operand?.type !== 'event'))) {
@@ -708,7 +711,7 @@ function validateClauseTree(node, ontology, registry, depth = 0, gap = null) {
     const frame = ontology.get(node.concept);
     if (node.version !== SEMANTIC_VERSION || !frame || frame.type !== 'event' ||
         frame.complement !== true || !record(node.features) ||
-        !['past', 'present'].includes(node.features.tense) ||
+        !['past', 'present', 'future'].includes(node.features.tense) ||
         Object.keys(node.features).length !== 1 ||
         !Object.keys(node).every(k => ['version','type','concept','experiencer','content','features'].includes(k)) ||
         !node.content || !['event','coordination','scope','complement','modality'].includes(node.content.type)) {
@@ -743,7 +746,7 @@ function validateClauseTree(node, ontology, registry, depth = 0, gap = null) {
     validateClauseTree(node.operand, ontology, registry, depth + 1, gap);
   } else if (node.type === 'modality') {
     if (node.version !== MODALITY_VERSION ||
-        !['modality.ability','modality.obligation'].includes(node.operator) ||
+        !['modality.ability','modality.obligation','modality.intention'].includes(node.operator) ||
         Object.keys(node).length !== 4 ||
         !['version','type','operator','operand'].every(k => hasOwn(node,k)) ||
         !['event','scope'].includes(node.operand?.type) ||
@@ -752,8 +755,9 @@ function validateClauseTree(node, ontology, registry, depth = 0, gap = null) {
       throw new Error('Invalid or unsupported modality operator and scope.');
     }
     const event = node.operand.type === 'scope' ? node.operand.operand : node.operand;
-    if (event.features?.tense !== 'present' || event.features?.polarity !== 'positive') {
-      throw new Error('Modalities currently require an affirmative present-tense event.');
+    const expectedTense=node.operator==='modality.intention'?'future':'present';
+    if (event.features?.tense !== expectedTense || event.features?.polarity !== 'positive') {
+      throw new Error(`Modality ${node.operator} requires an affirmative ${expectedTense}-tense event.`);
     }
     validateClauseTree(node.operand, ontology, registry, depth + 1, gap);
   } else throw new Error('Unsupported clause node.');

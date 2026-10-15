@@ -241,11 +241,17 @@ function validateGrammar(dictionary, grammar) {
       if (!LEXEME_ID.test(item.id || '') || !record(item.forms) ||
           !Array.isArray(item.senses) || item.senses.length !== 1 ||
           item.senses[0].coreRef?.kind !== 'operator' ||
-          !['modality.ability','modality.obligation'].includes(item.senses[0].coreRef.id) ||
+          !['modality.ability','modality.obligation','modality.intention'].includes(item.senses[0].coreRef.id) ||
           Object.keys(item.forms).some(k=>!['positive','negative','prohibition'].includes(k)) ||
-          !['positive','negative'].every(mode=>record(item.forms[mode]) &&
-            MODAL_AGREEMENT_KEYS.every(key=>legalWord(item.forms[mode][key])) &&
-            Object.keys(item.forms[mode]).length===MODAL_AGREEMENT_KEYS.length) ||
+          !record(item.forms.positive) ||
+          !MODAL_AGREEMENT_KEYS.every(key=>legalWord(item.forms.positive[key])) ||
+          Object.keys(item.forms.positive).length!==MODAL_AGREEMENT_KEYS.length ||
+          (item.senses[0].coreRef.id!=='modality.intention' &&
+            (!record(item.forms.negative) ||
+              !MODAL_AGREEMENT_KEYS.every(key=>legalWord(item.forms.negative[key])) ||
+              Object.keys(item.forms.negative).length!==MODAL_AGREEMENT_KEYS.length)) ||
+          (item.senses[0].coreRef.id==='modality.intention' &&
+            Object.keys(item.forms).some(key=>key!=='positive')) ||
           (item.forms.prohibition !== undefined &&
             (item.senses[0].coreRef.id !== 'modality.obligation' ||
               !record(item.forms.prohibition) ||
@@ -1065,12 +1071,13 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
   function modalEntries(modal, mode, person, number, includeModal = true) {
     const modalForm=modal.forms[mode]?.[modalAgreementKey(person,number)];
     if (!modality || !modalForm) return [];
+    const operator=modal.senses[0].coreRef.id;
     return verbs.flatMap(lexeme => formsAt(lexeme,modality.infinitivePath)
       .filter(verbForm => Object.keys(verbForm.bindings).length === 0)
       .map(verbForm => ({
         lexeme, text: includeModal ? modalForm+' '+verbForm.text : verbForm.text,
         bindings: {}, rule: {
-          tense:'present', polarity:mode === 'positive' ? 'positive' : 'negative',
+          tense:operator==='modality.intention'?'future':'present', polarity:mode === 'positive' ? 'positive' : 'negative',
           prefix:[],when:{'subject.person':person,'subject.number':number}
         }
       })));
@@ -1093,7 +1100,8 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     counter = {visited:0}) {
     if (!modality || !modals.length) return [];
     const readings=[];
-    for (const modal of modals) for (const mode of ['positive','negative','prohibition']) {
+    for (const modal of modals) for (const mode of (modal.senses[0].coreRef.id==='modality.intention'
+      ? ['positive'] : ['positive','negative','prohibition'])) {
       if (!modal.forms[mode]) continue;
       for (const person of ['first','second','third']) for (const number of ['singular','plural']) {
         const variants=parseClause(tokens,gap,antecedent,0,questionBudget(counter),{
@@ -1703,7 +1711,8 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     const parts=modalParts(node);
     if (!parts) throw new Error('Unsupported modal clause.');
     const {event,operator,mode}=parts;
-    if (event.features?.tense!=='present' || event.features?.polarity!=='positive')
+    const intention=operator==='modality.intention';
+    if (event.features?.tense!==(intention?'future':'present') || event.features?.polarity!=='positive')
       throw new Error('Unsupported modal tense or nested event polarity.');
     const modal=modals.find(item=>item.senses[0].coreRef.id===operator);
     if (!modal || !modal.forms[mode])
@@ -1717,7 +1726,9 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
        event.features.aspect===v.aspect))
       .map(v=>({lexeme:v,forms:formsAt(v,modality.infinitivePath)}))
       .filter(x=>x.forms.length===1 && !Object.keys(x.forms[0].bindings).length);
-    if(!chosen.length)throw new Error('Missing infinitive/base verb for modal event.');
+    if(!chosen.length || (intention && verbGrammar.aspectSource==='lexeme' &&
+      event.features.aspect==='unknown' && new Set(chosen.map(x=>x.lexeme.aspect)).size>1))
+      throw new Error('Missing or ambiguous aspect-specific infinitive for modal event.');
     const preferred=chosen.find(x=>x.lexeme.aspect===verbGrammar.preferredAspects?.[event.concept])||chosen[0];
     const infinitive=preferred.forms[0].text;
     const syntactic={...event,features:{...event.features,

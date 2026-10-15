@@ -943,6 +943,10 @@
     "modality.obligation": {
       "label": "obligation to satisfy a proposition",
       "arity": 1
+    },
+    "modality.intention": {
+      "label": "intention or plan to satisfy a future proposition",
+      "arity": 1
     }
   },
   "grammaticalFunctions": {
