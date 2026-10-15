@@ -22,9 +22,17 @@ Zależności i kolejność prac prowadzą GitHub Issues.
 
 ## Testy
 
-Podczas pracy uruchamiaj testy właściwe dla zmiany. Przed zakończeniem użyj `npm run check:release`; skrypt zawiera `npm test`, więc nie trzeba uruchamiać obu poleceń osobno. Wymagany przez konkretną zmianę dodatkowy gold uruchom wtedy, gdy nie jest częścią release gate. Raportuj wynik hostowanego Actions z dokładnym SHA.
+Podczas pracy uruchamiaj testy właściwe dla zmiany. Przed zakończeniem użyj `npm run check:core-gates`; polecenie uruchamia `npm run check:release`, który zawiera `npm test`. Nie uruchamiaj osobno tych samych suite'ów. Wymagany przez konkretną zmianę dodatkowy gold uruchom wtedy, gdy nie jest częścią release gate. Raportuj wynik hostowanego Actions z dokładnym SHA.
 
 Nie deklaruj PASS dla testu, którego nie uruchomiono. Nie zastępuj pełnego testu lokalnego ani Actions izolowanym fragmentem runtime.
+
+## Deterministyczny dowód wydania
+
+`npm run check:core-gates` wymaga czystych śledzonych plików, uruchamia release checks jeden raz i wypisuje JSON zawierający SHA źródła, wersję z `package.json`, manifest śledzonych plików z SHA-256, wersje Node/npm, wyniki `node:test` oraz stan bramek. Lokalny indeks `.codegraph/` jest wyłączony z kontroli czystości i manifestu; pozostałe nieśledzone pliki blokują raport.
+
+CI uruchamia suite'y w `engine-tests` i `lexical-audits`, a `release-gate` agreguje ich wyniki, wersje runtime i podsumowanie testów bez uruchamiania suite'ów ponownie. Raport pomija czas, PID i inne wartości zmienne. Dwa uruchomienia dla tego samego drzewa, wersji runtime i wyników bramek mają więc identyczne treści.
+
+Polecenie raportujące nie publikuje wydania ani nie zmienia wersji. Podnieś `package.json` dopiero po zaliczeniu bramek dla planowanej zmiany; następnie ponownie zalicz je dla commita zawierającego nową wersję i wymagane Actions przed tagowaniem lub publikacją.
 
 ## Wymagane statusy i merge na `main`
 

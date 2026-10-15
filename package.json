@@ -9,6 +9,7 @@
     "check:lexicon": "node tools/check-lexicon.mjs",
     "check:morphology": "node tools/check-morphology.mjs",
     "check:data-provenance": "node tools/check-data-provenance.mjs",
+    "check:core-gates": "node tools/check-core-gates.mjs",
     "compile:pl": "node tools/compile-language.mjs pl",
     "compile:en": "node tools/compile-language.mjs en",
     "compile:ar": "node tools/compile-language.mjs ar",
