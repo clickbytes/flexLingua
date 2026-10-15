@@ -4,6 +4,8 @@ import { readFile } from 'node:fs/promises';
 import { createOntology } from '../js/core/ontology.js';
 import { Engine } from '../js/core/engine.js';
 import { createRuleAdapter } from '../js/core/grammar.js';
+import { ConversationContext } from '../js/core/conversation.js';
+import { RESOURCE_LIMITS } from '../js/core/resource-limits.js';
 import {
   createDiscourse, createEvent, materializeEvent, participant,
   validateInterlingua, DISCOURSE_VERSION
@@ -200,4 +202,16 @@ test('Discourse: multiple ambiguous events produce bounded semantic combinations
   const result=engine.translate({text,from:'en',to:'pl'});
   assert.equal(result.semanticAlternatives.length,3);
   assert.ok(result.warnings.some(w=>w.includes('4 distinct semantic readings')));
+});
+
+test('Resource refusals return stable codes without mutating conversation memory',()=>{
+  const conversation=new ConversationContext(engine);
+  conversation.translate({text:'The girl saw the dog.',from:'en',to:'pl'});
+  const before=conversation.snapshot();
+  const refusal=conversation.tryTranslate({
+    text:'x'.repeat(RESOURCE_LIMITS.sourceTextCodeUnits+1),from:'en',to:'pl'
+  });
+  assert.equal(refusal.ok,false);
+  assert.equal(refusal.error.code,'SOURCE_TEXT_SIZE_LIMIT');
+  assert.deepEqual(conversation.snapshot(),before);
 });

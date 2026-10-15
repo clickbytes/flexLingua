@@ -7,6 +7,8 @@
  */
 import { validateFeatureBundle, record, safeName, hasOwn } from './features.js';
 import { STATE_FRAME_VERSION } from './ontology.js';
+import {EngineError} from './errors.js';
+import {RESOURCE_LIMITS} from './resource-limits.js';
 
 export const INTERLINGUA_VERSION = '0.2';
 export const DISCOURSE_VERSION = '0.4';
@@ -537,7 +539,49 @@ function validateClauseTree(node, ontology, registry, depth = 0, gap = null) {
   } else throw new Error('Unsupported clause node.');
 }
 
+function assertBoundedInterlinguaGraph(root) {
+  const active = new WeakSet();
+  const stack = [{value:root,depth:0,exit:false}];
+  let visited = 0;
+  while (stack.length) {
+    const item = stack.pop();
+    if (item.exit) {
+      active.delete(item.value);
+      continue;
+    }
+    if (++visited > RESOURCE_LIMITS.interlinguaNodes) {
+      throw new EngineError('INTERLINGUA_NODE_LIMIT',
+        `Interlingua graph exceeds ${RESOURCE_LIMITS.interlinguaNodes} values.`);
+    }
+    if (item.depth > RESOURCE_LIMITS.interlinguaDepth) {
+      throw new EngineError('INTERLINGUA_DEPTH_LIMIT',
+        `Interlingua graph exceeds nesting depth ${RESOURCE_LIMITS.interlinguaDepth}.`);
+    }
+    if (!item.value || typeof item.value !== 'object') continue;
+    if (active.has(item.value)) {
+      throw new EngineError('INTERLINGUA_CYCLE', 'Interlingua graph must not contain cycles.');
+    }
+    active.add(item.value);
+    stack.push({...item,exit:true});
+    const keys = Object.keys(item.value);
+    for (let index=keys.length-1; index>=0; index--) {
+      stack.push({value:item.value[keys[index]],depth:item.depth+1,exit:false});
+    }
+  }
+}
+
 export function validateInterlingua(node, ontology, registry) {
+  try {
+    assertBoundedInterlinguaGraph(node);
+    return validateInterlinguaDocument(node, ontology, registry);
+  } catch (error) {
+    if (error instanceof EngineError) throw error;
+    throw new EngineError('INTERLINGUA_INVALID', error?.message || 'Invalid Interlingua document.',
+      {cause:error});
+  }
+}
+
+function validateInterlinguaDocument(node, ontology, registry) {
   if (!record(node)) throw new Error('Unsupported or invalid Interlingua document.');
   if (node.type === 'question') {
     validateQuestion(node, ontology, registry);

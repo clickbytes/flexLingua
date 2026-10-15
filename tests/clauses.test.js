@@ -144,9 +144,10 @@ test('Structural validation rejects malformed relative gaps, arity, versions and
   bad=copy(valid);
   bad.roles.agent.relatives[0].event.roles.theme.relatives=[rel];
   bad.roles.agent.relatives[0].event.roles.theme.relatives[0].event.roles.theme.relatives=[rel];
-  assert.throws(()=>engine.realize({interlingua:bad,to:'en'}),/depth|nesting/);
+  assert.throws(()=>engine.realize({interlingua:bad,to:'en'}),error=>
+    error.code==='INTERLINGUA_CYCLE' || /depth|nesting/.test(error.message));
   bad=createCoordination([event(),event()]);bad.clauses.push({type:'scope',operator:'not',operand:bad});
-  assert.throws(()=>engine.realize({interlingua:bad,to:'en'}),/limit|scope|version|requires complete event/);
+  assert.throws(()=>engine.realize({interlingua:bad,to:'en'}),/limit|scope|version|requires complete event|cycle/);
 });
 
 test('Disallowed syntactic and operator combinations fail visibly instead of silently degrading', () => {

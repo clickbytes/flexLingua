@@ -1,12 +1,29 @@
+import {EngineError} from './errors.js';
+import {RESOURCE_LIMITS} from './resource-limits.js';
+
+export const MAX_SOURCE_TEXT_LENGTH = RESOURCE_LIMITS.sourceTextCodeUnits;
+
+function requireBoundedText(text) {
+  if (typeof text !== 'string' || !text.trim()) {
+    throw new EngineError('SOURCE_TEXT_INVALID', 'Enter a sentence.');
+  }
+  if (text.length > MAX_SOURCE_TEXT_LENGTH) {
+    throw new EngineError('SOURCE_TEXT_SIZE_LIMIT',
+      `Source text exceeds ${MAX_SOURCE_TEXT_LENGTH} UTF-16 code units.`);
+  }
+}
+
 /** Strict tokenization: unsupported punctuation is never silently discarded. */
 export function tokenize(text) {
-  if (typeof text !== 'string' || !text.trim()) throw new Error('Enter a sentence.');
+  requireBoundedText(text);
   const raw = text.trim().replace(/[.!]\s*$/u, '').toLocaleLowerCase();
   if (!/^[\p{L}\s,]+$/u.test(raw) || /,,/u.test(raw)) {
     throw new Error('Only simple sentences with letters, spaces and a final period are supported.');
   }
   const tokens = raw.replace(/,/gu, ' , ').split(/\s+/u).filter(Boolean);
-  if (tokens.length > 70) throw new Error('Sentence exceeds the prototype limit.');
+  if (tokens.length > 70) {
+    throw new EngineError('SOURCE_TOKEN_LIMIT', 'Sentence exceeds the prototype limit.');
+  }
   return tokens;
 }
 
@@ -44,11 +61,13 @@ export function parseConstructions(tokens, start, constructions, readRole) {
 }
 
 /** Multiple independent sentences form a discourse; no implicit coreference. */
-export function splitSentences(text, limit = 8) {
-  if (typeof text !== 'string' || !text.trim()) throw new Error('Enter a sentence.');
+export function splitSentences(text, limit = RESOURCE_LIMITS.discourseEvents) {
+  requireBoundedText(text);
   const parts = text.trim().split('.');
   if (parts.at(-1) === '') parts.pop();
   if (parts.some(part => !part.trim())) throw new Error('Empty discourse sentence.');
-  if (parts.length > limit) throw new Error(`Discourse exceeds ${limit} events.`);
+  if (parts.length > limit) {
+    throw new EngineError('DISCOURSE_EVENT_LIMIT', `Discourse exceeds ${limit} events.`);
+  }
   return parts.map(part => `${part.trim()}.`);
 }
