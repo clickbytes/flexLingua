@@ -1396,7 +1396,7 @@
       "level": "B1",
       "construction": "phraseology",
       "direction": "en->pl",
-      "input": "The girl broke the ice.",
+      "input": "The girl kicked the bucket.",
       "expectation": {
         "status": "unsupported"
       }

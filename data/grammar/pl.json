@@ -1,7 +1,10 @@
 {
   "version": "1.0",
   "language": "pl",
-  "replyStyles": {"standard": ".", "emphatic": "!"},
+  "replyStyles": {
+    "standard": ".",
+    "emphatic": "!"
+  },
   "sentence": {
     "subjectRole": "agent",
     "terminator": ".",
@@ -15,7 +18,11 @@
       "subjectCase": "nom"
     }
   },
-  "conditional": { "if": "jeśli", "then": "to", "otherwise": "w przeciwnym razie" },
+  "conditional": {
+    "if": "jeśli",
+    "then": "to",
+    "otherwise": "w przeciwnym razie"
+  },
   "passive": {
     "agentMarker": "przez",
     "agentCase": "acc",
@@ -23,12 +30,26 @@
       "event.open": {
         "past": {
           "auxiliary": {
-            "singular": { "masculine": "został", "feminine": "została", "neuter": "zostało" },
-            "plural": { "virile": "zostali", "nonvirile": "zostały" }
+            "singular": {
+              "masculine": "został",
+              "feminine": "została",
+              "neuter": "zostało"
+            },
+            "plural": {
+              "virile": "zostali",
+              "nonvirile": "zostały"
+            }
           },
           "participle": {
-            "singular": { "masculine": "otwarty", "feminine": "otwarta", "neuter": "otwarte" },
-            "plural": { "virile": "otwarci", "nonvirile": "otwarte" }
+            "singular": {
+              "masculine": "otwarty",
+              "feminine": "otwarta",
+              "neuter": "otwarte"
+            },
+            "plural": {
+              "virile": "otwarci",
+              "nonvirile": "otwarte"
+            }
           }
         }
       }
@@ -1280,6 +1301,30 @@
           "currency"
         ]
       }
+    },
+    "event.break_object": {
+      "cases": {
+        "agent": "nom",
+        "theme": "acc"
+      },
+      "linearizations": [
+        [
+          "agent",
+          "@verb",
+          "theme"
+        ]
+      ]
+    },
+    "event.social_icebreak": {
+      "cases": {
+        "agent": "nom"
+      },
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ]
     }
   },
   "states": {

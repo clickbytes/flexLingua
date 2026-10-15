@@ -1,7 +1,10 @@
 {
   "version": "1.0",
   "language": "en",
-  "replyStyles": {"standard": ".", "emphatic": "!"},
+  "replyStyles": {
+    "standard": ".",
+    "emphatic": "!"
+  },
   "sentence": {
     "subjectRole": "agent",
     "terminator": ".",
@@ -14,15 +17,25 @@
       "comma": false
     }
   },
-  "conditional": { "if": "if", "then": "then", "otherwise": "otherwise" },
+  "conditional": {
+    "if": "if",
+    "then": "then",
+    "otherwise": "otherwise"
+  },
   "passive": {
     "agentMarker": "by",
     "agentCase": "acc",
     "events": {
       "event.open": {
         "past": {
-          "auxiliary": { "singular": "was", "plural": "were" },
-          "participle": { "singular": "opened", "plural": "opened" }
+          "auxiliary": {
+            "singular": "was",
+            "plural": "were"
+          },
+          "participle": {
+            "singular": "opened",
+            "plural": "opened"
+          }
         }
       }
     }
@@ -677,6 +690,23 @@
           "currency"
         ]
       }
+    },
+    "event.break_object": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb",
+          "theme"
+        ]
+      ]
+    },
+    "event.social_icebreak": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ]
     }
   },
   "states": {

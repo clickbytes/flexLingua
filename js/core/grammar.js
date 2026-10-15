@@ -691,8 +691,11 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     return (word?.forms || []).map(form=>({text:form.text,case:entry.case,senseId:entry.senseId,
       referent:entry.referent,person:entry.person,number:entry.number,priority:sense?.priority||0}));
   });
-  const verbForms = verbs.flatMap(lexeme => verbGrammar.rules.flatMap(rule =>
-    formsAt(lexeme, rule.path).map(form => ({ ...form, lexeme, rule }))));
+  const verbForms = verbs.flatMap(lexeme => verbGrammar.rules.flatMap(rule => {
+    const path=rule.polarity==='negative' && lexeme.negativeForms
+      ? rule.path.replace(/^forms\./u,'negativeForms.') : rule.path;
+    return formsAt(lexeme,path).map(form => ({ ...form, lexeme, rule }));
+  }));
   const stateGrammar = grammar.states || null;
   const stateVerbForms = stateGrammar ? stateVerbs.flatMap(lexeme => {
     const kind = stateGrammar.verbs[lexeme.stateFunction];
