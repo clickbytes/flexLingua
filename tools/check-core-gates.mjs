@@ -38,11 +38,11 @@ export function parseNodeTestSummaries(output) {
   const lines = clean.split('\n');
   const summaries = [];
   for (let index = 0; index < lines.length; index++) {
-    const tests = /^\s*ℹ tests (\d+)\s*$/u.exec(lines[index]);
+    const tests = /^\s*(?:ℹ|#) tests (\d+)\s*$/u.exec(lines[index]);
     if (!tests) continue;
-    const suites = /^\s*ℹ suites (\d+)\s*$/u.exec(lines[index + 1] || '');
-    const passed = /^\s*ℹ pass (\d+)\s*$/u.exec(lines[index + 2] || '');
-    const failed = /^\s*ℹ fail (\d+)\s*$/u.exec(lines[index + 3] || '');
+    const suites = /^\s*(?:ℹ|#) suites (\d+)\s*$/u.exec(lines[index + 1] || '');
+    const passed = /^\s*(?:ℹ|#) pass (\d+)\s*$/u.exec(lines[index + 2] || '');
+    const failed = /^\s*(?:ℹ|#) fail (\d+)\s*$/u.exec(lines[index + 3] || '');
     if (suites && passed && failed) {
       summaries.push({tests: Number(tests[1]), suites: Number(suites[1]),
         passed: Number(passed[1]), failed: Number(failed[1])});

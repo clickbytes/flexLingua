@@ -29,6 +29,15 @@ test('REL-03 parses stable Node test totals while ignoring ANSI color and durati
   ]);
 });
 
+test('REL-03 parses Node TAP summaries emitted by non-interactive CI runs', () => {
+  const output = 'TAP version 13\r\n1..492\r\n# tests 492\r\n' +
+    '# suites 0\r\n# pass 492\r\n# fail 0\r\n# cancelled 0\r\n' +
+    '# skipped 0\r\n# todo 0\r\n# duration_ms 43058.590183\r\n';
+  assert.deepEqual(parseNodeTestSummaries(output), [
+    {tests: 492, suites: 0, passed: 492, failed: 0}
+  ]);
+});
+
 test('REL-03 report is deterministic and release eligibility fails closed', () => {
   const input = {
     checkoutSha: 'a'.repeat(40), sourceSha: 'b'.repeat(40), version: '1.12.0',
