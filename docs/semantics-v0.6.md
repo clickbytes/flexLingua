@@ -99,6 +99,15 @@ person can instead be represented explicitly as `person.unknown`. EN uses
 gender and plural class. Other passive tenses, event frames, passive clauses
 with local negative polarity and relative-clause themes are rejected until configured.
 
+## Real conditionals (CORE 1.30)
+
+`conditional` stores a present, affirmative condition, its consequence, and an
+optional `otherwise` branch. The current real period allows present or future
+consequences; modal consequences retain their own scope. Its branches are
+propositions, not committed event assertions. Negating the whole conditional
+uses `scope(not, conditional)`, distinct from a negative event in the
+consequence. Hypothetical and mixed tense periods are rejected until modeled.
+
 ## Operator precedence and scope
 
 ```text
