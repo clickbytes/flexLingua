@@ -44,6 +44,17 @@ test('PL → EN: qualified nouns roundtrip; lost articles stay explicitly unknow
   assert.ok(out.warnings.some(w => w.includes('definiteness')));
 });
 
+test('GRAM-02: Polish modifier agreement is preserved in the CORE roundtrip and mismatches are refused', () => {
+  const polish = translate('The girl saw a big book.');
+  assert.equal(polish.text, 'Dziewczynka widziała dużą książkę.');
+  assert.deepEqual(polish.interlingua.roles.theme.modifiers, [{concept:'quality.big'}]);
+  const roundtrip = translate(polish.text, 'pl', 'en');
+  assert.equal(roundtrip.text, 'A girl saw a big book.');
+  assert.deepEqual(roundtrip.interlingua.roles.theme.modifiers, [{concept:'quality.big'}]);
+  assert.throws(() => translate('Dziewczynka widziała duży książkę.', 'pl', 'en'), /construction/);
+  assert.throws(() => translate('Dziewczynka widziała duże książkę.', 'pl', 'en'), /construction/);
+});
+
 test('EN → PL: virile plural subject and feminine accusative numerals', () => {
   assert.equal(translate('All the big boys saw two small books.').text,
     'Wszyscy duzi chłopcy widzieli dwie małe książki.');
@@ -213,6 +224,10 @@ test('Malformed lexical modifier data and undeclared inflection features fail re
   assert.throws(()=>makeEngine({en:d2}),/Unknown property concept/);
   const d3=copy(en);d3.adjectives[0].forms=[{text:'big',when:{number:'zillion'}}];
   assert.throws(()=>makeEngine({en:d3}), /Unsupported inflection condition/);
+  const d5=copy(en);d5.adjectives[0].forms=[{text:'big',when:{case:'acc'}}];
+  assert.throws(()=>makeEngine({en:d5}),/Unsupported adjective agreement feature case/);
+  const g=copy(eg);g.nounPhrase.qualified.adjectiveAgreementFeatures=['number','case','case'];
+  assert.throws(()=>makeEngine({eg:g}),/Invalid adjective agreement features/);
   const d4=copy(en);d4.quantifiers[0].meaning={kind:'exact',value:0};
   assert.throws(()=>makeEngine({en:d4}), /quantifier CORE mapping/);
 });

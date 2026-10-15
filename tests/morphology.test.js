@@ -56,6 +56,40 @@ test('v1.03 one base plus paradigm generates all cases of the regular Polish fox
  assert.equal(pl.nouns.find(x=>x.id==='pl.lis.1').forms?.plural?.dat,undefined);
 });
 
+test('GRAM-02 Polish adjective paradigm covers locative agreement across three genders and both plural classes',()=>{
+ const cases=['nom','acc','gen','dat','loc'];
+ const cells=[
+  ...cases.map(grammaticalCase=>({number:'singular',gender:'feminine',case:grammaticalCase})),
+  ...cases.flatMap(grammaticalCase=>grammaticalCase==='acc'?
+   [{number:'singular',gender:'masculine',animacy:'animate',case:grammaticalCase},
+    {number:'singular',gender:'masculine',animacy:'inanimate',case:grammaticalCase}]:
+   [{number:'singular',gender:'masculine',case:grammaticalCase}]),
+  ...cases.map(grammaticalCase=>({number:'singular',gender:'neuter',case:grammaticalCase})),
+  ...['virile','nonvirile'].flatMap(pluralClass=>cases.map(grammaticalCase=>
+   ({number:'plural',pluralClass,case:grammaticalCase})))
+ ];
+ for(const cell of cells)assert.equal(generation('pl','pl.big.adj.1',cell).length,1,JSON.stringify(cell));
+ assert.equal(cells.length,26);
+ assert.deepEqual(generation('pl','pl.big.adj.1',{number:'singular',gender:'feminine',case:'loc'}),['dużej']);
+ assert.deepEqual(generation('pl','pl.big.adj.1',{number:'singular',gender:'masculine',case:'loc'}),['dużym']);
+ assert.deepEqual(generation('pl','pl.big.adj.1',{number:'singular',gender:'neuter',case:'loc'}),['dużym']);
+ assert.deepEqual(generation('pl','pl.big.adj.1',{number:'plural',pluralClass:'virile',case:'loc'}),['dużych']);
+ assert.deepEqual(generation('pl','pl.big.adj.1',{number:'plural',pluralClass:'nonvirile',case:'loc'}),['dużych']);
+ assert.deepEqual(generation('pl','pl.small.adj.1',{number:'singular',gender:'feminine',case:'loc'}),['małej']);
+ assert.deepEqual(generation('pl','pl.red.adj.1',{number:'plural',pluralClass:'nonvirile',case:'loc'}),['czerwonych']);
+ assert.deepEqual(generation('en','en.big.adj.1',{number:'singular'}),['big']);
+ assert.deepEqual(generation('en','en.big.adj.1',{number:'plural'}),['big']);
+});
+
+test('GRAM-02 refuses an adjective exception outside the declared paradigm',()=>{
+ const invalid=copy(plSpec);
+ invalid.bindings.find(binding=>binding.lexemeId==='pl.big.adj.1').overrides.push({
+  when:{number:'singular',gender:'feminine',case:'loc',animacy:'animate'},
+  mode:'replace',forms:[{text:'dużej'}]
+ });
+ assert.throws(()=>createMorphology(invalid,pl,features,{core:engine.core}),/Override targets nonexistent paradigm cell/);
+});
+
 test('v1.04 operations support harmony, morphophonology and non-concatenative templates',()=>{
  assert.equal(executeOperations({stem:'kitap',steps:[{op:'softenFinal'}, {op:'harmonicSuffix',template:'I'}]}).text,'kitabı');
  assert.equal(executeOperations({stem:'kitap',steps:[{op:'softenFinal'},{op:'harmonicSuffix',template:'A'}]}).text,'kitaba');

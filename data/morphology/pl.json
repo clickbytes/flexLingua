@@ -1329,6 +1329,71 @@
               "value": "ym"
             }
           ]
+        },
+        {
+          "features": {
+            "number": "singular",
+            "gender": "feminine",
+            "case": "loc"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "ej"
+            }
+          ]
+        },
+        {
+          "features": {
+            "number": "singular",
+            "gender": "masculine",
+            "case": "loc"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "ym"
+            }
+          ]
+        },
+        {
+          "features": {
+            "number": "singular",
+            "gender": "neuter",
+            "case": "loc"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "ym"
+            }
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "loc"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "ych"
+            }
+          ]
+        },
+        {
+          "features": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "case": "loc"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "ych"
+            }
+          ]
         }
       ]
     },

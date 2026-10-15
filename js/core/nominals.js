@@ -67,6 +67,17 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms }) 
   const adjectives = verifySurfaceInventory(dictionary.adjectives || [], 'adjective');
   const degrees = verifySurfaceInventory(dictionary.degrees || [], 'degree');
   const quantifiers = verifySurfaceInventory(dictionary.quantifiers || [], 'quantifier');
+  const agreementFeatures = qualified.adjectiveAgreementFeatures || [...AGREEMENT_KEYS];
+  if (!Array.isArray(agreementFeatures) || new Set(agreementFeatures).size !== agreementFeatures.length ||
+      agreementFeatures.some(feature => !AGREEMENT_KEYS.has(feature))) {
+    throw new Error('Invalid adjective agreement features.');
+  }
+  for (const adjective of adjectives) for (const form of adjective.forms) {
+    const unsupported = Object.keys(form.when || {}).find(feature => !agreementFeatures.includes(feature));
+    if (unsupported) {
+      throw new Error(`Unsupported adjective agreement feature ${unsupported} in ${adjective.id}.`);
+    }
+  }
   const propertyIndex = new Map();
   const degreeIndex = new Map();
   const quantifierIndex = new Map();
@@ -100,6 +111,10 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms }) 
         (!Number.isInteger(qualified.maxAdjectives) || qualified.maxAdjectives < 1 || qualified.maxAdjectives > MAX_ENTITY_MODIFIERS) ||
       qualified.maxDegreeDepth !== undefined &&
         (!Number.isInteger(qualified.maxDegreeDepth) || qualified.maxDegreeDepth < 1 || qualified.maxDegreeDepth > MAX_MODIFIER_DEPTH - 1) ||
+      qualified.adjectiveAgreementFeatures !== undefined &&
+        (!Array.isArray(qualified.adjectiveAgreementFeatures) ||
+          new Set(qualified.adjectiveAgreementFeatures).size !== qualified.adjectiveAgreementFeatures.length ||
+          qualified.adjectiveAgreementFeatures.some(feature => !AGREEMENT_KEYS.has(feature))) ||
       ['adjectiveOrder', 'degreeOrder'].some(key => qualified[key] !== undefined && qualified[key] !== 'before') ||
       (qualified.articleFromFirstModifier !== undefined && typeof qualified.articleFromFirstModifier !== 'boolean')) {
     throw new Error('Invalid qualified noun-phrase layout or complexity limits.');
