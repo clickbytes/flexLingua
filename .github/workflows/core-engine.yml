@@ -21,6 +21,10 @@ jobs:
     name: Node unit and regression tests
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    outputs:
+      node-version: ${{ steps.runtime.outputs.node-version }}
+      npm-version: ${{ steps.runtime.outputs.npm-version }}
+      test-summary: ${{ steps.node-tests.outputs.summary }}
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -28,20 +32,42 @@ jobs:
           node-version: '22'
           package-manager-cache: false
       - name: Runtime details
-        run: node --version && npm --version
+        id: runtime
+        run: |
+          echo "node-version=$(node --version)" >> "$GITHUB_OUTPUT"
+          echo "npm-version=$(npm --version)" >> "$GITHUB_OUTPUT"
       - name: Full Node test suite
-        run: npm test
+        id: node-tests
+        shell: bash
+        run: |
+          set +e
+          npm test 2>&1 | tee "$RUNNER_TEMP/node-tests.log"
+          test_status=${PIPESTATUS[0]}
+          node tools/check-core-gates.mjs --test-summary "$RUNNER_TEMP/node-tests.log" >> "$GITHUB_OUTPUT"
+          summary_status=$?
+          if [ "$test_status" -eq 0 ] && [ "$summary_status" -ne 0 ]; then
+            exit "$summary_status"
+          fi
+          exit "$test_status"
 
   lexical-audits:
     name: Lexicon morphology gold and A1 checks
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    outputs:
+      node-version: ${{ steps.runtime.outputs.node-version }}
+      npm-version: ${{ steps.runtime.outputs.npm-version }}
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
         with:
           node-version: '22'
           package-manager-cache: false
+      - name: Runtime details
+        id: runtime
+        run: |
+          echo "node-version=$(node --version)" >> "$GITHUB_OUTPUT"
+          echo "npm-version=$(npm --version)" >> "$GITHUB_OUTPUT"
       - run: npm run check:lexicon
       - run: npm run check:morphology
       - run: npm run check:gold
@@ -62,8 +88,21 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: Require both release jobs
-        if: ${{ needs.engine-tests.result != 'success' || needs.lexical-audits.result != 'success' }}
-        run: exit 1
-      - name: Confirm release checks passed
-        run: echo "All release checks passed."
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+          package-manager-cache: false
+      - name: Generate deterministic release evidence and enforce both gates
+        env:
+          RELEASE_SOURCE_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          RELEASE_UNIT_TEST_RESULT: ${{ needs.engine-tests.result }}
+          RELEASE_AUDIT_RESULT: ${{ needs.lexical-audits.result }}
+          RELEASE_UNIT_TEST_SUMMARY: ${{ needs.engine-tests.outputs.test-summary }}
+          RELEASE_UNIT_TEST_NODE: ${{ needs.engine-tests.outputs.node-version }}
+          RELEASE_UNIT_TEST_NPM: ${{ needs.engine-tests.outputs.npm-version }}
+          RELEASE_AUDIT_NODE: ${{ needs.lexical-audits.outputs.node-version }}
+          RELEASE_AUDIT_NPM: ${{ needs.lexical-audits.outputs.npm-version }}
+        run: node tools/check-core-gates.mjs --ci

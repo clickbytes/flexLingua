@@ -14,13 +14,20 @@ This release completes the *proposed prototype roadmap* v0.7–v1.0, not the res
 ## Release checklist
 
 ```sh
-npm test
-npm run check:release
+npm run check:core-gates
 npm run dev
 # open http://127.0.0.1:8000/
 ```
 
-The package has no install-time or runtime dependencies. The UI runs through the local HTTP server; no standalone HTML is maintained or generated.
+`check:core-gates` runs `check:release` once and emits deterministic JSON evidence: checked-out/source SHA, package version, a SHA-256 manifest of tracked files, Node/npm versions, test totals and gate outcomes. It refuses dirty tracked files or untracked files (except the local `.codegraph/` index). The CI `release-gate` job records the same fields from the two required jobs and aggregates their results without running the suites again. Reports omit timestamps, durations and process IDs.
+
+The package has no install-time or runtime dependencies. The UI runs through the local HTTP server; no standalone HTML is maintained or generated. The gate command does not publish or change `package.json`.
+
+## Version, limitations and rollback
+
+Update `package.json` only after the planned change has passed its local and PR gates. Re-run `npm run check:core-gates` on the version-bearing commit and require the merge SHA's Actions before creating a release tag. Release notes must state the bounded supported behavior and known gaps; this prototype does not claim unrestricted translation or CEFR certification.
+
+To roll back a released change, open a new PR containing `git revert <merge-sha>`, run the required checks, and merge only after they pass. Record the revert SHA and the reason in the incident and original issue; do not rewrite `main` history.
 
 ## Scientific / linguistic caution
 
