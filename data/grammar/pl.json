@@ -14,6 +14,7 @@
       "subjectCase": "nom"
     }
   },
+  "conditional": { "if": "jeśli", "then": "to", "otherwise": "w przeciwnym razie" },
   "passive": {
     "agentMarker": "przez",
     "agentCase": "acc",

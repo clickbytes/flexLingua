@@ -184,6 +184,12 @@ function validateGrammar(dictionary, grammar) {
       grammar.sentence.terminator !== '.') {
     throw new Error('Invalid sentence configuration.');
   }
+  if(grammar.conditional!==undefined&&(!record(grammar.conditional)||
+      Object.keys(grammar.conditional).sort().join(',')!=='if,otherwise,then'||
+      Object.values(grammar.conditional).some(marker=>
+        typeof marker!=='string'||! /^[\p{L}]+(?:\s+[\p{L}]+)*$/u.test(marker)))) {
+    throw new Error('Invalid conditional grammar configuration.');
+  }
   // Connectives, wide negation and relative markers belong to target-language JSON.
   const coordination = grammar.sentence.coordination;
   if (!record(coordination) || !/^[\p{L}]+$/u.test(coordination.and || '') ||
@@ -2413,6 +2419,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     parseComplementHeads, realizeComplement,
     readSubjectPronoun, readDeicticPronoun, expandSubjectPronoun, subjectPronounFor, subjectRole,
     connective: conjunction.and, wideNegation: conjunction.wideNegation,
+    conditional:grammar.conditional,
     describe: () => ({ language: grammar.language, grammarVersion: grammar.version,
       nouns: dictionary.nouns.length, verbs: dictionary.verbs.length, ...nominal.describe(),
       nounSenses: nouns.length, verbSenses: verbs.length, frames: Object.keys(frames).length,

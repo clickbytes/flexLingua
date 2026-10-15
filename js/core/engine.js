@@ -1,4 +1,4 @@
-import { createDiscourse, createEventRelation, createCoordination, createNegation, createComplement, materializeEvent, validateInterlingua, MAX_DISCOURSE_EVENTS, QUESTION_VERSION, MODALITY_VERSION, STATE_VERSION, DIALOGUE_ACT_VERSION, PASSIVE_VERSION, validateCoreferenceMap, sameDiscourseReferent } from './interlingua.js';
+import { createDiscourse, createEventRelation, createCoordination, createNegation, createComplement, createConditional, materializeEvent, validateInterlingua, MAX_DISCOURSE_EVENTS, QUESTION_VERSION, MODALITY_VERSION, STATE_VERSION, DIALOGUE_ACT_VERSION, PASSIVE_VERSION, CONDITIONAL_VERSION, validateCoreferenceMap, sameDiscourseReferent } from './interlingua.js';
 import { createFeatureRegistry, record, safeName, hasOwn } from './features.js';
 import { createCoreLanguage } from './core-language.js';
 import { splitSentences, sentenceText } from './text.js';
@@ -394,6 +394,53 @@ export class Engine {
     const normal = text.toLocaleLowerCase();
     const scoped = typeof prefix === 'string' && normal.startsWith(prefix.toLocaleLowerCase() + ' ');
     const body = scoped ? text.slice(prefix.length).trim() : text;
+    const conditional=adapter.conditional;
+    const lowerBody=body.toLocaleLowerCase(adapter.code);
+    if(conditional && lowerBody.startsWith(conditional.if.toLocaleLowerCase(adapter.code)+' ')) {
+      const rest=body.slice(conditional.if.length).trim();
+      const comma=rest.indexOf(',');
+      if(comma<1)throw new Error('Conditional clauses require a comma after the if-clause.');
+      const conditionText=rest.slice(0,comma).trim();
+      let consequenceText=rest.slice(comma+1).trim();
+      const markerPattern=marker=>marker.split(/\s+/u).map(part=>
+        part.replace(/[.*+?^${}()|[\]\\]/gu,'\\$&')).join('\\s+');
+      const otherwisePattern=new RegExp(',\\s*'+
+        markerPattern(conditional.otherwise)+'(?:,\\s*|\\s+)','giu');
+      const otherwiseMatches=[...consequenceText.matchAll(otherwisePattern)];
+      let otherwiseText;
+      if(otherwiseMatches.length) {
+        const match=otherwiseMatches.at(-1),at=match.index;
+        otherwiseText=consequenceText.slice(at+match[0].length).trim();
+        consequenceText=consequenceText.slice(0,at).trim();
+      }
+      const thenPattern=new RegExp('^'+markerPattern(conditional.then)+'\\s+','iu');
+      consequenceText=consequenceText.replace(thenPattern,'').replace(/,$/u,'').trim();
+      if(!conditionText||!consequenceText||(otherwiseText!==undefined&&!otherwiseText))
+        throw new Error('Incomplete conditional clause.');
+      const conditions=this.analyzeSentence(conditionText+'.',adapter,depth+1);
+      const consequences=this.analyzeSentence(consequenceText+'.',adapter,depth+1);
+      const alternatives=otherwiseText===undefined? [null]:
+        this.analyzeSentence(otherwiseText+'.',adapter,depth+1);
+      const readings=[];
+      conditionalCandidates:for(const condition of conditions)for(const consequence of consequences)
+        for(const alternative of alternatives) {
+          const proposition=createConditional(condition.interlingua,
+            consequence.interlingua,alternative?.interlingua);
+          try { validateInterlingua(proposition,this.ontology,this.features); }
+          catch(error) {
+            if(error.code!=='INTERLINGUA_INVALID')throw error;
+            continue;
+          }
+          readings.push({interlingua:scoped?createNegation(proposition):proposition,
+            lexicalSenses:{condition:condition.lexicalSenses,
+              consequence:consequence.lexicalSenses,
+              ...(alternative?{otherwise:alternative.lexicalSenses}:{})},
+            score:(condition.score||0)+(consequence.score||0)+(alternative?.score||0)});
+          if(readings.length>=MAX_CANDIDATES)break conditionalCandidates;
+        }
+      if(readings.length)return readings;
+      throw new Error('Conditional clause has no supported reading.');
+    }
     const connective = adapter.connective;
     let atomic=[], atomError;
     try {
@@ -754,6 +801,22 @@ export class Engine {
         return { text: adapter.realizeComplement(node, content.text),
           warnings: content.warnings || [], alternatives: [] };
       }
+      if(node.type==='conditional') {
+        const rules=adapter.conditional;
+        if(!rules)throw new Error(`No ${to} conditional rule.`);
+        const condition=realizeClause(node.condition);
+        const consequence=realizeClause(node.consequence);
+        const otherwise=node.otherwise?realizeClause(node.otherwise):null;
+        const lowerClause=part=>part.text.replace(/[.!?]\s*$/u,'')
+          .replace(/^./u,char=>char.toLocaleLowerCase(to));
+        const sentence=rules.if[0].toLocaleUpperCase(to)+rules.if.slice(1)+' '+
+          lowerClause(condition)+', '+rules.then+' '+lowerClause(consequence)+
+          (otherwise?', '+rules.otherwise+' '+lowerClause(otherwise):'');
+        return {text:sentenceText([sentence]),
+          warnings:[condition,consequence,...(otherwise?[otherwise]:[])].flatMap((part,index)=>
+            (part.warnings||[]).map(w=>`Conditional clause ${index+1}: ${w}`)),
+          alternatives:[]};
+      }
       if (node.type === 'coordination') {
         if (!adapter.connective) throw new Error(`No ${to} coordination rule.`);
         const parts = node.clauses.map(realizeClause);
@@ -820,6 +883,7 @@ export class Engine {
     return { interlinguaVersion: '1.0', questionDocumentVersion: QUESTION_VERSION,
       eventRelationDocumentVersion: '1.28',
       passiveEventDocumentVersion: PASSIVE_VERSION,
+      conditionalDocumentVersion: CONDITIONAL_VERSION,
       dialogueActDocumentVersion: DIALOGUE_ACT_VERSION,
       responsePlannerVersion: RESPONSE_PLANNER_VERSION,
       dialogueEngineVersion: DIALOGUE_ENGINE_VERSION,

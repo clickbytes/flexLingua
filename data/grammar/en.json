@@ -13,6 +13,7 @@
       "comma": false
     }
   },
+  "conditional": { "if": "if", "then": "then", "otherwise": "otherwise" },
   "passive": {
     "agentMarker": "by",
     "agentCase": "acc",

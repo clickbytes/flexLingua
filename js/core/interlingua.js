@@ -3,6 +3,7 @@
  * v0.4 adds a bounded discourse graph with explicitly shared entity identities.
  * v0.5 adds typed nominal modifiers and quantifiers.
  * v0.6 adds bounded relative clauses, coordination and explicit wide-scope negation.
+ * v1.30 adds real conditionals without asserting their branches as facts.
  * Surface case, gender and word order never enter the semantic graph.
  */
 import { validateFeatureBundle, record, safeName, hasOwn } from './features.js';
@@ -25,6 +26,7 @@ export const POSSESSIVE_VERSION = '1.26';
 export const COMPARISON_VERSION = '1.27';
 export const EVENT_RELATIONS_VERSION = '1.28';
 export const PASSIVE_VERSION = '1.29';
+export const CONDITIONAL_VERSION = '1.30';
 export const EVENT_RELATION_TYPES = Object.freeze([
   'event_relation.before', 'event_relation.after', 'event_relation.because'
 ]);
@@ -518,9 +520,25 @@ export function createCoordination(clauses) {
   return { version: CLAUSE_VERSION, type: 'coordination', connective: 'and', clauses };
 }
 
+function conditionalClauseTense(node) {
+  if(node?.type==='event')return node.features?.tense;
+  if(node?.type==='modality')return node.operator==='modality.intention'?'future':
+    node.operand?.features?.tense;
+  if(node?.type==='scope'&&node.operator==='not')return conditionalClauseTense(node.operand);
+  return null;
+}
+
+/** A real conditional relates propositions without asserting either as a fact. */
+export function createConditional(condition, consequence, otherwise) {
+  const result={version:CONDITIONAL_VERSION,type:'conditional',kind:'real',condition,consequence};
+  if(otherwise!==undefined)result.otherwise=otherwise;
+  return result;
+}
+
 /** The explicit operand makes not(A and B) different from not(A) and B. */
 export function createNegation(operand) {
   return { version: operand?.type === 'coordination' ? CLAUSE_VERSION :
+    operand?.type === 'conditional' ? CONDITIONAL_VERSION :
     operand?.type === 'modality' ? MODALITY_VERSION : SEMANTIC_VERSION,
     type: 'scope', operator: 'not', operand };
 }
@@ -576,7 +594,7 @@ export function createQuestion(proposition, options = {}) {
     throw new Error('Invalid question options.');
   }
   const {questionType = 'yes_no', targetRole} = options;
-  if (!record(proposition) || !['event','state','comparison','scope','coordination','complement','modality'].includes(proposition.type)) {
+  if (!record(proposition) || !['event','state','comparison','scope','coordination','complement','modality','conditional'].includes(proposition.type)) {
     throw new Error('A question requires a supported semantic proposition.');
   }
   if (questionType === 'yes_no') {
@@ -612,7 +630,7 @@ function validateQuestion(node, ontology, registry) {
     throw new Error('Invalid or unsupported semantic question document.');
   }
   if (!wh) {
-    if (!['event','state','comparison','coordination','scope','complement','modality'].includes(node.proposition?.type)) {
+    if (!['event','state','comparison','coordination','scope','complement','modality','conditional'].includes(node.proposition?.type)) {
       throw new Error('Yes/no question requires a supported proposition.');
     }
     validateClauseTree(node.proposition,ontology,registry,1);
@@ -672,7 +690,7 @@ function validateDialogueQuestion(question, ontology, registry) {
 
 function validateDialogueProposition(proposition, ontology, registry) {
   if (!record(proposition) ||
-      !['event','state','comparison','coordination','scope','complement','modality'].includes(proposition.type)) {
+      !['event','state','comparison','coordination','scope','complement','modality','conditional'].includes(proposition.type)) {
     throw new Error('Dialogue act requires a supported proposition.');
   }
   validateClauseTree(proposition, ontology, registry);
@@ -834,6 +852,23 @@ function validateClauseTree(node, ontology, registry, depth = 0, gap = null) {
       throw new Error('Complement experiencer must be a person.');
     }
     validateClauseTree(node.content, ontology, registry, depth + 1);
+  } else if(node.type==='conditional') {
+    const allowed=['version','type','kind','condition','consequence','otherwise'];
+    if(node.version!==CONDITIONAL_VERSION||node.kind!=='real'||
+        Object.keys(node).some(key=>!allowed.includes(key))||
+        !['event','scope'].includes(node.condition?.type)||
+        !['event','modality','scope'].includes(node.consequence?.type)||
+        (hasOwn(node,'otherwise')&&!['event','modality','scope'].includes(node.otherwise?.type))||
+        node.condition.type!=='event'||node.condition.features?.tense!=='present'||
+        node.condition.features?.polarity!=='positive'||
+        !['present','future'].includes(conditionalClauseTense(node.consequence))||
+        (hasOwn(node,'otherwise')&&conditionalClauseTense(node.otherwise)!==
+          conditionalClauseTense(node.consequence))) {
+      throw new Error('Invalid or unsupported conditional period.');
+    }
+    validateClauseTree(node.condition,ontology,registry,depth+1);
+    validateClauseTree(node.consequence,ontology,registry,depth+1);
+    if(hasOwn(node,'otherwise'))validateClauseTree(node.otherwise,ontology,registry,depth+1);
   } else if (node.type === 'coordination') {
     if (node.version !== CLAUSE_VERSION || node.connective !== 'and' ||
         !Array.isArray(node.clauses) || node.clauses.length < 2 ||
@@ -847,13 +882,15 @@ function validateClauseTree(node, ontology, registry, depth = 0, gap = null) {
       validateClauseTree(child, ontology, registry, depth + 1);
     }
   } else if (node.type === 'scope') {
-    if (![CLAUSE_VERSION, SEMANTIC_VERSION, MODALITY_VERSION].includes(node.version) || node.operator !== 'not' ||
+    if (![CLAUSE_VERSION, SEMANTIC_VERSION, MODALITY_VERSION,CONDITIONAL_VERSION].includes(node.version) || node.operator !== 'not' ||
         !Object.keys(node).every(k => ['version', 'type', 'operator', 'operand'].includes(k)) ||
-        !['coordination','event','state','comparison','complement','modality'].includes(node.operand?.type) ||
+        !['coordination','event','state','comparison','complement','modality','conditional'].includes(node.operand?.type) ||
         (node.version === CLAUSE_VERSION && node.operand?.type !== 'coordination') ||
+        (node.version === CONDITIONAL_VERSION && node.operand?.type !== 'conditional') ||
+        (node.operand?.type==='conditional'&&node.version!==CONDITIONAL_VERSION) ||
         (node.operand?.type === 'modality' && node.version !== MODALITY_VERSION) ||
         (gap && !['event','modality'].includes(node.operand?.type))) {
-      throw new Error('Wide-scope negation currently requires a coordination operand.');
+      throw new Error('Unsupported negation scope.');
     }
     validateClauseTree(node.operand, ontology, registry, depth + 1, gap);
   } else if (node.type === 'modality') {
@@ -927,7 +964,7 @@ function validateInterlinguaDocument(node, ontology, registry) {
     validateQuestion(node, ontology, registry);
     return node;
   }
-  if (['event','state','comparison','coordination','scope','complement','modality'].includes(node.type)) {
+  if (['event','state','comparison','coordination','scope','complement','modality','conditional'].includes(node.type)) {
     validateClauseTree(node, ontology, registry);
     return node;
   }
