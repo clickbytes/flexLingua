@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "license": "project-authored",
+  "origin": "Hand-authored bounded present-progressive examples for flexLingua; not copied from a published course or generated from parser output.",
+  "scope": "A1-ENPL-06: positive English present progressive for six configured event verbs maps to present imperfective CORE and Polish present imperfective forms; Polish present does not infer an English progressive.",
+  "enToPl": [
+    {"id":"A1-ENPL-06-EN-01","input":"I am reading a book.","expected":"Ja czytam książkę.","core":{"type":"event","concept":"event.read","roles":{"agent":{"anchor":"speaker","person":"first","number":"singular"},"theme":{"concept":"object.book","number":"singular"}},"features":{"tense":"present","polarity":"positive","aspect":"imperfective"}}},
+    {"id":"A1-ENPL-06-EN-02","input":"The mother is writing a book.","expected":"Mama pisze książkę.","core":{"type":"event","concept":"event.write","roles":{"agent":{"concept":"person.mother","number":"singular"},"theme":{"concept":"object.book","number":"singular"}},"features":{"tense":"present","polarity":"positive","aspect":"imperfective"}}},
+    {"id":"A1-ENPL-06-EN-03","input":"The girl is eating a sandwich.","expected":"Dziewczynka je kanapkę.","core":{"type":"event","concept":"event.eat","roles":{"agent":{"concept":"person.girl","number":"singular"},"theme":{"concept":"food.sandwich","number":"singular"}},"features":{"tense":"present","polarity":"positive","aspect":"imperfective"}}},
+    {"id":"A1-ENPL-06-EN-04","input":"The girl is drinking tea.","expected":"Dziewczynka pije herbatę.","core":{"type":"event","concept":"event.drink","roles":{"agent":{"concept":"person.girl","number":"singular"},"theme":{"concept":"beverage.tea","number":"singular"}},"features":{"tense":"present","polarity":"positive","aspect":"imperfective"}}},
+    {"id":"A1-ENPL-06-EN-05","input":"The girl is helping the boy.","expected":"Dziewczynka pomaga chłopcu.","core":{"type":"event","concept":"event.help","roles":{"agent":{"concept":"person.girl","number":"singular"},"theme":{"concept":"person.boy","number":"singular"}},"features":{"tense":"present","polarity":"positive","aspect":"imperfective"}}},
+    {"id":"A1-ENPL-06-EN-06","input":"The girls are opening books.","expected":"Dziewczynki otwierają książki.","core":{"type":"event","concept":"event.open","roles":{"agent":{"concept":"person.girl","number":"plural"},"theme":{"concept":"object.book","number":"plural"}},"features":{"tense":"present","polarity":"positive","aspect":"imperfective"}}}
+  ],
+  "plToEn": [
+    {"id":"A1-ENPL-06-PL-01","input":"Ja czytam książkę.","expected":"I read a book.","core":{"type":"event","concept":"event.read","roles":{"agent":{"anchor":"speaker","person":"first","number":"singular"},"theme":{"concept":"object.book","number":"singular"}},"features":{"tense":"present","polarity":"positive","aspect":"imperfective"}}},
+    {"id":"A1-ENPL-06-PL-02","input":"Mama pisze książkę.","expected":"A mother writes a book.","core":{"type":"event","concept":"event.write","roles":{"agent":{"concept":"person.mother","number":"singular"},"theme":{"concept":"object.book","number":"singular"}},"features":{"tense":"present","polarity":"positive","aspect":"imperfective"}}},
+    {"id":"A1-ENPL-06-PL-03","input":"Dziewczynka je kanapkę.","expected":"A girl eats a sandwich.","core":{"type":"event","concept":"event.eat","roles":{"agent":{"concept":"person.girl","number":"singular"},"theme":{"concept":"food.sandwich","number":"singular"}},"features":{"tense":"present","polarity":"positive","aspect":"imperfective"}}},
+    {"id":"A1-ENPL-06-PL-04","input":"Dziewczynka pije herbatę.","expected":"A girl drinks tea.","core":{"type":"event","concept":"event.drink","roles":{"agent":{"concept":"person.girl","number":"singular"},"theme":{"concept":"beverage.tea","number":"singular"}},"features":{"tense":"present","polarity":"positive","aspect":"imperfective"}}},
+    {"id":"A1-ENPL-06-PL-05","input":"Dziewczynka pomaga chłopcu.","expected":"A girl helps a boy.","core":{"type":"event","concept":"event.help","roles":{"agent":{"concept":"person.girl","number":"singular"},"theme":{"concept":"person.boy","number":"singular"}},"features":{"tense":"present","polarity":"positive","aspect":"imperfective"}}},
+    {"id":"A1-ENPL-06-PL-06","input":"Dziewczynki otwierają książki.","expected":"Girls open books.","core":{"type":"event","concept":"event.open","roles":{"agent":{"concept":"person.girl","number":"plural"},"theme":{"concept":"object.book","number":"plural"}},"features":{"tense":"present","polarity":"positive","aspect":"imperfective"}}}
+  ],
+  "morphology": [],
+  "invalid": [
+    {"id":"A1-ENPL-06-NEG-01","from":"en","input":"The girl is not reading a book.","reason":"Negative present progressive is outside this batch."},
+    {"id":"A1-ENPL-06-QUESTION-01","from":"en","input":"Is the girl reading a book?","reason":"Present progressive questions are outside this batch."},
+    {"id":"A1-ENPL-06-PAST-01","from":"en","input":"I was reading a book.","reason":"Past progressive is outside this batch."},
+    {"id":"A1-ENPL-06-AGREEMENT-01","from":"en","input":"I is reading a book.","reason":"Progressive auxiliary does not agree with the subject."},
+    {"id":"A1-ENPL-06-UNCONFIGURED-01","from":"en","input":"The girl is sleeping.","reason":"Progressive form for sleep is not configured."},
+    {"id":"A1-ENPL-06-MISSING-THEME-01","from":"en","input":"The girl is reading.","reason":"The configured read frame requires its theme."},
+    {"id":"A1-ENPL-06-VERB-AGREEMENT-01","from":"en","input":"The girl are reading a book.","reason":"Progressive auxiliary does not agree with the subject."}
+  ]
+}

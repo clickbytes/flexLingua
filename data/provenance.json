@@ -52,6 +52,13 @@
           "source": "Original project-authored bounded English/Polish class-predication and proximal-demonstrative entries; no external lexicon or list copied.",
           "license": "Project-authored; the repository declares no separate data license.",
           "scope": "A1-ENPL-01: proximal demonstratives, a distinct directional class-membership state, and the bounded quality.simple sense."
+        },
+        {
+          "issue": "#167",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored progressive forms for six configured English event verbs; no external lexicon or list copied.",
+          "license": "Project-authored; the repository declares no separate data license.",
+          "scope": "A1-ENPL-06: read, write, eat, drink, help, and open progressive forms."
         }
       ]
     },
@@ -142,6 +149,13 @@
           "source": "Project-authored bounded English existential-locative syntax reusing the typed CORE location state; no external grammar inventory copied.",
           "license": "Project-authored; the repository declares no separate SPDX data license.",
           "scope": "A1-ENPL-04: present positive there is/are clauses with an explicit configured in/on/at location. Language package: data/grammar/en.json."
+        },
+        {
+          "issue": "#167",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored bounded English present-progressive event rules with explicit auxiliary agreement and imperfective CORE mapping; no external grammar inventory copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "A1-ENPL-06: positive am/is/are + V-ing clauses for six configured event verbs. Language package: data/grammar/en.json."
         },
         {
           "issue": "#159",

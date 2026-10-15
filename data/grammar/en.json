@@ -245,6 +245,72 @@
         "path": "forms.base"
       },
       {
+        "tense": "present",
+        "polarity": "positive",
+        "aspect": "imperfective",
+        "when": {
+          "subject.person": "first",
+          "subject.number": "singular"
+        },
+        "prefix": ["am"],
+        "path": "forms.progressive"
+      },
+      {
+        "tense": "present",
+        "polarity": "positive",
+        "aspect": "imperfective",
+        "when": {
+          "subject.person": "second",
+          "subject.number": "singular"
+        },
+        "prefix": ["are"],
+        "path": "forms.progressive"
+      },
+      {
+        "tense": "present",
+        "polarity": "positive",
+        "aspect": "imperfective",
+        "when": {
+          "subject.person": "third",
+          "subject.number": "singular"
+        },
+        "prefix": ["is"],
+        "path": "forms.progressive"
+      },
+      {
+        "tense": "present",
+        "polarity": "positive",
+        "aspect": "imperfective",
+        "when": {
+          "subject.person": "first",
+          "subject.number": "plural"
+        },
+        "prefix": ["are"],
+        "path": "forms.progressive"
+      },
+      {
+        "tense": "present",
+        "polarity": "positive",
+        "aspect": "imperfective",
+        "when": {
+          "subject.person": "second",
+          "subject.number": "plural"
+        },
+        "prefix": ["are"],
+        "path": "forms.progressive"
+      },
+      {
+        "tense": "present",
+        "polarity": "positive",
+        "aspect": "imperfective",
+        "when": {
+          "subject.person": "third",
+          "subject.number": "plural"
+        },
+        "prefix": ["are"],
+        "path": "forms.progressive"
+      },
+      {
         "tense": "past",
         "polarity": "negative",
         "when": {},

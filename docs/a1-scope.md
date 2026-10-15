@@ -68,6 +68,7 @@ implementacyjny, a nie pełny zakres A1.
 | Egzystencjalne lokatywy: `there is/are` + jawne `in/on/at` | A1-ENPL-04 | Obsługiwane pozytywnie w czasie teraźniejszym przez stan CORE `location`; polska realizacja zachowuje relację i referenty. Negacja, pytania i brak jawnej lokacji pozostają odrzucane. |
 | Zaimki anaforyczne bez dostępnego antecedensu | A1-ENPL-05+ | Poza zakresem tej macierzy; nierozwiązane odniesienie jest jawnie odrzucane. |
 | Dodatnia predykacja cechy w czasie przeszłym: `The book was small.` | A1-ENPL-05 | Obsługiwana w PL↔CORE↔EN dla rzeczownikowych podmiotów z pięcioma klasami zgody. Przeszłe przeczenie, pytania i inne rodzaje stanów pozostają odrzucane. |
+| Dodatni angielski present progressive: `am/is/are + V-ing` | A1-ENPL-06 | Sześć jawnych czasowników (`read`, `write`, `eat`, `drink`, `help`, `open`) mapuje się na teraźniejszy aspekt imperfective CORE i polski czas teraźniejszy. PL→EN realizuje polski czas teraźniejszy jako simple present; nie wnioskuje progressive. Przeczenie, pytania, przeszłość i niezadeklarowane czasowniki pozostają odrzucane. |
 
 Statusy tej macierzy nie są wskaźnikiem opanowania CEFR. Każdy batch wymaga
 osobnego golda z poprawnymi wynikami, uzasadnionymi odmowami i kontrolą nowych

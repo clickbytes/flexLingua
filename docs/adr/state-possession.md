@@ -6,8 +6,10 @@ lexemes separate from auxiliary function words. `Be` supports first, second,
 and third person agreement; `have` supports possession statements and
 present/past do-support yes/no questions. Present `be` and `have` state
 negation, plus present yes/no questions for predication and possession, are now
-supported in the bounded grammar. Identity, WH state questions, and auxiliary
-uses such as perfect/progressive remain unsupported.
+supported in the bounded grammar. Identity, WH state questions, and perfect
+auxiliary uses remain unsupported. Present progressive event clauses have a
+separate bounded English event contract; progressive auxiliary use inside
+state frames remains unsupported.
 In a single English state sentence, configured subject pronouns can use their
 lexicon concept mapping directly; event pronouns still require discourse context.
 
@@ -68,7 +70,7 @@ Wartości ról wynikają z typowanych ramek w `data/concepts.json`. Rejestr jest
 - Parser i writer CORE JSON akceptują kompletne ramki stanu oraz ich negację przez istniejący węzeł `scope`.
 - Gramatyka PL obsługuje czas teraźniejszy i negację dla posiadania (`mieć`) oraz predykacji znaną właściwością (`być` + przymiotnik), z jawnymi paradygmatami i zgodą przymiotnika z podmiotem. Dla predykacji cechy obsługuje także dodatnie zdania oznajmujące w czasie przeszłym, z uzgodnieniem `był/była/było/byli/były` i przymiotnika. Przeszłe przeczenie i pytania stanowe pozostają poza zakresem. Rządzenie dopełnieniem posiadania jest zadeklarowane w gramatyce: biernik w zdaniu twierdzącym, dopełniacz po `nie`. Prefiksowe pytania yes/no obsługują predykację i posiadanie w czasie teraźniejszym.
 - Polska kopuła nie mapuje automatycznie na tożsamość. Ograniczona rama klasyfikacji obsługuje obecnie „to jest książka” oraz znane frazy rzeczownikowe z przymiotnikami w podanym zakresie; nie obsługuje zawodów, lokalizacji, egzystencji, strony biernej ani użycia posiłkowego `być`. Inne podmioty deiktyczne i formy bez zadeklarowanej zgody są odrzucane.
-- English grammar supports present and past `be` predication and `have` possession, plus typed present location statements. The bounded existential input order `there is/are + noun phrase + configured location phrase` maps to the same CORE `location` state; `there` is not a CORE referent, and realization uses the canonical subject-first location form. Existentials are limited to positive present clauses with explicit configured `in/on/at` relations; no-location, past, negative, and question forms remain unsupported. Present `be` negation places `not` after the copula; present negative possession uses person-agreeing do-support. Yes/no questions support present predication by copula inversion and present/past possession with do-support. Identity, WH state questions, and perfect/progressive auxiliary uses remain unsupported.
+- English grammar supports present and past `be` predication and `have` possession, plus typed present location statements. The bounded existential input order `there is/are + noun phrase + configured location phrase` maps to the same CORE `location` state; `there` is not a CORE referent, and realization uses the canonical subject-first location form. Existentials are limited to positive present clauses with explicit configured `in/on/at` relations; no-location, past, negative, and question forms remain unsupported. Present `be` negation places `not` after the copula; present negative possession uses person-agreeing do-support. Yes/no questions support present predication by copula inversion and present/past possession with do-support. Identity, WH state questions, perfect auxiliary uses, and progressive auxiliary use inside state frames remain unsupported. A separate event contract supports positive English present progressive for six configured verbs as imperfective CORE events.
 - CORE permits yes/no wrappers around states. English parses and realizes present/past possession questions and present predication questions; other state question types, WH questions, coordination, complements, modality, and discourse composition remain unsupported.
 - Nieobsługiwane są także relacje rodzinne i inne predykaty bez jawnej ramki. Nie wolno mapować ich na istniejące zdarzenie ani na samą tożsamość.
 
