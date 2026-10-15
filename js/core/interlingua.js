@@ -36,7 +36,7 @@ export const MAX_CLAUSE_DEPTH = 5;
 
 export function createEvent(concept, roles, features) {
   const hasDeictic = Object.values(roles).some(ref => record(ref) && hasOwn(ref, 'referent'));
-  return {
+  const event={
     version: hasDeictic ? DEICTIC_VERSION :
       Object.values(roles).some(ref => record(ref) && hasOwn(ref, 'relatives')) ? CLAUSE_VERSION :
       Object.values(roles).some(isQualifiedParticipant) ? QUALIFIED_VERSION : INTERLINGUA_VERSION,
@@ -49,6 +49,8 @@ export function createEvent(concept, roles, features) {
       aspect: features.aspect || 'unknown'
     }
   };
+  if(hasOwn(features,'timeReference'))event.timeReference=features.timeReference;
+  return event;
 }
 
 function stateFeatures(features) {
@@ -282,12 +284,14 @@ export function createDiscourse(events, { coreference = {} } = {}) {
 export function materializeEvent(discourse, event) {
   const roles = Object.fromEntries(Object.entries(event.roles).map(([role, id]) =>
     [role, discourse.entities[id]]));
-  return createEvent(event.concept, roles, event.features);
+  return createEvent(event.concept, roles, {...event.features,
+    ...(event.timeReference?{timeReference:event.timeReference}:{})});
 }
 
 function validateEventShape(node, ontology, registry, qualifiedAllowed = true, clauseAllowed = false, depth = 0, gap = null) {
-  const fields = hasOwn(node,'version') || hasOwn(node,'type') ?
-    ['version','type','concept','roles','features'] : ['concept','roles','features'];
+  const fields = (hasOwn(node,'version') || hasOwn(node,'type') ?
+    ['version','type','concept','roles','features'] : ['concept','roles','features'])
+    .concat(hasOwn(node,'timeReference')?['timeReference']:[]);
   if (Object.keys(node).length !== fields.length || Object.keys(node).some(key => !fields.includes(key))) {
     throw new Error('Event document contains unsupported fields.');
   }
@@ -296,6 +300,13 @@ function validateEventShape(node, ontology, registry, qualifiedAllowed = true, c
     throw new Error(`Unknown event concept: ${node.concept}`);
   }
   validateFeatureBundle(node.features, registry.domains.event, 'event');
+  if(hasOwn(node,'timeReference')) {
+    const allowed=registry.domains.eventTimeReference?.value;
+    if(!allowed?.includes(node.timeReference) ||
+       !ontology.isA(`time.${node.timeReference}`,'temporal_reference')) {
+      throw new Error('Invalid event time reference.');
+    }
+  }
   if (!record(node.roles) || Object.keys(node.roles).length !== event.roles.length - (gap ? 1 : 0)) {
     throw new Error('Event roles do not match the semantic frame.');
   }

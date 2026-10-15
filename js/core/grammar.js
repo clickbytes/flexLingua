@@ -117,6 +117,22 @@ function validateGrammar(dictionary, grammar) {
       !record(grammar.nounPhrase) || !record(grammar.verb) || !record(grammar.sentence)) {
     throw new Error('Incomplete declarative grammar or lexicon.');
   }
+  if(grammar.temporalDeixis!==undefined) {
+    const refs=['today','tomorrow','yesterday'];
+    if(!record(grammar.temporalDeixis) ||
+       Object.keys(grammar.temporalDeixis).length!==refs.length ||
+       refs.some(ref=>!hasOwn(grammar.temporalDeixis,ref) ||
+         !(typeof grammar.temporalDeixis[ref]==='string' ||
+           Array.isArray(grammar.temporalDeixis[ref])) ||
+         ![].concat(grammar.temporalDeixis[ref]).length ||
+         ![].concat(grammar.temporalDeixis[ref]).every(word=>
+           typeof word==='string' && /^[\p{L}]+$/u.test(word))) ||
+       new Set(refs.flatMap(ref=>[].concat(grammar.temporalDeixis[ref]).map(word=>
+         word.toLocaleLowerCase(dictionary.language)))).size !==
+         refs.flatMap(ref=>[].concat(grammar.temporalDeixis[ref])).length) {
+      throw new Error('Invalid temporal deixis grammar configuration.');
+    }
+  }
   if (!safeName(grammar.sentence.subjectRole) ||
       grammar.sentence.terminator !== '.') {
     throw new Error('Invalid sentence configuration.');
@@ -797,6 +813,27 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
    */
   function analyzeCandidates(text) {
     if(typeof text==='string'&&text.includes('?'))return analyzeQuestionCandidates(text);
+    if(grammar.temporalDeixis && typeof text==='string') {
+      const trimmed=text.trim(),punctuation=/[.]$/u.test(trimmed)?'.':null;
+      if(punctuation) {
+        const body=trimmed.slice(0,-1),normalized=body.toLocaleLowerCase(grammar.language);
+        for(const [reference,markers] of Object.entries(grammar.temporalDeixis)) {
+          for(const marker of [].concat(markers)) {
+            const suffix=' '+marker.toLocaleLowerCase(grammar.language);
+            if(!normalized.endsWith(suffix))continue;
+            const bare=body.slice(0,body.length-suffix.length).trim();
+            if(!bare)continue;
+            const readings=analyzeCandidates(bare+'.');
+            const timed=readings.filter(item=>item.interlingua.type==='event').map(item=>({
+              ...item,
+              interlingua:createEvent(item.interlingua.concept,item.interlingua.roles,
+                {...item.interlingua.features,timeReference:reference})
+            }));
+            if(timed.length)return timed;
+          }
+        }
+      }
+    }
     const tokens = tokenize(text);
     const counter={visited:0};
     const modalReadings = parseModalCandidates(tokens,null,null,null,counter);
@@ -1460,7 +1497,12 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
           return [options.subjectPronoun];
         return [nounSurface(step, meaning, frame, def, depth)];
       });
-      return parts.join(' ').replace(/\s+/gu, ' ').replace(/\s+,/gu, ',').trim();
+      const text=parts.join(' ').replace(/\s+/gu, ' ').replace(/\s+,/gu, ',').trim();
+      const marker=meaning.timeReference && grammar.temporalDeixis?.[meaning.timeReference];
+      if(meaning.timeReference && meaning.timeReference!=='unspecified' && !marker) {
+        throw new Error(`Unsupported temporal reference in ${grammar.language}.`);
+      }
+      return marker ? `${text} ${[].concat(marker)[0]}` : text;
     }
     if (relative && !options.returnBuilder) return linearize(preferred, fallback);
     return { candidates, preferred, linearize, roles };

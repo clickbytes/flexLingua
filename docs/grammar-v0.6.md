@@ -49,4 +49,4 @@ The **first matching marker** is used for target generation, while all matching 
 
 ## Compatibility
 
-The `Engine` constructor, `registerLanguage`, `analyze`, `analyzeCandidates`, `realize` and `translate` APIs remain in place. Older Interlingua 0.2/0.4/0.5 documents remain valid and are generated as such if they do not require a v0.6 operator. Dictionary/grammar schema version is 0.6; update both JSON files of a language together. `data/features.json` remains version 0.3.
+The `Engine` constructor, `registerLanguage`, `analyze`, `analyzeCandidates`, `realize` and `translate` APIs remain in place. Older Interlingua 0.2/0.4/0.5 documents remain valid and are generated as such if they do not require a v0.6 operator. Dictionary/grammar schema version is 0.6; update both JSON files of a language together. The semantic feature registry has since advanced to version 0.4.

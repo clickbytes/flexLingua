@@ -9,10 +9,10 @@ import {
 const fixture = JSON.parse(await readFile(new URL('../data/features.json', import.meta.url), 'utf8'));
 const clone = object => JSON.parse(JSON.stringify(object));
 
-test('Feature registry validates five structured domains', () => {
+test('Feature registry validates six structured domains', () => {
   const registry = createFeatureRegistry(fixture);
   assert.deepEqual(Object.keys(registry.domains).sort(),
-    ['event', 'lexical', 'participant', 'state', 'syntactic']);
+    ['event', 'eventTimeReference', 'lexical', 'participant', 'state', 'syntactic']);
   assert.ok(registry.domains.participant.number.includes('plural'));
 });
 
