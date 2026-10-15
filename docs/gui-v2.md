@@ -13,6 +13,7 @@
 
 - Dopasowanie obejmuje Engine.lookupLexemes({ language, lemma }) i Engine.analyzeForm({ language, text }). Wyniki są deduplikowane po **identyfikatorze leksemu**, dzięki czemu homonimy/sensy nie są arbitralnie łączone.
 - Każdy pasujący leksem z dostępną morfologią wyświetla **wszystkie** faktycznie wygenerowane formy z Engine.inspectParadigm({ language, lexemeId }), w tym warianty i wyjątki. Nie ma sztucznego dopisywania nieobsługiwanych komórek.
+- Cechy przy formach, w tym **Osoba** i **Liczba**, pochodzą z wyniku Engine i są wyświetlane z polskimi etykietami. Formy 1./2. osoby pojawiają się tylko wtedy, gdy deklaruje je paradygmat danego leksemu.
 - Jeśli brak leksemu i brak rozpoznania formy: **Not found in dictionary**. Jeśli leksem istnieje, lecz nie ma przypisanego paradygmatu: wyraźna informacja **Brak paradygmatu**. To dwa różne przypadki.
 - Liczba form zależy od danych. Wersja kontrolowana nie jest pełnym słownikiem języka polskiego ani angielskiego.
 - Dawny techniczny inspektor morfologii (ID leksemu, konkretna komórka, analiza słowa) pozostaje w sekcji **Zaawansowane**.
