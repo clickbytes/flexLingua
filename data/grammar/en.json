@@ -384,6 +384,13 @@
       "theme": {
         "marker": "what",
         "order": "auxiliary"
+      },
+      "location": {
+        "marker": "where"
+      },
+      "destination": {
+        "marker": "where",
+        "preposition": "to"
       }
     }
   },

@@ -38,7 +38,7 @@ const whatWasNotSeen=createQuestion(partial,{
 });
 ~~~
 
-Dla `wh` nie tworzymy sztucznej wartości `theme`; brak dokładnie tej roli jest jawnie zdefiniowaną niewiadomą. Można analogicznie pytać o `agent` lub inne role, **o ile są zadeklarowane w ramie ontologicznej danego zdarzenia**. Obecna ontologia nie gwarantuje obsługi wszystkich pytań „where/when”.
+Dla `wh` nie tworzymy sztucznej wartości `theme`; brak dokładnie tej roli jest jawnie zdefiniowaną niewiadomą. Można analogicznie pytać o `agent` lub inne role, **o ile są zadeklarowane w ramie ontologicznej danego zdarzenia**. Ograniczony zakres SPACE-03 obsługuje również lukę `location` w statycznym stanie miejsca oraz `destination` w zdarzeniu ruchu do celu; nie obejmuje `when`, `from where`, tras ani dowolnych konstrukcji WH.
 
 ## API i ograniczenia
 

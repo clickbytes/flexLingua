@@ -562,6 +562,13 @@
           "gen": "czego"
         },
         "order": "verb_first"
+      },
+      "location": {
+        "marker": "gdzie"
+      },
+      "destination": {
+        "marker": "dokąd",
+        "preposition": "do"
       }
     }
   },
