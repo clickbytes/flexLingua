@@ -31,6 +31,53 @@ const give = () => createEvent('event.transfer_possession', {
   theme: participant('object.apple','indefinite')
 }, {tense:'past',polarity:'positive',aspect:'unknown'});
 
+test('Negation keeps local polarity distinct from wide scope and rejects double negation', () => {
+  const local = engine.analyze({text:'The girl did not see the dog.',from:'en'});
+  assert.equal(local.type,'event');
+  assert.equal(local.features.polarity,'negative');
+  assert.equal(engine.realize({interlingua:local,to:'en'}).text,'The girl did not see the dog.');
+
+  const polishLocal=engine.analyze({text:'Dziewczynka nie widziała jabłka.',from:'pl'});
+  assert.equal(polishLocal.type,'event');
+  assert.equal(polishLocal.features.polarity,'negative');
+  assert.equal(engine.realize({interlingua:polishLocal,to:'en'}).text,
+    'A girl did not see an apple.');
+  const englishLocal=engine.analyze({text:'A girl did not see an apple.',from:'en'});
+  assert.equal(englishLocal.concept,polishLocal.concept);
+  assert.equal(englishLocal.features.polarity,polishLocal.features.polarity);
+  assert.equal(engine.analyze({text:engine.realize({interlingua:polishLocal,to:'core'}).text,
+    from:'core'}).features.polarity,'negative');
+  const genitiveObject=engine.analyze({text:'Dziewczynka nie widziała dziewczynki.',from:'pl'});
+  assert.equal(genitiveObject.features.polarity,'negative');
+  assert.equal(engine.realize({interlingua:genitiveObject,to:'pl'}).text,
+    'Dziewczynka nie widziała dziewczynki.');
+  assert.throws(() => engine.analyze({text:'Dziewczynka nie widziała dziewczynkę.',from:'pl'}),
+    /construction/);
+  const fixedCase=engine.analyze({text:'Dziewczynka nie patrzyła na jabłko.',from:'pl'});
+  assert.equal(fixedCase.concept,'event.visual_attention');
+  assert.equal(fixedCase.features.polarity,'negative');
+  assert.equal(engine.realize({interlingua:fixedCase,to:'en'}).text,
+    'A girl did not look at an apple.');
+  assert.throws(() => engine.analyze({text:'Dziewczynka nie patrzyła na jabłkiem.',from:'pl'}),
+    /construction/);
+
+  const wide = engine.analyze({text:'It is not true that the girl saw the dog.',from:'en'});
+  assert.equal(wide.type,'scope');
+  assert.equal(wide.operator,'not');
+  assert.equal(wide.operand.features.polarity,'positive');
+  assert.equal(engine.realize({interlingua:wide,to:'pl'}).text,
+    'Nie jest prawdą, że dziewczynka widziała psa.');
+
+  assert.throws(() => engine.analyze({text:'The girl did not not see the dog.',from:'en'}),
+    /construction/);
+  assert.throws(() => engine.analyze({text:'Dziewczynka nie nie widziała psa.',from:'pl'}),
+    /construction/);
+  assert.throws(() => engine.analyze({text:'The girl does not have a book.',from:'en'}),
+    /construction/);
+  assert.throws(() => engine.analyze({text:'The girl does not be big.',from:'en'}),
+    /construction/);
+});
+
 test('Ontology: type-safe transitive taxonomy and inherited event semantic frame', () => {
   assert.ok(ontology.isA('person.girl','entity'));
   assert.ok(ontology.isA('place.riverbank','geographical_feature'));
