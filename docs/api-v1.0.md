@@ -190,6 +190,20 @@ the same safe error envelope. Pass `participants: {speakerId,addresseeId}` to
 retain explicitly selected speaker/addressee identity across turns. The API
 uses only the registered local language adapters and makes no network calls.
 
+## MEM-03 extension — explicit session facts
+
+`ConversationContext.remember({turnId,referent,recordedAt?,scope?,supersedes?})`
+stores an assertion only after the caller explicitly approves it. `referent` is
+a participant path from that source turn, such as `proposition.roles.agent`;
+the selected reference must actually occur in the turn. Each bounded fact keeps
+its CORE proposition, reference ID, source turn/language/text, UTC `recordedAt`,
+`session` scope, and `explicit_supersede` correction rule. The default store
+holds 32 facts and rejects overflow without eviction. Contradictory polarity
+requires `supersedes` to name the active fact IDs being corrected. Invalid turns,
+referents, timestamps, or conflicts leave memory unchanged. `snapshot().memory`
+returns defensive copies, and `reset()` clears both turns and facts. Facts are
+in-memory only and are never inferred from an assertion automatically.
+
 ## v1.0 extension — personality realization profiles
 
 Pass a validated profile as `profile` to `engine.realize()`, `engine.translate()`,
