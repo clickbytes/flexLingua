@@ -61,7 +61,7 @@ function normalizeSense(sense, category, lexeme, strict) {
       throw new Error(`Invalid grammatical-function CORE mapping: ${sense.id}`);
     }
   } else if (category === 'verbs' && ref.kind === 'grammaticalFunction') {
-    if (!['grammar.state_copula','grammar.state_possession'].includes(ref.id)) {
+    if (!['grammar.state_copula','grammar.state_possession','grammar.state_location'].includes(ref.id)) {
       throw new Error(`Invalid state-verb CORE mapping: ${sense.id}`);
     }
   } else if (ref.kind !== 'concept') {

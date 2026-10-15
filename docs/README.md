@@ -24,6 +24,7 @@ GitHub Issues track current task scope, priorities, dependencies, and status. Pu
 - [A1 project scope](a1-scope.md) and [coverage methodology](coverage-a1.md)
 - [Person deixis decision](adr/person-deixis.md) and [PERS-02](pers02-deictic-pronouns.md)
 - [Typed movement destinations](adr/spatial-roles.md)
+- [Finite spatial role and preposition coverage](a1-movement.md)
 - [Question semantics in CORE](questions-v1.19-semantic.md) and [PL/EN question grammar](questions-v1.19-pl-en.md)
 - [Versioned dialogue acts in CORE](adr/dialogue-acts.md)
 - [Explicit discourse coreference](context-coreference-e1.md)

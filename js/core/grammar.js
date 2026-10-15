@@ -1,5 +1,5 @@
 import { createEvent, createQuestion, createRelativeClause, createModality, createNegation,
-  createIdentity, createPredication, createPossession, MAX_RELATIVE_DEPTH } from './interlingua.js';
+  createIdentity, createPredication, createPossession, createLocation, MAX_RELATIVE_DEPTH } from './interlingua.js';
 import { createLexicon } from './lexicon.js';
 import { materializeInflections } from './morphology/engine.js';
 import { createNominalInterpreter } from './nominals.js';
@@ -28,7 +28,8 @@ const DEICTIC_FUNCTION = 'grammar.deictic_pronoun';
 const STATE_ROLES = Object.freeze({
   identity: Object.freeze(['subject','complement']),
   predication: Object.freeze(['subject']),
-  possession: Object.freeze(['owner','owned'])
+  possession: Object.freeze(['owner','owned']),
+  location: Object.freeze(['subject','location'])
 });
 const STATE_FORM_CELLS = Object.freeze([
   {path:'forms.present.firstSingular',tense:'present',person:'first',number:'singular'},
@@ -370,7 +371,7 @@ function validateGrammar(dictionary, grammar) {
   }
   const stateSenses = (dictionary.verbs || []).flatMap(verb => verb.senses || [])
     .filter(sense => sense.coreRef?.kind === 'grammaticalFunction' &&
-      ['grammar.state_copula','grammar.state_possession'].includes(sense.coreRef.id));
+      ['grammar.state_copula','grammar.state_possession','grammar.state_location'].includes(sense.coreRef.id));
   if (grammar.states === undefined) {
     if (stateSenses.length) throw new Error('Missing state grammar for state verb lexemes.');
     return grammar;
@@ -402,7 +403,7 @@ function validateGrammar(dictionary, grammar) {
   }
   const stateKinds = new Set();
   for (const [coreFunction, kind] of Object.entries(states.verbs)) {
-    if (!LEXEME_ID.test(coreFunction) || !['identity','predication','possession'].includes(kind) ||
+    if (!LEXEME_ID.test(coreFunction) || !['identity','predication','possession','location'].includes(kind) ||
         !hasOwn(states.frames,kind)) {
       throw new Error(`Invalid state verb mapping: ${coreFunction}`);
     }
@@ -417,7 +418,7 @@ function validateGrammar(dictionary, grammar) {
     const hasPredicate = kind === 'predication';
     const slots = hasPredicate ? [...roles, frame?.predicateRole] : roles;
     if (!record(frame) ||
-        Object.keys(frame).some(key => !['subjectRole','cases','linearizations',
+        Object.keys(frame).some(key => !['subjectRole','cases','linearizations','prepositions',
           'allowImplicitDeicticSubject', ...(hasPredicate ? ['predicateRole','predicateCase'] : [])].includes(key)) ||
         !['subjectRole','cases','linearizations'].every(key => hasOwn(frame,key)) ||
         (hasPredicate && (frame.predicateRole !== 'predicate' || !safeName(frame.predicateRole) ||
@@ -425,6 +426,12 @@ function validateGrammar(dictionary, grammar) {
         (frame.allowImplicitDeicticSubject !== undefined &&
           typeof frame.allowImplicitDeicticSubject !== 'boolean') ||
         frame.subjectRole !== (kind === 'possession' ? 'owner' : 'subject') ||
+        (kind === 'location' && (!record(frame.prepositions) ||
+          Object.keys(frame.prepositions).length !== 3 ||
+          Object.keys(frame.prepositions).some(preposition=>!safeName(preposition)) ||
+          new Set(Object.values(frame.prepositions)).size!==3 ||
+          Object.values(frame.prepositions).some(value=>!['interior','surface','point'].includes(value)))) ||
+        (kind!=='location' && frame.prepositions!==undefined) ||
         !record(frame.cases) || Object.keys(frame.cases).length !== roles.length ||
         roles.some(role => !hasOwn(frame.cases,role)) ||
         !Array.isArray(frame.linearizations) || !frame.linearizations.length ||
@@ -440,11 +447,16 @@ function validateGrammar(dictionary, grammar) {
       }
     }
     for (const sequence of frame.linearizations) {
-      if (!Array.isArray(sequence) || sequence.length !== slots.length + 1 ||
+      if (!Array.isArray(sequence)) throw new Error(`Invalid ${kind} state linearization.`);
+      const spatialMarkers=kind==='location'
+        ?sequence.filter(step=>typeof step==='string' && step.startsWith('@') &&
+          hasOwn(frame.prepositions,step.slice(1))):[];
+      if (sequence.length < slots.length + 1 ||
           sequence.filter(step => step === '@verb').length !== 1 ||
           sequence.some(step => !(slots.includes(step) || step === '@verb' ||
             (typeof step === 'string' && LITERAL.test(step)))) ||
           slots.some(role => sequence.filter(step => step === role).length !== 1) ||
+          (kind==='location' && spatialMarkers.length!==1) ||
           (hasPredicate && sequence.indexOf(frame.subjectRole) > sequence.indexOf(frame.predicateRole))) {
         throw new Error(`Invalid ${kind} state linearization.`);
       }
@@ -485,8 +497,8 @@ function expandLexemes(lexemes, language, partOfSpeech) {
       if (!record(sense) || !LEXEME_ID.test(sense.id || '') ||
           senseIds.has(sense.id) ||
           !(LEXEME_ID.test(concept || '') ||
-            (partOfSpeech === 'verb' &&
-              ['grammar.state_copula','grammar.state_possession'].includes(stateFunction))) ||
+        (partOfSpeech === 'verb' &&
+              ['grammar.state_copula','grammar.state_possession','grammar.state_location'].includes(stateFunction))) ||
           !Number.isInteger(sense.priority ?? 0) || Math.abs(sense.priority ?? 0) > 100) {
         throw new Error(`Invalid or duplicate lexical sense: ${sense?.id}`);
       }
@@ -652,10 +664,11 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
       agreement:{person:features.person,number:features.number}};
   }
 
-  function stateMeaning(kind, roles, features) {
+  function stateMeaning(kind, roles, features, relation) {
     if (kind === 'identity') return createIdentity(roles.subject,roles.complement,features);
     if (kind === 'predication') return createPredication(roles.predicate,roles.subject,features);
     if (kind === 'possession') return createPossession(roles.owner,roles.owned,features);
+    if (kind === 'location') return createLocation(roles.subject,roles.location,relation,features);
     throw new Error(`Unsupported state construction in ${dictionary.language}.`);
   }
 
@@ -681,7 +694,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
           if(!sequence.includes(frame.subjectRole)&&!implicitSubject)continue;
           const initialRoles=implicitSubject
             ?{[frame.subjectRole]:{value:implicitSubject}}:{};
-          function search(position,index,parsedRoles) {
+          function search(position,index,parsedRoles,relation=null) {
             if (++budget.counter.visited > MAX_SEARCH_NODES) {
               throw new EngineError('GRAMMAR_SEARCH_LIMIT',
                 'Sentence analysis exceeded the bounded search limit.');
@@ -695,7 +708,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
               }
               const roles=Object.fromEntries(Object.entries(parsedRoles)
                 .map(([role,parsed])=>[role,parsed.value]));
-              const meaning=stateMeaning(base.kind,roles,features);
+              const meaning=stateMeaning(base.kind,roles,features,relation);
               const lexicalSenses={verb:entry.lexeme.senseId};
               for(const [role,parsed] of Object.entries(parsedRoles)) {
                 if(parsed.senseId)lexicalSenses[role]=parsed.senseId;
@@ -710,12 +723,13 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
             const step=sequence[position];
             if(step==='@verb') {
               const next=matchVerb(tokens,index,entry);
-              if(next!==null)search(position+1,next,parsedRoles);
+              if(next!==null)search(position+1,next,parsedRoles,relation);
               return;
             }
             if(step.startsWith('@')) {
               const count=matchesTokens(tokens,index,step.slice(1));
-              if(count)search(position+1,index+count,parsedRoles);
+              if(count)search(position+1,index+count,parsedRoles,
+                frame.prepositions?.[step.slice(1)] || relation);
               return;
             }
             let phrases;
@@ -738,7 +752,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
                     ...readStateSubjectPronouns(tokens,index)]:[])];
             }
             for(const parsed of phrases) {
-              search(position+1,parsed.next,{...parsedRoles,[step]:parsed});
+              search(position+1,parsed.next,{...parsedRoles,[step]:parsed},relation);
             }
           }
           search(0,0,initialRoles);
@@ -1457,7 +1471,12 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
       const gramCase=stateRoleCase(frame,role,polarity);
       return plainNoun(ref,noun,gramCase,nounPhrase.defaultDefiniteness);
     };
-    const parts=frame.linearizations[0].flatMap(step=>{
+    const sequence=meaning.kind==='location'
+      ?frame.linearizations.find(item=>item.some(step=>step.startsWith('@') &&
+        frame.prepositions?.[step.slice(1)]===meaning.relation))
+      :frame.linearizations[0];
+    if(!sequence)throw new Error(`Unsupported ${dictionary.language} spatial relation.`);
+    const parts=sequence.flatMap(step=>{
       if(step==='@verb')return [...prefix,verb.text];
       if(step.startsWith('@'))return [step.slice(1)];
       if(step===frame.subjectRole && frame.allowImplicitDeicticSubject &&

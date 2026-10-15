@@ -15,10 +15,12 @@ The existing `event.movement` frame represents intransitive movement with an `ag
 - Map an additional, explicitly destination-bearing sense of `go` and `iść` to the subtype. Parsing a bare intransitive clause still uses `event.movement` because the subtype frame requires a destination phrase.
 - Realize the current controlled pair with English `to` and Polish `do` plus genitive: `goes to school` ↔ `idzie do szkoły`. English permits a bare noun only for this destination slot, preserving regular determiner rules elsewhere.
 - Do not encode walking or another travel mode. English `go` and Polish `iść` are an approximate lexical mapping for this slice; CORE leaves manner unknown.
+- Represent static location separately as `state.location`, with a subject, a spatial referent, and an explicit relation (`interior`, `surface`, or `point`). Do not encode `be in` as movement.
+- Declare the supported prepositions in the language grammar: English `in/on/at` and Polish `w/na/przy`. Polish location phrases use the locative case; unknown prepositions are refused.
 
 ## Consequences
 
-Existing intransitive CORE JSON and gold cases retain their shape. A destination is serialized as a typed referent and survives roundtrip. Unsupported or incomplete prepositional phrases are refused. Location at rest, origin, route, destination questions, and manner of travel remain separate future work.
+Existing intransitive CORE JSON and gold cases retain their shape. Destinations and static spatial relations are serialized and survive roundtrip independently of the language surface preposition. Unsupported or incomplete prepositional phrases are refused. Origins, routes, destination questions, and manner of travel remain separate future work.
 
 ## Evidence
 

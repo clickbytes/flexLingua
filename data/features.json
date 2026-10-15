@@ -57,7 +57,8 @@
         "nom",
         "gen",
         "dat",
-        "acc"
+        "acc",
+        "loc"
       ]
     }
   }

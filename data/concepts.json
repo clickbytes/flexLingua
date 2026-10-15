@@ -242,7 +242,7 @@
     },
     "structure": {
       "type": "category",
-      "parent": "entity",
+      "parent": "place",
       "label": "building/structure"
     },
     "plant": {
@@ -435,7 +435,7 @@
       "symmetric": false
     }
   },
-  "stateFrameVersion": "1.0",
+  "stateFrameVersion": "1.1",
   "stateFrames": {
     "identity": {
       "roles": ["subject", "complement"],
@@ -452,6 +452,11 @@
     "possession": {
       "roles": ["owner", "owned"],
       "roleTypes": {"owner": "entity", "owned": "entity"},
+      "symmetric": false
+    },
+    "location": {
+      "roles": ["subject", "location"],
+      "roleTypes": {"subject": "entity", "location": "entity"},
       "symmetric": false
     }
   },
@@ -513,6 +518,9 @@
     },
     "grammar.state_possession": {
       "label": "state possession verb"
+    },
+    "grammar.state_location": {
+      "label": "state location verb"
     },
     "grammar.expletive": {
       "label": "expletive subject"

@@ -1074,6 +1074,13 @@
             "kind": "grammaticalFunction",
             "id": "grammar.state_copula"
           }
+        },
+        {
+          "id": "pl.byc.1.sense.location",
+          "coreRef": {
+            "kind": "grammaticalFunction",
+            "id": "grammar.state_location"
+          }
         }
       ]
     },

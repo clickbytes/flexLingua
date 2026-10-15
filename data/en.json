@@ -705,6 +705,9 @@
       "senses": [{
         "id": "en.be.state.1.sense.1",
         "coreRef": {"kind": "grammaticalFunction", "id": "grammar.state_copula"}
+      }, {
+        "id": "en.be.state.1.sense.location",
+        "coreRef": {"kind": "grammaticalFunction", "id": "grammar.state_location"}
       }]
     },
     {

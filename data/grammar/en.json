@@ -325,7 +325,8 @@
     "supportedPolarities": ["positive"],
     "verbs": {
       "grammar.state_copula": "predication",
-      "grammar.state_possession": "possession"
+      "grammar.state_possession": "possession",
+      "grammar.state_location": "location"
     },
     "frames": {
       "predication": {
@@ -339,6 +340,16 @@
         "subjectRole": "owner",
         "cases": {"owner": "nom", "owned": "acc"},
         "linearizations": [["owner", "@verb", "owned"]]
+      },
+      "location": {
+        "subjectRole": "subject",
+        "cases": {"subject": "nom", "location": "loc"},
+        "prepositions": {"in": "interior", "on": "surface", "at": "point"},
+        "linearizations": [
+          ["subject", "@verb", "@in", "location"],
+          ["subject", "@verb", "@on", "location"],
+          ["subject", "@verb", "@at", "location"]
+        ]
       }
     }
   },

@@ -507,7 +507,8 @@
     "supportedTenses": ["present"],
     "verbs": {
       "grammar.state_copula": "predication",
-      "grammar.state_possession": "possession"
+      "grammar.state_possession": "possession",
+      "grammar.state_location": "location"
     },
     "frames": {
       "predication": {
@@ -522,6 +523,16 @@
         "allowImplicitDeicticSubject": true,
         "cases": {"owner": "nom", "owned": {"positive": "acc", "negative": "gen"}},
         "linearizations": [["owner", "@verb", "owned"]]
+      },
+      "location": {
+        "subjectRole": "subject",
+        "cases": {"subject": "nom", "location": "loc"},
+        "prepositions": {"w": "interior", "na": "surface", "przy": "point"},
+        "linearizations": [
+          ["subject", "@verb", "@w", "location"],
+          ["subject", "@verb", "@na", "location"],
+          ["subject", "@verb", "@przy", "location"]
+        ]
       }
     }
   },
