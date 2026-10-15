@@ -582,6 +582,10 @@
     "tomorrow": "jutro",
     "yesterday": "wczoraj"
   },
+  "numericTime": {
+    "clockMarker": "o",
+    "dateMarker": "dnia"
+  },
   "anaphora": {
     "subjectPronouns": [
       {

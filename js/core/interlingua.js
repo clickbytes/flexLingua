@@ -20,6 +20,7 @@ export const MODALITY_VERSION = '1.20';
 export const DEICTIC_VERSION = '1.22';
 export const STATE_VERSION = '1.23';
 export const DIALOGUE_ACT_VERSION = '1.24';
+export const NUMERIC_TIME_VERSION = '1.25';
 export const DIALOGUE_ACT_TYPES = Object.freeze([
   'assert', 'ask', 'answer', 'confirm', 'clarify', 'refuse'
 ]);
@@ -37,7 +38,8 @@ export const MAX_CLAUSE_DEPTH = 5;
 export function createEvent(concept, roles, features) {
   const hasDeictic = Object.values(roles).some(ref => record(ref) && hasOwn(ref, 'referent'));
   const event={
-    version: hasDeictic ? DEICTIC_VERSION :
+    version: hasOwn(features,'clockTime') || hasOwn(features,'calendarDate') ? NUMERIC_TIME_VERSION :
+      hasDeictic ? DEICTIC_VERSION :
       Object.values(roles).some(ref => record(ref) && hasOwn(ref, 'relatives')) ? CLAUSE_VERSION :
       Object.values(roles).some(isQualifiedParticipant) ? QUALIFIED_VERSION : INTERLINGUA_VERSION,
     type: 'event',
@@ -50,6 +52,8 @@ export function createEvent(concept, roles, features) {
     }
   };
   if(hasOwn(features,'timeReference'))event.timeReference=features.timeReference;
+  if(hasOwn(features,'clockTime'))event.clockTime=features.clockTime;
+  if(hasOwn(features,'calendarDate'))event.calendarDate=features.calendarDate;
   return event;
 }
 
@@ -176,9 +180,10 @@ function validateReferent(ref, ontology, registry, label, qualifiedAllowed, clau
     if (!record(q) || !['universal', 'exact'].includes(q.kind) ||
         !Object.keys(q).every(k => ['kind', 'value'].includes(k)) ||
         (q.kind === 'universal' && hasOwn(q, 'value')) ||
-        (q.kind === 'exact' && (!Number.isInteger(q.value) || q.value < 2 || q.value > 20)) ||
-        ref.features.number !== 'plural') {
-      throw new Error('Invalid participant quantifier (plural number required).');
+        (q.kind === 'exact' && (!Number.isInteger(q.value) || q.value < 0 || q.value > 20)) ||
+        (q.kind === 'exact' && ref.features.number !== (q.value===1?'singular':'plural')) ||
+        (q.kind === 'universal' && ref.features.number !== 'plural')) {
+      throw new Error('Invalid participant quantifier and grammatical number.');
     }
   }
 }
@@ -285,15 +290,21 @@ export function materializeEvent(discourse, event) {
   const roles = Object.fromEntries(Object.entries(event.roles).map(([role, id]) =>
     [role, discourse.entities[id]]));
   return createEvent(event.concept, roles, {...event.features,
-    ...(event.timeReference?{timeReference:event.timeReference}:{})});
+    ...(event.timeReference?{timeReference:event.timeReference}:{}),
+    ...(event.clockTime?{clockTime:event.clockTime}:{}),
+    ...(event.calendarDate?{calendarDate:event.calendarDate}:{})});
 }
 
 function validateEventShape(node, ontology, registry, qualifiedAllowed = true, clauseAllowed = false, depth = 0, gap = null) {
   const fields = (hasOwn(node,'version') || hasOwn(node,'type') ?
     ['version','type','concept','roles','features'] : ['concept','roles','features'])
-    .concat(hasOwn(node,'timeReference')?['timeReference']:[]);
+    .concat(['timeReference','clockTime','calendarDate'].filter(key=>hasOwn(node,key)));
   if (Object.keys(node).length !== fields.length || Object.keys(node).some(key => !fields.includes(key))) {
     throw new Error('Event document contains unsupported fields.');
+  }
+  const hasNumericTime=hasOwn(node,'clockTime')||hasOwn(node,'calendarDate');
+  if(hasNumericTime!==(node.version===NUMERIC_TIME_VERSION)) {
+    throw new Error('Numeric time fields require the numeric-time event version.');
   }
   const event = ontology?.concepts?.[node.concept];
   if (!event || event.type !== 'event' || !Array.isArray(event.roles)) {
@@ -307,6 +318,22 @@ function validateEventShape(node, ontology, registry, qualifiedAllowed = true, c
       throw new Error('Invalid event time reference.');
     }
   }
+  if(hasOwn(node,'clockTime')) {
+    const time=node.clockTime;
+    if(!record(time)||Object.keys(time).length!==2||!Number.isInteger(time.hour)||
+       !Number.isInteger(time.minute)||time.hour<0||time.hour>23||time.minute<0||time.minute>59)
+      throw new Error('Invalid local clock time; expected hour 0-23 and minute 0-59.');
+  }
+  if(hasOwn(node,'calendarDate')) {
+    const date=node.calendarDate;
+    const leapYear=Number.isInteger(date?.year) &&
+      (date.year%4===0 && (date.year%100!==0 || date.year%400===0));
+    const daysInMonth=[31,leapYear?29:28,31,30,31,30,31,31,30,31,30,31];
+    if(!record(date)||Object.keys(date).length!==3||!Number.isInteger(date.year)||
+       !Number.isInteger(date.month)||!Number.isInteger(date.day)||date.year<1||date.year>9999||
+       date.month<1||date.month>12||date.day<1||date.day>daysInMonth[date.month-1])
+      throw new Error('Invalid Gregorian calendar date.');
+  }
   if (!record(node.roles) || Object.keys(node.roles).length !== event.roles.length - (gap ? 1 : 0)) {
     throw new Error('Event roles do not match the semantic frame.');
   }
@@ -318,7 +345,7 @@ function validateEventShape(node, ontology, registry, qualifiedAllowed = true, c
     if (!hasOwn(node.roles, role)) throw new Error(`Missing semantic role: ${role}`);
     const ref = node.roles[role];
     validateReferent(ref, ontology, registry, role, qualifiedAllowed, clauseAllowed, depth,
-      node.version === DEICTIC_VERSION);
+      [DEICTIC_VERSION,NUMERIC_TIME_VERSION].includes(node.version));
     const constraint = event.roleTypes?.[role];
     if (constraint && !(hasOwn(ref, 'referent') ? ontology.isA('person', constraint) :
       ontology.isA(ref.concept, constraint))) {
@@ -513,7 +540,7 @@ function validateQuestion(node, ontology, registry) {
   if (!safeName(node.targetRole) || !record(p) || p.type!=='event' ||
       !['version','type','concept','roles','features'].every(k=>hasOwn(p,k)) ||
       Object.keys(p).length!==5 ||
-      ![INTERLINGUA_VERSION,QUALIFIED_VERSION,CLAUSE_VERSION,SEMANTIC_VERSION,DEICTIC_VERSION].includes(p.version) ||
+      ![INTERLINGUA_VERSION,QUALIFIED_VERSION,CLAUSE_VERSION,SEMANTIC_VERSION,DEICTIC_VERSION,NUMERIC_TIME_VERSION].includes(p.version) ||
       !record(p.roles)) {
     throw new Error('Invalid WH question proposition or semantic targetRole.');
   }
@@ -645,11 +672,11 @@ function validateDialogueAct(node, ontology, registry) {
 function validateClauseTree(node, ontology, registry, depth = 0, gap = null) {
   if (!record(node) || depth > MAX_CLAUSE_DEPTH) throw new Error('Clause tree nesting limit exceeded.');
   if (node.type === 'event') {
-    if (![INTERLINGUA_VERSION, QUALIFIED_VERSION, CLAUSE_VERSION, SEMANTIC_VERSION, DEICTIC_VERSION].includes(node.version)) {
+    if (![INTERLINGUA_VERSION, QUALIFIED_VERSION, CLAUSE_VERSION, SEMANTIC_VERSION, DEICTIC_VERSION, NUMERIC_TIME_VERSION].includes(node.version)) {
       throw new Error('Unsupported event version.');
     }
     validateEventShape(node, ontology, registry, node.version !== INTERLINGUA_VERSION,
-      [CLAUSE_VERSION, SEMANTIC_VERSION].includes(node.version),0,gap);
+      [CLAUSE_VERSION, SEMANTIC_VERSION, NUMERIC_TIME_VERSION].includes(node.version),0,gap);
   } else if (node.type === 'state') {
     if (node.version !== STATE_VERSION) throw new Error('Unsupported state version.');
     validateStateShape(node,ontology,registry,gap);

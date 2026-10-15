@@ -37,6 +37,21 @@ export function auditA1Gaps({manifest,inventory,corpus,benchmark}){
   }
   // Also validates duplicate lexical IDs, CORE refs and orphan morphology bindings.
   const structural=analyzeCoverage(inventory);
+  const quantityScope=manifest.scope.numericQuantities;
+  if(!quantityScope||quantityScope.operator!=='quantifier.exact'||quantityScope.minimum!==0||
+      quantityScope.maximum!==20||JSON.stringify(quantityScope.languages)!==JSON.stringify(['en','pl']))
+    throw new Error('Invalid A1 exact-quantity coverage scope.');
+  const quantityValues=Object.fromEntries(['en','pl'].map(language=>{
+    const values=[...new Set((inventory[language].quantifiers||[])
+      .filter(item=>item.meaning?.kind==='exact'&&item.senses?.some(sense=>
+        sense.coreRef?.kind==='operator'&&sense.coreRef.id===quantityScope.operator))
+      .map(item=>item.meaning.value))].sort((a,b)=>a-b);
+    const required=Array.from({length:quantityScope.maximum-quantityScope.minimum+1},
+      (_,index)=>quantityScope.minimum+index);
+    if(JSON.stringify(values)!==JSON.stringify(required))
+      throw new Error(`${language.toUpperCase()} exact quantities do not cover the declared A1 range.`);
+    return [language,values];
+  }));
   const lex={pl:new Map(),en:new Map()};
   const morph={pl:new Set(inventory.plMorph.bindings.map(x=>x.lexemeId)),
     en:new Set(inventory.enMorph.bindings.map(x=>x.lexemeId))};
@@ -113,6 +128,8 @@ export function auditA1Gaps({manifest,inventory,corpus,benchmark}){
     statusCounts:Object.fromEntries(statuses.map(status=>[status,audits.filter(x=>x.status===status).length])),
     byDomain,
     targets:audits,
+    numericQuantities:{operator:quantityScope.operator,minimum:quantityScope.minimum,
+      maximum:quantityScope.maximum,values:quantityValues},
     validation:{structuralScope:structural.scope,benchmarkStatus:benchmark.status,
       benchmarkCases:benchmark.summary.total},
     cefr:{level:'A1',percentage:null,status:'not-measured',

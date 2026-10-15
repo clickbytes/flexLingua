@@ -151,7 +151,7 @@ test('Nested modifiers are strictly bounded and cannot inject unvalidated fields
 });
 
 test('Invalid cardinality is rejected before realization', () => {
-  for(const bad of [0,1,1.5,-2,21,Infinity]) {
+  for(const bad of [1.5,-2,21,Infinity]) {
     assert.throws(()=>engine.realize({to:'en',interlingua:graph({}, {quantifier:{kind:'exact',value:bad}})}), /quantifier/);
   }
   assert.throws(()=>engine.realize({to:'en',interlingua:graph({}, {quantifier:{kind:'universal',value:2}})}), /quantifier/);
@@ -161,8 +161,8 @@ test('Invalid cardinality is rejected before realization', () => {
 });
 
 test('Unsupported cardinalities are reported explicitly, not silently dropped', () => {
-  const doc=graph({}, {quantifier:{kind:'exact',value:3}});
-  assert.throws(()=>engine.realize({to:'pl',interlingua:doc}), /Missing pl quantifier/);
+  const doc=graph({}, {quantifier:{kind:'exact',value:21}});
+  assert.throws(()=>engine.realize({to:'pl',interlingua:doc}), /quantifier/);
 });
 
 test('Older semantic schema may not smuggle newly qualified participants', () => {
@@ -214,7 +214,7 @@ test('Malformed lexical modifier data and undeclared inflection features fail re
   const d3=copy(en);d3.adjectives[0].forms=[{text:'big',when:{number:'zillion'}}];
   assert.throws(()=>makeEngine({en:d3}), /Unsupported inflection condition/);
   const d4=copy(en);d4.quantifiers[0].meaning={kind:'exact',value:0};
-  assert.throws(()=>makeEngine({en:d4}), /quantifier meaning/);
+  assert.throws(()=>makeEngine({en:d4}), /quantifier CORE mapping/);
 });
 
 test('Ontology validates modifier applicability and typed inheritance', () => {

@@ -404,6 +404,10 @@
     "tomorrow": "tomorrow",
     "yesterday": "yesterday"
   },
+  "numericTime": {
+    "clockMarker": "at",
+    "dateMarker": "on"
+  },
   "anaphora": {
     "subjectPronouns": [
       {

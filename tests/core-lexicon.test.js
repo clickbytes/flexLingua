@@ -66,7 +66,7 @@ test('grammatical function words and semantic operators have separate CORE refer
   assert.equal(engine.lexemesForCore({language:'en',coreRef:{kind:'operator',id:'quantifier.exact',
     parameters:{value:2}}})[0].lemma,'two');
   assert.equal(engine.lexemesForCore({language:'en',coreRef:{kind:'operator',id:'quantifier.exact',
-    parameters:{value:3}}}).length,0);
+    parameters:{value:3}}})[0].lemma,'three');
 });
 
 test('CORE is a reversible JSON Interlingua wire language, not another natural-language grammar', () => {
@@ -95,7 +95,6 @@ test('CORE parser rejects bad JSON, unsupported graphs, invalid features and uns
 test('CORE reference validator rejects missing IDs, bad parameter domains and malicious paths', () => {
   for (const value of [
     {kind:'operator',id:'quantifier.exact'},
-    {kind:'operator',id:'quantifier.exact',parameters:{value:1}},
     {kind:'operator',id:'quantifier.exact',parameters:{value:'2'}},
     {kind:'operator',id:'logic.negation',parameters:{anything:1}},
     {kind:'concept',id:'animal.cat',parameters:{value:2}},
@@ -103,6 +102,7 @@ test('CORE reference validator rejects missing IDs, bad parameter domains and ma
     {kind:'concept',id:'__proto__'},
     {kind:'concept',id:'animal.cat',malicious:'yes'}
   ]) assert.throws(()=>core.resolve(value));
+  assert.equal(core.resolve({kind:'operator',id:'quantifier.exact',parameters:{value:0}}).label,'exact cardinality');
   assert.equal(core.reference('operator','quantifier.exact',{value:2}).id,'quantifier.exact');
 });
 

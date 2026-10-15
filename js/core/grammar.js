@@ -133,6 +133,11 @@ function validateGrammar(dictionary, grammar) {
       throw new Error('Invalid temporal deixis grammar configuration.');
     }
   }
+  if(grammar.numericTime!==undefined && (!record(grammar.numericTime) ||
+      Object.keys(grammar.numericTime).length!==2 ||
+      !['clockMarker','dateMarker'].every(key=>/^[\p{L}]+$/u.test(grammar.numericTime[key]||'')))) {
+    throw new Error('Invalid numeric clock/date grammar configuration.');
+  }
   if (!safeName(grammar.sentence.subjectRole) ||
       grammar.sentence.terminator !== '.') {
     throw new Error('Invalid sentence configuration.');
@@ -645,20 +650,26 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
   }
 
   function plainNoun(ref, noun, gramCase, fallback, allowBare = false) {
+    const count=ref.quantifier?.kind==='exact'?ref.quantifier.value:null;
+    const surfaceCase=dictionary.language==='pl' && (count===0 || count>=5) &&
+      ['nom','acc'].includes(gramCase)?'gen':gramCase;
     const forms = nounForms.find(item => item.noun === noun)?.forms || [];
     const form = forms.find(candidate => candidate.bindings.number === ref.features.number &&
-      (candidate.bindings.case === undefined || candidate.bindings.case === gramCase));
-    if (!form) throw new Error(`Missing ${ref.features.number}/${gramCase || '-'} noun form for ${noun.lemma}.`);
-    return nominal.render(ref, noun, form.text, gramCase, fallback, {allowBare});
+      (candidate.bindings.case === undefined || candidate.bindings.case === surfaceCase));
+    if (!form) throw new Error(`Missing ${ref.features.number}/${surfaceCase || '-'} noun form for ${noun.lemma}.`);
+    return nominal.render(ref, noun, form.text, surfaceCase, fallback,
+      {allowBare,quantifierCase:gramCase});
   }
 
   function contextFor(roles, event, grammaticalSubjectRole = subjectRole) {
     const subject = roles[grammaticalSubjectRole];
     const ref = subject?.value;
     const agreement = isDeicticReferent(ref) ? ref.agreement : null;
+    const count=ref?.quantifier?.kind==='exact'?ref.quantifier.value:null;
+    const polishCountAgreement=dictionary.language==='pl' && (count===0 || count>=5);
     return { event, subject: subject ? {
       person: agreement?.person ?? GRAMMATICAL_PERSON.third,
-      number: agreement?.number ?? ref?.features?.number,
+      number: agreement?.number ?? (polishCountAgreement?'singular':ref?.features?.number),
       gender: subject.noun?.gender,
       pluralClass: subject.noun?.pluralClass
     } : {} };
@@ -813,6 +824,35 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
    */
   function analyzeCandidates(text) {
     if(typeof text==='string'&&text.includes('?'))return analyzeQuestionCandidates(text);
+    if(grammar.numericTime && typeof text==='string') {
+      const trimmed=text.trim(),punctuation=/[.]$/u.test(trimmed)?'.':null;
+      if(punctuation) {
+        const body=trimmed.slice(0,-1);
+        const temporal=[['date',grammar.numericTime.dateMarker,/\d{4}-\d{2}-\d{2}$/u],
+          ['clock',grammar.numericTime.clockMarker,/\d{2}:\d{2}$/u]];
+        for(const [kind,marker,pattern] of temporal) {
+          const suffix=` ${marker} `,lower=body.toLocaleLowerCase(grammar.language),at=lower.lastIndexOf(suffix);
+          if(at<0)continue;
+          const value=body.slice(at+suffix.length).trim(),bare=body.slice(0,at).trim();
+          if(!bare)continue;
+          if(!/[\d:-]/u.test(value))continue;
+          if(!pattern.test(value))throw new Error(`Unsupported ${kind} format; expected ${kind==='clock'?'HH:MM':'YYYY-MM-DD'}.`);
+          const parsed=kind==='clock'?{hour:Number(value.slice(0,2)),minute:Number(value.slice(3,5))}:
+            {year:Number(value.slice(0,4)),month:Number(value.slice(5,7)),day:Number(value.slice(8,10))};
+          const readings=analyzeCandidates(bare+'.').filter(item=>item.interlingua.type==='event');
+          if(readings.length)return readings.map(item=>({
+            ...item,
+            interlingua:createEvent(item.interlingua.concept,item.interlingua.roles,{
+              ...item.interlingua.features,
+              ...(item.interlingua.timeReference?{timeReference:item.interlingua.timeReference}:{}),
+              ...(item.interlingua.clockTime?{clockTime:item.interlingua.clockTime}:{}),
+              ...(item.interlingua.calendarDate?{calendarDate:item.interlingua.calendarDate}:{}),
+              ...(kind==='clock'?{clockTime:parsed}:{calendarDate:parsed})
+            })
+          }));
+        }
+      }
+    }
     if(grammar.temporalDeixis && typeof text==='string') {
       const trimmed=text.trim(),punctuation=/[.]$/u.test(trimmed)?'.':null;
       if(punctuation) {
@@ -1502,7 +1542,10 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
       if(meaning.timeReference && meaning.timeReference!=='unspecified' && !marker) {
         throw new Error(`Unsupported temporal reference in ${grammar.language}.`);
       }
-      return marker ? `${text} ${[].concat(marker)[0]}` : text;
+      let output=marker ? `${text} ${[].concat(marker)[0]}` : text;
+      if(meaning.clockTime)output+=` ${grammar.numericTime.clockMarker} ${String(meaning.clockTime.hour).padStart(2,'0')}:${String(meaning.clockTime.minute).padStart(2,'0')}`;
+      if(meaning.calendarDate)output+=` ${grammar.numericTime.dateMarker} ${String(meaning.calendarDate.year).padStart(4,'0')}-${String(meaning.calendarDate.month).padStart(2,'0')}-${String(meaning.calendarDate.day).padStart(2,'0')}`;
+      return output;
     }
     if (relative && !options.returnBuilder) return linearize(preferred, fallback);
     return { candidates, preferred, linearize, roles };

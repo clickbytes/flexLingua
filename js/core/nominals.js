@@ -19,7 +19,7 @@ function markerFor(noun, mapping) {
 function meaningKey(meaning) {
   if (meaning?.kind === 'universal' && Object.keys(meaning).length === 1) return 'universal';
   if (meaning?.kind === 'exact' && Number.isInteger(meaning.value) &&
-      meaning.value >= 2 && meaning.value <= 20 && Object.keys(meaning).length === 2) {
+      meaning.value >= 0 && meaning.value <= 20 && Object.keys(meaning).length === 2) {
     return `exact:${meaning.value}`;
   }
   throw new Error('Invalid lexical quantifier meaning.');
@@ -70,6 +70,7 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms }) 
   const propertyIndex = new Map();
   const degreeIndex = new Map();
   const quantifierIndex = new Map();
+  const quantifierFormIndex = new Map();
   for (const [lexemes, index, keyOf] of [
     [adjectives, propertyIndex, lex => lex.concept],
     [degrees, degreeIndex, lex => lex.concept],
@@ -80,6 +81,11 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms }) 
       if (!index.has(key)) index.set(key, []);
       index.get(key).push(lexeme);
     }
+  }
+  for(const lexeme of quantifiers)for(const form of lexeme.forms) {
+    const first=form.text.toLocaleLowerCase(dictionary.language).split(/\s+/u)[0];
+    if(!quantifierFormIndex.has(first))quantifierFormIndex.set(first,[]);
+    quantifierFormIndex.get(first).push({lexeme,form});
   }
   if (!Array.isArray(layouts) || !layouts.length || layouts.length > 3 ||
       layouts.some(layout => !Array.isArray(layout) || new Set(layout).size !== layout.length ||
@@ -167,13 +173,25 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms }) 
     const found = [];
     let visited = 0;
     for (const { noun, forms } of nounForms) for (const form of forms) for (const [layoutIndex, layout] of layouts.entries()) {
-      if (form.bindings.case !== undefined && form.bindings.case !== grammaticalCase) continue;
+      const genitiveCountCase=dictionary.language==='pl' &&
+        ['nom','acc'].includes(grammaticalCase) && quantifiers.some(q=>
+          q.meaning.kind==='exact' && (q.meaning.value===0 || q.meaning.value>=5));
+      if (form.bindings.case !== undefined && form.bindings.case !== grammaticalCase &&
+          !(genitiveCountCase && form.bindings.case==='gen')) continue;
       const number = form.bindings.number;
       if (!number) continue;
       const context = featuresFor(noun, number, grammaticalCase);
       function search(slotIndex, at, state) {
         if (++visited > MAX_NP_STATES) throw new Error('Qualified noun phrase exceeded parsing limit.');
         if (slotIndex === layout.length) {
+          if(state.quantifier?.meaning.kind==='exact') {
+            const value=state.quantifier.meaning.value;
+            if(number!==(value===1?'singular':'plural'))return;
+            const genitiveCount=dictionary.language==='pl' &&
+              (value===0 || value>=5) && ['nom','acc'].includes(grammaticalCase);
+            if(form.bindings.case!==undefined && form.bindings.case!==
+                (genitiveCount?'gen':grammaticalCase))return;
+          } else if(form.bindings.case!==undefined && form.bindings.case!==grammaticalCase) return;
           const firstAdj = state.lexemes[0];
           if (state.quantifier && layoutByQuantifier[state.quantifier.meaning.kind] !== undefined &&
               layoutByQuantifier[state.quantifier.meaning.kind] !== layoutIndex) return;
@@ -197,11 +215,10 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms }) 
           if (len) advance(at + len, {});
         } else if (step === 'quantifier') {
           advance(at, {});
-          if (number === 'plural') for (const quantifier of quantifiers) {
-            for (const surface of matchingForms(quantifier, context)) {
-              const len = matchesTokens(tokens, at, surface.text);
-              if (len) advance(at + len, { quantifier });
-            }
+          for (const {lexeme:quantifier,form} of quantifierFormIndex.get(tokens[at])||[]) {
+            if(!Object.entries(form.when||{}).every(([key,value])=>context[key]===value))continue;
+            const len = matchesTokens(tokens, at, form.text);
+            if (len) advance(at + len, { quantifier });
           }
         } else if (step === 'determiner') {
           const maps = nounPhrase.determiners[number] || {};
@@ -231,7 +248,8 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms }) 
     return found;
   }
 
-  function render(ref, noun, nounText, grammaticalCase, fallback, { allowBare = false } = {}) {
+  function render(ref, noun, nounText, grammaticalCase, fallback,
+    { allowBare = false, quantifierCase = grammaticalCase } = {}) {
     const context = featuresFor(noun, ref.features.number, grammaticalCase);
     const def = ref.features.definiteness === 'unknown' ? fallback : ref.features.definiteness;
     const mapping = nounPhrase.determiners[ref.features.number]?.[def];
@@ -257,7 +275,7 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms }) 
     if (ref.quantifier) {
       const lexical = quantifierIndex.get(meaningKey(ref.quantifier))?.[0];
       if (!lexical) throw new Error(`Missing ${dictionary.language} quantifier for ${meaningKey(ref.quantifier)}.`);
-      quantifier = formFor(lexical, context);
+      quantifier = formFor(lexical, featuresFor(noun,ref.features.number,quantifierCase));
       if (!quantifier) throw new Error(`Missing ${dictionary.language} quantifier form for ${meaningKey(ref.quantifier)}.`);
       if (def !== 'definite') marker = null;
     }

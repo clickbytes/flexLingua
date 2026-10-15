@@ -2157,6 +2157,1156 @@
         }
       ],
       "lemma": "dwaj"
+    },
+    {
+      "id": "pl.zero.quant.1",
+      "meaning": {
+        "kind": "exact",
+        "value": 0
+      },
+      "forms": [
+        {
+          "text": "zero",
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "zero",
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "zera",
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "zeru",
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          }
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.number.0.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "quantifier.exact",
+            "parameters": {
+              "value": 0
+            }
+          }
+        }
+      ],
+      "lemma": "zero"
+    },
+    {
+      "id": "pl.one.quant.1",
+      "meaning": {
+        "kind": "exact",
+        "value": 1
+      },
+      "forms": [
+        {
+          "text": "jeden",
+          "when": {
+            "number": "singular",
+            "gender": "masculine",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "jeden",
+          "when": {
+            "number": "singular",
+            "gender": "masculine",
+            "animacy": "inanimate",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "jednego",
+          "when": {
+            "number": "singular",
+            "gender": "masculine",
+            "animacy": "animate",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "jednego",
+          "when": {
+            "number": "singular",
+            "gender": "masculine",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "jednemu",
+          "when": {
+            "number": "singular",
+            "gender": "masculine",
+            "case": "dat"
+          }
+        },
+        {
+          "text": "jedna",
+          "when": {
+            "number": "singular",
+            "gender": "feminine",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "jedną",
+          "when": {
+            "number": "singular",
+            "gender": "feminine",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "jednej",
+          "when": {
+            "number": "singular",
+            "gender": "feminine",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "jednej",
+          "when": {
+            "number": "singular",
+            "gender": "feminine",
+            "case": "dat"
+          }
+        },
+        {
+          "text": "jedno",
+          "when": {
+            "number": "singular",
+            "gender": "neuter",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "jedno",
+          "when": {
+            "number": "singular",
+            "gender": "neuter",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "jednego",
+          "when": {
+            "number": "singular",
+            "gender": "neuter",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "jednemu",
+          "when": {
+            "number": "singular",
+            "gender": "neuter",
+            "case": "dat"
+          }
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.number.1.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "quantifier.exact",
+            "parameters": {
+              "value": 1
+            }
+          }
+        }
+      ],
+      "lemma": "jeden"
+    },
+    {
+      "id": "pl.three.quant.1",
+      "meaning": {
+        "kind": "exact",
+        "value": 3
+      },
+      "forms": [
+        {
+          "text": "trzej",
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "trzy",
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "trzech",
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "trzy",
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "trzech",
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "trzech",
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "trzem",
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "dat"
+          }
+        },
+        {
+          "text": "trzem",
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "case": "dat"
+          }
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.number.3.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "quantifier.exact",
+            "parameters": {
+              "value": 3
+            }
+          }
+        }
+      ],
+      "lemma": "trzy"
+    },
+    {
+      "id": "pl.four.quant.1",
+      "meaning": {
+        "kind": "exact",
+        "value": 4
+      },
+      "forms": [
+        {
+          "text": "czterej",
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "cztery",
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "czterech",
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "cztery",
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "czterech",
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "czterech",
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "czterem",
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "dat"
+          }
+        },
+        {
+          "text": "czterem",
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "case": "dat"
+          }
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.number.4.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "quantifier.exact",
+            "parameters": {
+              "value": 4
+            }
+          }
+        }
+      ],
+      "lemma": "cztery"
+    },
+    {
+      "id": "pl.five.quant.1",
+      "meaning": {
+        "kind": "exact",
+        "value": 5
+      },
+      "forms": [
+        {
+          "text": "pięć",
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "pięć",
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "pięciu",
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "pięciu",
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          }
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.number.5.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "quantifier.exact",
+            "parameters": {
+              "value": 5
+            }
+          }
+        }
+      ],
+      "lemma": "pięć"
+    },
+    {
+      "id": "pl.six.quant.1",
+      "meaning": {
+        "kind": "exact",
+        "value": 6
+      },
+      "forms": [
+        {
+          "text": "sześć",
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "sześć",
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "sześciu",
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "sześciu",
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          }
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.number.6.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "quantifier.exact",
+            "parameters": {
+              "value": 6
+            }
+          }
+        }
+      ],
+      "lemma": "sześć"
+    },
+    {
+      "id": "pl.seven.quant.1",
+      "meaning": {
+        "kind": "exact",
+        "value": 7
+      },
+      "forms": [
+        {
+          "text": "siedem",
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "siedem",
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "siedmiu",
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "siedmiu",
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          }
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.number.7.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "quantifier.exact",
+            "parameters": {
+              "value": 7
+            }
+          }
+        }
+      ],
+      "lemma": "siedem"
+    },
+    {
+      "id": "pl.eight.quant.1",
+      "meaning": {
+        "kind": "exact",
+        "value": 8
+      },
+      "forms": [
+        {
+          "text": "osiem",
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "osiem",
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "ośmiu",
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "ośmiu",
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          }
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.number.8.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "quantifier.exact",
+            "parameters": {
+              "value": 8
+            }
+          }
+        }
+      ],
+      "lemma": "osiem"
+    },
+    {
+      "id": "pl.nine.quant.1",
+      "meaning": {
+        "kind": "exact",
+        "value": 9
+      },
+      "forms": [
+        {
+          "text": "dziewięć",
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "dziewięć",
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "dziewięciu",
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "dziewięciu",
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          }
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.number.9.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "quantifier.exact",
+            "parameters": {
+              "value": 9
+            }
+          }
+        }
+      ],
+      "lemma": "dziewięć"
+    },
+    {
+      "id": "pl.ten.quant.1",
+      "meaning": {
+        "kind": "exact",
+        "value": 10
+      },
+      "forms": [
+        {
+          "text": "dziesięć",
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "dziesięć",
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "dziesięciu",
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "dziesięciu",
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          }
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.number.10.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "quantifier.exact",
+            "parameters": {
+              "value": 10
+            }
+          }
+        }
+      ],
+      "lemma": "dziesięć"
+    },
+    {
+      "id": "pl.eleven.quant.1",
+      "meaning": {
+        "kind": "exact",
+        "value": 11
+      },
+      "forms": [
+        {
+          "text": "jedenaście",
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "jedenaście",
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "jedenastu",
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "jedenastu",
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          }
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.number.11.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "quantifier.exact",
+            "parameters": {
+              "value": 11
+            }
+          }
+        }
+      ],
+      "lemma": "jedenaście"
+    },
+    {
+      "id": "pl.twelve.quant.1",
+      "meaning": {
+        "kind": "exact",
+        "value": 12
+      },
+      "forms": [
+        {
+          "text": "dwanaście",
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "dwanaście",
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "dwunastu",
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "dwunastu",
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          }
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.number.12.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "quantifier.exact",
+            "parameters": {
+              "value": 12
+            }
+          }
+        }
+      ],
+      "lemma": "dwanaście"
+    },
+    {
+      "id": "pl.thirteen.quant.1",
+      "meaning": {
+        "kind": "exact",
+        "value": 13
+      },
+      "forms": [
+        {
+          "text": "trzynaście",
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "trzynaście",
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "trzynastu",
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "trzynastu",
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          }
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.number.13.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "quantifier.exact",
+            "parameters": {
+              "value": 13
+            }
+          }
+        }
+      ],
+      "lemma": "trzynaście"
+    },
+    {
+      "id": "pl.fourteen.quant.1",
+      "meaning": {
+        "kind": "exact",
+        "value": 14
+      },
+      "forms": [
+        {
+          "text": "czternaście",
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "czternaście",
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "czternastu",
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "czternastu",
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          }
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.number.14.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "quantifier.exact",
+            "parameters": {
+              "value": 14
+            }
+          }
+        }
+      ],
+      "lemma": "czternaście"
+    },
+    {
+      "id": "pl.fifteen.quant.1",
+      "meaning": {
+        "kind": "exact",
+        "value": 15
+      },
+      "forms": [
+        {
+          "text": "piętnaście",
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "piętnaście",
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "piętnastu",
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "piętnastu",
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          }
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.number.15.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "quantifier.exact",
+            "parameters": {
+              "value": 15
+            }
+          }
+        }
+      ],
+      "lemma": "piętnaście"
+    },
+    {
+      "id": "pl.sixteen.quant.1",
+      "meaning": {
+        "kind": "exact",
+        "value": 16
+      },
+      "forms": [
+        {
+          "text": "szesnaście",
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "szesnaście",
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "szesnastu",
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "szesnastu",
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          }
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.number.16.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "quantifier.exact",
+            "parameters": {
+              "value": 16
+            }
+          }
+        }
+      ],
+      "lemma": "szesnaście"
+    },
+    {
+      "id": "pl.seventeen.quant.1",
+      "meaning": {
+        "kind": "exact",
+        "value": 17
+      },
+      "forms": [
+        {
+          "text": "siedemnaście",
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "siedemnaście",
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "siedemnastu",
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "siedemnastu",
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          }
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.number.17.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "quantifier.exact",
+            "parameters": {
+              "value": 17
+            }
+          }
+        }
+      ],
+      "lemma": "siedemnaście"
+    },
+    {
+      "id": "pl.eighteen.quant.1",
+      "meaning": {
+        "kind": "exact",
+        "value": 18
+      },
+      "forms": [
+        {
+          "text": "osiemnaście",
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "osiemnaście",
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "osiemnastu",
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "osiemnastu",
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          }
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.number.18.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "quantifier.exact",
+            "parameters": {
+              "value": 18
+            }
+          }
+        }
+      ],
+      "lemma": "osiemnaście"
+    },
+    {
+      "id": "pl.nineteen.quant.1",
+      "meaning": {
+        "kind": "exact",
+        "value": 19
+      },
+      "forms": [
+        {
+          "text": "dziewiętnaście",
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "dziewiętnaście",
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "dziewiętnastu",
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "dziewiętnastu",
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          }
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.number.19.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "quantifier.exact",
+            "parameters": {
+              "value": 19
+            }
+          }
+        }
+      ],
+      "lemma": "dziewiętnaście"
+    },
+    {
+      "id": "pl.twenty.quant.1",
+      "meaning": {
+        "kind": "exact",
+        "value": 20
+      },
+      "forms": [
+        {
+          "text": "dwadzieścia",
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "dwadzieścia",
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "dwudziestu",
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "dwudziestu",
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          }
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.number.20.sense.1",
+          "coreRef": {
+            "kind": "operator",
+            "id": "quantifier.exact",
+            "parameters": {
+              "value": 20
+            }
+          }
+        }
+      ],
+      "lemma": "dwadzieścia"
     }
   ],
   "attitudes": [
