@@ -188,13 +188,13 @@ function validateGrammar(dictionary, grammar) {
     const seenSenses=new Set();
     const senses=new Map(functionWords.flatMap(word=>(word.senses||[]).map(sense=>
       [sense.id,{word,sense}])));
-    if(!Array.isArray(deictic) || deictic.length<3 || deictic.length>8){
+    if(!Array.isArray(deictic) || deictic.length<3 || deictic.length>16){
       throw new Error('Invalid deictic pronoun grammar inventory.');
     }
     for(const entry of deictic){
       const found=senses.get(entry?.senseId);
-      const key=JSON.stringify([entry?.referent?.anchor,entry?.person,entry?.number]);
-      if(!record(entry) || Object.keys(entry).sort().join(',')!=='number,person,referent,senseId' ||
+      const key=JSON.stringify([entry?.referent?.anchor,entry?.person,entry?.number,entry?.case]);
+      if(!record(entry) || Object.keys(entry).sort().join(',')!=='case,number,person,referent,senseId' ||
           !LEXEME_ID.test(entry.senseId||'') || !found ||
           found.sense.coreRef?.kind!=='grammaticalFunction' ||
           found.sense.coreRef.id!==DEICTIC_FUNCTION ||
@@ -202,13 +202,14 @@ function validateGrammar(dictionary, grammar) {
           entry.referent.kind!=='deictic' || !['speaker','addressee'].includes(entry.referent.anchor) ||
           !['first','second'].includes(entry.person) ||
           !['singular','plural'].includes(entry.number) ||
+          !['nom','gen','dat','acc','loc'].includes(entry.case) ||
           (entry.referent.anchor==='speaker')!==(entry.person==='first') || seen.has(key) ||
-          seenSenses.has(entry.senseId) ||
+          seenSenses.has(`${entry.senseId}:${entry.case}`) ||
           !found.word.forms.every(form=>/^[\p{L}]+$/u.test(form.text||''))){
         throw new Error('Invalid deictic pronoun declaration.');
       }
       seen.add(key);
-      seenSenses.add(entry.senseId);
+      seenSenses.add(`${entry.senseId}:${entry.case}`);
       const formTexts=found.word.forms.map(form=>form.text.toLocaleLowerCase(grammar.language));
       if(formTexts.some(text=>(grammar.anaphora?.subjectPronouns || []).some(item=>
           item.text.toLocaleLowerCase(grammar.language)===text))){
@@ -216,8 +217,8 @@ function validateGrammar(dictionary, grammar) {
       }
     }
     const required=[
-      ['speaker','first','singular'],['speaker','first','plural'],
-      ['addressee','second','singular'],['addressee','second','plural']
+      ['speaker','first','singular','nom'],['speaker','first','plural','nom'],
+      ['addressee','second','singular','nom'],['addressee','second','plural','nom']
     ];
     if(!required.every(item=>seen.has(JSON.stringify(item)))){
       throw new Error('Incomplete deictic pronoun agreement inventory.');
@@ -333,6 +334,30 @@ function validateGrammar(dictionary, grammar) {
         throw new Error('Invalid determiner rule.');
       }
     }
+  }
+  const possessives=grammar.nounPhrase.possessives || [];
+  if(!Array.isArray(possessives) || possessives.length>8 || possessives.some(entry=>
+    !record(entry) || !['anchor','forms','number','person'].every(key=>hasOwn(entry,key)) ||
+    Object.keys(entry).some(key=>!['anchor','forms','number','person','standaloneForms'].includes(key)) ||
+    !['speaker','addressee'].includes(entry.anchor) ||
+    !['first','second'].includes(entry.person) || !['singular','plural'].includes(entry.number) ||
+    (entry.anchor==='speaker')!==(entry.person==='first') ||
+    !Array.isArray(entry.forms) || !entry.forms.length || entry.forms.length>32 ||
+    entry.forms.some(form=>!record(form) ||
+      Object.keys(form).some(key=>!['text','when'].includes(key)) ||
+      !/^[\p{L}]+$/u.test(form.text||'') ||
+      (form.when!==undefined && (!record(form.when) ||
+        Object.entries(form.when).some(([key,value])=>
+          !['number','case','gender','pluralClass','animacy'].includes(key) || !safeName(value))))) ||
+    (entry.standaloneForms!==undefined && (!Array.isArray(entry.standaloneForms) ||
+      !entry.standaloneForms.length || entry.standaloneForms.length>32 ||
+      entry.standaloneForms.some(form=>!record(form) ||
+        Object.keys(form).some(key=>!['text','when'].includes(key)) ||
+        !/^[\p{L}]+$/u.test(form.text||'') ||
+        (form.when!==undefined && (!record(form.when) ||
+          Object.entries(form.when).some(([key,value])=>
+            !['number','case','gender','pluralClass','animacy'].includes(key) || !safeName(value))))))))) {
+    throw new Error('Invalid possessive pronoun grammar inventory.');
   }
   for (const property of ['defaultDefiniteness', 'alternativeDefiniteness']) {
     if (grammar.nounPhrase[property] !== undefined &&
@@ -560,6 +585,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
   const dictionary = lexicon.dictionary;
   const grammar = validateGrammar(dictionary, rules);
   const { nounPhrase, sentence, verb: verbGrammar, frames } = grammar;
+  const possessives=nounPhrase.possessives || [];
   const subjectRole = sentence.subjectRole;
   const nouns = expandLexemes(dictionary.nouns, dictionary.language, 'noun');
   const expandedVerbs = expandLexemes(dictionary.verbs, dictionary.language, 'verb');
@@ -601,7 +627,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     const word=dictionary.functionWords.find(item=>
       item.senses?.some(sense=>sense.id===entry.senseId));
     const sense=word?.senses?.find(item=>item.id===entry.senseId);
-    return (word?.forms || []).map(form=>({text:form.text,senseId:entry.senseId,
+    return (word?.forms || []).map(form=>({text:form.text,case:entry.case,senseId:entry.senseId,
       referent:entry.referent,person:entry.person,number:entry.number,priority:sense?.priority||0}));
   });
   const verbForms = verbs.flatMap(lexeme => verbGrammar.rules.flatMap(rule =>
@@ -643,6 +669,11 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     return result;
   }
 
+  function deicticCase(grammaticalCase,role) {
+    if(grammaticalCase)return grammaticalCase;
+    return dictionary.language==='en' && role!==subjectRole?'acc':nounPhrase.subjectCase;
+  }
+
   /** Relative agreement is derived from the antecedent lexeme, not its surface case. */
   function relativeMarker(marker, noun, ref) {
     return Object.entries(marker.when || {}).every(([key, value]) =>
@@ -657,8 +688,19 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     const form = forms.find(candidate => candidate.bindings.number === ref.features.number &&
       (candidate.bindings.case === undefined || candidate.bindings.case === surfaceCase));
     if (!form) throw new Error(`Missing ${ref.features.number}/${surfaceCase || '-'} noun form for ${noun.lemma}.`);
-    return nominal.render(ref, noun, form.text, surfaceCase, fallback,
+    const surface=nominal.render(ref, noun, form.text, surfaceCase, fallback,
       {allowBare,quantifierCase:gramCase});
+    if(!ref.possessor)return surface;
+    const owner=ref.possessor;
+    const ownerEntry=possessives.find(entry=>entry.anchor===owner.referent?.anchor &&
+      entry.person===owner.agreement?.person && entry.number===owner.agreement?.number);
+    const context={number:ref.features.number,case:surfaceCase,
+      ...(noun.gender?{gender:noun.gender}:{}),...(noun.pluralClass?{pluralClass:noun.pluralClass}:{}),
+      ...(noun.animacy?{animacy:noun.animacy}:{})};
+    const word=ownerEntry?.forms.find(item=>Object.entries(item.when||{}).every(([key,value])=>
+      context[key]===value))?.text;
+    if(!word)throw new Error(`Missing ${dictionary.language} possessive form for ${owner.referent?.anchor}.`);
+    return `${word} ${surface}`;
   }
 
   function contextFor(roles, event, grammaticalSubjectRole = subjectRole) {
@@ -748,9 +790,14 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
               }
               const roles=Object.fromEntries(Object.entries(parsedRoles)
                 .map(([role,parsed])=>[role,parsed.value]));
+              const possessiveOwner=parsedRoles[frame.predicateRole]?.owner;
               const meaning=base.kind==='location' && options.gap==='location'
                 ?createLocation(roles.subject,undefined,'unspecified',features)
-                :stateMeaning(base.kind,roles,features,relation);
+                :possessiveOwner && base.kind==='predication'
+                  ?createPossession(possessiveOwner,{...roles.subject,
+                    features:{...roles.subject.features,definiteness:'definite'},
+                    possessor:possessiveOwner},features)
+                  :stateMeaning(base.kind,roles,features,relation);
               const lexicalSenses={verb:entry.lexeme.senseId};
               for(const [role,parsed] of Object.entries(parsedRoles)) {
                 if(parsed.senseId)lexicalSenses[role]=parsed.senseId;
@@ -785,12 +832,13 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
                 ...(subject.noun?.gender?{gender:subject.noun.gender}:{}),
                 ...(subject.noun?.pluralClass?{pluralClass:subject.noun.pluralClass}:{}),
                 ...(subject.noun?.animacy?{animacy:subject.noun.animacy}:{})};
-              phrases=nominal.readProperty(tokens,index,context);
+              phrases=[...nominal.readProperty(tokens,index,context),
+                ...readPossessivePredicate(tokens,index,context)];
             } else {
               const grammaticalCase=stateRoleCase(frame,step,polarity);
               phrases=[...readNounPhrases(tokens,index,grammaticalCase,0,budget),
                 ...(step===frame.subjectRole&&grammaticalCase==='nom'
-                  ?[...readDeicticNounPhrases(tokens,index),
+                  ?[...readDeicticNounPhrases(tokens,index,deicticCase(grammaticalCase,step)),
                     ...readStateSubjectPronouns(tokens,index)]:[])];
             }
             for(const parsed of phrases) {
@@ -814,6 +862,19 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
         found.push({value:{concept,features:{number:'singular',definiteness:'definite'}},
           noun:nounByConcept(concept),next:index+size,senseId:null,priority:0});
       }
+    }
+    return found;
+  }
+
+  function readPossessivePredicate(tokens,index,context) {
+    const found=[];
+    for(const entry of possessives)for(const form of entry.standaloneForms || []){
+      if(!Object.entries(form.when || {}).every(([key,value])=>context[key]===value))continue;
+      const size=matchesTokens(tokens,index,form.text);
+      if(!size)continue;
+      const owner={referent:{kind:'deictic',anchor:entry.anchor},
+        agreement:{person:entry.person,number:entry.number}};
+      found.push({value:entry.anchor,owner,next:index+size,noun:null,priority:0});
     }
     return found;
   }
@@ -972,8 +1033,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
             for (const grammaticalCase of cases) {
               const phrases=[...readNounPhrases(tokens,index,grammaticalCase,depth,budget,
                 {allowBare:frame.bareRoles?.includes(step) === true}),
-                ...(step===subjectRole && grammaticalCase===nounPhrase.subjectCase ?
-                  readDeicticNounPhrases(tokens,index) : [])];
+                ...readDeicticNounPhrases(tokens,index,deicticCase(grammaticalCase,step))];
               for (const parsed of phrases) {
                 if (record(caseRule)) {
                   const implied = Object.keys(caseRule).find(key => key !== 'unknown' &&
@@ -1340,9 +1400,10 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     return safe.sort((a,b)=>(b.score||0)-(a.score||0)).slice(0,MAX_ANALYSES);
   }
 
-  function readDeicticNounPhrases(tokens,index) {
+  function readDeicticNounPhrases(tokens,index,grammaticalCase) {
     const found=[];
     for(const pronoun of deicticPronouns){
+      if(pronoun.case!==grammaticalCase)continue;
       const size=matchesTokens(tokens,index,pronoun.text);
       if(!size)continue;
       found.push({value:{referent:{...pronoun.referent},
@@ -1354,6 +1415,22 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
 
   function readNounPhrases(tokens, index, grammaticalCase, depth, budget, options = {}) {
     const bare = nominal.read(tokens, index, grammaticalCase, options);
+    for(const entry of possessives)for(const form of entry.forms){
+      const length=matchesTokens(tokens,index,form.text);
+      if(!length)continue;
+      const possessed=nominal.read(tokens,index+length,grammaticalCase,{...options,allowBare:true});
+      for(const parsed of possessed){
+        if(parsed.value.features.definiteness!=='unknown' ||
+          !Object.entries(form.when||{}).every(([key,value])=>
+            ({number:parsed.value.features.number,case:grammaticalCase,
+              gender:parsed.noun.gender,pluralClass:parsed.noun.pluralClass,
+              animacy:parsed.noun.animacy})[key]===value))continue;
+        bare.push({...parsed,value:{...parsed.value,
+          features:{...parsed.value.features,definiteness:'definite'},
+          possessor:{referent:{kind:'deictic',anchor:entry.anchor},
+          agreement:{person:entry.person,number:entry.number}}},next:parsed.next});
+      }
+    }
     if (depth >= relativeGrammar.maxDepth) return bare;
     const enriched = [...bare];
     for (const base of bare) for (const marker of relativeGrammar.markers) {
@@ -1450,7 +1527,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     if(typeof text!=='string')return [];
     const tokens=tokenize(text.trim());
     if(!tokens.length)return [];
-    return readDeicticNounPhrases(tokens,0).map(item=>({
+    return readDeicticNounPhrases(tokens,0,deicticCase(nounPhrase.subjectCase,subjectRole)).map(item=>({
       text:tokens[0],referent:item.value.referent,agreement:item.value.agreement,
       senseId:item.senseId
     }));
@@ -1487,22 +1564,22 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     return nouns[0];
   }
 
-  function deicticPronounSurface(ref) {
+  function deicticPronounSurface(ref,grammaticalCase=nounPhrase.subjectCase) {
     const entry=deicticPronouns.find(item=>
       item.referent.anchor===ref.referent.anchor &&
-      item.person===ref.agreement.person && item.number===ref.agreement.number);
-    if(!entry)throw new Error(`Missing ${dictionary.language} deictic pronoun form.`);
+      item.person===ref.agreement.person && item.number===ref.agreement.number &&
+      item.case===grammaticalCase);
+    if(!entry)throw new Error(`Missing ${dictionary.language} deictic pronoun form for ${grammaticalCase}.`);
     return entry.text;
   }
 
   function nounSurface(role, meaning, frame, fallback, depth) {
     const ref = meaning.roles[role];
+    const requiredCase = roleCase(frame, role, meaning.features, ref);
     if(isDeicticReferent(ref)){
-      if(role!==subjectRole)throw new Error('Only subject deictic pronouns are supported in this grammar scope.');
-      return deicticPronounSurface(ref);
+      return deicticPronounSurface(ref,deicticCase(requiredCase,role));
     }
     const noun = nounByConcept(ref.concept);
-    const requiredCase = roleCase(frame, role, meaning.features, ref);
     let output = plainNoun(ref, noun, requiredCase, fallback,
       frame.bareRoles?.includes(role) === true);
     for (const relative of ref.relatives || []) {
@@ -1598,8 +1675,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
       }
       const ref=meaning.roles[role];
       if(isDeicticReferent(ref)) {
-        if(role!==frame.subjectRole)throw new Error('Only subject deictic pronouns are supported in state constructions.');
-        return deicticPronounSurface(ref);
+        return deicticPronounSurface(ref,deicticCase(stateRoleCase(frame,role,polarity),role));
       }
       if(ref.relatives?.length)throw new Error('Relative clauses in state constructions are unsupported.');
       const noun=nounByConcept(ref.concept);
@@ -1911,7 +1987,8 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
         entry.features.tense==='present' && entry.features.person===person &&
         entry.features.number===number);
       if(!verb)throw new Error('Missing location WH copula form.');
-      const rendered=isDeicticReferent(subject)?deicticPronounSurface(subject):
+      const rendered=isDeicticReferent(subject)?deicticPronounSurface(subject,
+        stateRoleCase(frame,'subject','positive')):
         plainNoun(subject,nounByConcept(subject.concept),stateRoleCase(frame,'subject','positive'),
           nounPhrase.defaultDefiniteness);
       return {text:sentenceText([`${questions.wh.location.marker} ${verb.text} ${rendered}`],'?'),
@@ -1943,8 +2020,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     const surface=role=>{
       const ref=clause.roles[role];
       if(isDeicticReferent(ref)) {
-        if(role!==frame.subjectRole)throw new Error('Only subject deictic pronouns are supported in state questions.');
-        return deicticPronounSurface(ref);
+        return deicticPronounSurface(ref,stateRoleCase(frame,role,clause.features.polarity));
       }
       if(ref.relatives?.length)throw new Error('Relative clauses in state questions are unsupported.');
       return plainNoun(ref,nounByConcept(ref.concept),stateRoleCase(frame,role,clause.features.polarity),

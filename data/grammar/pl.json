@@ -117,7 +117,335 @@
           }
         }
       ]
-    }
+    },
+    "possessives": [
+      {
+        "anchor": "speaker",
+        "person": "first",
+        "number": "singular",
+        "forms": [
+          {
+            "text": "mój",
+            "when": {
+              "number": "singular",
+              "case": "nom",
+              "gender": "masculine"
+            }
+          },
+          {
+            "text": "mojego",
+            "when": {
+              "number": "singular",
+              "case": "gen",
+              "gender": "masculine"
+            }
+          },
+          {
+            "text": "mojemu",
+            "when": {
+              "number": "singular",
+              "case": "dat",
+              "gender": "masculine"
+            }
+          },
+          {
+            "text": "mojego",
+            "when": {
+              "number": "singular",
+              "case": "acc",
+              "gender": "masculine",
+              "animacy": "animate"
+            }
+          },
+          {
+            "text": "mój",
+            "when": {
+              "number": "singular",
+              "case": "acc",
+              "gender": "masculine",
+              "animacy": "inanimate"
+            }
+          },
+          {
+            "text": "moim",
+            "when": {
+              "number": "singular",
+              "case": "loc",
+              "gender": "masculine"
+            }
+          },
+          {
+            "text": "moja",
+            "when": {
+              "number": "singular",
+              "case": "nom",
+              "gender": "feminine"
+            }
+          },
+          {
+            "text": "mojej",
+            "when": {
+              "number": "singular",
+              "case": "gen",
+              "gender": "feminine"
+            }
+          },
+          {
+            "text": "mojej",
+            "when": {
+              "number": "singular",
+              "case": "dat",
+              "gender": "feminine"
+            }
+          },
+          {
+            "text": "moją",
+            "when": {
+              "number": "singular",
+              "case": "acc",
+              "gender": "feminine"
+            }
+          },
+          {
+            "text": "mojej",
+            "when": {
+              "number": "singular",
+              "case": "loc",
+              "gender": "feminine"
+            }
+          },
+          {
+            "text": "moje",
+            "when": {
+              "number": "singular",
+              "case": "nom",
+              "gender": "neuter"
+            }
+          },
+          {
+            "text": "mojego",
+            "when": {
+              "number": "singular",
+              "case": "gen",
+              "gender": "neuter"
+            }
+          },
+          {
+            "text": "mojemu",
+            "when": {
+              "number": "singular",
+              "case": "dat",
+              "gender": "neuter"
+            }
+          },
+          {
+            "text": "moje",
+            "when": {
+              "number": "singular",
+              "case": "acc",
+              "gender": "neuter"
+            }
+          },
+          {
+            "text": "moim",
+            "when": {
+              "number": "singular",
+              "case": "loc",
+              "gender": "neuter"
+            }
+          }
+        ],
+        "standaloneForms": [
+          {
+            "text": "mój",
+            "when": {
+              "number": "singular",
+              "case": "nom",
+              "gender": "masculine"
+            }
+          },
+          {
+            "text": "moja",
+            "when": {
+              "number": "singular",
+              "case": "nom",
+              "gender": "feminine"
+            }
+          },
+          {
+            "text": "moje",
+            "when": {
+              "number": "singular",
+              "case": "nom",
+              "gender": "neuter"
+            }
+          }
+        ]
+      },
+      {
+        "anchor": "addressee",
+        "person": "second",
+        "number": "singular",
+        "forms": [
+          {
+            "text": "twój",
+            "when": {
+              "number": "singular",
+              "case": "nom",
+              "gender": "masculine"
+            }
+          },
+          {
+            "text": "twojego",
+            "when": {
+              "number": "singular",
+              "case": "gen",
+              "gender": "masculine"
+            }
+          },
+          {
+            "text": "twojemu",
+            "when": {
+              "number": "singular",
+              "case": "dat",
+              "gender": "masculine"
+            }
+          },
+          {
+            "text": "twojego",
+            "when": {
+              "number": "singular",
+              "case": "acc",
+              "gender": "masculine",
+              "animacy": "animate"
+            }
+          },
+          {
+            "text": "twój",
+            "when": {
+              "number": "singular",
+              "case": "acc",
+              "gender": "masculine",
+              "animacy": "inanimate"
+            }
+          },
+          {
+            "text": "twoim",
+            "when": {
+              "number": "singular",
+              "case": "loc",
+              "gender": "masculine"
+            }
+          },
+          {
+            "text": "twoja",
+            "when": {
+              "number": "singular",
+              "case": "nom",
+              "gender": "feminine"
+            }
+          },
+          {
+            "text": "twojej",
+            "when": {
+              "number": "singular",
+              "case": "gen",
+              "gender": "feminine"
+            }
+          },
+          {
+            "text": "twojej",
+            "when": {
+              "number": "singular",
+              "case": "dat",
+              "gender": "feminine"
+            }
+          },
+          {
+            "text": "twoją",
+            "when": {
+              "number": "singular",
+              "case": "acc",
+              "gender": "feminine"
+            }
+          },
+          {
+            "text": "twojej",
+            "when": {
+              "number": "singular",
+              "case": "loc",
+              "gender": "feminine"
+            }
+          },
+          {
+            "text": "twoje",
+            "when": {
+              "number": "singular",
+              "case": "nom",
+              "gender": "neuter"
+            }
+          },
+          {
+            "text": "twojego",
+            "when": {
+              "number": "singular",
+              "case": "gen",
+              "gender": "neuter"
+            }
+          },
+          {
+            "text": "twojemu",
+            "when": {
+              "number": "singular",
+              "case": "dat",
+              "gender": "neuter"
+            }
+          },
+          {
+            "text": "twoje",
+            "when": {
+              "number": "singular",
+              "case": "acc",
+              "gender": "neuter"
+            }
+          },
+          {
+            "text": "twoim",
+            "when": {
+              "number": "singular",
+              "case": "loc",
+              "gender": "neuter"
+            }
+          }
+        ],
+        "standaloneForms": [
+          {
+            "text": "twój",
+            "when": {
+              "number": "singular",
+              "case": "nom",
+              "gender": "masculine"
+            }
+          },
+          {
+            "text": "twoja",
+            "when": {
+              "number": "singular",
+              "case": "nom",
+              "gender": "feminine"
+            }
+          },
+          {
+            "text": "twoje",
+            "when": {
+              "number": "singular",
+              "case": "nom",
+              "gender": "neuter"
+            }
+          }
+        ]
+      }
+    ]
   },
   "verb": {
     "aspectSource": "lexeme",
@@ -797,7 +1125,8 @@
         "anchor": "speaker"
       },
       "person": "first",
-      "number": "singular"
+      "number": "singular",
+      "case": "nom"
     },
     {
       "senseId": "pl.pronoun.ty.sense",
@@ -806,7 +1135,8 @@
         "anchor": "addressee"
       },
       "person": "second",
-      "number": "singular"
+      "number": "singular",
+      "case": "nom"
     },
     {
       "senseId": "pl.pronoun.my.sense",
@@ -815,7 +1145,8 @@
         "anchor": "speaker"
       },
       "person": "first",
-      "number": "plural"
+      "number": "plural",
+      "case": "nom"
     },
     {
       "senseId": "pl.pronoun.wy.sense",
@@ -824,7 +1155,88 @@
         "anchor": "addressee"
       },
       "person": "second",
-      "number": "plural"
+      "number": "plural",
+      "case": "nom"
+    },
+    {
+      "senseId": "pl.pronoun.mnie.sense",
+      "referent": {
+        "kind": "deictic",
+        "anchor": "speaker"
+      },
+      "person": "first",
+      "number": "singular",
+      "case": "acc"
+    },
+    {
+      "senseId": "pl.pronoun.mi.sense",
+      "referent": {
+        "kind": "deictic",
+        "anchor": "speaker"
+      },
+      "person": "first",
+      "number": "singular",
+      "case": "dat"
+    },
+    {
+      "senseId": "pl.pronoun.ciebie.sense",
+      "referent": {
+        "kind": "deictic",
+        "anchor": "addressee"
+      },
+      "person": "second",
+      "number": "singular",
+      "case": "acc"
+    },
+    {
+      "senseId": "pl.pronoun.tobie.sense",
+      "referent": {
+        "kind": "deictic",
+        "anchor": "addressee"
+      },
+      "person": "second",
+      "number": "singular",
+      "case": "dat"
+    },
+    {
+      "senseId": "pl.pronoun.nas.sense",
+      "referent": {
+        "kind": "deictic",
+        "anchor": "speaker"
+      },
+      "person": "first",
+      "number": "plural",
+      "case": "acc"
+    },
+    {
+      "senseId": "pl.pronoun.nam.sense",
+      "referent": {
+        "kind": "deictic",
+        "anchor": "speaker"
+      },
+      "person": "first",
+      "number": "plural",
+      "case": "dat"
+    },
+    {
+      "senseId": "pl.pronoun.was.sense",
+      "referent": {
+        "kind": "deictic",
+        "anchor": "addressee"
+      },
+      "person": "second",
+      "number": "plural",
+      "case": "acc"
+    },
+    {
+      "senseId": "pl.pronoun.wam.sense",
+      "referent": {
+        "kind": "deictic",
+        "anchor": "addressee"
+      },
+      "person": "second",
+      "number": "plural",
+      "case": "dat"
     }
   ]
 }

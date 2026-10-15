@@ -76,6 +76,13 @@
           "author": "flexLingua project contributors",
           "source": "Original English polysemous pilot and port lexemes with separate CORE references.",
           "license": "Project-authored; the repository declares no separate SPDX data license."
+        },
+        {
+          "issue": "#48",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored deictic personal-pronoun case forms linked to the existing grammatical-function CORE sense; no external pronoun inventory was imported.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "Controlled nominative and object-case forms for first- and second-person pronouns. Language package: data/en.json."
         }
       ]
     },
@@ -106,6 +113,20 @@
           "author": "flexLingua project contributors",
           "source": "Project-authored bounded event frame declarations for eat, drink, work, learn, and sleep.",
           "license": "Project-authored; the repository declares no separate SPDX data license."
+        },
+        {
+          "issue": "#48",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored deictic personal-pronoun case forms linked to the existing grammatical-function CORE sense; no external pronoun inventory was imported.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "Controlled nominative and object-case forms for first- and second-person pronouns. Language package: data/grammar/en.json."
+        },
+        {
+          "issue": "#48",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored case-governed personal pronoun and agreement-marked possessive grammar; no external inventory was imported.",
+          "license": "Project-authored; the repository declares no separate data license.",
+          "scope": "Nominative/object deictic pronouns and possessor realization for data/grammar/en.json."
         }
       ]
     },
@@ -125,6 +146,20 @@
           "author": "flexLingua project contributors",
           "source": "Project-authored bounded event frame, case, aspect, tense, and typed theme declarations for eat, drink, work, learn, and sleep.",
           "license": "Project-authored; the repository declares no separate SPDX data license."
+        },
+        {
+          "issue": "#48",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored deictic personal-pronoun case forms linked to the existing grammatical-function CORE sense; no external pronoun inventory was imported.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "Controlled nominative and object-case forms for first- and second-person pronouns. Language package: data/grammar/pl.json."
+        },
+        {
+          "issue": "#48",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored case-governed personal pronoun and agreement-marked possessive grammar; no external inventory was imported.",
+          "license": "Project-authored; the repository declares no separate data license.",
+          "scope": "Nominative/object deictic pronouns and possessor realization for data/grammar/pl.json."
         }
       ]
     },
@@ -297,6 +332,13 @@
           "author": "flexLingua project contributors",
           "source": "Original Polish polysemous pilot and port lexemes with separate CORE references.",
           "license": "Project-authored; the repository declares no separate SPDX data license."
+        },
+        {
+          "issue": "#48",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored deictic personal-pronoun case forms linked to the existing grammatical-function CORE sense; no external pronoun inventory was imported.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "Controlled nominative and object-case forms for first- and second-person pronouns. Language package: data/pl.json."
         }
       ]
     },

@@ -59,6 +59,8 @@ Error codes are **coarse** categories: `UNSUPPORTED_LANGUAGE`, `UNSUPPORTED_CONS
 
 Earlier event documents (`version: "0.2"`), qualified referents (`"0.5"`), relative clauses and conjunctions (`"0.6"`) remain valid. New nodes:
 
+Version `1.26` adds an optional typed `possessor` to an entity referent. Its value is a deictic owner with the same `{referent, agreement}` shape used for first- and second-person pronouns. Possessive information stays separate from the entity's CORE concept; `my book` still refers to `object.book`. Possessive state constructions use state version `1.26`. Earlier documents remain valid without the field.
+
 ```json
 {
   "version": "1.0", "type": "complement", "concept": "event.belief",

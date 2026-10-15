@@ -253,7 +253,8 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms }) 
     const context = featuresFor(noun, ref.features.number, grammaticalCase);
     const def = ref.features.definiteness === 'unknown' ? fallback : ref.features.definiteness;
     const mapping = nounPhrase.determiners[ref.features.number]?.[def];
-    let marker = allowBare && ref.features.definiteness === 'unknown' ? null : markerFor(noun, mapping);
+    let marker = ref.possessor || (allowBare && ref.features.definiteness === 'unknown')
+      ? null : markerFor(noun, mapping);
     const modifierWords = [];
     let firstAdjective = null;
     function renderNode(node, depth) {
@@ -300,6 +301,14 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms }) 
         const domain = name === 'number' ? registry.domains.participant.number :
           name === 'case' ? registry.domains.syntactic.case : registry.domains.lexical[name];
         if (!domain?.includes(value)) throw new Error(`Unsupported inflection condition ${name}=${value} in ${lex.id}`);
+      }
+    }
+    for(const entry of nounPhrase.possessives || [])for(const form of entry.forms) {
+      for(const [name,value] of Object.entries(form.when || {})) {
+        const domain=name==='number'?registry.domains.participant.number:
+          name==='case'?registry.domains.syntactic.case:registry.domains.lexical[name];
+        if(!domain?.includes(value))
+          throw new Error(`Unsupported possessive agreement ${name}=${value} in ${entry.person} person.`);
       }
     }
     if (adjectives.length && layouts.some(layout => !layout.includes('modifiers'))) throw new Error('Missing adjective grammar slot.');

@@ -5838,6 +5838,158 @@
           }
         }
       ]
+    },
+    {
+      "id": "pl.pronoun.mnie",
+      "lemma": "mnie",
+      "pos": "PRON",
+      "forms": [
+        {
+          "text": "mnie"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.pronoun.mnie.sense",
+          "coreRef": {
+            "kind": "grammaticalFunction",
+            "id": "grammar.deictic_pronoun"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.pronoun.mi",
+      "lemma": "mi",
+      "pos": "PRON",
+      "forms": [
+        {
+          "text": "mi"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.pronoun.mi.sense",
+          "coreRef": {
+            "kind": "grammaticalFunction",
+            "id": "grammar.deictic_pronoun"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.pronoun.ciebie",
+      "lemma": "ciebie",
+      "pos": "PRON",
+      "forms": [
+        {
+          "text": "ciebie"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.pronoun.ciebie.sense",
+          "coreRef": {
+            "kind": "grammaticalFunction",
+            "id": "grammar.deictic_pronoun"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.pronoun.tobie",
+      "lemma": "tobie",
+      "pos": "PRON",
+      "forms": [
+        {
+          "text": "tobie"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.pronoun.tobie.sense",
+          "coreRef": {
+            "kind": "grammaticalFunction",
+            "id": "grammar.deictic_pronoun"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.pronoun.nas",
+      "lemma": "nas",
+      "pos": "PRON",
+      "forms": [
+        {
+          "text": "nas"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.pronoun.nas.sense",
+          "coreRef": {
+            "kind": "grammaticalFunction",
+            "id": "grammar.deictic_pronoun"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.pronoun.nam",
+      "lemma": "nam",
+      "pos": "PRON",
+      "forms": [
+        {
+          "text": "nam"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.pronoun.nam.sense",
+          "coreRef": {
+            "kind": "grammaticalFunction",
+            "id": "grammar.deictic_pronoun"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.pronoun.was",
+      "lemma": "was",
+      "pos": "PRON",
+      "forms": [
+        {
+          "text": "was"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.pronoun.was.sense",
+          "coreRef": {
+            "kind": "grammaticalFunction",
+            "id": "grammar.deictic_pronoun"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.pronoun.wam",
+      "lemma": "wam",
+      "pos": "PRON",
+      "forms": [
+        {
+          "text": "wam"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.pronoun.wam.sense",
+          "coreRef": {
+            "kind": "grammaticalFunction",
+            "id": "grammar.deictic_pronoun"
+          }
+        }
+      ]
     }
   ],
   "modals": [

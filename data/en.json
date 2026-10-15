@@ -3059,6 +3059,44 @@
           }
         }
       ]
+    },
+    {
+      "id": "en.pronoun.me",
+      "lemma": "me",
+      "pos": "PRON",
+      "forms": [
+        {
+          "text": "me"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.pronoun.me.sense",
+          "coreRef": {
+            "kind": "grammaticalFunction",
+            "id": "grammar.deictic_pronoun"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.pronoun.us",
+      "lemma": "us",
+      "pos": "PRON",
+      "forms": [
+        {
+          "text": "us"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.pronoun.us.sense",
+          "coreRef": {
+            "kind": "grammaticalFunction",
+            "id": "grammar.deictic_pronoun"
+          }
+        }
+      ]
     }
   ],
   "modals": [
