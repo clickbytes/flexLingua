@@ -3875,6 +3875,42 @@
           }
         }
       ]
+    },
+    {
+      "id": "pl.lod.1",
+      "lemma": "lód",
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "forms": {
+        "singular": {
+          "nom": "lód",
+          "gen": "lodu",
+          "dat": "lodowi",
+          "acc": "lód",
+          "inst": "lodem",
+          "loc": "lodzie",
+          "voc": "lodzie"
+        },
+        "plural": {
+          "nom": "lody",
+          "gen": "lodów",
+          "dat": "lodom",
+          "acc": "lody",
+          "inst": "lodami",
+          "loc": "lodach",
+          "voc": "lody"
+        }
+      },
+      "senses": [
+        {
+          "id": "pl.lod.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.ice"
+          }
+        }
+      ]
     }
   ],
   "verbs": [
@@ -4833,6 +4869,85 @@
           }
         }
       ]
+    },
+    {
+      "id": "pl.lamac.1",
+      "lemma": "łamać",
+      "aspect": "imperfective",
+      "forms": {
+        "present": {
+          "thirdSingular": "łamie",
+          "thirdPlural": "łamią"
+        },
+        "past": {
+          "singular": {
+            "masculine": "łamał",
+            "feminine": "łamała",
+            "neuter": "łamało"
+          },
+          "plural": {
+            "virile": "łamali",
+            "nonvirile": "łamały"
+          }
+        }
+      },
+      "senses": [
+        {
+          "id": "pl.lamac.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.break_object"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.przelamywac_lody.1",
+      "lemma": "przełamywać lody",
+      "aspect": "imperfective",
+      "forms": {
+        "present": {
+          "thirdSingular": "przełamuje lody",
+          "thirdPlural": "przełamują lody"
+        },
+        "past": {
+          "singular": {
+            "masculine": "przełamywał lody",
+            "feminine": "przełamywała lody",
+            "neuter": "przełamywało lody"
+          },
+          "plural": {
+            "virile": "przełamywali lody",
+            "nonvirile": "przełamywały lody"
+          }
+        }
+      },
+      "senses": [
+        {
+          "id": "pl.przelamywac_lody.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.social_icebreak"
+          }
+        }
+      ],
+      "negativeForms": {
+        "present": {
+          "thirdSingular": "przełamuje lodów",
+          "thirdPlural": "przełamują lodów"
+        },
+        "past": {
+          "singular": {
+            "masculine": "przełamywał lodów",
+            "feminine": "przełamywała lodów",
+            "neuter": "przełamywało lodów"
+          },
+          "plural": {
+            "virile": "przełamywali lodów",
+            "nonvirile": "przełamywały lodów"
+          }
+        }
+      }
     }
   ],
   "adjectives": [

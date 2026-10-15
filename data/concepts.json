@@ -1256,6 +1256,33 @@
       "type": "entity",
       "parent": "abstract_process",
       "label": "integration"
+    },
+    "object.ice": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "ice (frozen water)"
+    },
+    "event.break_object": {
+      "type": "event",
+      "label": "physically break an object",
+      "roles": [
+        "agent",
+        "theme"
+      ],
+      "roleTypes": {
+        "agent": "entity",
+        "theme": "physical_object"
+      }
+    },
+    "event.social_icebreak": {
+      "type": "event",
+      "label": "ease initial social tension",
+      "roles": [
+        "agent"
+      ],
+      "roleTypes": {
+        "agent": "person"
+      }
     }
   },
   "relationTypes": {

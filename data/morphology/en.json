@@ -2323,6 +2323,55 @@
         "base": "tip"
       },
       "overrides": []
+    },
+    {
+      "lexemeId": "en.ice.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "ice"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.break.1",
+      "paradigmId": "en.verb.regular",
+      "stems": {
+        "base": "break"
+      },
+      "overrides": [
+        {
+          "when": {
+            "tense": "past"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "broke"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "en.break_the_ice.1",
+      "paradigmId": "en.verb.regular_particle",
+      "stems": {
+        "base": "break",
+        "particle": " the ice"
+      },
+      "overrides": [
+        {
+          "when": {
+            "tense": "past"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "broke the ice"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

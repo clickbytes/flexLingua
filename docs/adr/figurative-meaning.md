@@ -1,0 +1,9 @@
+# Controlled figurative meaning
+
+ADV-03 adds one original, bounded idiom pair. The literal event `event.break_object` has an agent and a physical theme; `event.social_icebreak` means easing initial social tension and has only an agent. The concepts are separate in CORE, so no physical ice is silently asserted for the social meaning. English `break the ice` is parsed with both meanings. The preferred translation remains literal and reports ambiguity; the social reading is exposed in `semanticAlternatives`. Callers that know the intended reading can select its candidate and realize that CORE document. Polish `łamać lód` and `przełamywać lody` distinguish the two readings in this bounded sample.
+
+The 30 project-authored cases in `tests/fixtures/gold-figurative.json` are explicit and manually selected: ten literal, ten metaphorical and ten quoted uses, with five per language inside each category. They test parsing, bilingual realization, CORE serialization, alternative readings and controlled refusal of quoted sentences. A quotation is not silently treated as an assertion: the strict tokenizer rejects quotation punctuation. The sample is not independently reviewed, does not cover general idiom translation or pragmatic intent, and does not establish C2 coverage.
+
+The added concepts, lexemes, paradigms and mappings were written for this project; no external dictionary definition was copied. English `ice` uses `some` as the indefinite mass noun display. The Polish social phrase is stored as a single multiword verb form, so its object is lexicalized and cannot be changed into an arbitrary physical theme.
+
+The older B1 finite negative sample formerly used `The girl broke the ice.` as unsupported. ADV-03 makes that input explicitly ambiguous, so its negative slot now uses a different unlicensed idiom. Its size and category split remain unchanged.

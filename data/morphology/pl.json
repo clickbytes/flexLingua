@@ -13900,6 +13900,209 @@
           ]
         }
       ]
+    },
+    {
+      "lexemeId": "pl.lod.1",
+      "paradigmId": "pl.noun.masc_inanimate",
+      "stems": {
+        "base": "lod",
+        "lemma": "lód"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lód"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lodu"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lodowi"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lód"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "inst"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lodem"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lodzie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lodzie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lody"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lodów"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lodom"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lody"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "inst"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lodami"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lodach"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lody"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.lamac.1",
+      "paradigmId": "pl.verb.third_person",
+      "stems": {
+        "base": "łamać",
+        "pastSingular": "łama",
+        "pastVirile": "łama",
+        "presentSingular": "łamie",
+        "presentPlural": "łamią"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.przelamywac_lody.1",
+      "paradigmId": "pl.verb.third_person_particle",
+      "stems": {
+        "base": "przełamywać",
+        "pastSingular": "przełamywa",
+        "pastVirile": "przełamywa",
+        "presentSingular": "przełamuje",
+        "presentPlural": "przełamują",
+        "particle": " lody"
+      },
+      "overrides": []
     }
   ]
 }

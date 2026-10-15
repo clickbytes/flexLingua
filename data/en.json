@@ -2557,6 +2557,24 @@
           }
         }
       ]
+    },
+    {
+      "id": "en.ice.1",
+      "lemma": "ice",
+      "forms": {
+        "singular": "ice",
+        "plural": "ices"
+      },
+      "indefiniteArticle": "some",
+      "senses": [
+        {
+          "id": "en.ice.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.ice"
+          }
+        }
+      ]
     }
   ],
   "verbs": [
@@ -3145,6 +3163,44 @@
           "coreRef": {
             "kind": "concept",
             "id": "event.cost"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.break.1",
+      "lemma": "break",
+      "forms": {
+        "base": "break",
+        "present3sg": "breaks",
+        "present3pl": "break",
+        "past": "broke"
+      },
+      "senses": [
+        {
+          "id": "en.break.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.break_object"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.break_the_ice.1",
+      "lemma": "break the ice",
+      "forms": {
+        "base": "break the ice",
+        "present3sg": "breaks the ice",
+        "present3pl": "break the ice",
+        "past": "broke the ice"
+      },
+      "senses": [
+        {
+          "id": "en.break_the_ice.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.social_icebreak"
           }
         }
       ]
