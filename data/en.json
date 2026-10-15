@@ -443,6 +443,510 @@
           }
         }
       ]
+    },
+    {
+      "id": "en.grandmother.1",
+      "lemma": "grandmother",
+      "forms": {
+        "singular": "grandmother",
+        "plural": "grandmothers"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.grandmother.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.grandmother"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.grandfather.1",
+      "lemma": "grandfather",
+      "forms": {
+        "singular": "grandfather",
+        "plural": "grandfathers"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.grandfather.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.grandfather"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.aunt.1",
+      "lemma": "aunt",
+      "forms": {
+        "singular": "aunt",
+        "plural": "aunts"
+      },
+      "indefiniteArticle": "an",
+      "senses": [
+        {
+          "id": "en.aunt.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.aunt"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.uncle.1",
+      "lemma": "uncle",
+      "forms": {
+        "singular": "uncle",
+        "plural": "uncles"
+      },
+      "indefiniteArticle": "an",
+      "senses": [
+        {
+          "id": "en.uncle.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.uncle"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.cousin.1",
+      "lemma": "cousin",
+      "forms": {
+        "singular": "cousin",
+        "plural": "cousins"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.cousin.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.cousin"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.son.1",
+      "lemma": "son",
+      "forms": {
+        "singular": "son",
+        "plural": "sons"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.son.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.son"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.daughter.1",
+      "lemma": "daughter",
+      "forms": {
+        "singular": "daughter",
+        "plural": "daughters"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.daughter.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.daughter"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.teacher.1",
+      "lemma": "teacher",
+      "forms": {
+        "singular": "teacher",
+        "plural": "teachers"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.teacher.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.teacher"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.student.1",
+      "lemma": "student",
+      "forms": {
+        "singular": "student",
+        "plural": "students"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.student.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.student"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.doctor.1",
+      "lemma": "doctor",
+      "forms": {
+        "singular": "doctor",
+        "plural": "doctors"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.doctor.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.doctor"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.friend.1",
+      "lemma": "friend",
+      "forms": {
+        "singular": "friend",
+        "plural": "friends"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.friend.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.friend"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.neighbor.1",
+      "lemma": "neighbor",
+      "forms": {
+        "singular": "neighbor",
+        "plural": "neighbors"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.neighbor.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.neighbor"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.room.1",
+      "lemma": "room",
+      "forms": {
+        "singular": "room",
+        "plural": "rooms"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.room.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.room"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.kitchen.1",
+      "lemma": "kitchen",
+      "forms": {
+        "singular": "kitchen",
+        "plural": "kitchens"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.kitchen.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.kitchen"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.shop.1",
+      "lemma": "shop",
+      "forms": {
+        "singular": "shop",
+        "plural": "shops"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.shop.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.shop"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.station.1",
+      "lemma": "station",
+      "forms": {
+        "singular": "station",
+        "plural": "stations"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.station.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.station"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.park.1",
+      "lemma": "park",
+      "forms": {
+        "singular": "park",
+        "plural": "parks"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.park.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.park"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.hospital.1",
+      "lemma": "hospital",
+      "forms": {
+        "singular": "hospital",
+        "plural": "hospitals"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.hospital.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.hospital"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.office.1",
+      "lemma": "office",
+      "forms": {
+        "singular": "office",
+        "plural": "offices"
+      },
+      "indefiniteArticle": "an",
+      "senses": [
+        {
+          "id": "en.office.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.office"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.library.1",
+      "lemma": "library",
+      "forms": {
+        "singular": "library",
+        "plural": "libraries"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.library.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.library"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.chair.1",
+      "lemma": "chair",
+      "forms": {
+        "singular": "chair",
+        "plural": "chairs"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.chair.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.chair"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.key.1",
+      "lemma": "key",
+      "forms": {
+        "singular": "key",
+        "plural": "keys"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.key.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.key"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.cup.1",
+      "lemma": "cup",
+      "forms": {
+        "singular": "cup",
+        "plural": "cups"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.cup.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.cup"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.car.1",
+      "lemma": "car",
+      "forms": {
+        "singular": "car",
+        "plural": "cars"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.car.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.car"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.ball.1",
+      "lemma": "ball",
+      "forms": {
+        "singular": "ball",
+        "plural": "balls"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.ball.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.ball"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.bag.1",
+      "lemma": "bag",
+      "forms": {
+        "singular": "bag",
+        "plural": "bags"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.bag.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.bag"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.bed.1",
+      "lemma": "bed",
+      "forms": {
+        "singular": "bed",
+        "plural": "beds"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.bed.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.bed"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.bowl.1",
+      "lemma": "bowl",
+      "forms": {
+        "singular": "bowl",
+        "plural": "bowls"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.bowl.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.bowl"
+          }
+        }
+      ]
     }
   ],
   "verbs": [
@@ -702,13 +1206,22 @@
           "thirdPlural": "were"
         }
       },
-      "senses": [{
-        "id": "en.be.state.1.sense.1",
-        "coreRef": {"kind": "grammaticalFunction", "id": "grammar.state_copula"}
-      }, {
-        "id": "en.be.state.1.sense.location",
-        "coreRef": {"kind": "grammaticalFunction", "id": "grammar.state_location"}
-      }]
+      "senses": [
+        {
+          "id": "en.be.state.1.sense.1",
+          "coreRef": {
+            "kind": "grammaticalFunction",
+            "id": "grammar.state_copula"
+          }
+        },
+        {
+          "id": "en.be.state.1.sense.location",
+          "coreRef": {
+            "kind": "grammaticalFunction",
+            "id": "grammar.state_location"
+          }
+        }
+      ]
     },
     {
       "id": "en.have.state.1",
@@ -732,10 +1245,15 @@
           "thirdPlural": "had"
         }
       },
-      "senses": [{
-        "id": "en.have.state.1.sense.1",
-        "coreRef": {"kind": "grammaticalFunction", "id": "grammar.state_possession"}
-      }]
+      "senses": [
+        {
+          "id": "en.have.state.1.sense.1",
+          "coreRef": {
+            "kind": "grammaticalFunction",
+            "id": "grammar.state_possession"
+          }
+        }
+      ]
     }
   ],
   "adjectives": [
@@ -1684,33 +2202,65 @@
       "id": "en.pronoun.i",
       "lemma": "I",
       "pos": "PRON",
-      "forms": [{"text": "I"}],
-      "senses": [{"id": "en.pronoun.i.sense", "coreRef": {
-        "kind": "grammaticalFunction", "id": "grammar.deictic_pronoun"
-      }}]
+      "forms": [
+        {
+          "text": "I"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.pronoun.i.sense",
+          "coreRef": {
+            "kind": "grammaticalFunction",
+            "id": "grammar.deictic_pronoun"
+          }
+        }
+      ]
     },
     {
       "id": "en.pronoun.you",
       "lemma": "you",
       "pos": "PRON",
-      "forms": [{"text": "you"}],
+      "forms": [
+        {
+          "text": "you"
+        }
+      ],
       "senses": [
-        {"id": "en.pronoun.you.singular", "coreRef": {
-          "kind": "grammaticalFunction", "id": "grammar.deictic_pronoun"
-        }},
-        {"id": "en.pronoun.you.plural", "coreRef": {
-          "kind": "grammaticalFunction", "id": "grammar.deictic_pronoun"
-        }}
+        {
+          "id": "en.pronoun.you.singular",
+          "coreRef": {
+            "kind": "grammaticalFunction",
+            "id": "grammar.deictic_pronoun"
+          }
+        },
+        {
+          "id": "en.pronoun.you.plural",
+          "coreRef": {
+            "kind": "grammaticalFunction",
+            "id": "grammar.deictic_pronoun"
+          }
+        }
       ]
     },
     {
       "id": "en.pronoun.we",
       "lemma": "we",
       "pos": "PRON",
-      "forms": [{"text": "we"}],
-      "senses": [{"id": "en.pronoun.we.sense", "coreRef": {
-        "kind": "grammaticalFunction", "id": "grammar.deictic_pronoun"
-      }}]
+      "forms": [
+        {
+          "text": "we"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.pronoun.we.sense",
+          "coreRef": {
+            "kind": "grammaticalFunction",
+            "id": "grammar.deictic_pronoun"
+          }
+        }
+      ]
     }
   ],
   "modals": [

@@ -597,6 +597,846 @@
           }
         }
       ]
+    },
+    {
+      "id": "pl.babcia.1",
+      "lemma": "babcia",
+      "gender": "feminine",
+      "forms": {
+        "singular": {
+          "nom": "babcia",
+          "gen": "babci",
+          "dat": "babci",
+          "acc": "babcię"
+        },
+        "plural": {
+          "nom": "babcie",
+          "gen": "babć",
+          "dat": "babciom",
+          "acc": "babcie"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.babcia.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.grandmother"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.dziadek.1",
+      "lemma": "dziadek",
+      "gender": "masculine",
+      "forms": {
+        "singular": {
+          "nom": "dziadek",
+          "gen": "dziadka",
+          "dat": "dziadkowi",
+          "acc": "dziadka"
+        },
+        "plural": {
+          "nom": "dziadkowie",
+          "gen": "dziadków",
+          "dat": "dziadkom",
+          "acc": "dziadków"
+        }
+      },
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.dziadek.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.grandfather"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.ciocia.1",
+      "lemma": "ciocia",
+      "gender": "feminine",
+      "forms": {
+        "singular": {
+          "nom": "ciocia",
+          "gen": "cioci",
+          "dat": "cioci",
+          "acc": "ciocię"
+        },
+        "plural": {
+          "nom": "ciocie",
+          "gen": "cioci",
+          "dat": "ciociom",
+          "acc": "ciocie"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.ciocia.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.aunt"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.wujek.1",
+      "lemma": "wujek",
+      "gender": "masculine",
+      "forms": {
+        "singular": {
+          "nom": "wujek",
+          "gen": "wujka",
+          "dat": "wujkowi",
+          "acc": "wujka"
+        },
+        "plural": {
+          "nom": "wujkowie",
+          "gen": "wujków",
+          "dat": "wujkom",
+          "acc": "wujków"
+        }
+      },
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.wujek.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.uncle"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.kuzyn.1",
+      "lemma": "kuzyn",
+      "gender": "masculine",
+      "forms": {
+        "singular": {
+          "nom": "kuzyn",
+          "gen": "kuzyna",
+          "dat": "kuzynowi",
+          "acc": "kuzyna"
+        },
+        "plural": {
+          "nom": "kuzyni",
+          "gen": "kuzynów",
+          "dat": "kuzynom",
+          "acc": "kuzynów"
+        }
+      },
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.kuzyn.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.cousin"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.syn.1",
+      "lemma": "syn",
+      "gender": "masculine",
+      "forms": {
+        "singular": {
+          "nom": "syn",
+          "gen": "syna",
+          "dat": "synowi",
+          "acc": "syna"
+        },
+        "plural": {
+          "nom": "synowie",
+          "gen": "synów",
+          "dat": "synom",
+          "acc": "synów"
+        }
+      },
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.syn.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.son"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.corka.1",
+      "lemma": "córka",
+      "gender": "feminine",
+      "forms": {
+        "singular": {
+          "nom": "córka",
+          "gen": "córki",
+          "dat": "córce",
+          "acc": "córkę"
+        },
+        "plural": {
+          "nom": "córki",
+          "gen": "córek",
+          "dat": "córkom",
+          "acc": "córki"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.corka.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.daughter"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.nauczyciel.1",
+      "lemma": "nauczyciel",
+      "gender": "masculine",
+      "forms": {
+        "singular": {
+          "nom": "nauczyciel",
+          "gen": "nauczyciela",
+          "dat": "nauczycielowi",
+          "acc": "nauczyciela"
+        },
+        "plural": {
+          "nom": "nauczyciele",
+          "gen": "nauczycieli",
+          "dat": "nauczycielom",
+          "acc": "nauczycieli"
+        }
+      },
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.nauczyciel.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.teacher"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.student.1",
+      "lemma": "student",
+      "gender": "masculine",
+      "forms": {
+        "singular": {
+          "nom": "student",
+          "gen": "studenta",
+          "dat": "studentowi",
+          "acc": "studenta"
+        },
+        "plural": {
+          "nom": "studenci",
+          "gen": "studentów",
+          "dat": "studentom",
+          "acc": "studentów"
+        }
+      },
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.student.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.student"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.lekarz.1",
+      "lemma": "lekarz",
+      "gender": "masculine",
+      "forms": {
+        "singular": {
+          "nom": "lekarz",
+          "gen": "lekarza",
+          "dat": "lekarzowi",
+          "acc": "lekarza"
+        },
+        "plural": {
+          "nom": "lekarze",
+          "gen": "lekarzy",
+          "dat": "lekarzom",
+          "acc": "lekarzy"
+        }
+      },
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.lekarz.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.doctor"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.przyjaciel.1",
+      "lemma": "przyjaciel",
+      "gender": "masculine",
+      "forms": {
+        "singular": {
+          "nom": "przyjaciel",
+          "gen": "przyjaciela",
+          "dat": "przyjacielowi",
+          "acc": "przyjaciela"
+        },
+        "plural": {
+          "nom": "przyjaciele",
+          "gen": "przyjaciół",
+          "dat": "przyjaciołom",
+          "acc": "przyjaciół"
+        }
+      },
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.przyjaciel.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.friend"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.sasiad.1",
+      "lemma": "sąsiad",
+      "gender": "masculine",
+      "forms": {
+        "singular": {
+          "nom": "sąsiad",
+          "gen": "sąsiada",
+          "dat": "sąsiadowi",
+          "acc": "sąsiada"
+        },
+        "plural": {
+          "nom": "sąsiedzi",
+          "gen": "sąsiadów",
+          "dat": "sąsiadom",
+          "acc": "sąsiadów"
+        }
+      },
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.sasiad.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.neighbor"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.pokoj.1",
+      "lemma": "pokój",
+      "gender": "masculine",
+      "forms": {
+        "singular": {
+          "nom": "pokój",
+          "gen": "pokoju",
+          "dat": "pokojowi",
+          "acc": "pokój"
+        },
+        "plural": {
+          "nom": "pokoje",
+          "gen": "pokoi",
+          "dat": "pokojom",
+          "acc": "pokoje"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.pokoj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.room"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.kuchnia.1",
+      "lemma": "kuchnia",
+      "gender": "feminine",
+      "forms": {
+        "singular": {
+          "nom": "kuchnia",
+          "gen": "kuchni",
+          "dat": "kuchni",
+          "acc": "kuchnię"
+        },
+        "plural": {
+          "nom": "kuchnie",
+          "gen": "kuchni",
+          "dat": "kuchniom",
+          "acc": "kuchnie"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.kuchnia.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.kitchen"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.sklep.1",
+      "lemma": "sklep",
+      "gender": "masculine",
+      "forms": {
+        "singular": {
+          "nom": "sklep",
+          "gen": "sklepu",
+          "dat": "sklepowi",
+          "acc": "sklep"
+        },
+        "plural": {
+          "nom": "sklepy",
+          "gen": "sklepów",
+          "dat": "sklepom",
+          "acc": "sklepy"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.sklep.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.shop"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.dworzec.1",
+      "lemma": "dworzec",
+      "gender": "masculine",
+      "forms": {
+        "singular": {
+          "nom": "dworzec",
+          "gen": "dworca",
+          "dat": "dworcowi",
+          "acc": "dworzec"
+        },
+        "plural": {
+          "nom": "dworce",
+          "gen": "dworców",
+          "dat": "dworcom",
+          "acc": "dworce"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.dworzec.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.station"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.park.1",
+      "lemma": "park",
+      "gender": "masculine",
+      "forms": {
+        "singular": {
+          "nom": "park",
+          "gen": "parku",
+          "dat": "parkowi",
+          "acc": "park"
+        },
+        "plural": {
+          "nom": "parki",
+          "gen": "parków",
+          "dat": "parkom",
+          "acc": "parki"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.park.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.park"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.szpital.1",
+      "lemma": "szpital",
+      "gender": "masculine",
+      "forms": {
+        "singular": {
+          "nom": "szpital",
+          "gen": "szpitala",
+          "dat": "szpitalowi",
+          "acc": "szpital"
+        },
+        "plural": {
+          "nom": "szpitale",
+          "gen": "szpitali",
+          "dat": "szpitalom",
+          "acc": "szpitale"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.szpital.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.hospital"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.biuro.1",
+      "lemma": "biuro",
+      "gender": "neuter",
+      "forms": {
+        "singular": {
+          "nom": "biuro",
+          "gen": "biura",
+          "dat": "biuru",
+          "acc": "biuro"
+        },
+        "plural": {
+          "nom": "biura",
+          "gen": "biur",
+          "dat": "biurom",
+          "acc": "biura"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.biuro.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.office"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.biblioteka.1",
+      "lemma": "biblioteka",
+      "gender": "feminine",
+      "forms": {
+        "singular": {
+          "nom": "biblioteka",
+          "gen": "biblioteki",
+          "dat": "bibliotece",
+          "acc": "bibliotekę"
+        },
+        "plural": {
+          "nom": "biblioteki",
+          "gen": "bibliotek",
+          "dat": "bibliotekom",
+          "acc": "biblioteki"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.biblioteka.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.library"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.krzeslo.1",
+      "lemma": "krzesło",
+      "gender": "neuter",
+      "forms": {
+        "singular": {
+          "nom": "krzesło",
+          "gen": "krzesła",
+          "dat": "krzesłu",
+          "acc": "krzesło"
+        },
+        "plural": {
+          "nom": "krzesła",
+          "gen": "krzeseł",
+          "dat": "krzesłom",
+          "acc": "krzesła"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.krzeslo.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.chair"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.klucz.1",
+      "lemma": "klucz",
+      "gender": "masculine",
+      "forms": {
+        "singular": {
+          "nom": "klucz",
+          "gen": "klucza",
+          "dat": "kluczowi",
+          "acc": "klucz"
+        },
+        "plural": {
+          "nom": "klucze",
+          "gen": "kluczy",
+          "dat": "kluczom",
+          "acc": "klucze"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.klucz.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.key"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.kubek.1",
+      "lemma": "kubek",
+      "gender": "masculine",
+      "forms": {
+        "singular": {
+          "nom": "kubek",
+          "gen": "kubka",
+          "dat": "kubkowi",
+          "acc": "kubek"
+        },
+        "plural": {
+          "nom": "kubki",
+          "gen": "kubków",
+          "dat": "kubkom",
+          "acc": "kubki"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.kubek.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.cup"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.samochod.1",
+      "lemma": "samochód",
+      "gender": "masculine",
+      "forms": {
+        "singular": {
+          "nom": "samochód",
+          "gen": "samochodu",
+          "dat": "samochodowi",
+          "acc": "samochód"
+        },
+        "plural": {
+          "nom": "samochody",
+          "gen": "samochodów",
+          "dat": "samochodom",
+          "acc": "samochody"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.samochod.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.car"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.pilka.1",
+      "lemma": "piłka",
+      "gender": "feminine",
+      "forms": {
+        "singular": {
+          "nom": "piłka",
+          "gen": "piłki",
+          "dat": "piłce",
+          "acc": "piłkę"
+        },
+        "plural": {
+          "nom": "piłki",
+          "gen": "piłek",
+          "dat": "piłkom",
+          "acc": "piłki"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.pilka.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.ball"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.torba.1",
+      "lemma": "torba",
+      "gender": "feminine",
+      "forms": {
+        "singular": {
+          "nom": "torba",
+          "gen": "torby",
+          "dat": "torbie",
+          "acc": "torbę"
+        },
+        "plural": {
+          "nom": "torby",
+          "gen": "toreb",
+          "dat": "torbom",
+          "acc": "torby"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.torba.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.bag"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.lozko.1",
+      "lemma": "łóżko",
+      "gender": "neuter",
+      "forms": {
+        "singular": {
+          "nom": "łóżko",
+          "gen": "łóżka",
+          "dat": "łóżku",
+          "acc": "łóżko"
+        },
+        "plural": {
+          "nom": "łóżka",
+          "gen": "łóżek",
+          "dat": "łóżkom",
+          "acc": "łóżka"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.lozko.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.bed"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.miska.1",
+      "lemma": "miska",
+      "gender": "feminine",
+      "forms": {
+        "singular": {
+          "nom": "miska",
+          "gen": "miski",
+          "dat": "misce",
+          "acc": "miskę"
+        },
+        "plural": {
+          "nom": "miski",
+          "gen": "misek",
+          "dat": "miskom",
+          "acc": "miski"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.miska.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.bowl"
+          }
+        }
+      ]
     }
   ],
   "verbs": [
