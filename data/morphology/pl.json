@@ -9705,6 +9705,110 @@
           ]
         }
       ]
+    },
+    {
+      "lexemeId": "pl.pilot.1",
+      "paradigmId": "pl.noun.masc_animate",
+      "stems": {
+        "base": "pilot",
+        "lemma": "pilot"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "pilocie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "pilocie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "piloci"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "pilotów"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "piloci"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.port.1",
+      "paradigmId": "pl.noun.masc_inanimate_hard",
+      "stems": {
+        "base": "port",
+        "lemma": "port"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "porcie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "porcie"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

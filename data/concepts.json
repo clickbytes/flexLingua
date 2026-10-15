@@ -830,6 +830,26 @@
       "type": "entity",
       "parent": "beverage",
       "label": "juice"
+    },
+    "person.pilot": {
+      "type": "entity",
+      "parent": "person",
+      "label": "aircraft pilot"
+    },
+    "object.remote_control": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "remote control"
+    },
+    "place.harbor": {
+      "type": "entity",
+      "parent": "place",
+      "label": "harbor"
+    },
+    "beverage.port_wine": {
+      "type": "entity",
+      "parent": "beverage",
+      "label": "port wine"
     }
   },
   "relationTypes": {

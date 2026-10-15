@@ -2345,6 +2345,92 @@
           }
         }
       ]
+    },
+    {
+      "id": "pl.pilot.1",
+      "lemma": "pilot",
+      "forms": {
+        "singular": {
+          "nom": "pilot",
+          "gen": "pilota",
+          "dat": "pilotowi",
+          "acc": "pilota",
+          "inst": "pilotem",
+          "loc": "pilocie",
+          "voc": "pilocie"
+        },
+        "plural": {
+          "nom": "piloci",
+          "gen": "pilotów",
+          "dat": "pilotom",
+          "acc": "pilotów",
+          "inst": "pilotami",
+          "loc": "pilotach",
+          "voc": "piloci"
+        }
+      },
+      "gender": "masculine",
+      "animacy": "animate",
+      "pluralClass": "virile",
+      "senses": [
+        {
+          "id": "pl.pilot.1.sense.person",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.pilot"
+          }
+        },
+        {
+          "id": "pl.pilot.1.sense.device",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.remote_control"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.port.1",
+      "lemma": "port",
+      "forms": {
+        "singular": {
+          "nom": "port",
+          "gen": "portu",
+          "dat": "portowi",
+          "acc": "port",
+          "inst": "portem",
+          "loc": "porcie",
+          "voc": "porcie"
+        },
+        "plural": {
+          "nom": "porty",
+          "gen": "portów",
+          "dat": "portom",
+          "acc": "porty",
+          "inst": "portami",
+          "loc": "portach",
+          "voc": "porty"
+        }
+      },
+      "gender": "masculine",
+      "animacy": "inanimate",
+      "pluralClass": "nonvirile",
+      "senses": [
+        {
+          "id": "pl.port.1.sense.harbor",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.harbor"
+          }
+        },
+        {
+          "id": "pl.port.1.sense.wine",
+          "coreRef": {
+            "kind": "concept",
+            "id": "beverage.port_wine"
+          }
+        }
+      ]
     }
   ],
   "verbs": [

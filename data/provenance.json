@@ -32,6 +32,12 @@
           "author": "flexLingua project contributors",
           "source": "Original project-authored daily activity event frames, beverage and lesson concepts, and strict role type relations; no external list was imported.",
           "license": "Project-authored; the repository declares no separate SPDX data license."
+        },
+        {
+          "issue": "#47",
+          "author": "flexLingua project contributors",
+          "source": "Original project-authored pilot/remote-control and harbor/port-wine CORE senses; no external lexical list imported.",
+          "license": "Project-authored; the repository declares no separate SPDX data license."
         }
       ]
     },
@@ -63,6 +69,12 @@
           "issue": "#45",
           "author": "flexLingua project contributors",
           "source": "Original English predicate lexemes, sense mappings, and declared tense/aspect/role capabilities; no third-party lexicon was copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license."
+        },
+        {
+          "issue": "#47",
+          "author": "flexLingua project contributors",
+          "source": "Original English polysemous pilot and port lexemes with separate CORE references.",
           "license": "Project-authored; the repository declares no separate SPDX data license."
         }
       ]
@@ -185,6 +197,12 @@
           "author": "flexLingua project contributors",
           "source": "Project-authored English -f/-fe to -ves noun paradigms and lexeme-scoped exception fixtures.",
           "license": "Project-authored; the repository declares no separate SPDX data license."
+        },
+        {
+          "issue": "#47",
+          "author": "flexLingua project contributors",
+          "source": "Productive regular noun bindings for the LEX-05 English ambiguity examples.",
+          "license": "Project-authored; the repository declares no separate SPDX data license."
         }
       ]
     },
@@ -235,6 +253,12 @@
           "author": "flexLingua project contributors",
           "source": "Project-authored complete Polish -cja and neuter irregular plural paradigms with independently checked nominative, oblique and inverse cells.",
           "license": "Project-authored; the repository declares no separate SPDX data license."
+        },
+        {
+          "issue": "#47",
+          "author": "flexLingua project contributors",
+          "source": "Productive Polish pilot and port declension bindings for the LEX-05 ambiguity examples.",
+          "license": "Project-authored; the repository declares no separate SPDX data license."
         }
       ]
     },
@@ -266,6 +290,12 @@
           "issue": "#45",
           "author": "flexLingua project contributors",
           "source": "Original Polish predicate lexemes, aspect annotations, inflection tables, sense mappings, and declared tense/aspect/role capabilities; no third-party lexicon was copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license."
+        },
+        {
+          "issue": "#47",
+          "author": "flexLingua project contributors",
+          "source": "Original Polish polysemous pilot and port lexemes with separate CORE references.",
           "license": "Project-authored; the repository declares no separate SPDX data license."
         }
       ]

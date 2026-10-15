@@ -151,7 +151,11 @@ export class Engine {
     return this.morphology(language).paradigm({lexemeId});
   }
 
-  /** Morphology exposes lexical candidates. Context ranks meanings, not surface morphology. */
+  /**
+   * Return every CORE sense licensed by the analyzed surface form. Explicit
+   * topics only rank competing meanings; they never erase ambiguity. A caller
+   * must inspect all readings unless it supplies a sense constraint.
+   */
   resolveWord({language,text,context={}}) {
     const settings=this.validateContext(context);
     return this.analyzeForm({language,text}).flatMap(analysis=>{
