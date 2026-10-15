@@ -4,6 +4,7 @@ import {readFile} from 'node:fs/promises';
 import {Engine} from '../js/core/engine.js';
 import {createRuleAdapter} from '../js/core/grammar.js';
 import {ConversationContext} from '../js/core/conversation.js';
+import {createDialogueAct} from '../js/core/interlingua.js';
 
 const read=async path=>JSON.parse(await readFile(new URL('../data/'+path,import.meta.url),'utf8'));
 const [concepts,features,en,pl,eg,pg]=await Promise.all(
@@ -21,6 +22,11 @@ test('E4: separate calls share an explicit CORE entity; mixed-language turns are
     pronounRealization:'safe'});
   assert.equal(second.text,'Ona widzi kota.');
   assert.equal(second.anaphora.antecedent,'e1.agent');
+  const turnsAfterPronoun=conversation.snapshot().turns;
+  assert.equal(
+    turnsAfterPronoun[0].references.find(item=>item.role==='proposition.roles.agent').referenceId,
+    turnsAfterPronoun[1].references.find(item=>item.role==='proposition.roles.agent').referenceId
+  );
   const third=conversation.translate({text:'Ona widzi książkę.',from:'pl',to:'en',
     pronounRealization:'safe'});
   assert.equal(third.text,'She sees a book.');
@@ -50,6 +56,8 @@ test('E4: repeated noun strings never create inferred identity, even across turn
   c.translate({text:'The girl sees the cat.',from:'en',to:'pl'});
   const snap=c.snapshot().interlingua;
   assert.notEqual(snap.events[0].roles.agent,snap.events[1].roles.agent);
+  assert.notEqual(c.snapshot().turns[0].references[0].referenceId,
+    c.snapshot().turns[1].references[0].referenceId);
   assert.equal(c.tryTranslate({text:'She sees the dog.',from:'en',to:'pl'})
     .error.code,'AMBIGUOUS_ANAPHORA');
 });
@@ -145,4 +153,57 @@ test('PERS-06: safe pronoun realization preserves speaker and addressee events',
   assert.equal(other.text,'You see a dog.');
   assert.deepEqual(other.interlingua.roles.agent,
     {referent:{kind:'deictic',anchor:'addressee'},agreement:{person:'second',number:'singular'}});
+});
+
+test('DIAL-02: session records intent, participants, focus, and unresolved questions',()=>{
+  const e=engine(),c=new ConversationContext(e,{maxTurns:4});
+  const statement=c.translate({text:'I see a dog.',from:'en',to:'pl',
+    participants:{speakerId:'user',addresseeId:'assistant'}});
+  assert.equal(statement.dialogueAct.act,'assert');
+  assert.equal(statement.turnCount,1);
+  const question=c.translate({text:'Does the girl see the dog?',from:'en',to:'pl',
+    participants:{speakerId:'assistant',addresseeId:'user'}});
+  assert.equal(question.text,'Czy dziewczynka widzi psa?');
+  assert.equal(question.dialogueAct.act,'ask');
+  assert.equal(c.snapshot().pendingQuestions.length,1);
+  assert.deepEqual(c.snapshot().focus,{kind:'question',questionType:'yes_no'});
+  c.appendDialogueAct(createDialogueAct('answer',{
+    question:question.interlingua,response:{type:'yes_no',value:true}
+  }),{participants:{speakerId:'user',addresseeId:'assistant'}});
+
+  const snapshot=c.snapshot();
+  assert.deepEqual(snapshot.turns.map(turn=>turn.intent),['assert','ask','answer']);
+  assert.deepEqual(snapshot.turns.map(turn=>turn.participants.speaker),
+    ['actor:user','actor:assistant','actor:user']);
+  assert.deepEqual(snapshot.turns[1].surface,{
+    source:{language:'en',text:'Does the girl see the dog?'},
+    target:{language:'pl',text:'Czy dziewczynka widzi psa?'}
+  });
+  assert.equal(snapshot.pendingQuestions.length,0);
+  assert.equal(snapshot.turnCount,3);
+  assert.deepEqual(JSON.parse(JSON.stringify(snapshot)),snapshot);
+  for(const turn of snapshot.turns) {
+    assert.deepEqual(e.analyze({from:'core',text:JSON.stringify(turn.interlingua)}),
+      turn.interlingua);
+  }
+});
+
+test('DIAL-02: turn limits and failed questions leave the session unchanged',()=>{
+  const ambiguous=new ConversationContext(engine());
+  const empty=ambiguous.snapshot();
+  const ambiguousResult=ambiguous.tryTranslate({
+    text:'Does the girl see the bank?',from:'en',to:'pl'
+  });
+  assert.equal(ambiguousResult.ok,false);
+  assert.equal(ambiguousResult.error.code,'AMBIGUOUS_CONVERSATION_READING');
+  assert.deepEqual(ambiguous.snapshot(),empty);
+
+  const c=new ConversationContext(engine(),{maxTurns:1});
+  const result=c.tryTranslate({text:'Does the girl see the dog?',from:'en',to:'pl'});
+  assert.equal(result.ok,true);
+  const afterFirst=c.snapshot();
+  assert.throws(()=>c.translate({text:'The girl sees the dog.',from:'en',to:'pl'}),
+    /turn limit/);
+  assert.deepEqual(c.snapshot(),afterFirst);
+  assert.throws(()=>new ConversationContext(engine(),{maxTurns:33}),/turn limit/);
 });
