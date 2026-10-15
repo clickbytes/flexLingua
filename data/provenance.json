@@ -45,6 +45,13 @@
           "source": "Original project-authored service-domain concepts and typed purchase/cost event frames; no external vocabulary or source list copied.",
           "license": "Project-authored; the repository declares no separate SPDX data license.",
           "scope": "30 bilingual service and travel entity concepts, currency and vehicle categories, and purchase/cost event concepts with explicit currency-typed roles."
+        },
+        {
+          "issue": "#155",
+          "author": "flexLingua project contributors",
+          "source": "Original project-authored bounded English/Polish class-predication and proximal-demonstrative entries; no external lexicon or list copied.",
+          "license": "Project-authored; the repository declares no separate data license.",
+          "scope": "A1-ENPL-01: proximal demonstratives, a distinct directional class-membership state, and the bounded quality.simple sense."
         }
       ]
     },
@@ -97,6 +104,13 @@
           "source": "Original project-authored English service and travel senses, bounded transaction verbs, and explicit surface forms; no external dictionary list imported.",
           "license": "Project-authored; the repository declares no separate SPDX data license.",
           "scope": "30 new English lexical senses and the buy/cost event predicates."
+        },
+        {
+          "issue": "#155",
+          "author": "flexLingua project contributors",
+          "source": "Original project-authored bounded English/Polish class-predication and proximal-demonstrative entries; no external lexicon or list copied.",
+          "license": "Project-authored; the repository declares no separate data license.",
+          "scope": "A1-ENPL-01: proximal demonstratives, a distinct directional class-membership state, and the bounded quality.simple sense."
         }
       ]
     },
@@ -273,6 +287,13 @@
           "source": "Original inflection bindings for the project-authored service lexemes and buy/cost verbs.",
           "license": "Project-authored; the repository declares no separate SPDX data license.",
           "scope": "English plural and verb form mappings for the A2-03 additions."
+        },
+        {
+          "issue": "#155",
+          "author": "flexLingua project contributors",
+          "source": "Original bounded English invariant and Polish regular adjective bindings for the project-authored simple sense; no external paradigms copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "English simple and Polish prosty inflection bindings for A1-ENPL-01."
         }
       ]
     },
@@ -336,6 +357,13 @@
           "source": "Original inflection bindings and explicitly curated forms for the project-authored service lexemes and transaction verbs.",
           "license": "Project-authored; the repository declares no separate SPDX data license.",
           "scope": "Polish case/number mappings and kupować/kosztować conjugations for the A2-03 additions."
+        },
+        {
+          "issue": "#155",
+          "author": "flexLingua project contributors",
+          "source": "Original bounded English invariant and Polish regular adjective bindings for the project-authored simple sense; no external paradigms copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "English simple and Polish prosty inflection bindings for A1-ENPL-01."
         }
       ]
     },
@@ -388,6 +416,13 @@
           "source": "Original project-authored Polish service and travel senses, inflected forms, and transaction verb paradigms; no external dictionary list imported.",
           "license": "Project-authored; the repository declares no separate SPDX data license.",
           "scope": "30 new Polish lexical senses and the kupować/kosztować event predicates."
+        },
+        {
+          "issue": "#155",
+          "author": "flexLingua project contributors",
+          "source": "Original project-authored bounded English/Polish class-predication and proximal-demonstrative entries; no external lexicon or list copied.",
+          "license": "Project-authored; the repository declares no separate data license.",
+          "scope": "A1-ENPL-01: proximal demonstratives, a distinct directional class-membership state, and the bounded quality.simple sense."
         }
       ]
     },

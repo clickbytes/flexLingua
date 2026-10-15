@@ -20,6 +20,7 @@ export const QUESTION_VERSION = '1.19';
 export const MODALITY_VERSION = '1.20';
 export const DEICTIC_VERSION = '1.22';
 export const STATE_VERSION = '1.23';
+export const CLASSIFICATION_VERSION = '1.31';
 export const DIALOGUE_ACT_VERSION = '1.24';
 export const NUMERIC_TIME_VERSION = '1.25';
 export const POSSESSIVE_VERSION = '1.26';
@@ -102,7 +103,8 @@ function stateFeatures(features) {
 }
 
 function createState(kind, roles, features, predicate) {
-  const version=Object.values(roles).some(ref=>record(ref)&&hasOwn(ref,'possessor'))
+  const version=kind==='classification'?CLASSIFICATION_VERSION:
+    Object.values(roles).some(ref=>record(ref)&&hasOwn(ref,'possessor'))
     ?POSSESSIVE_VERSION:STATE_VERSION;
   const state = { version, type: 'state', kind, roles,
     features: stateFeatures(features) };
@@ -117,6 +119,14 @@ export function createIdentity(subject, complement, features = {}) {
 export function createPredication(predicate, subject, features = {}) {
   if (typeof predicate !== 'string') throw new Error('Predication requires a property concept.');
   return createState('predication', {subject}, features, predicate);
+}
+
+/** Class membership is directional and does not assert identity with a class label. */
+export function createClassification(subject, category, features = {}) {
+  if (!record(category) || typeof category.concept !== 'string' || !record(category.features))
+    throw new Error('Classification requires a lexical category participant.');
+  const classRef = {...category, features:{...category.features, definiteness:'unknown'}};
+  return createState('classification',{subject,category:classRef},features);
 }
 
 export function createPossession(owner, owned, features = {}) {
@@ -140,6 +150,7 @@ export function participant(concept, definiteness = 'unknown', number = 'singula
   if (options.modifiers?.length) result.modifiers = options.modifiers;
   if (options.quantifier) result.quantifier = options.quantifier;
   if (options.relatives?.length) result.relatives = options.relatives;
+  if (options.demonstrative) result.demonstrative = options.demonstrative;
   return result;
 }
 
@@ -149,7 +160,7 @@ export function modifier(concept, modifiers = []) {
 
 export function isQualifiedParticipant(ref) {
   return record(ref) && (hasOwn(ref, 'possessor') || hasOwn(ref, 'modifiers') ||
-    hasOwn(ref, 'quantifier') || hasOwn(ref, 'relatives'));
+    hasOwn(ref, 'quantifier') || hasOwn(ref, 'relatives') || hasOwn(ref,'demonstrative'));
 }
 
 function validateModifiers(nodes, ontology, parentType, depth, budget) {
@@ -179,18 +190,22 @@ function validateReferent(ref, ontology, registry, label, qualifiedAllowed, clau
     const agreement = ref.agreement;
     if (!deicticAllowed || Object.keys(ref).sort().join(',') !== 'agreement,referent' ||
         !record(referent) || Object.keys(referent).sort().join(',') !== 'anchor,kind' ||
-        referent.kind !== 'deictic' || !['speaker','addressee'].includes(referent.anchor) ||
+        referent.kind !== 'deictic' || !['speaker','addressee','demonstrative'].includes(referent.anchor) ||
         !record(agreement) || Object.keys(agreement).sort().join(',') !== 'number,person' ||
-        !['first','second'].includes(agreement.person) ||
+        !['first','second','third'].includes(agreement.person) ||
         !['singular','plural'].includes(agreement.number) ||
-        (referent.anchor === 'speaker') !== (agreement.person === 'first')) {
+        (referent.anchor === 'speaker' && agreement.person !== 'first') ||
+        (referent.anchor === 'addressee' && agreement.person !== 'second') ||
+        (referent.anchor === 'demonstrative' &&
+          (agreement.person !== 'third' || agreement.number !== 'singular'))) {
       throw new Error(`Invalid deictic participant for ${label}.`);
     }
     return;
   }
   if (!record(ref) || !ontology?.concepts?.[ref.concept] ||
       ontology.concepts[ref.concept].type !== 'entity' ||
-      !Object.keys(ref).every(key => ['concept', 'features', 'possessor', 'modifiers', 'quantifier', 'relatives'].includes(key))) {
+      !Object.keys(ref).every(key => ['concept', 'features', 'possessor', 'modifiers', 'quantifier', 'relatives', 'demonstrative'].includes(key)) ||
+      (hasOwn(ref,'demonstrative') && ref.demonstrative!=='proximal')) {
     throw new Error(`Invalid participant for ${label}.`);
   }
   validateFeatureBundle(ref.features, registry.domains.participant, `participant ${label}`);
@@ -485,8 +500,9 @@ function validateStateShape(node, ontology, registry, gap = null) {
     ['version','type','kind','predicate','roles','features'] :
     ['version','type','kind','roles','features',...(hasLocation?['relation']:[])];
   if (ontology?.stateFrameVersion !== STATE_FRAME_VERSION || !frame ||
-      ![STATE_VERSION,POSSESSIVE_VERSION].includes(node.version) ||
-      !['identity','predication','possession','location'].includes(node.kind) ||
+      ![STATE_VERSION,POSSESSIVE_VERSION,CLASSIFICATION_VERSION].includes(node.version) ||
+      !['identity','predication','classification','possession','location'].includes(node.kind) ||
+      (node.kind==='classification')!==(node.version===CLASSIFICATION_VERSION) ||
       (hasLocation && !(gap === 'location' && node.relation === 'unspecified') &&
         !['interior','surface','point'].includes(node.relation)) ||
       Object.keys(node).length !== fields.length || Object.keys(node).some(key => !fields.includes(key)) ||
@@ -855,7 +871,7 @@ function validateClauseTree(node, ontology, registry, depth = 0, gap = null) {
       [CLAUSE_VERSION, SEMANTIC_VERSION, NUMERIC_TIME_VERSION,POSSESSIVE_VERSION,
         PASSIVE_VERSION].includes(node.version),0,gap);
   } else if (node.type === 'state') {
-    if (![STATE_VERSION,POSSESSIVE_VERSION].includes(node.version)) throw new Error('Unsupported state version.');
+    if (![STATE_VERSION,POSSESSIVE_VERSION,CLASSIFICATION_VERSION].includes(node.version)) throw new Error('Unsupported state version.');
     validateStateShape(node,ontology,registry,gap);
   } else if (node.type === 'complement') {
     const frame = ontology.get(node.concept);

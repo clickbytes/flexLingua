@@ -1283,6 +1283,13 @@
       "roleTypes": {
         "agent": "person"
       }
+    },
+    "quality.simple": {
+      "type": "property",
+      "label": "uncomplicated in structure, design, or use",
+      "appliesTo": [
+        "entity"
+      ]
     }
   },
   "relationTypes": {
@@ -1297,7 +1304,7 @@
       "symmetric": false
     }
   },
-  "stateFrameVersion": "1.1",
+  "stateFrameVersion": "1.2",
   "stateFrames": {
     "identity": {
       "roles": [
@@ -1320,6 +1327,17 @@
       "symmetric": false,
       "predicateType": "property",
       "predicateAppliesTo": "entity"
+    },
+    "classification": {
+      "roles": [
+        "subject",
+        "category"
+      ],
+      "roleTypes": {
+        "subject": "entity",
+        "category": "entity"
+      },
+      "symmetric": false
     },
     "possession": {
       "roles": [

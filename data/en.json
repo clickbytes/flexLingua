@@ -3306,6 +3306,24 @@
           }
         }
       ]
+    },
+    {
+      "id": "en.simple.adj.1",
+      "lemma": "simple",
+      "forms": [
+        {
+          "text": "simple"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.simple.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.simple"
+          }
+        }
+      ]
     }
   ],
   "degrees": [
@@ -4286,6 +4304,25 @@
       "senses": [
         {
           "id": "en.pronoun.us.sense",
+          "coreRef": {
+            "kind": "grammaticalFunction",
+            "id": "grammar.deictic_pronoun"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.pronoun.this",
+      "lemma": "this",
+      "pos": "PRON",
+      "forms": [
+        {
+          "text": "this"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.pronoun.this.sense",
           "coreRef": {
             "kind": "grammaticalFunction",
             "id": "grammar.deictic_pronoun"

@@ -9,8 +9,9 @@ WH questions, and auxiliary uses such as perfect/progressive remain unsupported.
 In a single English state sentence, configured subject pronouns can use their
 lexicon concept mapping directly; event pronouns still require discourse context.
 
-**Status:** przyjęty dla CORE state document `1.23`  
-**Kontrakt ramek:** `stateFrameVersion` `1.0`
+**Status:** przyjęty dla CORE state documents `1.23` i `1.31`
+
+**Kontrakt ramek:** `stateFrameVersion` `1.2`
 
 ## Kontekst
 
@@ -18,7 +19,7 @@ Dotychczasowe ramki CORE opisują zdarzenia. Użycie zdarzenia, takiego jak `eve
 
 ## Decyzja
 
-CORE przechowuje trzy rodzaje węzłów `state`, niezależne od ramek zdarzeń:
+CORE przechowuje typowane węzły `state`, niezależne od ramek zdarzeń:
 
 ```json
 {
@@ -40,11 +41,12 @@ CORE przechowuje trzy rodzaje węzłów `state`, niezależne od ramek zdarzeń:
 | --- | --- | --- |
 | `identity` | `subject: entity`, `complement: entity` | Stwierdza tożsamość dwóch referentów; relacja jest symetryczna. |
 | `predication` | `subject: entity`, `predicate: property` stosowalny do podmiotu | Przypisuje referentowi właściwość, np. `quality.big`. |
+| `classification` | `subject: entity`, `category: entity` | Kierunkowo stwierdza, że podmiot należy do klasy wyrażonej rzeczownikiem; nie utożsamia podmiotu z kategorią. |
 | `possession` | `owner: entity`, `owned: entity` | Stwierdza kierunkową relację posiadania; zamiana ról zmienia znaczenie. |
 
-Wartości ról wynikają z typowanych ramek w `data/concepts.json`. Rejestr jest wersjonowany jako `stateFrameVersion: "1.0"`; walidator ontology odrzuca brakujące, nadmiarowe lub zmienione kontrakty. Sam węzeł ma wersję `1.23`. Cechy stanu to dokładnie `tense` (`past` lub `present`) i `polarity` (`positive` lub `negative`); stan nie ma aspektu zdarzeniowego.
+Wartości ról wynikają z typowanych ramek w `data/concepts.json`. Rejestr jest wersjonowany jako `stateFrameVersion: "1.2"`; walidator ontology odrzuca brakujące, nadmiarowe lub zmienione kontrakty. Węzły mają wersję `1.23`, a nowa rama klasyfikacji `1.31`. Cechy stanu to dokładnie `tense` (`past` lub `present`) i `polarity` (`positive` lub `negative`); stan nie ma aspektu zdarzeniowego.
 
-`identity` nie oznacza przynależności do klasy. Zdanie „X jest nauczycielem” nie jest identycznością dwóch encji i nie należy kodować go jako `identity`; przynależność zawodowa i inne predykaty klasowe wymagają osobnego kontraktu.
+`identity` nie oznacza przynależności do klasy. „To jest książka” jest kodowane jako `classification`, z podmiotem deiktycznym `demonstrative` i klasą `object.book`; „ta książka jest mała” pozostaje `predication`, a wskazanie `proximal` jest cechą frazy rzeczownikowej. Te reprezentacje nie tworzą powiązania referencyjnego między osobnym zaimkiem i rzeczownikiem.
 
 ## Różnice PL/EN
 
@@ -61,11 +63,11 @@ Wartości ról wynikają z typowanych ramek w `data/concepts.json`. Rejestr jest
 
 ## Zakres i polityka odmowy
 
-- Parser i writer CORE JSON akceptują trzy kompletne ramki stanu oraz ich negację przez istniejący węzeł `scope`.
+- Parser i writer CORE JSON akceptują kompletne ramki stanu oraz ich negację przez istniejący węzeł `scope`.
 - Gramatyka PL obsługuje obecnie czas teraźniejszy i negację dla posiadania (`mieć`) oraz predykacji znaną właściwością (`być` + przymiotnik), z jawnymi paradygmatami i zgodą przymiotnika z podmiotem. Rządzenie dopełnieniem posiadania jest zadeklarowane w gramatyce: biernik w zdaniu twierdzącym, dopełniacz po `nie`.
-- Polska kopuła nie mapuje automatycznie na tożsamość ani predykat klasowy. Zdania o zawodzie, klasie, lokalizacji, egzystencji, strona bierna i użycie posiłkowe `być` nie mają tu licencjonowanej ramy. Predykacja z podmiotem deiktycznym, gdy rodzaj nie wynika z kontraktu, także jest odrzucana.
+- Polska kopuła nie mapuje automatycznie na tożsamość. Ograniczona rama klasyfikacji obsługuje obecnie „to jest książka” oraz znane frazy rzeczownikowe z przymiotnikami w podanym zakresie; nie obsługuje zawodów, lokalizacji, egzystencji, strony biernej ani użycia posiłkowego `być`. Inne podmioty deiktyczne i formy bez zadeklarowanej zgody są odrzucane.
 - English grammar supports present and past `be` predication and `have` possession, plus do-support yes/no questions for present and past possession. Identity, English state negation, WH questions, and perfect/progressive auxiliary uses remain unsupported.
 - CORE permits yes/no wrappers around states. English currently parses and realizes present and past possession yes/no questions; other state question types, WH questions, coordination, complements, modality, and discourse composition remain unsupported.
 - Nieobsługiwane są także relacje rodzinne i inne predykaty bez jawnej ramki. Nie wolno mapować ich na istniejące zdarzenie ani na samą tożsamość.
 
-Kolejne zadania językowe mogą rozszerzyć analizę i realizację na podstawie tych ramek; powinny zachować wersje kontraktów CORE i wyraźnie zgłaszać nierozstrzygniętą niejednoznaczność.
+Sense `quality.simple` jest ograniczony do „nieskomplikowany pod względem struktury, projektu lub użycia”; nie obejmuje automatycznie znaczenia „łatwy”. Kolejne zadania językowe mogą rozszerzyć analizę i realizację na podstawie tych ramek; powinny zachować wersje kontraktów CORE i wyraźnie zgłaszać nierozstrzygniętą niejednoznaczność.

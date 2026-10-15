@@ -493,6 +493,53 @@
           }
         ]
       }
+    ],
+    "demonstratives": [
+      {
+        "distance": "proximal",
+        "forms": [
+          {
+            "text": "ten",
+            "when": {
+              "number": "singular",
+              "gender": "masculine",
+              "case": "nom"
+            }
+          },
+          {
+            "text": "ta",
+            "when": {
+              "number": "singular",
+              "gender": "feminine",
+              "case": "nom"
+            }
+          },
+          {
+            "text": "to",
+            "when": {
+              "number": "singular",
+              "gender": "neuter",
+              "case": "nom"
+            }
+          },
+          {
+            "text": "ci",
+            "when": {
+              "number": "plural",
+              "pluralClass": "virile",
+              "case": "nom"
+            }
+          },
+          {
+            "text": "te",
+            "when": {
+              "number": "plural",
+              "pluralClass": "nonvirile",
+              "case": "nom"
+            }
+          }
+        ]
+      }
     ]
   },
   "verb": {
@@ -1333,7 +1380,10 @@
       "present"
     ],
     "verbs": {
-      "grammar.state_copula": "predication",
+      "grammar.state_copula": [
+        "predication",
+        "classification"
+      ],
       "grammar.state_possession": "possession",
       "grammar.state_location": "location"
     },
@@ -1400,6 +1450,20 @@
             "@verb",
             "@przy",
             "location"
+          ]
+        ]
+      },
+      "classification": {
+        "subjectRole": "subject",
+        "cases": {
+          "subject": "nom",
+          "category": "nom"
+        },
+        "linearizations": [
+          [
+            "subject",
+            "@verb",
+            "category"
           ]
         ]
       }
@@ -1594,6 +1658,16 @@
       "person": "second",
       "number": "plural",
       "case": "dat"
+    },
+    {
+      "senseId": "pl.pronoun.to.sense",
+      "referent": {
+        "kind": "deictic",
+        "anchor": "demonstrative"
+      },
+      "person": "third",
+      "number": "singular",
+      "case": "nom"
     }
   ],
   "comparison": {

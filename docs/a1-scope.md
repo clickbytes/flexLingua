@@ -49,6 +49,27 @@ Każdy identyfikator zakresu `construction.event.*` wskazuje przez `coreRef` na 
 | `construction.event.help` | `event.help` | `required` |
 | `construction.event.open` | `event.open` | `required` |
 
+## Osobna macierz konstrukcji EN→PL
+
+Powyższe 23 pozycje nie wyczerpują podstawowych konstrukcji zdaniowych. Ta
+macierz śledzi rodziny konstrukcji EN→CORE→PL osobno, bez zmiany wyniku ani
+zakresu istniejącego fixture'u G2. „Wymagany batch” oznacza mały kontrakt
+implementacyjny, a nie pełny zakres A1.
+
+| Rodzina konstrukcji | Batch | Stan w repozytorium |
+| --- | --- | --- |
+| Proksymalne `this` jako zaimek oraz określenie rzeczownika | A1-ENPL-01 | Obsługiwane w liczbie pojedynczej; demonstratywne formy PL mają jawne uzgodnienie. |
+| Predykacja cechy: `This book is small.` | A1-ENPL-01 | Obsługiwana w czasie teraźniejszym, z zachowaniem modyfikatora w CORE. |
+| Predykacja klasowa: `This is a book.` | A1-ENPL-01 | Osobny kierunkowy węzeł CORE `classification`; nie używa `identity`. |
+| Sense `simple` „nieskomplikowany pod względem struktury, projektu lub użycia” | A1-ENPL-01 | Obsługiwany; nie utożsamia się z sensem „łatwy”. |
+| Przeczenie `be/have` i pytania stanowe | A1-ENPL-02 | Niezrealizowane; osobny batch. |
+| Niepoliczalne rzeczowniki bez rodzajnika, zaimki i konstrukcje egzystencjalne | A1-ENPL-03+ | Kandydaci do jawnego rozstrzygnięcia zakresu; brak deklaracji obsługi. |
+| Czas przeszły w polskiej predykacji stanowej | A1-ENPL-03+ | Brak zadeklarowanej polskiej realizacji. |
+
+Statusy tej macierzy nie są wskaźnikiem opanowania CEFR. Każdy batch wymaga
+osobnego golda z poprawnymi wynikami, uzasadnionymi odmowami i kontrolą nowych
+kombinacji; próbki autorów projektu nie są niezależnym benchmarkiem.
+
 ## Pochodzenie i ograniczenia
 
 Macierz jest autorskim artefaktem projektu, a jej pochodzenie i status licencji są zapisane w [`data/provenance.json`](../data/provenance.json). Oznaczenie `project-authored` nie stanowi osobnej deklaracji licencji SPDX. Zmiana zakresu wymaga aktualizacji macierzy, tego opisu, [raportu pokrycia](coverage-a1.md), [roadmapy](../ROADMAP.md) i zasad DoR/DoD w tym samym PR.

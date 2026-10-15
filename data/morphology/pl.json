@@ -14103,6 +14103,15 @@
         "particle": " lody"
       },
       "overrides": []
+    },
+    {
+      "lexemeId": "pl.prosty.adj.1",
+      "paradigmId": "pl.adj.regular",
+      "stems": {
+        "base": "prost",
+        "virile": "prośc"
+      },
+      "overrides": []
     }
   ]
 }

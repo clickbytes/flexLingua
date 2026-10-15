@@ -2372,6 +2372,14 @@
           ]
         }
       ]
+    },
+    {
+      "lexemeId": "en.simple.adj.1",
+      "paradigmId": "en.adj.invariant",
+      "stems": {
+        "base": "simple"
+      },
+      "overrides": []
     }
   ]
 }
