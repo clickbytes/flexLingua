@@ -124,9 +124,12 @@ test('STATE-03 rejects agreement errors, incomplete clauses and auxiliary collis
   for (const text of [
     'I is big.', 'I were big.', 'She were big.', 'Does you have a book?',
     'Does she has a book?', 'Did she had a book?',
-    'She is.', 'Does she have?', 'Have a book.', 'I am not big.',
-    'I do not have a book.', 'She is reading a book.', 'I have seen the dog.'
+    'She is.', 'Does she have?', 'Have a book.',
+    'She is reading a book.', 'I have seen the dog.'
   ]) {
     assert.throws(() => engine.analyze({text, from: 'en'}), undefined, text);
   }
+  assert.deepEqual(engine.analyze({text:'I am not big.',from:'en'}),predication(speaker,'negative'));
+  assert.deepEqual(engine.analyze({text:'I do not have a book.',from:'en'}),
+    possession(speaker,'indefinite','negative'));
 });

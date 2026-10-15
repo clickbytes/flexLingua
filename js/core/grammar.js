@@ -499,7 +499,7 @@ function validateGrammar(dictionary, grammar) {
   const states = grammar.states;
   if (!record(states) ||
       Object.keys(states).some(key => !['negator','supportedTenses','supportedPolarities','verbs','frames',
-        'unsupportedVerbs'].includes(key)) ||
+        'unsupportedVerbs','negativeStrategies'].includes(key)) ||
       !['negator','supportedTenses','verbs','frames'].every(key => hasOwn(states,key)) ||
       !/^[\p{L}]+$/u.test(states.negator || '') ||
       !Array.isArray(states.supportedTenses) || !states.supportedTenses.length ||
@@ -509,6 +509,10 @@ function validateGrammar(dictionary, grammar) {
           !states.supportedPolarities.every(value=>['positive','negative'].includes(value)) ||
           new Set(states.supportedPolarities).size!==states.supportedPolarities.length)) ||
       !record(states.frames) ||
+      (states.negativeStrategies!==undefined && (!record(states.negativeStrategies) ||
+        Object.entries(states.negativeStrategies).some(([kind,strategy])=>
+          !['identity','predication','classification','possession','location'].includes(kind) ||
+          !['preverbal','postverbal','do-support'].includes(strategy)))) ||
       (states.unsupportedVerbs !== undefined && !Array.isArray(states.unsupportedVerbs))) {
     throw new Error('Invalid state grammar configuration.');
   }
@@ -835,15 +839,25 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
             !(step.startsWith('@')&&step!=='@verb'));
           return [options.invert ? [reduced[1],reduced[0]] : reduced];
         }
+        if(options.omitVerb)sequence=sequence.filter(step=>step!=='@verb');
         if(!frame.allowImplicitDeicticSubject||!sequence.includes(frame.subjectRole))return [sequence];
         return [sequence,sequence.filter(step=>step!==frame.subjectRole)];
       });
       for (const polarity of polarities) {
+        const negativeStrategy=stateGrammar.negativeStrategies?.[base.kind]||'preverbal';
+        if(polarity==='negative'&&negativeStrategy==='do-support'&&!options.doSupport)continue;
+        const postverbal=polarity==='negative'&&negativeStrategy==='postverbal';
+        const doSupport=polarity==='negative'&&negativeStrategy==='do-support'&&options.doSupport;
+        const stateLinearizations=doSupport?linearizations.map(sequence=>sequence.flatMap(step=>
+          step==='@verb'?['@doAux','@negator','@verb']:[step])):
+          postverbal?linearizations.map(sequence=>sequence.flatMap(step=>
+            step==='@verb'?['@verb','@negator']:[step])):linearizations;
         const entry = {...base,rule:{...base.rule,polarity,
-          prefix:polarity==='negative'?[stateGrammar.negator]:[]}};
-        if (!tokens.some((_,index) => matchVerb(tokens,index,entry)!==null)) continue;
+          prefix:polarity==='negative'&&!postverbal&&!doSupport?[stateGrammar.negator]:[]}};
+        if (!options.omitVerb && !options.doSupport &&
+            !tokens.some((_,index) => matchVerb(tokens,index,entry)!==null)) continue;
         const features={tense:entry.features.tense,polarity};
-        for(const sequence of linearizations){
+        for(const sequence of stateLinearizations){
           const implicitSubject=!sequence.includes(frame.subjectRole)
             ?implicitStateSubject(entry.features):null;
           if(!sequence.includes(frame.subjectRole)&&!implicitSubject)continue;
@@ -886,8 +900,26 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
             }
             const step=sequence[position];
             if(step==='@verb') {
-              const next=matchVerb(tokens,index,entry);
+              const next=options.omitVerb?index:matchVerb(tokens,index,entry);
               if(next!==null)search(position+1,next,parsedRoles,relation);
+              return;
+            }
+            if(step==='@negator') {
+              const length=matchesTokens(tokens,index,stateGrammar.negator);
+              if(length)search(position+1,index+length,parsedRoles,relation);
+              return;
+            }
+            if(step==='@doAux') {
+              const subject=parsedRoles[frame.subjectRole]?.value;
+              if(!subject)return;
+              const person=isDeicticReferent(subject)?subject.agreement.person:'third';
+              const number=isDeicticReferent(subject)?subject.agreement.number:subject.features.number;
+              const auxiliaries=questions?.yesNo?.auxiliaries;
+              const auxiliary=person==='first'?auxiliaries?.presentFirst:
+                person==='second'?auxiliaries?.presentSecond:
+                number==='singular'?auxiliaries?.presentThirdSingular:auxiliaries?.presentThirdPlural;
+              const length=auxiliary?matchesTokens(tokens,index,auxiliary):0;
+              if(length)search(position+1,index+length,parsedRoles,relation);
               return;
             }
             if(step.startsWith('@')) {
@@ -1124,7 +1156,8 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     if (modalReadings.length) return modalReadings;
     const budget = searchBudget(counter);
     const comparisonReadings=parseComparisonCandidates(tokens,budget);
-    const stateReadings = parseStateCandidates(tokens,budget);
+    const stateReadings = [...parseStateCandidates(tokens,budget),
+      ...analyzeNegativeStateStatement(tokens,budget)];
     const results = [...comparisonReadings,...stateReadings,...parseClause(tokens, null, null, 0, budget)];
     if (results.length) return results.slice(0, MAX_ANALYSES);
     if (budget.agreementFailed) throw new Error(grammar.messages?.agreement ||
@@ -1469,6 +1502,12 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
   function analyzeAuxiliaryStateQuestion(tokens,counter) {
     if(questions.yesNo.mode!=='auxiliary')return [];
     const yesNo=questions.yesNo;
+    const copulaReadings=[];
+    const copulaEntries=stateVerbForms.filter(entry=>entry.kind==='predication'&&
+      stateGrammar.supportedTenses.includes(entry.features.tense)&&
+      normalizedWord(entry.text)===tokens[0]);
+    for(const entry of copulaEntries)copulaReadings.push(...parseStateCandidates(tokens.slice(1),
+      questionBudget(counter),{entries:[entry],polarities:['positive'],omitVerb:true}));
     const variants=[
       {word:yesNo.auxiliaries.past,tense:'past'},
       {word:yesNo.auxiliaries.presentFirst,tense:'present',person:'first',number:'singular'},
@@ -1476,7 +1515,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
       {word:yesNo.auxiliaries.presentThirdSingular,tense:'present',person:'third',number:'singular'},
       {word:yesNo.auxiliaries.presentThirdPlural,tense:'present',person:'third',number:'plural'}
     ];
-    const results=[];
+    const results=[...copulaReadings];
     for(const variant of variants) {
       if(tokens[0]!==normalizedWord(variant.word))continue;
       let entries=stateVerbForms.filter(entry=>entry.kind==='possession'&&
@@ -1499,6 +1538,18 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
       results.push(...readings);
     }
     return results;
+  }
+
+  function analyzeNegativeStateStatement(tokens,budget) {
+    if(questions?.yesNo?.mode!=='auxiliary'||
+       !(stateGrammar.supportedPolarities||['positive','negative']).includes('negative'))return [];
+    const yesNo=questions.yesNo;
+    const entries=stateVerbForms.filter(entry=>entry.kind==='possession'&&
+      entry.features.tense==='present')
+      .flatMap(entry=>formsAt(entry.lexeme,yesNo.baseVerbPath).map(base=>({
+        ...entry,text:base.text
+      })));
+    return parseStateCandidates(tokens,budget,{entries,polarities:['negative'],doSupport:true});
   }
 
   /** A deliberately controlled question parser.  A terminal question mark is
@@ -1545,6 +1596,8 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     const mode=questions.yesNo.mode;
     add(parseFrontedPrepositionTheme(tokens,counter),'wh','theme');
     if(mode==='prefix' && tokens[0]===normalizedWord(questions.yesNo.marker)) {
+      add(parseStateCandidates(tokens.slice(1),questionBudget(counter),{
+        polarities:['positive']}),'yes_no');
       add(parseClause(tokens.slice(1),null,null,0,questionBudget(counter)),'yes_no');
     } else if(mode==='auxiliary' && Object.values(questions.yesNo.auxiliaries)
         .some(word=>tokens[0]===normalizedWord(word))) {
@@ -1840,6 +1893,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     if(!(stateGrammar.supportedPolarities || ['positive','negative']).includes(polarity)) {
       throw new Error(`Unsupported ${dictionary.language} state polarity.`);
     }
+    const negativeStrategy=stateGrammar.negativeStrategies?.[meaning.kind]||'preverbal';
     const subject=meaning.roles[frame.subjectRole];
     const person=isDeicticReferent(subject)?subject.agreement.person:GRAMMATICAL_PERSON.third;
     const number=isDeicticReferent(subject)?subject.agreement.number:subject.features.number;
@@ -1847,7 +1901,10 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
       entry.features.tense===meaning.features.tense&&entry.features.person===person&&
       entry.features.number===number);
     if(!verb)throw new Error(`No ${dictionary.language} state verb form supports ${meaning.kind}, ${person}, ${number}.`);
-    const prefix=polarity==='negative'?[stateGrammar.negator]:[];
+    if(dictionary.language==='en'&&polarity==='negative'&&meaning.features.tense!=='present') {
+      throw new Error(`Unsupported ${dictionary.language} state polarity.`);
+    }
+    const prefix=polarity==='negative'&&negativeStrategy==='preverbal'?[stateGrammar.negator]:[];
     const surface=(role)=>{
       if(role===frame.predicateRole) {
         if(meaning.kind!=='predication') {
@@ -1872,13 +1929,29 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
       return plainNoun(ref,noun,gramCase,categoryRole?'indefinite':nounPhrase.defaultDefiniteness,
         categoryRole&&dictionary.language==='pl');
     };
-    const sequence=meaning.kind==='location'
+    if(polarity==='negative'&&negativeStrategy==='do-support') {
+      const auxiliaries=questions?.yesNo?.auxiliaries;
+      const auxiliary=person==='first'?auxiliaries?.presentFirst:
+        person==='second'?auxiliaries?.presentSecond:
+        number==='singular'?auxiliaries?.presentThirdSingular:auxiliaries?.presentThirdPlural;
+      const base=formsAt(verb.lexeme,questions?.yesNo?.baseVerbPath||'');
+      if(!auxiliary||base.length!==1)throw new Error('Missing negative state do-support form.');
+      const parts=frame.linearizations[0].flatMap(step=>
+        step===frame.subjectRole?[surface(step)]:step==='@verb'?
+          [auxiliary,stateGrammar.negator,base[0].text]:step.startsWith('@')?
+            [step.slice(1)]:[surface(step)]);
+      return {text:sentenceText([parts.join(' ')],sentence.terminator),warnings:[],alternatives:[]};
+    }
+    const baseSequence=meaning.kind==='location'
       ?frame.linearizations.find(item=>item.some(step=>step.startsWith('@') &&
         frame.prepositions?.[step.slice(1)]===meaning.relation))
       :frame.linearizations[0];
+    const sequence=polarity==='negative'&&negativeStrategy==='postverbal'
+      ?baseSequence.flatMap(step=>step==='@verb'?['@verb','@negator']:[step]):baseSequence;
     if(!sequence)throw new Error(`Unsupported ${dictionary.language} spatial relation.`);
     const parts=sequence.flatMap(step=>{
       if(step==='@verb')return [...prefix,verb.text];
+      if(step==='@negator')return [stateGrammar.negator];
       if(step.startsWith('@'))return [step.slice(1)];
       if(step===frame.subjectRole && frame.allowImplicitDeicticSubject &&
           isDeicticReferent(meaning.roles[step]))return [];
@@ -2274,6 +2347,44 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
         plainNoun(subject,nounByConcept(subject.concept),stateRoleCase(frame,'subject','positive'),
           nounPhrase.defaultDefiniteness);
       return {text:sentenceText([`${questions.wh.location.marker} ${verb.text} ${rendered}`],'?'),
+        warnings:[],alternatives:[]};
+    }
+    if(question.questionType==='yes_no'&&questions.yesNo.mode==='prefix') {
+      const rendered=realize(clause);
+      const lower=rendered.text.charAt(0).toLocaleLowerCase(grammar.language)+rendered.text.slice(1);
+      const text=sentenceText([questions.yesNo.marker+' '+lower.replace(/[.]$/u,'')],'?');
+      return {...rendered,text,alternatives:rendered.alternatives.map(item=>
+        sentenceText([questions.yesNo.marker+' '+item.charAt(0).toLocaleLowerCase(grammar.language)+
+          item.slice(1).replace(/[.]$/u,'')],'?'))};
+    }
+    if(question.questionType==='yes_no'&&questions.yesNo.mode==='auxiliary'&&
+       clause.kind==='predication'&&clause.features?.tense==='present'&&
+       clause.features?.polarity==='positive'&&stateGrammar.supportedTenses.includes('present')) {
+      const frame=stateGrammar.frames.predication;
+      const subject=clause.roles[frame.subjectRole];
+      const person=isDeicticReferent(subject)?subject.agreement.person:'third';
+      const number=isDeicticReferent(subject)?subject.agreement.number:subject.features.number;
+      const verb=stateVerbForms.find(entry=>entry.kind==='predication'&&
+        entry.features.tense==='present'&&entry.features.person===person&&entry.features.number===number);
+      if(!verb)throw new Error('Missing state question copula form.');
+      const surface=role=>{
+        if(role===frame.predicateRole) {
+          const noun=isDeicticReferent(subject)?null:nounByConcept(subject.concept);
+          const context={number:isDeicticReferent(subject)?subject.agreement.number:subject.features.number,
+            case:frame.predicateCase,...(noun?.gender?{gender:noun.gender}:{}),
+            ...(noun?.pluralClass?{pluralClass:noun.pluralClass}:{}),
+            ...(noun?.animacy?{animacy:noun.animacy}:{})};
+          return nominal.realizeProperty(clause.predicate,context);
+        }
+        if(isDeicticReferent(subject))return deicticPronounSurface(subject,
+          stateRoleCase(frame,role,clause.features.polarity));
+        const ref=clause.roles[role];
+        return plainNoun(ref,nounByConcept(ref.concept),stateRoleCase(frame,role,clause.features.polarity),
+          nounPhrase.defaultDefiniteness);
+      };
+      const remainder=frame.linearizations[0].filter(step=>step!==frame.subjectRole&&step!=='@verb')
+        .flatMap(step=>step.startsWith('@')?[step.slice(1)]:[surface(step)]);
+      return {text:sentenceText([[verb.text,surface(frame.subjectRole),...remainder].join(' ')],'?'),
         warnings:[],alternatives:[]};
     }
     if(question.questionType!=='yes_no' || questions.yesNo.mode!=='auxiliary' ||

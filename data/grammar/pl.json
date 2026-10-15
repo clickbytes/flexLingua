@@ -1467,6 +1467,16 @@
           ]
         ]
       }
+    },
+    "supportedPolarities": [
+      "positive",
+      "negative"
+    ],
+    "negativeStrategies": {
+      "predication": "preverbal",
+      "classification": "preverbal",
+      "possession": "preverbal",
+      "location": "preverbal"
     }
   },
   "messages": {

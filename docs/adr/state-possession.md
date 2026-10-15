@@ -4,8 +4,10 @@ STATE-03 extends the English grammar to present and past `be` property
 predication and `have` possession. The English lexicon keeps these predicate
 lexemes separate from auxiliary function words. `Be` supports first, second,
 and third person agreement; `have` supports possession statements and
-present/past do-support yes/no questions. English state negation, identity,
-WH questions, and auxiliary uses such as perfect/progressive remain unsupported.
+present/past do-support yes/no questions. Present `be` and `have` state
+negation, plus present yes/no questions for predication and possession, are now
+supported in the bounded grammar. Identity, WH state questions, and auxiliary
+uses such as perfect/progressive remain unsupported.
 In a single English state sentence, configured subject pronouns can use their
 lexicon concept mapping directly; event pronouns still require discourse context.
 
@@ -50,7 +52,7 @@ Wartości ról wynikają z typowanych ramek w `data/concepts.json`. Rejestr jest
 
 ## Różnice PL/EN
 
-- Angielskie `be` i polskie `być` mogą łączyć dwa referenty albo przypisywać właściwość. Konstrukcja i kontekst rozstrzygają, czy powstaje `identity`, czy `predication`.
+- Angielskie `be` i polskie `być` przypisują właściwość w zadeklarowanych konstrukcjach; tożsamość nie jest obecnie realizowana przez te adaptery.
 - Angielskie `have` i polskie `mieć` mogą wyrażać posiadanie i wtedy role `owner` oraz `owned` zachowują kierunek relacji.
 - Angielskie `have` jako operator czasu perfect, angielskie `do` w pytaniu lub przeczeniu oraz polskie formy `być` użyte jako czasownik posiłkowy nie stają się automatycznie relacją posiadania ani węzłem stanu.
 - Zgoda przymiotnika z rzeczownikiem w polszczyźnie i szyk kopuły w angielszczyźnie należą do gramatyk językowych. Nie są cechami referenta ani ramek CORE.
@@ -64,10 +66,10 @@ Wartości ról wynikają z typowanych ramek w `data/concepts.json`. Rejestr jest
 ## Zakres i polityka odmowy
 
 - Parser i writer CORE JSON akceptują kompletne ramki stanu oraz ich negację przez istniejący węzeł `scope`.
-- Gramatyka PL obsługuje obecnie czas teraźniejszy i negację dla posiadania (`mieć`) oraz predykacji znaną właściwością (`być` + przymiotnik), z jawnymi paradygmatami i zgodą przymiotnika z podmiotem. Rządzenie dopełnieniem posiadania jest zadeklarowane w gramatyce: biernik w zdaniu twierdzącym, dopełniacz po `nie`.
+- Gramatyka PL obsługuje czas teraźniejszy i negację dla posiadania (`mieć`) oraz predykacji znaną właściwością (`być` + przymiotnik), z jawnymi paradygmatami i zgodą przymiotnika z podmiotem. Rządzenie dopełnieniem posiadania jest zadeklarowane w gramatyce: biernik w zdaniu twierdzącym, dopełniacz po `nie`. Prefiksowe pytania yes/no obsługują predykację i posiadanie.
 - Polska kopuła nie mapuje automatycznie na tożsamość. Ograniczona rama klasyfikacji obsługuje obecnie „to jest książka” oraz znane frazy rzeczownikowe z przymiotnikami w podanym zakresie; nie obsługuje zawodów, lokalizacji, egzystencji, strony biernej ani użycia posiłkowego `być`. Inne podmioty deiktyczne i formy bez zadeklarowanej zgody są odrzucane.
-- English grammar supports present and past `be` predication and `have` possession, plus do-support yes/no questions for present and past possession. Identity, English state negation, WH questions, and perfect/progressive auxiliary uses remain unsupported.
-- CORE permits yes/no wrappers around states. English currently parses and realizes present and past possession yes/no questions; other state question types, WH questions, coordination, complements, modality, and discourse composition remain unsupported.
+- English grammar supports present and past `be` predication and `have` possession. Present `be` negation places `not` after the copula; present negative possession uses person-agreeing do-support. Yes/no questions support present predication by copula inversion and present/past possession with do-support. Identity, WH state questions, and perfect/progressive auxiliary uses remain unsupported.
+- CORE permits yes/no wrappers around states. English parses and realizes present/past possession questions and present predication questions; other state question types, WH questions, coordination, complements, modality, and discourse composition remain unsupported.
 - Nieobsługiwane są także relacje rodzinne i inne predykaty bez jawnej ramki. Nie wolno mapować ich na istniejące zdarzenie ani na samą tożsamość.
 
 Sense `quality.simple` jest ograniczony do „nieskomplikowany pod względem struktury, projektu lub użycia”; nie obejmuje automatycznie znaczenia „łatwy”. Kolejne zadania językowe mogą rozszerzyć analizę i realizację na podstawie tych ramek; powinny zachować wersje kontraktów CORE i wyraźnie zgłaszać nierozstrzygniętą niejednoznaczność.

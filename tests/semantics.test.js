@@ -72,7 +72,10 @@ test('Negation keeps local polarity distinct from wide scope and rejects double 
     /construction/);
   assert.throws(() => engine.analyze({text:'Dziewczynka nie nie widziała psa.',from:'pl'}),
     /construction/);
-  assert.throws(() => engine.analyze({text:'The girl does not have a book.',from:'en'}),
+  const negativePossession=engine.translate({text:'The girl does not have a book.',from:'en',to:'pl'});
+  assert.equal(negativePossession.text,'Dziewczynka nie ma książki.');
+  assert.equal(negativePossession.interlingua.features.polarity,'negative');
+  assert.throws(() => engine.analyze({text:'The girl does not not have a book.',from:'en'}),
     /construction/);
   assert.throws(() => engine.analyze({text:'The girl does not be big.',from:'en'}),
     /construction/);

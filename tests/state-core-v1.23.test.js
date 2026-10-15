@@ -88,7 +88,7 @@ test('STATE-01 keeps unsupported state contexts explicit while PL realizes prese
   assert.throws(()=>validate({version:'0.6',type:'coordination',connective:'and',clauses:[predication,predication]}),/coordination/i);
   const stateQuestion=createQuestion(predication);
   assert.equal(validate(stateQuestion),stateQuestion);
-  assert.throws(()=>engine.realize({interlingua:stateQuestion,to:'en'}),/Unsupported state question construction/);
+  assert.equal(engine.realize({interlingua:stateQuestion,to:'en'}).text,'Is the apple big?');
   assert.doesNotThrow(()=>engine.realize({interlingua:predication,to:'en'}));
   const polish=engine.realize({interlingua:predication,to:'pl'}).text;
   assert.equal(polish,'Jabłko jest duże.');

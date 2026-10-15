@@ -57,7 +57,7 @@ export const EVIDENCE_SOURCES = Object.freeze([
  {id:'actions',fixture:'tests/fixtures/gold-daily-actions-a1.json',sha256:'00a66d5cdf7f25b186fcfd96c153303a790edf8d4ee14647ebf06ee710b37ad2',classification:'regression',args:['--test','tests/daily-actions-a1.test.js']},
  {id:'composition',fixture:'tests/fixtures/gold-a1-crossbatch.json',sha256:'dadf9698a7f572b059e1ec2b006d9314d31f844995df35701843b1775db0ce8d',classification:'regression',args:['--test','tests/a1-crossbatch-composition.test.js']},
  {id:'person',fixture:'tests/fixtures/gold-person-a1.json',sha256:'2b292bf3cbb7ec48c577cb7d1597a0bc7db48a84d5e8b02e3a33890479df61c9',classification:'regression',args:['--test','tests/a1-person-gold.test.js']},
- {id:'state',fixture:'tests/fixtures/gold-state-a1.json',sha256:'61ba671790dbe8dc029a533adb03aadbbcce03761b10bb99cb20ee2e0cbbdafa',classification:'regression',args:['--test','tests/a1-state-gold.test.js']},
+ {id:'state',fixture:'tests/fixtures/gold-state-a1.json',sha256:'bb31fa232f550ef92c1dbdc1676349b66f059ed28249e995cbc5b161089ae64b',classification:'regression',args:['--test','tests/a1-state-gold.test.js']},
  {id:'spacetime',fixture:'tests/fixtures/gold-space-time-a1.json',sha256:'03a6ff2530977242b8becd6c9c18ae07b3a986e8d5508672980aea2f3ca17357',classification:'regression',args:['--test','tests/a1-space-time.test.js']},
  {id:'heldout',fixture:'data/coverage/a1-heldout-v1.json',sha256:'2913b8ea0451ee51b321342336a310f5d1f2b2743a8e6b22999ef7e818f3fee3',classification:'held-out',authorIndependent:false,args:['--test','tests/a1-heldout.test.js']}
 ]);
@@ -188,7 +188,8 @@ export function verifyEvidenceFixture(sourceId,text) {
 }
 
 function extractRows(id,corpus) {
- if(!record(corpus)||corpus.schemaVersion!==1||corpus.license!=='project-authored')
+ const validSchema=id==='state'?[1,2]:[1];
+ if(!record(corpus)||!validSchema.includes(corpus.schemaVersion)||corpus.license!=='project-authored')
    throw new Error('Invalid source license/schema: '+id);
  let positive=[],negative=[],morphology=[],productive=[];
  if(id==='g2'){
@@ -269,16 +270,18 @@ function explicitConcepts(row) {
  const concepts=[];
  if(row.core){
    if(!record(row.core))throw new Error('Invalid semantic gold signature');
-   if(row.core.type==='state'){
-     for(const role of Object.values(row.core.roles||{}))
+   let core=row.core;
+   if(core.kind==='question'&&core.questionType==='yes_no')core=core.proposition;
+   if(core.type==='state'){
+     for(const role of Object.values(core.roles||{}))
        if(role?.concept)concepts.push(role.concept);
-   }else if(['identity','predication','possession'].includes(row.core.kind)){
-     if(row.core.kind==='predication')concepts.push(row.core.predicate);
-     for(const role of Object.values(row.core.roles||{}))
+   }else if(['identity','predication','possession'].includes(core.kind)){
+     if(core.kind==='predication')concepts.push(core.predicate);
+     for(const role of Object.values(core.roles||{}))
        if(role?.concept)concepts.push(role.concept);
    }else{
-     concepts.push(row.core.concept);
-     for(const role of Object.values(row.core.roles||{}))concepts.push(role?.concept);
+     concepts.push(core.concept);
+     for(const role of Object.values(core.roles||{}))concepts.push(role?.concept);
    }
  }else if(row.shape){
    if(!record(row.shape))throw new Error('Invalid composition signature');
