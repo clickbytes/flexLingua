@@ -8,6 +8,7 @@ import {createDiscourse, createDialogueAct, validateInterlingua,
 import {record, safeName} from './features.js';
 import {splitSentences} from './text.js';
 import {applyPersonalityProfile, createPersonalityProfile} from './personality.js';
+import {SessionMemory} from './memory.js';
 
 function isDeictic(ref) {
   return record(ref) && record(ref.referent) && ref.referent.kind === 'deictic';
@@ -101,10 +102,12 @@ export class ConversationContext {
   #links={};
   #turns=[];
   #dialogue;
+  #memory;
   #maxEvents;
   #maxTurns;
 
-  constructor(engine,{maxEvents=MAX_DISCOURSE_EVENTS,maxTurns=MAX_DIALOGUE_ACTS}={}) {
+  constructor(engine,{maxEvents=MAX_DISCOURSE_EVENTS,maxTurns=MAX_DIALOGUE_ACTS,
+    maxFacts=32}={}) {
     if (!engine?.analyzeCandidates || !engine?.realize || !engine?.language ||
         !Number.isInteger(maxEvents) || maxEvents<2 ||
         maxEvents>MAX_DISCOURSE_EVENTS || !Number.isInteger(maxTurns) ||
@@ -115,6 +118,7 @@ export class ConversationContext {
     this.#maxEvents=maxEvents;
     this.#maxTurns=maxTurns;
     this.#dialogue=new DialogueContext(engine,{maxActs:maxTurns});
+    this.#memory=new SessionMemory({maxFacts});
   }
 
   snapshot() {
@@ -128,6 +132,7 @@ export class ConversationContext {
       maxTurns:this.#maxTurns,
       interlingua,
       turns:structuredClone(this.#turns),
+      memory:this.#memory.snapshot(),
       pendingQuestions:this.#dialogue.snapshot().pendingQuestions,
       focus:this.#turns.length ? structuredClone(this.#turns[this.#turns.length-1].focus) : null
     };
@@ -137,8 +142,21 @@ export class ConversationContext {
     this.#events=[];
     this.#links={};
     this.#turns=[];
+    this.#memory.reset();
     this.#dialogue.reset();
     return this.snapshot();
+  }
+
+  /** Explicitly approve a source-turn assertion for bounded session memory. */
+  remember({turnId,referent,recordedAt,scope='session',supersedes=[]}={}) {
+    const turn=this.#turns.find(item=>item.id===turnId);
+    return this.#memory.remember({turn,referent,recordedAt,scope,supersedes});
+  }
+
+  tryRemember(request) {
+    try{return {ok:true,value:this.remember(request)};}
+    catch(error){return {ok:false,error:{code:error?.code||'INVALID_INPUT',
+      message:error?.message||'Could not store session fact.'}};}
   }
 
   #root(mention,links=this.#links) {
