@@ -2,6 +2,7 @@ import { Engine } from './core/engine.js';
 import { createEnglishAdapter } from './languages/en.js';
 import { createPolishAdapter } from './languages/pl.js';
 import { createTurkishAdapter } from './languages/tr.js';
+import { createItalianAdapter } from './languages/it.js';
 import { createMorphology } from './core/morphology/engine.js';
 import { createCoreLanguage } from './core/core-language.js';
 import { initStudio, renderMeaning } from './ui/studio.js';
@@ -80,9 +81,9 @@ function synchronize(changed) {
 
 async function init() {
   try {
-    const [ontology, features, en, pl, tr, enGrammar, plGrammar, trGrammar, morphFeatures, enMorphSpec, plMorphSpec] = await Promise.all([
-      loadJSON('./data/concepts.json'), loadJSON('./data/features.json'), loadJSON('./data/en.json'), loadJSON('./data/pl.json'), loadJSON('./data/tr.json'),
-      loadJSON('./data/grammar/en.json'), loadJSON('./data/grammar/pl.json'), loadJSON('./data/grammar/tr.json'),
+    const [ontology, features, en, pl, tr, it, enGrammar, plGrammar, trGrammar, itGrammar, morphFeatures, enMorphSpec, plMorphSpec] = await Promise.all([
+      loadJSON('./data/concepts.json'), loadJSON('./data/features.json'), loadJSON('./data/en.json'), loadJSON('./data/pl.json'), loadJSON('./data/tr.json'), loadJSON('./data/it.json'),
+      loadJSON('./data/grammar/en.json'), loadJSON('./data/grammar/pl.json'), loadJSON('./data/grammar/tr.json'), loadJSON('./data/grammar/it.json'),
       loadJSON('./data/morphology/features.json'), loadJSON('./data/morphology/en.json'), loadJSON('./data/morphology/pl.json')
     ]);
     const core=createCoreLanguage(ontology);
@@ -92,8 +93,9 @@ async function init() {
       .registerMorphology(enMorph).registerMorphology(plMorph)
       .registerLanguage(createEnglishAdapter(en, enGrammar, {morphology:enMorph}))
       .registerLanguage(createPolishAdapter(pl, plGrammar, {morphology:plMorph}))
-      .registerLanguage(createTurkishAdapter(tr, trGrammar));
-    element('status').textContent = 'CORE v1.12 + produktywna morfologia PL/EN, reguły JSON; TR kompatybilny v1.0';
+      .registerLanguage(createTurkishAdapter(tr, trGrammar))
+      .registerLanguage(createItalianAdapter(it, itGrammar));
+    element('status').textContent = 'CORE v1.12 + morfologia PL/EN, reguły JSON; IT ograniczony czas teraźniejszy, TR demonstracja';
     element('translate').disabled = false;
     initStudio(engine);
     initDialoguePanel(engine);
@@ -136,11 +138,14 @@ async function init() {
     translate();
   });
   element('sample').addEventListener('click', () => {
+    const italianTarget = element('target-lang').value === 'it';
     element('source-text').value = element('source-lang').value === 'core' ?
-      JSON.stringify(engine.analyze({text:'The girl saw the dog.',from:'en'}),null,2) :
+      JSON.stringify(engine.analyze({text:italianTarget ? 'The girl sees the dog.' : 'The girl saw the dog.',from:'en'}),null,2) :
       element('source-lang').value === 'tr' ? 'Kız köpeği gördü.' :
-      element('source-lang').value === 'pl' ? 'Dziewczynka nie widziała książki.' :
-      'The girl gave the boy a book.';
+      element('source-lang').value === 'it' ? 'La ragazza vede il cane.' :
+      element('source-lang').value === 'pl' ?
+        (italianTarget ? 'Dziewczynka widzi psa.' : 'Dziewczynka nie widziała książki.') :
+      italianTarget ? 'The girl sees the dog.' : 'The girl gave the boy a book.';
     translate();
   });
   element('context-topic').addEventListener('change', translate);

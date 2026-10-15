@@ -5,6 +5,8 @@
 ## Zakładki
 
 1. **Tłumaczenie** — dwa panele (źródło i wynik), jawny wybór języka, zamiana kierunku, opcjonalny kontekst znaczeniowy, ostrzeżenia i alternatywne wyniki. Dawne demonstracje przeniesiono do rozwijanej biblioteki przykładów.
+
+   Włoski (`it`) obsługuje tylko zdania oznajmujące o widzeniu w czasie teraźniejszym, z rzeczownikami z małego pakietu i polaryzacją dodatnią lub ujemną. Przycisk „Przykład” dobiera zdanie włoskie po wybraniu `it`. Słownik, inspektor morfologii, pokrycie reguł i rozmowa pozostają w zakresie PL/EN; turecki jest demonstracją historyczną.
 2. **Słownik i odmiany** — podanie **jednego słowa** i **języka PL albo EN**; automatyczne wykrywanie języka celowo nie istnieje. Formularz znajduje kanoniczne hasło albo rozpoznaną formę (np. koty → kot, children → child). Pokazuje wszystkie zadeklarowane komórki paradygmatu w tabelach pogrupowanych po liczbie lub czasie, z cechami gramatycznymi i źródłem formy (reguła/wyjątek).
 3. **INTER Explorer** — widok hierarchiczny znaczenia zwróconego przez ostatnie tłumaczenie oraz niezmieniony JSON dostępny do kopiowania. Niczego nie interpretuje ponownie.
 4. **Pokrycie reguł** — dynamiczny przegląd paradygmatów PL/EN, ich komórek, leksemów z przypisaną morfologią i wpisów wygenerowanych form, pobierany z aktywnych pakietów. Przycisk przy wzorcu otwiera w słowniku prekonfigurowaną próbę odmiany. To **inwentarz techniczny**, nie certyfikat CEFR ani miernik procentowego pokrycia całego języka.

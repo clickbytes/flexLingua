@@ -1,0 +1,169 @@
+{
+  "version": "1.0",
+  "lexicalModel": "1.01",
+  "language": "it",
+  "nouns": [
+    {
+      "id": "it.girl.1",
+      "lemma": "ragazza",
+      "forms": {
+        "singular": "ragazza",
+        "plural": "ragazze"
+      },
+      "definiteArticle": "la",
+      "indefiniteArticle": "una",
+      "pluralDefiniteArticle": "le",
+      "senses": [
+        {
+          "id": "it.girl.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.girl"
+          }
+        }
+      ]
+    },
+    {
+      "id": "it.boy.1",
+      "lemma": "ragazzo",
+      "forms": {
+        "singular": "ragazzo",
+        "plural": "ragazzi"
+      },
+      "definiteArticle": "il",
+      "indefiniteArticle": "un",
+      "pluralDefiniteArticle": "i",
+      "senses": [
+        {
+          "id": "it.boy.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.boy"
+          }
+        }
+      ]
+    },
+    {
+      "id": "it.dog.1",
+      "lemma": "cane",
+      "forms": {
+        "singular": "cane",
+        "plural": "cani"
+      },
+      "definiteArticle": "il",
+      "indefiniteArticle": "un",
+      "pluralDefiniteArticle": "i",
+      "senses": [
+        {
+          "id": "it.dog.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.dog"
+          }
+        }
+      ]
+    },
+    {
+      "id": "it.cat.1",
+      "lemma": "gatto",
+      "forms": {
+        "singular": "gatto",
+        "plural": "gatti"
+      },
+      "definiteArticle": "il",
+      "indefiniteArticle": "un",
+      "pluralDefiniteArticle": "i",
+      "senses": [
+        {
+          "id": "it.cat.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.cat"
+          }
+        }
+      ]
+    },
+    {
+      "id": "it.woman.1",
+      "lemma": "donna",
+      "forms": {
+        "singular": "donna",
+        "plural": "donne"
+      },
+      "definiteArticle": "la",
+      "indefiniteArticle": "una",
+      "pluralDefiniteArticle": "le",
+      "senses": [
+        {
+          "id": "it.woman.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.woman"
+          }
+        }
+      ]
+    },
+    {
+      "id": "it.book.1",
+      "lemma": "libro",
+      "forms": {
+        "singular": "libro",
+        "plural": "libri"
+      },
+      "definiteArticle": "il",
+      "indefiniteArticle": "un",
+      "pluralDefiniteArticle": "i",
+      "senses": [
+        {
+          "id": "it.book.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.book"
+          }
+        }
+      ]
+    },
+    {
+      "id": "it.apple.1",
+      "lemma": "mela",
+      "forms": {
+        "singular": "mela",
+        "plural": "mele"
+      },
+      "definiteArticle": "la",
+      "indefiniteArticle": "una",
+      "pluralDefiniteArticle": "le",
+      "senses": [
+        {
+          "id": "it.apple.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.apple"
+          }
+        }
+      ]
+    }
+  ],
+  "verbs": [
+    {
+      "id": "it.vedere.1",
+      "lemma": "vedere",
+      "forms": {
+        "present3sg": "vede",
+        "present3pl": "vedono"
+      },
+      "senses": [
+        {
+          "id": "it.vedere.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.visual_perception"
+          }
+        }
+      ]
+    }
+  ],
+  "adjectives": [],
+  "degrees": [],
+  "quantifiers": []
+}
