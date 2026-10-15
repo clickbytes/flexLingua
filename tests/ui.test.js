@@ -16,11 +16,14 @@ class ElementStub {
   addEventListener(type, callback) { this.listeners.set(type, callback); }
   trigger(type) { this.listeners.get(type)?.({ preventDefault() {} }); }
 }
+const allText = element => [element.textContent, ...element.children.map(allText)].join(' ');
 
 test('Static UI loads both JSON grammars, translates and updates inspector', async () => {
   const ids = ['result', 'warnings', 'alternatives', 'inspector', 'copy', 'source-text',
     'source-lang', 'target-lang', 'status', 'translate', 'translate-form', 'swap', 'sample', 'sample-core', 'sample-question', 'sample-plural', 'sample-new-nouns', 'sample-qualified',
-    'semantic-alternatives', 'context-topic', 'sample-ambiguous', 'sample-discourse', 'sample-relative', 'sample-coordination', 'sample-scope', 'sample-complement', 'sample-turkish',
+    'semantic-alternatives', 'meaning-empty', 'meaning-summary', 'meaning-tree',
+    'meaning-alternatives-panel', 'meaning-alternatives', 'context-topic',
+    'sample-ambiguous', 'sample-discourse', 'sample-relative', 'sample-coordination', 'sample-scope', 'sample-complement', 'sample-turkish',
     'morph-generate','morph-analyze','morph-language','morph-lexeme','morph-number','morph-case','morph-surface','morph-output'];
   const elements = new Map(ids.map(id => [id, new ElementStub()]));
   const el = id => elements.get(id);
@@ -77,6 +80,8 @@ test('Static UI loads both JSON grammars, translates and updates inspector', asy
   el('sample-ambiguous').trigger('click');
   assert.equal(el('result').textContent, 'Dziewczynka widziała bank.');
   assert.match(el('semantic-alternatives').children[0].textContent, /brzeg/);
+  assert.equal(el('meaning-alternatives-panel').hidden, false);
+  assert.match(allText(el('meaning-alternatives')), /place\.riverbank/);
   el('context-topic').value = 'place.river';
   el('context-topic').trigger('change');
   assert.equal(el('result').textContent, 'Dziewczynka widziała brzeg.');
@@ -88,6 +93,7 @@ test('Static UI loads both JSON grammars, translates and updates inspector', asy
   el('sample-discourse').trigger('click');
   assert.match(el('result').textContent, /Dziewczynka widziała psa\. Chłopiec dał/);
   assert.match(el('inspector').textContent, /"type": "discourse"/);
+  assert.match(allText(el('meaning-tree')), /animal\.dog/);
   el('sample-relative').trigger('click');
   assert.equal(el('result').textContent,'Dziewczynka, która widziała psa, dała chłopcu książkę.');
   assert.match(el('inspector').textContent, /\"relatives\"/);
@@ -106,6 +112,9 @@ test('Static UI loads both JSON grammars, translates and updates inspector', asy
   assert.equal(el('target-lang').value, 'pl');
   assert.equal(JSON.parse(el('source-text').value).roles.theme.concept,'animal.dog');
   assert.equal(el('result').textContent,'Dziewczynka widziała psa.');
+  el('source-text').value = '{';
+  el('translate-form').trigger('submit');
+  assert.match(el('warnings').children[0].textContent,/CORE_JSON_INVALID/);
   el('source-lang').value = 'en';
   el('target-lang').value = 'core';
   el('source-text').value = 'The girl saw the dog.';

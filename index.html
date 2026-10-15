@@ -191,6 +191,9 @@
     .inter-head .panel-title { margin: 0; }
     .meaning-summary { color: var(--muted); font-size: 13px; padding: 10px 0; }
     .meaning-tree { display: grid; gap: 12px; padding-top: 12px; }
+    .meaning-alternatives { display: grid; gap: 12px; margin-top: 16px; }
+    .meaning-alternative { border: 1px solid var(--stroke); border-radius: 12px;
+      background: #101d2b; padding: 14px; overflow-wrap: anywhere; }
     .meaning-node { border: 1px solid var(--stroke-light); background: #142337; border-radius: 12px; padding: 14px; min-width: 0; }
     .meaning-node-title { font-size: 13px; font-weight: 790; margin: 0 0 6px; color: var(--text); overflow-wrap: anywhere; }
     .meaning-node-meta { color: var(--muted); font-size: 12px; margin: 0 0 8px; }
@@ -463,6 +466,10 @@
             <div id="meaning-empty" class="empty-state"><strong>Brak analizy</strong><p>Przetłumacz zdanie w zakładce „Tłumaczenie”, aby zobaczyć jego reprezentację INTER/CORE.</p></div>
             <p id="meaning-summary" class="meaning-summary" hidden></p>
             <div id="meaning-tree" class="meaning-tree"></div>
+            <section id="meaning-alternatives-panel" aria-label="Alternatywne odczytania semantyczne" hidden>
+              <h2 class="panel-title">Pozostałe odczytania</h2>
+              <div id="meaning-alternatives" class="meaning-alternatives" aria-live="polite"></div>
+            </section>
           </section>
           <section class="panel" aria-label="Surowy dokument INTER/CORE">
             <div class="inter-head">

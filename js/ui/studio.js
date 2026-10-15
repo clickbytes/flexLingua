@@ -9,7 +9,8 @@ const $ = id => document.getElementById(id);
 const LABELS = Object.freeze({
   number: 'Liczba', case: 'Przypadek', tense: 'Czas', person: 'Osoba',
   gender: 'Rodzaj', pluralClass: 'Klasa liczby mnogiej', aspect: 'Aspekt',
-  mood: 'Tryb', voice: 'Strona', animacy: 'Żywotność',
+  mood: 'Tryb', voice: 'Strona', animacy: 'Żywotność', polarity: 'Biegunowość',
+  targetRole: 'Rola docelowa', questionType: 'Typ pytania', operator: 'Operator',
   subject_person: 'Osoba podmiotu', subject_number: 'Liczba podmiotu',
   object_person: 'Osoba dopełnienia', object_number: 'Liczba dopełnienia'
 });
@@ -22,6 +23,7 @@ const VALUES = Object.freeze({
   masculine: 'męski', feminine: 'żeński', neuter: 'nijaki',
   virile: 'męskoosobowy', nonvirile: 'niemęskoosobowy',
   perfective: 'dokonany', imperfective: 'niedokonany',
+  positive: 'twierdząca', negative: 'przecząca', unknown: 'nieokreślony', not: 'negacja',
   indicative: 'oznajmujący', imperative: 'rozkazujący', subjunctive: 'łączący',
   active: 'czynna', passive: 'bierna', animate: 'żywotny', inanimate: 'nieżywotny'
 });
@@ -647,12 +649,18 @@ function runDictionarySearch(engine, additionalInputs = new Map()) {
     status.textContent = 'Nie można wyszukać słowa: ' + error.message;
   }
 }
-function renderNode(value, role = '', depth = 0) {
+function renderNode(value, role = '', depth = 0, entities = null) {
   const node = make('div', 'meaning-node');
   if (role) textRow(node, 'p', 'meaning-role', ROLES[role] || role);
   if (depth > 8) {
     textRow(node, 'p', 'meaning-node-meta', 'Dalsza struktura jest dostępna w JSON.');
     return node;
+  }
+  const entityId = typeof value === 'string' && entities &&
+    Object.prototype.hasOwnProperty.call(entities, value) ? value : null;
+  if (entityId) {
+    textRow(node, 'p', 'meaning-node-meta', 'Identyfikator referentu: ' + entityId);
+    value = entities[entityId];
   }
   if (value === null || typeof value !== 'object') {
     textRow(node, 'p', 'meaning-node-title', String(value));
@@ -669,6 +677,15 @@ function renderNode(value, role = '', depth = 0) {
       ? 'Pytanie zamknięte (tak/nie)'
       : 'Pytanie o rolę: ' + (ROLES[value.targetRole] || value.targetRole || 'nieokreśloną');
     textRow(node, 'p', 'meaning-node-meta', description);
+  }
+  if (value.id && value.type === 'event') {
+    textRow(node, 'p', 'meaning-node-meta', 'Identyfikator zdarzenia: ' + value.id);
+  }
+  if (value.operator !== undefined) {
+    textRow(node, 'p', 'meaning-node-meta', 'Operator: ' + translateValue(value.operator));
+  }
+  if (value.kind !== undefined) {
+    textRow(node, 'p', 'meaning-node-meta', 'Rodzaj stanu: ' + translateValue(value.kind));
   }
   const facts = [];
   for (const field of ['version', 'number', 'definiteness', 'quantifier', 'negated']) {
@@ -692,6 +709,11 @@ function renderNode(value, role = '', depth = 0) {
   if (value.clauses && Array.isArray(value.clauses)) {
     value.clauses.forEach((item, index) => children.push(['Część ' + (index + 1), item]));
   }
+  if (value.relations && Array.isArray(value.relations)) {
+    value.relations.forEach((item, index) => children.push([
+      'Relacja ' + (index + 1) + ': ' + item.from + ' → ' + item.to, item
+    ]));
+  }
   if (value.proposition) children.push(['Treść pytania', value.proposition]);
   if (value.content) children.push(['Treść', value.content]);
   if (value.operand) children.push(['Zasięg operatora', value.operand]);
@@ -706,19 +728,23 @@ function renderNode(value, role = '', depth = 0) {
   if (children.length) {
     const container = make('div', 'meaning-children');
     for (const [name, item] of children.slice(0, 80)) {
-      container.appendChild(renderNode(item, name, depth + 1));
+      container.appendChild(renderNode(item, name, depth + 1, entities));
     }
     node.appendChild(container);
   }
   return node;
 }
 /** Presents the exact graph returned by Engine; no semantic interpretation changes. */
-export function renderMeaning(graph) {
+export function renderMeaning(graph, alternatives = []) {
   const empty = $('meaning-empty');
   const summary = $('meaning-summary');
   const tree = $('meaning-tree');
+  const alternativePanel = $('meaning-alternatives-panel');
+  const alternativeHost = $('meaning-alternatives');
   if (!empty || !summary || !tree) return;
   tree.replaceChildren();
+  alternativeHost?.replaceChildren();
+  if (alternativePanel) alternativePanel.hidden = !graph || !alternatives.length;
   empty.hidden = Boolean(graph);
   summary.hidden = !graph;
   if (!graph) {
@@ -728,7 +754,24 @@ export function renderMeaning(graph) {
   summary.textContent = 'Rodzaj: ' + (graph.type || 'struktura') +
     (graph.concept ? ' · ' + graph.concept : '') +
     (graph.version ? ' · wersja ' + graph.version : '');
-  tree.appendChild(renderNode(graph));
+  const entities = graph.type === 'discourse' && graph.entities &&
+    typeof graph.entities === 'object' ? graph.entities : null;
+  tree.appendChild(renderNode(graph, '', 0, entities));
+  if (alternativeHost) {
+    alternatives.slice(0, 16).forEach((alternative, index) => {
+      if (!alternative?.interlingua) return;
+      const section = make('section', 'meaning-alternative');
+      textRow(section, 'h3', 'meaning-node-title', 'Odczytanie ' + (index + 2));
+      if (alternative.text) {
+        textRow(section, 'p', 'meaning-node-meta', 'Tłumaczenie: ' + alternative.text);
+      }
+      const alternativeEntities = alternative.interlingua.type === 'discourse' &&
+        alternative.interlingua.entities && typeof alternative.interlingua.entities === 'object'
+        ? alternative.interlingua.entities : null;
+      section.appendChild(renderNode(alternative.interlingua, '', 0, alternativeEntities));
+      alternativeHost.appendChild(section);
+    });
+  }
 }
 
 function renderCoverageOverview(engine, onTestPattern) {
