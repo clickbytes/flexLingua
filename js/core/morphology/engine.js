@@ -163,7 +163,10 @@ export function materializeInflections(dictionary,morph,{assertLegacy=false}={})
       for(const [k,v] of Object.entries(next))merged[k]=record(v)?merge(merged[k],v):v;
       return merged;
     };
-    lexeme.forms=merge(legacy,forms);
+    // When auditing compatibility, retain every source cell and use generated
+    // morphology only to fill gaps. Without the audit flag, generated forms may
+    // replace legacy values for an explicit migration.
+    lexeme.forms=assertLegacy?merge(forms,legacy):merge(legacy,forms);
   }
   for(const lexeme of result.adjectives||[]) {
     if(!morph.has(lexeme.id))continue;

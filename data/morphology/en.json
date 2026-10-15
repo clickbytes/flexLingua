@@ -386,6 +386,54 @@
           ]
         }
       ]
+    },
+    "en.noun.f_to_ves": {
+      "pos": "NOUN",
+      "extends": "en.noun.regular",
+      "slots": [
+        {
+          "features": {
+            "number": "plural"
+          },
+          "steps": [
+            {
+              "op": "stripSuffix",
+              "value": "f"
+            },
+            {
+              "op": "append",
+              "value": "ves"
+            }
+          ],
+          "path": [
+            "plural"
+          ]
+        }
+      ]
+    },
+    "en.noun.fe_to_ves": {
+      "pos": "NOUN",
+      "extends": "en.noun.regular",
+      "slots": [
+        {
+          "features": {
+            "number": "plural"
+          },
+          "steps": [
+            {
+              "op": "stripSuffix",
+              "value": "fe"
+            },
+            {
+              "op": "append",
+              "value": "ves"
+            }
+          ],
+          "path": [
+            "plural"
+          ]
+        }
+      ]
     }
   },
   "bindings": [
