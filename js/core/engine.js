@@ -5,6 +5,8 @@ import { splitSentences, sentenceText } from './text.js';
 import {EngineError, isResourceLimitError} from './errors.js';
 import {RESOURCE_LIMITS} from './resource-limits.js';
 import {createResponsePlanner, RESPONSE_PLANNER_VERSION} from './response-planner.js';
+import {createDialogueEngine as createDialogueEngineApi, DIALOGUE_ENGINE_VERSION}
+  from './dialogue-engine.js';
 
 const MAX_CANDIDATES = 16;
 
@@ -200,6 +202,11 @@ export class Engine {
     const output = this.realize({interlingua:plan.realization,to});
     return {plan,text:output.text,warnings:[...(output.warnings||[])],
       alternatives:[...(output.alternatives||[])]};
+  }
+
+  /** Create a multi-turn orchestration facade over this Engine. */
+  createDialogueEngine() {
+    return createDialogueEngineApi(this);
   }
 
   validateContext(context = {}) {
@@ -763,6 +770,7 @@ export class Engine {
     return { interlinguaVersion: '1.0', questionDocumentVersion: QUESTION_VERSION,
       dialogueActDocumentVersion: DIALOGUE_ACT_VERSION,
       responsePlannerVersion: RESPONSE_PLANNER_VERSION,
+      dialogueEngineVersion: DIALOGUE_ENGINE_VERSION,
       modalityDocumentVersion: MODALITY_VERSION, stateDocumentVersion: STATE_VERSION,
       stateFrameVersion: this.ontology.stateFrameVersion,
       coreLanguage: {code:'core', version:this.core.version, format:'interlingua-json'},
