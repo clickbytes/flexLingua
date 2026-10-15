@@ -1,4 +1,4 @@
-import { createDiscourse, createCoordination, createNegation, createComplement, materializeEvent, validateInterlingua, MAX_DISCOURSE_EVENTS, QUESTION_VERSION, MODALITY_VERSION, STATE_VERSION, DIALOGUE_ACT_VERSION, validateCoreferenceMap, sameDiscourseReferent } from './interlingua.js';
+import { createDiscourse, createEventRelation, createCoordination, createNegation, createComplement, materializeEvent, validateInterlingua, MAX_DISCOURSE_EVENTS, QUESTION_VERSION, MODALITY_VERSION, STATE_VERSION, DIALOGUE_ACT_VERSION, validateCoreferenceMap, sameDiscourseReferent } from './interlingua.js';
 import { createFeatureRegistry, record, safeName, hasOwn } from './features.js';
 import { createCoreLanguage } from './core-language.js';
 import { splitSentences, sentenceText } from './text.js';
@@ -227,6 +227,14 @@ export class Engine {
       throw new Error('Invalid semantic context topics.');
     }
     if (context.coreference !== undefined) validateCoreferenceMap(context.coreference);
+    if(context.eventRelations!==undefined && (!Array.isArray(context.eventRelations) ||
+        context.eventRelations.length>MAX_DISCOURSE_EVENTS*2 ||
+        context.eventRelations.some(relation=>!record(relation) ||
+          Object.keys(relation).sort().join(',')!=='from,to,type' ||
+          typeof relation.from!=='string' || !/^e[1-8]$/u.test(relation.from) ||
+          typeof relation.to!=='string' || !/^e[1-8]$/u.test(relation.to)))) {
+      throw new Error('Invalid explicit event relation context.');
+    }
     if (context.senses !== undefined && (!record(context.senses) ||
         Object.entries(context.senses).some(([role, concept]) =>
           !safeName(role) || !this.ontology.get(concept)))) {
@@ -487,6 +495,9 @@ export class Engine {
         throw new EngineError('INVALID_COREFERENCE',
           'Explicit coreference cannot be applied to a CORE JSON document.');
       }
+      if(settings.eventRelations?.length)
+        throw new EngineError('CORE_JSON_CONTEXT_INVALID',
+          'Event relations are part of the CORE document, not analysis context.');
       if (Object.keys(settings.senses || {}).length || (settings.topics || []).length) {
         throw new EngineError('CORE_JSON_CONTEXT_INVALID',
           'CORE documents do not need source-language sense disambiguation.');
@@ -537,6 +548,8 @@ export class Engine {
       });
     }
     const sentences = splitSentences(text, MAX_DISCOURSE_EVENTS);
+    if(settings.eventRelations?.length && sentences.length<2)
+      throw new Error('Explicit event relations require a multi-event discourse.');
     const deicticSlots=sentences.map((sentence,i)=>
       adapter.readDeicticPronoun?.(sentence)?.length?i:-1).filter(i=>i>=0);
     if(deicticSlots.length && sentences.length>1){
@@ -647,7 +660,9 @@ export class Engine {
     }
     return combinations.map(combination => {
       const interlingua = createDiscourse(combination.events,
-        {coreference:settings.coreference || {}});
+        {coreference:settings.coreference || {},
+          relations:(settings.eventRelations||[]).map(edge=>
+            createEventRelation(edge.type,edge.from,edge.to))});
       validateInterlingua(interlingua, this.ontology, this.features);
       return { interlingua, lexicalSenses: combination.senses, score: combination.score };
     });
@@ -792,6 +807,7 @@ export class Engine {
   /** Stable, serializable discovery interface (does not expose mutable adapters). */
   capabilities() {
     return { interlinguaVersion: '1.0', questionDocumentVersion: QUESTION_VERSION,
+      eventRelationDocumentVersion: '1.28',
       dialogueActDocumentVersion: DIALOGUE_ACT_VERSION,
       responsePlannerVersion: RESPONSE_PLANNER_VERSION,
       dialogueEngineVersion: DIALOGUE_ENGINE_VERSION,

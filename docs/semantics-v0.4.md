@@ -168,6 +168,23 @@ Dziewczynka widziała psa. Chłopiec dał dziewczynce jabłko.
 
 Discourse validation checks entity references, complete event roles, event ordering, duplicate IDs, sequence relations and 2–8 event bound. The realizers currently emit one independent target sentence per event. Combined surface alternatives are omitted rather than enumerated exponentially.
 
+### Explicit temporal and causal relations (CORE v1.28)
+
+Sentence order is represented by `precedes`; it does not assert that one event
+caused another. A caller may annotate a PL/EN analysis with
+`context.eventRelations`, for example
+`[{type:'because',from:'e1',to:'e2'}]`. `because` points from cause to
+consequence. `before` and `after` point in the direction of the named temporal
+relation. These annotations are serialized as `event_relation.before`,
+`event_relation.after` or `event_relation.because` edges alongside the existing
+sequence chain, with discourse version `1.28`. Event IDs and their role maps are
+preserved. CORE validation rejects unknown event IDs, duplicate typed edges,
+missing endpoints and cyclic temporal/causal dependencies. Relation annotations
+are explicit caller input; neither sentence order nor repeated entities infer
+causality. The current PL/EN realizers preserve these semantic annotations in
+their returned CORE graph but do not express them as causal words in surface
+text.
+
 ## 5. Schema version notes
 
 | Component | v0.4 |
