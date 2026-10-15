@@ -44,6 +44,26 @@ export const MAX_DISCOURSE_EVENTS = 8;
 export const MAX_DIALOGUE_ACTS = 32;
 export const MAX_CLAUSE_DEPTH = 5;
 
+/** Bounded presentation choice for a transfer event. It is not a truth-conditional CORE field. */
+export function createInformationStructure(event, {topic='agent',focus}={}) {
+  if(event?.type!=='event' || event.concept!=='event.transfer_possession' ||
+      !event.roles?.agent || !event.roles?.recipient || !event.roles?.theme ||
+      topic!=='agent' || !['theme','recipient'].includes(focus) ||
+      Object.keys(event.roles).length!==3)
+    throw new Error('Unsupported information structure for event.');
+  return {topic,focus};
+}
+
+/** Stable truth-conditional signature; surface ordering and register are excluded. */
+export function eventSemanticSignature(event) {
+  if(event?.type!=='event')throw new Error('Semantic signature requires an event.');
+  const stable=value=>Array.isArray(value)?value.map(stable):
+    value&&typeof value==='object'?Object.fromEntries(Object.keys(value).sort()
+      .map(key=>[key,stable(value[key])])):value;
+  const {version:_version,...meaning}=event;
+  return JSON.stringify(stable(meaning));
+}
+
 export function createEvent(concept, roles, features, {voice,omittedRoles}={}) {
   const hasDeictic = Object.values(roles).some(ref => record(ref) && hasOwn(ref, 'referent'));
   const hasPossessor = Object.values(roles).some(ref => record(ref) && hasOwn(ref,'possessor'));

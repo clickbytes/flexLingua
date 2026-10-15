@@ -1,5 +1,5 @@
 import { createEvent, createQuestion, createRelativeClause, createDialogueAct, createModality, createNegation,
-  createIdentity, createPredication, createPossession, createLocation, createComparison, MAX_RELATIVE_DEPTH } from './interlingua.js';
+  createIdentity, createPredication, createPossession, createLocation, createComparison, createInformationStructure, MAX_RELATIVE_DEPTH } from './interlingua.js';
 import { createLexicon } from './lexicon.js';
 import { materializeInflections } from './morphology/engine.js';
 import { createNominalInterpreter } from './nominals.js';
@@ -2036,7 +2036,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     return {text,warnings,alternatives:alternative&&alternative!==text?[alternative]:[]};
   }
 
-  function realize(meaning, {subjectPronoun=null,lexicalRegister='neutral'} = {}) {
+  function realize(meaning, {subjectPronoun=null,lexicalRegister='neutral',informationStructure} = {}) {
     if(!['neutral','formal','plain'].includes(lexicalRegister))
       throw new Error('Unsupported lexical register.');
     if(subjectPronoun && (meaning?.type!=='event' ||
@@ -2048,8 +2048,14 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     if(meaning?.type==='state')return realizeState(meaning);
     if(meaning?.voice==='passive')return realizePassive(meaning);
     if(modalParts(meaning))return realizeModal(meaning);
+    let sequence;
+    if(informationStructure!==undefined) {
+      const {focus}=createInformationStructure(meaning,informationStructure);
+      sequence=frames[meaning.concept]?.linearizations.find(item=>item.at(-1)===focus);
+      if(!sequence)throw new Error(`No ${dictionary.language} information-structure variant for ${focus}.`);
+    }
     const built = renderEvent(meaning, undefined, 0, null,
-      {subjectPronoun,lexicalRegister});
+      {subjectPronoun,lexicalRegister,sequence});
     const { candidates, preferred, linearize } = built;
     const unspecifiedRoles = Object.entries(meaning.roles)
       .filter(([role,ref]) => !(subjectPronoun && role === subjectRole) &&

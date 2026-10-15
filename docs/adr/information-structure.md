@@ -1,0 +1,7 @@
+# Controlled information structure for transfer events
+
+ADV-02 supports one bounded presentation choice: in a single `event.transfer_possession`, `agent` is the topic and either `theme` or `recipient` is the focus. `engine.realize` and `engine.translate` accept `informationStructure: {topic:'agent',focus:'theme'|'recipient'}`. The choice selects one of the already declared language-specific linearizations. English and Polish have both variants; the other event frames are rejected until their alternatives are explicitly reviewed.
+
+The semantic event is unchanged. `eventSemanticSignature(event)` sorts the event document into a stable signature, including roles, tense, aspect and polarity. It excludes presentation options because they do not assert facts. A different focus must not change participant roles or negation scope. A caller can serialize the event to CORE JSON and parse it back without storing a surface-order preference.
+
+The checked-in gold in `tests/c1-paraphrase.test.js` covers the two approved PL and EN word orders, both translation directions, negative clauses and rejected unsupported choices. It compares signatures within each language; an EN↔PL text roundtrip may change underspecified aspect or definiteness under existing grammar rules. The current choice says nothing about general discourse topic detection, emphasis prosody or argument quality. This finite project-authored subset is not CEFR certification.

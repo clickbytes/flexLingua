@@ -1,4 +1,4 @@
-import { createDiscourse, createEventRelation, createCoordination, createNegation, createComplement, createConditional, materializeEvent, validateInterlingua, MAX_DISCOURSE_EVENTS, QUESTION_VERSION, MODALITY_VERSION, STATE_VERSION, DIALOGUE_ACT_VERSION, PASSIVE_VERSION, CONDITIONAL_VERSION, validateCoreferenceMap, sameDiscourseReferent } from './interlingua.js';
+import { createDiscourse, createEventRelation, createCoordination, createNegation, createComplement, createConditional, createInformationStructure, materializeEvent, validateInterlingua, MAX_DISCOURSE_EVENTS, QUESTION_VERSION, MODALITY_VERSION, STATE_VERSION, DIALOGUE_ACT_VERSION, PASSIVE_VERSION, CONDITIONAL_VERSION, validateCoreferenceMap, sameDiscourseReferent } from './interlingua.js';
 import { createFeatureRegistry, record, safeName, hasOwn } from './features.js';
 import { createCoreLanguage } from './core-language.js';
 import { splitSentences, sentenceText } from './text.js';
@@ -735,7 +735,7 @@ export class Engine {
   }
 
   realize({ interlingua, to, pronounRealization='repeat', profile,
-    lexicalRegister='neutral' }) {
+    lexicalRegister='neutral',informationStructure }) {
     const personality=createPersonalityProfile(profile);
     if (profile !== undefined) pronounRealization=personality.realization.pronounRealization;
     if(!['repeat','safe'].includes(pronounRealization))
@@ -743,6 +743,12 @@ export class Engine {
     if(!['neutral','formal','plain'].includes(lexicalRegister))
       throw new Error('Invalid lexical register.');
     validateInterlingua(interlingua, this.ontology, this.features);
+    if(informationStructure!==undefined) {
+      const expected=createInformationStructure(interlingua,informationStructure);
+      if(Object.keys(informationStructure).length!==2 ||
+          informationStructure.topic!==expected.topic || informationStructure.focus!==expected.focus)
+        throw new Error('Invalid information structure.');
+    }
     if (to === 'core') {
       return { text: JSON.stringify(interlingua, null, 2), warnings: [],
         alternatives: [], interlingua };
@@ -792,7 +798,7 @@ export class Engine {
         return adapter.realizeComparison(node);
       }
       if (node.type === 'event') {
-        const output = adapter.realize(node,{...options,lexicalRegister});
+        const output = adapter.realize(node,{...options,lexicalRegister,informationStructure});
         if (!output || typeof output.text !== 'string' || !output.text.trim()) {
           throw new Error(`Invalid realization from adapter: ${to}`);
         }
@@ -919,14 +925,14 @@ export class Engine {
   }
 
   translate({ text, from, to, context, pronounRealization='repeat', profile,
-    lexicalRegister='neutral' }) {
+    lexicalRegister='neutral',informationStructure }) {
     const candidates = this.analyzeCandidates({ text, from, context });
     const results = [];
     let firstError;
     for (const candidate of candidates) {
       try {
         const output = this.realize({ interlingua: candidate.interlingua, to,
-          pronounRealization,profile,lexicalRegister });
+          pronounRealization,profile,lexicalRegister,informationStructure });
         results.push({ ...candidate, output });
       } catch (error) {
         firstError ||= error;
