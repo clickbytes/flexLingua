@@ -550,7 +550,8 @@ function validateGrammar(dictionary, grammar) {
     const slots = hasPredicate ? [...roles, frame?.predicateRole] : roles;
     if (!record(frame) ||
         Object.keys(frame).some(key => !['subjectRole','cases','linearizations','prepositions',
-          'allowImplicitDeicticSubject', ...(hasPredicate ? ['predicateRole','predicateCase'] : [])].includes(key)) ||
+          'allowImplicitDeicticSubject','existentialMarker','existentialTenses',
+          ...(hasPredicate ? ['predicateRole','predicateCase'] : [])].includes(key)) ||
         !['subjectRole','cases','linearizations'].every(key => hasOwn(frame,key)) ||
         (hasPredicate && (frame.predicateRole !== 'predicate' || !safeName(frame.predicateRole) ||
           !safeName(frame.predicateCase) || frame.allowImplicitDeicticSubject === true)) ||
@@ -563,6 +564,13 @@ function validateGrammar(dictionary, grammar) {
           new Set(Object.values(frame.prepositions)).size!==3 ||
           Object.values(frame.prepositions).some(value=>!['interior','surface','point'].includes(value)))) ||
         (kind!=='location' && frame.prepositions!==undefined) ||
+        (frame.existentialMarker!==undefined && (kind!=='location' ||
+          !safeName(frame.existentialMarker) || !Array.isArray(frame.existentialTenses) ||
+          !frame.existentialTenses.length || new Set(frame.existentialTenses).size!==frame.existentialTenses.length ||
+          frame.existentialTenses.some(tense=>!states.supportedTenses.includes(tense)) ||
+          !Array.isArray(frame.linearizations) ||
+          !frame.linearizations.some(sequence=>sequence.includes('@'+frame.existentialMarker)))) ||
+        (frame.existentialTenses!==undefined && frame.existentialMarker===undefined) ||
         !record(frame.cases) || Object.keys(frame.cases).length !== roles.length ||
         roles.some(role => !hasOwn(frame.cases,role)) ||
         !Array.isArray(frame.linearizations) || !frame.linearizations.length ||
@@ -845,6 +853,9 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
       const frame = stateGrammar.frames[base.kind];
       if(options.gap && (base.kind!=='location' || options.gap!=='location'))continue;
       const linearizations=frame.linearizations.flatMap(sequence=>{
+        if(frame.existentialMarker && sequence.includes('@'+frame.existentialMarker) &&
+            (!frame.existentialTenses.includes(base.features.tense) || options.gap ||
+              options.omitVerb || options.doSupport))return [];
         if(options.gap==='location') {
           const reduced=sequence.filter(step=>step!=='location' &&
             !(step.startsWith('@')&&step!=='@verb'));
@@ -869,6 +880,9 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
             !tokens.some((_,index) => matchVerb(tokens,index,entry)!==null)) continue;
         const features={tense:entry.features.tense,polarity};
         for(const sequence of stateLinearizations){
+          const existential=frame.existentialMarker &&
+            sequence.includes('@'+frame.existentialMarker);
+          if(existential && polarity!=='positive')continue;
           const implicitSubject=!sequence.includes(frame.subjectRole)
             ?implicitStateSubject(entry.features):null;
           if(!sequence.includes(frame.subjectRole)&&!implicitSubject)continue;

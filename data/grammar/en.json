@@ -793,6 +793,10 @@
       },
       "location": {
         "subjectRole": "subject",
+        "existentialMarker": "there",
+        "existentialTenses": [
+          "present"
+        ],
         "cases": {
           "subject": "nom",
           "location": "loc"
@@ -818,6 +822,27 @@
           [
             "subject",
             "@verb",
+            "@at",
+            "location"
+          ],
+          [
+            "@there",
+            "@verb",
+            "subject",
+            "@in",
+            "location"
+          ],
+          [
+            "@there",
+            "@verb",
+            "subject",
+            "@on",
+            "location"
+          ],
+          [
+            "@there",
+            "@verb",
+            "subject",
             "@at",
             "location"
           ]

@@ -15,17 +15,21 @@ const status=kind=>Object.fromEntries(EVIDENCE_SOURCES.map(s=>
 const run=(changes={})=>buildA1EvidenceLedger({manifest,ontology,corpora,checks:status('pass'),...changes});
 const byId=(report,id)=>report.targets.find(x=>x.id===id);
 
-test('A1 VAL-03: all eleven project-authored fixtures are inventoried',()=>{
+test('A1 VAL-03: all twelve project-authored fixtures are inventoried',()=>{
  const report=run();
- assert.equal(report.totals.sources,11);
+ assert.equal(report.totals.sources,12);
  assert.deepEqual({p:report.totals.positive,n:report.totals.negative,
    f:report.totals.morphologyCells,productive:report.totals.productiveOnly},
-   {p:510,n:77,f:60,productive:2});
- assert.equal(report.verification.positiveVerified,510);
+   {p:514,n:83,f:60,productive:2});
+ assert.equal(report.verification.positiveVerified,514);
  const bareBeverages=report.sources.find(x=>x.id==='barebeverages');
  assert.deepEqual({positive:bareBeverages.samples.positive,negative:bareBeverages.samples.negative},
    {positive:8,negative:5});
  assert.deepEqual(bareBeverages.byDirection,{'en->pl':4,'pl->en':4});
+ const existential=report.sources.find(x=>x.id==='existential');
+ assert.deepEqual({positive:existential.samples.positive,negative:existential.samples.negative},
+   {positive:4,negative:6});
+ assert.deepEqual(existential.byDirection,{'en->pl':2,'pl->en':2});
  const state=report.sources.find(x=>x.id==='state');
  assert.equal(state.samples.positive,48);
  assert.deepEqual(state.byDirection,{'en->pl':24,'pl->en':24});
@@ -53,7 +57,7 @@ test('A1 VAL-03: all eleven project-authored fixtures are inventoried',()=>{
      .reduce((sum,row)=>sum+row[kind],0),report.sampleQuality.declared[kind]);
  assert.equal(Object.values(report.sampleQuality.declared.morphologyByLanguage)
    .reduce((sum,count)=>sum+count,0),report.totals.morphologyCells);
- assert.equal(report.sampleQuality.verified.positive,510);
+ assert.equal(report.sampleQuality.verified.positive,514);
  assert.equal(report.targetSummary.total,23);
  assert.deepEqual({concepts:report.targets.filter(x=>x.unitType==='concept').length,
    constructions:report.targets.filter(x=>x.unitType==='construction').length},
@@ -124,7 +128,7 @@ test('A1 VAL-03: catalog-only CLI does not claim any executed checks',()=>{
  assert.equal(proc.status,0,proc.stderr);
  const report=JSON.parse(proc.stdout);
  assert.equal(report.verification.status,'not-run');
- assert.equal(report.verification.suitesNotRun,11);
+ assert.equal(report.verification.suitesNotRun,12);
  assert.equal(report.cefr.percentage,null);
  assert.equal(report.execution.runtime,'node');
  assert.ok(Number.isInteger(report.execution.pid));

@@ -137,6 +137,13 @@
       "migrationNote": "Historical rule authorship and rights remain unconfirmed. The SPACE-04 mappings are project-authored; external redistribution remains blocked pending review. The A2-03 additions are project-authored and remain bounded to the in-repository adapter; no historical data was copied.",
       "authoredBatches": [
         {
+          "issue": "#163",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored bounded English existential-locative syntax reusing the typed CORE location state; no external grammar inventory copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "A1-ENPL-04: present positive there is/are clauses with an explicit configured in/on/at location. Language package: data/grammar/en.json."
+        },
+        {
           "issue": "#159",
           "author": "flexLingua project contributors",
           "source": "Project-authored bounded English event grammar licensing bare mass-noun beverage themes only for event.drink; no external grammar inventory copied.",
