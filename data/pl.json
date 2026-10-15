@@ -1437,6 +1437,846 @@
           }
         }
       ]
+    },
+    {
+      "id": "pl.jajko.1",
+      "lemma": "jajko",
+      "gender": "neuter",
+      "forms": {
+        "singular": {
+          "nom": "jajko",
+          "gen": "jajka",
+          "dat": "jajku",
+          "acc": "jajko"
+        },
+        "plural": {
+          "nom": "jajka",
+          "gen": "jajek",
+          "dat": "jajkom",
+          "acc": "jajka"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.jajko.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.egg"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.banan.1",
+      "lemma": "banan",
+      "gender": "masculine",
+      "forms": {
+        "singular": {
+          "nom": "banan",
+          "gen": "banana",
+          "dat": "bananowi",
+          "acc": "banan"
+        },
+        "plural": {
+          "nom": "banany",
+          "gen": "bananów",
+          "dat": "bananom",
+          "acc": "banany"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.banan.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.banana"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.pomarancza.1",
+      "lemma": "pomarańcza",
+      "gender": "feminine",
+      "forms": {
+        "singular": {
+          "nom": "pomarańcza",
+          "gen": "pomarańczy",
+          "dat": "pomarańczy",
+          "acc": "pomarańczę"
+        },
+        "plural": {
+          "nom": "pomarańcze",
+          "gen": "pomarańczy",
+          "dat": "pomarańczom",
+          "acc": "pomarańcze"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.pomarancza.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.orange"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.kanapka.1",
+      "lemma": "kanapka",
+      "gender": "feminine",
+      "forms": {
+        "singular": {
+          "nom": "kanapka",
+          "gen": "kanapki",
+          "dat": "kanapce",
+          "acc": "kanapkę"
+        },
+        "plural": {
+          "nom": "kanapki",
+          "gen": "kanapek",
+          "dat": "kanapkom",
+          "acc": "kanapki"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.kanapka.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.sandwich"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.zupa.1",
+      "lemma": "zupa",
+      "gender": "feminine",
+      "forms": {
+        "singular": {
+          "nom": "zupa",
+          "gen": "zupy",
+          "dat": "zupie",
+          "acc": "zupę"
+        },
+        "plural": {
+          "nom": "zupy",
+          "gen": "zup",
+          "dat": "zupom",
+          "acc": "zupy"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.zupa.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.soup"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.ziemniak.1",
+      "lemma": "ziemniak",
+      "gender": "masculine",
+      "forms": {
+        "singular": {
+          "nom": "ziemniak",
+          "gen": "ziemniaka",
+          "dat": "ziemniakowi",
+          "acc": "ziemniak"
+        },
+        "plural": {
+          "nom": "ziemniaki",
+          "gen": "ziemniaków",
+          "dat": "ziemniakom",
+          "acc": "ziemniaki"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.ziemniak.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.potato"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.pomidor.1",
+      "lemma": "pomidor",
+      "gender": "masculine",
+      "forms": {
+        "singular": {
+          "nom": "pomidor",
+          "gen": "pomidora",
+          "dat": "pomidorowi",
+          "acc": "pomidor"
+        },
+        "plural": {
+          "nom": "pomidory",
+          "gen": "pomidorów",
+          "dat": "pomidorom",
+          "acc": "pomidory"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.pomidor.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.tomato"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.marchewka.1",
+      "lemma": "marchewka",
+      "gender": "feminine",
+      "forms": {
+        "singular": {
+          "nom": "marchewka",
+          "gen": "marchewki",
+          "dat": "marchewce",
+          "acc": "marchewkę"
+        },
+        "plural": {
+          "nom": "marchewki",
+          "gen": "marchewek",
+          "dat": "marchewkom",
+          "acc": "marchewki"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.marchewka.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.carrot"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.cebula.1",
+      "lemma": "cebula",
+      "gender": "feminine",
+      "forms": {
+        "singular": {
+          "nom": "cebula",
+          "gen": "cebuli",
+          "dat": "cebuli",
+          "acc": "cebulę"
+        },
+        "plural": {
+          "nom": "cebule",
+          "gen": "cebuli",
+          "dat": "cebulom",
+          "acc": "cebule"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.cebula.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.onion"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.cytryna.1",
+      "lemma": "cytryna",
+      "gender": "feminine",
+      "forms": {
+        "singular": {
+          "nom": "cytryna",
+          "gen": "cytryny",
+          "dat": "cytrynie",
+          "acc": "cytrynę"
+        },
+        "plural": {
+          "nom": "cytryny",
+          "gen": "cytryn",
+          "dat": "cytrynom",
+          "acc": "cytryny"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.cytryna.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.lemon"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.ciastko.1",
+      "lemma": "ciastko",
+      "gender": "neuter",
+      "forms": {
+        "singular": {
+          "nom": "ciastko",
+          "gen": "ciastka",
+          "dat": "ciastku",
+          "acc": "ciastko"
+        },
+        "plural": {
+          "nom": "ciastka",
+          "gen": "ciastek",
+          "dat": "ciastkom",
+          "acc": "ciastka"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.ciastko.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.cookie"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.ciasto.1",
+      "lemma": "ciasto",
+      "gender": "neuter",
+      "forms": {
+        "singular": {
+          "nom": "ciasto",
+          "gen": "ciasta",
+          "dat": "ciastu",
+          "acc": "ciasto"
+        },
+        "plural": {
+          "nom": "ciasta",
+          "gen": "ciast",
+          "dat": "ciastom",
+          "acc": "ciasta"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.ciasto.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.cake"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.pizza.1",
+      "lemma": "pizza",
+      "gender": "feminine",
+      "forms": {
+        "singular": {
+          "nom": "pizza",
+          "gen": "pizzy",
+          "dat": "pizzy",
+          "acc": "pizzę"
+        },
+        "plural": {
+          "nom": "pizze",
+          "gen": "pizz",
+          "dat": "pizzom",
+          "acc": "pizze"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.pizza.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.pizza"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.gruszka.1",
+      "lemma": "gruszka",
+      "gender": "feminine",
+      "forms": {
+        "singular": {
+          "nom": "gruszka",
+          "gen": "gruszki",
+          "dat": "gruszce",
+          "acc": "gruszkę"
+        },
+        "plural": {
+          "nom": "gruszki",
+          "gen": "gruszek",
+          "dat": "gruszkom",
+          "acc": "gruszki"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.gruszka.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.pear"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.ogorek.1",
+      "lemma": "ogórek",
+      "gender": "masculine",
+      "forms": {
+        "singular": {
+          "nom": "ogórek",
+          "gen": "ogórka",
+          "dat": "ogórkowi",
+          "acc": "ogórek"
+        },
+        "plural": {
+          "nom": "ogórki",
+          "gen": "ogórków",
+          "dat": "ogórkom",
+          "acc": "ogórki"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.ogorek.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.cucumber"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.nalesnik.1",
+      "lemma": "naleśnik",
+      "gender": "masculine",
+      "forms": {
+        "singular": {
+          "nom": "naleśnik",
+          "gen": "naleśnika",
+          "dat": "naleśnikowi",
+          "acc": "naleśnik"
+        },
+        "plural": {
+          "nom": "naleśniki",
+          "gen": "naleśników",
+          "dat": "naleśnikom",
+          "acc": "naleśniki"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.nalesnik.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.pancake"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.butelka.1",
+      "lemma": "butelka",
+      "gender": "feminine",
+      "forms": {
+        "singular": {
+          "nom": "butelka",
+          "gen": "butelki",
+          "dat": "butelce",
+          "acc": "butelkę"
+        },
+        "plural": {
+          "nom": "butelki",
+          "gen": "butelek",
+          "dat": "butelkom",
+          "acc": "butelki"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.butelka.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.bottle"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.pudelko.1",
+      "lemma": "pudełko",
+      "gender": "neuter",
+      "forms": {
+        "singular": {
+          "nom": "pudełko",
+          "gen": "pudełka",
+          "dat": "pudełku",
+          "acc": "pudełko"
+        },
+        "plural": {
+          "nom": "pudełka",
+          "gen": "pudełek",
+          "dat": "pudełkom",
+          "acc": "pudełka"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.pudelko.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.box"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.koszyk.1",
+      "lemma": "koszyk",
+      "gender": "masculine",
+      "forms": {
+        "singular": {
+          "nom": "koszyk",
+          "gen": "koszyka",
+          "dat": "koszykowi",
+          "acc": "koszyk"
+        },
+        "plural": {
+          "nom": "koszyki",
+          "gen": "koszyków",
+          "dat": "koszykom",
+          "acc": "koszyki"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.koszyk.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.basket"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.bilet.1",
+      "lemma": "bilet",
+      "gender": "masculine",
+      "forms": {
+        "singular": {
+          "nom": "bilet",
+          "gen": "biletu",
+          "dat": "biletowi",
+          "acc": "bilet"
+        },
+        "plural": {
+          "nom": "bilety",
+          "gen": "biletów",
+          "dat": "biletom",
+          "acc": "bilety"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.bilet.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.ticket"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.moneta.1",
+      "lemma": "moneta",
+      "gender": "feminine",
+      "forms": {
+        "singular": {
+          "nom": "moneta",
+          "gen": "monety",
+          "dat": "monecie",
+          "acc": "monetę"
+        },
+        "plural": {
+          "nom": "monety",
+          "gen": "monet",
+          "dat": "monetom",
+          "acc": "monety"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.moneta.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.coin"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.portfel.1",
+      "lemma": "portfel",
+      "gender": "masculine",
+      "forms": {
+        "singular": {
+          "nom": "portfel",
+          "gen": "portfela",
+          "dat": "portfelowi",
+          "acc": "portfel"
+        },
+        "plural": {
+          "nom": "portfele",
+          "gen": "portfeli",
+          "dat": "portfelom",
+          "acc": "portfele"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.portfel.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.wallet"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.paragon.1",
+      "lemma": "paragon",
+      "gender": "masculine",
+      "forms": {
+        "singular": {
+          "nom": "paragon",
+          "gen": "paragonu",
+          "dat": "paragonowi",
+          "acc": "paragon"
+        },
+        "plural": {
+          "nom": "paragony",
+          "gen": "paragonów",
+          "dat": "paragonom",
+          "acc": "paragony"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.paragon.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.receipt"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.gazeta.1",
+      "lemma": "gazeta",
+      "gender": "feminine",
+      "forms": {
+        "singular": {
+          "nom": "gazeta",
+          "gen": "gazety",
+          "dat": "gazecie",
+          "acc": "gazetę"
+        },
+        "plural": {
+          "nom": "gazety",
+          "gen": "gazet",
+          "dat": "gazetom",
+          "acc": "gazety"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.gazeta.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.newspaper"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.karta.1",
+      "lemma": "karta",
+      "gender": "feminine",
+      "forms": {
+        "singular": {
+          "nom": "karta",
+          "gen": "karty",
+          "dat": "karcie",
+          "acc": "kartę"
+        },
+        "plural": {
+          "nom": "karty",
+          "gen": "kart",
+          "dat": "kartom",
+          "acc": "karty"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.karta.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.card"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.talerz.1",
+      "lemma": "talerz",
+      "gender": "masculine",
+      "forms": {
+        "singular": {
+          "nom": "talerz",
+          "gen": "talerza",
+          "dat": "talerzowi",
+          "acc": "talerz"
+        },
+        "plural": {
+          "nom": "talerze",
+          "gen": "talerzy",
+          "dat": "talerzom",
+          "acc": "talerze"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.talerz.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.plate"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.lyzka.1",
+      "lemma": "łyżka",
+      "gender": "feminine",
+      "forms": {
+        "singular": {
+          "nom": "łyżka",
+          "gen": "łyżki",
+          "dat": "łyżce",
+          "acc": "łyżkę"
+        },
+        "plural": {
+          "nom": "łyżki",
+          "gen": "łyżek",
+          "dat": "łyżkom",
+          "acc": "łyżki"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.lyzka.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.spoon"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.widelec.1",
+      "lemma": "widelec",
+      "gender": "masculine",
+      "forms": {
+        "singular": {
+          "nom": "widelec",
+          "gen": "widelca",
+          "dat": "widelcowi",
+          "acc": "widelec"
+        },
+        "plural": {
+          "nom": "widelce",
+          "gen": "widelców",
+          "dat": "widelcom",
+          "acc": "widelce"
+        }
+      },
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.widelec.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.fork"
+          }
+        }
+      ]
     }
   ],
   "verbs": [
@@ -2500,6 +3340,191 @@
           "coreRef": {
             "kind": "concept",
             "id": "quality.red"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.pomaranczowy.adj.1",
+      "lemma": "pomarańczowy",
+      "forms": [
+        {
+          "text": "pomarańczowa",
+          "when": {
+            "number": "singular",
+            "gender": "feminine",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "pomarańczową",
+          "when": {
+            "number": "singular",
+            "gender": "feminine",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "pomarańczowej",
+          "when": {
+            "number": "singular",
+            "gender": "feminine",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "pomarańczowej",
+          "when": {
+            "number": "singular",
+            "gender": "feminine",
+            "case": "dat"
+          }
+        },
+        {
+          "text": "pomarańczowy",
+          "when": {
+            "number": "singular",
+            "gender": "masculine",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "pomarańczowego",
+          "when": {
+            "number": "singular",
+            "gender": "masculine",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "pomarańczowemu",
+          "when": {
+            "number": "singular",
+            "gender": "masculine",
+            "case": "dat"
+          }
+        },
+        {
+          "text": "pomarańczowego",
+          "when": {
+            "number": "singular",
+            "gender": "masculine",
+            "animacy": "animate",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "pomarańczowy",
+          "when": {
+            "number": "singular",
+            "gender": "masculine",
+            "animacy": "inanimate",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "pomarańczowe",
+          "when": {
+            "number": "singular",
+            "gender": "neuter",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "pomarańczowe",
+          "when": {
+            "number": "singular",
+            "gender": "neuter",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "pomarańczowego",
+          "when": {
+            "number": "singular",
+            "gender": "neuter",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "pomarańczowemu",
+          "when": {
+            "number": "singular",
+            "gender": "neuter",
+            "case": "dat"
+          }
+        },
+        {
+          "text": "pomarańczowi",
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "pomarańczowych",
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "pomarańczowych",
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "pomarańczowym",
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "dat"
+          }
+        },
+        {
+          "text": "pomarańczowe",
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "case": "nom"
+          }
+        },
+        {
+          "text": "pomarańczowe",
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "case": "acc"
+          }
+        },
+        {
+          "text": "pomarańczowych",
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "case": "gen"
+          }
+        },
+        {
+          "text": "pomarańczowym",
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "case": "dat"
+          }
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.pomaranczowy.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.orange"
           }
         }
       ]

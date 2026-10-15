@@ -586,6 +586,158 @@
       "type": "entity",
       "parent": "physical_object",
       "label": "lamp"
+    },
+    "food": {
+      "type": "category",
+      "parent": "physical_object",
+      "label": "food"
+    },
+    "food.egg": {
+      "type": "entity",
+      "parent": "food",
+      "label": "egg"
+    },
+    "food.banana": {
+      "type": "entity",
+      "parent": "food",
+      "label": "banana"
+    },
+    "food.orange": {
+      "type": "entity",
+      "parent": "food",
+      "label": "orange"
+    },
+    "food.sandwich": {
+      "type": "entity",
+      "parent": "food",
+      "label": "sandwich"
+    },
+    "food.soup": {
+      "type": "entity",
+      "parent": "food",
+      "label": "soup"
+    },
+    "food.potato": {
+      "type": "entity",
+      "parent": "food",
+      "label": "potato"
+    },
+    "food.tomato": {
+      "type": "entity",
+      "parent": "food",
+      "label": "tomato"
+    },
+    "food.carrot": {
+      "type": "entity",
+      "parent": "food",
+      "label": "carrot"
+    },
+    "food.onion": {
+      "type": "entity",
+      "parent": "food",
+      "label": "onion"
+    },
+    "food.lemon": {
+      "type": "entity",
+      "parent": "food",
+      "label": "lemon"
+    },
+    "food.cookie": {
+      "type": "entity",
+      "parent": "food",
+      "label": "cookie"
+    },
+    "food.cake": {
+      "type": "entity",
+      "parent": "food",
+      "label": "cake"
+    },
+    "food.pizza": {
+      "type": "entity",
+      "parent": "food",
+      "label": "pizza"
+    },
+    "food.pear": {
+      "type": "entity",
+      "parent": "food",
+      "label": "pear"
+    },
+    "food.cucumber": {
+      "type": "entity",
+      "parent": "food",
+      "label": "cucumber"
+    },
+    "food.pancake": {
+      "type": "entity",
+      "parent": "food",
+      "label": "pancake"
+    },
+    "object.bottle": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "bottle"
+    },
+    "object.box": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "box"
+    },
+    "object.basket": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "basket"
+    },
+    "object.ticket": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "ticket"
+    },
+    "object.coin": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "coin"
+    },
+    "object.wallet": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "wallet"
+    },
+    "object.receipt": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "receipt"
+    },
+    "object.newspaper": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "newspaper"
+    },
+    "object.card": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "card"
+    },
+    "object.plate": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "plate"
+    },
+    "object.spoon": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "spoon"
+    },
+    "object.fork": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "fork"
+    },
+    "quality.orange": {
+      "type": "property",
+      "label": "orange in color",
+      "appliesTo": [
+        "entity"
+      ]
     }
   },
   "relationTypes": {

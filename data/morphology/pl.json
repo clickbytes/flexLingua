@@ -7408,6 +7408,1950 @@
           ]
         }
       ]
+    },
+    {
+      "lexemeId": "pl.jajko.1",
+      "paradigmId": "pl.noun.neuter_o_plain",
+      "stems": {
+        "base": "jajk",
+        "lemma": "jajko"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "inst"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "jajkiem"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "jajku"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "jajek"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.banan.1",
+      "paradigmId": "pl.noun.masc_inanimate_hard",
+      "stems": {
+        "base": "banan",
+        "lemma": "banan"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "banana"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.pomarancza.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "pomarańcz",
+        "lemma": "pomarańcza"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "pomarańczy"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "pomarańczy"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "pomarańcze"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "pomarańczy"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "pomarańcze"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "pomarańcze"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.kanapka.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "kanapk",
+        "lemma": "kanapka"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kanapki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kanapce"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kanapce"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kanapki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kanapek"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kanapki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kanapki"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.zupa.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "zup",
+        "lemma": "zupa"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "zupie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "zupie"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.ziemniak.1",
+      "paradigmId": "pl.noun.masc_inanimate_hard",
+      "stems": {
+        "base": "ziemniak",
+        "lemma": "ziemniak"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ziemniaka"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "inst"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ziemniakiem"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ziemniaku"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ziemniaku"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ziemniaki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ziemniaki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ziemniaki"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.pomidor.1",
+      "paradigmId": "pl.noun.masc_inanimate_hard",
+      "stems": {
+        "base": "pomidor",
+        "lemma": "pomidor"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "pomidora"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "pomidorze"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "pomidorze"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.marchewka.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "marchewk",
+        "lemma": "marchewka"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "marchewki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "marchewce"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "marchewce"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "marchewki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "marchewek"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "marchewki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "marchewki"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.cebula.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "cebul",
+        "lemma": "cebula"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "cebuli"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "cebuli"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "cebuli"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "cebule"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "cebuli"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "cebule"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "cebule"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.cytryna.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "cytryn",
+        "lemma": "cytryna"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "cytrynie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "cytrynie"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.ciastko.1",
+      "paradigmId": "pl.noun.neuter_o_plain",
+      "stems": {
+        "base": "ciastk",
+        "lemma": "ciastko"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "inst"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ciastkiem"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ciastku"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ciastek"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.ciasto.1",
+      "paradigmId": "pl.noun.neuter_o_plain",
+      "stems": {
+        "base": "ciast",
+        "lemma": "ciasto"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "cieście"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.pizza.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "pizz",
+        "lemma": "pizza"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "pizzy"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "pizzy"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "pizze"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "pizze"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "pizze"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.gruszka.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "gruszk",
+        "lemma": "gruszka"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "gruszki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "gruszce"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "gruszce"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "gruszki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "gruszek"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "gruszki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "gruszki"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.ogorek.1",
+      "paradigmId": "pl.noun.masc_inanimate_hard",
+      "stems": {
+        "base": "ogórek",
+        "lemma": "ogórek"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ogórka"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ogórkowi"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "inst"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ogórkiem"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ogórku"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ogórku"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ogórki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ogórków"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ogórkom"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ogórki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "inst"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ogórkami"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ogórkach"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ogórki"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.nalesnik.1",
+      "paradigmId": "pl.noun.masc_inanimate_hard",
+      "stems": {
+        "base": "naleśnik",
+        "lemma": "naleśnik"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "naleśnika"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "inst"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "naleśnikiem"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "naleśniku"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "naleśniku"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "naleśniki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "naleśniki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "naleśniki"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.butelka.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "butelk",
+        "lemma": "butelka"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "butelki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "butelce"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "butelce"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "butelki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "butelek"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "butelki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "butelki"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.pudelko.1",
+      "paradigmId": "pl.noun.neuter_o_plain",
+      "stems": {
+        "base": "pudełk",
+        "lemma": "pudełko"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "inst"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "pudełkiem"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "pudełku"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "pudełek"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.koszyk.1",
+      "paradigmId": "pl.noun.masc_inanimate_hard",
+      "stems": {
+        "base": "koszyk",
+        "lemma": "koszyk"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "koszyka"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "inst"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "koszykiem"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "koszyku"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "koszyku"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "koszyki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "koszyki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "koszyki"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.bilet.1",
+      "paradigmId": "pl.noun.masc_inanimate_hard",
+      "stems": {
+        "base": "bilet",
+        "lemma": "bilet"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "bilecie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "bilecie"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.moneta.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "monet",
+        "lemma": "moneta"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "monecie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "monecie"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.portfel.1",
+      "paradigmId": "pl.noun.masc_inanimate_hard",
+      "stems": {
+        "base": "portfel",
+        "lemma": "portfel"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "portfela"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "portfelu"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "portfelu"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "portfele"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "portfeli"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "portfele"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "portfele"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.paragon.1",
+      "paradigmId": "pl.noun.masc_inanimate_hard",
+      "stems": {
+        "base": "paragon",
+        "lemma": "paragon"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.gazeta.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "gazet",
+        "lemma": "gazeta"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "gazecie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "gazecie"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.karta.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "kart",
+        "lemma": "karta"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "karcie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "karcie"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.talerz.1",
+      "paradigmId": "pl.noun.masc_inanimate_hard",
+      "stems": {
+        "base": "talerz",
+        "lemma": "talerz"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "talerza"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "talerzu"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "talerzu"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "talerze"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "talerzy"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "talerze"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "talerze"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.lyzka.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "łyżk",
+        "lemma": "łyżka"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "łyżki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "łyżce"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "łyżce"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "łyżki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "łyżek"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "łyżki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "łyżki"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.widelec.1",
+      "paradigmId": "pl.noun.masc_inanimate_hard",
+      "stems": {
+        "base": "widelec",
+        "lemma": "widelec"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "widelca"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "widelcowi"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "inst"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "widelcem"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "widelcu"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "widelcu"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "widelce"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "widelców"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "widelcom"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "widelce"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "inst"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "widelcami"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "widelcach"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "voc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "widelce"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.pomaranczowy.adj.1",
+      "paradigmId": "pl.adj.regular",
+      "stems": {
+        "base": "pomarańczow",
+        "virile": "pomarańczow"
+      },
+      "overrides": []
     }
   ]
 }

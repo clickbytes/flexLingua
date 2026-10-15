@@ -947,6 +947,510 @@
           }
         }
       ]
+    },
+    {
+      "id": "en.egg.1",
+      "lemma": "egg",
+      "forms": {
+        "singular": "egg",
+        "plural": "eggs"
+      },
+      "indefiniteArticle": "an",
+      "senses": [
+        {
+          "id": "en.egg.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.egg"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.banana.1",
+      "lemma": "banana",
+      "forms": {
+        "singular": "banana",
+        "plural": "bananas"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.banana.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.banana"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.orange.1",
+      "lemma": "orange",
+      "forms": {
+        "singular": "orange",
+        "plural": "oranges"
+      },
+      "indefiniteArticle": "an",
+      "senses": [
+        {
+          "id": "en.orange.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.orange"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.sandwich.1",
+      "lemma": "sandwich",
+      "forms": {
+        "singular": "sandwich",
+        "plural": "sandwiches"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.sandwich.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.sandwich"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.soup.1",
+      "lemma": "soup",
+      "forms": {
+        "singular": "soup",
+        "plural": "soups"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.soup.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.soup"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.potato.1",
+      "lemma": "potato",
+      "forms": {
+        "singular": "potato",
+        "plural": "potatoes"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.potato.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.potato"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.tomato.1",
+      "lemma": "tomato",
+      "forms": {
+        "singular": "tomato",
+        "plural": "tomatoes"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tomato.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.tomato"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.carrot.1",
+      "lemma": "carrot",
+      "forms": {
+        "singular": "carrot",
+        "plural": "carrots"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.carrot.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.carrot"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.onion.1",
+      "lemma": "onion",
+      "forms": {
+        "singular": "onion",
+        "plural": "onions"
+      },
+      "indefiniteArticle": "an",
+      "senses": [
+        {
+          "id": "en.onion.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.onion"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.lemon.1",
+      "lemma": "lemon",
+      "forms": {
+        "singular": "lemon",
+        "plural": "lemons"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.lemon.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.lemon"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.cookie.1",
+      "lemma": "cookie",
+      "forms": {
+        "singular": "cookie",
+        "plural": "cookies"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.cookie.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.cookie"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.cake.1",
+      "lemma": "cake",
+      "forms": {
+        "singular": "cake",
+        "plural": "cakes"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.cake.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.cake"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.pizza.1",
+      "lemma": "pizza",
+      "forms": {
+        "singular": "pizza",
+        "plural": "pizzas"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.pizza.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.pizza"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.pear.1",
+      "lemma": "pear",
+      "forms": {
+        "singular": "pear",
+        "plural": "pears"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.pear.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.pear"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.cucumber.1",
+      "lemma": "cucumber",
+      "forms": {
+        "singular": "cucumber",
+        "plural": "cucumbers"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.cucumber.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.cucumber"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.pancake.1",
+      "lemma": "pancake",
+      "forms": {
+        "singular": "pancake",
+        "plural": "pancakes"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.pancake.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.pancake"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.bottle.1",
+      "lemma": "bottle",
+      "forms": {
+        "singular": "bottle",
+        "plural": "bottles"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.bottle.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.bottle"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.box.1",
+      "lemma": "box",
+      "forms": {
+        "singular": "box",
+        "plural": "boxes"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.box.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.box"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.basket.1",
+      "lemma": "basket",
+      "forms": {
+        "singular": "basket",
+        "plural": "baskets"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.basket.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.basket"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.ticket.1",
+      "lemma": "ticket",
+      "forms": {
+        "singular": "ticket",
+        "plural": "tickets"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.ticket.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.ticket"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.coin.1",
+      "lemma": "coin",
+      "forms": {
+        "singular": "coin",
+        "plural": "coins"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.coin.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.coin"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.wallet.1",
+      "lemma": "wallet",
+      "forms": {
+        "singular": "wallet",
+        "plural": "wallets"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.wallet.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.wallet"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.receipt.1",
+      "lemma": "receipt",
+      "forms": {
+        "singular": "receipt",
+        "plural": "receipts"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.receipt.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.receipt"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.newspaper.1",
+      "lemma": "newspaper",
+      "forms": {
+        "singular": "newspaper",
+        "plural": "newspapers"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.newspaper.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.newspaper"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.card.1",
+      "lemma": "card",
+      "forms": {
+        "singular": "card",
+        "plural": "cards"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.card.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.card"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.plate.1",
+      "lemma": "plate",
+      "forms": {
+        "singular": "plate",
+        "plural": "plates"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.plate.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.plate"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.spoon.1",
+      "lemma": "spoon",
+      "forms": {
+        "singular": "spoon",
+        "plural": "spoons"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.spoon.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.spoon"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.fork.1",
+      "lemma": "fork",
+      "forms": {
+        "singular": "fork",
+        "plural": "forks"
+      },
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.fork.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.fork"
+          }
+        }
+      ]
     }
   ],
   "verbs": [
@@ -1310,6 +1814,25 @@
           "coreRef": {
             "kind": "concept",
             "id": "quality.red"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.orange.adj.1",
+      "lemma": "orange",
+      "indefiniteArticle": "an",
+      "forms": [
+        {
+          "text": "orange"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.orange.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.orange"
           }
         }
       ]
