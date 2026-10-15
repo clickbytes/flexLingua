@@ -7,6 +7,7 @@ import {createDiscourse, createDialogueAct, validateInterlingua,
   from './interlingua.js';
 import {record, safeName} from './features.js';
 import {splitSentences} from './text.js';
+import {applyPersonalityProfile, createPersonalityProfile} from './personality.js';
 
 function isDeictic(ref) {
   return record(ref) && record(ref.referent) && ref.referent.kind === 'deictic';
@@ -228,7 +229,7 @@ export class ConversationContext {
   }
 
   /** Realize and append a planned reply; session state changes only after planning succeeds. */
-  respond({facts,clarifyQuestion,to,participants}={}) {
+  respond({facts,clarifyQuestion,to,participants,profile}={}) {
     this.#assertTurnCapacity();
     const pending=this.#dialogue.snapshot().pendingQuestions;
     if(!pending.length)throw new Error('Conversation has no pending question to answer.');
@@ -236,13 +237,16 @@ export class ConversationContext {
       .filter(turn=>turn.intent==='assert')
       .map(turn=>turn.interlingua.payload.proposition) : facts;
     const response=this.#engine.respond({question:pending[pending.length-1],
-      facts:assertions,clarifyQuestion,to});
+      facts:assertions,clarifyQuestion,to,profile});
     const session=this.appendDialogueAct(response.plan.act,{participants});
     return {...response,dialogueAct:response.plan.act,
       conversation:session.interlingua,turnCount:this.#turns.length,focus:session.focus};
   }
 
-  translate({text,from,to,context={},pronounRealization='repeat',participants:participantInput}={}) {
+  translate({text,from,to,context={},pronounRealization='repeat',participants:participantInput,profile}={}) {
+    const personality=createPersonalityProfile(profile);
+    const profileOptions=profile===undefined?{}:{profile:personality};
+    if(profile!==undefined)pronounRealization=personality.realization.pronounRealization;
     if(!['repeat','safe'].includes(pronounRealization))
       throw new Error('Invalid pronoun realization policy.');
     this.#assertTurnCapacity();
@@ -268,7 +272,7 @@ export class ConversationContext {
         throw new Error('Ambiguous conversation question: specify an explicit sense constraint.');
       const question=structuredClone(unique[0].interlingua);
       const act=createDialogueAct('ask',{question});
-      const output=this.#engine.realize({interlingua:question,to});
+      const output=this.#engine.realize({interlingua:question,to,...profileOptions});
       const turn=this.#turnRecord(act,participants,{surface:{
         source:{language:from,text:sourceText},target:{language:to,text:output.text}
       }});
@@ -313,7 +317,7 @@ export class ConversationContext {
     const graph=eventGraph(events,links);
     if(graph)validateInterlingua(graph,this.#engine.ontology,this.#engine.features);
 
-    const baseline=this.#engine.realize({interlingua:event,to});
+    const baseline=this.#engine.realize({interlingua:event,to,...profileOptions});
     let output=baseline,pronounized=false;
     if(antecedent && pronounRealization==='safe' && to!=='core'){
       const target=this.#engine.language(to);
@@ -324,8 +328,9 @@ export class ConversationContext {
           .map(([role])=>this.#root('e'+(index+1)+'.'+role)))):new Set();
       if(surface && possibleOrigins.size===1 && possibleOrigins.has(antecedent.root)){
         const realized=target.realize(event,{subjectPronoun:surface});
-        output={...baseline,text:realized.text,
-          warnings:[...new Set([...(baseline.warnings||[]),...(realized.warnings||[])])]};
+        output=applyPersonalityProfile({...baseline,text:realized.text,
+          alternatives:realized.alternatives||[],
+          warnings:[...new Set([...(baseline.warnings||[]),...(realized.warnings||[])])]},personality);
         pronounized=true;
       } else {
         output={...baseline,warnings:[...(baseline.warnings||[]),

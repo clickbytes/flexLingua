@@ -184,3 +184,19 @@ the CORE response planner and records its typed reply; `tryRespond()` provides
 the same safe error envelope. Pass `participants: {speakerId,addresseeId}` to
 retain explicitly selected speaker/addressee identity across turns. The API
 uses only the registered local language adapters and makes no network calls.
+
+## v1.0 extension — personality realization profiles
+
+Pass a validated profile as `profile` to `engine.realize()`, `engine.translate()`,
+`dialogue.nextTurn()`, or `dialogue.respond()`. The default profile is
+`data/personality/default.json`; validate or construct profiles with
+`engine.validatePersonalityProfile(profile)`. The versioned closed schema is
+[`schemas/personality.schema.json`](../schemas/personality.schema.json), and
+the runtime advertises `personalityProfileVersion === '1.0'`.
+
+Version 1.0 exposes only current adapter controls: `pronounRealization` (`repeat`
+or `safe`) and `outputVariant` (`preferred` or `first_alternative`). Profiles
+may change target wording while preserving the CORE object. If an alternate
+wording does not exist, the preferred output is kept with a warning. Unknown
+fields and unsupported options fail validation. See the
+[profile contract and semantic boundary](adr/personality.md).

@@ -1,0 +1,8 @@
+{
+  "version": "1.0",
+  "id": "default",
+  "realization": {
+    "pronounRealization": "repeat",
+    "outputVariant": "preferred"
+  }
+}

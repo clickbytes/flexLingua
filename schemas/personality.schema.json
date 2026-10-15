@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://clickbytes.github.io/flexLingua/schemas/personality.schema.json",
+  "title": "FlexLingua personality realization profile",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "id", "realization"],
+  "properties": {
+    "version": {"const": "1.0"},
+    "id": {"type": "string", "pattern": "^[a-z][a-z0-9-]{0,31}$"},
+    "realization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pronounRealization", "outputVariant"],
+      "properties": {
+        "pronounRealization": {"enum": ["repeat", "safe"]},
+        "outputVariant": {"enum": ["preferred", "first_alternative"]}
+      }
+    }
+  }
+}
