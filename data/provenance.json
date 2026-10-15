@@ -481,6 +481,16 @@
       "license": "Project-authored; no separate SPDX license grant is declared in this repository.",
       "reviewedAt": "2026-10-15",
       "permittedUse": "Internal finite B2 development sample only; not independently reviewed or representative of CEFR."
+    },
+    {
+      "path": "data/coverage/c1-targets.json",
+      "version": 1,
+      "status": "project-authored",
+      "author": "flexLingua project contributors; individual sense authors are not recorded",
+      "source": "Original project-authored matrix of 30 abstract process senses with controlled formal and plain register mappings; no external definitions or vocabulary lists copied.",
+      "license": "Project-authored; no separate SPDX license grant is declared in this repository.",
+      "reviewedAt": "2026-10-15",
+      "permittedUse": "Internal finite C1 research subset only; not independently reviewed or representative of CEFR. Plain aliases are limited to the documented procedural senses."
     }
   ]
 }

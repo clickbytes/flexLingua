@@ -1,0 +1,285 @@
+{
+  "version": 1,
+  "license": "project-authored",
+  "origin": "Original C1 research subset of 30 distinct abstract process senses; register labels and controlled aliases are project-authored, not copied from external dictionaries.",
+  "completeness": "finite-research-subset-not-cefr",
+  "representativeCefrDenominator": null,
+  "senses": [
+    {
+      "id": "abstract.interpretation",
+      "formal": {
+        "en": "interpretation",
+        "pl": "interpretacja"
+      },
+      "plain": null,
+      "provenance": "project-authored mapping; no external definition copied"
+    },
+    {
+      "id": "abstract.argumentation",
+      "formal": {
+        "en": "argumentation",
+        "pl": "argumentacja"
+      },
+      "plain": null,
+      "provenance": "project-authored mapping; no external definition copied"
+    },
+    {
+      "id": "abstract.deliberation",
+      "formal": {
+        "en": "deliberation",
+        "pl": "deliberacja"
+      },
+      "plain": null,
+      "provenance": "project-authored mapping; no external definition copied"
+    },
+    {
+      "id": "abstract.verification",
+      "formal": {
+        "en": "verification",
+        "pl": "weryfikacja"
+      },
+      "plain": {
+        "en": "check",
+        "pl": "kontrola"
+      },
+      "provenance": "project-authored mapping; no external definition copied"
+    },
+    {
+      "id": "abstract.implementation",
+      "formal": {
+        "en": "implementation",
+        "pl": "implementacja"
+      },
+      "plain": null,
+      "provenance": "project-authored mapping; no external definition copied"
+    },
+    {
+      "id": "abstract.recommendation",
+      "formal": {
+        "en": "recommendation",
+        "pl": "rekomendacja"
+      },
+      "plain": {
+        "en": "tip",
+        "pl": "porada"
+      },
+      "provenance": "project-authored mapping; no external definition copied"
+    },
+    {
+      "id": "abstract.classification",
+      "formal": {
+        "en": "classification",
+        "pl": "klasyfikacja"
+      },
+      "plain": null,
+      "provenance": "project-authored mapping; no external definition copied"
+    },
+    {
+      "id": "abstract.identification",
+      "formal": {
+        "en": "identification",
+        "pl": "identyfikacja"
+      },
+      "plain": null,
+      "provenance": "project-authored mapping; no external definition copied"
+    },
+    {
+      "id": "abstract.conceptualization",
+      "formal": {
+        "en": "conceptualization",
+        "pl": "konceptualizacja"
+      },
+      "plain": null,
+      "provenance": "project-authored mapping; no external definition copied"
+    },
+    {
+      "id": "abstract.generalization",
+      "formal": {
+        "en": "generalization",
+        "pl": "generalizacja"
+      },
+      "plain": null,
+      "provenance": "project-authored mapping; no external definition copied"
+    },
+    {
+      "id": "abstract.specification",
+      "formal": {
+        "en": "specification",
+        "pl": "specyfikacja"
+      },
+      "plain": null,
+      "provenance": "project-authored mapping; no external definition copied"
+    },
+    {
+      "id": "abstract.evaluation",
+      "formal": {
+        "en": "evaluation",
+        "pl": "ewaluacja"
+      },
+      "plain": null,
+      "provenance": "project-authored mapping; no external definition copied"
+    },
+    {
+      "id": "abstract.calibration",
+      "formal": {
+        "en": "calibration",
+        "pl": "kalibracja"
+      },
+      "plain": null,
+      "provenance": "project-authored mapping; no external definition copied"
+    },
+    {
+      "id": "abstract.coordination",
+      "formal": {
+        "en": "coordination",
+        "pl": "koordynacja"
+      },
+      "plain": null,
+      "provenance": "project-authored mapping; no external definition copied"
+    },
+    {
+      "id": "abstract.communication",
+      "formal": {
+        "en": "communication",
+        "pl": "komunikacja"
+      },
+      "plain": null,
+      "provenance": "project-authored mapping; no external definition copied"
+    },
+    {
+      "id": "abstract.moderation",
+      "formal": {
+        "en": "moderation",
+        "pl": "moderacja"
+      },
+      "plain": null,
+      "provenance": "project-authored mapping; no external definition copied"
+    },
+    {
+      "id": "abstract.negotiation",
+      "formal": {
+        "en": "negotiation",
+        "pl": "negocjacja"
+      },
+      "plain": null,
+      "provenance": "project-authored mapping; no external definition copied"
+    },
+    {
+      "id": "abstract.mediation",
+      "formal": {
+        "en": "mediation",
+        "pl": "mediacja"
+      },
+      "plain": null,
+      "provenance": "project-authored mapping; no external definition copied"
+    },
+    {
+      "id": "abstract.legislation",
+      "formal": {
+        "en": "legislation",
+        "pl": "legislacja"
+      },
+      "plain": null,
+      "provenance": "project-authored mapping; no external definition copied"
+    },
+    {
+      "id": "abstract.administration",
+      "formal": {
+        "en": "administration",
+        "pl": "administracja"
+      },
+      "plain": null,
+      "provenance": "project-authored mapping; no external definition copied"
+    },
+    {
+      "id": "abstract.regulation",
+      "formal": {
+        "en": "regulation",
+        "pl": "regulacja"
+      },
+      "plain": null,
+      "provenance": "project-authored mapping; no external definition copied"
+    },
+    {
+      "id": "abstract.representation",
+      "formal": {
+        "en": "representation",
+        "pl": "reprezentacja"
+      },
+      "plain": null,
+      "provenance": "project-authored mapping; no external definition copied"
+    },
+    {
+      "id": "abstract.presentation",
+      "formal": {
+        "en": "presentation",
+        "pl": "prezentacja"
+      },
+      "plain": null,
+      "provenance": "project-authored mapping; no external definition copied"
+    },
+    {
+      "id": "abstract.documentation",
+      "formal": {
+        "en": "documentation",
+        "pl": "dokumentacja"
+      },
+      "plain": null,
+      "provenance": "project-authored mapping; no external definition copied"
+    },
+    {
+      "id": "abstract.demonstration",
+      "formal": {
+        "en": "demonstration",
+        "pl": "demonstracja"
+      },
+      "plain": null,
+      "provenance": "project-authored mapping; no external definition copied"
+    },
+    {
+      "id": "abstract.simulation",
+      "formal": {
+        "en": "simulation",
+        "pl": "symulacja"
+      },
+      "plain": null,
+      "provenance": "project-authored mapping; no external definition copied"
+    },
+    {
+      "id": "abstract.optimization",
+      "formal": {
+        "en": "optimization",
+        "pl": "optymalizacja"
+      },
+      "plain": null,
+      "provenance": "project-authored mapping; no external definition copied"
+    },
+    {
+      "id": "abstract.transformation",
+      "formal": {
+        "en": "transformation",
+        "pl": "transformacja"
+      },
+      "plain": null,
+      "provenance": "project-authored mapping; no external definition copied"
+    },
+    {
+      "id": "abstract.adaptation",
+      "formal": {
+        "en": "adaptation",
+        "pl": "adaptacja"
+      },
+      "plain": null,
+      "provenance": "project-authored mapping; no external definition copied"
+    },
+    {
+      "id": "abstract.integration",
+      "formal": {
+        "en": "integration",
+        "pl": "integracja"
+      },
+      "plain": null,
+      "provenance": "project-authored mapping; no external definition copied"
+    }
+  ]
+}

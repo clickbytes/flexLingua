@@ -101,6 +101,9 @@ export function createLexicon(input, {strict = false} = {}) {
             (typeof item.lemma !== 'string' || !item.lemma.trim()))) {
         throw new Error(`Invalid or duplicate ${category.slice(0,-1)} lexeme: ${item?.id}`);
       }
+      if(item.register!==undefined &&
+          (category!=='nouns' || !['formal','plain'].includes(item.register)))
+        throw new Error(`Invalid lexical register: ${item.id}`);
       if (entries.length >= MAX_LEXEMES) throw new Error('Lexicon is too large.');
       ids.add(item.id);
       const lemma = item.lemma || item.forms?.[0]?.text;

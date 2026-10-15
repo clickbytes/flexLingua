@@ -13514,6 +13514,392 @@
           ]
         }
       ]
+    },
+    {
+      "lexemeId": "pl.c1_interpretation.1",
+      "paradigmId": "pl.noun.feminine_cja",
+      "stems": {
+        "base": "interpretacj",
+        "lemma": "interpretacja"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.c1_argumentation.1",
+      "paradigmId": "pl.noun.feminine_cja",
+      "stems": {
+        "base": "argumentacj",
+        "lemma": "argumentacja"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.c1_deliberation.1",
+      "paradigmId": "pl.noun.feminine_cja",
+      "stems": {
+        "base": "deliberacj",
+        "lemma": "deliberacja"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.c1_verification.1",
+      "paradigmId": "pl.noun.feminine_cja",
+      "stems": {
+        "base": "weryfikacj",
+        "lemma": "weryfikacja"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.c1_implementation.1",
+      "paradigmId": "pl.noun.feminine_cja",
+      "stems": {
+        "base": "implementacj",
+        "lemma": "implementacja"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.c1_recommendation.1",
+      "paradigmId": "pl.noun.feminine_cja",
+      "stems": {
+        "base": "rekomendacj",
+        "lemma": "rekomendacja"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.c1_classification.1",
+      "paradigmId": "pl.noun.feminine_cja",
+      "stems": {
+        "base": "klasyfikacj",
+        "lemma": "klasyfikacja"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.c1_identification.1",
+      "paradigmId": "pl.noun.feminine_cja",
+      "stems": {
+        "base": "identyfikacj",
+        "lemma": "identyfikacja"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.c1_conceptualization.1",
+      "paradigmId": "pl.noun.feminine_cja",
+      "stems": {
+        "base": "konceptualizacj",
+        "lemma": "konceptualizacja"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.c1_generalization.1",
+      "paradigmId": "pl.noun.feminine_cja",
+      "stems": {
+        "base": "generalizacj",
+        "lemma": "generalizacja"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.c1_specification.1",
+      "paradigmId": "pl.noun.feminine_cja",
+      "stems": {
+        "base": "specyfikacj",
+        "lemma": "specyfikacja"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.c1_evaluation.1",
+      "paradigmId": "pl.noun.feminine_cja",
+      "stems": {
+        "base": "ewaluacj",
+        "lemma": "ewaluacja"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.c1_calibration.1",
+      "paradigmId": "pl.noun.feminine_cja",
+      "stems": {
+        "base": "kalibracj",
+        "lemma": "kalibracja"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.c1_coordination.1",
+      "paradigmId": "pl.noun.feminine_cja",
+      "stems": {
+        "base": "koordynacj",
+        "lemma": "koordynacja"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.c1_communication.1",
+      "paradigmId": "pl.noun.feminine_cja",
+      "stems": {
+        "base": "komunikacj",
+        "lemma": "komunikacja"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.c1_moderation.1",
+      "paradigmId": "pl.noun.feminine_cja",
+      "stems": {
+        "base": "moderacj",
+        "lemma": "moderacja"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.c1_negotiation.1",
+      "paradigmId": "pl.noun.feminine_cja",
+      "stems": {
+        "base": "negocjacj",
+        "lemma": "negocjacja"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.c1_mediation.1",
+      "paradigmId": "pl.noun.feminine_cja",
+      "stems": {
+        "base": "mediacj",
+        "lemma": "mediacja"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.c1_legislation.1",
+      "paradigmId": "pl.noun.feminine_cja",
+      "stems": {
+        "base": "legislacj",
+        "lemma": "legislacja"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.c1_administration.1",
+      "paradigmId": "pl.noun.feminine_cja",
+      "stems": {
+        "base": "administracj",
+        "lemma": "administracja"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.c1_regulation.1",
+      "paradigmId": "pl.noun.feminine_cja",
+      "stems": {
+        "base": "regulacj",
+        "lemma": "regulacja"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.c1_representation.1",
+      "paradigmId": "pl.noun.feminine_cja",
+      "stems": {
+        "base": "reprezentacj",
+        "lemma": "reprezentacja"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.c1_presentation.1",
+      "paradigmId": "pl.noun.feminine_cja",
+      "stems": {
+        "base": "prezentacj",
+        "lemma": "prezentacja"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.c1_documentation.1",
+      "paradigmId": "pl.noun.feminine_cja",
+      "stems": {
+        "base": "dokumentacj",
+        "lemma": "dokumentacja"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.c1_demonstration.1",
+      "paradigmId": "pl.noun.feminine_cja",
+      "stems": {
+        "base": "demonstracj",
+        "lemma": "demonstracja"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.c1_simulation.1",
+      "paradigmId": "pl.noun.feminine_cja",
+      "stems": {
+        "base": "symulacj",
+        "lemma": "symulacja"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.c1_optimization.1",
+      "paradigmId": "pl.noun.feminine_cja",
+      "stems": {
+        "base": "optymalizacj",
+        "lemma": "optymalizacja"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.c1_transformation.1",
+      "paradigmId": "pl.noun.feminine_cja",
+      "stems": {
+        "base": "transformacj",
+        "lemma": "transformacja"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.c1_adaptation.1",
+      "paradigmId": "pl.noun.feminine_cja",
+      "stems": {
+        "base": "adaptacj",
+        "lemma": "adaptacja"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.c1_integration.1",
+      "paradigmId": "pl.noun.feminine_cja",
+      "stems": {
+        "base": "integracj",
+        "lemma": "integracja"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.c1_verification_plain.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "kontrol",
+        "lemma": "kontrola"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kontroli"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kontroli"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kontroli"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kontrole"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kontroli"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kontrole"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.c1_recommendation_plain.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "porad",
+        "lemma": "porada"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "poradzie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "poradzie"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

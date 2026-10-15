@@ -13,3 +13,9 @@ The repository has no root `LICENSE` file. `project-authored` describes origin; 
 Ten older packages do not record per-package or per-entry attribution and are marked `legacy-review-required`. Their conservative use terms and migration notes are explicit in the inventory. Review sources and rights before adding data to those packages or redistributing their contents. Any new JSON data package must be added to the inventory before the provenance gate passes.
 
 This audit does not import external datasets or reproduce protected Oxford vocabulary lists or definitions.
+
+## ADV-01 abstract process senses
+
+`data/coverage/c1-targets.json` records 30 separately identified abstract process senses and their English and Polish formal lemmas. The mappings and register labels were authored for this project; no external dictionary definitions or vocabulary lists were copied. Each formal lemma maps to one distinct CORE concept. Two senses also have controlled plain aliases: `verification`/`check` and `weryfikacja`/`kontrola` for a procedural check, and `recommendation`/`tip` and `rekomendacja`/`porada` for a practical suggestion. These aliases do not assert that the words are interchangeable in every context.
+
+The matrix is a finite research subset. It has no CEFR denominator or independent language review and cannot establish C1 coverage. `lexicalRegister` accepts `neutral`, `formal` and `plain` for event realization. When a requested variant is unavailable, the preferred lemma is retained with a warning. The option changes surface nouns only; it does not change their CORE concept. Other construction types still use their existing realization rules. Polish may not preserve English definiteness or aspect in a roundtrip; register choice preserves the mapped process sense within those established language limits.

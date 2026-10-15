@@ -2077,6 +2077,486 @@
           }
         }
       ]
+    },
+    {
+      "id": "en.c1_interpretation.1",
+      "lemma": "interpretation",
+      "indefiniteArticle": "an",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "en.c1_interpretation.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.interpretation"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.c1_argumentation.1",
+      "lemma": "argumentation",
+      "indefiniteArticle": "an",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "en.c1_argumentation.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.argumentation"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.c1_deliberation.1",
+      "lemma": "deliberation",
+      "indefiniteArticle": "a",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "en.c1_deliberation.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.deliberation"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.c1_verification.1",
+      "lemma": "verification",
+      "indefiniteArticle": "a",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "en.c1_verification.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.verification"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.c1_implementation.1",
+      "lemma": "implementation",
+      "indefiniteArticle": "an",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "en.c1_implementation.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.implementation"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.c1_recommendation.1",
+      "lemma": "recommendation",
+      "indefiniteArticle": "a",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "en.c1_recommendation.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.recommendation"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.c1_classification.1",
+      "lemma": "classification",
+      "indefiniteArticle": "a",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "en.c1_classification.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.classification"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.c1_identification.1",
+      "lemma": "identification",
+      "indefiniteArticle": "an",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "en.c1_identification.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.identification"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.c1_conceptualization.1",
+      "lemma": "conceptualization",
+      "indefiniteArticle": "a",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "en.c1_conceptualization.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.conceptualization"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.c1_generalization.1",
+      "lemma": "generalization",
+      "indefiniteArticle": "a",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "en.c1_generalization.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.generalization"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.c1_specification.1",
+      "lemma": "specification",
+      "indefiniteArticle": "a",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "en.c1_specification.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.specification"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.c1_evaluation.1",
+      "lemma": "evaluation",
+      "indefiniteArticle": "an",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "en.c1_evaluation.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.evaluation"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.c1_calibration.1",
+      "lemma": "calibration",
+      "indefiniteArticle": "a",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "en.c1_calibration.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.calibration"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.c1_coordination.1",
+      "lemma": "coordination",
+      "indefiniteArticle": "a",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "en.c1_coordination.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.coordination"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.c1_communication.1",
+      "lemma": "communication",
+      "indefiniteArticle": "a",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "en.c1_communication.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.communication"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.c1_moderation.1",
+      "lemma": "moderation",
+      "indefiniteArticle": "a",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "en.c1_moderation.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.moderation"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.c1_negotiation.1",
+      "lemma": "negotiation",
+      "indefiniteArticle": "a",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "en.c1_negotiation.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.negotiation"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.c1_mediation.1",
+      "lemma": "mediation",
+      "indefiniteArticle": "a",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "en.c1_mediation.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.mediation"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.c1_legislation.1",
+      "lemma": "legislation",
+      "indefiniteArticle": "a",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "en.c1_legislation.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.legislation"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.c1_administration.1",
+      "lemma": "administration",
+      "indefiniteArticle": "an",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "en.c1_administration.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.administration"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.c1_regulation.1",
+      "lemma": "regulation",
+      "indefiniteArticle": "a",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "en.c1_regulation.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.regulation"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.c1_representation.1",
+      "lemma": "representation",
+      "indefiniteArticle": "a",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "en.c1_representation.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.representation"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.c1_presentation.1",
+      "lemma": "presentation",
+      "indefiniteArticle": "a",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "en.c1_presentation.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.presentation"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.c1_documentation.1",
+      "lemma": "documentation",
+      "indefiniteArticle": "a",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "en.c1_documentation.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.documentation"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.c1_demonstration.1",
+      "lemma": "demonstration",
+      "indefiniteArticle": "a",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "en.c1_demonstration.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.demonstration"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.c1_simulation.1",
+      "lemma": "simulation",
+      "indefiniteArticle": "a",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "en.c1_simulation.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.simulation"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.c1_optimization.1",
+      "lemma": "optimization",
+      "indefiniteArticle": "an",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "en.c1_optimization.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.optimization"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.c1_transformation.1",
+      "lemma": "transformation",
+      "indefiniteArticle": "a",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "en.c1_transformation.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.transformation"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.c1_adaptation.1",
+      "lemma": "adaptation",
+      "indefiniteArticle": "an",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "en.c1_adaptation.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.adaptation"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.c1_integration.1",
+      "lemma": "integration",
+      "indefiniteArticle": "an",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "en.c1_integration.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.integration"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.c1_verification_plain.1",
+      "lemma": "check",
+      "indefiniteArticle": "a",
+      "register": "plain",
+      "senses": [
+        {
+          "id": "en.c1_verification_plain.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.verification"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.c1_recommendation_plain.1",
+      "lemma": "tip",
+      "indefiniteArticle": "a",
+      "register": "plain",
+      "senses": [
+        {
+          "id": "en.c1_recommendation_plain.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.recommendation"
+          }
+        }
+      ]
     }
   ],
   "verbs": [

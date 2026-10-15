@@ -1730,10 +1730,11 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     return matches.length === 1 ? matches[0].text : null;
   }
 
-  function nounByConcept(concept) {
+  function nounByConcept(concept, lexicalRegister='neutral') {
     const nouns = nounIndex.get(concept);
     if (!nouns?.length) throw new Error(`No ${dictionary.language} noun lexeme for ${concept}.`);
-    return nouns[0];
+    return lexicalRegister==='neutral'?nouns[0]:
+      nouns.find(noun=>noun.register===lexicalRegister)||nouns[0];
   }
 
   function deicticPronounSurface(ref,grammaticalCase=nounPhrase.subjectCase) {
@@ -1745,13 +1746,13 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     return entry.text;
   }
 
-  function nounSurface(role, meaning, frame, fallback, depth) {
+  function nounSurface(role, meaning, frame, fallback, depth, lexicalRegister='neutral') {
     const ref = meaning.roles[role];
     const requiredCase = roleCase(frame, role, meaning.features, ref);
     if(isDeicticReferent(ref)){
       return deicticPronounSurface(ref,deicticCase(requiredCase,role));
     }
-    const noun = nounByConcept(ref.concept);
+    const noun = nounByConcept(ref.concept,lexicalRegister);
     let output = plainNoun(ref, noun, requiredCase, fallback,
       frame.bareRoles?.includes(role) === true);
     for (const relative of ref.relatives || []) {
@@ -1760,7 +1761,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
         relativeMarker(item, noun, ref));
       if (!marker) throw new Error(`Missing ${dictionary.language} relative marker for ${relative.gap}.`);
       const clause = renderEvent(relative.event, fallback, depth + 1, { gap: relative.gap,
-        antecedent: { value: ref, noun } });
+        antecedent: { value: ref, noun } },{lexicalRegister});
       const opening = relativeGrammar.punctuation === 'commas' ? ', ' : ' ';
       const closing = relativeGrammar.punctuation === 'commas' && !clause.endsWith(',') ? ',' : '';
       if (output.endsWith(',') && opening.startsWith(',')) output = output.slice(0, -1);
@@ -1778,7 +1779,8 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
       throw new Error('Unsupported subject pronoun realization for this event.');
     }
     const roles = Object.fromEntries(Object.entries(meaning.roles).map(([role, ref]) =>
-      [role, { value: ref, noun: isDeicticReferent(ref) ? null : nounByConcept(ref.concept) }]));
+      [role, { value: ref, noun: isDeicticReferent(ref) ? null :
+        nounByConcept(ref.concept,options.lexicalRegister) }]));
     if (relative) roles[relative.gap] = relative.antecedent;
     const context = contextFor(roles, meaning.features);
     const candidates = verbForms.filter(entry => entry.lexeme.concept === meaning.concept &&
@@ -1798,7 +1800,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
         if (step.startsWith('@')) return [step.slice(1)];
         if (step === subjectRole && options.subjectPronoun)
           return [options.subjectPronoun];
-        return [nounSurface(step, meaning, frame, def, depth)];
+        return [nounSurface(step, meaning, frame, def, depth,options.lexicalRegister)];
       });
       const text=parts.join(' ').replace(/\s+/gu, ' ').replace(/\s+,/gu, ',').trim();
       const marker=meaning.timeReference && grammar.temporalDeixis?.[meaning.timeReference];
@@ -2034,7 +2036,9 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     return {text,warnings,alternatives:alternative&&alternative!==text?[alternative]:[]};
   }
 
-  function realize(meaning, {subjectPronoun=null} = {}) {
+  function realize(meaning, {subjectPronoun=null,lexicalRegister='neutral'} = {}) {
+    if(!['neutral','formal','plain'].includes(lexicalRegister))
+      throw new Error('Unsupported lexical register.');
     if(subjectPronoun && (meaning?.type!=='event' ||
         subjectPronoun!==subjectPronounFor(meaning.roles?.[subjectRole]))) {
       throw new Error('Unsupported subject pronoun realization.');
@@ -2044,7 +2048,8 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     if(meaning?.type==='state')return realizeState(meaning);
     if(meaning?.voice==='passive')return realizePassive(meaning);
     if(modalParts(meaning))return realizeModal(meaning);
-    const built = renderEvent(meaning, undefined, 0, null, {subjectPronoun});
+    const built = renderEvent(meaning, undefined, 0, null,
+      {subjectPronoun,lexicalRegister});
     const { candidates, preferred, linearize } = built;
     const unspecifiedRoles = Object.entries(meaning.roles)
       .filter(([role,ref]) => !(subjectPronoun && role === subjectRole) &&
@@ -2071,6 +2076,12 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
       if (alternatives.length >= 7) break;
     }
     const warnings = [];
+    if(lexicalRegister!=='neutral')for(const ref of Object.values(meaning.roles)) {
+      const options=nounIndex.get(ref?.concept)||[];
+      if(options.some(noun=>noun.register) &&
+          !options.some(noun=>noun.register===lexicalRegister))
+        warnings.push(`No ${lexicalRegister} lexical variant for ${ref.concept} in ${dictionary.language}; preferred wording was kept.`);
+    }
     if (!withDeterminers && Object.entries(frames[meaning.concept]?.cases || {}).some(([role, cases]) =>
         record(cases) && meaning.roles[role]?.features?.definiteness === 'unknown')) {
       warnings.push(grammar.messages?.definitenessUnknown ||

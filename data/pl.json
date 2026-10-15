@@ -3331,6 +3331,550 @@
           }
         }
       ]
+    },
+    {
+      "id": "pl.c1_interpretation.1",
+      "lemma": "interpretacja",
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "pl.c1_interpretation.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.interpretation"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.c1_argumentation.1",
+      "lemma": "argumentacja",
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "pl.c1_argumentation.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.argumentation"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.c1_deliberation.1",
+      "lemma": "deliberacja",
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "pl.c1_deliberation.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.deliberation"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.c1_verification.1",
+      "lemma": "weryfikacja",
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "pl.c1_verification.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.verification"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.c1_implementation.1",
+      "lemma": "implementacja",
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "pl.c1_implementation.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.implementation"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.c1_recommendation.1",
+      "lemma": "rekomendacja",
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "pl.c1_recommendation.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.recommendation"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.c1_classification.1",
+      "lemma": "klasyfikacja",
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "pl.c1_classification.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.classification"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.c1_identification.1",
+      "lemma": "identyfikacja",
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "pl.c1_identification.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.identification"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.c1_conceptualization.1",
+      "lemma": "konceptualizacja",
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "pl.c1_conceptualization.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.conceptualization"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.c1_generalization.1",
+      "lemma": "generalizacja",
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "pl.c1_generalization.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.generalization"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.c1_specification.1",
+      "lemma": "specyfikacja",
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "pl.c1_specification.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.specification"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.c1_evaluation.1",
+      "lemma": "ewaluacja",
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "pl.c1_evaluation.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.evaluation"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.c1_calibration.1",
+      "lemma": "kalibracja",
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "pl.c1_calibration.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.calibration"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.c1_coordination.1",
+      "lemma": "koordynacja",
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "pl.c1_coordination.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.coordination"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.c1_communication.1",
+      "lemma": "komunikacja",
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "pl.c1_communication.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.communication"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.c1_moderation.1",
+      "lemma": "moderacja",
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "pl.c1_moderation.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.moderation"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.c1_negotiation.1",
+      "lemma": "negocjacja",
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "pl.c1_negotiation.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.negotiation"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.c1_mediation.1",
+      "lemma": "mediacja",
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "pl.c1_mediation.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.mediation"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.c1_legislation.1",
+      "lemma": "legislacja",
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "pl.c1_legislation.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.legislation"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.c1_administration.1",
+      "lemma": "administracja",
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "pl.c1_administration.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.administration"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.c1_regulation.1",
+      "lemma": "regulacja",
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "pl.c1_regulation.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.regulation"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.c1_representation.1",
+      "lemma": "reprezentacja",
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "pl.c1_representation.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.representation"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.c1_presentation.1",
+      "lemma": "prezentacja",
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "pl.c1_presentation.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.presentation"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.c1_documentation.1",
+      "lemma": "dokumentacja",
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "pl.c1_documentation.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.documentation"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.c1_demonstration.1",
+      "lemma": "demonstracja",
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "pl.c1_demonstration.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.demonstration"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.c1_simulation.1",
+      "lemma": "symulacja",
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "pl.c1_simulation.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.simulation"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.c1_optimization.1",
+      "lemma": "optymalizacja",
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "pl.c1_optimization.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.optimization"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.c1_transformation.1",
+      "lemma": "transformacja",
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "pl.c1_transformation.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.transformation"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.c1_adaptation.1",
+      "lemma": "adaptacja",
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "pl.c1_adaptation.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.adaptation"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.c1_integration.1",
+      "lemma": "integracja",
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "register": "formal",
+      "senses": [
+        {
+          "id": "pl.c1_integration.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.integration"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.c1_verification_plain.1",
+      "lemma": "kontrola",
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "register": "plain",
+      "senses": [
+        {
+          "id": "pl.c1_verification_plain.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.verification"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.c1_recommendation_plain.1",
+      "lemma": "porada",
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "register": "plain",
+      "senses": [
+        {
+          "id": "pl.c1_recommendation_plain.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "abstract.recommendation"
+          }
+        }
+      ]
     }
   ],
   "verbs": [
