@@ -491,6 +491,16 @@
       "license": "Project-authored; no separate SPDX license grant is declared in this repository.",
       "reviewedAt": "2026-10-15",
       "permittedUse": "Internal finite C1 research subset only; not independently reviewed or representative of CEFR. Plain aliases are limited to the documented procedural senses."
+    },
+    {
+      "path": "data/coverage/c2-targets.json",
+      "version": 1,
+      "status": "project-authored",
+      "author": "flexLingua project contributors; individual case authors are not recorded",
+      "source": "Original bounded C2 target matrix for controlled figurative sense, ambiguity, semantic errors and refusal; no third-party dataset copied.",
+      "license": "Project-authored; no separate SPDX license grant is declared in this repository.",
+      "reviewedAt": "2026-10-15",
+      "permittedUse": "Internal finite C2 development sample only; no independent case review or representative CEFR denominator."
     }
   ]
 }

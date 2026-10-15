@@ -47,7 +47,8 @@ export function buildDialogueGoldReport({fixture,fixtureSha256,results}={}) {
    byDirection,byAct,scenes};
 }
 
-/** VAL-03: declared sample catalog joined to real Node suite executions. */
+/** VAL-03: A1-only sample catalog joined to real Node suite executions.
+ * ADV-04 C1/C2 samples use advanced-gold-lib.mjs and never enter A1 scores. */
 export const EVIDENCE_SOURCES = Object.freeze([
  {id:'g2',fixture:'data/coverage/a1-gold-g2.json',sha256:'82068514a0101ba06fe2d13e8af279409f792c82c75644b4ba59efd7c350c9ab',classification:'development',args:['tools/report-a1.mjs','--strict']},
  {id:'family',fixture:'tests/fixtures/gold-family-actions-a1.json',sha256:'4fefe40031a522f582fe4929458b0c065f3fefae1a3de3314576971aa90e321e',classification:'regression',args:['--test','tests/family-actions-a1.test.js']},

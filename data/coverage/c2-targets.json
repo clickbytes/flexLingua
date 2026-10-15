@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "license": "project-authored",
+  "origin": "Finite original C2 research sample derived from the controlled icebreaking sense pair; no CEFR specification or external dataset copied.",
+  "scope": {
+    "completeness": "project-authored-subset",
+    "caseCount": 100,
+    "representativeCefrDenominator": null,
+    "independentReview": false
+  },
+  "targets": [
+    {"category":"idiom","cases":25,"focus":"explicit social sense and polarity"},
+    {"category":"ambiguity","cases":25,"focus":"literal versus figurative alternatives"},
+    {"category":"semantic_error","cases":25,"focus":"reject malformed or invented CORE facts"},
+    {"category":"refusal","cases":25,"focus":"quoted and unlicensed meanings"}
+  ]
+}

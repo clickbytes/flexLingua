@@ -1,0 +1,2634 @@
+{
+  "schemaVersion": 1,
+  "suite": "ADV-GOLD-01",
+  "license": "project-authored",
+  "authorship": "Explicit case oracles from project-authored templates; no independent per-case language review",
+  "representativeCefrDenominator": null,
+  "cases": [
+    {
+      "id": "C1-001",
+      "level": "C1",
+      "category": "register",
+      "from": "en",
+      "to": "pl",
+      "input": "The girl sees the verification.",
+      "expectation": {
+        "status": "supported",
+        "concept": "abstract.verification",
+        "register": "plain",
+        "targetLemma": "kontrola"
+      }
+    },
+    {
+      "id": "C1-002",
+      "level": "C1",
+      "category": "register",
+      "from": "pl",
+      "to": "en",
+      "input": "Dziewczynka widzi weryfikację.",
+      "expectation": {
+        "status": "supported",
+        "concept": "abstract.verification",
+        "register": "plain",
+        "targetLemma": "check"
+      }
+    },
+    {
+      "id": "C1-003",
+      "level": "C1",
+      "category": "register",
+      "from": "en",
+      "to": "pl",
+      "input": "The boy sees the verification.",
+      "expectation": {
+        "status": "supported",
+        "concept": "abstract.verification",
+        "register": "plain",
+        "targetLemma": "kontrola"
+      }
+    },
+    {
+      "id": "C1-004",
+      "level": "C1",
+      "category": "register",
+      "from": "pl",
+      "to": "en",
+      "input": "Chłopiec widzi weryfikację.",
+      "expectation": {
+        "status": "supported",
+        "concept": "abstract.verification",
+        "register": "plain",
+        "targetLemma": "check"
+      }
+    },
+    {
+      "id": "C1-005",
+      "level": "C1",
+      "category": "register",
+      "from": "en",
+      "to": "pl",
+      "input": "The woman sees the verification.",
+      "expectation": {
+        "status": "supported",
+        "concept": "abstract.verification",
+        "register": "plain",
+        "targetLemma": "kontrola"
+      }
+    },
+    {
+      "id": "C1-006",
+      "level": "C1",
+      "category": "register",
+      "from": "pl",
+      "to": "en",
+      "input": "Kobieta widzi weryfikację.",
+      "expectation": {
+        "status": "supported",
+        "concept": "abstract.verification",
+        "register": "plain",
+        "targetLemma": "check"
+      }
+    },
+    {
+      "id": "C1-007",
+      "level": "C1",
+      "category": "register",
+      "from": "en",
+      "to": "pl",
+      "input": "The father sees the verification.",
+      "expectation": {
+        "status": "supported",
+        "concept": "abstract.verification",
+        "register": "plain",
+        "targetLemma": "kontrola"
+      }
+    },
+    {
+      "id": "C1-008",
+      "level": "C1",
+      "category": "register",
+      "from": "pl",
+      "to": "en",
+      "input": "Ojciec widzi weryfikację.",
+      "expectation": {
+        "status": "supported",
+        "concept": "abstract.verification",
+        "register": "plain",
+        "targetLemma": "check"
+      }
+    },
+    {
+      "id": "C1-009",
+      "level": "C1",
+      "category": "register",
+      "from": "en",
+      "to": "pl",
+      "input": "The grandfather sees the verification.",
+      "expectation": {
+        "status": "supported",
+        "concept": "abstract.verification",
+        "register": "plain",
+        "targetLemma": "kontrola"
+      }
+    },
+    {
+      "id": "C1-010",
+      "level": "C1",
+      "category": "register",
+      "from": "pl",
+      "to": "en",
+      "input": "Dziadek widzi weryfikację.",
+      "expectation": {
+        "status": "supported",
+        "concept": "abstract.verification",
+        "register": "plain",
+        "targetLemma": "check"
+      }
+    },
+    {
+      "id": "C1-011",
+      "level": "C1",
+      "category": "register",
+      "from": "en",
+      "to": "pl",
+      "input": "The girl sees the recommendation.",
+      "expectation": {
+        "status": "supported",
+        "concept": "abstract.recommendation",
+        "register": "plain",
+        "targetLemma": "porada"
+      }
+    },
+    {
+      "id": "C1-012",
+      "level": "C1",
+      "category": "register",
+      "from": "pl",
+      "to": "en",
+      "input": "Dziewczynka widzi rekomendację.",
+      "expectation": {
+        "status": "supported",
+        "concept": "abstract.recommendation",
+        "register": "plain",
+        "targetLemma": "tip"
+      }
+    },
+    {
+      "id": "C1-013",
+      "level": "C1",
+      "category": "register",
+      "from": "en",
+      "to": "pl",
+      "input": "The boy sees the recommendation.",
+      "expectation": {
+        "status": "supported",
+        "concept": "abstract.recommendation",
+        "register": "plain",
+        "targetLemma": "porada"
+      }
+    },
+    {
+      "id": "C1-014",
+      "level": "C1",
+      "category": "register",
+      "from": "pl",
+      "to": "en",
+      "input": "Chłopiec widzi rekomendację.",
+      "expectation": {
+        "status": "supported",
+        "concept": "abstract.recommendation",
+        "register": "plain",
+        "targetLemma": "tip"
+      }
+    },
+    {
+      "id": "C1-015",
+      "level": "C1",
+      "category": "register",
+      "from": "en",
+      "to": "pl",
+      "input": "The woman sees the recommendation.",
+      "expectation": {
+        "status": "supported",
+        "concept": "abstract.recommendation",
+        "register": "plain",
+        "targetLemma": "porada"
+      }
+    },
+    {
+      "id": "C1-016",
+      "level": "C1",
+      "category": "register",
+      "from": "pl",
+      "to": "en",
+      "input": "Kobieta widzi rekomendację.",
+      "expectation": {
+        "status": "supported",
+        "concept": "abstract.recommendation",
+        "register": "plain",
+        "targetLemma": "tip"
+      }
+    },
+    {
+      "id": "C1-017",
+      "level": "C1",
+      "category": "register",
+      "from": "en",
+      "to": "pl",
+      "input": "The father sees the recommendation.",
+      "expectation": {
+        "status": "supported",
+        "concept": "abstract.recommendation",
+        "register": "plain",
+        "targetLemma": "porada"
+      }
+    },
+    {
+      "id": "C1-018",
+      "level": "C1",
+      "category": "register",
+      "from": "pl",
+      "to": "en",
+      "input": "Ojciec widzi rekomendację.",
+      "expectation": {
+        "status": "supported",
+        "concept": "abstract.recommendation",
+        "register": "plain",
+        "targetLemma": "tip"
+      }
+    },
+    {
+      "id": "C1-019",
+      "level": "C1",
+      "category": "register",
+      "from": "en",
+      "to": "pl",
+      "input": "The grandfather sees the recommendation.",
+      "expectation": {
+        "status": "supported",
+        "concept": "abstract.recommendation",
+        "register": "plain",
+        "targetLemma": "porada"
+      }
+    },
+    {
+      "id": "C1-020",
+      "level": "C1",
+      "category": "register",
+      "from": "pl",
+      "to": "en",
+      "input": "Dziadek widzi rekomendację.",
+      "expectation": {
+        "status": "supported",
+        "concept": "abstract.recommendation",
+        "register": "plain",
+        "targetLemma": "tip"
+      }
+    },
+    {
+      "id": "C1-021",
+      "level": "C1",
+      "category": "register",
+      "from": "en",
+      "to": "pl",
+      "input": "The girl sees the interpretation.",
+      "expectation": {
+        "status": "fallback",
+        "concept": "abstract.interpretation",
+        "register": "plain",
+        "targetLemma": "interpretacja"
+      }
+    },
+    {
+      "id": "C1-022",
+      "level": "C1",
+      "category": "register",
+      "from": "en",
+      "to": "pl",
+      "input": "The boy sees the argumentation.",
+      "expectation": {
+        "status": "fallback",
+        "concept": "abstract.argumentation",
+        "register": "plain",
+        "targetLemma": "argumentacja"
+      }
+    },
+    {
+      "id": "C1-023",
+      "level": "C1",
+      "category": "register",
+      "from": "en",
+      "to": "pl",
+      "input": "The woman sees the deliberation.",
+      "expectation": {
+        "status": "fallback",
+        "concept": "abstract.deliberation",
+        "register": "plain",
+        "targetLemma": "deliberacja"
+      }
+    },
+    {
+      "id": "C1-024",
+      "level": "C1",
+      "category": "register",
+      "from": "en",
+      "to": "pl",
+      "input": "The father sees the implementation.",
+      "expectation": {
+        "status": "fallback",
+        "concept": "abstract.implementation",
+        "register": "plain",
+        "targetLemma": "implementacja"
+      }
+    },
+    {
+      "id": "C1-025",
+      "level": "C1",
+      "category": "register",
+      "from": "en",
+      "to": "pl",
+      "input": "The grandfather sees the classification.",
+      "expectation": {
+        "status": "fallback",
+        "concept": "abstract.classification",
+        "register": "plain",
+        "targetLemma": "klasyfikacja"
+      }
+    },
+    {
+      "id": "C1-026",
+      "level": "C1",
+      "category": "paraphrase",
+      "from": "en",
+      "to": "pl",
+      "input": "The girl gives the boy a book.",
+      "expectation": {
+        "status": "supported",
+        "concept": "event.transfer_possession",
+        "focus": "theme",
+        "polarity": "positive"
+      }
+    },
+    {
+      "id": "C1-027",
+      "level": "C1",
+      "category": "paraphrase",
+      "from": "pl",
+      "to": "en",
+      "input": "Dziewczynka daje chłopcu książkę.",
+      "expectation": {
+        "status": "supported",
+        "concept": "event.transfer_possession",
+        "focus": "theme",
+        "polarity": "positive"
+      }
+    },
+    {
+      "id": "C1-028",
+      "level": "C1",
+      "category": "paraphrase",
+      "from": "en",
+      "to": "pl",
+      "input": "The girl gives the boy a book.",
+      "expectation": {
+        "status": "supported",
+        "concept": "event.transfer_possession",
+        "focus": "recipient",
+        "polarity": "positive"
+      }
+    },
+    {
+      "id": "C1-029",
+      "level": "C1",
+      "category": "paraphrase",
+      "from": "pl",
+      "to": "en",
+      "input": "Dziewczynka daje chłopcu książkę.",
+      "expectation": {
+        "status": "supported",
+        "concept": "event.transfer_possession",
+        "focus": "recipient",
+        "polarity": "positive"
+      }
+    },
+    {
+      "id": "C1-030",
+      "level": "C1",
+      "category": "paraphrase",
+      "from": "en",
+      "to": "pl",
+      "input": "The girl does not give the boy a book.",
+      "expectation": {
+        "status": "supported",
+        "concept": "event.transfer_possession",
+        "focus": "recipient",
+        "polarity": "negative"
+      }
+    },
+    {
+      "id": "C1-031",
+      "level": "C1",
+      "category": "paraphrase",
+      "from": "en",
+      "to": "pl",
+      "input": "The boy gives the boy a book.",
+      "expectation": {
+        "status": "supported",
+        "concept": "event.transfer_possession",
+        "focus": "theme",
+        "polarity": "positive"
+      }
+    },
+    {
+      "id": "C1-032",
+      "level": "C1",
+      "category": "paraphrase",
+      "from": "pl",
+      "to": "en",
+      "input": "Chłopiec daje chłopcu książkę.",
+      "expectation": {
+        "status": "supported",
+        "concept": "event.transfer_possession",
+        "focus": "theme",
+        "polarity": "positive"
+      }
+    },
+    {
+      "id": "C1-033",
+      "level": "C1",
+      "category": "paraphrase",
+      "from": "en",
+      "to": "pl",
+      "input": "The boy gives the boy a book.",
+      "expectation": {
+        "status": "supported",
+        "concept": "event.transfer_possession",
+        "focus": "recipient",
+        "polarity": "positive"
+      }
+    },
+    {
+      "id": "C1-034",
+      "level": "C1",
+      "category": "paraphrase",
+      "from": "pl",
+      "to": "en",
+      "input": "Chłopiec daje chłopcu książkę.",
+      "expectation": {
+        "status": "supported",
+        "concept": "event.transfer_possession",
+        "focus": "recipient",
+        "polarity": "positive"
+      }
+    },
+    {
+      "id": "C1-035",
+      "level": "C1",
+      "category": "paraphrase",
+      "from": "en",
+      "to": "pl",
+      "input": "The boy does not give the boy a book.",
+      "expectation": {
+        "status": "supported",
+        "concept": "event.transfer_possession",
+        "focus": "recipient",
+        "polarity": "negative"
+      }
+    },
+    {
+      "id": "C1-036",
+      "level": "C1",
+      "category": "paraphrase",
+      "from": "en",
+      "to": "pl",
+      "input": "The woman gives the boy a book.",
+      "expectation": {
+        "status": "supported",
+        "concept": "event.transfer_possession",
+        "focus": "theme",
+        "polarity": "positive"
+      }
+    },
+    {
+      "id": "C1-037",
+      "level": "C1",
+      "category": "paraphrase",
+      "from": "pl",
+      "to": "en",
+      "input": "Kobieta daje chłopcu książkę.",
+      "expectation": {
+        "status": "supported",
+        "concept": "event.transfer_possession",
+        "focus": "theme",
+        "polarity": "positive"
+      }
+    },
+    {
+      "id": "C1-038",
+      "level": "C1",
+      "category": "paraphrase",
+      "from": "en",
+      "to": "pl",
+      "input": "The woman gives the boy a book.",
+      "expectation": {
+        "status": "supported",
+        "concept": "event.transfer_possession",
+        "focus": "recipient",
+        "polarity": "positive"
+      }
+    },
+    {
+      "id": "C1-039",
+      "level": "C1",
+      "category": "paraphrase",
+      "from": "pl",
+      "to": "en",
+      "input": "Kobieta daje chłopcu książkę.",
+      "expectation": {
+        "status": "supported",
+        "concept": "event.transfer_possession",
+        "focus": "recipient",
+        "polarity": "positive"
+      }
+    },
+    {
+      "id": "C1-040",
+      "level": "C1",
+      "category": "paraphrase",
+      "from": "en",
+      "to": "pl",
+      "input": "The woman does not give the boy a book.",
+      "expectation": {
+        "status": "supported",
+        "concept": "event.transfer_possession",
+        "focus": "recipient",
+        "polarity": "negative"
+      }
+    },
+    {
+      "id": "C1-041",
+      "level": "C1",
+      "category": "paraphrase",
+      "from": "en",
+      "to": "pl",
+      "input": "The father gives the boy a book.",
+      "expectation": {
+        "status": "supported",
+        "concept": "event.transfer_possession",
+        "focus": "theme",
+        "polarity": "positive"
+      }
+    },
+    {
+      "id": "C1-042",
+      "level": "C1",
+      "category": "paraphrase",
+      "from": "pl",
+      "to": "en",
+      "input": "Ojciec daje chłopcu książkę.",
+      "expectation": {
+        "status": "supported",
+        "concept": "event.transfer_possession",
+        "focus": "theme",
+        "polarity": "positive"
+      }
+    },
+    {
+      "id": "C1-043",
+      "level": "C1",
+      "category": "paraphrase",
+      "from": "en",
+      "to": "pl",
+      "input": "The father gives the boy a book.",
+      "expectation": {
+        "status": "supported",
+        "concept": "event.transfer_possession",
+        "focus": "recipient",
+        "polarity": "positive"
+      }
+    },
+    {
+      "id": "C1-044",
+      "level": "C1",
+      "category": "paraphrase",
+      "from": "pl",
+      "to": "en",
+      "input": "Ojciec daje chłopcu książkę.",
+      "expectation": {
+        "status": "supported",
+        "concept": "event.transfer_possession",
+        "focus": "recipient",
+        "polarity": "positive"
+      }
+    },
+    {
+      "id": "C1-045",
+      "level": "C1",
+      "category": "paraphrase",
+      "from": "en",
+      "to": "pl",
+      "input": "The father does not give the boy a book.",
+      "expectation": {
+        "status": "supported",
+        "concept": "event.transfer_possession",
+        "focus": "recipient",
+        "polarity": "negative"
+      }
+    },
+    {
+      "id": "C1-046",
+      "level": "C1",
+      "category": "paraphrase",
+      "from": "en",
+      "to": "pl",
+      "input": "The grandfather gives the boy a book.",
+      "expectation": {
+        "status": "supported",
+        "concept": "event.transfer_possession",
+        "focus": "theme",
+        "polarity": "positive"
+      }
+    },
+    {
+      "id": "C1-047",
+      "level": "C1",
+      "category": "paraphrase",
+      "from": "pl",
+      "to": "en",
+      "input": "Dziadek daje chłopcu książkę.",
+      "expectation": {
+        "status": "supported",
+        "concept": "event.transfer_possession",
+        "focus": "theme",
+        "polarity": "positive"
+      }
+    },
+    {
+      "id": "C1-048",
+      "level": "C1",
+      "category": "paraphrase",
+      "from": "en",
+      "to": "pl",
+      "input": "The grandfather gives the boy a book.",
+      "expectation": {
+        "status": "supported",
+        "concept": "event.transfer_possession",
+        "focus": "recipient",
+        "polarity": "positive"
+      }
+    },
+    {
+      "id": "C1-049",
+      "level": "C1",
+      "category": "paraphrase",
+      "from": "pl",
+      "to": "en",
+      "input": "Dziadek daje chłopcu książkę.",
+      "expectation": {
+        "status": "supported",
+        "concept": "event.transfer_possession",
+        "focus": "recipient",
+        "polarity": "positive"
+      }
+    },
+    {
+      "id": "C1-050",
+      "level": "C1",
+      "category": "paraphrase",
+      "from": "en",
+      "to": "pl",
+      "input": "The grandfather does not give the boy a book.",
+      "expectation": {
+        "status": "supported",
+        "concept": "event.transfer_possession",
+        "focus": "recipient",
+        "polarity": "negative"
+      }
+    },
+    {
+      "id": "C1-051",
+      "level": "C1",
+      "category": "sense",
+      "from": "en",
+      "to": "pl",
+      "input": "The girl sees the interpretation.",
+      "expectation": {
+        "status": "supported",
+        "concept": "abstract.interpretation"
+      }
+    },
+    {
+      "id": "C1-052",
+      "level": "C1",
+      "category": "sense",
+      "from": "pl",
+      "to": "en",
+      "input": "Chłopiec widzi argumentację.",
+      "expectation": {
+        "status": "supported",
+        "concept": "abstract.argumentation"
+      }
+    },
+    {
+      "id": "C1-053",
+      "level": "C1",
+      "category": "sense",
+      "from": "en",
+      "to": "pl",
+      "input": "The woman sees the deliberation.",
+      "expectation": {
+        "status": "supported",
+        "concept": "abstract.deliberation"
+      }
+    },
+    {
+      "id": "C1-054",
+      "level": "C1",
+      "category": "sense",
+      "from": "pl",
+      "to": "en",
+      "input": "Ojciec widzi weryfikację.",
+      "expectation": {
+        "status": "supported",
+        "concept": "abstract.verification"
+      }
+    },
+    {
+      "id": "C1-055",
+      "level": "C1",
+      "category": "sense",
+      "from": "en",
+      "to": "pl",
+      "input": "The grandfather sees the implementation.",
+      "expectation": {
+        "status": "supported",
+        "concept": "abstract.implementation"
+      }
+    },
+    {
+      "id": "C1-056",
+      "level": "C1",
+      "category": "sense",
+      "from": "pl",
+      "to": "en",
+      "input": "Dziewczynka widzi rekomendację.",
+      "expectation": {
+        "status": "supported",
+        "concept": "abstract.recommendation"
+      }
+    },
+    {
+      "id": "C1-057",
+      "level": "C1",
+      "category": "sense",
+      "from": "en",
+      "to": "pl",
+      "input": "The boy sees the classification.",
+      "expectation": {
+        "status": "supported",
+        "concept": "abstract.classification"
+      }
+    },
+    {
+      "id": "C1-058",
+      "level": "C1",
+      "category": "sense",
+      "from": "pl",
+      "to": "en",
+      "input": "Kobieta widzi identyfikację.",
+      "expectation": {
+        "status": "supported",
+        "concept": "abstract.identification"
+      }
+    },
+    {
+      "id": "C1-059",
+      "level": "C1",
+      "category": "sense",
+      "from": "en",
+      "to": "pl",
+      "input": "The father sees the conceptualization.",
+      "expectation": {
+        "status": "supported",
+        "concept": "abstract.conceptualization"
+      }
+    },
+    {
+      "id": "C1-060",
+      "level": "C1",
+      "category": "sense",
+      "from": "pl",
+      "to": "en",
+      "input": "Dziadek widzi generalizację.",
+      "expectation": {
+        "status": "supported",
+        "concept": "abstract.generalization"
+      }
+    },
+    {
+      "id": "C1-061",
+      "level": "C1",
+      "category": "sense",
+      "from": "en",
+      "to": "pl",
+      "input": "The girl sees the specification.",
+      "expectation": {
+        "status": "supported",
+        "concept": "abstract.specification"
+      }
+    },
+    {
+      "id": "C1-062",
+      "level": "C1",
+      "category": "sense",
+      "from": "pl",
+      "to": "en",
+      "input": "Chłopiec widzi ewaluację.",
+      "expectation": {
+        "status": "supported",
+        "concept": "abstract.evaluation"
+      }
+    },
+    {
+      "id": "C1-063",
+      "level": "C1",
+      "category": "sense",
+      "from": "en",
+      "to": "pl",
+      "input": "The woman sees the calibration.",
+      "expectation": {
+        "status": "supported",
+        "concept": "abstract.calibration"
+      }
+    },
+    {
+      "id": "C1-064",
+      "level": "C1",
+      "category": "sense",
+      "from": "pl",
+      "to": "en",
+      "input": "Ojciec widzi koordynację.",
+      "expectation": {
+        "status": "supported",
+        "concept": "abstract.coordination"
+      }
+    },
+    {
+      "id": "C1-065",
+      "level": "C1",
+      "category": "sense",
+      "from": "en",
+      "to": "pl",
+      "input": "The grandfather sees the communication.",
+      "expectation": {
+        "status": "supported",
+        "concept": "abstract.communication"
+      }
+    },
+    {
+      "id": "C1-066",
+      "level": "C1",
+      "category": "sense",
+      "from": "pl",
+      "to": "en",
+      "input": "Dziewczynka widzi moderację.",
+      "expectation": {
+        "status": "supported",
+        "concept": "abstract.moderation"
+      }
+    },
+    {
+      "id": "C1-067",
+      "level": "C1",
+      "category": "sense",
+      "from": "en",
+      "to": "pl",
+      "input": "The boy sees the negotiation.",
+      "expectation": {
+        "status": "supported",
+        "concept": "abstract.negotiation"
+      }
+    },
+    {
+      "id": "C1-068",
+      "level": "C1",
+      "category": "sense",
+      "from": "pl",
+      "to": "en",
+      "input": "Kobieta widzi mediację.",
+      "expectation": {
+        "status": "supported",
+        "concept": "abstract.mediation"
+      }
+    },
+    {
+      "id": "C1-069",
+      "level": "C1",
+      "category": "sense",
+      "from": "en",
+      "to": "pl",
+      "input": "The father sees the legislation.",
+      "expectation": {
+        "status": "supported",
+        "concept": "abstract.legislation"
+      }
+    },
+    {
+      "id": "C1-070",
+      "level": "C1",
+      "category": "sense",
+      "from": "pl",
+      "to": "en",
+      "input": "Dziadek widzi administrację.",
+      "expectation": {
+        "status": "supported",
+        "concept": "abstract.administration"
+      }
+    },
+    {
+      "id": "C1-071",
+      "level": "C1",
+      "category": "sense",
+      "from": "en",
+      "to": "pl",
+      "input": "The girl sees the regulation.",
+      "expectation": {
+        "status": "supported",
+        "concept": "abstract.regulation"
+      }
+    },
+    {
+      "id": "C1-072",
+      "level": "C1",
+      "category": "sense",
+      "from": "pl",
+      "to": "en",
+      "input": "Chłopiec widzi reprezentację.",
+      "expectation": {
+        "status": "supported",
+        "concept": "abstract.representation"
+      }
+    },
+    {
+      "id": "C1-073",
+      "level": "C1",
+      "category": "sense",
+      "from": "en",
+      "to": "pl",
+      "input": "The woman sees the presentation.",
+      "expectation": {
+        "status": "supported",
+        "concept": "abstract.presentation"
+      }
+    },
+    {
+      "id": "C1-074",
+      "level": "C1",
+      "category": "sense",
+      "from": "pl",
+      "to": "en",
+      "input": "Ojciec widzi dokumentację.",
+      "expectation": {
+        "status": "supported",
+        "concept": "abstract.documentation"
+      }
+    },
+    {
+      "id": "C1-075",
+      "level": "C1",
+      "category": "sense",
+      "from": "en",
+      "to": "pl",
+      "input": "The grandfather sees the demonstration.",
+      "expectation": {
+        "status": "supported",
+        "concept": "abstract.demonstration"
+      }
+    },
+    {
+      "id": "C1-076",
+      "level": "C1",
+      "category": "refusal",
+      "from": "en",
+      "to": "pl",
+      "input": "\"The boy sees the interpretation.\"",
+      "expectation": {
+        "status": "unsupported",
+        "reason": "quoted-input"
+      }
+    },
+    {
+      "id": "C1-077",
+      "level": "C1",
+      "category": "refusal",
+      "from": "pl",
+      "to": "en",
+      "input": "\"Kobieta widzi argumentację.\"",
+      "expectation": {
+        "status": "unsupported",
+        "reason": "quoted-input"
+      }
+    },
+    {
+      "id": "C1-078",
+      "level": "C1",
+      "category": "refusal",
+      "from": "en",
+      "to": "pl",
+      "input": "\"The father sees the deliberation.\"",
+      "expectation": {
+        "status": "unsupported",
+        "reason": "quoted-input"
+      }
+    },
+    {
+      "id": "C1-079",
+      "level": "C1",
+      "category": "refusal",
+      "from": "pl",
+      "to": "en",
+      "input": "\"Dziadek widzi weryfikację.\"",
+      "expectation": {
+        "status": "unsupported",
+        "reason": "quoted-input"
+      }
+    },
+    {
+      "id": "C1-080",
+      "level": "C1",
+      "category": "refusal",
+      "from": "en",
+      "to": "pl",
+      "input": "\"The girl sees the implementation.\"",
+      "expectation": {
+        "status": "unsupported",
+        "reason": "quoted-input"
+      }
+    },
+    {
+      "id": "C1-081",
+      "level": "C1",
+      "category": "refusal",
+      "from": "pl",
+      "to": "en",
+      "input": "\"Chłopiec widzi rekomendację.\"",
+      "expectation": {
+        "status": "unsupported",
+        "reason": "quoted-input"
+      }
+    },
+    {
+      "id": "C1-082",
+      "level": "C1",
+      "category": "refusal",
+      "from": "en",
+      "to": "pl",
+      "input": "\"The woman sees the classification.\"",
+      "expectation": {
+        "status": "unsupported",
+        "reason": "quoted-input"
+      }
+    },
+    {
+      "id": "C1-083",
+      "level": "C1",
+      "category": "refusal",
+      "from": "pl",
+      "to": "en",
+      "input": "\"Ojciec widzi identyfikację.\"",
+      "expectation": {
+        "status": "unsupported",
+        "reason": "quoted-input"
+      }
+    },
+    {
+      "id": "C1-084",
+      "level": "C1",
+      "category": "refusal",
+      "from": "en",
+      "to": "pl",
+      "input": "\"The grandfather sees the conceptualization.\"",
+      "expectation": {
+        "status": "unsupported",
+        "reason": "quoted-input"
+      }
+    },
+    {
+      "id": "C1-085",
+      "level": "C1",
+      "category": "refusal",
+      "from": "pl",
+      "to": "en",
+      "input": "\"Dziewczynka widzi generalizację.\"",
+      "expectation": {
+        "status": "unsupported",
+        "reason": "quoted-input"
+      }
+    },
+    {
+      "id": "C1-086",
+      "level": "C1",
+      "category": "refusal",
+      "from": "en",
+      "to": "pl",
+      "input": "\"The boy sees the specification.\"",
+      "expectation": {
+        "status": "unsupported",
+        "reason": "quoted-input"
+      }
+    },
+    {
+      "id": "C1-087",
+      "level": "C1",
+      "category": "refusal",
+      "from": "pl",
+      "to": "en",
+      "input": "\"Kobieta widzi ewaluację.\"",
+      "expectation": {
+        "status": "unsupported",
+        "reason": "quoted-input"
+      }
+    },
+    {
+      "id": "C1-088",
+      "level": "C1",
+      "category": "refusal",
+      "from": "en",
+      "to": "pl",
+      "input": "\"The father sees the calibration.\"",
+      "expectation": {
+        "status": "unsupported",
+        "reason": "quoted-input"
+      }
+    },
+    {
+      "id": "C1-089",
+      "level": "C1",
+      "category": "refusal",
+      "from": "pl",
+      "to": "en",
+      "input": "\"Dziadek widzi koordynację.\"",
+      "expectation": {
+        "status": "unsupported",
+        "reason": "quoted-input"
+      }
+    },
+    {
+      "id": "C1-090",
+      "level": "C1",
+      "category": "refusal",
+      "from": "en",
+      "to": "pl",
+      "input": "\"The girl sees the communication.\"",
+      "expectation": {
+        "status": "unsupported",
+        "reason": "quoted-input"
+      }
+    },
+    {
+      "id": "C1-091",
+      "level": "C1",
+      "category": "refusal",
+      "from": "pl",
+      "to": "en",
+      "input": "\"Chłopiec widzi moderację.\"",
+      "expectation": {
+        "status": "unsupported",
+        "reason": "quoted-input"
+      }
+    },
+    {
+      "id": "C1-092",
+      "level": "C1",
+      "category": "refusal",
+      "from": "en",
+      "to": "pl",
+      "input": "\"The woman sees the negotiation.\"",
+      "expectation": {
+        "status": "unsupported",
+        "reason": "quoted-input"
+      }
+    },
+    {
+      "id": "C1-093",
+      "level": "C1",
+      "category": "refusal",
+      "from": "pl",
+      "to": "en",
+      "input": "\"Ojciec widzi mediację.\"",
+      "expectation": {
+        "status": "unsupported",
+        "reason": "quoted-input"
+      }
+    },
+    {
+      "id": "C1-094",
+      "level": "C1",
+      "category": "refusal",
+      "from": "en",
+      "to": "pl",
+      "input": "\"The grandfather sees the legislation.\"",
+      "expectation": {
+        "status": "unsupported",
+        "reason": "quoted-input"
+      }
+    },
+    {
+      "id": "C1-095",
+      "level": "C1",
+      "category": "refusal",
+      "from": "pl",
+      "to": "en",
+      "input": "\"Dziewczynka widzi administrację.\"",
+      "expectation": {
+        "status": "unsupported",
+        "reason": "quoted-input"
+      }
+    },
+    {
+      "id": "C1-096",
+      "level": "C1",
+      "category": "refusal",
+      "from": "en",
+      "to": "pl",
+      "input": "\"The boy sees the regulation.\"",
+      "expectation": {
+        "status": "unsupported",
+        "reason": "quoted-input"
+      }
+    },
+    {
+      "id": "C1-097",
+      "level": "C1",
+      "category": "refusal",
+      "from": "pl",
+      "to": "en",
+      "input": "\"Kobieta widzi reprezentację.\"",
+      "expectation": {
+        "status": "unsupported",
+        "reason": "quoted-input"
+      }
+    },
+    {
+      "id": "C1-098",
+      "level": "C1",
+      "category": "refusal",
+      "from": "en",
+      "to": "pl",
+      "input": "\"The father sees the presentation.\"",
+      "expectation": {
+        "status": "unsupported",
+        "reason": "quoted-input"
+      }
+    },
+    {
+      "id": "C1-099",
+      "level": "C1",
+      "category": "refusal",
+      "from": "pl",
+      "to": "en",
+      "input": "\"Dziadek widzi dokumentację.\"",
+      "expectation": {
+        "status": "unsupported",
+        "reason": "quoted-input"
+      }
+    },
+    {
+      "id": "C1-100",
+      "level": "C1",
+      "category": "refusal",
+      "from": "en",
+      "to": "pl",
+      "input": "\"The girl sees the demonstration.\"",
+      "expectation": {
+        "status": "unsupported",
+        "reason": "quoted-input"
+      }
+    },
+    {
+      "id": "C2-001",
+      "level": "C2",
+      "category": "idiom",
+      "from": "en",
+      "to": "pl",
+      "input": "The girl breaks the ice.",
+      "expectation": {
+        "status": "supported",
+        "concept": "event.social_icebreak",
+        "polarity": "positive",
+        "tense": "present"
+      }
+    },
+    {
+      "id": "C2-002",
+      "level": "C2",
+      "category": "idiom",
+      "from": "pl",
+      "to": "en",
+      "input": "Dziewczynka przełamuje lody.",
+      "expectation": {
+        "status": "supported",
+        "concept": "event.social_icebreak",
+        "polarity": "positive",
+        "tense": "present"
+      }
+    },
+    {
+      "id": "C2-003",
+      "level": "C2",
+      "category": "idiom",
+      "from": "en",
+      "to": "pl",
+      "input": "The girl broke the ice.",
+      "expectation": {
+        "status": "supported",
+        "concept": "event.social_icebreak",
+        "polarity": "positive",
+        "tense": "past"
+      }
+    },
+    {
+      "id": "C2-004",
+      "level": "C2",
+      "category": "idiom",
+      "from": "pl",
+      "to": "en",
+      "input": "Dziewczynka przełamywała lody.",
+      "expectation": {
+        "status": "supported",
+        "concept": "event.social_icebreak",
+        "polarity": "positive",
+        "tense": "past"
+      }
+    },
+    {
+      "id": "C2-005",
+      "level": "C2",
+      "category": "idiom",
+      "from": "pl",
+      "to": "en",
+      "input": "Dziewczynka nie przełamuje lodów.",
+      "expectation": {
+        "status": "supported",
+        "concept": "event.social_icebreak",
+        "polarity": "negative",
+        "tense": "present"
+      }
+    },
+    {
+      "id": "C2-006",
+      "level": "C2",
+      "category": "idiom",
+      "from": "en",
+      "to": "pl",
+      "input": "The boy breaks the ice.",
+      "expectation": {
+        "status": "supported",
+        "concept": "event.social_icebreak",
+        "polarity": "positive",
+        "tense": "present"
+      }
+    },
+    {
+      "id": "C2-007",
+      "level": "C2",
+      "category": "idiom",
+      "from": "pl",
+      "to": "en",
+      "input": "Chłopiec przełamuje lody.",
+      "expectation": {
+        "status": "supported",
+        "concept": "event.social_icebreak",
+        "polarity": "positive",
+        "tense": "present"
+      }
+    },
+    {
+      "id": "C2-008",
+      "level": "C2",
+      "category": "idiom",
+      "from": "en",
+      "to": "pl",
+      "input": "The boy broke the ice.",
+      "expectation": {
+        "status": "supported",
+        "concept": "event.social_icebreak",
+        "polarity": "positive",
+        "tense": "past"
+      }
+    },
+    {
+      "id": "C2-009",
+      "level": "C2",
+      "category": "idiom",
+      "from": "pl",
+      "to": "en",
+      "input": "Chłopiec przełamywał lody.",
+      "expectation": {
+        "status": "supported",
+        "concept": "event.social_icebreak",
+        "polarity": "positive",
+        "tense": "past"
+      }
+    },
+    {
+      "id": "C2-010",
+      "level": "C2",
+      "category": "idiom",
+      "from": "pl",
+      "to": "en",
+      "input": "Chłopiec nie przełamuje lodów.",
+      "expectation": {
+        "status": "supported",
+        "concept": "event.social_icebreak",
+        "polarity": "negative",
+        "tense": "present"
+      }
+    },
+    {
+      "id": "C2-011",
+      "level": "C2",
+      "category": "idiom",
+      "from": "en",
+      "to": "pl",
+      "input": "The woman breaks the ice.",
+      "expectation": {
+        "status": "supported",
+        "concept": "event.social_icebreak",
+        "polarity": "positive",
+        "tense": "present"
+      }
+    },
+    {
+      "id": "C2-012",
+      "level": "C2",
+      "category": "idiom",
+      "from": "pl",
+      "to": "en",
+      "input": "Kobieta przełamuje lody.",
+      "expectation": {
+        "status": "supported",
+        "concept": "event.social_icebreak",
+        "polarity": "positive",
+        "tense": "present"
+      }
+    },
+    {
+      "id": "C2-013",
+      "level": "C2",
+      "category": "idiom",
+      "from": "en",
+      "to": "pl",
+      "input": "The woman broke the ice.",
+      "expectation": {
+        "status": "supported",
+        "concept": "event.social_icebreak",
+        "polarity": "positive",
+        "tense": "past"
+      }
+    },
+    {
+      "id": "C2-014",
+      "level": "C2",
+      "category": "idiom",
+      "from": "pl",
+      "to": "en",
+      "input": "Kobieta przełamywała lody.",
+      "expectation": {
+        "status": "supported",
+        "concept": "event.social_icebreak",
+        "polarity": "positive",
+        "tense": "past"
+      }
+    },
+    {
+      "id": "C2-015",
+      "level": "C2",
+      "category": "idiom",
+      "from": "pl",
+      "to": "en",
+      "input": "Kobieta nie przełamuje lodów.",
+      "expectation": {
+        "status": "supported",
+        "concept": "event.social_icebreak",
+        "polarity": "negative",
+        "tense": "present"
+      }
+    },
+    {
+      "id": "C2-016",
+      "level": "C2",
+      "category": "idiom",
+      "from": "en",
+      "to": "pl",
+      "input": "The father breaks the ice.",
+      "expectation": {
+        "status": "supported",
+        "concept": "event.social_icebreak",
+        "polarity": "positive",
+        "tense": "present"
+      }
+    },
+    {
+      "id": "C2-017",
+      "level": "C2",
+      "category": "idiom",
+      "from": "pl",
+      "to": "en",
+      "input": "Ojciec przełamuje lody.",
+      "expectation": {
+        "status": "supported",
+        "concept": "event.social_icebreak",
+        "polarity": "positive",
+        "tense": "present"
+      }
+    },
+    {
+      "id": "C2-018",
+      "level": "C2",
+      "category": "idiom",
+      "from": "en",
+      "to": "pl",
+      "input": "The father broke the ice.",
+      "expectation": {
+        "status": "supported",
+        "concept": "event.social_icebreak",
+        "polarity": "positive",
+        "tense": "past"
+      }
+    },
+    {
+      "id": "C2-019",
+      "level": "C2",
+      "category": "idiom",
+      "from": "pl",
+      "to": "en",
+      "input": "Ojciec przełamywał lody.",
+      "expectation": {
+        "status": "supported",
+        "concept": "event.social_icebreak",
+        "polarity": "positive",
+        "tense": "past"
+      }
+    },
+    {
+      "id": "C2-020",
+      "level": "C2",
+      "category": "idiom",
+      "from": "pl",
+      "to": "en",
+      "input": "Ojciec nie przełamuje lodów.",
+      "expectation": {
+        "status": "supported",
+        "concept": "event.social_icebreak",
+        "polarity": "negative",
+        "tense": "present"
+      }
+    },
+    {
+      "id": "C2-021",
+      "level": "C2",
+      "category": "idiom",
+      "from": "en",
+      "to": "pl",
+      "input": "The grandfather breaks the ice.",
+      "expectation": {
+        "status": "supported",
+        "concept": "event.social_icebreak",
+        "polarity": "positive",
+        "tense": "present"
+      }
+    },
+    {
+      "id": "C2-022",
+      "level": "C2",
+      "category": "idiom",
+      "from": "pl",
+      "to": "en",
+      "input": "Dziadek przełamuje lody.",
+      "expectation": {
+        "status": "supported",
+        "concept": "event.social_icebreak",
+        "polarity": "positive",
+        "tense": "present"
+      }
+    },
+    {
+      "id": "C2-023",
+      "level": "C2",
+      "category": "idiom",
+      "from": "en",
+      "to": "pl",
+      "input": "The grandfather broke the ice.",
+      "expectation": {
+        "status": "supported",
+        "concept": "event.social_icebreak",
+        "polarity": "positive",
+        "tense": "past"
+      }
+    },
+    {
+      "id": "C2-024",
+      "level": "C2",
+      "category": "idiom",
+      "from": "pl",
+      "to": "en",
+      "input": "Dziadek przełamywał lody.",
+      "expectation": {
+        "status": "supported",
+        "concept": "event.social_icebreak",
+        "polarity": "positive",
+        "tense": "past"
+      }
+    },
+    {
+      "id": "C2-025",
+      "level": "C2",
+      "category": "idiom",
+      "from": "pl",
+      "to": "en",
+      "input": "Dziadek nie przełamuje lodów.",
+      "expectation": {
+        "status": "supported",
+        "concept": "event.social_icebreak",
+        "polarity": "negative",
+        "tense": "present"
+      }
+    },
+    {
+      "id": "C2-026",
+      "level": "C2",
+      "category": "ambiguity",
+      "from": "en",
+      "to": "pl",
+      "input": "The girl breaks the ice.",
+      "expectation": {
+        "status": "ambiguous",
+        "concepts": [
+          "event.break_object",
+          "event.social_icebreak"
+        ]
+      }
+    },
+    {
+      "id": "C2-027",
+      "level": "C2",
+      "category": "ambiguity",
+      "from": "en",
+      "to": "pl",
+      "input": "The girl broke the ice.",
+      "expectation": {
+        "status": "ambiguous",
+        "concepts": [
+          "event.break_object",
+          "event.social_icebreak"
+        ]
+      }
+    },
+    {
+      "id": "C2-028",
+      "level": "C2",
+      "category": "ambiguity",
+      "from": "en",
+      "to": "pl",
+      "input": "The girl does not break the ice.",
+      "expectation": {
+        "status": "ambiguous",
+        "concepts": [
+          "event.break_object",
+          "event.social_icebreak"
+        ]
+      }
+    },
+    {
+      "id": "C2-029",
+      "level": "C2",
+      "category": "ambiguity",
+      "from": "en",
+      "to": "pl",
+      "input": "A girl breaks the ice.",
+      "expectation": {
+        "status": "ambiguous",
+        "concepts": [
+          "event.break_object",
+          "event.social_icebreak"
+        ]
+      }
+    },
+    {
+      "id": "C2-030",
+      "level": "C2",
+      "category": "ambiguity",
+      "from": "en",
+      "to": "pl",
+      "input": "A girl broke the ice.",
+      "expectation": {
+        "status": "ambiguous",
+        "concepts": [
+          "event.break_object",
+          "event.social_icebreak"
+        ]
+      }
+    },
+    {
+      "id": "C2-031",
+      "level": "C2",
+      "category": "ambiguity",
+      "from": "en",
+      "to": "pl",
+      "input": "The boy breaks the ice.",
+      "expectation": {
+        "status": "ambiguous",
+        "concepts": [
+          "event.break_object",
+          "event.social_icebreak"
+        ]
+      }
+    },
+    {
+      "id": "C2-032",
+      "level": "C2",
+      "category": "ambiguity",
+      "from": "en",
+      "to": "pl",
+      "input": "The boy broke the ice.",
+      "expectation": {
+        "status": "ambiguous",
+        "concepts": [
+          "event.break_object",
+          "event.social_icebreak"
+        ]
+      }
+    },
+    {
+      "id": "C2-033",
+      "level": "C2",
+      "category": "ambiguity",
+      "from": "en",
+      "to": "pl",
+      "input": "The boy does not break the ice.",
+      "expectation": {
+        "status": "ambiguous",
+        "concepts": [
+          "event.break_object",
+          "event.social_icebreak"
+        ]
+      }
+    },
+    {
+      "id": "C2-034",
+      "level": "C2",
+      "category": "ambiguity",
+      "from": "en",
+      "to": "pl",
+      "input": "A boy breaks the ice.",
+      "expectation": {
+        "status": "ambiguous",
+        "concepts": [
+          "event.break_object",
+          "event.social_icebreak"
+        ]
+      }
+    },
+    {
+      "id": "C2-035",
+      "level": "C2",
+      "category": "ambiguity",
+      "from": "en",
+      "to": "pl",
+      "input": "A boy broke the ice.",
+      "expectation": {
+        "status": "ambiguous",
+        "concepts": [
+          "event.break_object",
+          "event.social_icebreak"
+        ]
+      }
+    },
+    {
+      "id": "C2-036",
+      "level": "C2",
+      "category": "ambiguity",
+      "from": "en",
+      "to": "pl",
+      "input": "The woman breaks the ice.",
+      "expectation": {
+        "status": "ambiguous",
+        "concepts": [
+          "event.break_object",
+          "event.social_icebreak"
+        ]
+      }
+    },
+    {
+      "id": "C2-037",
+      "level": "C2",
+      "category": "ambiguity",
+      "from": "en",
+      "to": "pl",
+      "input": "The woman broke the ice.",
+      "expectation": {
+        "status": "ambiguous",
+        "concepts": [
+          "event.break_object",
+          "event.social_icebreak"
+        ]
+      }
+    },
+    {
+      "id": "C2-038",
+      "level": "C2",
+      "category": "ambiguity",
+      "from": "en",
+      "to": "pl",
+      "input": "The woman does not break the ice.",
+      "expectation": {
+        "status": "ambiguous",
+        "concepts": [
+          "event.break_object",
+          "event.social_icebreak"
+        ]
+      }
+    },
+    {
+      "id": "C2-039",
+      "level": "C2",
+      "category": "ambiguity",
+      "from": "en",
+      "to": "pl",
+      "input": "A woman breaks the ice.",
+      "expectation": {
+        "status": "ambiguous",
+        "concepts": [
+          "event.break_object",
+          "event.social_icebreak"
+        ]
+      }
+    },
+    {
+      "id": "C2-040",
+      "level": "C2",
+      "category": "ambiguity",
+      "from": "en",
+      "to": "pl",
+      "input": "A woman broke the ice.",
+      "expectation": {
+        "status": "ambiguous",
+        "concepts": [
+          "event.break_object",
+          "event.social_icebreak"
+        ]
+      }
+    },
+    {
+      "id": "C2-041",
+      "level": "C2",
+      "category": "ambiguity",
+      "from": "en",
+      "to": "pl",
+      "input": "The father breaks the ice.",
+      "expectation": {
+        "status": "ambiguous",
+        "concepts": [
+          "event.break_object",
+          "event.social_icebreak"
+        ]
+      }
+    },
+    {
+      "id": "C2-042",
+      "level": "C2",
+      "category": "ambiguity",
+      "from": "en",
+      "to": "pl",
+      "input": "The father broke the ice.",
+      "expectation": {
+        "status": "ambiguous",
+        "concepts": [
+          "event.break_object",
+          "event.social_icebreak"
+        ]
+      }
+    },
+    {
+      "id": "C2-043",
+      "level": "C2",
+      "category": "ambiguity",
+      "from": "en",
+      "to": "pl",
+      "input": "The father does not break the ice.",
+      "expectation": {
+        "status": "ambiguous",
+        "concepts": [
+          "event.break_object",
+          "event.social_icebreak"
+        ]
+      }
+    },
+    {
+      "id": "C2-044",
+      "level": "C2",
+      "category": "ambiguity",
+      "from": "en",
+      "to": "pl",
+      "input": "A father breaks the ice.",
+      "expectation": {
+        "status": "ambiguous",
+        "concepts": [
+          "event.break_object",
+          "event.social_icebreak"
+        ]
+      }
+    },
+    {
+      "id": "C2-045",
+      "level": "C2",
+      "category": "ambiguity",
+      "from": "en",
+      "to": "pl",
+      "input": "A father broke the ice.",
+      "expectation": {
+        "status": "ambiguous",
+        "concepts": [
+          "event.break_object",
+          "event.social_icebreak"
+        ]
+      }
+    },
+    {
+      "id": "C2-046",
+      "level": "C2",
+      "category": "ambiguity",
+      "from": "en",
+      "to": "pl",
+      "input": "The grandfather breaks the ice.",
+      "expectation": {
+        "status": "ambiguous",
+        "concepts": [
+          "event.break_object",
+          "event.social_icebreak"
+        ]
+      }
+    },
+    {
+      "id": "C2-047",
+      "level": "C2",
+      "category": "ambiguity",
+      "from": "en",
+      "to": "pl",
+      "input": "The grandfather broke the ice.",
+      "expectation": {
+        "status": "ambiguous",
+        "concepts": [
+          "event.break_object",
+          "event.social_icebreak"
+        ]
+      }
+    },
+    {
+      "id": "C2-048",
+      "level": "C2",
+      "category": "ambiguity",
+      "from": "en",
+      "to": "pl",
+      "input": "The grandfather does not break the ice.",
+      "expectation": {
+        "status": "ambiguous",
+        "concepts": [
+          "event.break_object",
+          "event.social_icebreak"
+        ]
+      }
+    },
+    {
+      "id": "C2-049",
+      "level": "C2",
+      "category": "ambiguity",
+      "from": "en",
+      "to": "pl",
+      "input": "A grandfather breaks the ice.",
+      "expectation": {
+        "status": "ambiguous",
+        "concepts": [
+          "event.break_object",
+          "event.social_icebreak"
+        ]
+      }
+    },
+    {
+      "id": "C2-050",
+      "level": "C2",
+      "category": "ambiguity",
+      "from": "en",
+      "to": "pl",
+      "input": "A grandfather broke the ice.",
+      "expectation": {
+        "status": "ambiguous",
+        "concepts": [
+          "event.break_object",
+          "event.social_icebreak"
+        ]
+      }
+    },
+    {
+      "id": "C2-051",
+      "level": "C2",
+      "category": "semantic_error",
+      "from": "pl",
+      "to": "en",
+      "input": "Dziewczynka przełamuje lody.",
+      "expectation": {
+        "status": "invalid-core",
+        "mutation": "add-theme"
+      }
+    },
+    {
+      "id": "C2-052",
+      "level": "C2",
+      "category": "semantic_error",
+      "from": "pl",
+      "to": "en",
+      "input": "Dziewczynka przełamuje lody.",
+      "expectation": {
+        "status": "invalid-core",
+        "mutation": "remove-agent"
+      }
+    },
+    {
+      "id": "C2-053",
+      "level": "C2",
+      "category": "semantic_error",
+      "from": "pl",
+      "to": "en",
+      "input": "Dziewczynka przełamuje lody.",
+      "expectation": {
+        "status": "invalid-core",
+        "mutation": "wrong-agent-type"
+      }
+    },
+    {
+      "id": "C2-054",
+      "level": "C2",
+      "category": "semantic_error",
+      "from": "pl",
+      "to": "en",
+      "input": "Dziewczynka przełamuje lody.",
+      "expectation": {
+        "status": "invalid-core",
+        "mutation": "bad-polarity"
+      }
+    },
+    {
+      "id": "C2-055",
+      "level": "C2",
+      "category": "semantic_error",
+      "from": "pl",
+      "to": "en",
+      "input": "Dziewczynka przełamuje lody.",
+      "expectation": {
+        "status": "invalid-core",
+        "mutation": "unknown-concept"
+      }
+    },
+    {
+      "id": "C2-056",
+      "level": "C2",
+      "category": "semantic_error",
+      "from": "pl",
+      "to": "en",
+      "input": "Chłopiec przełamuje lody.",
+      "expectation": {
+        "status": "invalid-core",
+        "mutation": "add-theme"
+      }
+    },
+    {
+      "id": "C2-057",
+      "level": "C2",
+      "category": "semantic_error",
+      "from": "pl",
+      "to": "en",
+      "input": "Chłopiec przełamuje lody.",
+      "expectation": {
+        "status": "invalid-core",
+        "mutation": "remove-agent"
+      }
+    },
+    {
+      "id": "C2-058",
+      "level": "C2",
+      "category": "semantic_error",
+      "from": "pl",
+      "to": "en",
+      "input": "Chłopiec przełamuje lody.",
+      "expectation": {
+        "status": "invalid-core",
+        "mutation": "wrong-agent-type"
+      }
+    },
+    {
+      "id": "C2-059",
+      "level": "C2",
+      "category": "semantic_error",
+      "from": "pl",
+      "to": "en",
+      "input": "Chłopiec przełamuje lody.",
+      "expectation": {
+        "status": "invalid-core",
+        "mutation": "bad-polarity"
+      }
+    },
+    {
+      "id": "C2-060",
+      "level": "C2",
+      "category": "semantic_error",
+      "from": "pl",
+      "to": "en",
+      "input": "Chłopiec przełamuje lody.",
+      "expectation": {
+        "status": "invalid-core",
+        "mutation": "unknown-concept"
+      }
+    },
+    {
+      "id": "C2-061",
+      "level": "C2",
+      "category": "semantic_error",
+      "from": "pl",
+      "to": "en",
+      "input": "Kobieta przełamuje lody.",
+      "expectation": {
+        "status": "invalid-core",
+        "mutation": "add-theme"
+      }
+    },
+    {
+      "id": "C2-062",
+      "level": "C2",
+      "category": "semantic_error",
+      "from": "pl",
+      "to": "en",
+      "input": "Kobieta przełamuje lody.",
+      "expectation": {
+        "status": "invalid-core",
+        "mutation": "remove-agent"
+      }
+    },
+    {
+      "id": "C2-063",
+      "level": "C2",
+      "category": "semantic_error",
+      "from": "pl",
+      "to": "en",
+      "input": "Kobieta przełamuje lody.",
+      "expectation": {
+        "status": "invalid-core",
+        "mutation": "wrong-agent-type"
+      }
+    },
+    {
+      "id": "C2-064",
+      "level": "C2",
+      "category": "semantic_error",
+      "from": "pl",
+      "to": "en",
+      "input": "Kobieta przełamuje lody.",
+      "expectation": {
+        "status": "invalid-core",
+        "mutation": "bad-polarity"
+      }
+    },
+    {
+      "id": "C2-065",
+      "level": "C2",
+      "category": "semantic_error",
+      "from": "pl",
+      "to": "en",
+      "input": "Kobieta przełamuje lody.",
+      "expectation": {
+        "status": "invalid-core",
+        "mutation": "unknown-concept"
+      }
+    },
+    {
+      "id": "C2-066",
+      "level": "C2",
+      "category": "semantic_error",
+      "from": "pl",
+      "to": "en",
+      "input": "Ojciec przełamuje lody.",
+      "expectation": {
+        "status": "invalid-core",
+        "mutation": "add-theme"
+      }
+    },
+    {
+      "id": "C2-067",
+      "level": "C2",
+      "category": "semantic_error",
+      "from": "pl",
+      "to": "en",
+      "input": "Ojciec przełamuje lody.",
+      "expectation": {
+        "status": "invalid-core",
+        "mutation": "remove-agent"
+      }
+    },
+    {
+      "id": "C2-068",
+      "level": "C2",
+      "category": "semantic_error",
+      "from": "pl",
+      "to": "en",
+      "input": "Ojciec przełamuje lody.",
+      "expectation": {
+        "status": "invalid-core",
+        "mutation": "wrong-agent-type"
+      }
+    },
+    {
+      "id": "C2-069",
+      "level": "C2",
+      "category": "semantic_error",
+      "from": "pl",
+      "to": "en",
+      "input": "Ojciec przełamuje lody.",
+      "expectation": {
+        "status": "invalid-core",
+        "mutation": "bad-polarity"
+      }
+    },
+    {
+      "id": "C2-070",
+      "level": "C2",
+      "category": "semantic_error",
+      "from": "pl",
+      "to": "en",
+      "input": "Ojciec przełamuje lody.",
+      "expectation": {
+        "status": "invalid-core",
+        "mutation": "unknown-concept"
+      }
+    },
+    {
+      "id": "C2-071",
+      "level": "C2",
+      "category": "semantic_error",
+      "from": "pl",
+      "to": "en",
+      "input": "Dziadek przełamuje lody.",
+      "expectation": {
+        "status": "invalid-core",
+        "mutation": "add-theme"
+      }
+    },
+    {
+      "id": "C2-072",
+      "level": "C2",
+      "category": "semantic_error",
+      "from": "pl",
+      "to": "en",
+      "input": "Dziadek przełamuje lody.",
+      "expectation": {
+        "status": "invalid-core",
+        "mutation": "remove-agent"
+      }
+    },
+    {
+      "id": "C2-073",
+      "level": "C2",
+      "category": "semantic_error",
+      "from": "pl",
+      "to": "en",
+      "input": "Dziadek przełamuje lody.",
+      "expectation": {
+        "status": "invalid-core",
+        "mutation": "wrong-agent-type"
+      }
+    },
+    {
+      "id": "C2-074",
+      "level": "C2",
+      "category": "semantic_error",
+      "from": "pl",
+      "to": "en",
+      "input": "Dziadek przełamuje lody.",
+      "expectation": {
+        "status": "invalid-core",
+        "mutation": "bad-polarity"
+      }
+    },
+    {
+      "id": "C2-075",
+      "level": "C2",
+      "category": "semantic_error",
+      "from": "pl",
+      "to": "en",
+      "input": "Dziadek przełamuje lody.",
+      "expectation": {
+        "status": "invalid-core",
+        "mutation": "unknown-concept"
+      }
+    },
+    {
+      "id": "C2-076",
+      "level": "C2",
+      "category": "refusal",
+      "from": "en",
+      "to": "pl",
+      "input": "\"The girl breaks the ice.\"",
+      "expectation": {
+        "status": "unsupported",
+        "reason": "unlicensed-or-quotation"
+      }
+    },
+    {
+      "id": "C2-077",
+      "level": "C2",
+      "category": "refusal",
+      "from": "pl",
+      "to": "en",
+      "input": "\"Dziewczynka przełamuje lody.\"",
+      "expectation": {
+        "status": "unsupported",
+        "reason": "unlicensed-or-quotation"
+      }
+    },
+    {
+      "id": "C2-078",
+      "level": "C2",
+      "category": "refusal",
+      "from": "en",
+      "to": "pl",
+      "input": "The girl kicked the bucket.",
+      "expectation": {
+        "status": "unsupported",
+        "reason": "unlicensed-or-quotation"
+      }
+    },
+    {
+      "id": "C2-079",
+      "level": "C2",
+      "category": "refusal",
+      "from": "en",
+      "to": "pl",
+      "input": "The girl spilled the beans.",
+      "expectation": {
+        "status": "unsupported",
+        "reason": "unlicensed-or-quotation"
+      }
+    },
+    {
+      "id": "C2-080",
+      "level": "C2",
+      "category": "refusal",
+      "from": "en",
+      "to": "pl",
+      "input": "The girl bit the dust.",
+      "expectation": {
+        "status": "unsupported",
+        "reason": "unlicensed-or-quotation"
+      }
+    },
+    {
+      "id": "C2-081",
+      "level": "C2",
+      "category": "refusal",
+      "from": "en",
+      "to": "pl",
+      "input": "\"The boy breaks the ice.\"",
+      "expectation": {
+        "status": "unsupported",
+        "reason": "unlicensed-or-quotation"
+      }
+    },
+    {
+      "id": "C2-082",
+      "level": "C2",
+      "category": "refusal",
+      "from": "pl",
+      "to": "en",
+      "input": "\"Chłopiec przełamuje lody.\"",
+      "expectation": {
+        "status": "unsupported",
+        "reason": "unlicensed-or-quotation"
+      }
+    },
+    {
+      "id": "C2-083",
+      "level": "C2",
+      "category": "refusal",
+      "from": "en",
+      "to": "pl",
+      "input": "The boy kicked the bucket.",
+      "expectation": {
+        "status": "unsupported",
+        "reason": "unlicensed-or-quotation"
+      }
+    },
+    {
+      "id": "C2-084",
+      "level": "C2",
+      "category": "refusal",
+      "from": "en",
+      "to": "pl",
+      "input": "The boy spilled the beans.",
+      "expectation": {
+        "status": "unsupported",
+        "reason": "unlicensed-or-quotation"
+      }
+    },
+    {
+      "id": "C2-085",
+      "level": "C2",
+      "category": "refusal",
+      "from": "en",
+      "to": "pl",
+      "input": "The boy bit the dust.",
+      "expectation": {
+        "status": "unsupported",
+        "reason": "unlicensed-or-quotation"
+      }
+    },
+    {
+      "id": "C2-086",
+      "level": "C2",
+      "category": "refusal",
+      "from": "en",
+      "to": "pl",
+      "input": "\"The woman breaks the ice.\"",
+      "expectation": {
+        "status": "unsupported",
+        "reason": "unlicensed-or-quotation"
+      }
+    },
+    {
+      "id": "C2-087",
+      "level": "C2",
+      "category": "refusal",
+      "from": "pl",
+      "to": "en",
+      "input": "\"Kobieta przełamuje lody.\"",
+      "expectation": {
+        "status": "unsupported",
+        "reason": "unlicensed-or-quotation"
+      }
+    },
+    {
+      "id": "C2-088",
+      "level": "C2",
+      "category": "refusal",
+      "from": "en",
+      "to": "pl",
+      "input": "The woman kicked the bucket.",
+      "expectation": {
+        "status": "unsupported",
+        "reason": "unlicensed-or-quotation"
+      }
+    },
+    {
+      "id": "C2-089",
+      "level": "C2",
+      "category": "refusal",
+      "from": "en",
+      "to": "pl",
+      "input": "The woman spilled the beans.",
+      "expectation": {
+        "status": "unsupported",
+        "reason": "unlicensed-or-quotation"
+      }
+    },
+    {
+      "id": "C2-090",
+      "level": "C2",
+      "category": "refusal",
+      "from": "en",
+      "to": "pl",
+      "input": "The woman bit the dust.",
+      "expectation": {
+        "status": "unsupported",
+        "reason": "unlicensed-or-quotation"
+      }
+    },
+    {
+      "id": "C2-091",
+      "level": "C2",
+      "category": "refusal",
+      "from": "en",
+      "to": "pl",
+      "input": "\"The father breaks the ice.\"",
+      "expectation": {
+        "status": "unsupported",
+        "reason": "unlicensed-or-quotation"
+      }
+    },
+    {
+      "id": "C2-092",
+      "level": "C2",
+      "category": "refusal",
+      "from": "pl",
+      "to": "en",
+      "input": "\"Ojciec przełamuje lody.\"",
+      "expectation": {
+        "status": "unsupported",
+        "reason": "unlicensed-or-quotation"
+      }
+    },
+    {
+      "id": "C2-093",
+      "level": "C2",
+      "category": "refusal",
+      "from": "en",
+      "to": "pl",
+      "input": "The father kicked the bucket.",
+      "expectation": {
+        "status": "unsupported",
+        "reason": "unlicensed-or-quotation"
+      }
+    },
+    {
+      "id": "C2-094",
+      "level": "C2",
+      "category": "refusal",
+      "from": "en",
+      "to": "pl",
+      "input": "The father spilled the beans.",
+      "expectation": {
+        "status": "unsupported",
+        "reason": "unlicensed-or-quotation"
+      }
+    },
+    {
+      "id": "C2-095",
+      "level": "C2",
+      "category": "refusal",
+      "from": "en",
+      "to": "pl",
+      "input": "The father bit the dust.",
+      "expectation": {
+        "status": "unsupported",
+        "reason": "unlicensed-or-quotation"
+      }
+    },
+    {
+      "id": "C2-096",
+      "level": "C2",
+      "category": "refusal",
+      "from": "en",
+      "to": "pl",
+      "input": "\"The grandfather breaks the ice.\"",
+      "expectation": {
+        "status": "unsupported",
+        "reason": "unlicensed-or-quotation"
+      }
+    },
+    {
+      "id": "C2-097",
+      "level": "C2",
+      "category": "refusal",
+      "from": "pl",
+      "to": "en",
+      "input": "\"Dziadek przełamuje lody.\"",
+      "expectation": {
+        "status": "unsupported",
+        "reason": "unlicensed-or-quotation"
+      }
+    },
+    {
+      "id": "C2-098",
+      "level": "C2",
+      "category": "refusal",
+      "from": "en",
+      "to": "pl",
+      "input": "The grandfather kicked the bucket.",
+      "expectation": {
+        "status": "unsupported",
+        "reason": "unlicensed-or-quotation"
+      }
+    },
+    {
+      "id": "C2-099",
+      "level": "C2",
+      "category": "refusal",
+      "from": "en",
+      "to": "pl",
+      "input": "The grandfather spilled the beans.",
+      "expectation": {
+        "status": "unsupported",
+        "reason": "unlicensed-or-quotation"
+      }
+    },
+    {
+      "id": "C2-100",
+      "level": "C2",
+      "category": "refusal",
+      "from": "en",
+      "to": "pl",
+      "input": "The grandfather bit the dust.",
+      "expectation": {
+        "status": "unsupported",
+        "reason": "unlicensed-or-quotation"
+      }
+    }
+  ]
+}

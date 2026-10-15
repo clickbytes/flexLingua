@@ -75,6 +75,7 @@ The project should grow only when its contracts and evidence grow with it:
 - Keep structural coverage distinct from language proficiency.
 - Keep each controlled level's gold scope separate, and report sample counts by construction and direction. A finite project-authored A2 sample is not a representative CEFR benchmark; leave the full-level percentage unknown.
 - Maintain separate bounded B1 and B2 target matrices; a finite positive/negative regression sample does not establish either full CEFR level.
+- Keep the finite C1 and C2 ADV-04 samples in their own pinned report, with category and direction counts. Project-authored template judgments without independent review do not establish either CEFR level.
 - Do not announce CEFR completion without a documented benchmark and reviewed results.
 
 ## Work tracking
