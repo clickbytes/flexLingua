@@ -1,8 +1,8 @@
 /**
  * Bounded, in-memory conversation context for controlled PL/EN event clauses.
- * Nothing is persisted, inferred from repeated nouns, or added to CORE schema.
+ * It does not persist state or infer coreference from repeated nouns.
  */
-import {createDiscourse, validateInterlingua, MAX_DISCOURSE_EVENTS}
+import {createDiscourse, validateInterlingua, MAX_DISCOURSE_EVENTS, MAX_DIALOGUE_ACTS}
   from './interlingua.js';
 import {splitSentences} from './text.js';
 
@@ -142,5 +142,86 @@ export class ConversationContext {
           'UNSUPPORTED_CONSTRUCTION':'INVALID_INPUT');
       return {ok:false,error:{code,message:error.message}};
     }
+  }
+}
+
+function canonicalJson(value) {
+  if (Array.isArray(value)) return '[' + value.map(canonicalJson).join(',') + ']';
+  if (value && typeof value === 'object') {
+    return '{' + Object.keys(value).sort().map(key =>
+      JSON.stringify(key) + ':' + canonicalJson(value[key])).join(',') + '}';
+  }
+  return JSON.stringify(value);
+}
+
+function sameQuestion(left, right) {
+  return canonicalJson(left) === canonicalJson(right);
+}
+
+/**
+ * Bounded in-memory dialogue history. Replies must match the latest recorded
+ * question; clarifications push a follow-up question and preserve its parent.
+ */
+export class DialogueContext {
+  #engine;
+  #acts=[];
+  #pendingQuestions=[];
+  #maxActs;
+
+  constructor(engine,{maxActs=MAX_DIALOGUE_ACTS}={}) {
+    if (!engine?.ontology || !engine?.features || !Number.isInteger(maxActs) ||
+        maxActs < 1 || maxActs > MAX_DIALOGUE_ACTS) {
+      throw new Error('Invalid dialogue engine or act limit (1–32).');
+    }
+    this.#engine=engine;
+    this.#maxActs=maxActs;
+  }
+
+  snapshot() {
+    return {
+      actCount:this.#acts.length,
+      maxActs:this.#maxActs,
+      acts:structuredClone(this.#acts),
+      pendingQuestions:structuredClone(this.#pendingQuestions)
+    };
+  }
+
+  reset() {
+    this.#acts=[];
+    this.#pendingQuestions=[];
+    return this.snapshot();
+  }
+
+  append(act) {
+    if (this.#acts.length >= this.#maxActs) {
+      throw new Error('Dialogue history limit reached; reset required.');
+    }
+    const candidate=structuredClone(act);
+    validateInterlingua(candidate,this.#engine.ontology,this.#engine.features);
+    const pending=structuredClone(this.#pendingQuestions);
+
+    if (candidate.act === 'ask') {
+      if (pending.length) throw new Error('A new question cannot replace an unanswered dialogue question.');
+      pending.push(candidate.payload.question);
+    } else if (candidate.act === 'clarify') {
+      if (pending.length) {
+        const current=pending[pending.length-1];
+        if (candidate.payload.inReplyTo.type !== 'question' ||
+            !sameQuestion(current,candidate.payload.inReplyTo)) {
+          throw new Error('Clarification does not match the current dialogue question.');
+        }
+      }
+      pending.push(candidate.payload.question);
+    } else if (['answer','confirm','refuse'].includes(candidate.act)) {
+      const current=pending[pending.length-1];
+      if (!current || !sameQuestion(current,candidate.payload.question)) {
+        throw new Error('Dialogue reply has no matching question in context.');
+      }
+      pending.pop();
+    }
+
+    this.#acts=[...this.#acts,candidate];
+    this.#pendingQuestions=pending;
+    return this.snapshot();
   }
 }
