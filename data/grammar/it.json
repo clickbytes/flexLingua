@@ -1,0 +1,116 @@
+{
+  "version": "1.0",
+  "language": "it",
+  "sentence": {
+    "subjectRole": "agent",
+    "terminator": ".",
+    "coordination": {
+      "and": "e",
+      "wideNegation": null
+    }
+  },
+  "nounPhrase": {
+    "path": "forms.{number}",
+    "subjectCase": "nom",
+    "allowBare": false,
+    "determiners": {
+      "singular": {
+        "definite": {
+          "lexemeProperty": "definiteArticle"
+        },
+        "indefinite": {
+          "lexemeProperty": "indefiniteArticle"
+        }
+      },
+      "plural": {
+        "definite": {
+          "lexemeProperty": "pluralDefiniteArticle"
+        },
+        "indefinite": {
+          "omit": true
+        }
+      }
+    },
+    "defaultDefiniteness": "definite",
+    "alternativeDefiniteness": "indefinite",
+    "qualified": {
+      "layouts": [
+        [
+          "determiner",
+          "quantifier",
+          "modifiers",
+          "noun"
+        ]
+      ]
+    },
+    "relatives": {
+      "maxDepth": 0,
+      "punctuation": "none",
+      "markers": []
+    }
+  },
+  "verb": {
+    "aspectSource": "unknown",
+    "rules": [
+      {
+        "tense": "present",
+        "polarity": "positive",
+        "when": {
+          "subject.person": "third",
+          "subject.number": "singular"
+        },
+        "prefix": [],
+        "path": "forms.present3sg"
+      },
+      {
+        "tense": "present",
+        "polarity": "positive",
+        "when": {
+          "subject.person": "third",
+          "subject.number": "plural"
+        },
+        "prefix": [],
+        "path": "forms.present3pl"
+      },
+      {
+        "tense": "present",
+        "polarity": "negative",
+        "when": {
+          "subject.person": "third",
+          "subject.number": "singular"
+        },
+        "prefix": [
+          "non"
+        ],
+        "path": "forms.present3sg"
+      },
+      {
+        "tense": "present",
+        "polarity": "negative",
+        "when": {
+          "subject.person": "third",
+          "subject.number": "plural"
+        },
+        "prefix": [
+          "non"
+        ],
+        "path": "forms.present3pl"
+      }
+    ],
+    "agreement": {}
+  },
+  "frames": {
+    "event.visual_perception": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb",
+          "theme"
+        ]
+      ]
+    }
+  },
+  "messages": {
+    "definitenessUnknown": "Italian definiteness is not specified; a definite article is displayed by default."
+  }
+}

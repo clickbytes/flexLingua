@@ -58,6 +58,20 @@ test('Static UI loads both JSON grammars, translates and updates inspector', asy
   assert.equal(el('copy').disabled, false);
   assert.ok(el('alternatives').children.length > 0, 'Aspect alternatives are shown.');
 
+  el('target-lang').value = 'it';
+  el('sample').trigger('click');
+  assert.equal(el('source-text').value, 'The girl sees the dog.');
+  assert.equal(el('result').textContent, 'La ragazza vede il cane.');
+  el('source-lang').value = 'it';
+  el('target-lang').value = 'en';
+  el('sample').trigger('click');
+  assert.equal(el('source-text').value, 'La ragazza vede il cane.');
+  assert.equal(el('result').textContent, 'The girl sees the dog.');
+  el('source-lang').value = 'en';
+  el('target-lang').value = 'pl';
+  el('source-text').value = 'The girl gave the boy a book.';
+  el('translate-form').trigger('submit');
+
   el('swap').trigger('click');
   el('translate').trigger('click'); // UI translation happens on the form, not on this button.
   el('translate-form').trigger('submit');

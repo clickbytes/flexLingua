@@ -4,7 +4,7 @@
 
 Ten dokument opisuje wewnętrzny, celowo ograniczony zestaw celów. Nie jest kompletnym zakresem CEFR A1, certyfikacją poziomu ani kopią listy Oxford. CEFR i Oxford służą wyłącznie jako punkty odniesienia; repozytorium nie zawiera skopiowanych list, definicji ani przykładów z tych źródeł. Nie wyliczamy procentu pokrycia CEFR z tej macierzy.
 
-Maszynowym źródłem prawdy jest [`data/coverage/a1-targets.json`](../data/coverage/a1-targets.json). Każdy wiersz ma stabilny identyfikator zakresu, status zakresu, wymagany sens CORE, wymagania mapowania PL/EN, morfologii i — dla konstrukcji — ramę gramatyczną. `npm run audit:a1-gaps` sprawdza te wymagania i pokazuje niezależny gold albo jawną lukę dla zamrożonego fixture'u G2.
+Maszynowym źródłem prawdy jest [`data/coverage/a1-targets.json`](../data/coverage/a1-targets.json). Każdy wiersz ma stabilny identyfikator zakresu, status zakresu, wymagany sens CORE, wymagania mapowania PL/EN, morfologii i — dla konstrukcji — ramę gramatyczną. `npm run audit:a1-gaps` sprawdza te wymagania i pokazuje wewnętrzny gold albo jawną lukę dla zamrożonego fixture'u G2.
 
 ## Statusy i reguły odbioru
 
@@ -21,7 +21,7 @@ Wymagania dla każdego wymaganego celu:
 1. Identyfikowalny sens CORE (`concept`), niezależny od formy językowej.
 2. Mapowanie leksykalne PL i EN oraz jawnie wymagane wiązanie morfologii.
 3. Dla konstrukcji: rama gramatyczna PL i EN.
-4. Co najmniej jeden zaliczony przypadek w niezależnym G2 albo luka `gold:not-exercised` w raporcie. G2 zawiera 32 przypadki przekładu i 8 odmów; pokrycie w tym fixture nie zastępuje goldów osobnych batchy.
+4. Co najmniej jeden zaliczony przypadek w wewnętrznym G2 albo luka `gold:not-exercised` w raporcie. G2 zawiera 32 przypadki przekładu i 8 odmów; pokrycie w tym fixture nie zastępuje goldów osobnych batchy. Autorzy próbek uczestniczyli w rozwoju projektu, więc wynik nie jest niezależnym benchmarkiem ani potwierdzeniem poziomu CEFR.
 
 Status wykonania w raporcie (`pilot-exercised`, `without-gold`, `missing-*` itd.) jest odrębny od `scopeStatus`. Wymagany, ale nieprzetestowany cel pozostaje wymagany i widnieje jako luka.
 

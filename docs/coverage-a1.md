@@ -12,5 +12,5 @@ Structural coverage describes what is declared in repository data. It does not m
 - The combined report and its limits are documented in [G3](g3-a1-report.md).
 - The pilot data in `data/coverage/a1-pilot.json` is authored for this project and is not copied from Oxford.
 
-Run `npm run report:a1` to inspect the current inventory and test evidence. Run `npm run check:a1-gold` to enforce the declared G2 checks and `npm run check:a1-evidence` to run the independent evidence ledger, including STATE-04. Report the tested constructions, directions, and refusals; do not present these checks as CEFR certification.
+Run `npm run report:a1` to inspect the current inventory and test evidence. Run `npm run check:a1-gold` to enforce the declared G2 checks and `npm run check:a1-evidence` to run the internal evidence ledger, including STATE-04. Its fixed samples are not an independent benchmark. Report the tested constructions, directions, and refusals; do not present these checks as CEFR certification.
 

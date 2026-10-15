@@ -501,6 +501,26 @@
       "license": "Project-authored; no separate SPDX license grant is declared in this repository.",
       "reviewedAt": "2026-10-15",
       "permittedUse": "Internal finite C2 development sample only; no independent case review or representative CEFR denominator."
+    },
+    {
+      "path": "data/it.json",
+      "version": "1.0",
+      "status": "project-authored",
+      "author": "flexLingua project contributors",
+      "source": "Original bounded Italian lexical entries and present-tense grammar authored for issue #79; no external dictionary or corpus imported.",
+      "license": "Project-authored; no separate SPDX data license grant is declared in this repository.",
+      "reviewedAt": "2026-10-15",
+      "permittedUse": "Internal flexLingua prototype and regression samples only; external reuse requires rights-holder review."
+    },
+    {
+      "path": "data/grammar/it.json",
+      "version": "1.0",
+      "status": "project-authored",
+      "author": "flexLingua project contributors",
+      "source": "Original bounded Italian lexical entries and present-tense grammar authored for issue #79; no external dictionary or corpus imported.",
+      "license": "Project-authored; no separate SPDX data license grant is declared in this repository.",
+      "reviewedAt": "2026-10-15",
+      "permittedUse": "Internal flexLingua prototype and regression samples only; external reuse requires rights-holder review."
     }
   ]
 }
