@@ -164,3 +164,23 @@ validated turn remains available in turns.
 explicit prior assert turns. `ConversationContext.respond({to,...})` plans,
 realizes and appends the typed reply; the pending question is resolved only
 after a successful plan and realization.
+
+## v1.0 extension — DialogueEngine orchestration
+
+`engine.createDialogueEngine()` returns an offline facade advertised by
+`engine.capabilities().dialogueEngineVersion === '1.0'`. Create a bounded
+session with `dialogue.createSession()`. `dialogue.nextTurn({session,utterance,
+language,to,...})` parses, translates, and records one utterance. `language`
+names the source language; `from` is an explicit alias, and `to` defaults to
+the source language. `utterance` may be a string or `{text,language}`. A
+successful result contains `core`, `dialogueAct`, target `text`, warnings,
+diagnostics, and a defensive conversation snapshot.
+
+`dialogue.tryNextTurn(request)` returns `{ok:true,value}` or
+`{ok:false,error,diagnostics}`. Parsing ambiguity, unsupported constructions,
+invalid language codes, and context limits leave the session unchanged.
+`dialogue.respond({session,to,...})` answers the latest pending question with
+the CORE response planner and records its typed reply; `tryRespond()` provides
+the same safe error envelope. Pass `participants: {speakerId,addresseeId}` to
+retain explicitly selected speaker/addressee identity across turns. The API
+uses only the registered local language adapters and makes no network calls.
