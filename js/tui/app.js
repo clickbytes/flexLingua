@@ -1,4 +1,5 @@
 import {EventEmitter} from 'node:events';
+import {createFormsService} from '../app/forms-service.js';
 import {createTranslationService} from '../app/translation-service.js';
 import {TABS, actionForKey} from './keymap.js';
 import {styleFor} from './theme.js';
@@ -174,7 +175,9 @@ export function createTui({runtime, terminal, output = process.stdout} = {}) {
   }
 
   const translationService = createTranslationService(runtime);
-  const views = [createTranslateView({runtime, translationService}), createChatView(), createFormsView()];
+  const formsService = createFormsService(runtime);
+  const views = [createTranslateView({runtime, translationService}), createChatView(),
+    createFormsView({runtime, formsService})];
   const events = new EventEmitter();
   let activeIndex = 0;
   let started = false;
