@@ -34,12 +34,19 @@ The browser UI loads this implementation through ES modules from the local devel
 | Method | Meaning |
 |---|---|
 | `registerLanguage(adapter)` | Validate and register one language implementation. Duplicate code is rejected. |
-| `capabilities()` | JSON-serializable language inventory, parser/realizer support and schema versions. |
+| `capabilities()` | JSON-serializable language inventory, runtime parser/realizer/question/morphology capabilities and schema versions. |
 | `analyze({text,from,context?})` | Select one preferred semantic reading; no disambiguation promise. |
 | `analyzeCandidates({text,from,context?})` | Return bounded semantic alternatives with scores and lexical senses. |
 | `realize({interlingua,to,lexicalRegister?})` | Generate target text, warnings and grammatical alternatives. `lexicalRegister` accepts `neutral` (default), `formal` or `plain` for event nouns. |
 | `translate({text,from,to,context?,lexicalRegister?})` | Analyze → interlingua → realize; return semantic and grammar alternatives. Throws on unsupported input. The register option controls target event nouns only. |
 | `tryTranslate(request)` | Same operation with `{ok:true,value}` or `{ok:false,error:{code,message}}`; suitable for UIs. |
+
+`capabilities().languages[]` includes `runtimeCapabilities`, derived from the
+registered adapter methods and the registered morphology adapter. A language
+without question analysis and realization methods reports `questions: false`;
+its grammar must refuse unsupported questions. Package status, tokenizer
+profiles, supported frames and audit eligibility are described separately in
+the versioned [language package manifests](../data/languages/).
 
 ```js
 const result = engine.tryTranslate({

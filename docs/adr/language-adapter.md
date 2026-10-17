@@ -71,3 +71,20 @@ jednego. `degreePlacement` wybiera pozycję stopnia względem przymiotnika. Pars
 próbuje tylko ograniczoną listę layoutów, a generacja używa domyślnego lub
 wybranego przez `layoutByQuantifier`. Starsze `adjectiveOrder` i `degreeOrder`
 pozostają zgodne dla istniejących pakietów.
+
+## Manifesty pakietów językowych 1.0
+
+`data/languages/<code>.json` opisuje wersjonowane ścieżki pakietów CORE,
+leksykonu, gramatyki, morfologii i rejestru cech, profil tokenizera, poziom
+demonstracji, kierunki oraz zadeklarowane ramy. Manifest nie deklaruje pełnej
+obsługi języka: `morphology-only` nie oznacza parsera ani realizera zdań.
+Ścieżki są względne wobec `data/`; loader odrzuca ścieżki wychodzące poza ten
+katalog, brakujące pliki i niezgodność kodu lub wersji. JSON opisuje dane i
+nigdy nie jest wykonywany jako kod.
+
+`Engine.capabilities()` zwraca `runtimeCapabilities` wyliczone z metod
+zarejestrowanego adaptera i zarejestrowanej morfologii. `support.questions`
+w opisie adaptera musi zgadzać się z obecnością obu metod pytań. Audyty CLI
+czytają manifesty zamiast utrzymywać własne listy języków; wyłączone audyty
+raportują przyczynę pominięcia. Zadeklarowane ramy opisują ograniczony
+inwentarz, nie obietnicę obsługi każdej konstrukcji w danej ramie.
