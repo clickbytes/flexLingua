@@ -1,4 +1,4 @@
-import { createDiscourse, createEventRelation, createCoordination, createNegation, createComplement, createConditional, createInformationStructure, materializeEvent, validateMeaningGraph, MAX_DISCOURSE_EVENTS, QUESTION_VERSION, MODALITY_VERSION, STATE_VERSION, DIALOGUE_ACT_VERSION, PASSIVE_VERSION, CONDITIONAL_VERSION, validateCoreferenceMap, sameDiscourseReferent } from './meaning-graph.js';
+import { createDiscourse, createEventRelation, createInformationStructure, materializeEvent, validateMeaningGraph, MAX_DISCOURSE_EVENTS, QUESTION_VERSION, MODALITY_VERSION, STATE_VERSION, DIALOGUE_ACT_VERSION, PASSIVE_VERSION, CONDITIONAL_VERSION, validateCoreferenceMap, sameDiscourseReferent } from './meaning-graph.js';
 import { createFeatureRegistry, record, safeName, hasOwn } from './features.js';
 import { createCoreLanguage } from './core-language.js';
 import { splitSentences } from './text.js';
@@ -204,7 +204,7 @@ export class Engine {
     return this.responsePlanner.plan(request);
   }
 
-  /** Plan a response in CORE, then realize its proposition with the selected language adapter. */
+  /** Plan a response in CORE, then realize its proposition with the selected language plugin. */
   respond({question,facts,clarifyQuestion,to,profile,referenceContext}={}) {
     const personality=createPersonalityProfile(profile);
     if (typeof to !== 'string' || !to) {
@@ -216,13 +216,10 @@ export class Engine {
       return {plan,text:null,warnings:[],alternatives:[],informationLoss:[],diagnostics:[]};
     }
     const output = this.realize({interlingua:plan.realization,to,profile:personality});
-    const style=personality.realization.replyStyles[to]||'standard';
-    const plugin=to==='core'?null:this.plugin(to);
-    const styled=plugin?.styleReply ? plugin.styleReply(output,style) : output;
-    return {plan,text:styled.text,warnings:[...(styled.warnings||[])],
-      alternatives:[...(styled.alternatives||[])],
-      informationLoss:[...(styled.informationLoss||[])],
-      diagnostics:[...(styled.diagnostics||[])]};
+    return {plan,text:output.text,warnings:[...(output.warnings||[])],
+      alternatives:[...(output.alternatives||[])],
+      informationLoss:[...(output.informationLoss||[])],
+      diagnostics:[...(output.diagnostics||[])]};
   }
 
   /** Create a multi-turn orchestration facade over this Engine. */
@@ -257,151 +254,6 @@ export class Engine {
     return context;
   }
 
-  /**
-   * E2a: only a subject pronoun in the second of two sentences. Every possible
-   * source-language reading must identify the same single antecedent mention.
-   * Pronoun expansion is syntactic; CORE records a shared entity, never a fake
-   * pronoun concept. A lexical noun renders in the target until E2b.
-   */
-  analyzeAnaphoricPair(sentences,adapter,settings) {
-    const pronoun=adapter.readSubjectPronoun?.(sentences[1]);
-    if(!pronoun || sentences.length!==2)throw new Error('Unsupported anaphora discourse shape.');
-    const first=this.analyzeSentence(sentences[0],adapter).filter(item=>
-      item.interlingua?.type==='event');
-    if(!first.length)throw new Error('Unresolved anaphora: first clause is not a supported event.');
-    const hypotheses=first.flatMap(item=>Object.entries(item.interlingua.roles)
-      .filter(([,ref])=>!hasOwn(ref,'referent') && ref.features?.number==='singular' &&
-        this.ontology.isA(ref.concept,'person') && adapter.subjectPronounFor?.(ref,this.ontology)===pronoun.text)
-      .map(([role,ref])=>({item,role,ref})));
-    if(!hypotheses.length)throw new Error('Unresolved anaphora: no compatible antecedent for '+
-      pronoun.text+'.');
-    const unique=[];
-    for(const h of hypotheses){
-      if(!unique.some(x=>x.role===h.role && sameDiscourseReferent(x.ref,h.ref)))
-        unique.push(h);
-    }
-    if(unique.length!==1)throw new Error('Ambiguous anaphora: '+pronoun.text+
-      ' matches multiple possible antecedents.');
-    const selected=unique[0];
-    const readings=[];
-    for(const h of hypotheses){
-      if(h.role!==selected.role || !sameDiscourseReferent(h.ref,selected.ref))continue;
-      const expanded=adapter.expandSubjectPronoun(sentences[1],h.ref,this.ontology);
-      const parsed=this.analyzeSentence(expanded,adapter).filter(item=>
-        item.interlingua?.type==='event' &&
-        item.interlingua.roles?.[adapter.subjectRole]?.concept===h.ref.concept);
-      for(const second of parsed){
-        const normalized={...second.interlingua,
-          roles:{...second.interlingua.roles,[adapter.subjectRole]:h.ref}};
-        const coreference={['e2.'+adapter.subjectRole]:'e1.'+h.role};
-        const meaning=createDiscourse([h.item.interlingua,normalized],{coreference});
-        validateMeaningGraph(meaning,this.ontology,this.features);
-        readings.push({interlingua:meaning,
-          lexicalSenses:{e1:h.item.lexicalSenses,e2:second.lexicalSenses},
-          score:(h.item.score||0)+(second.score||0),
-          anaphora:{sourcePronoun:pronoun.text,antecedent:'e1.'+h.role}});
-      }
-    }
-    if(!readings.length)throw new Error('Unresolved anaphora: expanded clause has no valid grammatical reading.');
-    return readings.sort((a,b)=>b.score-a.score).slice(0,MAX_CANDIDATES);
-  }
-
-  /**
-   * E3: compose 3–8 independent clauses using a bounded beam. A source
-   * pronoun must match precisely one distinct prior CORE entity; multiple
-   * mentions of the same previously linked entity count only once.
-   */
-  analyzeAnaphoricDiscourse(sentences,adapter,settings={}) {
-    if(sentences.length<3 || sentences.length>MAX_DISCOURSE_EVENTS)
-      throw new Error('Unsupported anaphora discourse length.');
-    const rootOf=(mention,links)=>{
-      let at=mention;
-      for(let n=0;n<MAX_DISCOURSE_EVENTS;n++){
-        if(!hasOwn(links,at))return at;
-        at=links[at];
-      }
-      throw new Error('Unresolved anaphora: invalid reference chain.');
-    };
-    const antecedents=(state,pronoun)=>{
-      const unique=new Map();
-      for(const [index,event] of state.events.entries()){
-        for(const [role,ref] of Object.entries(event.roles)){
-          if(hasOwn(ref,'referent') || ref.features?.number!=='singular' ||
-             !this.ontology.isA(ref.concept,'person') ||
-             adapter.subjectPronounFor?.(ref,this.ontology)!==pronoun.text)continue;
-          const root=rootOf('e'+(index+1)+'.'+role,state.links);
-          if(!unique.has(root))unique.set(root,{root,ref});
-        }
-      }
-      return [...unique.values()];
-    };
-    const scoreOf=item=>(item.score||0)+(settings.topics||[]).reduce(
-      (sum,topic)=>sum+participantsOf(item.interlingua).filter(ref=>
-        this.ontology.relatedToTopic(ref.concept,topic)).length*10,0);
-    let states=[{events:[],links:{},lexicalSenses:{},score:0,trace:[]}];
-    for(const [index,text] of sentences.entries()){
-      const pronoun=adapter.readSubjectPronoun?.(text);
-      const candidates=[];
-      if(!pronoun){
-        const parsed=this.analyzeSentence(text,adapter)
-          .filter(item=>item.interlingua?.type==='event');
-        if(!parsed.length)throw new Error('Unsupported anaphora: discourse requires event clauses.');
-        for(const state of states)for(const item of parsed){
-          candidates.push({
-            events:[...state.events,item.interlingua],
-            links:state.links,
-            lexicalSenses:{...state.lexicalSenses,['e'+(index+1)]:item.lexicalSenses},
-            score:state.score+scoreOf(item),trace:state.trace
-          });
-        }
-      } else {
-        if(index===0)throw new Error('Unresolved anaphora: first sentence has no antecedent.');
-        const alternatives=states.flatMap(state=>antecedents(state,pronoun));
-        const distinct=[];
-        for(const option of alternatives){
-          if(!distinct.some(other=>other.root===option.root &&
-              sameDiscourseReferent(other.ref,option.ref)))distinct.push(option);
-        }
-        if(!distinct.length)throw new Error('Unresolved anaphora: no compatible prior entity for '+pronoun.text+'.');
-        if(distinct.length!==1)throw new Error('Ambiguous anaphora: '+pronoun.text+
-          ' matches multiple independent earlier entities.');
-        const selected=distinct[0];
-        for(const state of states){
-          const match=antecedents(state,pronoun).find(item=>
-            item.root===selected.root && sameDiscourseReferent(item.ref,selected.ref));
-          if(!match)continue;
-          const expanded=adapter.expandSubjectPronoun(text,match.ref,this.ontology);
-          const parsed=this.analyzeSentence(expanded,adapter).filter(item=>
-            item.interlingua?.type==='event' &&
-            item.interlingua.roles?.[adapter.subjectRole]?.concept===match.ref.concept);
-          for(const item of parsed){
-            const normalized={...item.interlingua,roles:{
-              ...item.interlingua.roles,[adapter.subjectRole]:match.ref}};
-            candidates.push({
-              events:[...state.events,normalized],
-              links:{...state.links,['e'+(index+1)+'.'+adapter.subjectRole]:match.root},
-              lexicalSenses:{...state.lexicalSenses,['e'+(index+1)]:item.lexicalSenses},
-              score:state.score+scoreOf(item),
-              trace:[...state.trace,{sourcePronoun:pronoun.text,
-                event:index+1,antecedent:match.root}]
-            });
-          }
-        }
-      }
-      states=candidates.sort((a,b)=>b.score-a.score).slice(0,MAX_CANDIDATES);
-      if(!states.length)throw new Error('Unresolved anaphora: no consistent grammatical reading.');
-    }
-    return states.map(state=>{
-      const interlingua=createDiscourse(state.events,{coreference:state.links});
-      validateMeaningGraph(interlingua,this.ontology,this.features);
-      return {interlingua,lexicalSenses:state.lexicalSenses,score:state.score,
-        anaphoraTrace:state.trace};
-    });
-  }
-
-  /** Parse a controlled coordination or wide negation. Both markers are language-local JSON.
-   * This is deliberately NOT naive free-text splitting across unrecognized structures.
-   */
   pluginAnalysisCandidates(plugin, text, context = {}) {
     try {
       if (typeof plugin?.analyze !== 'function') {
@@ -438,155 +290,8 @@ export class Engine {
     }
   }
 
-  analyzeSentence(sentence, adapter, depth = 0, pluginContext = {}) {
-    if (depth > 3) throw new EngineError('COMPLEMENT_DEPTH_LIMIT','Complement nesting depth exceeded.');
-    const text = sentence.trim().replace(/\.\s*$/u, '');
-    const prefix = adapter.wideNegation;
-    const locale=adapter.textProfile?.locale||adapter.code;
-    const normal = text.toLocaleLowerCase(locale);
-    const scoped = typeof prefix === 'string' &&
-      normal.startsWith(prefix.toLocaleLowerCase(locale) + ' ');
-    const body = scoped ? text.slice(prefix.length).trim() : text;
-    const conditional=adapter.conditional;
-    const lowerBody=body.toLocaleLowerCase(locale);
-    if(conditional && lowerBody.startsWith(conditional.if.toLocaleLowerCase(locale)+' ')) {
-      const rest=body.slice(conditional.if.length).trim();
-      const comma=rest.indexOf(',');
-      if(comma<1)throw new Error('Conditional clauses require a comma after the if-clause.');
-      const conditionText=rest.slice(0,comma).trim();
-      let consequenceText=rest.slice(comma+1).trim();
-      const markerPattern=marker=>marker.split(/\s+/u).map(part=>
-        part.replace(/[.*+?^${}()|[\]\\]/gu,'\\$&')).join('\\s+');
-      const otherwisePattern=new RegExp(',\\s*'+
-        markerPattern(conditional.otherwise)+'(?:,\\s*|\\s+)','giu');
-      const otherwiseMatches=[...consequenceText.matchAll(otherwisePattern)];
-      let otherwiseText;
-      if(otherwiseMatches.length) {
-        const match=otherwiseMatches.at(-1),at=match.index;
-        otherwiseText=consequenceText.slice(at+match[0].length).trim();
-        consequenceText=consequenceText.slice(0,at).trim();
-      }
-      const thenPattern=new RegExp('^'+markerPattern(conditional.then)+'\\s+','iu');
-      consequenceText=consequenceText.replace(thenPattern,'').replace(/,$/u,'').trim();
-      if(!conditionText||!consequenceText||(otherwiseText!==undefined&&!otherwiseText))
-        throw new Error('Incomplete conditional clause.');
-      const conditions=this.analyzeSentence(conditionText+'.',adapter,depth+1,pluginContext);
-      const consequences=this.analyzeSentence(consequenceText+'.',adapter,depth+1,pluginContext);
-      const alternatives=otherwiseText===undefined? [null]:
-        this.analyzeSentence(otherwiseText+'.',adapter,depth+1,pluginContext);
-      const readings=[];
-      conditionalCandidates:for(const condition of conditions)for(const consequence of consequences)
-        for(const alternative of alternatives) {
-          const proposition=createConditional(condition.interlingua,
-            consequence.interlingua,alternative?.interlingua);
-          try { validateMeaningGraph(proposition,this.ontology,this.features); }
-          catch(error) {
-            if(error.code!=='INTERLINGUA_INVALID')throw error;
-            continue;
-          }
-          readings.push({interlingua:scoped?createNegation(proposition):proposition,
-            lexicalSenses:{condition:condition.lexicalSenses,
-              consequence:consequence.lexicalSenses,
-              ...(alternative?{otherwise:alternative.lexicalSenses}:{})},
-            score:(condition.score||0)+(consequence.score||0)+(alternative?.score||0)});
-          if(readings.length>=MAX_CANDIDATES)break conditionalCandidates;
-        }
-      if(readings.length)return readings;
-      throw new Error('Conditional clause has no supported reading.');
-    }
-    const connective = adapter.connective;
-    let atomic=[], atomError;
-    try {
-      atomic=this.pluginAnalysisCandidates(adapter,body+'.',pluginContext);
-    } catch (error) {
-      if(isResourceLimitError(error))throw error;
-      atomError=error;
-    }
-    // Prefer a complete grammatical analysis over text splitting: an "and"
-    // inside a licensed noun/relative constituent is not a clause boundary.
-    if(atomic.length) return scoped ? atomic.map(item=>({
-      ...item,interlingua:createNegation(item.interlingua)
-    })) : atomic;
-    const pattern=typeof connective==='string'&&connective ?
-      new RegExp('\\s+'+connective+'\\s+','giu') : null;
-    const fragments=pattern?body.split(pattern):[body];
-    if(fragments.length>8)
-      throw new EngineError('GRAMMAR_COORDINATION_LIMIT','Coordination exceeds eight clauses.');
-    if(fragments.some(part=>!part.trim()))throw new Error('Invalid clause coordination.');
-
-    // Chart-style boundary discovery: each span must parse as a complete
-    // clause. No unconditional splitting on every connective is performed.
-    const cache=new Map();
-    const spanReadings=(start,end)=>{
-      const key=start+':'+end;
-      if(cache.has(key))return cache.get(key);
-      let candidates=[];
-      try {
-        const span=fragments.slice(start,end).join(' '+connective+' ')+'.';
-        try {
-          candidates=this.pluginAnalysisCandidates(adapter,span,pluginContext)
-            .filter(item=>['event','modality','scope'].includes(item.interlingua.type));
-        } catch(error) {
-          if(isResourceLimitError(error))throw error;
-          /* This span may instead be a typed propositional complement. */
-        }
-        if(!candidates.length && end===start+1) {
-          const heads=adapter.parseComplementHeads?.(span.replace(/\.\s*$/u,''))||[];
-          candidates=heads.flatMap(head=>
-            this.analyzeSentence(head.content,adapter,depth+1,pluginContext).map(inner=>({
-              interlingua:createComplement(head.concept,head.experiencer,
-                inner.interlingua,head.tense),
-              lexicalSenses:{matrix:head.senseId,content:inner.lexicalSenses},
-              score:inner.score||0
-            })));
-        }
-      } catch (error) {
-        if(isResourceLimitError(error))throw error;
-        /* Invalid span is a rejected parse, not a phrase boundary. */
-      }
-      cache.set(key,candidates.slice(0,MAX_CANDIDATES));
-      return cache.get(key);
-    };
-    let frontier=fragments.length>1 ? [{at:0,clauses:[],senses:{},score:0}] : [],complete=[];
-    for(let level=0;level<4 && frontier.length;level++){
-      const next=[];
-      for(const state of frontier){
-        for(let end=state.at+1;end<=fragments.length;end++){
-          const candidates=spanReadings(state.at,end);
-          for(const item of candidates){
-            const advanced={
-              at:end,clauses:[...state.clauses,item.interlingua],
-              senses:{...state.senses,['c'+(level+1)]:item.lexicalSenses},
-              score:state.score+(item.score||0)
-            };
-            if(end===fragments.length) {
-              if(advanced.clauses.length>=2)complete.push(advanced);
-            } else if(level<3) next.push(advanced);
-          }
-        }
-      }
-      frontier=next.sort((left,right)=>right.score-left.score).slice(0,MAX_CANDIDATES);
-      complete=complete.sort((left,right)=>right.score-left.score).slice(0,MAX_CANDIDATES);
-    }
-    if(complete.length)return complete.map(item=>({
-      interlingua:scoped?createNegation(createCoordination(item.clauses)):
-        createCoordination(item.clauses),
-      lexicalSenses:item.senses,score:item.score
-    }));
-
-    const possibleComplements=adapter.parseComplementHeads?.(body) || [];
-    if(possibleComplements.length) {
-      const results=possibleComplements.flatMap(head=>
-        this.analyzeSentence(head.content,adapter,depth+1,pluginContext).map(inner=>({
-          interlingua:createComplement(head.concept,head.experiencer,
-            inner.interlingua,head.tense),
-          lexicalSenses:{matrix:head.senseId,content:inner.lexicalSenses},
-          score:inner.score||0
-        })));
-      return scoped?results.map(item=>({...item,
-        interlingua:createNegation(item.interlingua)})):results;
-    }
-    throw atomError || new Error('Unsupported compound clause or nested connective.');
+  analyzeSentence(sentence, plugin, pluginContext = {}) {
+    return this.pluginAnalysisCandidates(plugin, sentence.trim(), pluginContext);
   }
 
   /**
@@ -633,14 +338,14 @@ export class Engine {
       throw new EngineError('SOURCE_TEXT_SIZE_LIMIT',
         `Source text exceeds ${RESOURCE_LIMITS.sourceTextCodeUnits} UTF-16 code units.`);
     }
-    const adapter = this.plugin(from);
+    const plugin = this.plugin(from);
     if(typeof text==='string'&&text.includes('?')) {
       if (settings.coreference !== undefined)
         throw new Error('Explicit discourse coreference is not supported in questions.');
       if(!/^[^.!?]+\?$/u.test(text.trim())) {
         throw new Error('Only simple sentences with a single final question mark are supported; mixed question discourse or punctuation is unsupported.');
       }
-      const readings=this.pluginAnalysisCandidates(adapter,text,
+      const readings=this.pluginAnalysisCandidates(plugin,text,
         settings.construction ? {construction: settings.construction} : {});
       const candidates=readings.filter(candidate=>
         candidate.interlingua.type==='question' &&
@@ -660,60 +365,13 @@ export class Engine {
     const sentences = splitSentences(text, MAX_DISCOURSE_EVENTS);
     if(settings.eventRelations?.length && sentences.length<2)
       throw new Error('Explicit event relations require a multi-event discourse.');
-    const deicticSlots=sentences.map((sentence,i)=>
-      adapter.readDeicticPronoun?.(sentence)?.length?i:-1).filter(i=>i>=0);
-    if(deicticSlots.length && sentences.length>1){
-      throw new Error('UNRESOLVED_DEIXIS: cross-sentence participant identity requires explicit session context.');
-    }
-    const pronounSlots=sentences.map((sentence,i)=>adapter.readSubjectPronoun?.(sentence)?i:-1)
-      .filter(i=>i>=0);
-    if(pronounSlots.length){
-      if(sentences.length===1 && pronounSlots.length===1 && pronounSlots[0]===0) {
-        let directReadings=[];
-        try {
-          const direct=this.analyzeSentence(sentences[0],adapter,0,
-            settings.construction ? {construction: settings.construction} : {});
-          directReadings=direct.filter(candidate=>
-            ['event','state'].includes(candidate.interlingua.type));
-        } catch (error) {
-          if(isResourceLimitError(error))throw error;
-          /* General event anaphora still follows the discourse path below. */
-        }
-        if(directReadings.length) {
-          if(settings.coreference!==undefined)
-            throw new Error('Explicit coreference requires at least two discourse sentences.');
-          const candidates=directReadings.filter(candidate=>
-            Object.entries(settings.senses||{}).every(([role,concept])=>
-              candidate.interlingua.roles?.[role]?.concept===concept))
-            .map(candidate=>({...candidate,score:(candidate.score||0)+
-              (settings.topics||[]).reduce((sum,topic)=>sum+
-                Object.values(candidate.interlingua.roles||{}).filter(ref=>ref.concept)
-                  .filter(ref=>this.ontology.relatedToTopic(ref.concept,topic)).length*10,0)}))
-            .sort((a,b)=>b.score-a.score).slice(0,MAX_CANDIDATES);
-          if(!candidates.length)throw new Error('No semantic reading matches the context constraints.');
-          return candidates.map(candidate=>{
-            validateMeaningGraph(candidate.interlingua,this.ontology,this.features);
-            return candidate;
-          });
-        }
-      }
-      if(pronounSlots[0]===0)
-        throw new Error('Unresolved anaphora: first sentence has no antecedent.');
-      if(settings.coreference!==undefined)
-        throw new Error('Unsupported anaphora: explicit coreference cannot be combined with source pronouns.');
-      if(Object.keys(settings.senses||{}).length)
-        throw new Error('Unsupported anaphora with manual sense constraints.');
-      if(sentences.length===2 && pronounSlots.length===1 && pronounSlots[0]===1)
-        return this.analyzeAnaphoricPair(sentences,adapter,settings);
-      return this.analyzeAnaphoricDiscourse(sentences,adapter,settings);
-    }
     if (settings.coreference !== undefined && sentences.length === 1)
       throw new Error('Explicit coreference requires at least two discourse sentences.');
     if (sentences.length > 1 && Object.keys(settings.senses || {}).length) {
       throw new Error('Role-specific sense constraints currently require a single sentence.');
     }
     const scored = sentences.map(sentence => {
-      const raw = this.analyzeSentence(sentence, adapter,0,
+      const raw = this.analyzeSentence(sentence, plugin,
         settings.construction ? {construction: settings.construction} : {});
       const candidates = raw.filter(candidate => Object.entries(settings.senses || {})
         .every(([role, concept]) => eventWithin(candidate.interlingua)?.roles?.[role]?.concept === concept))
