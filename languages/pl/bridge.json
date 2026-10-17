@@ -23,6 +23,30 @@
           }
         }
       ]
+    },
+    {
+      "construction": "event.read",
+      "conceptId": "event.read",
+      "arguments": [
+        {
+          "role": "agent",
+          "argument": "subject",
+          "syntacticFunction": "subject",
+          "caseExponent": {
+            "kind": "case",
+            "value": "nom"
+          }
+        },
+        {
+          "role": "theme",
+          "argument": "object",
+          "syntacticFunction": "object",
+          "caseExponent": {
+            "kind": "case",
+            "value": "acc"
+          }
+        }
+      ]
     }
   ]
 }

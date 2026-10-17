@@ -32,6 +32,30 @@
     {
       "operation": "analyze",
       "channel": "sentence",
+      "construction": "event.read",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "pl.read.cli-review.01"
+        }
+      ]
+    },
+    {
+      "operation": "realize",
+      "channel": "sentence",
+      "construction": "event.read",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "pl.read.cli-review.01"
+        }
+      ]
+    },
+    {
+      "operation": "analyze",
+      "channel": "sentence",
       "construction": "state.classification",
       "status": "implemented",
       "evidence": [
