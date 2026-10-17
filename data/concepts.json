@@ -1304,7 +1304,7 @@
       "symmetric": false
     }
   },
-  "stateFrameVersion": "1.2",
+  "stateFrameVersion": "1.3",
   "stateFrames": {
     "identity": {
       "roles": [
@@ -1357,6 +1357,17 @@
       ],
       "roleTypes": {
         "subject": "entity",
+        "location": "entity"
+      },
+      "symmetric": false
+    },
+    "existence": {
+      "roles": [
+        "entity",
+        "location"
+      ],
+      "roleTypes": {
+        "entity": "entity",
         "location": "entity"
       },
       "symmetric": false

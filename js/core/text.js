@@ -17,7 +17,7 @@ function requireBoundedText(text) {
 export function tokenize(text) {
   requireBoundedText(text);
   const raw = text.trim().replace(/[.!]\s*$/u, '').toLocaleLowerCase();
-  if (!/^[\p{L}\d:\-\s,]+$/u.test(raw) || /,,/u.test(raw)) {
+  if (!/^[\p{L}\d:\-'\s,]+$/u.test(raw) || /,,/u.test(raw)) {
     throw new Error('Only simple sentences with letters, spaces and a final period are supported.');
   }
   const tokens = raw.replace(/,/gu, ' , ').split(/\s+/u).filter(Boolean);

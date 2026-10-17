@@ -1,82 +1,48 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "license": "project-authored",
-  "origin": "Project-authored A1-ENPL-04 gold for present positive existential locatives; internal regression samples, not an independent benchmark or CEFR evidence.",
-  "enToPl": [
+  "origin": "Project-authored A1-ENPL-12 gold for present existential locatives and their distinction from ordinary location; internal regression samples, not an independent benchmark or CEFR evidence.",
+  "translations": [
     {
-      "id": "A1-ENPL-04-EN-01",
-      "input": "There is a book on the table.",
-      "expected": "Książka jest na stole.",
-      "core": {
-        "version": "1.23",
-        "type": "state",
-        "kind": "location",
-        "roles": {
-          "subject": {"concept":"object.book","features":{"number":"singular","definiteness":"indefinite"}},
-          "location": {"concept":"object.table","features":{"number":"singular","definiteness":"definite"}}
-        },
-        "features": {"tense":"present","polarity":"positive"},
-        "relation": "surface"
-      }
+      "id": "A1-ENPL-12-EN-POS-01", "from": "en", "to": "pl",
+      "input": "There is a book on the table.", "expected": "Na stole jest książka.",
+      "core": {"version":"1.33","type":"state","kind":"existence","roles":{"entity":{"concept":"object.book","features":{"number":"singular","definiteness":"indefinite"}},"location":{"concept":"object.table","features":{"number":"singular","definiteness":"definite"}}},"features":{"tense":"present","polarity":"positive"},"relation":"surface"}
     },
     {
-      "id": "A1-ENPL-04-EN-02",
-      "input": "There are books on the table.",
-      "expected": "Książki są na stole.",
-      "core": {
-        "version": "1.23",
-        "type": "state",
-        "kind": "location",
-        "roles": {
-          "subject": {"concept":"object.book","features":{"number":"plural","definiteness":"indefinite"}},
-          "location": {"concept":"object.table","features":{"number":"singular","definiteness":"definite"}}
-        },
-        "features": {"tense":"present","polarity":"positive"},
-        "relation": "surface"
-      }
-    }
-  ],
-  "plToEn": [
-    {
-      "id": "A1-ENPL-04-PL-01",
-      "input": "Książka jest na stole.",
-      "expected": "A book is on a table.",
-      "core": {
-        "version": "1.23",
-        "type": "state",
-        "kind": "location",
-        "roles": {
-          "subject": {"concept":"object.book","features":{"number":"singular","definiteness":"unknown"}},
-          "location": {"concept":"object.table","features":{"number":"singular","definiteness":"unknown"}}
-        },
-        "features": {"tense":"present","polarity":"positive"},
-        "relation": "surface"
-      }
+      "id": "A1-ENPL-12-EN-NEG-01", "from": "en", "to": "pl",
+      "input": "There isn't a book on the table.", "expected": "Na stole nie ma książki.",
+      "core": {"version":"1.33","type":"state","kind":"existence","roles":{"entity":{"concept":"object.book","features":{"number":"singular","definiteness":"indefinite"}},"location":{"concept":"object.table","features":{"number":"singular","definiteness":"definite"}}},"features":{"tense":"present","polarity":"negative"},"relation":"surface"}
     },
     {
-      "id": "A1-ENPL-04-PL-02",
-      "input": "Książki są na stole.",
-      "expected": "Books are on a table.",
-      "core": {
-        "version": "1.23",
-        "type": "state",
-        "kind": "location",
-        "roles": {
-          "subject": {"concept":"object.book","features":{"number":"plural","definiteness":"unknown"}},
-          "location": {"concept":"object.table","features":{"number":"singular","definiteness":"unknown"}}
-        },
-        "features": {"tense":"present","polarity":"positive"},
-        "relation": "surface"
-      }
+      "id": "A1-ENPL-12-EN-Q-01", "from": "en", "to": "pl",
+      "input": "Is there a book on the table?", "expected": "Czy na stole jest książka?",
+      "core": {"version":"1.19","type":"question","questionType":"yes_no","proposition":{"version":"1.33","type":"state","kind":"existence","roles":{"entity":{"concept":"object.book","features":{"number":"singular","definiteness":"indefinite"}},"location":{"concept":"object.table","features":{"number":"singular","definiteness":"definite"}}},"features":{"tense":"present","polarity":"positive"},"relation":"surface"}}
+    },
+    {
+      "id": "A1-ENPL-12-PL-POS-01", "from": "pl", "to": "en",
+      "input": "Na stole jest książka.", "expected": "There is a book on a table.",
+      "core": {"version":"1.33","type":"state","kind":"existence","roles":{"entity":{"concept":"object.book","features":{"number":"singular","definiteness":"unknown"}},"location":{"concept":"object.table","features":{"number":"singular","definiteness":"unknown"}}},"features":{"tense":"present","polarity":"positive"},"relation":"surface"}
+    },
+    {
+      "id": "A1-ENPL-12-PL-NEG-01", "from": "pl", "to": "en",
+      "input": "Na stole nie ma książki.", "expected": "There isn't a book on a table.",
+      "core": {"version":"1.33","type":"state","kind":"existence","roles":{"entity":{"concept":"object.book","features":{"number":"singular","definiteness":"unknown"}},"location":{"concept":"object.table","features":{"number":"singular","definiteness":"unknown"}}},"features":{"tense":"present","polarity":"negative"},"relation":"surface"}
+    },
+    {
+      "id": "A1-ENPL-12-PL-Q-01", "from": "pl", "to": "en",
+      "input": "Czy na stole jest książka?", "expected": "Is there a book on a table?",
+      "core": {"version":"1.19","type":"question","questionType":"yes_no","proposition":{"version":"1.33","type":"state","kind":"existence","roles":{"entity":{"concept":"object.book","features":{"number":"singular","definiteness":"unknown"}},"location":{"concept":"object.table","features":{"number":"singular","definiteness":"unknown"}}},"features":{"tense":"present","polarity":"positive"},"relation":"surface"}}
+    },
+    {
+      "id": "A1-ENPL-12-EN-LOC-NEG-01", "from": "en", "to": "pl",
+      "input": "The book is not on the table.", "expected": "Książka nie jest na stole.",
+      "core": {"version":"1.23","type":"state","kind":"location","roles":{"subject":{"concept":"object.book","features":{"number":"singular","definiteness":"definite"}},"location":{"concept":"object.table","features":{"number":"singular","definiteness":"definite"}}},"features":{"tense":"present","polarity":"negative"},"relation":"surface"}
     }
   ],
   "invalid": [
-    {"id":"A1-ENPL-04-NEG-01","from":"en","input":"There is a book.","reason":"Existential there is limited to clauses with an explicit configured location."},
-    {"id":"A1-ENPL-04-NEG-02","from":"en","input":"There are a book on the table.","reason":"The existential be form must agree with the introduced noun phrase."},
-    {"id":"A1-ENPL-04-NEG-03","from":"en","input":"There was a book on the table.","reason":"Existential locatives are declared for the present tense only."},
-    {"id":"A1-ENPL-04-NEG-04","from":"en","input":"There is a book under the table.","reason":"The locative preposition is not declared in the bounded grammar."},
-    {"id":"A1-ENPL-04-NEG-05","from":"en","input":"There is not a book on the table.","reason":"Existential negation is outside A1-ENPL-04."},
-    {"id":"A1-ENPL-04-NEG-06","from":"en","input":"Is there a book on the table?","reason":"Existential questions are outside A1-ENPL-04."}
-  ],
-  "morphology": []
+    {"id":"A1-ENPL-12-REF-01","from":"en","input":"There is a book.","reason":"An existential locative requires an explicit configured location."},
+    {"id":"A1-ENPL-12-REF-02","from":"en","input":"There are a book on the table.","reason":"The existential verb must agree with the introduced entity."},
+    {"id":"A1-ENPL-12-REF-03","from":"en","input":"There was a book on the table.","reason":"Existential locatives are present tense only."},
+    {"id":"A1-ENPL-12-REF-04","from":"en","input":"There is a book under the table.","reason":"The spatial relation is outside the configured in/on/at inventory."}
+  ]
 }

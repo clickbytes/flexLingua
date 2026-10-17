@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "license": "project-authored",
+  "origin": "Project-authored composition checks for the controlled A1-ENPL-08 through A1-ENPL-12 additions; internal regression samples, not CEFR evidence.",
+  "cases": [
+    {"id":"A1-COMP-V2-01","from":"en","to":"pl","input":"She is reading a book.","expected":"Ona czyta książkę.","shape":{"type":"event","concept":"event.read","concepts":["object.book"],"polarity":"positive","aspect":"imperfective","roleConcepts":["anaphoric-third-person","object.book"]}},
+    {"id":"A1-COMP-V2-02","from":"en","to":"pl","input":"This is not a small book.","expected":"To nie jest mała książka.","shape":{"type":"state","kind":"classification","concepts":["object.book"],"polarity":"negative","roleConcepts":["deictic.proximal","object.book"]}},
+    {"id":"A1-COMP-V2-03","from":"en","to":"pl","input":"I see water.","expected":"Ja widzę wodę.","shape":{"type":"event","concept":"event.visual_perception","concepts":["beverage.water"],"polarity":"positive","roleConcepts":["speaker","beverage.water"]}},
+    {"id":"A1-COMP-V2-04","from":"en","to":"pl","input":"There isn't a book on the table.","expected":"Na stole nie ma książki.","shape":{"type":"state","kind":"existence","concepts":["object.book","object.table"],"polarity":"negative","relation":"surface","roleConcepts":["object.book","object.table"]}},
+    {"id":"A1-COMP-V2-05","from":"pl","to":"en","input":"Czy na stole jest książka?","expected":"Is there a book on a table?","shape":{"type":"question","kind":"existence","concepts":["object.book","object.table"],"questionType":"yes_no","polarity":"positive","relation":"surface","roleConcepts":["object.book","object.table"]}}
+  ],
+  "unsupported": [
+    {"id":"A1-COMP-V2-REF-01","from":"en","to":"pl","input":"Were there books on the table?","reason":"Past existential questions are outside the controlled contract."}
+  ]
+}

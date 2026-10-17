@@ -1391,7 +1391,10 @@
         "classification"
       ],
       "grammar.state_possession": "possession",
-      "grammar.state_location": "location"
+      "grammar.state_location": [
+        "location",
+        "existence"
+      ]
     },
     "frames": {
       "predication": {
@@ -1459,6 +1462,48 @@
           ]
         ]
       },
+      "existence": {
+        "supportedTenses": [
+          "present"
+        ],
+        "subjectRole": "entity",
+        "negativeVerbForms": {
+          "singular": "ma",
+          "plural": "ma"
+        },
+        "cases": {
+          "entity": {
+            "positive": "nom",
+            "negative": "gen"
+          },
+          "location": "loc"
+        },
+        "prepositions": {
+          "w": "interior",
+          "na": "surface",
+          "przy": "point"
+        },
+        "linearizations": [
+          [
+            "@w",
+            "location",
+            "@verb",
+            "entity"
+          ],
+          [
+            "@na",
+            "location",
+            "@verb",
+            "entity"
+          ],
+          [
+            "@przy",
+            "location",
+            "@verb",
+            "entity"
+          ]
+        ]
+      },
       "classification": {
         "supportedTenses": ["present"],
         "subjectRole": "subject",
@@ -1483,7 +1528,8 @@
       "predication": "preverbal",
       "classification": "preverbal",
       "possession": "preverbal",
-      "location": "preverbal"
+      "location": "preverbal",
+      "existence": "preverbal"
     }
   },
   "messages": {

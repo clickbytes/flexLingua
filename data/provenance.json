@@ -125,6 +125,13 @@
           "source": "Project-authored lexical grammatical-gender annotations for English person lexemes used only to check third-person pronoun agreement; no external lexicon data copied.",
           "license": "Project-authored; the repository declares no separate SPDX data license.",
           "scope": "A1-ENPL-08: feminine/masculine agreement metadata for girl, boy, and woman."
+        },
+        {
+          "issue": "#175",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored typed existence state frame separating existential quantification from ordinary location; no external ontology imported.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "A1-ENPL-12: CORE existence(entity, location, relation), version 1.33 and state-frame registry 1.3."
         }
       ]
     },
@@ -218,6 +225,13 @@
           "source": "Project-authored present-tense classification negation and be-inversion rules; no external grammar inventory copied.",
           "license": "Project-authored; the repository declares no separate SPDX data license.",
           "scope": "A1-ENPL-10: present negative and yes/no classification with a separate CORE frame. Language package: data/grammar/en.json."
+        },
+        {
+          "issue": "#175",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored bounded English present existential question and contracted negation rules for in/on/at; no external grammar inventory copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "A1-ENPL-12: present there is/are, isn't/aren't and yes/no inversion over typed existence."
         }
       ]
     },
@@ -286,6 +300,13 @@
           "source": "Project-authored present-tense classification negation and yes/no marking; no external grammar inventory copied.",
           "license": "Project-authored; the repository declares no separate SPDX data license.",
           "scope": "A1-ENPL-10: present negative and yes/no classification with a separate CORE frame. Language package: data/grammar/pl.json."
+        },
+        {
+          "issue": "#175",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored bounded Polish presentational existential order and nie ma negation with genitive entity; no external grammar inventory copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "A1-ENPL-12: present w/na/przy existence statements, czy questions and nie ma negation."
         }
       ]
     },
@@ -663,7 +684,16 @@
       "source": "Original controlled EN-to-PL construction-family registry derived from repository contracts; no CEFR list or external benchmark copied.",
       "license": "Project-authored; no separate SPDX license grant is declared in this repository.",
       "reviewedAt": "2026-10-17",
-      "permittedUse": "Internal finite EN-to-PL development and regression scope only; not independent or representative CEFR evidence."
+      "permittedUse": "Internal finite EN-to-PL development and regression scope only; not independent or representative CEFR evidence.",
+      "authoredBatches": [
+        {
+          "issue": "#175",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored A1-ENPL-12 construction declaration and reviewed fixture case links.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "Typed existence and ordinary location distinction with present questions, negation and explicit refusals."
+        }
+      ]
     }
   ]
 }
