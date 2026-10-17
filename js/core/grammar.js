@@ -830,6 +830,29 @@ export function createRuleAdapter(sourceDictionary, rules,
   const dictionary = lexicon.dictionary;
   const grammar = validateGrammar(dictionary, rules, featureProfile);
   const { nounPhrase, sentence, verb: verbGrammar, frames } = grammar;
+  function informationLoss(meaning) {
+    if (!record(meaning) || !record(meaning.roles)) return [];
+    const hasDeterminers=Object.keys(nounPhrase.determiners).length>0;
+    const diagnostics=[];
+    for(const [role,ref] of Object.entries(meaning.roles)) {
+      const definiteness=ref?.features?.definiteness;
+      if(hasDeterminers && definiteness==='unknown') {
+        diagnostics.push({path:`#/roles/${role}/features/definiteness`,
+          feature:'definiteness',cause:'source-definiteness-unspecified-target-default',
+          status:'ambiguous'});
+      } else if(!hasDeterminers && ['definite','indefinite'].includes(definiteness)) {
+        diagnostics.push({path:`#/roles/${role}/features/definiteness`,
+          feature:'definiteness',cause:'target-grammar-does-not-mark-definiteness',
+          status:'unavoidable'});
+      }
+    }
+    if(meaning.type==='event' && meaning.features?.aspect!=='unknown' &&
+        verbGrammar.aspectSource==='unknown') {
+      diagnostics.push({path:'#/features/aspect',feature:'aspect',
+        cause:'target-grammar-does-not-encode-aspect',status:'unavoidable'});
+    }
+    return diagnostics;
+  }
   const matchesTokens=(tokens,index,phrase)=>matchTokenPhrase(tokens,index,phrase,textProfile);
   const tokenize=text=>tokenizeText(text,textProfile);
   const sentenceText=(parts,terminator='.')=>formatSentence(parts,terminator,textProfile.locale);
@@ -2948,7 +2971,7 @@ export function createRuleAdapter(sourceDictionary, rules,
   return {
     code: grammar.language, contractVersion:LANGUAGE_ADAPTER_CONTRACT_VERSION,
     ...(featureProfile?{featureProfile}:{}),
-    textProfile,
+    textProfile, informationLoss,
     analyze, analyzeCandidates, realize, realizeState, realizeComparison, realizeRequest, realizeModal, validateOntology, lexicon,
     analyzeQuestionCandidates:questions?analyzeQuestionCandidates:undefined,
     realizeQuestion:questions?realizeQuestion:undefined,

@@ -99,6 +99,56 @@ function eventWithin(node) {
   return null;
 }
 
+function pointerChildPath(path,segment) {
+  const escaped=String(segment).replace(/~/gu,'~0').replace(/\//gu,'~1');
+  return `${path}/${escaped}`;
+}
+
+function collectInformationLoss(interlingua,adapter) {
+  const diagnostics=[],seen=new Set();
+  const visit=(node,path='#')=>{
+    if(!node || typeof node!=='object')return;
+    if(['event','state','comparison'].includes(node.type) &&
+        typeof adapter.informationLoss==='function') {
+      const reported=adapter.informationLoss(node);
+      if(!Array.isArray(reported))throw new Error('Invalid language information-loss report.');
+      for(const entry of reported) {
+        if(!entry || Object.keys(entry).sort().join(',')!=='cause,feature,path,status' ||
+            typeof entry.path!=='string' || !entry.path.startsWith('#/') ||
+            typeof entry.feature!=='string' || !entry.feature ||
+            typeof entry.cause!=='string' || !entry.cause ||
+            !['unavoidable','unsupported','ambiguous'].includes(entry.status)) {
+          throw new Error('Invalid language information-loss diagnostic.');
+        }
+        const diagnostic={...entry,path:path+entry.path.slice(1)};
+        const key=JSON.stringify(diagnostic);
+        if(!seen.has(key)){seen.add(key);diagnostics.push(diagnostic);}
+      }
+    }
+    if(node.type==='discourse') {
+      node.events.forEach((event,index)=>visit(materializeEvent(node,event),
+        pointerChildPath(pointerChildPath(path,'events'),index)));
+    } else if(node.type==='question') {
+      visit(node.proposition,pointerChildPath(path,'proposition'));
+    } else if(node.type==='complement') {
+      visit(node.content,pointerChildPath(path,'content'));
+    } else if(node.type==='scope' || node.type==='modality') {
+      visit(node.operand,pointerChildPath(path,'operand'));
+    } else if(node.type==='coordination') {
+      node.clauses.forEach((clause,index)=>visit(clause,
+        pointerChildPath(pointerChildPath(path,'clauses'),index)));
+    } else if(node.type==='conditional') {
+      visit(node.condition,pointerChildPath(path,'condition'));
+      visit(node.consequence,pointerChildPath(path,'consequence'));
+      if(node.otherwise)visit(node.otherwise,pointerChildPath(path,'otherwise'));
+    } else if(node.type==='dialogue_act' && node.payload?.action) {
+      visit(node.payload.action,pointerChildPath(pointerChildPath(path,'payload'),'action'));
+    }
+  };
+  visit(interlingua);
+  return diagnostics;
+}
+
 /** One semantic ontology, N language-neutral grammar adapters and independent JSON lexicons. */
 export class Engine {
   constructor(ontology, features) {
@@ -204,14 +254,15 @@ export class Engine {
     }
     const plan = this.planResponse({question,facts,clarifyQuestion,referenceContext});
     if (!plan.realization) {
-      return {plan,text:null,warnings:[],alternatives:[]};
+      return {plan,text:null,warnings:[],alternatives:[],informationLoss:[]};
     }
     const output = this.realize({interlingua:plan.realization,to,profile:personality});
     const style=personality.realization.replyStyles[to]||'standard';
     const adapter=to==='core'?null:this.language(to);
     const styled=adapter?.styleReply ? adapter.styleReply(output,style) : output;
     return {plan,text:styled.text,warnings:[...(styled.warnings||[])],
-      alternatives:[...(styled.alternatives||[])]};
+      alternatives:[...(styled.alternatives||[])],
+      informationLoss:[...(styled.informationLoss||[])]};
   }
 
   /** Create a multi-turn orchestration facade over this Engine. */
@@ -754,7 +805,7 @@ export class Engine {
     }
     if (to === 'core') {
       return { text: JSON.stringify(interlingua, null, 2), warnings: [],
-        alternatives: [], interlingua };
+        alternatives: [], informationLoss:[], interlingua };
     }
     if (interlingua.type === 'dialogue_act') {
       if(interlingua.act!=='request')
@@ -764,7 +815,8 @@ export class Engine {
       const output=adapter.realizeRequest(interlingua);
       if(!output||typeof output.text!=='string'||!output.text.trim())
         throw new Error(`Invalid request realization from adapter: ${to}`);
-      return applyPersonalityProfile({...output,interlingua},personality);
+      return applyPersonalityProfile({...output,interlingua,
+        informationLoss:collectInformationLoss(interlingua,adapter)},personality);
     }
     const adapter = this.language(to);
     const locale=adapter.textProfile?.locale||to;
@@ -860,7 +912,8 @@ export class Engine {
       throw new Error('Unsupported semantic clause node.');
     };
     if (interlingua.type !== 'discourse') {
-      return applyPersonalityProfile({...realizeClause(interlingua), interlingua},personality);
+      return applyPersonalityProfile({...realizeClause(interlingua), interlingua,
+        informationLoss:collectInformationLoss(interlingua,adapter)},personality);
     }
     const pronounizedEvents=[];
     const suppressed=[];
@@ -891,6 +944,7 @@ export class Engine {
       warnings: [...parts.flatMap((part, i) => (part.warnings || []).map(warning =>
         `Event ${i + 1}: ${warning}`)),...suppressed],
       alternatives: [],
+      informationLoss:collectInformationLoss(interlingua,adapter),
       ...(pronounRealization==='safe'?{pronounizedEvents}:{})
     },personality);
   }
