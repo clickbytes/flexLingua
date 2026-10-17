@@ -17,6 +17,14 @@ const CAPABILITIES=new Set(['end_to_end','syntax','morphology','core_semantics',
 const OPERATIONS=new Set(['translate','roundtrip','morphology','core_validate','invalid_manifest']);
 const readJson=async path=>JSON.parse(await readFile(path,'utf8'));
 const sha256=value=>createHash('sha256').update(value).digest('hex');
+const matchesFeatures=(actual,expected)=>Object.entries(expected).every(([key,value])=>
+  actual?.[key]===value);
+function matchesCoreFields(core,fields) {
+  return Object.entries(fields).every(([path,expected])=>{
+    const actual=path.split('.').reduce((value,key)=>value?.[key],core);
+    return isDeepStrictEqual(actual,expected);
+  });
+}
 
 export function validateLanguageConformanceFixture(fixture) {
   if(!fixture || typeof fixture!=='object' || Array.isArray(fixture) ||
@@ -34,6 +42,18 @@ export function validateLanguageConformanceFixture(fixture) {
       throw new Error('Invalid or duplicate language conformance case.');
     }
     ids.add(row.id);
+    if(row.expectedWarningIncludes!==undefined &&
+        (typeof row.expectedWarningIncludes!=='string' || !row.expectedWarningIncludes.trim())) {
+      throw new Error(`Invalid expected warning: ${row.id}`);
+    }
+    if(row.expectedCoreFields!==undefined && (!row.expectedCoreFields ||
+        typeof row.expectedCoreFields!=='object' || Array.isArray(row.expectedCoreFields) ||
+        !Object.keys(row.expectedCoreFields).length || Object.keys(row.expectedCoreFields).length>32 ||
+        Object.entries(row.expectedCoreFields).some(([path,value])=>
+          !/^[A-Za-z][A-Za-z0-9_]*(?:\.[A-Za-z][A-Za-z0-9_]*)*$/u.test(path) ||
+          !['string','number','boolean'].includes(typeof value)))) {
+      throw new Error(`Invalid expected CORE fields: ${row.id}`);
+    }
     if(row.operation==='translate' &&
         (typeof row.from!=='string' || typeof row.to!=='string' ||
           typeof row.input!=='string' || (!row.expectedRefusal && typeof row.expected!=='string'))) {
@@ -77,7 +97,8 @@ async function createPackageEngine() {
   for(const {manifest,packages:parts} of packages) {
     if(!manifest.capabilities.parsing || !manifest.capabilities.realization)continue;
     engine.registerLanguage(createRuleAdapter(parts.lexicon,parts.grammar,{
-      morphology:morphologies.get(manifest.language)
+      morphology:morphologies.get(manifest.language),
+      ...(parts.morphology?.featureProfile?{featureProfile:parts.morphology.featureProfile}:{})
     }));
   }
   return {engine,packages};
@@ -99,11 +120,13 @@ function runCase(row,{engine,packagesByLanguage}) {
           'pass':'fail';
       } else {
         const textMatches=output.ok && output.value.text===row.expected;
-        const coreMatches=row.expectedCore===undefined || (output.ok &&
+        const exactCoreMatches=row.expectedCore===undefined || (output.ok &&
           isDeepStrictEqual(output.value.interlingua,row.expectedCore));
+        const coreFieldsMatch=row.expectedCoreFields===undefined || (output.ok &&
+          matchesCoreFields(output.value.interlingua,row.expectedCoreFields));
         const warningMatches=row.expectedWarningIncludes===undefined || (output.ok &&
           result.warnings.some(warning=>warning.includes(row.expectedWarningIncludes)));
-        result.status=textMatches&&coreMatches&&warningMatches?'pass':'fail';
+        result.status=textMatches&&exactCoreMatches&&coreFieldsMatch&&warningMatches?'pass':'fail';
       }
     } else if(row.operation==='roundtrip') {
       const core=engine.analyze({from:row.language,text:row.input});
@@ -116,12 +139,16 @@ function runCase(row,{engine,packagesByLanguage}) {
       const forms=engine.inflect({language:row.language,lexemeId:row.lexemeId,
         features:row.features}).map(form=>form.text);
       const analyses=forms.flatMap(text=>engine.analyzeForm({language:row.language,text}));
+      const reverse=analyses.filter(item=>item.lexemeId===row.lexemeId);
+      const reverseFeatureMatch=reverse.some(item=>matchesFeatures(item.features,row.features));
       result.language=row.language;result.lexemeId=row.lexemeId;result.features=row.features;
       result.expectedForms=row.expectedForms;result.actualForms=forms;
-      result.reverseFound=analyses.some(item=>item.lexemeId===row.lexemeId);
-      result.status=isDeepStrictEqual(forms,row.expectedForms) && result.reverseFound?'pass':'fail';
+      result.reverseFeatures=reverse.map(item=>item.features);
+      result.reverseFound=reverseFeatureMatch;
+      result.status=isDeepStrictEqual(forms,row.expectedForms) && reverseFeatureMatch?'pass':'fail';
     } else if(row.operation==='core_validate') {
       validateInterlingua(row.core,engine.ontology,engine.features);
+      result.language=row.language??null;
       result.expectedValid=row.expectedValid;result.actualValid=true;
       result.status='pass';
     } else {
@@ -156,6 +183,7 @@ function packageCapabilityRows(loadedPackages,caseResults) {
             row.capability==='end_to_end'))return false;
         if(capability==='morphology'||capability==='syntax')return row.language===language ||
           (capability==='syntax' && (row.from===language||row.to===language));
+        if(capability==='core_semantics')return row.language===language;
         if(capability==='end_to_end')return row.from===language||row.to===language;
         if(capability==='refusal')return row.language===language||row.from===language;
         if(capability==='information_loss')return row.language===language||row.to===language;
@@ -163,6 +191,7 @@ function packageCapabilityRows(loadedPackages,caseResults) {
       });
       const declared=capability==='morphology'?manifest.capabilities.morphology:
         capability==='syntax'?manifest.capabilities.parsing&&manifest.capabilities.realization:
+        capability==='core_semantics'?true:
         capability==='end_to_end'?manifest.capabilities.directions.length>0:
         capability==='refusal'?manifest.capabilities.parsing:
         capability==='information_loss'?manifest.capabilities.realization:false;

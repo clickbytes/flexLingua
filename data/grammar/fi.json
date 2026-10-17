@@ -1,0 +1,31 @@
+{
+  "version": "1.0",
+  "language": "fi",
+  "sentence": {
+    "subjectRole": "agent",
+    "terminator": ".",
+    "coordination": {"and": "ja", "wideNegation": null}
+  },
+  "nounPhrase": {
+    "path": "forms.{number}.{case}",
+    "subjectCase": "nominative",
+    "allowBare": true,
+    "determiners": {},
+    "qualified": {"layouts": [["quantifier", "modifiers", "noun"]]},
+    "relatives": {"maxDepth": 0, "punctuation": "none", "markers": []}
+  },
+  "verb": {
+    "aspectSource": "unknown",
+    "rules": [
+      {"tense": "present", "polarity": "positive", "when": {"subject.person": "third", "subject.number": "singular"}, "prefix": [], "path": "forms.present3sg"},
+      {"tense": "present", "polarity": "positive", "when": {"subject.person": "third", "subject.number": "plural"}, "prefix": [], "path": "forms.present3pl"}
+    ],
+    "agreement": {}
+  },
+  "frames": {
+    "event.visual_attention": {
+      "cases": {"agent": "nominative", "theme": "partitive"},
+      "linearizations": [["agent", "@verb", "theme"]]
+    }
+  }
+}

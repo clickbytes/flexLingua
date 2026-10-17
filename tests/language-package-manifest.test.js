@@ -49,8 +49,9 @@ test('language manifests report the checked-in package status, tokenizer and rea
   assert.equal(schema.properties.packages.additionalProperties,false);
   const loaded=await loadLanguagePackages();
   const byCode=new Map(loaded.map(item=>[item.manifest.language,item]));
-  assert.deepEqual([...byCode.keys()],['ar','en','it','pl','tr']);
+  assert.deepEqual([...byCode.keys()],['ar','en','fi','it','pl','tr']);
   assert.equal(byCode.get('en').manifest.status,'controlled-subset');
+  assert.equal(byCode.get('fi').manifest.status,'controlled-subset');
   assert.equal(byCode.get('pl').manifest.status,'controlled-subset');
   assert.equal(byCode.get('it').manifest.status,'limited-demo');
   assert.equal(byCode.get('tr').manifest.status,'limited-demo');
@@ -61,6 +62,7 @@ test('language manifests report the checked-in package status, tokenizer and rea
     assert.ok(manifest.capabilities.frames.every(frame=>!frame.startsWith('event.event.')));
   }
   assert.deepEqual(byCode.get('ar').manifest.capabilities.frames,[]);
+  assert.deepEqual(byCode.get('fi').manifest.capabilities.frames,['event.visual_attention']);
   assert.equal(byCode.get('ar').manifest.capabilities.parsing,false);
   assert.equal(byCode.get('ar').manifest.capabilities.realization,false);
   assert.equal(byCode.get('tr').manifest.capabilities.questions,false);

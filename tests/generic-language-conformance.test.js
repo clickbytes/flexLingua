@@ -24,6 +24,7 @@ test('package/capability report runs the static cases and keeps unsupported sepa
   assert.equal(report.totals.cases,fixture.cases.length);
   assert.equal(report.totals.pass,fixture.cases.length);
   assert.match(report.source.fixtureSha256,/^[a-f0-9]{64}$/u);
+  assert.equal(report.core.status,'pass');
   const statuses=new Map(report.packages.map(item=>[item.language,item.capabilities]));
   assert.deepEqual(statuses.get('ar').morphology.status,'pass');
   assert.equal(statuses.get('ar').syntax.status,'unsupported');

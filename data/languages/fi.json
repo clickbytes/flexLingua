@@ -1,0 +1,34 @@
+{
+  "version": "1.0",
+  "language": "fi",
+  "status": "controlled-subset",
+  "demonstrationLevel": "controlled",
+  "scope": "Finnish pilot: one declared noun inflection class with ten selected cases in singular/plural, a small CORE-linked lexicon, and one present visual-attention frame.",
+  "tokenizer": {
+    "version": "1.0",
+    "locale": "fi",
+    "normalization": "NFC",
+    "caseFold": "locale-lower",
+    "segmentation": "unicode-whitespace-v1"
+  },
+  "packages": {
+    "core": "concepts.json",
+    "lexicon": "fi.json",
+    "grammar": "grammar/fi.json",
+    "morphology": "morphology/fi.json",
+    "morphologyLexicon": "fi.json",
+    "morphologyFeatures": "morphology/features.json"
+  },
+  "capabilities": {
+    "parsing": true,
+    "realization": true,
+    "morphology": true,
+    "questions": false,
+    "frames": ["event.visual_attention"],
+    "directions": ["en->fi", "fi->en"]
+  },
+  "audits": {
+    "strictLexicon": {"enabled": true, "reason": null},
+    "morphology": {"enabled": true, "legacyInflections": false, "reason": null}
+  }
+}

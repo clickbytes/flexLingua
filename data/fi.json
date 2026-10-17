@@ -1,0 +1,57 @@
+{
+  "version": "1.0",
+  "lexicalModel": "1.01",
+  "language": "fi",
+  "nouns": [
+    {
+      "id": "fi.girl.1",
+      "lemma": "tyttö",
+      "forms": {
+        "singular": {"nominative": "tyttö"},
+        "plural": {"nominative": "tytöt"}
+      },
+      "senses": [{"id": "fi.girl.1.sense.1", "coreRef": {"kind": "concept", "id": "person.girl"}}]
+    },
+    {
+      "id": "fi.house.1",
+      "lemma": "talo",
+      "forms": {},
+      "senses": [{"id": "fi.house.1.sense.1", "coreRef": {"kind": "concept", "id": "structure.house"}}]
+    },
+    {
+      "id": "fi.book.1",
+      "lemma": "kirja",
+      "forms": {
+        "singular": {"partitive": "kirjaa"},
+        "plural": {"partitive": "kirjoja"}
+      },
+      "senses": [{"id": "fi.book.1.sense.1", "coreRef": {"kind": "concept", "id": "object.book"}}]
+    },
+    {
+      "id": "fi.dog.1",
+      "lemma": "koira",
+      "forms": {
+        "singular": {"partitive": "koiraa"},
+        "plural": {"partitive": "koiria"}
+      },
+      "senses": [{"id": "fi.dog.1.sense.1", "coreRef": {"kind": "concept", "id": "animal.dog"}}]
+    },
+    {
+      "id": "fi.cat.1",
+      "lemma": "kissa",
+      "forms": {
+        "singular": {"partitive": "kissaa"},
+        "plural": {"partitive": "kissoja"}
+      },
+      "senses": [{"id": "fi.cat.1.sense.1", "coreRef": {"kind": "concept", "id": "animal.cat"}}]
+    }
+  ],
+  "verbs": [
+    {
+      "id": "fi.katsoa.1",
+      "lemma": "katsoa",
+      "forms": {"present3sg": "katsoo", "present3pl": "katsovat"},
+      "senses": [{"id": "fi.katsoa.1.sense.1", "coreRef": {"kind": "concept", "id": "event.visual_attention"}}]
+    }
+  ]
+}
