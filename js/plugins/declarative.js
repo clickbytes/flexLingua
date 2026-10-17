@@ -154,7 +154,7 @@ export function defineDeclarativeLanguagePlugin({manifest, graph, modules, core}
   let adapter = null;
   if (hasSentenceImplementation) {
     try {
-      adapter = createRuleAdapter(plan, morphology ? {morphology} : {});
+      adapter = createRuleAdapter(plan, {morphology});
       adapter.lexicon.validateCore(core);
     } catch (error) {
       fail('PLUGIN_PACKAGE_INVALID', 'Cannot build the declared sentence runtime.', error);
