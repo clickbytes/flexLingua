@@ -11,6 +11,7 @@ import {dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {createAppRuntime} from '../js/app/runtime.js';
 import {createTranslationService} from '../js/app/translation-service.js';
+import {runCliSmoke} from './lib/cli.mjs';
 import {compareCase} from './lib/assertions.mjs';
 import {ALLOWED_DIRECTIONS} from './lib/discover.mjs';
 import {buildCoverage} from './lib/coverage.mjs';
@@ -19,13 +20,15 @@ import {loadMatrix} from './lib/validate.mjs';
 const RUNNER_DIR = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = dirname(RUNNER_DIR);
 
-const USAGE = `Usage: node tests/run.mjs [--validate|--matrix|--all] [--help]
+const USAGE = `Usage: node tests/run.mjs [--validate|--matrix|--cli|--all] [--help]
 
   --validate   load and validate schemas, catalog, required-ids, gaps, cross rules
   --matrix     validate first, then execute every approved case through the
                production createTranslationService (never a second translator)
-  --all        validate + matrix + coverage accounting (CLI smoke and report
-               files land with TM-07/TM-08 and stay explicitly NOT RUN until then)
+  --cli        matrix plus the CLI subprocess smoke for cliSmoke-tagged cases
+               (documented exit-code policy, single JSON document, no stacks)
+  --all        validate + matrix + coverage accounting + CLI smoke (report
+               files land with TM-08 and stay explicitly NOT RUN until then)
 
 Exit codes: 0 all green gates; 1 required FAIL/INFRA, invalid or incomplete
 matrix; 2 usage error. Infrastructure errors are always failures and are never
@@ -51,15 +54,17 @@ function readSha() {
 }
 
 function parseFlags(argv) {
-  const flags = {validate: false, matrix: false, all: false, help: false};
+  const flags = {validate: false, matrix: false, cli: false, all: false, help: false};
   for (const arg of argv) {
     if (arg === '--validate') flags.validate = true;
     else if (arg === '--matrix') flags.matrix = true;
+    else if (arg === '--cli') flags.cli = true;
     else if (arg === '--all') flags.all = true;
     else if (arg === '--help' || arg === '-h') flags.help = true;
     else return null;
   }
-  if (flags.all) { flags.validate = true; flags.matrix = true; }
+  if (flags.all) { flags.validate = true; flags.matrix = true; flags.cli = true; }
+  if (flags.cli) { flags.matrix = true; }
   return flags;
 }
 
@@ -86,7 +91,7 @@ function printIssues(issues) {
 
 async function main() {
   const flags = parseFlags(process.argv.slice(2));
-  if (flags === null || flags.help || (!flags.validate && !flags.matrix)) {
+  if (flags === null || flags.help || (!flags.validate && !flags.matrix && !flags.cli)) {
     console.log(USAGE);
     process.exitCode = flags !== null && flags.help ? 0 : 2;
     return;
@@ -192,9 +197,37 @@ async function main() {
 
   let coverageFailed = false;
   if (flags.all) {
-    coverageFailed = !printCoverage({runtime, matrix, outcomes, gapCount});
+    const notRunLabels = ['report files (land with TM-08)'];
+    if (!flags.cli) notRunLabels.unshift('CLI smoke (lands with TM-07)');
+    coverageFailed = !printCoverage({runtime, matrix, outcomes, gapCount, notRunLabels});
   } else {
     console.log('Coverage accounting, CLI smoke and reports: NOT RUN (run --all for the full gates).');
+  }
+
+  let cliFailed = false;
+  if (flags.cli || flags.all) {
+    const smokeCases = matrix.cases.filter(item => item.cliSmoke === true);
+    console.log('');
+    if (smokeCases.length === 0) {
+      console.log('CLI smoke: NOT RUN — no cliSmoke-tagged cases exist (explicit, not silent).');
+    } else {
+      console.log(`CLI SMOKE (${smokeCases.length} tagged cases): exit-code policy ` +
+        '(ok→0; unsupported/invalid/ambiguous/resource_limit→2), single JSON document, no node:internal stacks');
+      const smoke = runCliSmoke({cases: smokeCases, service, repoRoot: REPO_ROOT});
+      let smokePassed = 0;
+      for (const result of smoke) {
+        if (result.pass) {
+          smokePassed += 1;
+          console.log(`CLI-PASS [${result.kind}] ${result.id} (${result.durationMs} ms)`);
+        } else {
+          console.log(`${result.kind === 'infra' ? 'CLI-INFRA' : 'CLI-FAIL'} ${result.id} ` +
+            `(${result.durationMs} ms):`);
+          for (const line of result.lines) console.log(`    - ${line}`);
+        }
+      }
+      console.log(`CLI smoke: ${smokePassed}/${smoke.length} passed.`);
+      cliFailed = smokePassed !== smoke.length;
+    }
   }
 
   const failedRequired = counts.fail.required + counts.infra.required;
@@ -205,6 +238,11 @@ async function main() {
   }
   if (coverageFailed) {
     console.log('GATE: RED — coverage: a required A1 target lacks a positive witness in the canonical pair directions. Merge to main stays blocked.');
+    process.exitCode = 1;
+    return;
+  }
+  if (cliFailed) {
+    console.log('GATE: RED — CLI smoke: the shipped command line does not match the approved expectations or the exit-code policy.');
     process.exitCode = 1;
     return;
   }
@@ -255,7 +293,7 @@ function extractDeclaredTuples(runtime) {
 }
 
 /** Print the coverage section; returns true when the required-target gate passes. */
-function printCoverage({runtime, matrix, outcomes, gapCount}) {
+function printCoverage({runtime, matrix, outcomes, gapCount, notRunLabels = []}) {
   const coverage = buildCoverage({
     declaredTuples: extractDeclaredTuples(runtime),
     outcomes,
@@ -273,8 +311,8 @@ function printCoverage({runtime, matrix, outcomes, gapCount}) {
     `${coverage.categories.refusal_pass} (${coverage.categories.required_refusal}); ` +
     `ambiguity_pass ${coverage.categories.ambiguity_pass} ` +
     `(${coverage.categories.required_ambiguity}); infra_errors ` +
-    `${coverage.categories.infra_errors}; ` +
-    'not_run 2 (CLI smoke lands with TM-07; reports land with TM-08)');
+    `${coverage.categories.infra_errors}; not_run ${notRunLabels.length}` +
+    (notRunLabels.length ? ` (${notRunLabels.join('; ')})` : ''));
   console.log(`  declared_implemented ${coverage.categories.declared_implemented} live tuples; ` +
     `implemented_with_positive_witness ${coverage.categories.implemented_with_positive_witness}`);
   if (coverage.declaredWithoutWitness.length) {
