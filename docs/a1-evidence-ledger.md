@@ -21,7 +21,7 @@ Każde uruchomienie zestawu gold ma status, faktyczny PID procesu Node, wersję 
 | Zestaw | Pozytywne próbki | Odmowy | Komórki morfologii |
 | --- | ---: | ---: | ---: |
 | G2 | 32 | 8 | 0 |
-| Predykacja klasowa A1-ENPL-01 | 2 | 2 | 0 |
+| Predykacja klasowa A1-ENPL-01/10 | 10 | 4 | 0 |
 | Rodzina/czynności | 16 | 4 | 18 |
 | Ojciec/father | 16 | 4 | 16 |
 | Ruch iść/go | 18 | 4 | 11 |
@@ -50,7 +50,7 @@ npm run check:release           # pełny zestaw kontroli CORE i testów Node
 `check:a1-evidence` uruchamia kolejno:
 - istniejące `tools/report-a1.mjs --strict` dla G2;
 - testy Node dla rodziny, ojca, ruchu, codziennych czynności i kompozycji;
-- `tests/a1-enpl-basic-predication.test.js` dla golda A1-ENPL-01 (2 positive, 2 refusals);
+- `tests/a1-enpl-basic-predication.test.js` dla golda A1-ENPL-01 (2 positive, 2 refusals) i A1-ENPL-10 (8 positive, 2 refusals);
 - test Node dla 40 przypadków osoby/deiksów oraz 10 błędnych form;
 - `tests/a1-state-gold.test.js` dla 48 zdań stanów i 7 odmów;
 - `tests/anaphora-e2a.test.js` dla golda A1-ENPL-08: 6 pozytywnych przypadków i 4 odmowy;

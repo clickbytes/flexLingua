@@ -981,6 +981,7 @@
         ]
       },
       "classification": {
+        "supportedTenses": ["present"],
         "subjectRole": "subject",
         "cases": {
           "subject": "nom",

@@ -20,8 +20,8 @@ test('A1 VAL-03: all sixteen project-authored fixtures are inventoried',()=>{
  assert.equal(report.totals.sources,16);
  assert.deepEqual({p:report.totals.positive,n:report.totals.negative,
    f:report.totals.morphologyCells,productive:report.totals.productiveOnly},
-   {p:562,n:101,f:60,productive:2});
- assert.equal(report.verification.positiveVerified,562);
+   {p:570,n:103,f:60,productive:2});
+ assert.equal(report.verification.positiveVerified,570);
  const basic=report.sources.find(x=>x.id==='enplbasic');
  assert.equal(corpora.enplbasic.license,'project-authored');
  assert.equal(corpora.enplbasic.provenance.source,'project-authored');
@@ -29,13 +29,21 @@ test('A1 VAL-03: all sixteen project-authored fixtures are inventoried',()=>{
  assert.equal(corpora.enplbasic.provenance.reviewedAt,'2026-10-17');
  assert.ok(corpora.enplbasic.provenance.permittedUse);
  assert.deepEqual({positive:basic.samples.positive,negative:basic.samples.negative},
-   {positive:2,negative:2});
+   {positive:10,negative:4});
  const family01=report.constructionCoverage.families.find(x=>x.id==='A1-ENPL-01');
  assert.equal(family01.implementationStatus,'implemented');
  assert.equal(family01.evidenceStatus,'verified');
  assert.deepEqual(family01.declared.positive,{'en->pl':1,'pl->en':1});
  assert.deepEqual(family01.declared.refusal,{'en->pl':2,'pl->en':0});
  assert.deepEqual(family01.executed.positive['en->pl'],{pass:1,fail:0,'not-run':0});
+ const family10=report.constructionCoverage.families.find(x=>x.id==='A1-ENPL-10');
+ assert.equal(family10.implementationStatus,'implemented');
+ assert.equal(family10.evidenceStatus,'verified');
+ assert.equal(family10.knownGaps.length,0);
+ assert.deepEqual(family10.declared.positive,{'en->pl':4,'pl->en':4});
+ assert.deepEqual(family10.declared.refusal,{'en->pl':2,'pl->en':0});
+ assert.deepEqual(family10.executed.positive['en->pl'],{pass:4,fail:0,'not-run':0});
+ assert.equal(family10.evidence[0].caseResults.length,10);
  assert.equal(report.release.inputs.constructionRegistrySha256,report.constructionCoverage.registrySha256);
  const family08=report.constructionCoverage.families.find(x=>x.id==='A1-ENPL-08');
  assert.equal(family08.implementationStatus,'implemented');
@@ -95,7 +103,7 @@ test('A1 VAL-03: all sixteen project-authored fixtures are inventoried',()=>{
      .reduce((sum,row)=>sum+row[kind],0),report.sampleQuality.declared[kind]);
  assert.equal(Object.values(report.sampleQuality.declared.morphologyByLanguage)
    .reduce((sum,count)=>sum+count,0),report.totals.morphologyCells);
- assert.equal(report.sampleQuality.verified.positive,562);
+ assert.equal(report.sampleQuality.verified.positive,570);
  assert.equal(report.targetSummary.total,23);
  assert.deepEqual({concepts:report.targets.filter(x=>x.unitType==='concept').length,
    constructions:report.targets.filter(x=>x.unitType==='construction').length},

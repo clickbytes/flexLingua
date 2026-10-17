@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "reviewedAt": "2026-10-15",
+  "reviewedAt": "2026-10-17",
   "policy": "Every JSON data package is listed with its current version, source, authorship, license status and permitted use. New packages require a record. Legacy packages with incomplete attribution are explicitly blocked from redistribution pending review.",
   "packages": [
     {
@@ -211,6 +211,13 @@
           "source": "Project-authored English present-progressive negation and be-inversion rules for the existing six configured event verbs; no external grammar inventory copied.",
           "license": "Project-authored; the repository declares no separate SPDX data license.",
           "scope": "A1-ENPL-09: present negative and yes/no forms for read, write, eat, drink, help, and open. Language package: data/grammar/en.json."
+        },
+        {
+          "issue": "#173",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored present-tense classification negation and be-inversion rules; no external grammar inventory copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "A1-ENPL-10: present negative and yes/no classification with a separate CORE frame. Language package: data/grammar/en.json."
         }
       ]
     },
@@ -272,6 +279,13 @@
           "source": "Project-authored Polish third-person pronoun inventory declared by person, number, and grammatical gender, without mapping pronouns to person concepts.",
           "license": "Project-authored; the repository declares no separate SPDX data license.",
           "scope": "A1-ENPL-08: ona/on agreement and unresolved third-person parsing."
+        },
+        {
+          "issue": "#173",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored present-tense classification negation and yes/no marking; no external grammar inventory copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "A1-ENPL-10: present negative and yes/no classification with a separate CORE frame. Language package: data/grammar/pl.json."
         }
       ]
     },

@@ -60,7 +60,7 @@ export const EVIDENCE_SOURCES = Object.freeze([
  {id:'person',fixture:'tests/fixtures/gold-person-a1.json',sha256:'2b292bf3cbb7ec48c577cb7d1597a0bc7db48a84d5e8b02e3a33890479df61c9',classification:'regression',args:['--test','tests/a1-person-gold.test.js']},
  {id:'state',fixture:'tests/fixtures/gold-state-a1.json',sha256:'fa464db26afacf522ccb72f229f467a046991765497985f7d878dc676d7cd960',classification:'regression',args:['--test','tests/a1-state-gold.test.js']},
  {id:'thirdperson',fixture:'tests/fixtures/gold-a1-third-person.json',sha256:'bd66cbc28dd097e5d6b2f72d9da13a2c2c8c54570a8e40885ff1d503fa3b6c7a',classification:'regression',args:['--test','tests/anaphora-e2a.test.js']},
- {id:'enplbasic',fixture:'tests/fixtures/gold-a1-enpl-basics.json',sha256:'60c98ab51b5ef43d562c6b91c95b697827d6115da1df7f398ee1eef9413d257d',classification:'regression',args:['--test','tests/a1-enpl-basic-predication.test.js']},
+ {id:'enplbasic',fixture:'tests/fixtures/gold-a1-enpl-basics.json',sha256:'8ac259652f04607effa0920c1a1d9911de6a5d5ce9438e3131cf684d4103217a',classification:'regression',args:['--test','tests/a1-enpl-basic-predication.test.js']},
  {id:'barebeverages',fixture:'tests/fixtures/gold-a1-bare-beverages.json',sha256:'4716ca1dc5b6d021a69dc0cba4d99222b2a904aa08bd399fa4219a36482be231',classification:'regression',args:['--test','tests/a1-bare-beverages.test.js']},
  {id:'existential',fixture:'tests/fixtures/gold-a1-existential-locatives.json',sha256:'873f21e643d77287993899b50caa9f766ce899adde10a661ac0735fa59dbc1fc',classification:'regression',args:['--test','tests/a1-existential-locatives.test.js']},
  {id:'paststate',fixture:'tests/fixtures/gold-a1-past-state-predication.json',sha256:'88f9dce71c8a935c6dbe72497226d731d8fd639074e70f2effeab8066e2d01db',classification:'regression',args:['--test','tests/a1-past-state-predication.test.js']},
@@ -278,7 +278,8 @@ function explicitConcepts(row) {
  if(row.core){
    if(!record(row.core))throw new Error('Invalid semantic gold signature');
    let core=row.core;
-   if(core.kind==='question'&&core.questionType==='yes_no')core=core.proposition;
+   if((core.kind==='question'||core.type==='question')&&core.questionType==='yes_no')
+     core=core.proposition;
    if(core.type==='state'){
    if(core.kind==='predication'&&core.predicate)concepts.push(core.predicate);
      for(const role of Object.values(core.roles||{}))
@@ -315,8 +316,9 @@ function sampleDirection(row) {
 
 function coreDescriptor(core) {
  if(!record(core))return null;
- const question=core.kind==='question'&&core.questionType==='yes_no'?'yes_no':'none';
- const base=core.kind==='question'?core.proposition:core;
+ const isQuestion=core.kind==='question'||core.type==='question';
+ const question=isQuestion&&core.questionType==='yes_no'?'yes_no':'none';
+ const base=isQuestion?core.proposition:core;
  if(!record(base))return null;
  const unresolvedEntries=Object.entries(base.roles||{}).filter(([,ref])=>
    ref?.referent?.kind==='anaphoric'&&ref.referent.resolution==='unresolved');

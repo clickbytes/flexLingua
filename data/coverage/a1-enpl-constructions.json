@@ -525,14 +525,39 @@
         "none",
         "yes_no"
       ],
-      "implementationStatus": "planned",
+      "implementationStatus": "implemented",
       "dependencies": [
         "A1-ENPL-09"
       ],
-      "evidence": [],
-      "knownGaps": [
-        "Classification negative and yes/no cases are pending batch 10 gold and execution."
-      ]
+      "evidence": [
+        {
+          "sourceId": "enplbasic",
+          "fixture": "tests/fixtures/gold-a1-enpl-basics.json",
+          "suite": "tests/a1-enpl-basic-predication.test.js",
+          "positiveCases": {
+            "en->pl": [
+              "A1-ENPL-10-EN-NEG-01",
+              "A1-ENPL-10-EN-YESNO-01",
+              "A1-ENPL-10-EN-NEG-02",
+              "A1-ENPL-10-EN-YESNO-02"
+            ],
+            "pl->en": [
+              "A1-ENPL-10-PL-NEG-01",
+              "A1-ENPL-10-PL-YESNO-01",
+              "A1-ENPL-10-PL-NEG-02",
+              "A1-ENPL-10-PL-YESNO-02"
+            ]
+          },
+          "refusalCases": {
+            "en->pl": [
+              "A1-ENPL-10-PAST-01",
+              "A1-ENPL-10-WH-01"
+            ],
+            "pl->en": []
+          }
+        }
+      ],
+      "knownGaps": []
     },
     {
       "id": "A1-ENPL-11",
