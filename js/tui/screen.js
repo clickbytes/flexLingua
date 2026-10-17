@@ -110,7 +110,9 @@ export function createScreen({terminal, styleFor} = {}) {
     const column = Math.floor(x);
     const row = Math.floor(y);
     if (column < 1 || column > width || row < 1 || row > height) return false;
-    const available = Math.min(width - column + 1,
+    // Writing the bottom-right cell can scroll a real terminal despite wrap:false.
+    const rowWidth = row === height ? width - 1 : width;
+    const available = Math.min(rowWidth - column + 1,
       Number.isFinite(maxWidth) ? Math.max(0, Math.floor(maxWidth)) : width - column + 1);
     if (!available) return false;
     const text = fitText(value, available);
@@ -126,7 +128,8 @@ export function createScreen({terminal, styleFor} = {}) {
     for (let index = 0; index < height; index++) {
       if (previousRows?.[index] === nextRows[index]) continue;
       const y = index + 1;
-      terminal.put({x: 1, y, wrap: false, attr: styleFor('neutral')}, ' '.repeat(width));
+      terminal.put({x: 1, y, wrap: false, attr: styleFor('neutral')},
+        ' '.repeat(y === height ? Math.max(0, width - 1) : width));
       for (const write of frame[index]) {
         terminal.put({x: write.x, y, wrap: false, attr: styleFor(write.tone)}, write.text);
       }

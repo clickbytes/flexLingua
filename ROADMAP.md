@@ -10,7 +10,7 @@ The current packages support bounded directions: Polish<->English, English<->Fin
 
 ## Product surfaces
 
-The local application is a terminal UI with exactly three tabs: Translate, Chat, and Forms. It uses one Engine and PluginRegistry per process through the shared application runtime. The Node translation CLI remains a separate, non-interactive entry point and can be used without starting the TUI. Neither surface requires an HTTP server or browser build.
+The local application is a terminal UI with exactly three modes: Translate, Chat, and Forms. It uses one Engine and PluginRegistry per process through the shared application runtime. The Node translation CLI remains a separate, non-interactive entry point and can be used without starting the TUI. Neither surface requires an HTTP server or browser build. Current controls are listed by `/help`; the redesign specification is tracked in [issue #324](https://github.com/clickbytes/flexLingua/issues/324).
 
 The CLI is the acceptance path for sentence behavior. The TUI provides interactive access to the same bounded services and must show unsupported results and diagnostics explicitly.
 

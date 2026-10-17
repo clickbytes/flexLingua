@@ -12,7 +12,7 @@ Use Node.js 22.12.0 or newer. Install the locked dependencies once with `npm ci`
 npm run tui
 ```
 
-On Windows, `start.bat` starts the same terminal app from the repository directory. The app has exactly three tabs: Translate, Chat, and Forms. See the [terminal UI guide](docs/tui.md) for keyboard controls, supported behavior, and terminal sizing.
+On Windows, `start.bat` starts the same terminal app from the repository directory. The app has exactly three modes: Translate, Chat, and Forms. See the [terminal UI guide](docs/tui.md) for startup; use `/help` in the app for current controls. The redesign specification is tracked in [issue #324](https://github.com/clickbytes/flexLingua/issues/324).
 
 ## Run the CLI
 

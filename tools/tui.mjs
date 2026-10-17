@@ -13,7 +13,7 @@ if (!process.stdin.isTTY || !process.stdout.isTTY) {
   try {
     const runtime = await createAppRuntime();
     const app = createTui({runtime, terminal: terminalKit.terminal});
-    app.start();
+    await app.start();
   } catch (error) {
     process.stderr.write(`Cannot start flexLingua Terminal UI: ${safeMessage(error?.message)}\n`);
     process.exitCode = 1;
