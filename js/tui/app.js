@@ -53,7 +53,7 @@ function composerLineCountFor(view, focus, width, state = view.state) {
 }
 
 function transcriptRowsFor(view, focus, width) {
-  return buildTranscript(view, {focus}).flatMap(item =>
+  return buildTranscript(view, {focus, width}).flatMap(item =>
     wrapText(item.text, width).map((text, index) => ({text, tone: item.tone ?? 'neutral',
       entryId: item.entryId ?? null,
       candidateIndex: index === 0 ? item.candidateIndex ?? null : null})));
@@ -110,7 +110,8 @@ export function createTui({runtime, terminal, output = process.stdout, services 
   const workspaceState = createWorkspaceState();
   const views = [
     createTranslateView({runtime, translationService, state: workspaceState.modes.translate, workspaceState}),
-    createChatView({chatService, state: workspaceState.modes.chat, workspaceState}),
+    createChatView({chatService, capabilityCatalog: runtime.capabilityCatalog,
+      state: workspaceState.modes.chat, workspaceState}),
     createFormsView({runtime, formsService, state: workspaceState.modes.forms, workspaceState})
   ];
   const screen = createScreen({terminal, styleFor});
@@ -176,7 +177,7 @@ export function createTui({runtime, terminal, output = process.stdout, services 
   }
 
   function beginConfirmation(pendingConfirmation) {
-    workspaceState.pendingConfirmation = {...pendingConfirmation, selected: 0};
+    workspaceState.pendingConfirmation = {...pendingConfirmation, selected: 1};
     workspaceState.overlay = {type: 'confirmation'};
     workspaceState.overlayScrollTop = 0;
     draw();
@@ -185,13 +186,15 @@ export function createTui({runtime, terminal, output = process.stdout, services 
   function confirmationLines() {
     const pending = workspaceState.pendingConfirmation;
     if (!pending) return [];
-    const [confirmLabel, cancelLabel, message] = pending.type === 'clear_history' ?
+    const clearHistory = pending.type === 'clear_history';
+    const [confirmLabel, cancelLabel, message] = clearHistory ?
       ['Wyczyść historię tego trybu', 'Zachowaj historię',
         'Usunięte zostaną tylko wpisy prezentacji. Draft i sesja Engine pozostaną bez zmian.'] :
-      ['Zresetuj sesję i zmień kierunek', 'Anuluj zmianę',
-        `Zmiana ${pending.from}→${pending.to} wymaga resetu lokalnej sesji Chat i jej historii.`];
+      ['Zresetuj i zmień kierunek', 'Anuluj zmianę',
+        `Sesja ${pending.previousFrom ?? '?'}→${pending.previousTo ?? '?'} zmieni się na ` +
+        `${pending.from}→${pending.to}; jej kontekst i historia zostaną usunięte.`];
     return [
-      {text: pending.type === 'clear_history' ? 'Wyczyścić historię prezentacji?' : 'Potwierdź zmianę kierunku Chat', tone: 'accent'},
+      {text: clearHistory ? 'Wyczyścić historię prezentacji?' : 'Potwierdź zmianę kierunku Chat', tone: 'accent'},
       {text: message, tone: 'warning'},
       {text: `${pending.selected === 0 ? '›' : ' '} [${confirmLabel}]`, tone: pending.selected === 0 ? 'accent' : 'neutral'},
       {text: `${pending.selected === 1 ? '›' : ' '} [${cancelLabel}]`, tone: pending.selected === 1 ? 'accent' : 'neutral'},
@@ -272,8 +275,12 @@ export function createTui({runtime, terminal, output = process.stdout, services 
         focus.id === 'details' ? 'Enter szczegóły' :
           view.id === 'chat' ? 'Enter wyślij' :
             view.id === 'forms' ? 'Enter szukaj' : 'Enter tłumacz';
-    const required = [action, '/help', '^C wyjście'];
+    const required = view.id === 'chat' ? [
+      `${state.turnCount ?? 0}/${state.maxTurns ?? '?'} tury · ${state.eventCount ?? 0}/${
+        state.maxEvents ?? '?'} zdarzeń`, 'Enter', '^C'
+    ] : [action, '/help', '^C wyjście'];
     const candidates = [
+      '/help',
       state.unseenCount ? `${state.unseenCount} nowych · ^End najnowsze` : 'PgUp/PgDn historia',
       'F1–F3 tryby',
       view.id === 'chat' ? 'Ctrl+N /new' : 'Tab fokus'
@@ -538,9 +545,11 @@ export function createTui({runtime, terminal, output = process.stdout, services 
         state.selectedEntryId = null;
         state.status = '';
       } else if (action.mode === 'chat' && action.from) {
+        const previousDirection = chatService.snapshot();
         const result = chatService.setDirection({from: action.from, to: action.to});
         if (result.status === 'reset_required') {
           beginConfirmation({type: 'chat_direction', from: action.from, to: action.to,
+            previousFrom: previousDirection.from, previousTo: previousDirection.to,
             returnMode: workspaceState.activeMode});
           return true;
         }

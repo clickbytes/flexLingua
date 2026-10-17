@@ -16,6 +16,32 @@ function jsonLines(value) {
 
 export function detailsSections(entry) {
   const result = entry.rawResult ?? {};
+  if (entry.mode === 'chat') {
+    return [
+      {id: 'operation', title: 'Wypowiedź i kierunek', value: {
+        id: entry.id,
+        mode: entry.mode,
+        input: entry.input,
+        from: entry.from,
+        to: entry.to,
+        status: entry.status,
+        accepted: entry.accepted,
+        output: entry.output,
+        responseStatus: result.responseStatus
+      }},
+      {id: 'events', title: 'Zdarzenia Engine', value: result.events ?? entry.events ?? []},
+      {id: 'session', title: 'Limity sesji', value: {
+        turnCount: result.turnCount ?? null,
+        maxTurns: result.maxTurns ?? null,
+        eventCount: result.eventCount ?? null,
+        maxEvents: result.maxEvents ?? null,
+        conversation: result.conversation ?? null
+      }},
+      {id: 'response', title: 'Plan odpowiedzi Engine', value: result.response ?? null},
+      {id: 'diagnostics', title: 'Diagnostyka', value: result.diagnostics ?? []},
+      {id: 'raw-result', title: 'Wynik surowy', value: result}
+    ];
+  }
   if (entry.mode === 'forms') {
     return [
       {id: 'operation', title: 'Zapytanie i język', value: {

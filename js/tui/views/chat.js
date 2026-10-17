@@ -1,49 +1,6 @@
 import {appendOperation, clearModeEntries, invalidateRequests, isCurrentRequest} from '../state.js';
 
-function meaningSummary(meaning) {
-  if (!meaning || typeof meaning !== 'object') return 'MeaningGraph unavailable';
-  const label = meaning.concept ?? meaning.kind ?? meaning.type ?? 'graph';
-  const roles = Object.entries(meaning.roles ?? {}).map(([role, value]) =>
-    `${role}: ${value?.concept ?? value?.referent ?? 'unspecified'}`);
-  return `${label}${roles.length ? ` · ${roles.join(', ')}` : ''}`;
-}
-
-function eventLines(event) {
-  if (event.type === 'user_utterance') {
-    return [{text: `You (${event.language ?? 'unknown'}): ${event.text ?? ''}`, tone: 'neutral'}];
-  }
-  if (event.type === 'turn_output') {
-    return [{text: `Turn output (${event.from ?? 'unknown'} -> ${event.to ?? 'unknown'}): ${
-      event.text ?? ''}`, tone: 'accent'}];
-  }
-  if (event.type === 'semantic_reading') {
-    return [
-      {text: `Semantic reading${event.dialogueAct?.act ? ` · ${event.dialogueAct.act}` : ''}`, tone: 'accent'},
-      {text: `MeaningGraph: ${meaningSummary(event.meaning)}`, tone: 'muted'},
-      ...(event.alternatives?.length ? [{text: `Alternatives: ${event.alternatives.length}`,
-        tone: 'muted'}] : []),
-      ...(event.informationLoss?.length ? [{text: `Information loss: ${event.informationLoss.length}`,
-        tone: 'warning'}] : [])
-    ];
-  }
-  if (event.type === 'engine_response') {
-    return [
-      {text: `Engine response: ${event.text ?? ''}`, tone: 'accent'},
-      ...(event.meaning ? [{text: `Response meaning: ${meaningSummary(event.meaning)}`,
-        tone: 'muted'}] : []),
-      ...(event.informationLoss?.length ? [{text: `Information loss: ${event.informationLoss.length}`,
-        tone: 'warning'}] : [])
-    ];
-  }
-  if (event.type === 'diagnostic') {
-    const code = event.code ? ` ${event.code}` : '';
-    const message = event.message ? ` — ${event.message}` : '';
-    return [{text: `Diagnostic (${event.severity ?? 'error'})${code}${message}`, tone: 'warning'}];
-  }
-  return [{text: `Service event: ${event.type ?? 'unknown'}`, tone: 'muted'}];
-}
-
-export function createChatView({chatService, state: modeState, workspaceState} = {}) {
+export function createChatView({chatService, capabilityCatalog, state: modeState, workspaceState} = {}) {
   if (!chatService || typeof chatService.send !== 'function' ||
       typeof chatService.reset !== 'function' || typeof chatService.snapshot !== 'function') {
     throw new Error('Chat view requires the application Chat service.');
@@ -87,6 +44,38 @@ export function createChatView({chatService, state: modeState, workspaceState} =
     return workspaceState ? state.entries.flatMap(entry => entry.events ?? []) : state.history ?? [];
   }
 
+  function capabilityText(status) {
+    return ({available: 'obsługiwane w ograniczonym zakresie',
+      partial: 'częściowo zadeklarowane', unsupported: 'niedostępne',
+      undeclared: 'niezadeklarowane', provider_unavailable: 'provider niedostępny'})[status] ??
+      'dostępność nieznana';
+  }
+
+  function capabilityAvailability(language, channel, operation) {
+    const capabilities = capabilityCatalog?.chat({language});
+    if (!capabilities || capabilities.status !== 'capabilities_only') return 'nieznana';
+    return capabilityText(capabilities[channel]?.[operation]?.status);
+  }
+
+  function scopeLines() {
+    return [
+      {text: `Zdania · ${state.from ?? '?'} analiza ${capabilityAvailability(state.from,
+        'sentence', 'analyze')} · ${state.to ?? '?'} realizacja ${capabilityAvailability(state.to,
+        'sentence', 'realize')}.`, tone: 'muted'},
+      {text: `Pytania · ${state.from ?? '?'} analiza ${capabilityAvailability(state.from,
+        'questions', 'analyze')} · ${state.to ?? '?'} realizacja ${capabilityAvailability(state.to,
+        'questions', 'realize')}.`, tone: 'muted'}
+    ];
+  }
+
+  function countersText(result = state) {
+    const turns = Number.isSafeInteger(result.turnCount) ? result.turnCount : 0;
+    const maxTurns = Number.isSafeInteger(result.maxTurns) ? result.maxTurns : '?';
+    const events = Number.isSafeInteger(result.eventCount) ? result.eventCount : 0;
+    const maxEvents = Number.isSafeInteger(result.maxEvents) ? result.maxEvents : '?';
+    return `akty ${turns}/${maxTurns} · zdarzenia ${events}/${maxEvents}`;
+  }
+
   function addServiceFailure(error, {input = state.draft, requestToken} = {}) {
     const event = {type: 'diagnostic', code: error?.code ?? 'CHAT_SERVICE_ERROR',
       message: error?.message ?? 'The chat service failed.', severity: 'error'};
@@ -126,7 +115,7 @@ export function createChatView({chatService, state: modeState, workspaceState} =
     updateCounters(result);
     const responseStatus = result.responseStatus &&
       !['not_requested', 'not_attempted'].includes(result.responseStatus) ?
-      ` · response ${result.responseStatus}` : '';
+      ` · odpowiedź ${result.responseStatus}` : '';
     state.lastStatus = `${result.status ?? 'error'}${responseStatus}`;
     if (result.accepted && text.trim() && state.draft === text) {
       state.draft = '';
@@ -222,19 +211,23 @@ export function createChatView({chatService, state: modeState, workspaceState} =
       const selected = focus?.id === 'cancel_reset' ? 'cancel_reset' : 'confirm_reset';
       return {panels: [{title: 'Rozpocząć nową lokalną sesję?', lines: [
         {text: 'Reset wyczyści kontekst Engine, historię i draft tej sesji.', tone: 'warning'},
+        {text: `Kierunek ${state.from ?? '?'}→${state.to ?? '?'} i ustawienia pozostaną.`,
+          tone: 'muted'},
         {text: `${selected === 'confirm_reset' ? '›' : ' '} [Rozpocznij nową sesję]`,
           tone: selected === 'confirm_reset' ? 'accent' : 'neutral'},
         {text: `${selected === 'cancel_reset' ? '›' : ' '} [Zachowaj sesję]`,
           tone: selected === 'cancel_reset' ? 'accent' : 'neutral'},
-        {text: 'Tab lub ←/→ wybór · Enter zatwierdź · Esc anuluj', tone: 'muted'}
+        {text: 'Anuluj jest zaznaczone · Tab lub ←/→ wybór · Enter zatwierdź · Esc anuluj',
+          tone: 'muted'}
       ]}]};
     }
 
     const events = conversationEvents();
     const historyLines = events.length ? events.flatMap(event => [
-      ...eventLines(event), {text: '', tone: 'muted'}
-    ]) : [{text: 'No messages yet.', tone: 'muted'}];
-    return {panels: [{title: `${focus?.id === 'history' ? '› ' : ''}Conversation`, lines: historyLines}]};
+      {text: event.text ?? event.message ?? event.type ?? 'Zdarzenie usługi', tone: 'neutral'},
+      {text: '', tone: 'muted'}
+    ]) : [{text: 'Brak wiadomości. Wpisz zdanie z ograniczonego zakresu.', tone: 'muted'}];
+    return {panels: [{title: `${focus?.id === 'history' ? '› ' : ''}Rozmowa`, lines: historyLines}]};
   }
 
   return {
@@ -245,10 +238,17 @@ export function createChatView({chatService, state: modeState, workspaceState} =
     composerPrompt: 'Napisz wiadomość lub /polecenie…',
     actionLabel: 'Send',
     statusLine() {
-      return {text: `Sesja lokalna · ${state.from ?? '?'} → ${state.to ?? '?'} · akty ${
-        state.turnCount}/${state.maxTurns} · zdarzenia ${state.eventCount}/${state.maxEvents}`,
+      return {text: `Sesja lokalna · ${state.from ?? '?'}→${state.to ?? '?'} · ${countersText()}`,
         tone: 'muted'};
     },
+    emptyStateLines() {
+      return [
+        {text: 'Sesja jest lokalna i ograniczona do danych oraz reguł Engine.', tone: 'muted'},
+        ...scopeLines(),
+        {text: 'Odpowiedź pojawi się tylko po obsługiwanej realizacji planera.', tone: 'muted'}
+      ];
+    },
+    countersText,
     focusTargets,
     handleAction,
     onSubmit: send,
