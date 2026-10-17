@@ -32,3 +32,5 @@ Grow the shared meaning model and language packages only when their contracts an
 ## Quality direction
 
 For each language change, record actual CLI commands, independently stated expected meaning, returned text or refusal, CORE roles, diagnostics, exit code, and the reviewed commit SHA. Review both wording and semantics. Manually verify terminal behavior in supported environments and record any scenario that could not be run. Manual examples document only the constructions they contain; they are not a representative benchmark or a general quality percentage.
+
+The canonical sentence test matrix in `tests/` is the enforced quality gate for sentence behavior: `npm test` locally and the required `translation-matrix` GitHub Actions check score translation, controlled refusal, and explicit ambiguity separately, and report known gaps and infrastructure errors without ever crediting them as passes. Growing the matrix into more A1 coverage and more directions is the planned product direction; it always goes through independently authored, human-approved expectations before any implementation lands.
