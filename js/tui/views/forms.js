@@ -51,8 +51,7 @@ export function createFormsView({runtime, formsService, state: modeState, worksp
   function focusTargets() {
     const items = [
       {id: 'query', type: 'input', label: 'Lemma or form'},
-      {id: 'language', type: 'selector', label: 'Language'},
-      {id: 'search', type: 'action', label: 'Search'}
+      {id: 'language', type: 'selector', label: 'Language'}
     ];
     if (state.result?.status === 'ambiguous' && state.matches.length > 1) {
       items.push({id: 'candidate', type: 'selector', label: 'Dictionary match'});
@@ -264,20 +263,6 @@ export function createFormsView({runtime, formsService, state: modeState, worksp
     if (step === 0) selectCandidate(state.matches[state.selectedIndex]);
   }
 
-  function renderSearchPanel(focus) {
-    const languageFocused = focus?.id === 'language';
-    const queryFocused = focus?.id === 'query';
-    const searchFocused = focus?.id === 'search';
-    return [
-      {text: `${languageFocused ? '›' : ' '} Language: ${state.language ?? 'unavailable'}  ←/→`,
-        tone: languageFocused ? 'accent' : 'neutral'},
-      {text: `${queryFocused ? '›' : ' '} Lemma or form`, tone: queryFocused ? 'accent' : 'neutral'},
-      {text: state.draft || 'Type a lemma or surface form.', tone: queryFocused ? 'neutral' : 'muted'},
-      {text: `${searchFocused ? '›' : ' '} [Search]`, tone: searchFocused ? 'accent' : 'neutral'},
-      {text: 'Generate unknown forms: unavailable', tone: 'muted'}
-    ];
-  }
-
   function renderFormsPanel(focus) {
     const result = state.result;
     if (!result) return [{text: 'No dictionary lookup yet.', tone: 'muted'}];
@@ -341,6 +326,7 @@ export function createFormsView({runtime, formsService, state: modeState, worksp
     label: 'Forms',
     state,
     fieldLabel: 'Lemma or form',
+    composerPrompt: 'Wpisz lemat lub formę…',
     actionLabel: 'Search',
     focusTargets,
     onDraftChange() {
@@ -392,10 +378,7 @@ export function createFormsView({runtime, formsService, state: modeState, worksp
       return false;
     },
     render({focus}) {
-      return {panels: [
-        {title: 'Lookup', lines: renderSearchPanel(focus)},
-        {title: 'Dictionary and forms', lines: renderFormsPanel(focus)}
-      ]};
+      return {panels: [{title: 'Dictionary and forms', lines: renderFormsPanel(focus)}]};
     }
   };
 }

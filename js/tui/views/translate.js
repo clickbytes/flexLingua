@@ -64,13 +64,6 @@ export function createTranslateView({runtime, translationService, state: modeSta
     return 'unsupported';
   }
 
-  function hasOperation(language, operation) {
-    const item = catalog.language(language);
-    if (!item || item.status !== 'available') return false;
-    return operation === 'analyze' ? item.runtimeCapabilities.parsing :
-      operation === 'realize' ? item.runtimeCapabilities.realization : false;
-  }
-
   function canSwap() {
     return hasDirection(state.to, state.from);
   }
@@ -79,7 +72,6 @@ export function createTranslateView({runtime, translationService, state: modeSta
     const items = [{id: 'source', type: 'input', label: 'Source text'}];
     if (languages.length) items.push({id: 'from', type: 'selector', label: 'Source language'});
     if (languages.length) items.push({id: 'to', type: 'selector', label: 'Target language'});
-    items.push({id: 'translate', type: 'action', label: 'Translate'});
     if (canSwap()) items.push({id: 'swap', type: 'action', label: 'Swap direction'});
     if (state.result) items.push({id: 'details', type: 'action', label: 'Details'});
     return items;
@@ -190,34 +182,6 @@ export function createTranslateView({runtime, translationService, state: modeSta
     return false;
   }
 
-  function renderInputPanel(focus) {
-    const sourceFocused = focus?.id === 'source';
-    const fromFocused = focus?.id === 'from';
-    const toFocused = focus?.id === 'to';
-    const translateFocused = focus?.id === 'translate';
-    const swapFocused = focus?.id === 'swap';
-    const detailsFocused = focus?.id === 'details';
-    const directionSupported = hasDirection(state.from, state.to);
-    return [
-      {text: `${fromFocused ? '›' : ' '} From: ${state.from ?? 'unavailable'}${
-        hasOperation(state.from, 'analyze') ? '' : ' (analysis unavailable)'}  ←/→`,
-        tone: fromFocused ? 'accent' : 'neutral'},
-      {text: `${toFocused ? '›' : ' '} To: ${state.to ?? 'unavailable'}${
-        hasOperation(state.to, 'realize') ? '' : ' (realization unavailable)'}  ←/→`,
-        tone: toFocused ? 'accent' : 'neutral'},
-      {text: `Direction: ${state.from ?? '—'}→${state.to ?? '—'} · ${directionLabel()}`,
-        tone: directionSupported ? 'muted' : 'warning'},
-      {text: `${sourceFocused ? '›' : ' '} Source text`, tone: sourceFocused ? 'accent' : 'neutral'},
-      {text: state.draft || 'Type a sentence here.', tone: sourceFocused ? 'neutral' : 'muted'},
-      {text: `${translateFocused ? '›' : ' '} [Translate]`, tone: translateFocused ? 'accent' : 'neutral'},
-      {text: canSwap() ? `${swapFocused ? '›' : ' '} [Swap]` : '  Swap unavailable for this direction.',
-        tone: canSwap() && swapFocused ? 'accent' : canSwap() ? 'neutral' : 'muted'},
-      {text: state.result ? `${detailsFocused ? '›' : ' '} [i] Details` : '  Details available after translating.',
-        tone: detailsFocused ? 'accent' : 'muted'},
-      ...(state.status ? [{text: `Status: ${state.status}`, tone: state.status === 'ok' ? 'muted' : 'warning'}] : [])
-    ];
-  }
-
   function renderResultPanel() {
     if (!languages.length) return [
       {text: 'No language packages are available.', tone: 'warning'},
@@ -255,6 +219,7 @@ export function createTranslateView({runtime, translationService, state: modeSta
     label: 'Translate',
     state,
     fieldLabel: 'Source text',
+    composerPrompt: 'Wpisz zdanie lub /polecenie…',
     actionLabel: 'Translate',
     focusTargets,
     handleAction,
@@ -262,11 +227,8 @@ export function createTranslateView({runtime, translationService, state: modeSta
     onDraftChange() {
       clearResult();
     },
-    render({focus}) {
-      return {panels: [
-        {title: 'Direction and source', lines: renderInputPanel(focus)},
-        {title: 'Result', lines: renderResultPanel()}
-      ]};
+    render() {
+      return {panels: [{title: 'Result', lines: renderResultPanel()}]};
     }
   };
 }
