@@ -37,12 +37,12 @@
               "features": {"number": "singular", "definiteness": "definite"}}
           },
           "roleFeaturesExact": true,
-          "features": {"tense": "present", "polarity": "positive"},
+          "features": {"tense": "past", "polarity": "positive"},
           "featuresAllowExtra": true,
           "assert": {
             "#/roles/agent/features/number": "singular",
             "#/roles/theme/features/number": "singular",
-            "#/features/tense": "present",
+            "#/features/tense": "past",
             "#/features/polarity": "positive"
           }
         },
