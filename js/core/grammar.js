@@ -913,6 +913,40 @@ function createGrammarInterpreter(sourceDictionary, rules,
       roles.set(argument.semanticRole,exponent);
     }
   }
+  function agreementContextForTransfer(meaning, transfer) {
+    if (!record(transfer) || !Array.isArray(transfer.arguments) ||
+        JSON.stringify(transfer.meaning) !== JSON.stringify(meaning)) {
+      throw new Error('Invalid semantic transfer for realization.');
+    }
+    const argumentIds = new Set();
+    for (const argument of transfer.arguments) {
+      if (!record(argument) || !safeName(argument.argument) ||
+          !safeName(argument.semanticRole) || !safeName(argument.syntacticFunction) ||
+          !Array.isArray(argument.agreementControllers) || argumentIds.has(argument.argument)) {
+        throw new Error('Invalid realization argument transfer.');
+      }
+      argumentIds.add(argument.argument);
+    }
+    const context = Object.create(null);
+    for (const argument of transfer.arguments) {
+      if (!argument.agreementControllers.length) continue;
+      const features = context[argument.syntacticFunction] ||
+        (context[argument.syntacticFunction] = Object.create(null));
+      for (const controller of argument.agreementControllers) {
+        if (!record(controller) || Object.keys(controller).sort().join(',') !==
+            'argument,feature,value' || !safeName(controller.argument) ||
+            !safeName(controller.feature) || !argumentIds.has(controller.argument) ||
+            typeof controller.value !== 'string' || !controller.value) {
+          throw new Error('Declared agreement controller has no usable feature value.');
+        }
+        if (hasOwn(features, controller.feature) && features[controller.feature] !== controller.value) {
+          throw new Error('Conflicting agreement controller values.');
+        }
+        features[controller.feature] = controller.value;
+      }
+    }
+    return context;
+  }
   function informationLoss(meaning) {
     if (!record(meaning) || !record(meaning.roles)) return [];
     const hasDeterminers=Object.keys(nounPhrase.determiners).length>0;
@@ -2278,6 +2312,12 @@ function createGrammarInterpreter(sourceDictionary, rules,
     const sequence=options.sequence || frame.linearizations[0];
     const context = contextFor(roles, meaning.features,subjectRole,
       {formalSubject:sequence.includes('@expletive')?frame.formalSubject:null});
+    for (const [argument, features] of Object.entries(options.agreementControllers || {})) {
+      if (!record(context[argument])) {
+        throw new Error(`Agreement controller target is unavailable: ${argument}.`);
+      }
+      context[argument] = {...context[argument], ...features};
+    }
     const candidates = verbForms.filter(entry => entry.lexeme.concept === meaning.concept &&
       entry.rule.tense === meaning.features.tense && entry.rule.polarity === meaning.features.polarity &&
       (verbGrammar.aspectSource !== 'lexeme' || meaning.features.aspect === 'unknown' ||
@@ -2576,7 +2616,8 @@ function createGrammarInterpreter(sourceDictionary, rules,
     return {text,warnings,alternatives:alternative&&alternative!==text?[alternative]:[]};
   }
 
-  function realize(meaning, {subjectPronoun=null,lexicalRegister='neutral',informationStructure} = {}) {
+  function realize(meaning, {subjectPronoun=null,lexicalRegister='neutral',informationStructure,
+    semanticTransfer} = {}) {
     if(!['neutral','formal','plain'].includes(lexicalRegister))
       throw new Error('Unsupported lexical register.');
     if(subjectPronoun && (meaning?.type!=='event' ||
@@ -2594,8 +2635,9 @@ function createGrammarInterpreter(sourceDictionary, rules,
       sequence=frames[meaning.concept]?.linearizations.find(item=>item.at(-1)===focus);
       if(!sequence)throw new Error(`No ${dictionary.language} information-structure variant for ${focus}.`);
     }
+    const agreementControllers = agreementContextForTransfer(meaning, semanticTransfer);
     const built = renderEvent(meaning, undefined, 0, null,
-      {subjectPronoun,lexicalRegister,sequence});
+      {subjectPronoun,lexicalRegister,sequence,agreementControllers});
     const { candidates, preferred, linearize } = built;
     const unspecifiedRoles = Object.entries(meaning.roles)
       .filter(([role,ref]) => !(subjectPronoun && role === subjectRole) &&

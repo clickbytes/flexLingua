@@ -7,7 +7,13 @@
         {
           "role": "agent",
           "argument": "subject",
-          "syntacticFunction": "subject"
+          "syntacticFunction": "subject",
+          "agreementControllers": [
+            {
+              "argument": "subject",
+              "feature": "number"
+            }
+          ]
         },
         {
           "role": "theme",
@@ -39,7 +45,13 @@
         {
           "role": "agent",
           "argument": "subject",
-          "syntacticFunction": "subject"
+          "syntacticFunction": "subject",
+          "agreementControllers": [
+            {
+              "argument": "subject",
+              "feature": "number"
+            }
+          ]
         },
         {
           "role": "theme",

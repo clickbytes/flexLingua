@@ -239,10 +239,12 @@ export function defineDeclarativeLanguagePlugin({manifest, graph, modules, core}
             `Realization is unsupported for construction ${transfer.construction}.`);
         }
         if (!adapter) fail('PLUGIN_CAPABILITY_UNAVAILABLE', 'Sentence realization is unsupported.');
+        const runtimeTransfer = semanticBridge.projectMeaning(input.meaning, transfer);
         const result = adapter.realize(input.meaning, {
           ...(context.lexicalRegister ? {lexicalRegister: context.lexicalRegister} : {}),
           ...(context.subjectPronoun ? {subjectPronoun: context.subjectPronoun} : {}),
-          ...(context.informationStructure ? {informationStructure: context.informationStructure} : {})
+          ...(context.informationStructure ? {informationStructure: context.informationStructure} : {}),
+          semanticTransfer: runtimeTransfer
         });
         if (!isRecord(result) || typeof result.text !== 'string' || !result.text.trim()) {
           fail('PLUGIN_CAPABILITY_UNAVAILABLE', 'Realizer produced no supported sentence.');
