@@ -1,5 +1,7 @@
 # Lokalna zgodność pakietów językowych
 
+> **Zmiana R21:** raporty macierzy, fixtures i runner są usuwane. Polecenia ręcznego odbioru są zebrane w [examples/cli-sentences.md](../examples/cli-sentences.md); docelowe sprzątanie tego dokumentu nastąpi w R22.
+
 `tests/fixtures/generic-language-conformance.json` jest małą, statyczną macierzą zdań, odmów, CORE i form morfologicznych. Expected są autorowane niezależnie od silnika. Zmiana expected wymaga ręcznego sprawdzenia znaczenia oraz uzasadnienia w przeglądzie.
 
 Uruchom raport maszynowy:

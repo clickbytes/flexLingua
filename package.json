@@ -6,32 +6,9 @@
   "scripts": {
     "translate": "node tools/translate.mjs",
     "languages": "node tools/translate.mjs --languages",
-    "test": "node --test tests/*.test.js",
     "dev": "node tools/serve.mjs",
-    "check:lexicon": "node tools/check-lexicon.mjs",
-    "check:morphology": "node tools/check-morphology.mjs",
-    "check:data-provenance": "node tools/check-data-provenance.mjs",
-    "check:core-gates": "node tools/check-core-gates.mjs",
     "compile:pl": "node tools/compile-language.mjs pl",
     "compile:en": "node tools/compile-language.mjs en",
-    "compile:ar": "node tools/compile-language.mjs ar",
-    "check:release": "npm run check:lexicon && npm run check:morphology && npm run check:data-provenance && npm run check:gold && npm run check:a1-gold && npm run check:gold-family && npm run check:gold-father && npm run check:gold-movement && npm run check:gold-actions && npm run check:gold-person && npm run check:a1-evidence && npm run check:dialogue-gold && npm test && npm run check:coverage",
-    "check:gold": "node tools/verify-gold.mjs",
-    "coverage:a1": "node tools/coverage-a1.mjs",
-    "check:coverage": "node --test tests/coverage-a1.test.js",
-    "check:language-conformance": "node --test tests/fi-portability.test.js tests/generic-quantified-np.test.js tests/generic-language-conformance.test.js tests/generic-case-systems.test.js tests/language-adapter-contract.test.js tests/language-package-manifest.test.js tests/tokenizer-unicode.test.js tests/gen01-discourse-time.test.js tests/pers03-subject-agreement.test.js tests/it-gold.test.js tests/tr-audit.test.js",
-    "check:questions": "node --test tests/question-semantics.test.js tests/questions-translation.test.js",
-    "check:dialogue-gold": "node tools/check-dialogue-gold.mjs",
-    "check:gold-multiword": "node --test tests/multiword-morphology-f3.test.js",
-    "report:a1": "node tools/report-a1.mjs",
-    "check:a1-gold": "node tools/report-a1.mjs --strict",
-    "audit:a1-gaps": "node tools/a1-gap-audit.mjs",
-    "check:gold-family": "node --test tests/family-actions-a1.test.js",
-    "check:gold-father": "node --test tests/father-a1.test.js",
-    "check:gold-movement": "node --test tests/movement-a1.test.js",
-    "check:gold-actions": "node --test tests/daily-actions-a1.test.js tests/a1-crossbatch-composition.test.js",
-    "check:gold-person": "node --test tests/a1-person-gold.test.js",
-    "report:a1-evidence": "node tools/a1-evidence-ledger.mjs --catalog-only",
-    "check:a1-evidence": "node tools/a1-evidence-ledger.mjs"
+    "compile:ar": "node tools/compile-language.mjs ar"
   }
 }

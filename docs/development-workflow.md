@@ -1,5 +1,7 @@
 # Jak pracujemy
 
+> **Zmiana R21:** testy, goldy i runner macierzy są usuwane. Aktualne ręczne komendy CLI i oczekiwane znaczenia są w [examples/cli-sentences.md](../examples/cli-sentences.md); końcowe czyszczenie workflow nastąpi w R22.
+
 ## Źródła informacji
 
 | Informacja | Miejsce |
