@@ -1,4 +1,5 @@
 import {EventEmitter} from 'node:events';
+import {createChatService} from '../app/chat-service.js';
 import {createFormsService} from '../app/forms-service.js';
 import {createTranslationService} from '../app/translation-service.js';
 import {TABS, actionForKey} from './keymap.js';
@@ -175,8 +176,9 @@ export function createTui({runtime, terminal, output = process.stdout} = {}) {
   }
 
   const translationService = createTranslationService(runtime);
+  const chatService = createChatService(runtime);
   const formsService = createFormsService(runtime);
-  const views = [createTranslateView({runtime, translationService}), createChatView(),
+  const views = [createTranslateView({runtime, translationService}), createChatView({chatService}),
     createFormsView({runtime, formsService})];
   const events = new EventEmitter();
   let activeIndex = 0;
@@ -184,6 +186,12 @@ export function createTui({runtime, terminal, output = process.stdout} = {}) {
   let stopping = false;
   let stopPromise = null;
   let headerHitboxes = [];
+
+  events.on('newSession', ({activeTab} = {}) => {
+    if (activeTab !== 'chat') return;
+    views[1].onNewSession?.();
+    draw();
+  });
 
   function dimensions() {
     return {
@@ -207,9 +215,11 @@ export function createTui({runtime, terminal, output = process.stdout} = {}) {
     const view = views[activeIndex];
     const focus = currentFocus(view);
     const focusLabel = focus.label;
-    const scrollHint = view.state.details && focus.id === 'details' ? ' · j/k scroll' : '';
+    const scrollHint = (view.state.details && focus.id === 'details') || focus.id === 'history' ?
+      ' · j/k scroll' : '';
+    const newSessionHint = view.id === 'chat' ? ' · Ctrl+N new session' : '';
     const text = width < 60 ? `F1–F3 tabs · Tab focus: ${focusLabel}${scrollHint} · Enter · Esc · Ctrl+C exit` :
-      `F1/F2/F3 tabs · Tab/Shift+Tab focus: ${focusLabel}${scrollHint} · Enter · Esc · Ctrl+N new session · Ctrl+C exit`;
+      `F1/F2/F3 tabs · Tab/Shift+Tab focus: ${focusLabel}${scrollHint} · Enter · Esc${newSessionHint} · Ctrl+C exit`;
     put(text, 1, height, 'muted', width);
   }
 
@@ -237,13 +247,16 @@ export function createTui({runtime, terminal, output = process.stdout} = {}) {
     drawHeader(width);
     put('─'.repeat(Math.max(1, width)), 1, 2, 'muted', width);
 
-    const rows = buildContentRows(views[activeIndex], width);
     const view = views[activeIndex];
-    const contentHeight = Math.max(0, height - 3);
+    const statusLine = typeof view.statusLine === 'function' ? view.statusLine() : null;
+    const contentStart = statusLine ? 4 : 3;
+    if (statusLine) put(statusLine.text, 1, 3, statusLine.tone ?? 'muted', width);
+    const rows = buildContentRows(view, width);
+    const contentHeight = Math.max(0, height - contentStart);
     const maxScroll = Math.max(0, rows.length - contentHeight);
     const scrollTop = Math.max(0, Math.min(Number(view.state.scrollTop) || 0, maxScroll));
     if (view.state.scrollTop !== undefined) view.state.scrollTop = scrollTop;
-    let row = 3;
+    let row = contentStart;
     for (const content of rows.slice(scrollTop, scrollTop + contentHeight)) {
       if (row >= height) break;
       if (content.split) {
