@@ -10,7 +10,7 @@ The semantic intermediate representation is **not an English AST** or a Polish s
 
 Event documents without relative clauses keep version `0.2` or `0.5`, and older discourse graphs keep `0.4` or `0.5`. Documents requiring the new operators are marked `0.6`. Feature registry remains v0.3; the dictionary/grammar schemas are v0.6.
 
-Ordered discourse preserves each event's optional `timeReference`, `clockTime`, and `calendarDate` independently. Numeric clock/date discourse uses version `1.25`; materializing an event restores the complete validated event without moving temporal fields between events. Unknown event fields are rejected instead of being silently discarded.
+Ordered discourse preserves each event's optional `timeReference`, `clockTime`, and `calendarDate` independently. Numeric clock/date discourse uses version `1.25`; materializing an event restores the complete validated event without moving temporal fields between events. The discourse root is limited to `version`, `type`, `entities`, `events` and `relations`. Each normalized event has `id`, `concept`, `roles` and `features`, plus only its declared temporal or passive extensions; `features` accepts `tense`, `polarity` and `aspect`. Unknown properties on the root, events, feature bundles, entity references and relations are rejected before materialization, rather than silently discarded. Other nodes keep their exact version-specific field sets.
 
 ## Event with a relative clause
 

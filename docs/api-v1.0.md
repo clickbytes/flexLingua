@@ -84,6 +84,18 @@ Version `1.26` adds an optional typed `possessor` to an entity referent. Its val
 
 Nesting and candidate counts are deliberately bounded. Cross-sentence coreference is never invented. Some source ambiguities or information lost by a target language cannot be restored.
 
+## Closed-world CORE validation
+
+CORE JSON is validated against the exact fields declared for each node version.
+Unknown properties on discourse documents, event records, feature bundles,
+roles, relations, states, questions and wrappers are rejected; normalization
+must not silently discard them. A discourse document has only `version`,
+`type`, `entities`, `events` and `relations`. A normalized discourse event has
+`id`, `concept`, `roles` and `features`, with optional `timeReference`,
+`clockTime`, `calendarDate`, `voice` and `omittedRoles` when their event
+contract permits them. Its feature bundle contains only `tense`, `polarity`
+and `aspect`. New semantic properties require an explicit versioned contract.
+
 ## Adapter contract
 
 `createRuleAdapter(lexiconJSON, grammarJSON)` implements `code`, `analyze`, `analyzeCandidates`, `realize`, `validateOntology`, `describe`, `parseComplementHeads` and `realizeComplement`. Most decisions are declarative. The shared JS interpreter implements syntax search, feature agreement, case selection and realization.
