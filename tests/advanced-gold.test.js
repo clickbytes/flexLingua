@@ -22,8 +22,9 @@ const engine=new Engine(concepts,features)
   .registerMorphology(enMorph).registerMorphology(plMorph)
   .registerLanguage(createRuleAdapter(en,eg,{morphology:enMorph}))
   .registerLanguage(createRuleAdapter(pl,pg,{morphology:plMorph}));
-const fixtureSha256=createHash('sha256').update(await readFile(new URL(
-  '../tests/fixtures/gold-advanced.json',import.meta.url))).digest('hex');
+const fixtureSha256=createHash('sha256').update((await readFile(new URL(
+  '../tests/fixtures/gold-advanced.json',import.meta.url),'utf8'))
+  .replace(/\r\n?/gu,'\n'),'utf8').digest('hex');
 
 function evaluate(row){
   const expected=row.expectation;

@@ -1,6 +1,6 @@
 # Documentation index
 
-GitHub Issues track current task scope, priorities, dependencies, and status. Pull requests and Actions record changes and checks for each commit. Repository documents describe product behavior and technical contracts; historical reports are not a source of current status.
+GitHub Issues track current task scope, priorities, dependencies, and status. Pull requests record changes and locally executed checks for each reviewed commit. Repository documents describe product behavior and technical contracts; historical reports are not a source of current status.
 
 ## Start here
 
@@ -42,7 +42,7 @@ GitHub Issues track current task scope, priorities, dependencies, and status. Pu
 
 ## Historical contracts and reports
 
-These documents preserve the technical scope or evidence of earlier increments. Use Issues, pull requests, and Actions for current task state and results.
+These documents preserve the technical scope or evidence of earlier increments. Use Issues and pull requests for current task state and local test results.
 
 - [Questions batch B v1.19](batch-b-v1.19.md)
 - [Stage 1 batches C–F v1.20](stage1-batches-c-f-v1.20.md)
