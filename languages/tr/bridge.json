@@ -1,0 +1,41 @@
+{
+  "transfers": [
+    {
+      "construction": "event.visual_perception",
+      "conceptId": "event.visual_perception",
+      "arguments": [
+        {
+          "role": "agent",
+          "argument": "subject",
+          "syntacticFunction": "subject"
+        },
+        {
+          "role": "theme",
+          "argument": "object",
+          "syntacticFunction": "object"
+        }
+      ]
+    },
+    {
+      "construction": "event.transfer_possession",
+      "conceptId": "event.transfer_possession",
+      "arguments": [
+        {
+          "role": "agent",
+          "argument": "subject",
+          "syntacticFunction": "subject"
+        },
+        {
+          "role": "recipient",
+          "argument": "indirect-object",
+          "syntacticFunction": "indirect-object"
+        },
+        {
+          "role": "theme",
+          "argument": "object",
+          "syntacticFunction": "object"
+        }
+      ]
+    }
+  ]
+}

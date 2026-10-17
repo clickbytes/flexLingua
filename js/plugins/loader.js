@@ -8,7 +8,11 @@ import {PluginRegistry} from './registry.js';
 export const DEFAULT_PROJECT_ROOT = resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const LANGUAGE_CODE = /^[a-z]{2,8}$/u;
 const PLUGIN_ID = /^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*$/u;
+const LANGUAGE_DIRECTION = /^[a-z]{2,8}->[a-z]{2,8}$/u;
 const LANGUAGE_PLUGIN_STATUSES = ['controlled-subset', 'limited-demo', 'morphology-only'];
+const validDirections = value => Array.isArray(value) && value.length <= 512 &&
+  new Set(value).size === value.length &&
+  value.every(direction => typeof direction === 'string' && LANGUAGE_DIRECTION.test(direction));
 const isRecord = value => {
   if (value === null || typeof value !== 'object' || Array.isArray(value)) return false;
   const prototype = Object.getPrototypeOf(value);
@@ -120,7 +124,10 @@ function validateRegistryDocument(value) {
 
 function validateManifest(value, code) {
   const fields = ['id', 'code', 'schemaVersion', 'graph', 'status', 'capabilities', 'provenance'];
-  if (!hasExactKeys(value, fields) || typeof value.id !== 'string' ||
+  const hasDirections = isRecord(value) && Object.hasOwn(value, 'directions');
+  const validShape = hasExactKeys(value, fields) || hasExactKeys(value, [...fields, 'directions']);
+  if (!validShape || (hasDirections && !validDirections(value.directions)) ||
+      typeof value.id !== 'string' ||
       !PLUGIN_ID.test(value.id) || value.code !== code || value.schemaVersion !== '1.0' ||
       !safeRelative(value.graph, {json: true}) ||
       !LANGUAGE_PLUGIN_STATUSES.includes(value.status) ||

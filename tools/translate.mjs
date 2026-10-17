@@ -8,6 +8,7 @@ import {loadPluginRegistry} from '../js/plugins/loader.js';
 const ROOT = fileURLToPath(new URL('../', import.meta.url));
 const USAGE = 'Usage: node tools/translate.mjs --languages [--json] | --from CODE --to CODE --text "sentence" [--json | --show-core]';
 const CODE = /^[a-z]{2,8}$/u;
+const DIRECTION = /^[a-z]{2,8}->[a-z]{2,8}$/u;
 const OPTIONS = new Set(['--languages', '--from', '--to', '--text', '--json', '--show-core']);
 
 function refusal(status, code, message, extra = {}) {
@@ -60,10 +61,14 @@ async function discoverLanguages() {
     try {
       const manifest = await readJson(join(ROOT, 'languages', directory, 'manifest.json'));
       if (manifest?.code !== code || !['controlled-subset', 'limited-demo', 'morphology-only']
-        .includes(manifest.status) || !Array.isArray(manifest.capabilities)) {
-        throw new Error('Invalid manifest identity, status, or capabilities.');
+        .includes(manifest.status) || !Array.isArray(manifest.capabilities) ||
+        (manifest.directions !== undefined && (!Array.isArray(manifest.directions) ||
+          manifest.directions.length > 512 || new Set(manifest.directions).size !== manifest.directions.length ||
+          manifest.directions.some(direction => typeof direction !== 'string' || !DIRECTION.test(direction))))) {
+        throw new Error('Invalid manifest identity, status, capabilities, or directions.');
       }
       languages.push({code, status: manifest.status, capabilities: manifest.capabilities,
+        ...(manifest.directions === undefined ? {} : {directions: manifest.directions}),
         diagnostics: []});
     } catch (error) {
       languages.push({code, status: 'unavailable', capabilities: [],
@@ -81,7 +86,8 @@ function print(document, {json = false, showCore = false} = {}) {
   }
   if (Array.isArray(document.languages)) {
     for (const language of document.languages) {
-      process.stdout.write(`${language.code}\t${language.status}\n`);
+      process.stdout.write(`${language.code}\t${language.status}` +
+        `${language.directions ? `\t${language.directions.join(',')}` : ''}\n`);
       for (const diagnostic of language.diagnostics) {
         process.stderr.write(`${language.code}: ${diagnostic.code}: ${diagnostic.message}\n`);
       }
@@ -123,6 +129,13 @@ async function translate(options, languages) {
       return refusal('unsupported', 'PLUGIN_PACKAGE_UNAVAILABLE',
         `Language package ${language.code} is unavailable.`, base);
     }
+  }
+  const direction = `${options.from}->${options.to}`;
+  const rejectingConstraints = [source, target].filter(language => language.directions !== undefined &&
+    !language.directions.includes(direction));
+  if (rejectingConstraints.length) {
+    return refusal('unsupported', 'PLUGIN_DIRECTION_UNAVAILABLE',
+      `Translation direction ${options.from} → ${options.to} is not declared by ${rejectingConstraints.map(language => language.code).join(', ')}.`, base);
   }
   const implemented = (language, operation) => language.capabilities.some(item =>
     item.channel === 'sentence' && item.operation === operation && item.status === 'implemented');

@@ -1,0 +1,40 @@
+{
+  "version": "1.0",
+  "language": "tr",
+  "dimensions": {
+    "case": [
+      "nom",
+      "acc",
+      "dat"
+    ],
+    "number": [
+      "singular",
+      "plural"
+    ],
+    "tense": [
+      "past",
+      "present"
+    ],
+    "polarity": [
+      "positive",
+      "negative"
+    ]
+  },
+  "featureProfile": {
+    "version": "1.0",
+    "language": "tr",
+    "syntactic": {
+      "case": [
+        "nom",
+        "acc",
+        "dat"
+      ]
+    },
+    "morphology": {
+      "number": [
+        "singular",
+        "plural"
+      ]
+    }
+  }
+}

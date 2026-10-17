@@ -1,0 +1,125 @@
+{
+  "schemaVersion": "1.0",
+  "language": "tr",
+  "nodes": [
+    {
+      "id": "tr.identity",
+      "type": "identity",
+      "module": "identity",
+      "path": "manifest.json"
+    },
+    {
+      "id": "tr.signal",
+      "type": "signal",
+      "module": "signal",
+      "path": "signal.json",
+      "capability": "written"
+    },
+    {
+      "id": "tr.lexicon",
+      "type": "lexicon",
+      "module": "lexicon",
+      "path": "lexicon.json",
+      "capability": "lexeme"
+    },
+    {
+      "id": "tr.features",
+      "type": "morphology",
+      "module": "features",
+      "path": "features.json"
+    },
+    {
+      "id": "tr.syntax.visual-perception",
+      "type": "syntax",
+      "module": "grammar",
+      "path": "grammar.json",
+      "capability": "event.visual_perception"
+    },
+    {
+      "id": "tr.syntax.transfer-possession",
+      "type": "syntax",
+      "module": "grammar",
+      "path": "grammar.json",
+      "capability": "event.transfer_possession"
+    },
+    {
+      "id": "tr.bridge",
+      "type": "bridge",
+      "module": "bridge",
+      "path": "bridge.json"
+    },
+    {
+      "id": "tr.evidence",
+      "type": "evidence",
+      "module": "evidence",
+      "path": "provenance.json"
+    }
+  ],
+  "edges": [
+    {
+      "from": "tr.bridge",
+      "to": "tr.syntax.visual-perception",
+      "relation": "maps-to"
+    },
+    {
+      "from": "tr.bridge",
+      "to": "tr.syntax.transfer-possession",
+      "relation": "maps-to"
+    },
+    {
+      "from": "tr.syntax.visual-perception",
+      "to": "tr.lexicon",
+      "relation": "licenses"
+    },
+    {
+      "from": "tr.syntax.visual-perception",
+      "to": "tr.features",
+      "relation": "licenses"
+    },
+    {
+      "from": "tr.syntax.transfer-possession",
+      "to": "tr.lexicon",
+      "relation": "licenses"
+    },
+    {
+      "from": "tr.syntax.transfer-possession",
+      "to": "tr.features",
+      "relation": "licenses"
+    },
+    {
+      "from": "tr.evidence",
+      "to": "tr.identity",
+      "relation": "evidences"
+    },
+    {
+      "from": "tr.evidence",
+      "to": "tr.signal",
+      "relation": "evidences"
+    },
+    {
+      "from": "tr.evidence",
+      "to": "tr.lexicon",
+      "relation": "evidences"
+    },
+    {
+      "from": "tr.evidence",
+      "to": "tr.features",
+      "relation": "evidences"
+    },
+    {
+      "from": "tr.evidence",
+      "to": "tr.syntax.visual-perception",
+      "relation": "evidences"
+    },
+    {
+      "from": "tr.evidence",
+      "to": "tr.syntax.transfer-possession",
+      "relation": "evidences"
+    },
+    {
+      "from": "tr.evidence",
+      "to": "tr.bridge",
+      "relation": "evidences"
+    }
+  ]
+}

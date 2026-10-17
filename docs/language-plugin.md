@@ -101,6 +101,10 @@ znajdują się w `schemas/language-plugin.schema.json` i
 `schemas/plugin-capability.schema.json`; sprawdzanie ścieżek w katalogu
 pakietu należy do R03.
 
+Opcjonalne pole `directions` ogranicza obsługiwane pary `from->to`. Jeśli
+manifest źródłowy lub docelowy deklaruje tę listę, para musi znaleźć się na
+każdej zadeklarowanej liście; brak pola nie dodaje ograniczenia.
+
 `graph.json` jest typowanym grafem jednego języka: stabilne ID węzłów, zamknięte
 typy węzłów, walidowane atrybuty i zamknięte typy krawędzi. Krawędź nie może
 łączyć dowolnych typów węzłów. Graf nie przechowuje dowolnej ścieżki pliku ani
@@ -115,6 +119,7 @@ JavaScript jako danych. Dokładne enumy i dozwolone pary typów należą do R04.
   "schemaVersion": "1.0",
   "graph": "graph.json",
   "status": "controlled-subset",
+  "directions": ["pl->en"],
   "capabilities": [{
     "operation": "analyze",
     "channel": "sentence",

@@ -4,7 +4,12 @@
   "nouns": [
     {
       "id": "tr.girl.1",
-      "concept": "person.girl",
+      "senses": [
+        {
+          "id": "tr.girl.1",
+          "coreRef": {"kind": "concept", "id": "person.girl"}
+        }
+      ],
       "lemma": "kız",
       "forms": {
         "singular": {
@@ -21,7 +26,12 @@
     },
     {
       "id": "tr.boy.1",
-      "concept": "person.boy",
+      "senses": [
+        {
+          "id": "tr.boy.1",
+          "coreRef": {"kind": "concept", "id": "person.boy"}
+        }
+      ],
       "lemma": "oğlan",
       "forms": {
         "singular": {
@@ -38,7 +48,12 @@
     },
     {
       "id": "tr.dog.1",
-      "concept": "animal.dog",
+      "senses": [
+        {
+          "id": "tr.dog.1",
+          "coreRef": {"kind": "concept", "id": "animal.dog"}
+        }
+      ],
       "lemma": "köpek",
       "forms": {
         "singular": {
@@ -55,7 +70,12 @@
     },
     {
       "id": "tr.cat.1",
-      "concept": "animal.cat",
+      "senses": [
+        {
+          "id": "tr.cat.1",
+          "coreRef": {"kind": "concept", "id": "animal.cat"}
+        }
+      ],
       "lemma": "kedi",
       "forms": {
         "singular": {
@@ -72,7 +92,12 @@
     },
     {
       "id": "tr.book.1",
-      "concept": "object.book",
+      "senses": [
+        {
+          "id": "tr.book.1",
+          "coreRef": {"kind": "concept", "id": "object.book"}
+        }
+      ],
       "lemma": "kitap",
       "forms": {
         "singular": {
@@ -89,7 +114,12 @@
     },
     {
       "id": "tr.apple.1",
-      "concept": "object.apple",
+      "senses": [
+        {
+          "id": "tr.apple.1",
+          "coreRef": {"kind": "concept", "id": "object.apple"}
+        }
+      ],
       "lemma": "elma",
       "forms": {
         "singular": {
@@ -108,7 +138,12 @@
   "verbs": [
     {
       "id": "tr.gormek.1",
-      "concept": "event.visual_perception",
+      "senses": [
+        {
+          "id": "tr.gormek.1",
+          "coreRef": {"kind": "concept", "id": "event.visual_perception"}
+        }
+      ],
       "lemma": "görmek",
       "forms": {
         "past": "gördü",
@@ -119,7 +154,12 @@
     },
     {
       "id": "tr.vermek.1",
-      "concept": "event.transfer_possession",
+      "senses": [
+        {
+          "id": "tr.vermek.1",
+          "coreRef": {"kind": "concept", "id": "event.transfer_possession"}
+        }
+      ],
       "lemma": "vermek",
       "forms": {
         "past": "verdi",

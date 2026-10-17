@@ -1,0 +1,10 @@
+{
+  "channel": "written",
+  "textProfile": {
+    "version": "1.0",
+    "locale": "tr",
+    "normalization": "NFC",
+    "caseFold": "locale-lower",
+    "segmentation": "unicode-whitespace-v1"
+  }
+}
