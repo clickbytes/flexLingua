@@ -874,6 +874,9 @@
       "positive",
       "negative"
     ],
+    "supportedTensesByPolarity": {
+      "negative": ["present"]
+    },
     "verbs": {
       "grammar.state_copula": [
         "predication",

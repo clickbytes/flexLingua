@@ -43,3 +43,7 @@ Manifest wiąże kod języka, wersję schematu, ścieżkę graph, status pakietu
 `graph.json` to typowany, ograniczony LanguageGraph. Nie przechowuje dowolnych ścieżek ani kodu JavaScript. CORE pozostaje neutralny wobec szyku, przypadka i językowych wykładników. Pakiety nie kopiują parserów lub wspólnych reguł dla każdej pary języków.
 
 Aktualne kierunki są zapisane w manifestach i widoczne przez `node tools/translate.mjs --languages`. CLI musi jawnie odmawiać nieobsługiwanych konstrukcji i kierunków. Obecne przykłady ręcznego przeglądu są w [przewodniku CLI](../examples/cli-sentences.md); pełny interfejs poleceń opisuje [CLI](cli.md).
+
+## Deklaracje gramatyki
+
+Ograniczenia i kolejność słów należą do grammar.json; wspólny interpreter korzysta z deklaracji pakietu bez rozgałęzień według kodu języka. states.supportedTensesByPolarity może zawęzić dostępne czasy dla danej polaryzacji. questions.wh.destination.order przyjmuje frame albo verb_first; brak pola zachowuje kolejność ramy zdania.

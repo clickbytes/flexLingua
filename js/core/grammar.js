@@ -464,7 +464,9 @@ function validateGrammar(dictionary, grammar, featureProfile) {
         !allowed(questions.wh.location,['marker']) ||
         !record(questions.wh.destination) || !word(questions.wh.destination.marker) ||
         !word(questions.wh.destination.preposition) ||
-        !allowed(questions.wh.destination,['marker','preposition'])) {
+        !allowed(questions.wh.destination,['marker','preposition','order']) ||
+        (questions.wh.destination.order!==undefined &&
+          !['frame','verb_first'].includes(questions.wh.destination.order))) {
       throw new Error('Invalid spatial WH grammar configuration.');
     }
     const agreement=questions.wh.agent.agreement;
@@ -662,7 +664,7 @@ function validateGrammar(dictionary, grammar, featureProfile) {
   }
   const states = grammar.states;
   if (!record(states) ||
-      Object.keys(states).some(key => !['negator','supportedTenses','supportedPolarities','verbs','frames',
+      Object.keys(states).some(key => !['negator','supportedTenses','supportedPolarities','supportedTensesByPolarity','verbs','frames',
         'pastPredication',
         'unsupportedVerbs','negativeStrategies'].includes(key)) ||
       !['negator','supportedTenses','verbs','frames'].every(key => hasOwn(states,key)) ||
@@ -673,6 +675,14 @@ function validateGrammar(dictionary, grammar, featureProfile) {
         (!Array.isArray(states.supportedPolarities) || !states.supportedPolarities.length ||
           !states.supportedPolarities.every(value=>['positive','negative'].includes(value)) ||
           new Set(states.supportedPolarities).size!==states.supportedPolarities.length)) ||
+      (states.supportedTensesByPolarity !== undefined &&
+        (!record(states.supportedTensesByPolarity) ||
+          Object.entries(states.supportedTensesByPolarity).some(([polarity,tenses])=>
+            !['positive','negative'].includes(polarity) ||
+            !(states.supportedPolarities || ['positive','negative']).includes(polarity) ||
+            !Array.isArray(tenses) || !tenses.length ||
+            !tenses.every(tense=>states.supportedTenses.includes(tense)) ||
+            new Set(tenses).size!==tenses.length))) ||
       !record(states.frames) ||
       (states.negativeStrategies!==undefined && (!record(states.negativeStrategies) ||
         Object.entries(states.negativeStrategies).some(([kind,strategy])=>
@@ -1981,7 +1991,9 @@ function createGrammarInterpreter(sourceDictionary, rules,
           {skipPreposition:questions.wh.destination.preposition}),'wh',gap);
       } else {
         const linearizations=frame=>frame.linearizations.filter(sequence=>sequence.includes(gap))
-          .map(sequence=>['@verb',...sequence.filter(step=>step!=='@verb')]);
+          .map(sequence=>questions.wh.destination.order==='verb_first'
+            ? ['@verb',...sequence.filter(step=>step!=='@verb')]
+            : sequence);
         add(parseClause(tokens.slice(1),gap,antecedent,0,questionBudget(counter),{
           omitGap:true,skipPreposition:questions.wh.destination.preposition,linearizations
         }),'wh',gap);
@@ -2315,7 +2327,11 @@ function createGrammarInterpreter(sourceDictionary, rules,
     }
     const polarity=meaning.features.polarity;
     if(!(stateGrammar.supportedPolarities || ['positive','negative']).includes(polarity)) {
-      throw new Error(`Unsupported ${dictionary.language} state polarity.`);
+      throw new Error('Unsupported ' + dictionary.language + ' state polarity.');
+    }
+    const polarityTenses=stateGrammar.supportedTensesByPolarity?.[polarity];
+    if(polarityTenses && !polarityTenses.includes(meaning.features.tense)) {
+      throw new Error('Unsupported ' + dictionary.language + ' state polarity.');
     }
     const negativeStrategy=stateGrammar.negativeStrategies?.[meaning.kind]||'preverbal';
     const subject=meaning.roles[frame.subjectRole];
@@ -2335,9 +2351,6 @@ function createGrammarInterpreter(sourceDictionary, rules,
       entry.features.tense===meaning.features.tense&&entry.features.person===person&&
       entry.features.number===number&&matchesConditions(subjectContext,entry.rule.when));
     if(!verb)throw new Error(`No ${dictionary.language} state verb form supports ${meaning.kind}, ${person}, ${number}.`);
-    if(dictionary.language==='en'&&polarity==='negative'&&meaning.features.tense!=='present') {
-      throw new Error(`Unsupported ${dictionary.language} state polarity.`);
-    }
     const prefix=polarity==='negative'&&negativeStrategy==='preverbal'?[stateGrammar.negator]:[];
     const surface=(role)=>{
       if(role===frame.predicateRole) {
@@ -2663,7 +2676,9 @@ function createGrammarInterpreter(sourceDictionary, rules,
         throw new Error('Unsupported destination WH question for this event.');
       }
       let linearization=sequence.filter(step=>step!==`@${q.wh.destination.preposition}`);
-      if(grammar.language==='pl')linearization=['@verb',...linearization.filter(step=>step!=='@verb')];
+      if(q.wh.destination.order==='verb_first') {
+        linearization=['@verb',...linearization.filter(step=>step!=='@verb')];
+      }
       const relative={gap:'destination',antecedent:{value:{features:{number:'singular'}},
         noun:{id:'question_gap'},senseId:null}};
       const built=renderEvent(clause,fallback,0,relative,{sequence:linearization,returnBuilder:true});

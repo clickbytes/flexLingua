@@ -1564,7 +1564,8 @@
       },
       "destination": {
         "marker": "dokąd",
-        "preposition": "do"
+        "preposition": "do",
+        "order": "verb_first"
       }
     }
   },
