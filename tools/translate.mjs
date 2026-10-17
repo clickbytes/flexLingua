@@ -11,6 +11,15 @@ const CODE = /^[a-z]{2,8}$/u;
 const DIRECTION = /^[a-z]{2,8}->[a-z]{2,8}$/u;
 const OPTIONS = new Set(['--languages', '--from', '--to', '--text', '--json', '--show-core']);
 
+function safeStatusMessage(status) {
+  return {
+    unsupported: 'The requested translation is unsupported.',
+    invalid: 'The request is invalid.',
+    ambiguous: 'The source has multiple possible meanings.',
+    resource_limit: 'The request exceeds supported resource limits.'
+  }[status] ?? 'The translation request could not be completed.';
+}
+
 function refusal(status, code, message, extra = {}) {
   const {diagnostics: suppliedDiagnostics, ...details} = extra;
   return {status, ...details,
@@ -171,8 +180,7 @@ async function translate(options, languages) {
   } catch (error) {
     const status = statusFor(error);
     if (!status) throw error;
-    return refusal(status, error.code ?? 'INVALID_INPUT', error.message,
-      {...base, diagnostics: error.diagnostics});
+    return refusal(status, error.code ?? 'INVALID_INPUT', safeStatusMessage(status), base);
   }
 }
 
@@ -181,7 +189,7 @@ async function main() {
   try {
     options = parseArgs(process.argv.slice(2));
   } catch (error) {
-    const document = refusal('invalid', 'INVALID_ARGUMENTS', `${error.message}\n${USAGE}`,
+    const document = refusal('invalid', 'INVALID_ARGUMENTS', `Invalid command-line arguments.\n${USAGE}`,
       {from: null, to: null, input: null, text: null, meaning: null, alternatives: []});
     print(document, {json: process.argv.includes('--json')});
     process.exitCode = 2;
@@ -194,9 +202,9 @@ async function main() {
     print(document, options);
     process.exitCode = ['ok'].includes(document.status) ? 0 : 2;
   } catch (error) {
-    const document = refusal('error', error.code ?? 'INFRASTRUCTURE_ERROR', error.message,
+    const document = refusal('error', 'INFRASTRUCTURE_ERROR', 'Translation infrastructure failed.',
       {from: options.from ?? null, to: options.to ?? null, input: options.text ?? null,
-        text: null, meaning: null, alternatives: [], diagnostics: error.diagnostics});
+        text: null, meaning: null, alternatives: []});
     print(document, options);
     process.exitCode = 1;
   }

@@ -24,6 +24,12 @@ const GRAMMAR_VERSIONS = new Set(['0.6', '1.0']);
 const MAX_ANALYSES = RESOURCE_LIMITS.grammarAnalyses;
 const MAX_SEARCH_NODES = RESOURCE_LIMITS.grammarSearchNodes;
 const searchBudget = counter => ({counter,memo:new Map()});
+function unsupported(message) {
+  throw new EngineError('LANGUAGE_CONSTRUCTION_UNSUPPORTED', message, {status:'unsupported'});
+}
+function resourceLimit(message) {
+  throw new EngineError('LANGUAGE_CONSTRUCTION_LIMIT', message, {status:'resource_limit'});
+}
 const LEXEME_ID = /^[a-zA-Z][a-zA-Z0-9_]*(?:\.[a-zA-Z0-9_]+)*$/u;
 const PLACEHOLDER = /^\{([a-zA-Z][a-zA-Z0-9_]*)\}$/u;
 const LITERAL = /^@[\p{L}]+$/u;
@@ -1531,7 +1537,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
           const value=body.slice(at+suffix.length).trim(),bare=body.slice(0,at).trim();
           if(!bare)continue;
           if(!/[\d:-]/u.test(value))continue;
-          if(!pattern.test(value))throw new Error(`Unsupported ${kind} format; expected ${kind==='clock'?'HH:MM':'YYYY-MM-DD'}.`);
+          if(!pattern.test(value))unsupported(`Unsupported ${kind} format; expected ${kind==='clock'?'HH:MM':'YYYY-MM-DD'}.`);
           const parsed=kind==='clock'?{hour:Number(value.slice(0,2)),minute:Number(value.slice(3,5))}:
             {year:Number(value.slice(0,4)),month:Number(value.slice(5,7)),day:Number(value.slice(8,10))};
           const readings=analyzeCandidates(bare+'.').filter(item=>item.interlingua.type==='event');
@@ -1584,9 +1590,9 @@ function createGrammarInterpreter(sourceDictionary, rules,
       ...analyzeNegativeStateStatement(tokens,budget)];
     const results = [...comparisonReadings,...stateReadings,...parseClause(tokens, null, null, 0, budget)];
     if (results.length) return results.slice(0, MAX_ANALYSES);
-    if (budget.agreementFailed) throw new Error(grammar.messages?.agreement ||
+    if (budget.agreementFailed) unsupported(grammar.messages?.agreement ||
       'Verb form does not agree with subject.');
-    throw new Error('Sentence does not match a supported grammatical construction (subject noun phrase, roles, verb or word order).');
+    unsupported('Sentence does not match a supported grammatical construction (subject noun phrase, roles, verb or word order).');
   }
 
   function parseClause(tokens, gap, antecedent, depth, budget, options = {}) {
@@ -1994,13 +2000,13 @@ function createGrammarInterpreter(sourceDictionary, rules,
   /** A deliberately controlled question parser.  A terminal question mark is
    *  required; unsupported forms fail rather than becoming declaratives. */
   function analyzeQuestionCandidates(text) {
-    if (!questions) throw new Error('Unsupported question construction in this language.');
+    if (!questions) unsupported('Unsupported question construction in this language.');
     if (typeof text!=='string' || !text.trim().endsWith('?') ||
         /[.?!]/u.test(text.trim().slice(0,-1))) {
-      throw new Error('Unsupported question construction or punctuation.');
+      unsupported('Unsupported question construction or punctuation.');
     }
     const tokens=tokenize(text.trim().slice(0,-1)+'.');
-    if(tokens.length<2)throw new Error('Unsupported question construction.');
+    if(tokens.length<2)unsupported('Unsupported question construction.');
     const counter={visited:0};
     const modalReadings=parseModalQuestionCandidates(tokens,counter);
     if(modalReadings.length)return modalReadings;
@@ -2073,14 +2079,14 @@ function createGrammarInterpreter(sourceDictionary, rules,
       }
     }
     if(!results.length){
-      throw new Error('Only simple sentences with configured interrogative markers are supported. Unsupported question construction (word order, agreement, tense or polarity).');
+      unsupported('Only simple sentences with configured interrogative markers are supported. Unsupported question construction (word order, agreement, tense or polarity).');
     }
     const safe=results.filter(item=>item.interlingua.questionType!=='wh' ||
       item.interlingua.targetRole!=='theme' ||
       (frames[item.interlingua.proposition.concept]?.whTheme!==false &&
       (!frames[item.interlingua.proposition.concept]?.whTheme?.frontPreposition ||
        tokens[0]===normalizedWord(frames[item.interlingua.proposition.concept].whTheme.frontPreposition))));
-    if(!safe.length) throw new Error('Unsupported WH construction for this verb frame.');
+    if(!safe.length) unsupported('Unsupported WH construction for this verb frame.');
     return safe.sort((a,b)=>(b.score||0)-(a.score||0)).slice(0,MAX_ANALYSES);
   }
 
@@ -2138,7 +2144,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
           const value = { ...base.value, relatives: [relative] };
           enriched.push({ ...base, value, next: end + (commas && !closingConsumed ? 1 : 0),
             relativeSenses: item.lexicalSenses, modifierSenses: base.modifierSenses });
-          if (enriched.length >= 72) throw new Error('Relative clause ambiguity exceeds parser limit.');
+          if (enriched.length >= 72) resourceLimit('Relative clause ambiguity exceeds parser limit.');
         }
       }
     }
@@ -2182,9 +2188,9 @@ function createGrammarInterpreter(sourceDictionary, rules,
   }
 
   function realizeComplement(node, contentText) {
-    if (!comp) throw new Error(`Language ${grammar.language} has no complement construction.`);
+    if (!comp) unsupported(`Language ${grammar.language} has no complement construction.`);
     const lex = matrixLexemes.find(item => item.concept === node.concept);
-    if (!lex) throw new Error(`Missing ${grammar.language} complement lexeme for ${node.concept}.`);
+    if (!lex) unsupported(`Missing ${grammar.language} complement lexeme for ${node.concept}.`);
     const noun = nounByConcept(node.experiencer.concept);
     const person = plainNoun(node.experiencer, noun, comp.subjectCase, nounPhrase.defaultDefiniteness);
     const predicate = matrixForm(lex, node.features.tense, node.experiencer, noun);
@@ -2222,7 +2228,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
     if(!pronoun || !record(referent) ||
        subjectPronounFor(referent,ontology)!==pronoun.text ||
        !referent.concept || !nounIndex.has(referent.concept)){
-      throw new Error('Unresolved anaphora: no licensed singular subject antecedent.');
+      unsupported('Unresolved anaphora: no licensed singular subject antecedent.');
     }
     const noun=nounByConcept(referent.concept);
     const form=plainNoun({...referent,features:{...referent.features,
@@ -2254,7 +2260,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
 
   function nounByConcept(concept, lexicalRegister='neutral') {
     const nouns = nounIndex.get(concept);
-    if (!nouns?.length) throw new Error(`No ${dictionary.language} noun lexeme for ${concept}.`);
+    if (!nouns?.length) unsupported(`No ${dictionary.language} noun lexeme for ${concept}.`);
     return lexicalRegister==='neutral'?nouns[0]:
       nouns.find(noun=>noun.register===lexicalRegister)||nouns[0];
   }
@@ -2262,14 +2268,14 @@ function createGrammarInterpreter(sourceDictionary, rules,
   function deicticPronounSurface(ref,grammaticalCase=nounPhrase.subjectCase) {
     if(ref.referent?.kind==='anaphoric'){
       const text=subjectPronounFor(ref);
-      if(!text)throw new Error('Missing target third-person pronoun for typed referent.');
+      if(!text)unsupported('Missing target third-person pronoun for typed referent.');
       return text;
     }
     const entry=deicticPronouns.find(item=>
       item.referent.anchor===ref.referent.anchor &&
       item.person===ref.agreement.person && item.number===ref.agreement.number &&
       item.case===grammaticalCase);
-    if(!entry)throw new Error(`Missing ${dictionary.language} deictic pronoun form for ${grammaticalCase}.`);
+    if(!entry)unsupported(`Missing ${dictionary.language} deictic pronoun form for ${grammaticalCase}.`);
     return entry.text;
   }
 
@@ -2283,10 +2289,10 @@ function createGrammarInterpreter(sourceDictionary, rules,
     let output = plainNoun(ref, noun, requiredCase, fallback,
       bareRoleAllows(frame,role,ref.concept));
     for (const relative of ref.relatives || []) {
-      if (depth >= relativeGrammar.maxDepth) throw new Error('Relative clause realization depth exceeded.');
+      if (depth >= relativeGrammar.maxDepth) resourceLimit('Relative clause realization depth exceeded.');
       const marker = relativeGrammar.markers.find(item => item.gap === relative.gap &&
         relativeMarker(item, noun, ref));
-      if (!marker) throw new Error(`Missing ${dictionary.language} relative marker for ${relative.gap}.`);
+      if (!marker) unsupported(`Missing ${dictionary.language} relative marker for ${relative.gap}.`);
       const clause = renderEvent(relative.event, fallback, depth + 1, { gap: relative.gap,
         antecedent: { value: ref, noun } },{lexicalRegister});
       const opening = relativeGrammar.punctuation === 'commas' ? ', ' : ' ';
@@ -2299,11 +2305,11 @@ function createGrammarInterpreter(sourceDictionary, rules,
 
   function renderEvent(meaning, fallback, depth = 0, relative = null, options = {}) {
     const frame = own(frames, meaning.concept);
-    if (!frame) throw new Error(`Missing frame for ${meaning.concept}.`);
+    if (!frame) unsupported(`Missing frame for ${meaning.concept}.`);
     if (options.subjectPronoun && (relative ||
         frame.linearizations[0][0] !== subjectRole ||
         options.subjectPronoun !== subjectPronounFor(meaning.roles[subjectRole]))) {
-      throw new Error('Unsupported subject pronoun realization for this event.');
+      unsupported('Unsupported subject pronoun realization for this event.');
     }
     const roles = Object.fromEntries(Object.entries(meaning.roles).map(([role, ref]) =>
       [role, { value: ref, noun: isDeicticReferent(ref) ? null :
@@ -2325,7 +2331,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
       matchesConditions(context, entry.rule.when || {}) &&
       matchesAgreement(entry.bindings, agreementForFrame(frame), context) &&
       matchesMorphologyFeatures(entry,context,meaning.features,agreementForFrame(frame)));
-    if (!candidates.length) throw new Error(`No ${dictionary.language} verb form supports ${meaning.concept}, ` +
+    if (!candidates.length) unsupported(`No ${dictionary.language} verb form supports ${meaning.concept}, ` +
       `${meaning.features.tense}, ${meaning.features.polarity}, ${meaning.features.aspect}.`);
     const simpleCandidates = candidates.filter(entry => entry.rule.path !== 'forms.progressive');
     const preferencePool = simpleCandidates.length ? simpleCandidates : candidates;
@@ -2345,7 +2351,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
       const text=parts.join(' ').replace(/\s+/gu, ' ').replace(/\s+,/gu, ',').trim();
       const marker=meaning.timeReference && grammar.temporalDeixis?.[meaning.timeReference];
       if(meaning.timeReference && meaning.timeReference!=='unspecified' && !marker) {
-        throw new Error(`Unsupported temporal reference in ${grammar.language}.`);
+        unsupported(`Unsupported temporal reference in ${grammar.language}.`);
       }
       let output=marker ? `${text} ${[].concat(marker)[0]}` : text;
       if(meaning.clockTime)output+=` ${grammar.numericTime.clockMarker} ${String(meaning.clockTime.hour).padStart(2,'0')}:${String(meaning.clockTime.minute).padStart(2,'0')}`;
@@ -2358,20 +2364,20 @@ function createGrammarInterpreter(sourceDictionary, rules,
 
   function realizeState(meaning) {
     const frame=stateGrammar?.frames?.[meaning?.kind];
-    if(!frame)throw new Error(`Unsupported state construction in ${dictionary.language}.`);
+    if(!frame)unsupported(`Unsupported state construction in ${dictionary.language}.`);
     if(!stateGrammar.supportedTenses.includes(meaning.features.tense)) {
-      throw new Error(`No ${dictionary.language} state verb form supports ${meaning.features.tense}.`);
+      unsupported(`No ${dictionary.language} state verb form supports ${meaning.features.tense}.`);
     }
     if(frame.supportedTenses && !frame.supportedTenses.includes(meaning.features.tense)) {
-      throw new Error(`No ${dictionary.language} ${meaning.kind} state frame supports ${meaning.features.tense}.`);
+      unsupported(`No ${dictionary.language} ${meaning.kind} state frame supports ${meaning.features.tense}.`);
     }
     const polarity=meaning.features.polarity;
     if(!(stateGrammar.supportedPolarities || ['positive','negative']).includes(polarity)) {
-      throw new Error('Unsupported ' + dictionary.language + ' state polarity.');
+      unsupported('Unsupported ' + dictionary.language + ' state polarity.');
     }
     const polarityTenses=stateGrammar.supportedTensesByPolarity?.[polarity];
     if(polarityTenses && !polarityTenses.includes(meaning.features.tense)) {
-      throw new Error('Unsupported ' + dictionary.language + ' state polarity.');
+      unsupported('Unsupported ' + dictionary.language + ' state polarity.');
     }
     const negativeStrategy=stateGrammar.negativeStrategies?.[meaning.kind]||'preverbal';
     const subject=meaning.roles[frame.subjectRole];
@@ -2379,9 +2385,9 @@ function createGrammarInterpreter(sourceDictionary, rules,
     const number=isDeicticReferent(subject)?subject.agreement.number:subject.features.number;
     if(stateGrammar.pastPredication==='positive_statement' && meaning.features.tense==='past') {
       if(meaning.kind!=='predication') {
-        throw new Error(`No ${dictionary.language} state verb form supports past.`);
+        unsupported(`No ${dictionary.language} state verb form supports past.`);
       }
-      if(polarity!=='positive')throw new Error(`Unsupported ${dictionary.language} past state polarity.`);
+      if(polarity!=='positive')unsupported(`Unsupported ${dictionary.language} past state polarity.`);
     }
     const subjectNoun=isDeicticReferent(subject)?null:nounByConcept(subject.concept);
     const subjectContext={subject:{person,number,
@@ -2390,12 +2396,12 @@ function createGrammarInterpreter(sourceDictionary, rules,
     const verb=stateVerbForms.find(entry=>entry.kind===meaning.kind&&
       entry.features.tense===meaning.features.tense&&entry.features.person===person&&
       entry.features.number===number&&matchesConditions(subjectContext,entry.rule.when));
-    if(!verb)throw new Error(`No ${dictionary.language} state verb form supports ${meaning.kind}, ${person}, ${number}.`);
+    if(!verb)unsupported(`No ${dictionary.language} state verb form supports ${meaning.kind}, ${person}, ${number}.`);
     const prefix=polarity==='negative'&&negativeStrategy==='preverbal'?[stateGrammar.negator]:[];
     const surface=(role)=>{
       if(role===frame.predicateRole) {
         if(meaning.kind!=='predication') {
-          throw new Error(`Unsupported ${dictionary.language} state predicate subject.`);
+          unsupported(`Unsupported ${dictionary.language} state predicate subject.`);
         }
         const noun=subjectNoun;
         const context={number:isDeicticReferent(subject)
@@ -2410,7 +2416,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
       if(isDeicticReferent(ref)) {
         return deicticPronounSurface(ref,deicticCase(stateRoleCase(frame,role,polarity),role));
       }
-      if(ref.relatives?.length)throw new Error('Relative clauses in state constructions are unsupported.');
+      if(ref.relatives?.length)unsupported('Relative clauses in state constructions are unsupported.');
       const noun=nounByConcept(ref.concept);
       const gramCase=stateRoleCase(frame,role,polarity);
       const categoryRole=meaning.kind==='classification'&&role==='category';
@@ -2423,7 +2429,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
         person==='second'?auxiliaries?.presentSecond:
         number==='singular'?auxiliaries?.presentThirdSingular:auxiliaries?.presentThirdPlural;
       const base=formsAtLexeme(verb.lexeme,questions?.yesNo?.baseVerbPath||'');
-      if(!auxiliary||base.length!==1)throw new Error('Missing negative state do-support form.');
+      if(!auxiliary||base.length!==1)unsupported('Missing negative state do-support form.');
       const parts=frame.linearizations[0].flatMap(step=>
         step===frame.subjectRole?[surface(step)]:step==='@verb'?
           [auxiliary,stateGrammar.negator,base[0].text]:step.startsWith('@')?
@@ -2436,7 +2442,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
       :frame.linearizations[0];
     const sequence=polarity==='negative'&&negativeStrategy==='postverbal'
       ?baseSequence.flatMap(step=>step==='@verb'?['@verb','@negator']:[step]):baseSequence;
-    if(!sequence)throw new Error(`Unsupported ${dictionary.language} spatial relation.`);
+    if(!sequence)unsupported(`Unsupported ${dictionary.language} spatial relation.`);
     const parts=sequence.flatMap(step=>{
       if(step==='@verb')return [...prefix,
         polarity==='negative'&&frame.negativeVerbForms?.[number]
@@ -2454,15 +2460,15 @@ function createGrammarInterpreter(sourceDictionary, rules,
   function realizePassive(meaning) {
     const paradigm=grammar.passive?.events?.[meaning.concept]?.[meaning.features.tense];
     if(!paradigm||meaning.features.polarity!=='positive' || meaning.features.aspect!=='unknown')
-      throw new Error(`Unsupported passive realization for ${meaning.concept}.`);
+      unsupported(`Unsupported passive realization for ${meaning.concept}.`);
     const theme=meaning.roles.theme;
     if(!theme || theme.relatives?.length)
-      throw new Error('Passive realization requires a supported theme without relative clauses.');
+      unsupported('Passive realization requires a supported theme without relative clauses.');
     const noun=nounByConcept(theme.concept),parsed={value:theme,noun};
     const auxiliary=passiveCell(paradigm.auxiliary,parsed);
     const participle=passiveCell(paradigm.participle,parsed);
     if(!auxiliary||!participle)
-      throw new Error(`Missing passive agreement forms for ${theme.concept}.`);
+      unsupported(`Missing passive agreement forms for ${theme.concept}.`);
     const fallback=Object.keys(nounPhrase.determiners).length?
       nounPhrase.defaultDefiniteness:undefined;
     const parts=[plainNoun(theme,noun,'nom',fallback),auxiliary,participle];
@@ -2476,14 +2482,14 @@ function createGrammarInterpreter(sourceDictionary, rules,
 
   function realizeComparison(meaning) {
     const config=grammar.comparison;
-    if(!config)throw new Error(`Unsupported comparison realization in ${dictionary.language}.`);
+    if(!config)unsupported(`Unsupported comparison realization in ${dictionary.language}.`);
     const subject=meaning.roles.subject,standard=meaning.roles.standard;
     const subjectNoun=nounByConcept(subject.concept),standardNoun=nounByConcept(standard.concept);
-    if(!subjectNoun||!standardNoun)throw new Error('Missing comparison participant lexeme.');
+    if(!subjectNoun||!standardNoun)unsupported('Missing comparison participant lexeme.');
     const verb=stateVerbForms.find(entry=>entry.kind===config.stateKind &&
       entry.features.tense===meaning.features.tense && entry.features.person==='third' &&
       entry.features.number===subject.features.number);
-    if(!verb)throw new Error(`No ${dictionary.language} copula supports comparison tense/agreement.`);
+    if(!verb)unsupported(`No ${dictionary.language} copula supports comparison tense/agreement.`);
     const context={number:subject.features.number,case:config.subjectCase,
       ...(subjectNoun.gender?{gender:subjectNoun.gender}:{}),
       ...(subjectNoun.pluralClass?{pluralClass:subjectNoun.pluralClass}:{}),
@@ -2498,7 +2504,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
   function realizeRequest(meaning) {
     const config=grammar.request,action=meaning?.payload?.action;
     if(!config||meaning?.type!=='dialogue_act'||meaning.act!=='request'||action?.type!=='event')
-      throw new Error(`Unsupported polite request realization in ${dictionary.language}.`);
+      unsupported(`Unsupported polite request realization in ${dictionary.language}.`);
     const candidates=verbs.filter(lexeme=>lexeme.concept===action.concept &&
       (verbGrammar.aspectSource!=='lexeme' || action.features.aspect==='unknown' ||
         lexeme.aspect===action.features.aspect))
@@ -2506,12 +2512,12 @@ function createGrammarInterpreter(sourceDictionary, rules,
         .filter(form=>!Object.keys(form.bindings).length).map(form=>({lexeme,text:form.text})));
     if(!candidates.length || (verbGrammar.aspectSource==='lexeme' &&
         action.features.aspect==='unknown' && new Set(candidates.map(item=>item.lexeme.aspect)).size>1)) {
-      throw new Error('Missing or ambiguous aspect-specific request verb form.');
+      unsupported('Missing or ambiguous aspect-specific request verb form.');
     }
     const selected=verbGrammar.aspectSource==='unknown'||action.features.aspect==='unknown'
       ? candidates[0] : candidates.find(item=>item.lexeme.aspect===action.features.aspect);
     const frame=frames[action.concept];
-    if(!selected||!frame)throw new Error(`No ${dictionary.language} request frame for ${action.concept}.`);
+    if(!selected||!frame)unsupported(`No ${dictionary.language} request frame for ${action.concept}.`);
     const fallback=Object.keys(nounPhrase.determiners).length?nounPhrase.defaultDefiniteness:undefined;
     const words=frame.linearizations[0].flatMap(step=>{
       if(step===subjectRole)return [];
@@ -2527,18 +2533,18 @@ function createGrammarInterpreter(sourceDictionary, rules,
   /** Realize modality through existing frame role ordering and nominal rules. */
   function realizeModal(node, question = null) {
     const parts=modalParts(node);
-    if (!parts) throw new Error('Unsupported modal clause.');
+    if (!parts) unsupported('Unsupported modal clause.');
     const {event,operator,mode}=parts;
     const intention=operator==='modality.intention';
     if (event.features?.tense!==(intention?'future':'present') || event.features?.polarity!=='positive')
-      throw new Error('Unsupported modal tense or nested event polarity.');
+      unsupported('Unsupported modal tense or nested event polarity.');
     const modal=modals.find(item=>item.senses[0].coreRef.id===operator);
     if (!modal || !modal.forms[mode])
-      throw new Error('Unsupported modal construction in this language (prohibition not available).');
+      unsupported('Unsupported modal construction in this language (prohibition not available).');
     const frame=frames[event.concept];
-    if (!frame)throw new Error('No grammatical frame for modal event.');
+    if (!frame)unsupported('No grammatical frame for modal event.');
     if(question?.questionType==='wh' && question.targetRole==='theme' && frame.whTheme===false)
-      throw new Error('Unsupported WH theme question for this verb frame.');
+      unsupported('Unsupported WH theme question for this verb frame.');
     const chosen=verbs.filter(v=>v.concept===event.concept &&
       (verbGrammar.aspectSource!=='lexeme' || event.features.aspect==='unknown' ||
        event.features.aspect===v.aspect))
@@ -2546,7 +2552,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
       .filter(x=>x.forms.length===1 && !Object.keys(x.forms[0].bindings).length);
     if(!chosen.length || (intention && verbGrammar.aspectSource==='lexeme' &&
       event.features.aspect==='unknown' && new Set(chosen.map(x=>x.lexeme.aspect)).size>1))
-      throw new Error('Missing or ambiguous aspect-specific infinitive for modal event.');
+      unsupported('Missing or ambiguous aspect-specific infinitive for modal event.');
     const preferred=chosen.find(x=>x.lexeme.aspect===verbGrammar.preferredAspects?.[event.concept])||chosen[0];
     const infinitive=preferred.forms[0].text;
     const syntactic={...event,features:{...event.features,
@@ -2555,10 +2561,10 @@ function createGrammarInterpreter(sourceDictionary, rules,
     const q=questions;
     if(question && (!q || !['yes_no','wh'].includes(question.questionType) ||
        (role && !['agent','theme'].includes(role))))
-       throw new Error('Unsupported modal question kind or target role.');
+       unsupported('Unsupported modal question kind or target role.');
     if(question && modality.questionStrategy==='front' &&
        (mode!=='positive' && !(question.questionType==='wh'&&role==='agent')))
-       throw new Error('Unsupported question construction for a negated English modal.');
+       unsupported('Unsupported question construction for a negated English modal.');
     const hasArticles=Object.keys(nounPhrase.determiners).length>0;
     const unknown=Object.entries(event.roles).filter(([,ref])=>
       ref.features?.definiteness==='unknown').map(([r])=>r);
@@ -2570,9 +2576,9 @@ function createGrammarInterpreter(sourceDictionary, rules,
     const number=subject?.agreement?.number ?? subject?.features?.number ??
       whAgreement?.number;
     if (!['singular','plural'].includes(number))
-      throw new Error('Unsupported modal subject number.');
+      unsupported('Unsupported modal subject number.');
     const modalText=modal.forms[mode][modalAgreementKey(person,number)];
-    if(!modalText)throw new Error('Missing modal inflection for subject agreement.');
+    if(!modalText)unsupported('Missing modal inflection for subject agreement.');
     const renderAt=def=>{
       const sequence=question?.questionType==='wh'&&role==='theme'&&
         modality.questionStrategy==='prefix' ? themeOrder(frame)[0] : frame.linearizations[0];
@@ -2582,7 +2588,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
         if(step===role)return [];
         if(step==='@verb'){
           const text=role==='theme'?withoutGovernedPreposition(infinitive,frame):infinitive;
-          if(!text)throw new Error('Missing governed preposition in modal infinitive.');
+          if(!text)unsupported('Missing governed preposition in modal infinitive.');
           return [inverted?text:modalText+' '+text];
         }
         if(step.startsWith('@'))return [step.slice(1)];
@@ -2619,10 +2625,10 @@ function createGrammarInterpreter(sourceDictionary, rules,
   function realize(meaning, {subjectPronoun=null,lexicalRegister='neutral',informationStructure,
     semanticTransfer} = {}) {
     if(!['neutral','formal','plain'].includes(lexicalRegister))
-      throw new Error('Unsupported lexical register.');
+      unsupported('Unsupported lexical register.');
     if(subjectPronoun && (meaning?.type!=='event' ||
         subjectPronoun!==subjectPronounFor(meaning.roles?.[subjectRole]))) {
-      throw new Error('Unsupported subject pronoun realization.');
+      unsupported('Unsupported subject pronoun realization.');
     }
     if(meaning?.type==='question')return realizeQuestion(meaning);
     if(meaning?.type==='comparison')return realizeComparison(meaning);
@@ -2633,7 +2639,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
     if(informationStructure!==undefined) {
       const {focus}=createInformationStructure(meaning,informationStructure);
       sequence=frames[meaning.concept]?.linearizations.find(item=>item.at(-1)===focus);
-      if(!sequence)throw new Error(`No ${dictionary.language} information-structure variant for ${focus}.`);
+      if(!sequence)unsupported(`No ${dictionary.language} information-structure variant for ${focus}.`);
     }
     const agreementControllers = agreementContextForTransfer(meaning, semanticTransfer);
     const built = renderEvent(meaning, undefined, 0, null,
@@ -2692,12 +2698,12 @@ function createGrammarInterpreter(sourceDictionary, rules,
   /** Reuse existing inflection and nominal rules; interrogative strategies
    * remain in each language's declarative grammar configuration. */
   function realizeQuestion(question) {
-    if(!questions)throw new Error('Unsupported question construction in this language.');
+    if(!questions)unsupported('Unsupported question construction in this language.');
     const q=questions,clause=question.proposition;
     if(modalParts(clause))return realizeModal(clause,question);
     if(clause?.type==='state')return realizeStateQuestion(clause,question);
     if(clause?.type!=='event') {
-      throw new Error('Unsupported question construction: only single-event propositions can be realized.');
+      unsupported('Unsupported question construction: only single-event propositions can be realized.');
     }
     const hasArticles=Object.keys(nounPhrase.determiners).length>0;
     const fallback=hasArticles?nounPhrase.defaultDefiniteness:undefined;
@@ -2715,7 +2721,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
       const sequence=frame?.linearizations.find(item=>item.includes('destination'));
       if(!sequence || clause.features.polarity!=='positive' ||
          !['present','past'].includes(clause.features.tense)) {
-        throw new Error('Unsupported destination WH question for this event.');
+        unsupported('Unsupported destination WH question for this event.');
       }
       let linearization=sequence.filter(step=>step!==`@${q.wh.destination.preposition}`);
       if(q.wh.destination.order==='verb_first') {
@@ -2735,7 +2741,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
           person==='second'?auxiliaries.presentSecond:
           number==='singular'?auxiliaries.presentThirdSingular:auxiliaries.presentThirdPlural;
         const base=formsAtLexeme(built.preferred.lexeme,q.yesNo.baseVerbPath);
-        if(!auxiliary || base.length!==1)throw new Error('Missing destination WH auxiliary or verb form.');
+        if(!auxiliary || base.length!==1)unsupported('Missing destination WH auxiliary or verb form.');
         const entry={...built.preferred,text:base[0].text,rule:{...built.preferred.rule,prefix:[]}};
         text=`${q.wh.destination.marker} ${auxiliary} ${built.linearize(entry,fallback)}`;
       } else {
@@ -2750,9 +2756,9 @@ function createGrammarInterpreter(sourceDictionary, rules,
         alternatives:rendered.alternatives.map(prefix)};
     }
     const frame=frames[clause.concept];
-    if(!frame)throw new Error('Unsupported question event frame.');
+    if(!frame)unsupported('Unsupported question event frame.');
     if(question.questionType==='wh' && question.targetRole==='theme' && frame.whTheme===false)
-      throw new Error('Unsupported WH theme question for this verb frame.');
+      unsupported('Unsupported WH theme question for this verb frame.');
     const syntaxGap=question.questionType==='wh' && question.targetRole==='agent'
       ? gapSyntax() : {value:{features:{number:'singular'}},
         noun:{id:'question_gap'},senseId:null};
@@ -2767,11 +2773,11 @@ function createGrammarInterpreter(sourceDictionary, rules,
       frame.whTheme?.frontPreposition
       ? {...built.preferred,text:withoutGovernedPreposition(built.preferred.text,frame)}
       : built.preferred;
-    if(!whEntry.text)throw new Error('Missing governed preposition in WH verb form.');
+    if(!whEntry.text)unsupported('Missing governed preposition in WH verb form.');
     const auxiliary=()=>{
       const values=q.yesNo.auxiliaries;
       if(clause.features.tense==='past')return values.past;
-      if(clause.features.tense!=='present')throw new Error('Unsupported question tense.');
+      if(clause.features.tense!=='present')unsupported('Unsupported question tense.');
       const subject=built.roles[subjectRole]?.value;
       const person=subject?.agreement?.person || 'third';
       const number=subject?.agreement?.number ?? subject?.features?.number;
@@ -2779,11 +2785,11 @@ function createGrammarInterpreter(sourceDictionary, rules,
       if(person==='second')return values.presentSecond;
       if(person==='third'&&number==='singular')return values.presentThirdSingular;
       if(person==='third'&&number==='plural')return values.presentThirdPlural;
-      throw new Error('Unsupported question subject agreement.');
+      unsupported('Unsupported question subject agreement.');
     };
     const auxiliaryEntry=()=>{
       const base=formsAtLexeme(built.preferred.lexeme,q.yesNo.baseVerbPath);
-      if(base.length!==1)throw new Error('Missing unambiguous base verb form for question.');
+      if(base.length!==1)unsupported('Missing unambiguous base verb form for question.');
       return {...built.preferred,text:base[0].text,rule:{
         ...built.preferred.rule,
         prefix:clause.features.polarity==='negative'?[q.yesNo.negator]:[]
@@ -2796,13 +2802,13 @@ function createGrammarInterpreter(sourceDictionary, rules,
            built.preferred.rule.path==='forms.progressive') {
           const prefix=built.preferred.rule.prefix;
           const fronted=prefix?.[0];
-          if(!fronted)throw new Error('Missing progressive auxiliary for question.');
+          if(!fronted)unsupported('Missing progressive auxiliary for question.');
           const entry={...built.preferred,rule:{...built.preferred.rule,prefix:prefix.slice(1)}};
           return wrap(fronted+' '+built.linearize(entry,def));
         }
         return wrap(auxiliary()+' '+built.linearize(auxiliaryEntry(),def));
       }
-      if(question.questionType!=='wh')throw new Error('Unsupported question kind.');
+      if(question.questionType!=='wh')unsupported('Unsupported question kind.');
       if(question.targetRole==='agent') {
         return wrap(q.wh.agent.marker+' '+built.linearize(built.preferred,def));
       }
@@ -2816,7 +2822,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
           ? frame.whTheme.frontPreposition+' ':'';
         return wrap(governed+marker+' '+content);
       }
-      throw new Error('Unsupported WH target role.');
+      unsupported('Unsupported WH target role.');
     };
     const text=renderAt(fallback);
     const alternative=alternate?renderAt(alternate):null;
@@ -2845,7 +2851,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
       const verb=stateVerbForms.find(entry=>entry.kind==='location' &&
         entry.features.tense==='present' && entry.features.person===person &&
         entry.features.number===number);
-      if(!verb)throw new Error('Missing location WH copula form.');
+      if(!verb)unsupported('Missing location WH copula form.');
       const rendered=isDeicticReferent(subject)?deicticPronounSurface(subject,
         stateRoleCase(frame,'subject','positive')):
         plainNoun(subject,nounByConcept(subject.concept),stateRoleCase(frame,'subject','positive'),
@@ -2856,7 +2862,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
     if(question.questionType==='yes_no'&&questions.yesNo.mode==='prefix') {
       if(stateGrammar.pastPredication==='positive_statement' &&
           clause.features?.tense==='past') {
-        throw new Error(`Unsupported ${dictionary.language} past state question.`);
+        unsupported(`Unsupported ${dictionary.language} past state question.`);
       }
       const rendered=realize(clause);
       const lower=rendered.text.charAt(0).toLocaleLowerCase(grammar.language)+rendered.text.slice(1);
@@ -2874,7 +2880,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
       const number=isDeicticReferent(subject)?subject.agreement.number:subject.features.number;
       const verb=stateVerbForms.find(entry=>entry.kind===clause.kind&&
         entry.features.tense==='present'&&entry.features.person===person&&entry.features.number===number);
-      if(!verb)throw new Error('Missing state question copula form.');
+      if(!verb)unsupported('Missing state question copula form.');
       const surface=role=>{
         if(role===frame.predicateRole) {
           const noun=isDeicticReferent(subject)?null:nounByConcept(subject.concept);
@@ -2896,7 +2902,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
         ?frame.linearizations.find(item=>item.some(step=>step.startsWith('@') &&
           frame.prepositions?.[step.slice(1)]===clause.relation))
         :frame.linearizations[0];
-      if(!questionSequence)throw new Error(`Unsupported ${dictionary.language} spatial relation.`);
+      if(!questionSequence)unsupported(`Unsupported ${dictionary.language} spatial relation.`);
       const remainder=questionSequence.filter(step=>step!=='@verb')
         .flatMap(step=>step.startsWith('@')?[step.slice(1)]:[surface(step)]);
       return {text:sentenceText([[verb.text,...remainder].join(' ')],'?'),
@@ -2907,7 +2913,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
        clause.features?.polarity!=='positive' ||
        !stateGrammar.supportedTenses.includes(clause.features.tense) ||
        !(stateGrammar.supportedPolarities || ['positive','negative']).includes(clause.features.polarity)) {
-      throw new Error('Unsupported state question construction in this language.');
+      unsupported('Unsupported state question construction in this language.');
     }
     const frame=stateGrammar.frames.possession;
     const owner=clause.roles[frame.subjectRole];
@@ -2919,18 +2925,18 @@ function createGrammarInterpreter(sourceDictionary, rules,
       person==='second'?auxiliaries.presentSecond:
       person==='third'&&number==='singular'?auxiliaries.presentThirdSingular:
       person==='third'&&number==='plural'?auxiliaries.presentThirdPlural:null;
-    if(!auxiliary)throw new Error('Unsupported state question subject agreement.');
+    if(!auxiliary)unsupported('Unsupported state question subject agreement.');
     const verb=stateVerbForms.find(entry=>entry.kind==='possession'&&
       entry.features.tense===clause.features.tense&&entry.features.person===person&&
       entry.features.number===number);
     const base=verb&&formsAtLexeme(verb.lexeme,questions.yesNo.baseVerbPath);
-    if(!base || base.length!==1)throw new Error('Missing unambiguous state verb base form for question.');
+    if(!base || base.length!==1)unsupported('Missing unambiguous state verb base form for question.');
     const surface=role=>{
       const ref=clause.roles[role];
       if(isDeicticReferent(ref)) {
         return deicticPronounSurface(ref,stateRoleCase(frame,role,clause.features.polarity));
       }
-      if(ref.relatives?.length)throw new Error('Relative clauses in state questions are unsupported.');
+      if(ref.relatives?.length)unsupported('Relative clauses in state questions are unsupported.');
       return plainNoun(ref,nounByConcept(ref.concept),stateRoleCase(frame,role,clause.features.polarity),
         nounPhrase.defaultDefiniteness);
     };
