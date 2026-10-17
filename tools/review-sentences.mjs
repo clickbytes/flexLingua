@@ -4,14 +4,17 @@ import {Engine} from '../js/core/engine.js';
 import {createRuleAdapter} from '../js/core/grammar.js';
 import {createCoreLanguage} from '../js/core/core-language.js';
 import {createMorphology} from '../js/core/morphology/engine.js';
+import {isDeepStrictEqual} from 'node:util';
+import {runLanguageConformance} from './language-conformance-lib.mjs';
 
 const root=resolve(new URL('..',import.meta.url).pathname.replace(/^\/(?:[A-Za-z]:)/u,value=>value.slice(1)));
 const load=async path=>JSON.parse(await readFile(resolve(root,path),'utf8'));
 
 function inputPath(args) {
-  const at=args.indexOf('--input');
-  if(at<0||!args[at+1]||args.length!==2)throw new Error('Usage: node tools/review-sentences.mjs --input <fixture.json>');
-  const path=resolve(root,args[at+1]),inside=relative(root,path);
+  const filtered=args.filter(arg=>arg!=='--report'),at=filtered.indexOf('--input');
+  if(at<0||!filtered[at+1]||filtered.length!==2)
+    throw new Error('Usage: node tools/review-sentences.mjs --input <fixture.json> [--report]');
+  const path=resolve(root,filtered[at+1]),inside=relative(root,path);
   if(inside.startsWith('..')||isAbsolute(inside)||!path.endsWith('.json'))throw new Error('Input must be a JSON file inside the repository.');
   return path;
 }
@@ -28,6 +31,12 @@ function rowsFrom(fixture) {
 }
 
 const fixturePath=inputPath(process.argv.slice(2));
+const reportMode=process.argv.includes('--report');
+if(reportMode) {
+  const report=await runLanguageConformance({fixturePath:relative(root,fixturePath)});
+  process.stdout.write(JSON.stringify(report,null,2)+'\n');
+  if(report.status==='fail')process.exitCode=1;
+} else {
 const [concepts,features,en,pl,enGrammar,plGrammar,enMorphSpec,plMorphSpec,morphFeatures,fixture]=
   await Promise.all(['data/concepts.json','data/features.json','data/en.json','data/pl.json',
     'data/grammar/en.json','data/grammar/pl.json','data/morphology/en.json','data/morphology/pl.json',
@@ -49,12 +58,21 @@ for(const [index,row] of rows.entries()) {
     throw new Error(`Invalid sentence row: ${id}`);
   const result=engine.tryTranslate({from,to,text:row.input});
   const actual=result.ok?result.value.text:null;
+  const expectedCore=row.expectedCore;
+  const coreMatches=expectedCore===undefined || (result.ok &&
+    isDeepStrictEqual(result.value.interlingua,expectedCore));
+  const warningMatches=row.expectedWarningIncludes===undefined || (result.ok &&
+    (result.value.warnings||[]).some(warning=>warning.includes(row.expectedWarningIncludes)));
+  const errorMatches=!row.expectedError || (!result.ok&&result.error.code===row.expectedError);
   const status=row.expectedRefusal
-    ?result.ok?'mismatch':'refused'
-    :result.ok&&row.expected===undefined?'review':result.ok&&actual===row.expected?'match':'mismatch';
+    ?result.ok||!errorMatches?'mismatch':'refused'
+    :result.ok&&row.expected===undefined?'review':result.ok&&actual===row.expected&&
+      coreMatches&&warningMatches?'match':'mismatch';
   if(status==='mismatch')mismatches++;
-  console.log(JSON.stringify({id,from,to,input:row.input,expected:row.expected??null,
+  console.log(JSON.stringify({id,capability:row.capability??null,from,to,input:row.input,expected:row.expected??null,
     expectedRefusal:row.expectedRefusal??false,reason:row.reason??null,
-    actual,status,core:result.ok?result.value.interlingua:null,error:result.ok?null:result.error}));
+    actual,status,core:result.ok?result.value.interlingua:null,
+    warnings:result.ok?result.value.warnings||[]:[],error:result.ok?null:result.error}));
 }
 if(mismatches)process.exitCode=1;
+}

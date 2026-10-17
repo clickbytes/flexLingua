@@ -30,6 +30,15 @@ node tools/review-sentences.mjs --input tests/fixtures/gold-a1-enpl-composition-
 
 CLI drukuje oczekiwany i rzeczywisty tekst oraz CORE dla każdego wiersza. Przejrzyj zmienione wyniki językowo i semantycznie. Dla zmiany zachowania można osobno uruchomić jeden pasujący test, np. `node --test tests/a1-existential-locatives.test.js`. Pełny `npm run check:core-gates` uruchamiaj wyłącznie na jawne żądanie pełnej weryfikacji lub wydania. Commit i push niczego nie uruchamiają automatycznie.
 
+Przekrojowy raport pakietów i lokalny zestaw regresji:
+
+```powershell
+node tools/review-sentences.mjs --input tests/fixtures/generic-language-conformance.json --report
+npm run check:language-conformance
+```
+
+Znaczenie statusów i zakres macierzy opisuje [generic-language-conformance.md](generic-language-conformance.md). `pass` oznacza zgodność z ręcznie zapisanymi expected; nie oznacza automatycznej oceny naturalności tłumaczenia.
+
 Nie otwieraj `index.html` bezpośrednio z dysku. W przeglądarce pojawi się wtedy informacja o wymaganym lokalnym serwerze. Nie wyłączaj zabezpieczeń CORS.
 
 Prototyp obsługuje kontrolowany podzbiór polskiego i angielskiego; nierozpoznane zdania są jawnie odrzucane niezależnie od sposobu lokalnego uruchomienia.
