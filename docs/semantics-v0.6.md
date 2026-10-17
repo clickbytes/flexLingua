@@ -10,6 +10,8 @@ The semantic intermediate representation is **not an English AST** or a Polish s
 
 Event documents without relative clauses keep version `0.2` or `0.5`, and older discourse graphs keep `0.4` or `0.5`. Documents requiring the new operators are marked `0.6`. Feature registry remains v0.3; the dictionary/grammar schemas are v0.6.
 
+Ordered discourse preserves each event's optional `timeReference`, `clockTime`, and `calendarDate` independently. Numeric clock/date discourse uses version `1.25`; materializing an event restores the complete validated event without moving temporal fields between events. Unknown event fields are rejected instead of being silently discarded.
+
 ## Event with a relative clause
 
 ```json

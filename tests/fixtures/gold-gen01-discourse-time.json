@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "license": "project-authored",
+  "origin": "Project-authored GEN-01 regression matrix for event-local temporal fields in two-event discourse.",
+  "cases": [
+    {"id":"GEN01-EN-DAY","from":"en","to":"pl","input":"The girl sees a dog today. The boy sees a cat tomorrow.","expected":"Dziewczynka widzi psa dziś. Chłopiec widzi kota jutro.","expectedEvents":[{"timeReference":"today"},{"timeReference":"tomorrow"}]},
+    {"id":"GEN01-PL-DAY","from":"pl","to":"en","input":"Dziewczynka widzi psa dziś. Chłopiec widzi kota jutro.","expected":"A girl sees a dog today. A boy sees a cat tomorrow.","expectedEvents":[{"timeReference":"today"},{"timeReference":"tomorrow"}]},
+    {"id":"GEN01-EN-CLOCK","from":"en","to":"pl","input":"A woman sees an apple at 07:05. A child sees a dog at 12:30.","expected":"Kobieta widzi jabłko o 07:05. Dziecko widzi psa o 12:30.","expectedEvents":[{"clockTime":{"hour":7,"minute":5}},{"clockTime":{"hour":12,"minute":30}}]},
+    {"id":"GEN01-PL-CLOCK","from":"pl","to":"en","input":"Kobieta widzi jabłko o 07:05. Dziecko widzi psa o 12:30.","expected":"A woman sees an apple at 07:05. A child sees a dog at 12:30.","expectedEvents":[{"clockTime":{"hour":7,"minute":5}},{"clockTime":{"hour":12,"minute":30}}]},
+    {"id":"GEN01-EN-DATE","from":"en","to":"pl","input":"A sister saw a cat on 2024-02-29. A brother sees a book on 2025-01-01.","expected":"Siostra widziała kota dnia 2024-02-29. Brat widzi książkę dnia 2025-01-01.","expectedEvents":[{"calendarDate":{"year":2024,"month":2,"day":29}},{"calendarDate":{"year":2025,"month":1,"day":1}}]},
+    {"id":"GEN01-PL-DATE","from":"pl","to":"en","input":"Siostra widziała kota dnia 2024-02-29. Brat widzi książkę dnia 2025-01-01.","expected":"A sister saw a cat on 2024-02-29. A brother sees a book on 2025-01-01.","expectedEvents":[{"calendarDate":{"year":2024,"month":2,"day":29}},{"calendarDate":{"year":2025,"month":1,"day":1}}]}
+  ]
+}
