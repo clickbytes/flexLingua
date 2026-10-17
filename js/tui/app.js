@@ -14,6 +14,7 @@ import {createScreen, sanitizeText, textWidth, wrapText} from './screen.js';
 import {graphemes, layoutText} from './text.js';
 import {styleFor} from './theme.js';
 import {buildTranscript} from './transcript.js';
+import {buildDetailsLines, detailsSectionCount} from './details.js';
 import {buildHelpLines} from './help.js';
 import {createTranslateView} from './views/translate.js';
 import {createChatView} from './views/chat.js';
@@ -130,7 +131,7 @@ export function createTui({runtime, terminal, output = process.stdout, services 
 
   function commandContext() {
     return {activeMode: workspaceState.activeMode, runtime, modeStates: workspaceState.modes,
-      settingsAvailable: false, detailsAvailable: false};
+      settingsAvailable: false};
   }
 
   function commandEditorState() {
@@ -257,7 +258,8 @@ export function createTui({runtime, terminal, output = process.stdout, services 
     const overlayFooter = {
       command_palette: '↑/↓ wybór · Tab uzupełnij · Enter wykonaj · Esc zamknij · ^C wyjście',
       help: 'PgUp/PgDn przewiń · Esc zamknij · F1–F3 tryby · ^C wyjście',
-      confirmation: '←/→ wybór · Enter zatwierdź · Esc anuluj · ^C wyjście'
+      confirmation: '←/→ wybór · Enter zatwierdź · Esc anuluj · ^C wyjście',
+      details: '←/→ lub Tab: sekcja · PgUp/PgDn: przewijaj · Esc: wróć'
     }[overlayType];
     if (overlayFooter) {
       put(overlayFooter, 1, layout.footer.y, 'muted', layout.width);
@@ -338,6 +340,11 @@ export function createTui({runtime, terminal, output = process.stdout, services 
       }
     } else if (panelOverlayType === 'help') {
       historyRows = buildHelpLines(commandContext());
+    } else if (panelOverlayType === 'details') {
+      const overlay = workspaceState.overlay;
+      const modeState = workspaceState.modes[overlay.mode];
+      const entry = modeState?.entries.find(item => item.id === overlay.entryId);
+      historyRows = buildDetailsLines(entry, {mode: overlay.mode, sectionIndex: overlay.sectionIndex});
     } else if (panelOverlayType === 'confirmation') {
       historyRows = confirmationLines();
     } else {
@@ -355,10 +362,10 @@ export function createTui({runtime, terminal, output = process.stdout, services 
     }
     const modeState = view.state;
     const maxStart = Math.max(0, historyRows.length - layout.history.height);
-    const scrollTop = panelOverlayType === 'help' ?
+    const scrollTop = ['help', 'details'].includes(panelOverlayType) ?
       Math.max(0, Math.min(workspaceState.overlayScrollTop, maxStart)) :
       panelOverlayType ? 0 : startIndexFor(modeState, historyRows, layout.history.height);
-    if (panelOverlayType === 'help') workspaceState.overlayScrollTop = scrollTop;
+    if (['help', 'details'].includes(panelOverlayType)) workspaceState.overlayScrollTop = scrollTop;
     if (!panelOverlayType) {
       modeState.scrollTop = scrollTop;
       const anchor = anchorAt(historyRows, scrollTop);
@@ -481,7 +488,6 @@ export function createTui({runtime, terminal, output = process.stdout, services 
     state.scrollTop = 0;
     if (mode === 'translate') {
       state.result = null;
-      state.details = false;
       state.status = '';
     } else if (mode === 'forms') {
       state.result = null;
@@ -505,7 +511,6 @@ export function createTui({runtime, terminal, output = process.stdout, services 
         state.settings.from = action.from;
         state.settings.to = action.to;
         state.result = null;
-        state.details = false;
         state.selectedEntryId = null;
         state.status = '';
       } else if (action.mode === 'forms' && action.language) {
@@ -543,7 +548,6 @@ export function createTui({runtime, terminal, output = process.stdout, services 
       state.settings.from = state.from;
       state.settings.to = state.to;
       state.result = null;
-      state.details = false;
       state.selectedEntryId = null;
       state.status = '';
       workspaceState.overlay = null;
@@ -553,6 +557,21 @@ export function createTui({runtime, terminal, output = process.stdout, services 
     }
     if (action.type === 'open_panel' && action.panel === 'help') {
       workspaceState.overlay = {type: 'help'};
+      workspaceState.overlayScrollTop = 0;
+      workspaceState.commandNotice = '';
+      draw();
+      return true;
+    }
+    if (action.type === 'open_details') {
+      const modeState = workspaceState.modes[action.mode];
+      const entry = modeState?.entries.find(item => item.id === action.entryId);
+      if (!entry) {
+        workspaceState.commandNotice = 'Nie znaleziono wpisu do pokazania w Details.';
+        draw();
+        return false;
+      }
+      workspaceState.overlay = {type: 'details', mode: action.mode, entryId: entry.id,
+        sectionIndex: 0, scrollTop: 0};
       workspaceState.overlayScrollTop = 0;
       workspaceState.commandNotice = '';
       draw();
@@ -736,7 +755,7 @@ export function createTui({runtime, terminal, output = process.stdout, services 
 
   function scrollHistory(direction, page = false) {
     if (!lastFrame || lastFrame.mode !== workspaceState.activeMode || lastFrame.layout.tooSmall) return;
-    if (workspaceState.overlay?.type === 'help') {
+    if (['help', 'details'].includes(workspaceState.overlay?.type)) {
       const maxStart = Math.max(0, lastFrame.historyRows.length - lastFrame.layout.history.height);
       const amount = page ? Math.max(1, lastFrame.layout.history.height - 1) : 1;
       workspaceState.overlayScrollTop = Math.max(0, Math.min(
@@ -894,6 +913,71 @@ export function createTui({runtime, terminal, output = process.stdout, services 
     return true;
   }
 
+  function handleDetailsAction(action) {
+    const overlay = workspaceState.overlay;
+    if (action.type === 'escape' || action.type === 'submit') {
+      workspaceState.overlay = null;
+      workspaceState.overlayScrollTop = 0;
+      workspaceState.commandNotice = '';
+      draw();
+      return true;
+    }
+    if (action.type === 'select_tab') {
+      workspaceState.overlay = null;
+      workspaceState.overlayScrollTop = 0;
+      selectMode(WORKSPACE_MODES[action.index]);
+      return true;
+    }
+    if (action.type === 'open_palette') {
+      openCommandPalette('/');
+      return true;
+    }
+    if (action.type === 'new_session') {
+      void dispatchNamedCommand('new');
+      return true;
+    }
+    if (['focus_next', 'cursor_right'].includes(action.type)) {
+      const modeState = workspaceState.modes[overlay.mode];
+      const entry = modeState?.entries.find(item => item.id === overlay.entryId);
+      if (entry) {
+        const count = detailsSectionCount(entry);
+        overlay.sectionIndex = (overlay.sectionIndex + 1) % count;
+        workspaceState.overlayScrollTop = 0;
+      }
+      draw();
+      return true;
+    }
+    if (['focus_previous', 'cursor_left'].includes(action.type)) {
+      const modeState = workspaceState.modes[overlay.mode];
+      const entry = modeState?.entries.find(item => item.id === overlay.entryId);
+      if (entry) {
+        const count = detailsSectionCount(entry);
+        overlay.sectionIndex = (overlay.sectionIndex - 1 + count) % count;
+        workspaceState.overlayScrollTop = 0;
+      }
+      draw();
+      return true;
+    }
+    if (action.type === 'history_page_up' || action.type === 'cursor_up') {
+      scrollHistory(-1, action.type === 'history_page_up');
+      return true;
+    }
+    if (action.type === 'history_page_down' || action.type === 'cursor_down') {
+      scrollHistory(1, action.type === 'history_page_down');
+      return true;
+    }
+    if (action.type === 'history_latest') {
+      workspaceState.overlayScrollTop = Number.MAX_SAFE_INTEGER;
+      draw();
+      return true;
+    }
+    if (action.type === 'text' && ['j', 'k'].includes(action.value.toLowerCase())) {
+      scrollHistory(action.value.toLowerCase() === 'j' ? 1 : -1);
+      return true;
+    }
+    return true;
+  }
+
   function onKey(name, matches, data) {
     const action = actionForKey(name, data);
     const view = activeView();
@@ -909,6 +993,10 @@ export function createTui({runtime, terminal, output = process.stdout, services 
     }
     if (workspaceState.overlay?.type === 'help') {
       handleHelpAction(action);
+      return;
+    }
+    if (workspaceState.overlay?.type === 'details') {
+      handleDetailsAction(action);
       return;
     }
     if (workspaceState.overlay?.type === 'confirmation' &&

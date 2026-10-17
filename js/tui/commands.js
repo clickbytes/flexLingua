@@ -52,7 +52,6 @@ function validateDetails(args, context) {
 }
 
 const SETTINGS_UNAVAILABLE = 'Panel Settings będzie dostępny po UX-11.';
-const DETAILS_UNAVAILABLE = 'Panel Details będzie dostępny po UX-08.';
 
 export const COMMAND_DEFINITIONS = Object.freeze([
   defineCommand({name: 'translate', syntax: '/translate [from to]',
@@ -83,8 +82,10 @@ export const COMMAND_DEFINITIONS = Object.freeze([
     argumentNames: ['id'], argumentCounts: [0, 1],
     description: 'Szczegóły istniejącego wpisu bieżącego trybu.',
     validate: validateDetails,
-    available: unavailable(DETAILS_UNAVAILABLE),
-    run: () => ({type: 'unavailable', message: DETAILS_UNAVAILABLE})}),
+    available: context => selectedEntry(context) ? {available: true} :
+      {available: false, message: 'Brak wpisu do pokazania w Details.'},
+    run: (args, context) => ({type: 'open_details', mode: context.activeMode,
+      entryId: selectedEntry(context, args[0]).id})}),
   defineCommand({name: 'swap', syntax: '/swap', description: 'Odwróć dostępny kierunek Translate.',
     modes: ['translate'],
     available: context => {
