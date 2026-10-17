@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "1.0",
+  "cases": [
+    {
+      "id": "A1-EN-AR-REFUSAL-0001",
+      "schemaVersion": "1.0",
+      "level": "pilot",
+      "mode": "single-sentence",
+      "direction": "en-ar",
+      "family": "direction_limit",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 4,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "definite",
+        "quantity": "none"
+      },
+      "purpose": "Declared direction limit witness: the ar package is morphology-only and declares no translation directions, so en>ar must fail before any data loading with PLUGIN_DIRECTION_UNAVAILABLE and null text/meaning; Arabic text output is never implied.",
+      "input": {"from": "en", "to": "ar", "text": "The girl sees the dog."},
+      "expected": {
+        "status": "unsupported",
+        "text": null,
+        "meaning": null,
+        "diagnostics": {"required": [{"code": "PLUGIN_DIRECTION_UNAVAILABLE"}], "allowUnexpected": false},
+        "alternatives": {"required": [], "allowUnexpected": false},
+        "informationLoss": {"required": [], "allowUnexpected": false}
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent expectation authored 2026-10-17 before any engine run (ar declares directions: [] in languages/ar/manifest.json), corroborated by the manual CLI evidence in issue #297; reviewed and approved 2026-10-18; observed matching at main@caffbd52b5951cccc06708d055574d68486d1a62.",
+        "author": "opencode-agent (OpenCode/GLM)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#346"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "declared limit: en->ar not declared (PLUGIN_DIRECTION_UNAVAILABLE)"
+      }
+    }
+  ]
+}

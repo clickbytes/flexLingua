@@ -13,8 +13,9 @@ Use the current documents below for product behavior and the supported developme
 - [Architecture](architecture.md)
 - [LanguagePlugin package contract](language-plugin.md)
 - [Translation CLI](cli.md)
+- [Canonical sentence test matrix](../tests/README.md) — approved sentence expectations, results contract, and the enforced `translation-matrix` gate
 - [Data provenance and licensing](data-provenance.md)
-- [Manual CLI sentence examples](../examples/cli-sentences.md)
+- [Manual CLI spot checks](../examples/cli-sentences.md) — manual review beyond the approved matrix cases
 - [Terminal UI](tui.md)
 
 ## Accepted decision records

@@ -12,9 +12,18 @@
     "tui": "node tools/tui.mjs",
     "compile:pl": "node tools/compile-language.mjs pl",
     "compile:en": "node tools/compile-language.mjs en",
-    "compile:ar": "node tools/compile-language.mjs ar"
+    "compile:ar": "node tools/compile-language.mjs ar",
+    "test": "npm run test:ci",
+    "test:validate": "node tests/run.mjs --validate",
+    "test:matrix": "node tests/run.mjs --matrix",
+    "test:cli": "node tests/run.mjs --cli",
+    "test:report": "node tests/run.mjs --report",
+    "test:ci": "node tests/run.mjs --all"
   },
   "dependencies": {
     "terminal-kit": "3.1.4"
+  },
+  "devDependencies": {
+    "ajv": "8.20.0"
   }
 }

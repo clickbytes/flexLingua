@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "1.0",
+  "purpose": "Protected gate lists: planning targets that must currently hold, and the approved required case ids that prove them.",
+  "changePolicy": "Entries here are the required baseline. Removing an entry, downgrading a required target to planned, moving a case out of the list, or softening an approved expectation requires explicit human review recorded in the linked GitHub issue or PR. Validation rejects empty or duplicate lists, missing listed cases, and inconsistent required/approved tiers; simultaneous removal of an id and its case must be caught in the PR diff review, because a self-modifying list cannot detect that change alone.",
+  "requiredTargetIds": [
+    "concept.person.girl",
+    "concept.animal.dog",
+    "concept.object.book",
+    "concept.quality.simple",
+    "construction.event.visual_perception",
+    "construction.event.read",
+    "construction.state.classification"
+  ],
+  "requiredCaseIds": [
+    "A1-AR-EN-REFUSAL-0001",
+    "A1-EN-AR-REFUSAL-0001",
+    "A1-EN-IT-REFUSAL-0001",
+    "A1-EN-PL-AMBIGUOUS-0001",
+    "A1-EN-PL-BOUNDARY-0001",
+    "A1-EN-PL-BOUNDARY-0002",
+    "A1-EN-PL-BOUNDARY-0003",
+    "A1-EN-PL-READ-0001",
+    "A1-EN-PL-STATE-0001",
+    "A1-EN-PL-VISUAL-0001",
+    "A1-IT-EN-REFUSAL-0001",
+    "A1-IT-EN-VISUAL-0001",
+    "A1-PL-EN-READ-0001",
+    "A1-PL-EN-STATE-0001",
+    "A1-PL-EN-VISUAL-0001",
+    "A1-TR-EN-REFUSAL-0001",
+    "A1-TR-EN-VISUAL-0001"
+  ]
+}

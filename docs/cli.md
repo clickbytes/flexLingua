@@ -17,4 +17,6 @@ Translacja wymaga dokładnie `--from CODE --to CODE --text "..."` i ładuje tylk
 
 Kody wyjścia: `0` oznacza sukces, `2` odmowę lub błędne argumenty (`unsupported`, `invalid`, `ambiguous`, `resource_limit`), `1` błąd infrastruktury. Jeżeli pakiet PL lub EN jest jeszcze niedostępny, wynik jest odmową `PLUGIN_PACKAGE_UNAVAILABLE` z kodem `2`.
 
+Automatyczna kontrola tego zachowania działa przez `tests/`: kanoniczna macierz zdań (`npm test`, wymagany check `translation-matrix` w GitHub Actions) wykonuje te same ścieżki produkcyjne z zatwierdzonymi oczekiwaniami — dokładny tekst, CORE, role, cechy, alternatywy, strata informacji, diagnostyka, odmowy i znane luki. Ręczny przegląd CLI pozostaje obowiązkowy dla zachowań poza zatwierdzonymi przypadkami, dla reprodukcji zgłoszeń i dla nowych konstrukcji przed dopisaniem przypadków.
+
 Przy ręcznym przeglądzie zapisz dokładne zdanie źródłowe, kierunek, oczekiwany sens CORE, rzeczywiste zdanie lub odmowę, alternatywy, diagnostykę, kod wyjścia, komendę i SHA. Sprawdź role, referenty, czas, aspekt, liczbę i negację na podstawie wyniku `--json`; zgodność samego tekstu nie wystarcza.

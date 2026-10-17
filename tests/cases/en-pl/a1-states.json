@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "1.0",
+  "cases": [
+    {
+      "id": "A1-EN-PL-STATE-0001",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "classification",
+      "construction": "state.classification",
+      "tier": "required",
+      "priority": 3,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "demonstrative",
+        "quantity": "none"
+      },
+      "purpose": "Positive A1 classification state en>pl: demonstrative subject (deictic, third singular) classifies an object.book category modified by quality.simple; locks the Polish copular realization and the quality.simple modifier witness (Classification, not identity).",
+      "input": {"from": "en", "to": "pl", "text": "This is a simple book."},
+      "expected": {
+        "status": "ok",
+        "text": {"accepted": ["To jest prosta ksi\u0105\u017cka."]},
+        "meaning": {
+          "type": "state",
+          "kind": "classification",
+          "roleSet": ["subject", "category"],
+          "roles": {
+            "subject": {
+              "target": {"kind": "deictic", "anchor": "demonstrative"},
+              "agreement": {"person": "third", "number": "singular"}
+            },
+            "category": {
+              "concept": "object.book",
+              "features": {"number": "singular", "definiteness": "unknown"},
+              "modifiers": [{"concept": "quality.simple"}]
+            }
+          },
+          "roleFeaturesExact": true,
+          "modifiersExact": true,
+          "features": {"tense": "present", "polarity": "positive"},
+          "featuresAllowExtra": true,
+          "assert": {
+            "#/roles/subject/agreement/person": "third",
+            "#/roles/subject/agreement/number": "singular",
+            "#/roles/category/features/number": "singular",
+            "#/roles/category/modifiers/0/concept": "quality.simple"
+          }
+        },
+        "diagnostics": {"required": [], "allowUnexpected": true},
+        "alternatives": {"required": [], "allowUnexpected": false},
+        "informationLoss": {"required": [], "allowUnexpected": false}
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent expectation authored 2026-10-17 before any engine run (demonstrative subject, object.book category with quality.simple modifier, present positive), corroborated by the manual CLI evidence in issue #297; reviewed and approved 2026-10-18; observed matching at main@caffbd52b5951cccc06708d055574d68486d1a62.",
+        "author": "opencode-agent (OpenCode/GLM)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#345"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.state.classification",
+        "capability": "sentence en.analyze(state.classification) -> pl.realize"
+      }
+    }
+  ]
+}

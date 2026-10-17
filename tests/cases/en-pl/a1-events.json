@@ -1,0 +1,137 @@
+{
+  "schemaVersion": "1.0",
+  "cases": [
+    {
+      "id": "A1-EN-PL-VISUAL-0001",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "visual_perception",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "definite",
+        "quantity": "none"
+      },
+      "purpose": "Positive A1 visual-perception event en>pl: locks the Polish realization text, the exact role set (agent person.girl, theme animal.dog), number, definiteness, present positive tense, and the unavoidable definiteness-loss record on the Polish side.",
+      "input": {"from": "en", "to": "pl", "text": "The girl sees the dog."},
+      "expected": {
+        "status": "ok",
+        "text": {"accepted": ["Dziewczynka widzi psa."]},
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": ["agent", "theme"],
+          "roles": {
+            "agent": {"concept": "person.girl",
+              "features": {"number": "singular", "definiteness": "definite"}},
+            "theme": {"concept": "animal.dog",
+              "features": {"number": "singular", "definiteness": "definite"}}
+          },
+          "roleFeaturesExact": true,
+          "features": {"tense": "present", "polarity": "positive"},
+          "featuresAllowExtra": true,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive"
+          }
+        },
+        "diagnostics": {"required": [], "allowUnexpected": true},
+        "alternatives": {"required": [], "allowUnexpected": false},
+        "informationLoss": {"required": [
+          {"cause": "target-grammar-does-not-mark-definiteness", "feature": "definiteness",
+            "path": "#/roles/agent/features/definiteness", "status": "unavoidable"},
+          {"cause": "target-grammar-does-not-mark-definiteness", "feature": "definiteness",
+            "path": "#/roles/theme/features/definiteness", "status": "unavoidable"}
+        ], "allowUnexpected": false}
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent expectation authored 2026-10-17 before any engine run (agent agent/theme number+definiteness, present positive; Polish target cannot mark definiteness), corroborated by the manual CLI evidence in issue #297; reviewed and approved 2026-10-18; observed matching at main@caffbd52b5951cccc06708d055574d68486d1a62.",
+        "author": "opencode-agent (OpenCode/GLM)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#345"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "sentence en.analyze(event.visual_perception) -> pl.realize"
+      }
+    },
+    {
+      "id": "A1-EN-PL-READ-0001",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "reading",
+      "construction": "event.read",
+      "tier": "required",
+      "priority": 2,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "definite",
+        "quantity": "none"
+      },
+      "purpose": "Positive A1 reading event en>pl: locks the Polish realization, agent person.girl and theme object.book with singular definite features, present positive tense, and the unavoidable definiteness-loss record.",
+      "input": {"from": "en", "to": "pl", "text": "The girl reads the book."},
+      "expected": {
+        "status": "ok",
+        "text": {"accepted": ["Dziewczynka czyta ksi\u0105\u017ck\u0119."]},
+        "meaning": {
+          "type": "event",
+          "concept": "event.read",
+          "roleSet": ["agent", "theme"],
+          "roles": {
+            "agent": {"concept": "person.girl",
+              "features": {"number": "singular", "definiteness": "definite"}},
+            "theme": {"concept": "object.book",
+              "features": {"number": "singular", "definiteness": "definite"}}
+          },
+          "roleFeaturesExact": true,
+          "features": {"tense": "present", "polarity": "positive"},
+          "featuresAllowExtra": true,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive"
+          }
+        },
+        "diagnostics": {"required": [], "allowUnexpected": true},
+        "alternatives": {"required": [], "allowUnexpected": false},
+        "informationLoss": {"required": [
+          {"cause": "target-grammar-does-not-mark-definiteness", "feature": "definiteness",
+            "path": "#/roles/agent/features/definiteness", "status": "unavoidable"},
+          {"cause": "target-grammar-does-not-mark-definiteness", "feature": "definiteness",
+            "path": "#/roles/theme/features/definiteness", "status": "unavoidable"}
+        ], "allowUnexpected": false}
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent expectation authored 2026-10-17 before any engine run (agent/theme singular definite, present positive read event, Polish realization with accusative theme), corroborated by the manual CLI evidence in issue #297; reviewed and approved 2026-10-18; observed matching at main@caffbd52b5951cccc06708d055574d68486d1a62.",
+        "author": "opencode-agent (OpenCode/GLM)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#345"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.read",
+        "capability": "sentence en.analyze(event.read) -> pl.realize"
+      }
+    }
+  ]
+}

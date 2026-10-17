@@ -33,11 +33,16 @@ See [CLI usage](docs/cli.md) for arguments, JSON output, diagnostics, and exit c
 - `js/app/` - shared runtime and translation, chat, and forms services.
 - `js/tui/` and `tools/tui.mjs` - terminal shell and entry point.
 - `tools/translate.mjs` - sentence translation and package discovery CLI.
-- `examples/cli-sentences.md` - manually reviewed commands and expected meaning or refusal.
+- `tests/` - the canonical A1 sentence test matrix: approved cases, schemas, planning catalog, known gaps, and the single runner behind `npm test`.
+- `examples/cli-sentences.md` - manual spot-check commands beyond the approved matrix cases.
 - `docs/` - current architecture, plugin, TUI, CLI, provenance, and decision documents.
+
+## Language verification
+
+The canonical sentence test matrix in `tests/` is the single source of truth for approved sentence expectations. `npm test` runs the full gate (validation, matrix execution on the production service, coverage accounting, CLI smoke, and reports), and the required `translation-matrix` GitHub Actions check enforces the same matrix on pull requests and pushes to `main`. Approved expectations cover exact text, CORE meaning, roles, features, alternates, information loss, diagnostics, known gaps, and explicit ambiguity; refusals are scored separately from successes and known gaps never count as a pass. See [the matrix README](tests/README.md).
 
 ## Review and limits
 
-Review language behavior by running real sentences through the CLI and comparing the surface text, CORE meaning, and diagnostics. Record the exact commands, independently stated expected meaning, actual result, refusal reasons, exit codes, and commit SHA in the issue or PR. Manually check TUI behavior in an interactive terminal; do not report scenarios that were not run. No automated suite or GitHub Actions gate is used for acceptance.
+Review language behavior beyond the approved cases by running real sentences through the CLI and comparing the surface text, CORE meaning, and diagnostics. Record the exact commands, independently stated expected meaning, actual result, refusal reasons, exit codes, and commit SHA in the issue or PR. Manually check TUI behavior in an interactive terminal; do not report scenarios that were not run. Other automated suites are not acceptance gates.
 
 Start with the [development workflow](docs/development-workflow.md), [documentation index](docs/README.md), or [product roadmap](ROADMAP.md).

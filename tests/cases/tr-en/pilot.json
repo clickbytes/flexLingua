@@ -1,0 +1,111 @@
+{
+  "schemaVersion": "1.0",
+  "cases": [
+    {
+      "id": "A1-TR-EN-VISUAL-0001",
+      "schemaVersion": "1.0",
+      "level": "pilot",
+      "mode": "single-sentence",
+      "direction": "tr-en",
+      "family": "visual_perception",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 5,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "past",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "mixed",
+        "quantity": "none"
+      },
+      "purpose": "Positive TR>EN pilot for past visual perception: bare k\u0131z leaves agent definiteness unspecified (unknown), accusative k\u00f6pe\u011fi marks the theme definite (Turkish case grammar preserved in CORE), past positive tense, and the definite-determiner realization stays an endorsed alternative.",
+      "input": {"from": "tr", "to": "en", "text": "K\u0131z k\u00f6pe\u011fi g\u00f6rd\u00fc."},
+      "expected": {
+        "status": "ok",
+        "text": {"accepted": ["A girl saw the dog."]},
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": ["agent", "theme"],
+          "roles": {
+            "agent": {"concept": "person.girl",
+              "features": {"number": "singular", "definiteness": "unknown"}},
+            "theme": {"concept": "animal.dog",
+              "features": {"number": "singular", "definiteness": "definite"}}
+          },
+          "roleFeaturesExact": true,
+          "features": {"tense": "past", "polarity": "positive"},
+          "featuresAllowExtra": true,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/definiteness": "definite",
+            "#/features/tense": "past",
+            "#/features/polarity": "positive"
+          }
+        },
+        "diagnostics": {"required": [], "allowUnexpected": true},
+        "alternatives": {"required": ["The girl saw the dog."], "allowUnexpected": true},
+        "informationLoss": {"required": [
+          {"cause": "source-definiteness-unspecified-target-default", "feature": "definiteness",
+            "path": "#/roles/agent/features/definiteness", "status": "ambiguous"}
+        ], "allowUnexpected": false}
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent expectation authored 2026-10-17 before any engine run (Turkish definite past g\u00f6rd\u00fc, accusative-marked definite theme, bare subject leaves definiteness unspecified), corroborated by the manual CLI evidence in issue #297; reviewed and approved 2026-10-18; observed matching at main@caffbd52b5951cccc06708d055574d68486d1a62.",
+        "author": "opencode-agent (OpenCode/GLM)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#346"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "tr.analyze(event.visual_perception, past) -> en.realize"
+      }
+    },
+    {
+      "id": "A1-TR-EN-REFUSAL-0001",
+      "schemaVersion": "1.0",
+      "level": "pilot",
+      "mode": "single-sentence",
+      "direction": "tr-en",
+      "family": "question_boundary",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 5,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "past",
+        "aspect": "not-marked",
+        "polarity": "interrogative",
+        "person": "third",
+        "number": "singular",
+        "reference": "mixed",
+        "quantity": "none"
+      },
+      "purpose": "Controlled refusal of the yes/no question particle m\u00fc in TR>EN: the bounded demo does not analyze questions, so the polite result is an explicit unsupported refusal preserving polarity interrogative as refused, not a paraphrase.",
+      "input": {"from": "tr", "to": "en", "text": "K\u0131z k\u00f6pe\u011fi g\u00f6rd\u00fc m\u00fc?"},
+      "expected": {
+        "status": "unsupported",
+        "text": null,
+        "meaning": null,
+        "diagnostics": {"required": [{"code": "LANGUAGE_CONSTRUCTION_UNSUPPORTED"}], "allowUnexpected": false},
+        "alternatives": {"required": [], "allowUnexpected": false},
+        "informationLoss": {"required": [], "allowUnexpected": false}
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent expectation authored 2026-10-17 before any engine run (yes/no question constructions are outside the bounded demo), corroborated by the manual CLI evidence in issue #297; reviewed and approved 2026-10-18; observed matching at main@caffbd52b5951cccc06708d055574d68486d1a62.",
+        "author": "opencode-agent (OpenCode/GLM)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#346"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "tr.analyze controlled refusal: yes/no question particle"
+      }
+    }
+  ]
+}
