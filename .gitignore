@@ -2,6 +2,7 @@ node_modules/
 coverage/
 dist/
 build/
+/import-staging/
 
 # Local tool output
 .codegraph/

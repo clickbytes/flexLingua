@@ -1,0 +1,35 @@
+{
+  "version": "1.0",
+  "language": "pl",
+  "conflictPolicy": "review",
+  "posTags": {"N": "nouns", "V": "verbs", "ADJ": "adjectives"},
+  "tags": {
+    "SG": {"feature": "number", "value": "singular"},
+    "PL": {"feature": "number", "value": "plural"},
+    "NOM": {"feature": "case", "value": "nom"},
+    "GEN": {"feature": "case", "value": "gen"},
+    "DAT": {"feature": "case", "value": "dat"},
+    "ACC": {"feature": "case", "value": "acc"},
+    "INS": {"feature": "case", "value": "inst"},
+    "LOC": {"feature": "case", "value": "loc"},
+    "VOC": {"feature": "case", "value": "voc"},
+    "PST": {"feature": "tense", "value": "past"},
+    "PRS": {"feature": "tense", "value": "present"},
+    "FUT": {"feature": "tense", "value": "future"},
+    "1": {"feature": "person", "value": "first"},
+    "2": {"feature": "person", "value": "second"},
+    "3": {"feature": "person", "value": "third"}
+  },
+  "unsupportedTags": ["DU", "ABL"],
+  "featureProfile": {
+    "version": "1.0",
+    "language": "pl",
+    "syntactic": {"case": ["nom", "gen", "dat", "acc", "inst", "loc", "voc"]},
+    "morphology": {
+      "number": ["singular", "plural"],
+      "case": ["nom", "gen", "dat", "acc", "inst", "loc", "voc"],
+      "tense": ["past", "present", "future"],
+      "person": ["first", "second", "third"]
+    }
+  }
+}
