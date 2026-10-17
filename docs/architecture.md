@@ -50,4 +50,4 @@ Dane języka poza `index.js`, `manifest.json` i `graph.json` są opcjonalne. Pak
 
 Pakiety obsługują kontrolowane podzbiory PL↔EN i EN↔FI, kierunek TR→EN oraz kierunek IT→EN. AR jest pakietem morphology-only i odmawia tłumaczenia zdań. Szczegółowe kierunki i konstrukcje należy odczytywać z manifestów i weryfikować przez [CLI](cli.md).
 
-Jedynym bieżącym sposobem ręcznej oceny tłumaczeń zdań jest Node CLI. Studio nie działa w obecnym CLI-only runtime; jego zasoby przeglądarkowe pozostają poza zakresem tego architektonicznego przepływu.
+Obecne interfejsy aplikacji to lokalne TUI oraz samodzielne Node CLI. TUI używa wspólnego runtime aplikacji z jednym Engine i PluginRegistry w procesie; CLI pozostaje osobnym, nieinteraktywnym punktem wejścia. CLI służy do akceptacji zachowania zdań, a TUI udostępnia te same ograniczone usługi przez zakładki Translate, Chat i Forms.

@@ -160,7 +160,8 @@ języka do wspólnego interpretera.
 | `data/languages/<code>.json` | `languages/<code>/manifest.json` |
 | `js/languages/{en,pl,tr,it}.js` | `languages/<code>/index.js`; FI nie ma obecnie takiego wrappera, AR nie ma parsera zdań |
 | `tools/review-sentences.mjs` | zastąpiony przez `tools/translate.mjs`; bez aliasu zgodności |
-| `index.html`, `js/main.js`, `js/ui/`, `start.bat` | wyłączone/usunięte przez wskazany cleanup CLI-only, nie przenoszone do pluginu |
+| `index.html`, `js/main.js`, `js/ui/` | usunięte przy przejściu na TUI; nie przenoszone do pluginu |
+| `start.bat` | uruchamia `node tools/tui.mjs` z katalogu repozytorium |
 | `tests/`, stare goldy i runner npm | usuwane dopiero po działającym CLI i ręcznym odbiorze odpowiednich pluginów |
 
 Docelowe katalogi językowe obejmują `pl`, `en`, `fi`, `tr`, `it` i `ar`.

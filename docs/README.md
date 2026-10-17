@@ -1,6 +1,6 @@
 # Documentation index
 
-Use the current documents below for product behavior and the supported development workflow. GitHub Issues track task scope and status; pull requests record changes, manual CLI results, and the exact commit SHA. References to older verification evidence inside preserved ADRs describe the state when those decisions were recorded.
+Use the current documents below for product behavior and the supported development workflow. GitHub Issues track task scope and status; pull requests record changes, manual CLI and TUI results, and the exact commit SHA. References to older verification evidence inside preserved ADRs describe the state when those decisions were recorded.
 
 ## Start here
 
@@ -15,7 +15,7 @@ Use the current documents below for product behavior and the supported developme
 - [Translation CLI](cli.md)
 - [Data provenance and licensing](data-provenance.md)
 - [Manual CLI sentence examples](../examples/cli-sentences.md)
-- [Studio status](gui.md)
+- [Terminal UI](tui.md)
 
 ## Accepted decision records
 
