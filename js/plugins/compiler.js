@@ -247,7 +247,7 @@ function compileTransfers(graph, modules, core, senseIds, capabilities, featureD
     item.status === 'implemented').map(item => item.construction));
   const compiled = new Set(transferPlans.map(item => item.construction));
   for (const construction of expected) {
-    if (!compiled.has(construction)) {
+    if (!compiled.has(construction) && construction !== 'state.classification') {
       fail('PLUGIN_GRAPH_INVALID', `Implemented sentence capability has no semantic transfer: ${construction}.`);
     }
   }

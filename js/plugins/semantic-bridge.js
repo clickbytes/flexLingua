@@ -91,10 +91,25 @@ export function createSemanticBridge({plan, core} = {}) {
       }
       for (const role of frame.roles) {
         const participant = meaning.roles[role];
-        if (!isRecord(participant) || typeof participant.concept !== 'string' ||
-            !core.ontology.isA(participant.concept, frame.roleTypes[role])) {
+        const referent = participant?.referent;
+        const agreement = participant?.agreement;
+        const deictic = isRecord(participant) &&
+          Object.keys(participant).sort().join(',') === 'agreement,referent' &&
+          isRecord(referent) && Object.keys(referent).sort().join(',') === 'anchor,kind' &&
+          referent.kind === 'deictic' &&
+          ['speaker', 'addressee', 'demonstrative'].includes(referent.anchor) &&
+          isRecord(agreement) && Object.keys(agreement).sort().join(',') === 'number,person' &&
+          ['singular', 'plural'].includes(agreement.number) &&
+          (referent.anchor === 'speaker' ? agreement.person === 'first' :
+            referent.anchor === 'addressee' ? agreement.person === 'second' :
+              agreement.person === 'third' && agreement.number === 'singular');
+        const conceptId = deictic ? 'person' : participant?.concept;
+        if (!isRecord(participant) || (Object.hasOwn(participant, 'referent') && !deictic) ||
+            typeof conceptId !== 'string' ||
+            !core.ontology.isA(conceptId, frame.roleTypes[role])) {
           fail('PLUGIN_RESULT_INVALID', `Invalid classification participant: ${role}.`);
         }
+        if (deictic) continue;
         const reference = isRecord(participant.coreRef) ? participant.coreRef :
           {kind: 'concept', id: participant.concept};
         if (reference.kind !== 'concept' || reference.id !== participant.concept) {
@@ -187,7 +202,8 @@ export function createSemanticBridge({plan, core} = {}) {
       return {construction: transfer.construction, stateKind: transfer.stateKind,
         roles: Object.fromEntries(Object.entries(meaning.roles).map(([role, participant]) =>
           [role, {participant: structuredClone(participant),
-            coreRef: {kind: 'concept', id: participant.concept},
+            coreRef: typeof participant.concept === 'string' ?
+              {kind: 'concept', id: participant.concept} : null,
             lexicalSense: typeof senses?.[role] === 'string' ?
               coreRefForSense(senses[role]) : null}]))};
     }
