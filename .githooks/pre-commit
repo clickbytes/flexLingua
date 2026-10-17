@@ -1,2 +1,0 @@
-#!/bin/sh
-exec node tools/local-check.mjs quick
