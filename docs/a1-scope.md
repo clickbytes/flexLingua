@@ -48,31 +48,14 @@ Każdy identyfikator zakresu `construction.event.*` wskazuje przez `coreRef` na 
 | `construction.event.read` | `event.read` | `required` |
 | `construction.event.help` | `event.help` | `required` |
 | `construction.event.open` | `event.open` | `required` |
-| `construction.event.drink` | `event.drink` | `required` |
 
-## Osobna macierz konstrukcji EN→PL
+`drink` jest poza zamrożoną macierzą 23 celów: plik [`a1-targets.json`](../data/coverage/a1-targets.json) zawiera 16 pojęć i 7 konstrukcji. Sens `event.drink` jest używany przez osobną rodzinę EN→CORE→PL A1-ENPL-03, bez dopisywania go do G2 ani do tej listy celów.
 
-Powyższe 23 pozycje nie wyczerpują podstawowych konstrukcji zdaniowych. Ta
-macierz śledzi rodziny konstrukcji EN→CORE→PL osobno, bez zmiany wyniku ani
-zakresu istniejącego fixture'u G2. „Wymagany batch” oznacza mały kontrakt
-implementacyjny, a nie pełny zakres A1.
+## Osobny rejestr rodzin konstrukcji EN→PL
 
-| Rodzina konstrukcji | Batch | Stan w repozytorium |
-| --- | --- | --- |
-| Proksymalne `this` jako zaimek oraz określenie rzeczownika | A1-ENPL-01 | Obsługiwane w liczbie pojedynczej; demonstratywne formy PL mają jawne uzgodnienie. |
-| Predykacja cechy: `This book is small.` | A1-ENPL-01 | Obsługiwana w czasie teraźniejszym, z zachowaniem modyfikatora w CORE. |
-| Predykacja klasowa: `This is a book.` | A1-ENPL-01 | Osobny kierunkowy węzeł CORE `classification`; nie używa `identity`. |
-| Sense `simple` „nieskomplikowany pod względem struktury, projektu lub użycia” | A1-ENPL-01 | Obsługiwany; nie utożsamia się z sensem „łatwy”. |
-| Przeczenie `be/have` i pytania yes/no dla predykacji/posiadania | A1-ENPL-02 | Obsługiwane w teraźniejszości; inne typy pytań i czasy pozostają poza zakresem. |
-| Niepoliczalne napoje bez rodzajnika (`water`, `milk`, `coffee`, `tea`) jako dopełnienie `drink` | A1-ENPL-03 | Obsługiwane w EN→CORE→PL i PL→CORE→EN; ograniczone do jawnej listy napojów i ramy `drink`. Inne napoje, gołe NP poza tą ramą i gołe rzeczowniki policzalne pozostają odrzucane. |
-| Egzystencjalne lokatywy: `there is/are` + jawne `in/on/at` | A1-ENPL-04 | Obsługiwane pozytywnie w czasie teraźniejszym przez stan CORE `location`; polska realizacja zachowuje relację i referenty. Negacja, pytania i brak jawnej lokacji pozostają odrzucane. |
-| Zaimki anaforyczne bez dostępnego antecedensu | A1-ENPL-05+ | Poza zakresem tej macierzy; nierozwiązane odniesienie jest jawnie odrzucane. |
-| Dodatnia predykacja cechy w czasie przeszłym: `The book was small.` | A1-ENPL-05 | Obsługiwana w PL↔CORE↔EN dla rzeczownikowych podmiotów z pięcioma klasami zgody. Przeszłe przeczenie, pytania i inne rodzaje stanów pozostają odrzucane. |
-| Dodatni angielski present progressive: `am/is/are + V-ing` | A1-ENPL-06 | Sześć jawnych czasowników (`read`, `write`, `eat`, `drink`, `help`, `open`) mapuje się na teraźniejszy aspekt imperfective CORE i polski czas teraźniejszy. PL→EN realizuje polski czas teraźniejszy jako simple present; nie wnioskuje progressive. Przeczenie, pytania, przeszłość i niezadeklarowane czasowniki pozostają odrzucane. |
+Rejestr [`a1-enpl-constructions.json`](../data/coverage/a1-enpl-constructions.json) jest źródłem rodzin 01–06 i planowanych 08–12. Batch 07 obsługuje dowody, nie jest rodziną tłumaczeniową. `implementationStatus` pochodzi z rejestru, a `evidenceStatus` w `constructionCoverage.families` jest wyliczany z rzeczywistych fixture/case ID i wyniku suite w `npm run report:a1-evidence` lub `npm run check:a1-evidence`. Status `planned` pozostaje jawną luką; tryb katalogowy oznacza wykonanie jako `not-run`.
 
-Statusy tej macierzy nie są wskaźnikiem opanowania CEFR. Każdy batch wymaga
-osobnego golda z poprawnymi wynikami, uzasadnionymi odmowami i kontrolą nowych
-kombinacji; próbki autorów projektu nie są niezależnym benchmarkiem.
+To są kontrolowane kontrakty implementacyjne, nie pełny zakres CEFR A1. Każdy wykonany batch wymaga niezależnie zapisanego golda, uzasadnionych odmów i testu nowych kombinacji; próbki autorów projektu nie są niezależnym benchmarkiem.
 
 ## Pochodzenie i ograniczenia
 

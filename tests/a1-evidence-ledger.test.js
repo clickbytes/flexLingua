@@ -5,23 +5,46 @@ import {spawnSync} from 'node:child_process';
 import {tmpdir} from 'node:os';
 import {dirname,join} from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {EVIDENCE_SOURCES,buildA1EvidenceLedger,verifyEvidenceFixture} from '../tools/a1-evidence-ledger-lib.mjs';
+import {A1_CONSTRUCTION_REGISTRY_PATH,EVIDENCE_SOURCES,buildA1EvidenceLedger,verifyEvidenceFixture} from '../tools/a1-evidence-ledger-lib.mjs';
 
 const get=async path=>JSON.parse(await readFile(new URL('../'+path,import.meta.url),'utf8'));
-const [manifest,ontology]=await Promise.all(['data/coverage/a1-targets.json','data/concepts.json'].map(get));
+const [manifest,ontology,constructionRegistry]=await Promise.all(['data/coverage/a1-targets.json','data/concepts.json',A1_CONSTRUCTION_REGISTRY_PATH].map(get));
 const corpora=Object.fromEntries(await Promise.all(EVIDENCE_SOURCES.map(async s=>[s.id,await get(s.fixture)])));
 const status=kind=>Object.fromEntries(EVIDENCE_SOURCES.map(s=>
  [s.id,{status:kind,exitCode:kind==='pass'?0:kind==='not-run'?null:1}]));
-const run=(changes={})=>buildA1EvidenceLedger({manifest,ontology,corpora,checks:status('pass'),...changes});
+const run=(changes={})=>buildA1EvidenceLedger({manifest,ontology,corpora,checks:status('pass'),constructionRegistry,...changes});
 const byId=(report,id)=>report.targets.find(x=>x.id===id);
 
-test('A1 VAL-03: all fourteen project-authored fixtures are inventoried',()=>{
+test('A1 VAL-03: all fifteen project-authored fixtures are inventoried',()=>{
  const report=run();
- assert.equal(report.totals.sources,14);
+ assert.equal(report.totals.sources,15);
  assert.deepEqual({p:report.totals.positive,n:report.totals.negative,
    f:report.totals.morphologyCells,productive:report.totals.productiveOnly},
-   {p:536,n:97,f:60,productive:2});
- assert.equal(report.verification.positiveVerified,536);
+   {p:538,n:99,f:60,productive:2});
+ assert.equal(report.verification.positiveVerified,538);
+ const basic=report.sources.find(x=>x.id==='enplbasic');
+ assert.equal(corpora.enplbasic.license,'project-authored');
+ assert.equal(corpora.enplbasic.provenance.source,'project-authored');
+ assert.ok(corpora.enplbasic.provenance.rights);
+ assert.equal(corpora.enplbasic.provenance.reviewedAt,'2026-10-17');
+ assert.ok(corpora.enplbasic.provenance.permittedUse);
+ assert.deepEqual({positive:basic.samples.positive,negative:basic.samples.negative},
+   {positive:2,negative:2});
+ const family01=report.constructionCoverage.families.find(x=>x.id==='A1-ENPL-01');
+ assert.equal(family01.implementationStatus,'implemented');
+ assert.equal(family01.evidenceStatus,'verified');
+ assert.deepEqual(family01.declared.positive,{'en->pl':1,'pl->en':1});
+ assert.deepEqual(family01.declared.refusal,{'en->pl':2,'pl->en':0});
+ assert.deepEqual(family01.executed.positive['en->pl'],{pass:1,fail:0,'not-run':0});
+ assert.equal(report.release.inputs.constructionRegistrySha256,report.constructionCoverage.registrySha256);
+ const family08=report.constructionCoverage.families.find(x=>x.id==='A1-ENPL-08');
+ assert.equal(family08.implementationStatus,'planned');
+ assert.equal(family08.evidenceStatus,'planned');
+ assert.ok(family08.knownGaps.length>0);
+ const family02=report.constructionCoverage.families.find(x=>x.id==='A1-ENPL-02');
+ assert.deepEqual(family02.evidence[0].caseResults.filter(x=>x.id.startsWith('STATE-EN-2')).map(x=>x.id),
+   ['STATE-EN-21','STATE-EN-22','STATE-EN-23','STATE-EN-24']);
+ assert.equal(family02.evidence[0].suiteStatus,'pass');
  const bareBeverages=report.sources.find(x=>x.id==='barebeverages');
  assert.deepEqual({positive:bareBeverages.samples.positive,negative:bareBeverages.samples.negative},
    {positive:8,negative:5});
@@ -65,7 +88,7 @@ test('A1 VAL-03: all fourteen project-authored fixtures are inventoried',()=>{
      .reduce((sum,row)=>sum+row[kind],0),report.sampleQuality.declared[kind]);
  assert.equal(Object.values(report.sampleQuality.declared.morphologyByLanguage)
    .reduce((sum,count)=>sum+count,0),report.totals.morphologyCells);
- assert.equal(report.sampleQuality.verified.positive,536);
+ assert.equal(report.sampleQuality.verified.positive,538);
  assert.equal(report.targetSummary.total,23);
  assert.deepEqual({concepts:report.targets.filter(x=>x.unitType==='concept').length,
    constructions:report.targets.filter(x=>x.unitType==='construction').length},
@@ -104,17 +127,23 @@ test('A1 VAL-03: duplicate observations are counted by kind and translation dire
 test('A1 VAL-03: suite failures must not be reported as verified successes',()=>{
  const checks=status('pass');
  checks.actions={status:'fail',exitCode:1,error:'fixture assertion failed'};
+ checks.state={status:'fail',exitCode:1,error:'state fixture assertion failed'};
  const report=run({checks});
  assert.equal(report.verification.status,'fail');
- assert.equal(report.verification.suitesFailed,1);
+ assert.equal(report.verification.suitesFailed,2);
  assert.ok(report.verification.positiveVerified<report.totals.positive);
  assert.equal(report.sources.find(x=>x.id==='actions').status,'fail');
+ assert.equal(report.constructionCoverage.families.find(x=>x.id==='A1-ENPL-02').evidenceStatus,'fail');
  assert.equal(report.release.verified,false);
  assert.ok(report.sampleQuality.verified.positive<report.sampleQuality.declared.positive);
  const unverified=run({checks:status('not-run')});
  assert.equal(unverified.verification.status,'not-run');
  assert.equal(unverified.verification.positiveVerified,0);
  assert.equal(byId(unverified,'event.open').state,'declared-unverified');
+ const unverifiedFamily=unverified.constructionCoverage.families.find(x=>x.id==='A1-ENPL-01');
+ assert.equal(unverifiedFamily.evidenceStatus,'declared-unverified');
+ assert.equal(unverifiedFamily.executed.positive['en->pl']['not-run'],1);
+ assert.equal(unverified.constructionCoverage.families.find(x=>x.id==='A1-ENPL-08').evidenceStatus,'planned');
  assert.equal(unverified.cefr.percentage,null);
 });
 
@@ -128,6 +157,24 @@ test('A1 VAL-03: reject duplicate case IDs, unknown concepts and false green sta
  const fake=status('pass');
  fake.father.exitCode=1;
  assert.throws(()=>run({checks:fake}),/fabricated test result/);
+ const duplicateFamily=structuredClone(constructionRegistry);
+ duplicateFamily.families[1].id=duplicateFamily.families[0].id;
+ assert.throws(()=>run({constructionRegistry:duplicateFamily}),/duplicate A1 construction family/);
+ const missingCase=structuredClone(constructionRegistry);
+ missingCase.families[0].evidence[0].positiveCases['en->pl'][0]='A1-ENPL-01-MISSING';
+ assert.throws(()=>run({constructionRegistry:missingCase}),/missing case, wrong kind or direction/);
+ const wrongDirection=structuredClone(constructionRegistry);
+ wrongDirection.families[0].evidence[0].positiveCases['en->pl'][0]='A1-ENPL-01-PL-01';
+ assert.throws(()=>run({constructionRegistry:wrongDirection}),/missing case, wrong kind or direction/);
+ const wrongCore=structuredClone(constructionRegistry);
+ wrongCore.families[0].coreContract.kind=['identity'];
+ assert.throws(()=>run({constructionRegistry:wrongCore}),/CORE contract mismatch/);
+ const wrongPolarity=structuredClone(constructionRegistry);
+ wrongPolarity.families[0].polarity=['negative'];
+ assert.throws(()=>run({constructionRegistry:wrongPolarity}),/CORE contract mismatch/);
+ const wrongSuite=structuredClone(constructionRegistry);
+ wrongSuite.families[0].evidence[0].suite='tests/a1-state-gold.test.js';
+ assert.throws(()=>run({constructionRegistry:wrongSuite}),/Invalid A1 construction evidence reference/);
 });
 
 test('A1 VAL-03: catalog-only CLI does not claim any executed checks',()=>{
@@ -136,8 +183,10 @@ test('A1 VAL-03: catalog-only CLI does not claim any executed checks',()=>{
  assert.equal(proc.status,0,proc.stderr);
  const report=JSON.parse(proc.stdout);
  assert.equal(report.verification.status,'not-run');
- assert.equal(report.verification.suitesNotRun,14);
+ assert.equal(report.verification.suitesNotRun,15);
  assert.equal(report.cefr.percentage,null);
+ assert.equal(report.constructionCoverage.families.find(x=>x.id==='A1-ENPL-01').evidenceStatus,'declared-unverified');
+ assert.equal(report.constructionCoverage.families.find(x=>x.id==='A1-ENPL-08').evidenceStatus,'planned');
  assert.equal(report.execution.runtime,'node');
  assert.ok(Number.isInteger(report.execution.pid));
  assert.ok(report.sources.every(x=>x.fixtureIntegrity==='verified'));
@@ -150,7 +199,7 @@ test('A1 VAL-03: catalog-only CLI does not claim any executed checks',()=>{
 
 const projectFiles=[
  'tools/a1-evidence-ledger.mjs','tools/a1-evidence-ledger-lib.mjs',
- 'data/concepts.json','data/coverage/a1-targets.json',
+ 'data/concepts.json','data/coverage/a1-targets.json',A1_CONSTRUCTION_REGISTRY_PATH,
  ...EVIDENCE_SOURCES.map(source=>source.fixture)
 ];
 async function fixtureProject(){

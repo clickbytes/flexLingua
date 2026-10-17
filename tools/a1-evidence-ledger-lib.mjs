@@ -2,6 +2,7 @@ import {createHash} from 'node:crypto';
 
 export const DIALOGUE_GOLD_SHA256='31511c82e602783982a54bb091c969d9612833a454bd31c52c3b39914019c163';
 export const A2_GOLD_SHA256='4379e41cca6ab615885f0fc395a0e4249136ca4f1b98df9c3b58a312fb8111c5';
+export const A1_CONSTRUCTION_REGISTRY_PATH='data/coverage/a1-enpl-constructions.json';
 
 /** Build scene- and act-level results from the separately executed dialogue gold suite. */
 export function buildDialogueGoldReport({fixture,fixtureSha256,results}={}) {
@@ -58,6 +59,7 @@ export const EVIDENCE_SOURCES = Object.freeze([
  {id:'composition',fixture:'tests/fixtures/gold-a1-crossbatch.json',sha256:'dadf9698a7f572b059e1ec2b006d9314d31f844995df35701843b1775db0ce8d',classification:'regression',args:['--test','tests/a1-crossbatch-composition.test.js']},
  {id:'person',fixture:'tests/fixtures/gold-person-a1.json',sha256:'2b292bf3cbb7ec48c577cb7d1597a0bc7db48a84d5e8b02e3a33890479df61c9',classification:'regression',args:['--test','tests/a1-person-gold.test.js']},
  {id:'state',fixture:'tests/fixtures/gold-state-a1.json',sha256:'bb31fa232f550ef92c1dbdc1676349b66f059ed28249e995cbc5b161089ae64b',classification:'regression',args:['--test','tests/a1-state-gold.test.js']},
+ {id:'enplbasic',fixture:'tests/fixtures/gold-a1-enpl-basics.json',sha256:'60c98ab51b5ef43d562c6b91c95b697827d6115da1df7f398ee1eef9413d257d',classification:'regression',args:['--test','tests/a1-enpl-basic-predication.test.js']},
  {id:'barebeverages',fixture:'tests/fixtures/gold-a1-bare-beverages.json',sha256:'4716ca1dc5b6d021a69dc0cba4d99222b2a904aa08bd399fa4219a36482be231',classification:'regression',args:['--test','tests/a1-bare-beverages.test.js']},
  {id:'existential',fixture:'tests/fixtures/gold-a1-existential-locatives.json',sha256:'873f21e643d77287993899b50caa9f766ce899adde10a661ac0735fa59dbc1fc',classification:'regression',args:['--test','tests/a1-existential-locatives.test.js']},
  {id:'paststate',fixture:'tests/fixtures/gold-a1-past-state-predication.json',sha256:'88f9dce71c8a935c6dbe72497226d731d8fd639074e70f2effeab8066e2d01db',classification:'regression',args:['--test','tests/a1-past-state-predication.test.js']},
@@ -309,6 +311,101 @@ function sampleDirection(row) {
  return row.from+'->'+to;
 }
 
+function coreDescriptor(core) {
+ if(!record(core))return null;
+ const question=core.kind==='question'&&core.questionType==='yes_no'?'yes_no':'none';
+ const base=core.kind==='question'?core.proposition:core;
+ if(!record(base))return null;
+ const type=base.type??(['classification','predication','possession','identity','location'].includes(base.kind)?'state':undefined);
+ const kind=type==='event'?base.concept:base.kind;
+ const features=base.features??base;
+ if(!word(type)||!word(kind)||!record(base.roles))return null;
+ return {type,kind,roles:Object.keys(base.roles),tense:features.tense,polarity:features.polarity,question,aspect:features.aspect};
+}
+
+function buildA1ConstructionCoverage(registry,{sampleCatalog,checks,registrySha256}={}) {
+ const expectedIds=['A1-ENPL-01','A1-ENPL-02','A1-ENPL-03','A1-ENPL-04','A1-ENPL-05','A1-ENPL-06',
+   'A1-ENPL-08','A1-ENPL-09','A1-ENPL-10','A1-ENPL-11','A1-ENPL-12'];
+ if(!record(registry)||registry.schemaVersion!==1||registry.id!=='A1-ENPL-CONSTRUCTIONS'||
+    registry.sourceDirection!=='en->pl'||registry.targetDirection!=='pl'||
+    registry.scope!=='controlled-subset-not-cefr'||registry.representativeCefrDenominator!==null||
+    !Array.isArray(registry.families)||!(sampleCatalog instanceof Map)||!record(checks)||
+    (registrySha256!==undefined&&!/^[a-f0-9]{64}$/u.test(registrySha256)))
+   throw new Error('Invalid A1 EN->PL construction registry.');
+ const seen=new Set(),sourceById=new Map(EVIDENCE_SOURCES.map(source=>[source.id,source]));
+ const directions=()=>Object.fromEntries(directionKeys.map(key=>[key,0]));
+ const outcomes=()=>Object.fromEntries(directionKeys.map(key=>[key,{pass:0,fail:0,'not-run':0}]));
+ const families=registry.families.map(family=>{
+   if(!record(family)||!/^A1-ENPL-(?:0[1-6]|0[8-9]|1[0-2])$/u.test(family.id)||seen.has(family.id)||
+      family.sourceDirection!=='en->pl'||!record(family.coreContract)||
+      !['state','event','nominal','referent'].includes(family.coreContract.type)||
+      (family.coreContract.aspect!==undefined&&!['perfective','imperfective','unknown'].includes(family.coreContract.aspect))||
+      !Array.isArray(family.coreContract.kind)||!family.coreContract.kind.length||!family.coreContract.kind.every(word)||
+      !Array.isArray(family.coreContract.roles)||!family.coreContract.roles.length||!family.coreContract.roles.every(word)||
+      !Array.isArray(family.tense)||!family.tense.length||!family.tense.every(value=>['present','past'].includes(value))||
+      !Array.isArray(family.polarity)||!family.polarity.length||!family.polarity.every(value=>['positive','negative'].includes(value))||
+      !Array.isArray(family.question)||!family.question.length||!family.question.every(value=>['none','yes_no'].includes(value))||
+      !['implemented','planned'].includes(family.implementationStatus)||!Array.isArray(family.dependencies)||
+      !family.dependencies.every(word)||!Array.isArray(family.evidence)||!Array.isArray(family.knownGaps)||
+      !family.knownGaps.every(word))
+     throw new Error('Invalid or duplicate A1 construction family: '+String(family?.id));
+   seen.add(family.id);
+   const declared={positive:directions(),refusal:directions()};
+   const executed={positive:outcomes(),refusal:outcomes()};
+   const evidence=[],usedCases=new Set(),suiteStatuses=[];
+   for(const item of family.evidence){
+     const source=sourceById.get(item?.sourceId),cases=sampleCatalog.get(item?.sourceId),check=checks[item?.sourceId];
+     if(!record(item)||!source||item.fixture!==source.fixture||!word(item.suite)||
+        !source.args.includes(item.suite)||!record(item.positiveCases)||!record(item.refusalCases)||
+        directionKeys.some(key=>!Array.isArray(item.positiveCases[key])||!Array.isArray(item.refusalCases[key]))||
+        !directionKeys.some(key=>item.positiveCases[key].length>0)||!record(check)||!statusNames.has(check.status))
+       throw new Error('Invalid A1 construction evidence reference: '+String(item?.sourceId));
+     suiteStatuses.push(check.status);
+     const caseResults=[];
+     for(const [kind,groups] of [['positive',item.positiveCases],['refusal',item.refusalCases]]){
+       for(const expectedDirection of directionKeys){
+         for(const id of groups[expectedDirection]){
+           const key=item.sourceId+'::'+id,actual=cases.get(id),core=actual&&kind==='positive'?coreDescriptor(actual.core):null;
+           if(!word(id)||usedCases.has(key)||!actual||actual.kind!==kind||actual.direction!==expectedDirection)
+             throw new Error('A1 construction evidence has a missing case, wrong kind or direction: '+String(id));
+           if(kind==='positive'&&(!core||core.type!==family.coreContract.type||
+              !family.coreContract.kind.includes(core.kind)||core.roles.some(role=>!family.coreContract.roles.includes(role))||
+              !family.tense.includes(core.tense)||!family.polarity.includes(core.polarity)||
+              !family.question.includes(core.question)||
+              (family.coreContract.aspect!==undefined&&core.aspect!==family.coreContract.aspect)))
+             throw new Error('A1 construction evidence CORE contract mismatch: '+String(id));
+           if(kind==='refusal'&&!word(actual.reason))
+             throw new Error('A1 construction refusal lacks an explicit reason: '+String(id));
+           usedCases.add(key);declared[kind][actual.direction]++;executed[kind][actual.direction][check.status]++;
+           caseResults.push({id,kind,direction:actual.direction,
+             ...(core?{core:{type:core.type,kind:core.kind,roles:core.roles}}:{}),
+             ...(actual.reason?{reason:actual.reason}:{}),status:check.status});
+         }
+       }
+     }
+     evidence.push({sourceId:item.sourceId,fixture:item.fixture,suite:item.suite,
+       suiteStatus:check.status,execution:check.execution??null,caseResults});
+   }
+   if(family.implementationStatus==='planned'){
+     if(family.evidence.length!==0||family.knownGaps.length===0)
+       throw new Error('Planned A1 construction families must expose a known gap and no claimed gold evidence: '+family.id);
+   }else if(!family.evidence.length||directionKeys.some(key=>declared.positive[key]===0)){
+     throw new Error('Implemented A1 construction requires positive gold in both directions: '+family.id);
+   }
+   const evidenceStatus=family.implementationStatus==='planned'?'planned':
+     suiteStatuses.includes('fail')?'fail':suiteStatuses.every(status=>status==='pass')?'verified':'declared-unverified';
+   return {id:family.id,sourceDirection:family.sourceDirection,coreContract:family.coreContract,
+     tense:family.tense,polarity:family.polarity,question:family.question,
+     implementationStatus:family.implementationStatus,evidenceStatus,dependencies:family.dependencies,
+     evidence,knownGaps:family.knownGaps,
+     declared:{positive:declared.positive,refusal:declared.refusal},
+     executed:{basis:'source-suite-exit-status',positive:executed.positive,refusal:executed.refusal}};
+ });
+ if(seen.size!==expectedIds.length||expectedIds.some(id=>!seen.has(id)))
+   throw new Error('A1 construction registry is missing one or more required family IDs.');
+ return {schemaVersion:1,id:registry.id,registrySha256:registrySha256??digestJson(registry),families};
+}
+
 function emptyCounts() {
  return {positive:0,negative:0,morphologyCells:0,productiveOnly:0,
    byDirection:{'en->pl':{positive:0,negative:0},'pl->en':{positive:0,negative:0}},
@@ -349,11 +446,11 @@ function validateExecution(check,id) {
 }
 
 /** Joins declarations, source integrity, sample quality and real Node exit statuses. */
-export function buildA1EvidenceLedger({manifest,ontology,corpora,checks,inputDigests={}}) {
+export function buildA1EvidenceLedger({manifest,ontology,corpora,checks,constructionRegistry,inputDigests={}}) {
  if(!record(manifest)||manifest.version!==2||manifest.license!=='project-authored'||
     manifest.scope?.completeness!=='project-authored-subset'||
     !Array.isArray(manifest.targets)||!manifest.targets.length||manifest.targets.length>250||
-    !record(ontology)||!record(ontology.concepts)||!record(corpora)||!record(checks))
+    !record(ontology)||!record(ontology.concepts)||!record(corpora)||!record(checks)||!record(constructionRegistry))
    throw new Error('Invalid evidence inputs/target registry.');
  if(!record(inputDigests))throw new Error('Invalid evidence input digests.');
  if(inputDigests.fixtures!==undefined&&(!record(inputDigests.fixtures)||
@@ -370,14 +467,15 @@ export function buildA1EvidenceLedger({manifest,ontology,corpora,checks,inputDig
    targetIds.add(item.id);
  }
 
- const seenIds=new Set(),inputGroups=new Map(),sources=[],observations=[];
+ const seenIds=new Set(),inputGroups=new Map(),sources=[],observations=[],sampleCatalog=new Map();
  const allDeclared=emptyCounts(),allVerified=emptyCounts(),heldOutDeclared=emptyCounts(),heldOutVerified=emptyCounts();
  let totalPositive=0,totalNegative=0,totalMorphology=0,totalProductiveOnly=0;
  for(const spec of EVIDENCE_SOURCES){
    const rows=extractRows(spec.id,corpora[spec.id]);
    const check=checks[spec.id];
    const execution=validateExecution(check,spec.id);
-   const sourceDeclared=emptyCounts(),sourceVerified=emptyCounts();
+   const sourceDeclared=emptyCounts(),sourceVerified=emptyCounts(),sourceCatalog=new Map();
+   sampleCatalog.set(spec.id,sourceCatalog);
    for(const [kind,items] of [['positive',rows.positive],['negative',rows.negative]]){
      for(const row of items){
        if(!record(row)||!word(row.id)||seenIds.has(row.id)||!word(row.input)||
@@ -386,6 +484,7 @@ export function buildA1EvidenceLedger({manifest,ontology,corpora,checks,inputDig
          throw new Error('Invalid or duplicate sample ID: '+String(row?.id));
        seenIds.add(row.id);
        const directionKey=sampleDirection(row);
+       sourceCatalog.set(row.id,{kind:kind==='positive'?'positive':'refusal',direction:directionKey,core:row.core,reason:row.reason});
        addSample(sourceDeclared,kind,directionKey);
        addSample(allDeclared,kind,directionKey);
        if(spec.classification==='held-out')addSample(heldOutDeclared,kind,directionKey);
@@ -476,6 +575,7 @@ export function buildA1EvidenceLedger({manifest,ontology,corpora,checks,inputDig
    totalProductiveOnly+=rows.productiveOnly.length;
  }
 
+ const constructionCoverage=buildA1ConstructionCoverage(constructionRegistry,{sampleCatalog,checks,registrySha256:inputDigests.constructionRegistry});
  const duplicateGroups=[...inputGroups.entries()].filter(([,items])=>items.length>1);
  const duplicateByDirection={
    'en->pl':{positive:0,negative:0,total:0},
@@ -532,7 +632,8 @@ export function buildA1EvidenceLedger({manifest,ontology,corpora,checks,inputDig
  ]));
  const manifestSha256=inputDigests.manifest??digestJson(manifest);
  const ontologySha256=inputDigests.ontology??digestJson(ontology);
- const inputSha256=digestJson({schemaVersion:2,ledgerVersion:'VAL-03-v1',manifestSha256,ontologySha256,fixtures:fixtureDigests,
+ const inputSha256=digestJson({schemaVersion:2,ledgerVersion:'VAL-03-v1',manifestSha256,ontologySha256,
+   constructionRegistrySha256:constructionCoverage.registrySha256,fixtures:fixtureDigests,
    sources:EVIDENCE_SOURCES.map(({id,fixture,classification,args})=>({id,fixture,classification,args}))});
  const releaseId='a1-evidence-v2-'+inputSha256.slice(0,20);
  return {
@@ -540,7 +641,7 @@ export function buildA1EvidenceLedger({manifest,ontology,corpora,checks,inputDig
    provenance:{source:'project-authored',notOfficialOxford:true,
      heldOutIndependence:'H1 is separated from development samples but was authored by the implementation owner; independent authoring was unavailable.'},
    release:{id:releaseId,version:'VAL-03-v1',inputSha256,
-     inputs:{manifestSha256,ontologySha256,fixtures:fixtureDigests},verified:false,
+     inputs:{manifestSha256,ontologySha256,constructionRegistrySha256:constructionCoverage.registrySha256,fixtures:fixtureDigests},verified:false,
      reason:'This report release identifies pinned inputs; gold suites alone do not verify the full Node regression and release gate.'},
    runtime:{name:'node',version:process.version,executable:process.execPath},
    totals:{sources:sources.length,positive:totalPositive,negative:totalNegative,
@@ -554,7 +655,7 @@ export function buildA1EvidenceLedger({manifest,ontology,corpora,checks,inputDig
    verification:{status:fails?'fail':notRun?'not-run':'pass',
      suitesPassed:passes,suitesFailed:fails,suitesNotRun:notRun,
      positiveVerified:observations.filter(x=>x.verified).length},
-   sources,targets,
+   sources,targets,constructionCoverage,
    targetSummary:{
      total:targets.length,
      sampledBothDirections:targets.filter(x=>x.state==='sampled-both-directions').length,

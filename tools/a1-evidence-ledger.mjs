@@ -3,7 +3,7 @@ import {randomUUID} from 'node:crypto';
 import {resolve} from 'node:path';
 import {spawnSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
-import {EVIDENCE_SOURCES,buildA1EvidenceLedger,sha256Text,verifyEvidenceFixture} from './a1-evidence-ledger-lib.mjs';
+import {A1_CONSTRUCTION_REGISTRY_PATH,EVIDENCE_SOURCES,buildA1EvidenceLedger,sha256Text,verifyEvidenceFixture} from './a1-evidence-ledger-lib.mjs';
 
 const args=process.argv.slice(2);
 const catalogOnly=args.includes('--catalog-only');
@@ -21,10 +21,11 @@ if(args.filter(x=>x==='--catalog-only').length>1||args.filter(x=>x==='--output')
  throw new Error('Duplicate evidence ledger option.');
 
 const loadText=async path=>readFile(new URL('../'+path,import.meta.url),'utf8');
-const [manifestText,ontologyText]=await Promise.all([
- loadText('data/coverage/a1-targets.json'),loadText('data/concepts.json')
+const [manifestText,ontologyText,constructionRegistryText]=await Promise.all([
+ loadText('data/coverage/a1-targets.json'),loadText('data/concepts.json'),loadText(A1_CONSTRUCTION_REGISTRY_PATH)
 ]);
-const manifest=JSON.parse(manifestText),ontology=JSON.parse(ontologyText);
+const manifest=JSON.parse(manifestText),ontology=JSON.parse(ontologyText),
+ constructionRegistry=JSON.parse(constructionRegistryText);
 const corpora={},fixtureDigests={};
 // Validate every pinned gold file before launching any suite or writing a report.
 for(const source of EVIDENCE_SOURCES){
@@ -52,8 +53,9 @@ for(const source of EVIDENCE_SOURCES){
    ...(passed?{}:{error:(run.error?.message||'')+'\n'+String(run.stderr||run.stdout||'').slice(-1600)})
  };
 }
-const report=buildA1EvidenceLedger({manifest,ontology,corpora,checks,
- inputDigests:{manifest:sha256Text(manifestText),ontology:sha256Text(ontologyText),fixtures:fixtureDigests}});
+const report=buildA1EvidenceLedger({manifest,ontology,corpora,checks,constructionRegistry,
+ inputDigests:{manifest:sha256Text(manifestText),ontology:sha256Text(ontologyText),
+   constructionRegistry:sha256Text(constructionRegistryText),fixtures:fixtureDigests}});
 report.execution={kind:'ledger',runtime:'node',executable:process.execPath,
  version:process.version,pid:process.pid,args:process.argv.slice(1)};
 const output=JSON.stringify(report,null,2)+'\n';

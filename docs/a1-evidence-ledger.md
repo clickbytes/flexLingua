@@ -12,7 +12,7 @@ Rejestr obejmuje wcześniejsze próbki, gold stanów STATE-05 i osobny korpus VA
 
 Każde źródło ma klasyfikację `development`, `regression` albo `held-out`. Raport pokazuje osobno próbki zadeklarowane i próbki z potwierdzonym przejściem testu. H1 jest poza zestawem rozwojowym, ale nie jest niezależną ewaluacją: autorem fixture był implementer.
 
-Ledger przypina SHA-256 do wszystkich czternastu plików gold i sprawdza je przed uruchomieniem któregokolwiek zestawu. Zmianę gold należy połączyć z ponownym przeglądem i aktualizacją digestu w `tools/a1-evidence-ledger-lib.mjs`. Brak pliku, niepoprawny JSON albo rozbieżny digest kończy CLI błędem przed zapisem raportu. `tools/report-a1.mjs` sprawdza w ten sam sposób G2.
+Ledger przypina SHA-256 do wszystkich piętnastu plików gold i sprawdza je przed uruchomieniem któregokolwiek zestawu. Zmianę gold należy połączyć z ponownym przeglądem i aktualizacją digestu w `tools/a1-evidence-ledger-lib.mjs`. Brak pliku, niepoprawny JSON albo rozbieżny digest kończy CLI błędem przed zapisem raportu. `tools/report-a1.mjs` sprawdza w ten sam sposób G2.
 
 `sampleQuality.declared` i `sampleQuality.verified` zawierają osobne liczniki EN→PL i PL→EN dla próbek pozytywnych i negatywnych. Morfologia jest rozbita według języka. Duplikaty są wykrywane po normalizacji Unicode NFC, wielkości liter i białych znaków; raport podaje powtórzone obserwacje, grupy z powtórzeniami wewnątrz źródeł i grupy obejmujące wiele źródeł. Te kategorie mogą się pokrywać. `release.id` jest skrótem przypiętych wejść i definicji zestawów, więc nie zmienia się między powtórzeniami przy tych samych danych. Zapis przez `--output` jest atomowy.
 
@@ -21,6 +21,7 @@ Każde uruchomienie zestawu gold ma status, faktyczny PID procesu Node, wersję 
 | Zestaw | Pozytywne próbki | Odmowy | Komórki morfologii |
 | --- | ---: | ---: | ---: |
 | G2 | 32 | 8 | 0 |
+| Predykacja klasowa A1-ENPL-01 | 2 | 2 | 0 |
 | Rodzina/czynności | 16 | 4 | 18 |
 | Ojciec/father | 16 | 4 | 16 |
 | Ruch iść/go | 18 | 4 | 11 |
@@ -34,7 +35,7 @@ Każde uruchomienie zestawu gold ma status, faktyczny PID procesu Node, wersję 
 | Present progressive A1-ENPL-06 | 12 | 7 | 0 |
 | Przestrzeń i czas | 64 | 9 | 0 |
 | Held-out VAL-02 H1 | 200 (100 na kierunek) | 20 | 0 |
-| **Razem** | **536** | **97** | **60** |
+| **Razem** | **538** | **99** | **60** |
 
 To **przypadki kontrolowane**, nie wymierny procent pokrycia CEFR. Każdy przypadek jest przypisany do własnego pliku źródłowego i testu. W porównaniu przypadków sprawdzamy tylko **jawnie opisane** znaczenia CORE (pojęcie predykatu i te role, które fixture wyraźnie deklaruje); nie wnioskujemy obecności haseł z samej pisowni ani z analizy silnika, aby uniknąć tautologii. Nakładanie się autorstwa, projektowania reguł i oceny nie gwarantuje testu niewidzianych wcześniej zdań.
 
@@ -42,17 +43,20 @@ To **przypadki kontrolowane**, nie wymierny procent pokrycia CEFR. Każdy przypa
 
 ```sh
 npm run report:a1-evidence      # sam katalog, bez testów — verification.status = not-run
-npm run check:a1-evidence       # 14 procesów Node, fail-closed
+npm run check:a1-evidence       # 15 źródeł z EVIDENCE_SOURCES, fail-closed
 npm run check:release           # pełny zestaw kontroli CORE i testów Node
 ```
 
 `check:a1-evidence` uruchamia kolejno:
 - istniejące `tools/report-a1.mjs --strict` dla G2;
 - testy Node dla rodziny, ojca, ruchu, codziennych czynności i kompozycji;
+- `tests/a1-enpl-basic-predication.test.js` dla golda A1-ENPL-01 (2 positive, 2 refusals);
 - test Node dla 40 przypadków osoby/deiksów oraz 10 błędnych form;
-- `tests/a1-state-gold.test.js` dla 40 zdań stanów i 8 odmów;
+- `tests/a1-state-gold.test.js` dla 48 zdań stanów i 7 odmów;
+- `tests/a1-bare-beverages.test.js` i `tests/a1-existential-locatives.test.js` dla źródeł A1-ENPL-03/04;
 - `tests/a1-past-state-predication.test.js` dla 10 dwukierunkowych przypadków predykacji przeszłej i 7 odmów;
 - `tests/a1-present-progressive.test.js` dla 12 dwukierunkowych przypadków present progressive i 7 odmów;
+- `tests/a1-space-time.test.js` dla 64 pozytywnych przypadków dwukierunkowych i 9 odmów;
 - `tests/a1-heldout.test.js` dla 200 zdań dwukierunkowych i 20 odmów.
 
 Raport zawiera statusy `pass`, `fail`, `not-run` wraz z faktycznym kodem wyjścia oraz oddzielne `annotatedCases` i `verifiedCases`. Jeżeli choć jedna grupa nie przechodzi, CLI zwraca kod 1; jeśli nie uruchomiono żadnej, nie raportuje sukcesu. Dodatkowo raportuje duplikaty wejściowych zdań między zestawami bez udawania, że zbiory są reprezentatywne.
