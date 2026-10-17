@@ -1,3 +1,5 @@
+import {appendOperation, updateOperation} from '../state.js';
+
 function nextValue(values, current, step) {
   if (!values.length) return current;
   const index = values.indexOf(current);
@@ -25,7 +27,7 @@ function errorResult(message, diagnostics = []) {
   return {status: 'error', message: message ?? 'Forms service failed.', diagnostics};
 }
 
-export function createFormsView({runtime, formsService} = {}) {
+export function createFormsView({runtime, formsService, state: modeState, workspaceState} = {}) {
   if (!runtime?.plugins || typeof formsService?.lookupLexemes !== 'function' ||
       typeof formsService?.analyzeForm !== 'function' ||
       typeof formsService?.morphology !== 'function' ||
@@ -34,9 +36,17 @@ export function createFormsView({runtime, formsService} = {}) {
   }
 
   const languages = runtime.plugins.list();
-  const state = {draft: '', cursor: 0, focusIndex: 0, status: '',
+  const state = modeState ?? {draft: '', cursor: 0, status: '', settings: {},
     language: languages.includes('en') ? 'en' : languages[0] ?? null,
-    result: null, matches: [], selectedIndex: 0};
+    result: null, matches: [], selectedIndex: 0, selectedEntryId: null};
+  state.settings ??= {};
+  if (state.language === undefined) state.language = state.settings.language ??
+    (languages.includes('en') ? 'en' : languages[0] ?? null);
+  state.settings.language = state.language;
+  state.result ??= null;
+  state.matches ??= [];
+  state.selectedIndex ??= 0;
+  state.selectedEntryId ??= null;
 
   function focusTargets() {
     const items = [
@@ -55,6 +65,7 @@ export function createFormsView({runtime, formsService} = {}) {
     state.matches = [];
     state.selectedIndex = 0;
     state.status = '';
+    state.selectedEntryId = null;
   }
 
   function addCandidate(matches, lexeme, analysis) {
@@ -83,6 +94,17 @@ export function createFormsView({runtime, formsService} = {}) {
     }
     state.result = {status: 'not_found', message: 'Not found in dictionary'};
     state.status = 'not_found';
+  }
+
+  function updateSelectedOperation() {
+    if (!workspaceState || !state.selectedEntryId) return;
+    const result = state.result;
+    updateOperation(workspaceState, 'forms', state.selectedEntryId, {
+      status: result?.status ?? 'error',
+      accepted: !['error', 'unsupported', 'morphology_unsupported'].includes(result?.status),
+      output: result?.forms?.map(form => form.text).filter(Boolean).join(', ') ?? result?.message ?? null,
+      rawResult: {...(result ?? {}), matches: state.matches}
+    });
   }
 
   function selectCandidate(candidate) {
@@ -136,6 +158,8 @@ export function createFormsView({runtime, formsService} = {}) {
         [{code: error?.code ?? 'FORMS_SERVICE_ERROR', message: error?.message ?? 'Forms service failed.'}]);
       state.result.lexeme = candidate.lexeme;
       state.status = 'error';
+    } finally {
+      updateSelectedOperation();
     }
   }
 
@@ -230,6 +254,7 @@ export function createFormsView({runtime, formsService} = {}) {
     const next = nextValue(languages, state.language, step);
     if (next === state.language) return;
     state.language = next;
+    state.settings.language = next;
     clearSearch();
   }
 
@@ -321,7 +346,7 @@ export function createFormsView({runtime, formsService} = {}) {
     onDraftChange() {
       clearSearch();
     },
-    handleAction(action, {focus} = {}) {
+    handleAction(action, {focus, requestToken} = {}) {
       if (focus?.id === 'language' &&
           ['cursor_left', 'cursor_right', 'submit'].includes(action.type)) {
         changeLanguage(action.type === 'cursor_left' ? -1 : 1);
@@ -336,11 +361,32 @@ export function createFormsView({runtime, formsService} = {}) {
         return true;
       }
       if (focus?.id === 'candidate' && action.type === 'submit') {
+        const input = state.draft;
         chooseCandidate();
+        if (state.result?.status === 'found' && state.draft === input) {
+          state.draft = '';
+          state.cursor = 0;
+        }
         return true;
       }
       if ((focus?.id === 'query' || focus?.id === 'search') && action.type === 'submit') {
+        const input = state.draft;
         search();
+        if (workspaceState) {
+          const result = state.result ?? {status: 'error'};
+          const output = result.forms?.map(form => form.text).filter(Boolean).join(', ') ??
+            (result.status === 'ambiguous' ? state.matches.map(item => item.lexeme.id).join(', ') :
+              result.message ?? null);
+          const entry = appendOperation(workspaceState, 'forms', {input,
+            language: state.language, status: result.status,
+            accepted: !['error', 'unsupported', 'morphology_unsupported'].includes(result.status),
+            output, rawResult: {...result, matches: state.matches}}, requestToken);
+          if (entry) state.selectedEntryId = entry.id;
+        }
+        if (state.result?.status === 'found' && state.draft === input) {
+          state.draft = '';
+          state.cursor = 0;
+        }
         return true;
       }
       return false;

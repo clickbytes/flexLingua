@@ -1,3 +1,5 @@
+import {appendOperation, isCurrentRequest} from '../state.js';
+
 function unique(values) {
   return [...new Set(values)];
 }
@@ -24,7 +26,7 @@ function diagnosticText(item) {
   return item?.message ?? item?.code ?? 'No diagnostic message.';
 }
 
-export function createTranslateView({runtime, translationService} = {}) {
+export function createTranslateView({runtime, translationService, state: modeState, workspaceState} = {}) {
   if (!runtime?.capabilityCatalog || typeof translationService?.translate !== 'function') {
     throw new Error('Translate view requires the application runtime and translation service.');
   }
@@ -37,8 +39,16 @@ export function createTranslateView({runtime, translationService} = {}) {
   const defaultFrom = preferred?.from ?? (languages.includes('en') ? 'en' : languages[0] ?? null);
   const defaultTo = preferred?.to ?? (languages.includes('pl') ? 'pl' :
     languages.find(code => code !== defaultFrom) ?? defaultFrom);
-  const state = {draft: '', cursor: 0, focusIndex: 0, status: '', from: defaultFrom,
-    to: defaultTo, result: null, details: false, scrollTop: 0};
+  const state = modeState ?? {draft: '', cursor: 0, status: '', settings: {}, from: defaultFrom,
+    to: defaultTo, result: null, details: false, scrollTop: 0, selectedEntryId: null};
+  state.settings ??= {};
+  state.result ??= null;
+  state.details ??= false;
+  state.selectedEntryId ??= null;
+  if (state.from === undefined) state.from = state.settings.from ?? defaultFrom;
+  if (state.to === undefined) state.to = state.settings.to ?? defaultTo;
+  state.settings.from = state.from;
+  state.settings.to = state.to;
 
   function hasDirection(from, to) {
     return catalog.translation({from, to}).status === 'available';
@@ -77,6 +87,7 @@ export function createTranslateView({runtime, translationService} = {}) {
 
   function clearResult() {
     state.result = null;
+    state.selectedEntryId = null;
     state.details = false;
     state.scrollTop = 0;
     state.status = '';
@@ -86,6 +97,7 @@ export function createTranslateView({runtime, translationService} = {}) {
     const next = nextValue(languages, state.from, step);
     if (next === state.from) return false;
     state.from = next;
+    state.settings.from = next;
     clearResult();
     return true;
   }
@@ -94,6 +106,7 @@ export function createTranslateView({runtime, translationService} = {}) {
     const next = nextValue(languages, state.to, step);
     if (next === state.to) return false;
     state.to = next;
+    state.settings.to = next;
     clearResult();
     return true;
   }
@@ -101,22 +114,39 @@ export function createTranslateView({runtime, translationService} = {}) {
   function swapDirection() {
     if (!canSwap()) return false;
     [state.from, state.to] = [state.to, state.from];
+    state.settings.from = state.from;
+    state.settings.to = state.to;
     clearResult();
     return true;
   }
 
-  function translate() {
+  async function translate({requestToken} = {}) {
+    const input = state.draft;
+    const from = state.from;
+    const to = state.to;
+    let result;
     try {
-      state.result = translationService.translate({from: state.from, to: state.to, text: state.draft});
-      state.status = state.result.status;
+      result = await translationService.translate({from, to, text: input});
     } catch (error) {
-      state.result = {status: 'error', text: null, meaning: null, alternatives: [],
+      result = {status: 'error', text: null, meaning: null, alternatives: [],
         informationLoss: [], diagnostics: [{code: error?.code ?? 'TRANSLATION_SERVICE_ERROR',
           message: error?.message ?? 'The translation service failed.'}]};
-      state.status = 'error';
     }
+    if (workspaceState && requestToken && !isCurrentRequest(workspaceState, requestToken)) return null;
+    state.result = result;
+    state.status = result.status;
     state.details = false;
-    state.scrollTop = 0;
+    if (!workspaceState) state.scrollTop = 0;
+    const entry = workspaceState && appendOperation(workspaceState, 'translate', {
+      input, from, to, status: result.status, accepted: result.status === 'ok',
+      output: result.text, rawResult: result
+    }, requestToken);
+    if (entry) state.selectedEntryId = entry.id;
+    if (result.status === 'ok' && state.draft === input) {
+      state.draft = '';
+      state.cursor = 0;
+    }
+    return result;
   }
 
   function toggleDetails() {
@@ -126,7 +156,7 @@ export function createTranslateView({runtime, translationService} = {}) {
     return true;
   }
 
-  function handleAction(action, {focus} = {}) {
+  function handleAction(action, {focus, requestToken} = {}) {
     if (state.details && focus?.id === 'details' && action.type === 'text' &&
         ['j', 'k'].includes(action.value.toLowerCase())) {
       state.scrollTop = Math.max(0, state.scrollTop + (action.value.toLowerCase() === 'j' ? 1 : -1));
@@ -155,8 +185,7 @@ export function createTranslateView({runtime, translationService} = {}) {
       return true;
     }
     if ((focus?.id === 'source' || focus?.id === 'translate') && action.type === 'submit') {
-      translate();
-      return true;
+      return translate({requestToken});
     }
     return false;
   }
@@ -229,6 +258,7 @@ export function createTranslateView({runtime, translationService} = {}) {
     actionLabel: 'Translate',
     focusTargets,
     handleAction,
+    onSubmit: translate,
     onDraftChange() {
       clearResult();
     },
