@@ -46,6 +46,10 @@ operators or grammatical functions, rather than inventing ordinary entities.
 
 Senses belong to the lexeme, not individual inflected forms. A given word form
 can have several grammatical analyses even when it represents the same lexeme.
+Noun senses may declare `countability: "mass"|"count"|"both"`; a missing value
+is treated as `count` for compatibility. Mass senses license a bare singular
+noun across compatible semantic frames, while indefinite portion readings such
+as `a coffee` require a separate sense and remain unsupported without one.
 The **full morphology paradigm generator and inverse word-form analyzer are NOT
 implemented in 1.01**; they are planned for later stages (1.02–1.06).
 

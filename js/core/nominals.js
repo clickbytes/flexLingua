@@ -243,6 +243,9 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms }) 
       function search(slotIndex, at, state) {
         if (++visited > MAX_NP_STATES) throw new Error('Qualified noun phrase exceeded parsing limit.');
         if (slotIndex === layout.length) {
+          const countability=noun.countability || 'count';
+          if (countability==='mass' && (number!=='singular' ||
+              state.quantifier || state.definiteness==='indefinite')) return;
           if(state.quantifier?.meaning.kind==='exact') {
             const value=state.quantifier.meaning.value;
             if(number!==(value===1?'singular':'plural'))return;
@@ -254,7 +257,8 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms }) 
           const firstAdj = state.lexemes[0];
           if (state.quantifier && layoutByQuantifier[state.quantifier.meaning.kind] !== undefined &&
               layoutByQuantifier[state.quantifier.meaning.kind] !== layoutIndex) return;
-          if (!state.determinerChosen && !state.demonstrative && !nounPhrase.allowBare && !allowBare && !state.quantifier) return;
+          if (!state.determinerChosen && !state.demonstrative && !nounPhrase.allowBare &&
+              !allowBare && !['mass','both'].includes(countability) && !state.quantifier) return;
           if (qualified.articleFromFirstModifier && state.marker &&
               state.definiteness === 'indefinite' &&
               state.marker !== (firstAdj?.indefiniteArticle || noun.indefiniteArticle)) return;
@@ -295,7 +299,9 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms }) 
               if (!item || len) advance(at + len, { definiteness, marker: item, determinerChosen: true });
             }
           }
-          if (nounPhrase.allowBare || allowBare || state.quantifier || layout.slice(slotIndex + 1).includes('quantifier')) {
+          const lexicalBare=['mass','both'].includes(noun.countability);
+          if (nounPhrase.allowBare || allowBare || lexicalBare || state.quantifier ||
+              layout.slice(slotIndex + 1).includes('quantifier')) {
             advance(at, { definiteness: 'unknown', marker: null, determinerChosen: false });
           }
         } else if (step === 'modifiers') {
@@ -317,10 +323,17 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms }) 
 
   function render(ref, noun, nounText, grammaticalCase, fallback,
     { allowBare = false, quantifierCase = grammaticalCase } = {}) {
+    const lexicalBare=['mass','both'].includes(noun.countability);
+    if(noun.countability==='mass' &&
+       (ref.features.number!=='singular' || ref.quantifier ||
+        ref.features.definiteness==='indefinite')) {
+      throw new Error(`Unsupported countability for ${noun.lemma}.`);
+    }
     const context = featuresFor(noun, ref.features.number, grammaticalCase);
     const def = ref.features.definiteness === 'unknown' ? fallback : ref.features.definiteness;
     const mapping = nounPhrase.determiners[ref.features.number]?.[def];
-    let marker = ref.demonstrative || ref.possessor || (allowBare && ref.features.definiteness === 'unknown')
+    let marker = ref.demonstrative || ref.possessor ||
+      ((allowBare || lexicalBare) && ref.features.definiteness === 'unknown')
       ? null : markerFor(noun, mapping);
     const modifierWords = [];
     let firstAdjective = null;

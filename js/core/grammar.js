@@ -673,6 +673,7 @@ function expandLexemes(lexemes, language, partOfSpeech) {
       expanded.push({ ...lexeme, ...(concept ? {concept} : {}),
         ...(sense.coreRef ? {coreRef:sense.coreRef} : {}),
         ...(stateFunction ? {stateFunction} : {}), senseId: sense.id,
+        ...(sense.countability ? {countability:sense.countability} : {}),
         priority: sense.priority || 0 });
     }
   }

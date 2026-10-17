@@ -24,7 +24,7 @@ const gold=[
   ['event.eat','eats','eat','ate','jeść','je','jedzą','jadła','food',
     'The girl eats a banana.','Dziewczynka je banan.','A girl eats a banana.','The girl ate a banana.','Dziewczynka jadła banan.','A girl ate a banana.'],
   ['event.drink','drinks','drink','drank','pić','pije','piją','piła','beverage',
-    'The girl drinks a juice.','Dziewczynka pije sok.','A girl drinks a juice.','The girl drank a juice.','Dziewczynka piła sok.','A girl drank a juice.'],
+    'The girl drinks juice.','Dziewczynka pije sok.','A girl drinks juice.','The girl drank juice.','Dziewczynka piła sok.','A girl drank juice.'],
   ['event.work','works','work','worked','pracować','pracuje','pracują','pracowała',null,
     'The girl works.','Dziewczynka pracuje.','A girl works.','The girl worked.','Dziewczynka pracowała.','A girl worked.'],
   ['event.learn','learns','learn','learned','uczyć się','uczy się','uczą się','uczyła się','knowledge_content',

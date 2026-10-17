@@ -1103,17 +1103,6 @@
       }
     },
     "event.drink": {
-      "bareRoles": [
-        "theme"
-      ],
-      "bareRoleConcepts": {
-        "theme": [
-          "beverage.water",
-          "beverage.milk",
-          "beverage.coffee",
-          "beverage.tea"
-        ]
-      },
       "cases": {
         "agent": "nom",
         "theme": "acc"

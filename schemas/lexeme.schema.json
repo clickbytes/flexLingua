@@ -14,7 +14,8 @@
         "properties": {
           "id": { "type": "string", "minLength": 1 },
           "coreRef": { "$ref": "core-reference.schema.json" },
-          "priority": { "type": "integer", "minimum": -100, "maximum": 100 }
+          "priority": { "type": "integer", "minimum": -100, "maximum": 100 },
+          "countability": { "enum": ["mass", "count", "both"] }
         },
         "additionalProperties": false
       }
