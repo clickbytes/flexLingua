@@ -1,0 +1,21 @@
+{
+  "version": "1.02",
+  "language": "ar",
+  "dimensions": {
+    "number": ["singular"],
+    "tense": ["past", "present"],
+    "person": ["third"],
+    "gender": ["masculine"]
+  },
+  "featureProfile": {
+    "version": "1.0",
+    "language": "ar",
+    "syntactic": {},
+    "morphology": {
+      "number": ["singular"],
+      "tense": ["past", "present"],
+      "person": ["third"],
+      "gender": ["masculine"]
+    }
+  }
+}

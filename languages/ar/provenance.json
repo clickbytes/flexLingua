@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-10-17",
+  "packages": [
+    {
+      "path": "languages/ar/morphology.json",
+      "version": "1.11",
+      "status": "legacy-review-required",
+      "author": "Not attributed in the existing package metadata",
+      "source": "Curated typological demonstration, as declared in the package; individual form sources are not recorded",
+      "license": "Project-authored label exists in package; rights and reuse terms are not specified",
+      "reviewedAt": "2026-10-14",
+      "permittedUse": "Existing in-repository demonstration only. Verify source and rights before reuse or export.",
+      "migrationNote": "The existing root-template cells are moved unchanged. Add verified author, version date and permitted-use terms before expanding or exporting this package."
+    },
+    {
+      "path": "languages/ar/morphology-lexicon.json",
+      "version": "1.01",
+      "status": "legacy-review-required",
+      "author": "Not attributed in the existing package metadata",
+      "source": "Historical empty Arabic lexicon adapter package; entry-level source is not recorded",
+      "license": "Unconfirmed; no separate license statement is present in this package",
+      "reviewedAt": "2026-10-14",
+      "permittedUse": "Existing in-repository execution only. Do not redistribute or reuse externally until source and rights are reviewed.",
+      "migrationNote": "The historical source metadata describes an empty adapter although the current file contains ar.kataba.1. That entry and CORE reference are moved unchanged; confirm package authorship and license before adding lexical entries."
+    },
+    {
+      "path": "languages/ar/manifest.json",
+      "version": "1.0",
+      "status": "project-authored",
+      "author": "flexLingua project contributors",
+      "source": "Project-authored language package manifest describing the existing Arabic morphology package; no external data imported.",
+      "license": "Project-authored; no separate SPDX data license grant is declared in this repository.",
+      "reviewedAt": "2026-10-17",
+      "permittedUse": "Internal flexLingua package configuration only; external reuse requires rights-holder review."
+    },
+    {
+      "path": "languages/ar/features.json",
+      "status": "project-authored",
+      "author": "flexLingua project contributors",
+      "source": "Local feature subset derived from values used by the migrated Arabic root-template cells.",
+      "license": "Project-authored; no separate SPDX data license grant is declared in this repository."
+    },
+    {
+      "path": "languages/ar/signal.json",
+      "status": "project-authored",
+      "author": "flexLingua project contributors",
+      "source": "Project-authored written Arabic signal profile migrated from the existing language package tokenizer settings.",
+      "license": "Project-authored; no separate SPDX data license grant is declared in this repository."
+    },
+    {
+      "path": "languages/ar/graph.json",
+      "status": "project-authored",
+      "author": "flexLingua project contributors",
+      "source": "Project-authored LanguageGraph for the existing Arabic morphology-only provider.",
+      "license": "Project-authored; no separate SPDX data license grant is declared in this repository."
+    },
+    {
+      "path": "languages/ar/index.js",
+      "status": "project-authored",
+      "author": "flexLingua project contributors",
+      "source": "Project-authored LanguagePlugin factory wiring the migrated declarative morphology modules.",
+      "license": "Project-authored; no separate SPDX data license grant is declared in this repository."
+    },
+    {
+      "path": "languages/ar/provenance.json",
+      "status": "project-authored",
+      "author": "flexLingua project contributors",
+      "source": "Project-authored provenance record for the migrated Arabic morphology package.",
+      "license": "Project-authored; no separate SPDX data license grant is declared in this repository."
+    }
+  ]
+}
