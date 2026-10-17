@@ -143,7 +143,7 @@ języka do wspólnego interpretera.
 - Reuse [tożsamość referenta i wzmianki](referent-vs-mention.md):
   tożsamość wymaga jawnego linku; graf języka i leksykon nie mogą dopowiadać
   referenta z podobieństwa form.
-- Reuse [raport transferu informacji](../api-v1.0.md):
+- Reuse [aktualny kontrakt CLI](../cli.md):
   jawna utrata powierzchniowa jest wynikiem transferu, nie mutacją CORE.
 
 ## Właścicielstwo plików i cutover

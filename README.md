@@ -1,58 +1,31 @@
 # flexLingua
 
-flexLingua is a controlled Polish–English translation prototype built around a shared, language-neutral meaning representation.
+flexLingua is a bounded, rule-based translation prototype. Each language is a JavaScript ESM plugin with JSON data, and translations pass through a shared, language-neutral CORE meaning representation.
 
-```text
-Polish  →  CORE / INTER  →  English
-English →  CORE / INTER →  Polish
-```
+The supported packages cover controlled subsets: PL↔EN, EN↔FI, TR→EN, and IT→EN. Arabic currently provides morphology only. The project does not claim to translate arbitrary free text or to certify CEFR proficiency. Unsupported input and unavailable directions must produce explicit diagnostics.
 
-The project separates meaning from language-specific vocabulary, morphology, and grammar. It does not claim to translate arbitrary free text or to certify CEFR proficiency.
+## Run the CLI
 
-## Current work
-
-GitHub is the work tracker:
-
-- [Issues](https://github.com/clickbytes/flexLingua/issues) hold task scope, acceptance criteria, dependencies, and status.
-- Pull requests hold the proposed change and review.
-- GitHub Actions holds validation results for the exact commit.
-- The source tree, tests, and technical documents describe the product that exists.
-
-The README and roadmap describe the project; they are not task logs.
-
-## Run locally
-
-On Windows, start `start.bat` from the repository root. It starts a loopback-only HTTP server and opens the Studio.
-
-With Node.js, run:
+Use Node.js from the repository root:
 
 ```sh
-npm run dev
+node tools/translate.mjs --languages
+node tools/translate.mjs --from en --to pl --text "The girl sees the dog." --json
 ```
 
-Then open http://127.0.0.1:8000/. A local server is required; direct `file://` use is unsupported.
-
-## Validate changes
-
-```sh
-npm test                 # szybki cykl podczas pracy
-npm run check:release   # pełny lokalny gate, zawiera npm test
-```
-
-`check:release` includes `npm test` and the configured data, morphology, gold, coverage, and provenance checks. Run that command once before finishing a change. CI runs the Node suite and lexical audits in parallel, then reports one aggregate release status.
+The CLI does not require a server or GUI. See [CLI usage](docs/cli.md) for arguments, JSON output, diagnostics, and exit codes. The Studio browser assets remain in the repository, but Studio is temporarily unavailable in the CLI-only runtime; see [GUI status](docs/gui.md).
 
 ## Project structure
 
-- `js/core/` — language-independent engine and shared APIs.
-- `data/core/concepts.json` — shared semantic concepts used by language packages.
-- `data/pl.json`, `data/en.json` — Polish and English lexical data.
-- `data/grammar/`, `data/morphology/` — language-specific rules and inflection.
-- `tests/` — regression tests and independently authored gold examples.
-- `docs/` — API, grammar, semantic, data, and quality contracts.
+- `languages/<code>/` — package entry point, manifest, language graph, and optional language data.
+- `js/plugins/` — plugin contract, validation, registry, loader, and graph support.
+- `js/core/` and `data/core/` — shared engine and language-neutral meaning model.
+- `tools/translate.mjs` — sentence translation and package discovery CLI.
+- `examples/cli-sentences.md` — manually reviewed commands and expected meaning or refusal.
+- `docs/` — current architecture, plugin, CLI, provenance, and decision documents.
 
-Start with the [documentation index](docs/README.md), [product roadmap](ROADMAP.md), or [development workflow](docs/development-workflow.md).
+## Review and limits
 
-## Limits
+Review language behavior by running real sentences through the CLI and comparing the surface text, CORE meaning, and diagnostics. Record the exact commands, expected and actual results, refusal reasons, exit codes, and commit SHA in the issue or PR. No automated suite or GitHub Actions gate is used for acceptance.
 
-The engine only accepts constructions declared by its current data and grammar. Unsupported or ambiguous input should produce an explicit diagnostic instead of a guessed translation. Gold tests verify their stated examples and do not measure complete language proficiency.
-
+Start with the [development workflow](docs/development-workflow.md), [documentation index](docs/README.md), or [product roadmap](ROADMAP.md).

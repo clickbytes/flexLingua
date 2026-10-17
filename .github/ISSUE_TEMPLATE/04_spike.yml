@@ -25,13 +25,13 @@ body:
     id: experiment
     attributes:
       label: Reprodukowalny eksperyment / kryteria wyboru
-      placeholder: "Wskazanie plików, testu, budżetu i mierzalnego wyniku."
+      placeholder: "Wskazanie plików, eksperymentu lub komendy CLI, budżetu i mierzalnego wyniku."
     validations:
       required: true
   - type: textarea
     id: decision
     attributes:
       label: Artefakty i Definition of Done
-      placeholder: "- [ ] ADR...\n- [ ] Próbka...\n- [ ] Zadania wdrożenia..."
+      placeholder: "- [ ] ADR...\n- [ ] Ręcznie sprawdzona próbka...\n- [ ] Zadania wdrożenia..."
     validations:
       required: true

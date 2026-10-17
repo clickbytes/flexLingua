@@ -1,139 +1,46 @@
-# flexLingua — Codex development rules
+@C:\Users\ppotepa\.codex\RTK.md
 
-## Objective
+## Global code intelligence
 
-Optimize for fast, precise edits with the smallest reasonable amount of tool use.
-The default is **FAST EDIT**, not repository audit or release preparation.
-Follow the user's explicit task and stop when it is complete. Do not claim that
-unrun checks passed. Language changes use the local sentence review CLI and a
-human review of its output. GitHub Actions are not part of the development or
-merge process, and Git hooks do not launch tests.
+- When a repository contains `.codegraph`, use CodeGraph for symbol lookup and code relationships before broad text searches.
+- Prefer `codegraph status`, `query`, `callers`, `callees`, `impact`, and `affected` when they answer the question.
+- If no index exists, use scoped text search. Indexing is the user's decision; run `codegraph sync` only when an existing index is stale.
 
-## Scope and execution
+## GitHub repository identity guard
 
-- Make the smallest change that satisfies the request. Do not add unsolicited
-  refactoring, cleanup, features, documentation, or dependency updates.
-- If the user identifies a file or function, start there. Read only the relevant
-  context and direct dependencies needed to edit safely. Search narrowly first.
-- Do not enumerate the repository, read many docs, or inspect unrelated tests
-  at the start of every task. Do not repeatedly reread unchanged files.
-- Avoid reading entire large files such as `js/core/grammar.js` or
-  `data/morphology/pl.json` when a targeted search or excerpt suffices.
-- For straightforward edits, do not write a plan, TODO list, or lengthy analysis.
-  Make the edit and finish. Plan only genuinely cross-cutting work.
-- Respect existing user changes; never discard or overwrite unrelated edits.
-- Do not create branches, commits, tags, PRs, or GitHub issue updates unless asked.
+- Before creating commits or performing authenticated GitHub writes such as push, run `& "$env:USERPROFILE\.codex\scripts\repo-check.ps1"` from the repository.
+- For SSH remotes, add `-CheckRemoteAuth` to identify the account represented by the active SSH key. For deliberate selection, use `ppotepa.ps1` or `clickbytes.ps1`.
+- If the helper reports MISMATCH, stop before committing or writing to GitHub. Do not switch accounts or change Git identity or credentials automatically.
+- If it reports REVIEW, explain which identity check is incomplete before committing. Do not treat a GitHub CLI login as proof of HTTPS Git auth unless the Git credential helper uses GitHub CLI.
+- The helper is read-only. Configure expected commit names and emails in `repo-profiles.json`; never put tokens or passwords there.
 
-## Avoid unnecessary commands
+# flexLingua agent instructions
 
-- Do **not** run `git status`, `git diff`, `git log`, `git show`, or similar Git
-  inspection commands as routine preflight/postflight work. Use Git only when
-  needed for the requested task, conflict safety, or an explicit PR/release flow.
-- Do **not** run extra tests, builds, formatters, linters, audits, `npm install`,
-  `npm audit`, or the development server just to be thorough. Commits and pushes
-  have no automatic checks.
-- Do not launch broad searches, full test suites, background services, or
-  additional validation after a change unless the task requires it.
-- Do not chain multiple verification commands that substantially duplicate
-  coverage. Do not retry a passing check.
+## Product contract
 
-## Validation policy: select the smallest level
+flexLingua is a bounded, rule-based translation prototype. Runtime and data changes use JavaScript ESM and JSON. Languages are independent `LanguagePlugin` packages; language-neutral meaning belongs in `js/core/` and `data/core/`. Preserve explicit ambiguity, unsupported results, CORE roles, and data provenance. Never silently guess or claim unrestricted language or CEFR coverage.
 
-### Sentence-matrix workflow for language changes
+Do not add TypeScript, compatibility adapters, old language paths, test runners, automated gold workflows, GitHub Actions, or `HANDOFF.MD`.
 
-For translation, parsing, grammar, CORE mapping, lexical behavior, or morphology,
-the primary acceptance artifact is a small project-authored JSON sentence matrix.
-Each accepted row records `id`, `from`, `to`, `input`, `expected`, and enough
-static CORE information to review meaning. Refusals record the input and reason.
+## Work scope
 
-1. Add or update only the rows for the current contract. Write expected surface
-   text and CORE by hand before using the engine; never copy engine output into
-   the oracle merely because it was produced.
-2. Run `node tools/review-sentences.mjs --input <fixture.json>`. This prints one
-   JSON line per sentence with input, actual output, expected output, status, and
-   analyzed CORE. Treat the fixture as input and the printed records as the
-   review material.
-3. Review every printed row linguistically and semantically: target wording,
-   roles, referents, tense, polarity, aspect, number, relation, ambiguity, and
-   expected refusal. A zero exit code only means exact strings matched; it does
-   not replace this review.
-4. Run at most one matching focused Node test when a mechanical invariant needs
-   regression protection. Do not start the full suite for an ordinary language
-   batch.
-5. Record the fixture path, command, reviewed row count, mismatches, and commit
-   SHA in the PR or issue. GitHub Actions are not used for this workflow.
+- Work on one GitHub issue and one PR at a time. Before implementation, comment on the issue with owner, file scope, base SHA, and dependencies; record active assignments in the parent epic when applicable.
+- Do not start another issue until the current PR is merged. Rebase the next task on the resulting `main` SHA and record that base in its issue.
+- Read the task, direct dependencies, and only the files needed for the change. Search narrowly. Plan cross-file work before editing, then make each file's complete change once.
+- Keep changes within the issue. Preserve user changes, language data, and licensing/provenance sources unless the issue explicitly names them.
+- Keep README and roadmap focused on durable product behavior. Record task progress, exact command results, and SHAs in the issue or PR.
 
-Sentence matrices may grow toward 1000 reviewed A1 sentences per direction, but
-split them into bounded thematic files. Review only the changed file plus a small
-stable regression sample; do not rerun the entire corpus after every edit.
+## Acceptance
 
-1. **FAST EDIT (default):** For text, markup, documentation, styling, or a small
-   localized change that does not alter a behavioral contract, edit and stop;
-   no automatic tests or Git review.
-2. **TARGETED CHECK:** For a behavior fix or change with relevant regression
-   risk, choose only the most relevant existing test file(s). Run at most one
-   focused test command by default, unless a failure or genuine risk requires
-   more. Do not run all of `npm test` for a localized change.
-3. **DATA CHECK:** When editing lexical, morphology, gold, or provenance data,
-   run only the applicable focused validator if verification is needed.
-   Do not launch every language audit for an unrelated dataset.
-4. **RELEASE GATE (explicit only):** Run `npm run check:core-gates` only when
-   the user explicitly requests a release or full repository verification.
-   Commits and pushes run no checks automatically. Report the exact commands
-   actually run and never infer success from a commit or push.
+The sentence CLI is the only current acceptance path for language behavior:
 
-If a focused check fails, investigate the in-scope failure, fix it if appropriate,
-and rerun that check once. Do not launch unrelated checks in response. If an
-out-of-scope failure remains, report it briefly without expanding the task.
-If a requested check cannot run, state that; never imply PASS.
+```sh
+node tools/translate.mjs --languages
+node tools/translate.mjs --from en --to pl --text "The girl sees the dog." --json
+```
 
-## Where to look and which focused checks to select
+For each changed direction, review actual words and CORE roles, referents, tense, aspect, polarity, number, ambiguity, information loss, diagnostics, and exit code. Include positive examples and a refusal where relevant. State expected meaning independently before running the CLI; do not treat a matching string as semantic proof.
 
-Use this as a navigation guide, not as a mandatory reading or testing checklist.
-Only choose paths relevant to the requested change.
+For infrastructure or documentation work, run only the syntax, import, reference, or CLI checks needed by the issue. Automated test suites and Actions are not acceptance gates. Report exact commands and mark unrun checks as NOT RUN.
 
-- Translation / semantics / parsing: `js/core/engine.js`, `interlingua.js`,
-  `grammar.js`, `ontology.js`; possible tests: `tests/semantics.test.js`,
-  `tests/clauses.test.js`, `tests/node.test.js`.
-- Questions: `js/core/grammar.js`, relevant CORE modules; when warranted,
-  `npm run check:questions`.
-- Conversation / reference: `js/core/conversation.js`, `dialogue-engine.js`,
-  `response-planner.js`; focused tests include `tests/conversation-e4.test.js`,
-  `tests/dialogue-engine.test.js`, `tests/anaphora-e3.test.js`,
-  `tests/response-planner.test.js`.
-- Morphology: `js/core/morphology/`, `data/morphology/`; focused test
-  `tests/morphology.test.js`; `npm run check:morphology` for relevant data edits.
-- Lexicon / concepts: `js/core/lexicon.js`, `data/concepts.json`,
-  `data/pl.json`, `data/en.json`, `data/tr.json`; focused test
-  `tests/core-lexicon.test.js`; `npm run check:lexicon` when appropriate.
-- Data provenance: `data/provenance.json`; run
-  `npm run check:data-provenance` if a data package or inventory entry changes.
-- Studio / browser UI: `js/ui/studio.js`, `js/ui/dialogue.js`, `js/main.js`,
-  `index.html`; possible tests: `tests/studio-ui.test.js`,
-  `tests/dialogue-ui.test.js`, `tests/ui.test.js`.
-- Local sentence review / release gating: `tools/review-sentences.mjs`,
-  `tools/check-core-gates.mjs`, `package.json`; focused test:
-  `tests/core-release-gates.test.js`.
-- Existing npm scripts are defined in `package.json`. Do not invent scripts;
-  the sentence-review CLI is called directly with `node`.
-  Node test runner: `node --test tests/<relevant-file>.test.js`.
-
-## Product invariants
-
-- flexLingua is a bounded, rule-based translation prototype. Preserve
-  language-neutral CORE/INTER semantics and explicit diagnostics for unknown,
-  ambiguous, or unsupported input; never silently guess a translation.
-- Avoid changing unrelated Polish, English, and Turkish behavior.
-- Do not weaken tests, alter gold expected outputs merely to make them pass,
-  or fabricate independent evidence. If the intended contract truly changes,
-  update the minimum relevant test/fixture and document the rationale.
-- Update documentation only for a genuine lasting API, behavior, grammar,
-  schema, architecture, run-command, or provenance contract change.
-  GitHub Issues and PRs hold task progress and the local test result; do not
-  turn README or ROADMAP into a task log. A separate HANDOFF.MD is not used.
-
-## Final response
-
-Use 1-3 concise sentences: what changed and, only if relevant, the exact check
-run (or that checks were not run). No unsolicited suggestions, lengthy recap,
-repository audit, or generic follow-up work. Then stop.
+Use the repository's RTK command prefix for shell commands. Do not make broad audits, run unrelated commands, or claim checks that were not performed. Keep public file and API names free of `v2` and `legacy` suffixes.

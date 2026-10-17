@@ -1,161 +1,45 @@
 # LanguagePlugin — kontrakt pakietu językowego
 
-Dokument opisuje publiczne API jednego pluginu. Decyzję i granice migracji
-określa [ADR pluginów językowych](adr/language-plugins.md); szczegóły walidacji
-manifestu, graphu, registry i loadera należą do kolejnych implementacyjnych
-issues.
+Każdy język jest niezależnym pakietem JavaScript ESM i JSON. Registry wybiera pakiet, loader waliduje jego manifest, graph i provenance, a CLI przekazuje mu pracę. Decyzje architektoniczne opisuje [ADR pluginów](adr/language-plugins.md).
 
-## Katalog pakietu
+## Pliki pakietu
 
 ```text
 languages/<code>/
-  index.js                 # eksportuje jeden LanguagePlugin
-  manifest.json            # identity, wersje, capability i moduły
-  graph.json               # LanguageGraph tego języka
-  lexicon.json             # jeśli plugin ma leksykon zdaniowy
-  grammar.json             # jeśli plugin ma parser/realizator zdań
-  features.json            # lokalny profil cech, gdy jest potrzebny
-  morphology.json          # opcjonalne paradygmaty/operator instructions
-  morphology-lexicon.json  # opcjonalne sensy używane przez morfologię
-  signal.json              # opcjonalnie, gdy jest dostawca signal
-  provenance.json          # źródła danych pakietu
+  index.js                 # fabryka pluginu
+  manifest.json            # kod, status, moduły, capabilities i provenance
+  graph.json               # LanguageGraph
+  lexicon.json             # opcjonalny leksykon zdań
+  grammar.json             # opcjonalna analiza i realizacja zdań
+  features.json            # opcjonalny profil lokalnych cech
+  morphology.json          # opcjonalne paradygmaty i operacje
+  morphology-lexicon.json  # opcjonalne hasła używane przez morfologię
+  signal.json              # opcjonalne moduły sygnału
+  bridge.json              # opcjonalne mapowania do CORE
+  provenance.json          # źródła i licencje pakietu
 ```
 
-Pliki poza `index.js`, `manifest.json` i `graph.json` są wymagane tylko wtedy,
-gdy odpowiadają istniejącej funkcjonalności pakietu. Plugin morphology-only nie
-ma gramatyki zdaniowej. Brak modułu nie jest równoważny pustemu modułowi.
+`index.js` eksportuje fabrykę domyślną. Walidowany loader przekazuje jej manifest, graph, wspólny CORE i provenance. Fabryka zwraca plugin korzystający ze wspólnych interpreterów. Opcjonalny moduł nie jest wymagany, gdy pakiet nie udostępnia danej funkcji; pusty plik nie oznacza obsługi.
 
-## Interfejs JavaScript ESM
+## Interfejs
 
-Plugin ma stabilny `code` zgodny z registry i wersję kontraktu. `describe()`
-zwraca serializowalne `{language, version}`; `capabilities()` podaje listę
-deklaracji `{operation, channel, construction, status, evidence}`. Status
-`implemented` wymaga ręcznie sprawdzonego zdania, a `unsupported` — jawnej
-ręcznej odmowy. Deklaracje są per konstrukcja, bez ogólnego `all`. Plugin
-o capability zdaniowej wystawia odpowiednie `analyze()` i/lub `realize()`;
-plugin morphology-only może je pominąć zamiast dodawać fikcyjne metody.
-Udostępnione `analyze()` i `realize()` zwracają jawny status, bez tekstu
-przedstawionego jako sukces przy refusal.
+Plugin zwraca obiekt o kontrakcie `1.0` z polami `code`, `describe()` i `capabilities()`. `describe()` zwraca serializowalne `{ language, version }`. `capabilities()` deklaruje ograniczone operacje i konstrukcje w formie `{ operation, channel, construction, status, evidence }`.
 
-```js
-export default {
-  contractVersion: '1.0',
-  code: 'en',
-  describe() { return { language: 'en', version: '1.0' }; },
-  capabilities() {
-    return [
-      { operation: 'analyze', channel: 'sentence',
-        construction: 'controlled-event-present', status: 'unsupported',
-        evidence: [{ kind: 'manual-refusal', id: 'en-example-refusal-01' }] },
-      { operation: 'realize', channel: 'sentence',
-        construction: 'controlled-event-present', status: 'unsupported',
-        evidence: [{ kind: 'manual-refusal', id: 'en-example-refusal-01' }] }
-    ];
-  },
-  analyze({ text, context = {} }) {
-    // Deleguje do wspólnego runtime; przykład nie jest implementacją parsera.
-    return { status: 'unsupported', readings: [], diagnostics: [
-      { code: 'EXAMPLE_ONLY', message: 'Replace with the compiled plugin.' }
-    ] };
-  },
-  realize({ meaning, context = {} }) {
-    return { status: 'unsupported', diagnostics: [
-      { code: 'EXAMPLE_ONLY', message: 'Replace with the compiled plugin.' }
-    ] };
-  }
-};
-```
+Dozwolone kanały i operacje:
 
-Pokazany plugin jest szkieletem dokumentacyjnym i celowo odmawia. Nie stanowi
-fixture ani przykładowego tłumaczenia do akceptacji.
+- `sentence`: `analyze`, `realize`
+- `morphology`: `generate`, `analyze`, `paradigm`, `availability`
+- `lexicon`: `lookup`
+- `signal`: `decode`, `encode`
 
-## Kształt wyników
+Wynik capability ma status `implemented` lub `unsupported`. Każde stwierdzenie capability zawiera co najmniej jeden identyfikator ręcznej sentencji lub odmowy. Nie deklaruj wsparcia na podstawie samych danych. Nie używaj ogólnego construction `all`.
 
-- `analyze({text, context})`:
-  - `ok`: `readings[]` ma co najmniej jedno zwalidowane znaczenie;
-  - `ambiguous`: zwraca ograniczony zestaw odczytań i diagnostykę;
-  - `unsupported`: składnia lub kierunek nie należy do aktywnego capability;
-  - `invalid`: wejście łamie wymagany format/kontrakt;
-  - `resource_limit`: jawnie osiągnięto zadeklarowany limit.
-- `realize({meaning, context})`:
-  - `ok`: niepusty `text`, ewentualne `warnings`, `alternatives`,
-    `informationLoss` i `diagnostics`;
-  - `ambiguous`: jest więcej niż jedna licencjonowana realizacja i wybór nie ma
-    dowodu; alternatywy muszą być jawne;
-  - `unsupported`, `invalid`, `resource_limit`: brak tekstu przedstawionego jako
-    udane tłumaczenie.
+Plugin zdaniowy udostępnia potrzebne `analyze({ text, context })` i/lub `realize({ meaning, context })`. Pakiet morphology-only może nie mieć metod zdaniowych. Wyniki używają statusu `ok`, `ambiguous`, `unsupported`, `invalid` albo `resource_limit`. Odmowa nie zawiera tekstu udawanego za udane tłumaczenie. Przy sukcesie wynik może zawierać alternatywy, warnings, informationLoss i diagnostics; diagnostyki mają stabilny kod.
 
-Każdy diagnostic zawiera stabilny `code` oraz opis dla operatora. Wynik `ok`
-nie obiecuje pełnej poprawności ani pokrycia CEFR. `informationLoss` wskazuje
-neutralizację znanego wymiaru lub jawne niedookreślenie; nie modyfikuje CORE.
-Nieznane pole CORE jest błędem walidacji, a nie ostrzeżeniem do zignorowania.
+## Manifest i zakres
 
-## Manifest i LanguageGraph
+Manifest wiąże kod języka, wersję schematu, ścieżkę graph, status pakietu, capabilities i provenance. Opcjonalna lista `directions` zawęża pary `from->to`; każda zadeklarowana lista musi dopuszczać wybrany kierunek. Registry nie dodaje kierunku, którego pakiet nie deklaruje.
 
-Manifest wymaga `id`, `code`, `schemaVersion`, względnej ścieżki `graph`,
-statusu pakietu, listy capabilities oraz ścieżki `provenance`. Capability ma
-status `implemented` albo `unsupported`; pierwszego nie deklaruje się wyłącznie
-na podstawie danych w graphie. Każda deklaracja wymaga realnego provideru i
-ręcznie sprawdzonego zdania lub jawnej odmowy. Schematy manifestu i capability
-znajdują się w `schemas/language-plugin.schema.json` i
-`schemas/plugin-capability.schema.json`; sprawdzanie ścieżek w katalogu
-pakietu należy do R03.
+`graph.json` to typowany, ograniczony LanguageGraph. Nie przechowuje dowolnych ścieżek ani kodu JavaScript. CORE pozostaje neutralny wobec szyku, przypadka i językowych wykładników. Pakiety nie kopiują parserów lub wspólnych reguł dla każdej pary języków.
 
-Opcjonalne pole `directions` ogranicza obsługiwane pary `from->to`. Jeśli
-manifest źródłowy lub docelowy deklaruje tę listę, para musi znaleźć się na
-każdej zadeklarowanej liście; brak pola nie dodaje ograniczenia.
-
-`graph.json` jest typowanym grafem jednego języka: stabilne ID węzłów, zamknięte
-typy węzłów, walidowane atrybuty i zamknięte typy krawędzi. Krawędź nie może
-łączyć dowolnych typów węzłów. Graf nie przechowuje dowolnej ścieżki pliku ani
-JavaScript jako danych. Dokładne enumy i dozwolone pary typów należą do R04.
-
-## Przykładowy manifest
-
-```json
-{
-  "id": "language.pl",
-  "code": "pl",
-  "schemaVersion": "1.0",
-  "graph": "graph.json",
-  "status": "controlled-subset",
-  "directions": ["pl->en"],
-  "capabilities": [{
-    "operation": "analyze",
-    "channel": "sentence",
-    "construction": "controlled-event-present",
-    "status": "implemented",
-    "evidence": [{ "kind": "manual-sentence", "id": "pl-controlled-present-01" }]
-  }],
-  "provenance": "provenance.json"
-}
-```
-
-To ilustracja kształtu danych. R03 definiuje bezpieczne rozwiązywanie ścieżek,
-walidację zawartości pakietu i zgodność `capabilities()` runtime z manifestem.
-
-## Pakiety z ograniczonym zakresem
-
-`ar` zachowuje provider morfologii korzeniowej, ale nie deklaruje analizy ani
-realizacji zdań, dopóki ich nie ma. CLI dla pytania o zdanie EN→AR ma zwracać
-`unsupported`, a nie tworzyć zdanie z samych form morfologicznych.
-
-`fi`, `tr` i `it` deklarują wyłącznie uruchomione i ręcznie zaakceptowane
-konstrukcje. Brak capability dla zdania nie odrzuca samego pakietu; oznacza
-jawny refusal przy tej konstrukcji lub kierunku. Nie kopiować wspólnego
-interpretera ani reguł per para języków do `languages/<code>/index.js`.
-
-## Lokalna ocena przez CLI
-
-Po udostępnieniu `tools/translate.mjs` agent uruchamia konkretne zdania:
-
-```sh
-node tools/translate.mjs --from en --to pl --text "The girl sees the dog."
-node tools/translate.mjs --from pl --to en --text "Dziewczynka widzi psa."
-node tools/translate.mjs --from en --to ar --text "The girl sees the dog." --json
-```
-
-Przegląd zapisuje dokładne wejście, oczekiwany sens, zaobserwowany tekst lub
-refusal, CORE/diagnostykę i sprawdzony SHA. Dla tego kontraktowego issue CLI
-nie istnieje: jego stan to `CLI NOT AVAILABLE — requires R07`; nie uruchamia się
-testów automatycznych ani nie dopisuje `tests/`.
+Aktualne kierunki są zapisane w manifestach i widoczne przez `node tools/translate.mjs --languages`. CLI musi jawnie odmawiać nieobsługiwanych konstrukcji i kierunków. Obecne przykłady ręcznego przeglądu są w [przewodniku CLI](../examples/cli-sentences.md); pełny interfejs poleceń opisuje [CLI](cli.md).
