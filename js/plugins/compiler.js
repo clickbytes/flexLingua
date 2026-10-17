@@ -1,5 +1,6 @@
 import {PluginError} from './errors.js';
 import {validateLanguageGraph} from './graph.js';
+import {safeName} from '../core/features.js';
 
 const IDENTIFIER = /^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*$/u;
 const REFERENCE_ID = /^[A-Za-z][A-Za-z0-9_]*(?:\.[A-Za-z0-9_]+)*$/u;
@@ -126,10 +127,10 @@ function collectFeatureDimensions(modules) {
     for (const source of sources) {
       if (!isRecord(source)) fail('PLUGIN_GRAPH_INVALID', `Invalid feature dimensions in ${moduleName}.`);
       for (const [dimension, rawValues] of Object.entries(source)) {
-        if (!safeId(dimension)) fail('PLUGIN_GRAPH_INVALID', `Invalid feature dimension in ${moduleName}.`);
+        if (!safeName(dimension)) fail('PLUGIN_GRAPH_INVALID', `Invalid feature dimension in ${moduleName}.`);
         const values = Array.isArray(rawValues) ? rawValues
           : isRecord(rawValues) && Array.isArray(rawValues.values) ? rawValues.values : null;
-        if (!values || values.some(value => !safeId(value)) || new Set(values).size !== values.length) {
+        if (!values || values.some(value => !safeName(value)) || new Set(values).size !== values.length) {
           fail('PLUGIN_GRAPH_INVALID', `Invalid values for feature dimension ${dimension}.`);
         }
         const normalized = [...values].sort();
