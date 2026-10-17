@@ -8,6 +8,12 @@
           "role": "agent",
           "argument": "subject",
           "syntacticFunction": "subject",
+          "agreementControllers": [
+            {
+              "argument": "subject",
+              "feature": "number"
+            }
+          ],
           "caseExponent": {
             "kind": "case",
             "value": "nom"
@@ -32,6 +38,12 @@
           "role": "agent",
           "argument": "subject",
           "syntacticFunction": "subject",
+          "agreementControllers": [
+            {
+              "argument": "subject",
+              "feature": "number"
+            }
+          ],
           "caseExponent": {
             "kind": "case",
             "value": "nom"

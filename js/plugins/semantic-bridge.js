@@ -226,7 +226,8 @@ export function createSemanticBridge({plan, core} = {}) {
         return {
           argument: controller.argument,
           feature: controller.feature,
-          value: controlledParticipant?.features?.[controller.feature] ?? null
+          value: controlledParticipant?.features?.[controller.feature] ??
+            controlledParticipant?.agreement?.[controller.feature] ?? null
         };
       });
       return {
