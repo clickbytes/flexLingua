@@ -146,6 +146,24 @@ fixture dla systemu 2-przypadkowego.
 
 ## Konkretne kotwice implementacji
 
+### GEN-07: kształt profilu uruchomieniowego
+
+Pierwszy kontrakt wykonawczy `LanguageFeatureProfile` ma wersję `1.0` i pola
+`language`, `syntactic` oraz `morphology`. Każda domena jest mapą nazw wymiarów
+na niepuste, unikalne listy wartości. Brak wymiaru oznacza, że kategoria nie
+występuje; wartość spoza zadeklarowanej listy jest nieznana. Puste listy są
+niepoprawne. Profil składniowy może więc deklarować zero przypadków przez brak
+`syntactic.case`, a profile 2- i 10-przypadkowe podają własne inwentarze.
+
+Profil jest opcjonalny dla istniejących adapterów i pakietów morfologii.
+Po jego podaniu rejestracja adaptera porównuje inwentarz z deklaracjami
+gramatyki, a rejestr morfologii ogranicza obsługiwane cechy do jego domeny.
+`Engine.capabilities()` ujawnia profil tylko dla pakietów, które go deklarują.
+Globalne `data/features.json` v0.4, `data/morphology/features.json` v1.02,
+CORE v1.0 i kontrakty adapterów v1.0 pozostają bez migracji. Brak kategorii,
+nieznana wartość, niepoprawna kombinacja i brak komórki formy są osobnymi
+wynikami dostępności.
+
 | Kotwica | Wpływ kontraktu |
 | --- | --- |
 | `js/core/features.js`: `createFeatureRegistry`, `featureSource`, `valueAt`, `unifyFeatures`, `validateFeatureBundle` | `featureSource` ogranicza dziś źródła do `subject`/`event`; zachować bezpieczne ścieżki, ale zastąpić twarde założenia typowaną referencją do kontrolera w opt-in kontrakcie. |

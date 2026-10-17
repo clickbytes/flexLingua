@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://flexlingua.local/schemas/language-feature-profile.schema.json",
+  "title": "flexLingua language feature profile v1.0",
+  "type": "object",
+  "required": ["version", "language", "syntactic", "morphology"],
+  "properties": {
+    "version": {"const": "1.0"},
+    "language": {"type": "string", "pattern": "^[A-Za-z][A-Za-z0-9_]*$"},
+    "syntactic": {"$ref": "#/$defs/domain"},
+    "morphology": {"$ref": "#/$defs/domain"}
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "domain": {
+      "type": "object",
+      "maxProperties": 32,
+      "propertyNames": {"pattern": "^[A-Za-z][A-Za-z0-9_]*$"},
+      "additionalProperties": {"$ref": "#/$defs/values"}
+    },
+    "values": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[A-Za-z][A-Za-z0-9_]*$"}
+    }
+  }
+}

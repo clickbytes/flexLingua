@@ -1,4 +1,4 @@
-import {safeName} from './features.js';
+import {safeName,createLanguageFeatureProfile} from './features.js';
 
 export const LANGUAGE_ADAPTER_CONTRACT_VERSION='1.0';
 export const MORPHOLOGY_ADAPTER_CONTRACT_VERSION='1.0';
@@ -15,6 +15,12 @@ export function validateLanguageAdapter(adapter) {
       typeof description.grammarVersion!=='string' ||
       !description.grammarVersion)
     throw new Error('Language adapter description does not match its code or grammar version.');
+  if(adapter.featureProfile!==undefined || description.featureProfile!==undefined){
+    const profile=createLanguageFeatureProfile(adapter.featureProfile,{language:adapter.code});
+    const described=createLanguageFeatureProfile(description.featureProfile,{language:adapter.code});
+    if(JSON.stringify(profile)!==JSON.stringify(described))
+      throw new Error('Language adapter feature profile does not match its description.');
+  }
   return description;
 }
 
@@ -30,5 +36,11 @@ export function validateMorphologyAdapter(adapter) {
       typeof description.featuresVersion!=='string' ||
       !description.featuresVersion)
     throw new Error('Morphology adapter description does not match its language or feature version.');
+  if(adapter.featureProfile!==undefined || description.featureProfile!==undefined){
+    const profile=createLanguageFeatureProfile(adapter.featureProfile,{language:adapter.language});
+    const described=createLanguageFeatureProfile(description.featureProfile,{language:adapter.language});
+    if(JSON.stringify(profile)!==JSON.stringify(described))
+      throw new Error('Morphology adapter feature profile does not match its description.');
+  }
   return description;
 }

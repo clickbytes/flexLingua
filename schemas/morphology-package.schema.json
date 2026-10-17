@@ -8,6 +8,7 @@
     "version": {"const": "1.11"},
     "language": {"type": "string", "pattern": "^[a-z]{2,8}$"},
     "provenance": {"type": "object"},
+    "featureProfile": {"$ref": "language-feature-profile.schema.json"},
     "paradigms": {
       "type": "object",
       "additionalProperties": {"$ref": "#/$defs/paradigm"}

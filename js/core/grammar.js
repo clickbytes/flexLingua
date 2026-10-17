@@ -9,6 +9,7 @@ import {RESOURCE_LIMITS} from './resource-limits.js';
 import {LANGUAGE_ADAPTER_CONTRACT_VERSION} from './adapter-contract.js';
 import {
   record, hasOwn, safeName, unifyFeatures, featureSource, GRAMMATICAL_PERSON,
+  createFeatureRegistry, createLanguageFeatureProfile,
   matchesAgreement, matchesConditions
 } from './features.js';
 
@@ -25,6 +26,7 @@ const searchBudget = counter => ({counter,memo:new Map()});
 const LEXEME_ID = /^[a-zA-Z][a-zA-Z0-9_]*(?:\.[a-zA-Z0-9_]+)*$/u;
 const PLACEHOLDER = /^\{([a-zA-Z][a-zA-Z0-9_]*)\}$/u;
 const LITERAL = /^@[\p{L}]+$/u;
+const LEGACY_CASE_VALUES = ['nom','gen','dat','acc','loc'];
 const DEICTIC_FUNCTION = 'grammar.deictic_pronoun';
 const STATE_ROLES = Object.freeze({
   identity: Object.freeze(['subject','complement']),
@@ -119,7 +121,8 @@ function validateConditions(when) {
   }
 }
 
-function validateGrammar(dictionary, grammar) {
+function validateGrammar(dictionary, grammar, featureProfile) {
+  const caseValues=featureProfile ? (featureProfile.syntactic.case || []) : LEGACY_CASE_VALUES;
   if (!record(dictionary) || !record(grammar) || dictionary.language !== grammar.language ||
       !GRAMMAR_VERSIONS.has(grammar.version) || dictionary.version !== grammar.version) {
     throw new Error('Dictionary/grammar mismatch or unsupported grammar version.');
@@ -154,8 +157,8 @@ function validateGrammar(dictionary, grammar) {
       Object.keys(grammar.comparison).sort().join(',')!=='marker,standardCase,stateKind,subjectCase' ||
       !/^[\p{L}]+$/u.test(grammar.comparison.marker||'') ||
       grammar.comparison.stateKind!=='predication' ||
-      !['nom','acc','gen','dat','loc'].includes(grammar.comparison.subjectCase) ||
-      !['nom','acc','gen','dat','loc'].includes(grammar.comparison.standardCase))) {
+      !caseValues.includes(grammar.comparison.subjectCase) ||
+      !caseValues.includes(grammar.comparison.standardCase))) {
     throw new Error('Invalid comparison grammar configuration.');
   }
   if(grammar.passive!==undefined) {
@@ -276,7 +279,7 @@ function validateGrammar(dictionary, grammar) {
           entry.referent.kind!=='deictic' || !['speaker','addressee','demonstrative'].includes(entry.referent.anchor) ||
           !['first','second','third'].includes(entry.person) ||
           !['singular','plural'].includes(entry.number) ||
-          !['nom','gen','dat','acc','loc'].includes(entry.case) ||
+          !caseValues.includes(entry.case) ||
           (entry.referent.anchor==='speaker' && entry.person!=='first') ||
           (entry.referent.anchor==='addressee' && entry.person!=='second') ||
           (entry.referent.anchor==='demonstrative' &&
@@ -698,13 +701,15 @@ function formatMessage(template, variables) {
   return template?.replace(/\{([a-zA-Z]+)\}/gu, (_match, key) => String(variables[key] ?? ''));
 }
 
-export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
+export function createRuleAdapter(sourceDictionary, rules, {morphology,featureProfile:rawFeatureProfile} = {}) {
+  const featureProfile=rawFeatureProfile===undefined?undefined:
+    createLanguageFeatureProfile(rawFeatureProfile,{language:sourceDictionary.language});
   const prepared = morphology ? materializeInflections(sourceDictionary, morphology, {assertLegacy:true}) : sourceDictionary;
   const lexicon = createLexicon(prepared);
   // A compatibility view lets existing declarative grammar use the normalized
   // meaning inventory while the canonical source always points through CORE.
   const dictionary = lexicon.dictionary;
-  const grammar = validateGrammar(dictionary, rules);
+  const grammar = validateGrammar(dictionary, rules, featureProfile);
   const { nounPhrase, sentence, verb: verbGrammar, frames } = grammar;
   const possessives=nounPhrase.possessives || [];
   const subjectRole = sentence.subjectRole;
@@ -2564,8 +2569,15 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
 
   function validateOntology(ontology, featureRegistry, coreLanguage) {
     const concepts = ontology?.concepts;
-    const domains = featureRegistry?.domains;
+    const scopedRegistry=featureProfile?createFeatureRegistry(featureRegistry,featureProfile):featureRegistry;
+    const domains = scopedRegistry?.domains;
     if (!record(concepts) || !domains) throw new Error('Missing ontology or feature registry.');
+    const validateSyntacticCase=(grammaticalCase,message)=>{
+      if(!Array.isArray(domains.syntactic.case)) {
+        throw new Error('Absent feature category: syntactic.case');
+      }
+      if(!domains.syntactic.case.includes(grammaticalCase)) throw new Error(message);
+    };
     for (const noun of nouns) {
       if (own(concepts, noun.concept)?.type !== 'entity') {
         throw new Error(`Unknown entity concept in ${grammar.language} lexicon: ${noun.concept}`);
@@ -2577,7 +2589,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
         }
       }
     }
-    nominal.validateOntology(ontology, featureRegistry);
+    nominal.validateOntology(ontology, scopedRegistry);
     for (const marker of relativeGrammar.markers) {
       for (const [name,value] of Object.entries(marker.when || {})) {
         const domain = name === 'number' ? domains.participant.number : domains.lexical[name];
@@ -2592,9 +2604,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
         throw new Error('Unsupported WH subject-gap agreement feature.');
       }
       for(const caseName of Object.keys(questions.wh.theme.caseMarkers||{})){
-        if(!domains.syntactic.case.includes(caseName)) {
-          throw new Error('Unknown grammatical WH marker case.');
-        }
+        validateSyntacticCase(caseName,'Unknown grammatical WH marker case.');
       }
     }
     for (const [number, maps] of Object.entries(nounPhrase.determiners)) {
@@ -2683,9 +2693,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
       }
       for (const grammaticalCase of Object.values(frame.cases || {}).flatMap(value =>
         record(value) ? Object.values(value) : [value])) {
-        if (!domains.syntactic.case.includes(grammaticalCase)) {
-          throw new Error(`Unknown syntactic case: ${grammaticalCase}`);
-        }
+        validateSyntacticCase(grammaticalCase,`Unknown syntactic case: ${grammaticalCase}`);
       }
     }
     for(const frame of Object.values(stateGrammar?.frames || {})) {
@@ -2693,9 +2701,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
         record(value)?Object.values(value):[value]),
       ...(frame.predicateRole?[frame.predicateCase]:[])];
       for(const grammaticalCase of cases) {
-        if(!domains.syntactic.case.includes(grammaticalCase)) {
-          throw new Error(`Unknown state grammatical case: ${grammaticalCase}`);
-        }
+        validateSyntacticCase(grammaticalCase,`Unknown state grammatical case: ${grammaticalCase}`);
       }
     }
     // Covers nouns, verbs, modifiers, quantifiers, matrix predicates AND
@@ -2705,6 +2711,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
 
   return {
     code: grammar.language, contractVersion:LANGUAGE_ADAPTER_CONTRACT_VERSION,
+    ...(featureProfile?{featureProfile}:{}),
     analyze, analyzeCandidates, realize, realizeState, realizeComparison, realizeRequest, realizeModal, validateOntology, lexicon,
     analyzeQuestionCandidates:questions?analyzeQuestionCandidates:undefined,
     realizeQuestion:questions?realizeQuestion:undefined,
@@ -2723,6 +2730,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
           value.endsWith('.')?value.slice(0,-1)+suffix:value)};
     },
     describe: () => ({ language: grammar.language, grammarVersion: grammar.version,
+      ...(featureProfile?{featureProfile}:{}),
       nouns: dictionary.nouns.length, verbs: dictionary.verbs.length, ...nominal.describe(),
       nounSenses: nouns.length, verbSenses: verbs.length, frames: Object.keys(frames).length,
       support: { relativeClauses: relativeGrammar.maxDepth > 0,

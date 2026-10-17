@@ -3,6 +3,7 @@
  * Semantic dimensions are declared in data/features.json, not in a language adapter.
  */
 export const FEATURE_VERSION = '0.4';
+export const LANGUAGE_FEATURE_PROFILE_VERSION = '1.0';
 export const GRAMMATICAL_PERSON = Object.freeze({
   first: 'first',
   second: 'second',
@@ -23,7 +24,37 @@ export function safeName(value) {
   return typeof value === 'string' && NAME.test(value) && !FORBIDDEN.has(value);
 }
 
-export function createFeatureRegistry(spec) {
+function featureError(code, message) {
+  const error = new Error(message);
+  error.code = code;
+  return error;
+}
+
+/** Validate the opt-in, language-local syntax and morphology inventory. */
+export function createLanguageFeatureProfile(profile, {language} = {}) {
+  if (!record(profile) || Object.keys(profile).sort().join(',') !==
+      'language,morphology,syntactic,version' ||
+      profile.version !== LANGUAGE_FEATURE_PROFILE_VERSION || !safeName(profile.language) ||
+      (language !== undefined && profile.language !== language) ||
+      !record(profile.syntactic) || !record(profile.morphology)) {
+    throw new Error('Invalid or unsupported language feature profile.');
+  }
+  for (const [domain, dimensions] of Object.entries({
+    syntactic: profile.syntactic,
+    morphology: profile.morphology
+  })) {
+    if (Object.keys(dimensions).length > 32) throw new Error(`Too many ${domain} feature dimensions.`);
+    for (const [name, values] of Object.entries(dimensions)) {
+      if (!safeName(name) || !Array.isArray(values) || values.length === 0 || values.length > 64 ||
+          values.some(value => !safeName(value)) || new Set(values).size !== values.length) {
+        throw new Error(`Invalid ${domain} feature dimension: ${name}`);
+      }
+    }
+  }
+  return JSON.parse(JSON.stringify(profile));
+}
+
+export function createFeatureRegistry(spec, featureProfile) {
   if (!record(spec) || spec.version !== FEATURE_VERSION || !record(spec.domains)) {
     throw new Error('Unsupported or missing feature registry version.');
   }
@@ -39,17 +70,35 @@ export function createFeatureRegistry(spec) {
       }
     }
   }
-  // Copy on input: later edits to the caller's JSON cannot change a running engine.
-  return JSON.parse(JSON.stringify(spec));
+  // Copy on input: later edits to caller JSON cannot change a running engine.
+  const registry = JSON.parse(JSON.stringify(spec));
+  if (featureProfile !== undefined) {
+    const profile = createLanguageFeatureProfile(featureProfile);
+    // The profile replaces only language syntax dimensions; semantic domains stay neutral.
+    registry.domains.syntactic = JSON.parse(JSON.stringify(profile.syntactic));
+    registry.featureProfile = profile;
+  }
+  return registry;
 }
 
 export function validateFeatureBundle(bundle, dimensions, context) {
-  if (!record(bundle) || Object.keys(bundle).length !== Object.keys(dimensions).length) {
-    throw new Error(`Invalid ${context} features.`);
+  if (!record(bundle) || !record(dimensions)) {
+    throw featureError('invalid_feature_bundle', `Invalid ${context} features.`);
+  }
+  for (const name of Object.keys(bundle)) {
+    if (!hasOwn(dimensions, name)) {
+      throw featureError('absent_feature_category', `Invalid ${context} features: ${name}`);
+    }
+  }
+  if (Object.keys(bundle).length !== Object.keys(dimensions).length) {
+    throw featureError('missing_feature_value', `Invalid ${context} features.`);
   }
   for (const [name, allowed] of Object.entries(dimensions)) {
-    if (!hasOwn(bundle, name) || !allowed.includes(bundle[name])) {
-      throw new Error(`Invalid ${context} feature: ${name}`);
+    if (!hasOwn(bundle, name)) {
+      throw featureError('missing_feature_value', `Invalid ${context} feature: ${name}`);
+    }
+    if (!allowed.includes(bundle[name])) {
+      throw featureError('unknown_feature_value', `Invalid ${context} feature: ${name}`);
     }
   }
   return bundle;
@@ -68,11 +117,17 @@ export function unifyFeatures(left, right) {
 }
 
 /** Safe, bounded feature dependencies such as subject.number or event.polarity. */
-export function featureSource(source) {
+export function featureSource(source, featureProfile) {
   if (typeof source !== 'string') throw new Error('Invalid feature dependency.');
   const path = source.split('.');
   if (path.length !== 2 || !['subject', 'event'].includes(path[0]) || !safeName(path[1])) {
     throw new Error(`Invalid feature dependency: ${source}`);
+  }
+  if (featureProfile !== undefined && path[0] === 'subject' && path[1] === 'case') {
+    const profile = createLanguageFeatureProfile(featureProfile);
+    if (!hasOwn(profile.syntactic, 'case')) {
+      throw featureError('absent_feature_category', 'Language profile has no syntactic case category.');
+    }
   }
   return path;
 }
