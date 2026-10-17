@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 1,
+  "suite": "A1-ENPL-01",
+  "license": "project-authored",
+  "enToPl": [
+    {
+      "id": "A1-ENPL-01-EN-01",
+      "input": "This is a simple book.",
+      "expected": "To jest prosta książka.",
+      "core": {
+        "version": "1.31",
+        "type": "state",
+        "kind": "classification",
+        "roles": {
+          "subject": {
+            "referent": {
+              "kind": "deictic",
+              "anchor": "demonstrative"
+            },
+            "agreement": {
+              "person": "third",
+              "number": "singular"
+            }
+          },
+          "category": {
+            "concept": "object.book",
+            "features": {
+              "definiteness": "unknown",
+              "number": "singular"
+            },
+            "modifiers": [
+              {
+                "concept": "quality.simple"
+              }
+            ]
+          }
+        },
+        "features": {
+          "tense": "present",
+          "polarity": "positive"
+        }
+      }
+    }
+  ],
+  "plToEn": [
+    {
+      "id": "A1-ENPL-01-PL-01",
+      "input": "To jest prosta książka.",
+      "expected": "This is a simple book.",
+      "core": {
+        "version": "1.31",
+        "type": "state",
+        "kind": "classification",
+        "roles": {
+          "subject": {
+            "referent": {
+              "kind": "deictic",
+              "anchor": "demonstrative"
+            },
+            "agreement": {
+              "person": "third",
+              "number": "singular"
+            }
+          },
+          "category": {
+            "concept": "object.book",
+            "features": {
+              "definiteness": "unknown",
+              "number": "singular"
+            },
+            "modifiers": [
+              {
+                "concept": "quality.simple"
+              }
+            ]
+          }
+        },
+        "features": {
+          "tense": "present",
+          "polarity": "positive"
+        }
+      }
+    }
+  ],
+  "morphology": [],
+  "invalid": [
+    {
+      "id": "A1-ENPL-01-NEG-01",
+      "from": "en",
+      "to": "pl",
+      "input": "This is an easy book.",
+      "reason": "unsupported-quality-sense"
+    },
+    {
+      "id": "A1-ENPL-01-NEG-02",
+      "from": "en",
+      "to": "pl",
+      "input": "These book is small.",
+      "reason": "invalid-subject-agreement"
+    }
+  ],
+  "provenance": {
+    "source": "project-authored",
+    "author": "flexLingua project contributors; individual case authors are not recorded",
+    "rights": "Original text and semantic expectations; no external content copied. No separate SPDX license grant is declared.",
+    "reviewedAt": "2026-10-17",
+    "permittedUse": "Internal regression only; not independent or representative CEFR evidence."
+  }
+}

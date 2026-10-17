@@ -612,6 +612,16 @@
       "license": "Project-authored; no separate SPDX data license grant is declared in this repository.",
       "reviewedAt": "2026-10-15",
       "permittedUse": "Internal flexLingua prototype and regression samples only; external reuse requires rights-holder review."
+    },
+    {
+      "path": "data/coverage/a1-enpl-constructions.json",
+      "version": 1,
+      "status": "project-authored",
+      "author": "flexLingua project contributors; individual family authors are not recorded",
+      "source": "Original controlled EN-to-PL construction-family registry derived from repository contracts; no CEFR list or external benchmark copied.",
+      "license": "Project-authored; no separate SPDX license grant is declared in this repository.",
+      "reviewedAt": "2026-10-17",
+      "permittedUse": "Internal finite EN-to-PL development and regression scope only; not independent or representative CEFR evidence."
     }
   ]
 }

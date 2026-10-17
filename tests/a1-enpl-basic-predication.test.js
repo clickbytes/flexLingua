@@ -8,6 +8,7 @@ import {createCoreLanguage} from '../js/core/core-language.js';
 import {createPolishAdapter} from '../js/languages/pl.js';
 
 const read = async path => JSON.parse(await readFile(new URL(path, import.meta.url), 'utf8'));
+const basics = await read('./fixtures/gold-a1-enpl-basics.json');
 const [ontology, features, morphologyFeatures, en, pl, enGrammar, plGrammar,
   enMorphology, plMorphology] = await Promise.all([
   '../data/concepts.json', '../data/features.json', '../data/morphology/features.json',
@@ -29,6 +30,7 @@ const book = (definiteness, modifiers) => ({concept:'object.book',features:{defi
 
 test('A1-ENPL-01 translates proximal demonstratives and class predication through CORE', () => {
   const examples = [
+    [basics.enToPl[0].input, basics.enToPl[0].expected, basics.enToPl[0].core],
     ['This is a book.', 'To jest książka.', {
       version:'1.31',type:'state',kind:'classification',
       roles:{subject:thisReferent,category:book('unknown')},
@@ -37,11 +39,6 @@ test('A1-ENPL-01 translates proximal demonstratives and class predication throug
     ['This is a small book.', 'To jest mała książka.', {
       version:'1.31',type:'state',kind:'classification',
       roles:{subject:thisReferent,category:book('unknown','quality.small')},
-      features:{tense:'present',polarity:'positive'}
-    }],
-    ['This is a simple book.', 'To jest prosta książka.', {
-      version:'1.31',type:'state',kind:'classification',
-      roles:{subject:thisReferent,category:book('unknown','quality.simple')},
       features:{tense:'present',polarity:'positive'}
     }],
     ['This book is small.', 'Ta książka jest mała.', {
@@ -59,12 +56,16 @@ test('A1-ENPL-01 translates proximal demonstratives and class predication throug
     assert.deepEqual(engine.analyze({text:engine.realize({interlingua:meaning,to:'core'}).text,
       from:'core'}),expected,source);
   }
+  const reverse=basics.plToEn[0];
+  assert.deepEqual(reverse.core,basics.enToPl[0].core);
+  assert.deepEqual(engine.analyze({text:reverse.input,from:'pl'}),reverse.core);
+  assert.equal(engine.translate({text:reverse.input,from:'pl',to:'en'}).text,reverse.expected);
 });
 
 test('A1-ENPL-01 keeps simple bounded and preserves declared failures', () => {
   assert.equal(engine.translate({text:'This is a simple cat.',from:'en',to:'pl'}).text,
     'To jest prosty kot.');
-  for (const text of ['This is an easy book.', 'These book is small.']) {
-    assert.throws(() => engine.analyze({text,from:'en'}), undefined, text);
+  for (const row of basics.invalid) {
+    assert.throws(() => engine.analyze({text:row.input,from:row.from}), undefined, row.id);
   }
 });

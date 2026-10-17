@@ -1,0 +1,543 @@
+{
+  "schemaVersion": 1,
+  "id": "A1-ENPL-CONSTRUCTIONS",
+  "sourceDirection": "en->pl",
+  "targetDirection": "pl",
+  "scope": "controlled-subset-not-cefr",
+  "representativeCefrDenominator": null,
+  "families": [
+    {
+      "id": "A1-ENPL-01",
+      "sourceDirection": "en->pl",
+      "coreContract": {
+        "type": "state",
+        "kind": [
+          "classification",
+          "predication"
+        ],
+        "roles": [
+          "subject",
+          "category"
+        ]
+      },
+      "tense": [
+        "present"
+      ],
+      "polarity": [
+        "positive"
+      ],
+      "question": [
+        "none"
+      ],
+      "implementationStatus": "implemented",
+      "dependencies": [],
+      "evidence": [
+        {
+          "sourceId": "enplbasic",
+          "fixture": "tests/fixtures/gold-a1-enpl-basics.json",
+          "suite": "tests/a1-enpl-basic-predication.test.js",
+          "positiveCases": {
+            "en->pl": [
+              "A1-ENPL-01-EN-01"
+            ],
+            "pl->en": [
+              "A1-ENPL-01-PL-01"
+            ]
+          },
+          "refusalCases": {
+            "en->pl": [
+              "A1-ENPL-01-NEG-01",
+              "A1-ENPL-01-NEG-02"
+            ],
+            "pl->en": []
+          }
+        }
+      ],
+      "knownGaps": []
+    },
+    {
+      "id": "A1-ENPL-02",
+      "sourceDirection": "en->pl",
+      "coreContract": {
+        "type": "state",
+        "kind": [
+          "predication",
+          "possession"
+        ],
+        "roles": [
+          "subject",
+          "owner",
+          "owned"
+        ]
+      },
+      "tense": [
+        "present"
+      ],
+      "polarity": [
+        "positive",
+        "negative"
+      ],
+      "question": [
+        "none",
+        "yes_no"
+      ],
+      "implementationStatus": "implemented",
+      "dependencies": [
+        "A1-ENPL-01"
+      ],
+      "evidence": [
+        {
+          "sourceId": "state",
+          "fixture": "tests/fixtures/gold-state-a1.json",
+          "suite": "tests/a1-state-gold.test.js",
+          "positiveCases": {
+            "en->pl": [
+              "STATE-EN-21",
+              "STATE-EN-22",
+              "STATE-EN-23",
+              "STATE-EN-24"
+            ],
+            "pl->en": [
+              "STATE-PL-21",
+              "STATE-PL-22",
+              "STATE-PL-23",
+              "STATE-PL-24"
+            ]
+          },
+          "refusalCases": {
+            "en->pl": [
+              "STATE-NEG-EN-AGREEMENT",
+              "STATE-NEG-EN-AUX-AGREEMENT",
+              "STATE-NEG-EN-PAST-PL"
+            ],
+            "pl->en": [
+              "STATE-NEG-PL-AGREEMENT"
+            ]
+          }
+        }
+      ],
+      "knownGaps": []
+    },
+    {
+      "id": "A1-ENPL-03",
+      "sourceDirection": "en->pl",
+      "coreContract": {
+        "type": "event",
+        "kind": [
+          "event.drink"
+        ],
+        "roles": [
+          "agent",
+          "theme"
+        ],
+        "themeType": "beverage"
+      },
+      "tense": [
+        "present"
+      ],
+      "polarity": [
+        "positive"
+      ],
+      "question": [
+        "none"
+      ],
+      "implementationStatus": "implemented",
+      "dependencies": [
+        "A1-ENPL-02"
+      ],
+      "evidence": [
+        {
+          "sourceId": "barebeverages",
+          "fixture": "tests/fixtures/gold-a1-bare-beverages.json",
+          "suite": "tests/a1-bare-beverages.test.js",
+          "positiveCases": {
+            "en->pl": [
+              "A1-ENPL-03-EN-01",
+              "A1-ENPL-03-EN-02",
+              "A1-ENPL-03-EN-03",
+              "A1-ENPL-03-EN-04"
+            ],
+            "pl->en": [
+              "A1-ENPL-03-PL-01",
+              "A1-ENPL-03-PL-02",
+              "A1-ENPL-03-PL-03",
+              "A1-ENPL-03-PL-04"
+            ]
+          },
+          "refusalCases": {
+            "en->pl": [
+              "A1-ENPL-03-NEG-01",
+              "A1-ENPL-03-NEG-02",
+              "A1-ENPL-03-NEG-03",
+              "A1-ENPL-03-NEG-04"
+            ],
+            "pl->en": [
+              "A1-ENPL-03-NEG-05"
+            ]
+          }
+        }
+      ],
+      "knownGaps": []
+    },
+    {
+      "id": "A1-ENPL-04",
+      "sourceDirection": "en->pl",
+      "coreContract": {
+        "type": "state",
+        "kind": [
+          "location"
+        ],
+        "roles": [
+          "subject",
+          "location"
+        ]
+      },
+      "tense": [
+        "present"
+      ],
+      "polarity": [
+        "positive"
+      ],
+      "question": [
+        "none"
+      ],
+      "implementationStatus": "implemented",
+      "dependencies": [
+        "A1-ENPL-03"
+      ],
+      "evidence": [
+        {
+          "sourceId": "existential",
+          "fixture": "tests/fixtures/gold-a1-existential-locatives.json",
+          "suite": "tests/a1-existential-locatives.test.js",
+          "positiveCases": {
+            "en->pl": [
+              "A1-ENPL-04-EN-01",
+              "A1-ENPL-04-EN-02"
+            ],
+            "pl->en": [
+              "A1-ENPL-04-PL-01",
+              "A1-ENPL-04-PL-02"
+            ]
+          },
+          "refusalCases": {
+            "en->pl": [
+              "A1-ENPL-04-NEG-01",
+              "A1-ENPL-04-NEG-02",
+              "A1-ENPL-04-NEG-03",
+              "A1-ENPL-04-NEG-04",
+              "A1-ENPL-04-NEG-05",
+              "A1-ENPL-04-NEG-06"
+            ],
+            "pl->en": []
+          }
+        }
+      ],
+      "knownGaps": []
+    },
+    {
+      "id": "A1-ENPL-05",
+      "sourceDirection": "en->pl",
+      "coreContract": {
+        "type": "state",
+        "kind": [
+          "predication"
+        ],
+        "roles": [
+          "subject",
+          "predicate"
+        ]
+      },
+      "tense": [
+        "past"
+      ],
+      "polarity": [
+        "positive"
+      ],
+      "question": [
+        "none"
+      ],
+      "implementationStatus": "implemented",
+      "dependencies": [
+        "A1-ENPL-04"
+      ],
+      "evidence": [
+        {
+          "sourceId": "paststate",
+          "fixture": "tests/fixtures/gold-a1-past-state-predication.json",
+          "suite": "tests/a1-past-state-predication.test.js",
+          "positiveCases": {
+            "en->pl": [
+              "A1-ENPL-05-EN-01",
+              "A1-ENPL-05-EN-02",
+              "A1-ENPL-05-EN-03",
+              "A1-ENPL-05-EN-04",
+              "A1-ENPL-05-EN-05"
+            ],
+            "pl->en": [
+              "A1-ENPL-05-PL-01",
+              "A1-ENPL-05-PL-02",
+              "A1-ENPL-05-PL-03",
+              "A1-ENPL-05-PL-04",
+              "A1-ENPL-05-PL-05"
+            ]
+          },
+          "refusalCases": {
+            "en->pl": [
+              "A1-ENPL-05-NEG-EN",
+              "A1-ENPL-05-QUESTION-EN",
+              "A1-ENPL-05-OTHER-STATE"
+            ],
+            "pl->en": [
+              "A1-ENPL-05-NEG-PL",
+              "A1-ENPL-05-QUESTION-PL",
+              "A1-ENPL-05-AGREEMENT-VERB",
+              "A1-ENPL-05-AGREEMENT-ADJECTIVE"
+            ]
+          }
+        }
+      ],
+      "knownGaps": []
+    },
+    {
+      "id": "A1-ENPL-06",
+      "sourceDirection": "en->pl",
+      "coreContract": {
+        "type": "event",
+        "kind": [
+          "event.read",
+          "event.write",
+          "event.eat",
+          "event.drink",
+          "event.help",
+          "event.open"
+        ],
+        "roles": [
+          "agent",
+          "theme"
+        ],
+        "aspect": "imperfective"
+      },
+      "tense": [
+        "present"
+      ],
+      "polarity": [
+        "positive"
+      ],
+      "question": [
+        "none"
+      ],
+      "implementationStatus": "implemented",
+      "dependencies": [
+        "A1-ENPL-05"
+      ],
+      "evidence": [
+        {
+          "sourceId": "progressive",
+          "fixture": "tests/fixtures/gold-a1-present-progressive.json",
+          "suite": "tests/a1-present-progressive.test.js",
+          "positiveCases": {
+            "en->pl": [
+              "A1-ENPL-06-EN-01",
+              "A1-ENPL-06-EN-02",
+              "A1-ENPL-06-EN-03",
+              "A1-ENPL-06-EN-04",
+              "A1-ENPL-06-EN-05",
+              "A1-ENPL-06-EN-06"
+            ],
+            "pl->en": [
+              "A1-ENPL-06-PL-01",
+              "A1-ENPL-06-PL-02",
+              "A1-ENPL-06-PL-03",
+              "A1-ENPL-06-PL-04",
+              "A1-ENPL-06-PL-05",
+              "A1-ENPL-06-PL-06"
+            ]
+          },
+          "refusalCases": {
+            "en->pl": [
+              "A1-ENPL-06-NEG-01",
+              "A1-ENPL-06-QUESTION-01",
+              "A1-ENPL-06-PAST-01",
+              "A1-ENPL-06-AGREEMENT-01",
+              "A1-ENPL-06-UNCONFIGURED-01",
+              "A1-ENPL-06-MISSING-THEME-01",
+              "A1-ENPL-06-VERB-AGREEMENT-01"
+            ],
+            "pl->en": []
+          }
+        }
+      ],
+      "knownGaps": []
+    },
+    {
+      "id": "A1-ENPL-08",
+      "sourceDirection": "en->pl",
+      "coreContract": {
+        "type": "referent",
+        "kind": [
+          "unresolved-third-person"
+        ],
+        "roles": [
+          "subject",
+          "antecedent?"
+        ]
+      },
+      "tense": [
+        "present"
+      ],
+      "polarity": [
+        "positive"
+      ],
+      "question": [
+        "none"
+      ],
+      "implementationStatus": "planned",
+      "dependencies": [
+        "A1-ENPL-07"
+      ],
+      "evidence": [],
+      "knownGaps": [
+        "Third-person referent contract and reviewed gold fixture are pending batch 08."
+      ]
+    },
+    {
+      "id": "A1-ENPL-09",
+      "sourceDirection": "en->pl",
+      "coreContract": {
+        "type": "event",
+        "kind": [
+          "present-progressive"
+        ],
+        "roles": [
+          "agent",
+          "theme"
+        ],
+        "aspect": "imperfective"
+      },
+      "tense": [
+        "present"
+      ],
+      "polarity": [
+        "positive",
+        "negative"
+      ],
+      "question": [
+        "none",
+        "yes_no"
+      ],
+      "implementationStatus": "planned",
+      "dependencies": [
+        "A1-ENPL-08"
+      ],
+      "evidence": [],
+      "knownGaps": [
+        "Negative and yes/no progressive cases are pending batch 09 gold and execution."
+      ]
+    },
+    {
+      "id": "A1-ENPL-10",
+      "sourceDirection": "en->pl",
+      "coreContract": {
+        "type": "state",
+        "kind": [
+          "classification"
+        ],
+        "roles": [
+          "subject",
+          "category"
+        ]
+      },
+      "tense": [
+        "present"
+      ],
+      "polarity": [
+        "positive",
+        "negative"
+      ],
+      "question": [
+        "none",
+        "yes_no"
+      ],
+      "implementationStatus": "planned",
+      "dependencies": [
+        "A1-ENPL-09"
+      ],
+      "evidence": [],
+      "knownGaps": [
+        "Classification negative and yes/no cases are pending batch 10 gold and execution."
+      ]
+    },
+    {
+      "id": "A1-ENPL-11",
+      "sourceDirection": "en->pl",
+      "coreContract": {
+        "type": "nominal",
+        "kind": [
+          "countability"
+        ],
+        "roles": [
+          "theme"
+        ],
+        "countability": [
+          "mass",
+          "count",
+          "both"
+        ]
+      },
+      "tense": [
+        "present"
+      ],
+      "polarity": [
+        "positive"
+      ],
+      "question": [
+        "none"
+      ],
+      "implementationStatus": "planned",
+      "dependencies": [
+        "A1-ENPL-10"
+      ],
+      "evidence": [],
+      "knownGaps": [
+        "Lexical countability senses and cross-frame mass-noun gold are pending batch 11."
+      ]
+    },
+    {
+      "id": "A1-ENPL-12",
+      "sourceDirection": "en->pl",
+      "coreContract": {
+        "type": "state",
+        "kind": [
+          "existence",
+          "location"
+        ],
+        "roles": [
+          "theme",
+          "location",
+          "relation"
+        ]
+      },
+      "tense": [
+        "present"
+      ],
+      "polarity": [
+        "positive",
+        "negative"
+      ],
+      "question": [
+        "none",
+        "yes_no"
+      ],
+      "implementationStatus": "planned",
+      "dependencies": [
+        "A1-ENPL-11",
+        "ADR-state-existence-accepted"
+      ],
+      "evidence": [],
+      "knownGaps": [
+        "Semantic ADR acceptance and reviewed existence/location gold are prerequisites for batch 12."
+      ]
+    }
+  ]
+}
