@@ -17,7 +17,7 @@
     "check:gold": "node tools/verify-gold.mjs",
     "coverage:a1": "node tools/coverage-a1.mjs",
     "check:coverage": "node --test tests/coverage-a1.test.js",
-    "check:language-conformance": "node --test tests/generic-language-conformance.test.js tests/generic-case-systems.test.js tests/language-adapter-contract.test.js tests/language-package-manifest.test.js tests/tokenizer-unicode.test.js tests/gen01-discourse-time.test.js tests/pers03-subject-agreement.test.js tests/it-gold.test.js tests/tr-audit.test.js",
+    "check:language-conformance": "node --test tests/fi-portability.test.js tests/generic-language-conformance.test.js tests/generic-case-systems.test.js tests/language-adapter-contract.test.js tests/language-package-manifest.test.js tests/tokenizer-unicode.test.js tests/gen01-discourse-time.test.js tests/pers03-subject-agreement.test.js tests/it-gold.test.js tests/tr-audit.test.js",
     "check:questions": "node --test tests/question-semantics.test.js tests/questions-translation.test.js",
     "check:dialogue-gold": "node tools/check-dialogue-gold.mjs",
     "check:gold-multiword": "node --test tests/multiword-morphology-f3.test.js",

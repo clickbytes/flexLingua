@@ -1,0 +1,50 @@
+{
+  "version": "1.11",
+  "language": "fi",
+  "provenance": {
+    "source": "Project-authored finite cells based on Kotus Nykysuomen sanalista 2024 type 1 for talo; independently cross-checked against Finnish morphology references.",
+    "license": "Kotus word-list metadata CC BY 4.0; no third-party analyzer lexicon or model files copied.",
+    "reviewedAt": "2026-10-17"
+  },
+  "featureProfile": {
+    "version": "1.0",
+    "language": "fi",
+    "syntactic": {
+      "case": ["nominative", "genitive", "partitive", "inessive", "elative", "illative", "adessive", "ablative", "allative", "translative"]
+    },
+    "morphology": {
+      "number": ["singular", "plural"],
+      "case": ["nominative", "genitive", "partitive", "inessive", "elative", "illative", "adessive", "ablative", "allative", "translative"]
+    }
+  },
+  "paradigms": {
+    "fi.noun.talo.type1": {
+      "pos": "NOUN",
+      "slots": [
+        {"features": {"number": "singular", "case": "nominative"}, "path": ["singular", "nominative"], "steps": []},
+        {"features": {"number": "singular", "case": "genitive"}, "path": ["singular", "genitive"], "steps": [{"op": "append", "value": "n"}]},
+        {"features": {"number": "singular", "case": "partitive"}, "path": ["singular", "partitive"], "steps": [{"op": "append", "value": "a"}]},
+        {"features": {"number": "singular", "case": "inessive"}, "path": ["singular", "inessive"], "steps": [{"op": "append", "value": "ssa"}]},
+        {"features": {"number": "singular", "case": "elative"}, "path": ["singular", "elative"], "steps": [{"op": "append", "value": "sta"}]},
+        {"features": {"number": "singular", "case": "illative"}, "path": ["singular", "illative"], "steps": [{"op": "append", "value": "on"}]},
+        {"features": {"number": "singular", "case": "adessive"}, "path": ["singular", "adessive"], "steps": [{"op": "append", "value": "lla"}]},
+        {"features": {"number": "singular", "case": "ablative"}, "path": ["singular", "ablative"], "steps": [{"op": "append", "value": "lta"}]},
+        {"features": {"number": "singular", "case": "allative"}, "path": ["singular", "allative"], "steps": [{"op": "append", "value": "lle"}]},
+        {"features": {"number": "singular", "case": "translative"}, "path": ["singular", "translative"], "steps": [{"op": "append", "value": "ksi"}]},
+        {"features": {"number": "plural", "case": "nominative"}, "path": ["plural", "nominative"], "steps": [{"op": "append", "value": "t"}]},
+        {"features": {"number": "plural", "case": "genitive"}, "path": ["plural", "genitive"], "steps": [{"op": "append", "value": "jen"}]},
+        {"features": {"number": "plural", "case": "partitive"}, "path": ["plural", "partitive"], "steps": [{"op": "append", "value": "ja"}]},
+        {"features": {"number": "plural", "case": "inessive"}, "path": ["plural", "inessive"], "steps": [{"op": "append", "value": "issa"}]},
+        {"features": {"number": "plural", "case": "elative"}, "path": ["plural", "elative"], "steps": [{"op": "append", "value": "ista"}]},
+        {"features": {"number": "plural", "case": "illative"}, "path": ["plural", "illative"], "steps": [{"op": "append", "value": "ihin"}]},
+        {"features": {"number": "plural", "case": "adessive"}, "path": ["plural", "adessive"], "steps": [{"op": "append", "value": "illa"}]},
+        {"features": {"number": "plural", "case": "ablative"}, "path": ["plural", "ablative"], "steps": [{"op": "append", "value": "ilta"}]},
+        {"features": {"number": "plural", "case": "allative"}, "path": ["plural", "allative"], "steps": [{"op": "append", "value": "ille"}]},
+        {"features": {"number": "plural", "case": "translative"}, "path": ["plural", "translative"], "steps": [{"op": "append", "value": "iksi"}]}
+      ]
+    }
+  },
+  "bindings": [
+    {"lexemeId": "fi.house.1", "paradigmId": "fi.noun.talo.type1", "stems": {"base": "talo"}, "overrides": []}
+  ]
+}

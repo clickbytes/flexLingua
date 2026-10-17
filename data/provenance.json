@@ -744,6 +744,46 @@
       "license": "Project-authored; no separate SPDX data license grant is declared in this repository.",
       "reviewedAt": "2026-10-17",
       "permittedUse": "Internal flexLingua package configuration only; external reuse requires rights-holder review."
+    },
+    {
+      "path": "data/fi.json",
+      "version": "1.0",
+      "status": "project-authored",
+      "author": "flexLingua project contributors",
+      "source": "Finnish headwords and inflection-class metadata attributed to Kotus, Nykysuomen sanalista 2024 (CC BY 4.0); Finnish-to-CORE sense mapping and the bounded pilot lexicon are project-authored.",
+      "license": "Kotus word-list attribution: CC BY 4.0; CORE mappings and pilot package are project-authored. No bulk dictionary definitions or source list were copied.",
+      "reviewedAt": "2026-10-17",
+      "permittedUse": "Used in the flexLingua Finnish pilot with attribution to Kotus; no bulk source dictionary is redistributed."
+    },
+    {
+      "path": "data/grammar/fi.json",
+      "version": "1.0",
+      "status": "project-authored",
+      "author": "flexLingua project contributors",
+      "source": "Project-authored limited declarative grammar for the Finnish visual-attention frame; case labels follow the Kotus and GiellaLT Finnish morphology references.",
+      "license": "Project-authored; external references are cited and no grammar tables or source code were copied.",
+      "reviewedAt": "2026-10-17",
+      "permittedUse": "Used in flexLingua's controlled Finnish pilot only; not a general Finnish grammar."
+    },
+    {
+      "path": "data/morphology/fi.json",
+      "version": "1.11",
+      "status": "project-authored",
+      "author": "flexLingua project contributors",
+      "source": "Project-authored finite talo type-1 case cells based on Kotus Nykysuomen sanalista 2024; independently cross-checked with Omorfi v0.9.12 and GiellaLT Finnish morphology documentation. No analyzer code, model, or bulk lexicon data copied.",
+      "license": "Kotus word-list metadata CC BY 4.0 is attributed; the finite suffix rules are project-authored. Omorfi/GiellaLT are GPL-3.0 reference-only and no GPL source assets are copied.",
+      "reviewedAt": "2026-10-17",
+      "permittedUse": "Used as an explicitly bounded internal Finnish morphology pilot; not a full paradigm inventory."
+    },
+    {
+      "path": "data/languages/fi.json",
+      "version": "1.0",
+      "status": "project-authored",
+      "author": "flexLingua project contributors",
+      "source": "Project-authored language package manifest declaring the controlled Finnish pilot scope and actual capabilities; no external manifest data imported.",
+      "license": "Project-authored; no separate SPDX data license grant is declared in this repository.",
+      "reviewedAt": "2026-10-17",
+      "permittedUse": "Internal flexLingua package configuration only; external reuse requires rights-holder review."
     }
   ]
 }
