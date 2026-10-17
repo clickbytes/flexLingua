@@ -11,6 +11,7 @@ const TAB_INDEX = new Map(TABS.map((tab, index) => [tab.key, index]));
 export function actionForKey(name, data) {
   if (data?.isCharacter === true) return {type: 'text', value: sanitizeText(name)};
   if (TAB_INDEX.has(name)) return {type: 'select_tab', index: TAB_INDEX.get(name)};
+  if (name === 'CTRL_P') return {type: 'open_palette'};
   if (name === 'TAB') return {type: 'focus_next'};
   if (name === 'SHIFT_TAB') return {type: 'focus_previous'};
   if (name === 'ENTER' || name === 'KP_ENTER') return {type: 'submit'};
