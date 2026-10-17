@@ -82,7 +82,7 @@ function synchronize(changed) {
 async function init() {
   try {
     const [ontology, features, en, pl, tr, it, enGrammar, plGrammar, trGrammar, itGrammar, morphFeatures, enMorphSpec, plMorphSpec] = await Promise.all([
-      loadJSON('./data/concepts.json'), loadJSON('./data/features.json'), loadJSON('./data/en.json'), loadJSON('./data/pl.json'), loadJSON('./data/tr.json'), loadJSON('./data/it.json'),
+      loadJSON('./data/core/concepts.json'), loadJSON('./data/core/features.json'), loadJSON('./data/en.json'), loadJSON('./data/pl.json'), loadJSON('./data/tr.json'), loadJSON('./data/it.json'),
       loadJSON('./data/grammar/en.json'), loadJSON('./data/grammar/pl.json'), loadJSON('./data/grammar/tr.json'), loadJSON('./data/grammar/it.json'),
       loadJSON('./data/morphology/features.json'), loadJSON('./data/morphology/en.json'), loadJSON('./data/morphology/pl.json')
     ]);

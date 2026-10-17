@@ -52,7 +52,7 @@ export function verifyGoldNouns(gold, {core,pl,en}) {
 
 export async function runGoldAudit(){
   const [gold,concepts,features,plData,enData,plSpec,enSpec]=await Promise.all([
-    'tests/fixtures/gold-nouns-v1.12.json','data/concepts.json','data/morphology/features.json',
+    'tests/fixtures/gold-nouns-v1.12.json','data/core/concepts.json','data/morphology/features.json',
     'data/pl.json','data/en.json','data/morphology/pl.json','data/morphology/en.json'].map(load));
   const core=createCoreLanguage(concepts);
   const pl=createMorphology(plSpec,plData,features,{core});

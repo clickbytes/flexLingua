@@ -59,4 +59,4 @@ To są kontrolowane kontrakty implementacyjne, nie pełny zakres CEFR A1. Każdy
 
 ## Pochodzenie i ograniczenia
 
-Macierz jest autorskim artefaktem projektu, a jej pochodzenie i status licencji są zapisane w [`data/provenance.json`](../data/provenance.json). Oznaczenie `project-authored` nie stanowi osobnej deklaracji licencji SPDX. Zmiana zakresu wymaga aktualizacji macierzy, tego opisu, [raportu pokrycia](coverage-a1.md), [roadmapy](../ROADMAP.md) i zasad DoR/DoD w tym samym PR.
+Macierz jest autorskim artefaktem projektu; nie pochodzi z listy Oxford ani standardu CEFR, a repozytorium nie deklaruje osobnej licencji SPDX dla tych danych. Jest używana wewnętrznie jako podzbiór planistyczny, nie jako oficjalna lista CEFR; zewnętrzne wykorzystanie wymaga przeglądu praw do danych. Zmiana zakresu wymaga aktualizacji macierzy, tego opisu, [raportu pokrycia](coverage-a1.md), [roadmapy](../ROADMAP.md) i zasad DoR/DoD w tym samym PR.

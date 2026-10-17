@@ -44,7 +44,7 @@ npm run check:release   # pełny lokalny gate, zawiera npm test
 ## Project structure
 
 - `js/core/` — language-independent engine and shared APIs.
-- `data/concepts.json` — semantic concepts used by language packages.
+- `data/core/concepts.json` — shared semantic concepts used by language packages.
 - `data/pl.json`, `data/en.json` — Polish and English lexical data.
 - `data/grammar/`, `data/morphology/` — language-specific rules and inflection.
 - `tests/` — regression tests and independently authored gold examples.

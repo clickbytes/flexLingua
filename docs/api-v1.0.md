@@ -16,7 +16,7 @@ const load = async path => {
   return response.json();
 };
 const [ontology, features] = await Promise.all([
-  load('./data/concepts.json'), load('./data/features.json')
+  load('./data/core/concepts.json'), load('./data/core/features.json')
 ]);
 const engine = new Engine(ontology, features);
 for (const code of ['en', 'pl', 'tr']) {
@@ -147,7 +147,7 @@ has non-enumerable `sourceSpans` with original UTF-16 offsets. Call
 `tokenizeDetailed(text, profile)` for `{tokens, spans, normalizedText, profile}`.
 This segmenter does not infer word boundaries in languages without spaces.
 
-The grammar and lexicon schema is **v1.0** for EN, PL and TR. `data/features.json` stays on its own version (0.4), and the Interlingua nodes keep their individual serialization versions. Adding a new language does not require editing pairwise language translators, but it **does** require lexicon and grammar data, and must be tested for typological coverage.
+The grammar and lexicon schema is **v1.0** for EN, PL and TR. `data/core/features.json` stays on its own version (0.4), and the CORE nodes keep their individual serialization versions. Adding a new language does not require editing pairwise language translators, but it **does** require lexicon and grammar data, and must be tested for typological coverage.
 
 ## Supported constructions by adapter
 

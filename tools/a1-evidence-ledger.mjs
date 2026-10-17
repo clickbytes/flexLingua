@@ -22,7 +22,7 @@ if(args.filter(x=>x==='--catalog-only').length>1||args.filter(x=>x==='--output')
 
 const loadText=async path=>readFile(new URL('../'+path,import.meta.url),'utf8');
 const [manifestText,ontologyText,constructionRegistryText]=await Promise.all([
- loadText('data/coverage/a1-targets.json'),loadText('data/concepts.json'),loadText(A1_CONSTRUCTION_REGISTRY_PATH)
+ loadText('data/coverage/a1-targets.json'),loadText('data/core/concepts.json'),loadText(A1_CONSTRUCTION_REGISTRY_PATH)
 ]);
 const manifest=JSON.parse(manifestText),ontology=JSON.parse(ontologyText),
  constructionRegistry=JSON.parse(constructionRegistryText);

@@ -14,7 +14,7 @@ function validDate(value) {
   return Number.isFinite(timestamp) && new Date(timestamp).toISOString().slice(0,10) === value;
 }
 
-export async function readDataPackageInventory(dataRoot) {
+export async function readDataPackageInventory(dataRoot,pathPrefix='data') {
   const files = [];
   async function visit(directory) {
     for (const entry of await readdir(directory,{withFileTypes:true})) {
@@ -24,7 +24,7 @@ export async function readDataPackageInventory(dataRoot) {
       } else if (entry.isFile() && entry.name.endsWith('.json') && entry.name !== 'provenance.json') {
         const packageData = JSON.parse(await readFile(fullPath,'utf8'));
         const path = relative(dataRoot,fullPath).split(sep).join('/');
-        files.push({path:`data/${path}`,version:packageData.version ?? packageData.schemaVersion});
+        files.push({path:`${pathPrefix}/${path}`,version:packageData.version ?? packageData.schemaVersion});
       }
     }
   }

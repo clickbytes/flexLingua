@@ -58,7 +58,9 @@ export function createFeatureRegistry(spec, featureProfile) {
   if (!record(spec) || spec.version !== FEATURE_VERSION || !record(spec.domains)) {
     throw new Error('Unsupported or missing feature registry version.');
   }
-  for (const domain of ['event', 'participant', 'lexical']) {
+  // CORE requires semantic event and participant dimensions; language-specific
+  // lexical features belong in each language package.
+  for (const domain of ['event', 'participant']) {
     const dimensions = spec.domains[domain];
     if (!record(dimensions) || !Object.keys(dimensions).length) {
       throw new Error(`Missing feature domain: ${domain}`);
@@ -68,6 +70,15 @@ export function createFeatureRegistry(spec, featureProfile) {
           values.some(value => !safeName(value)) || new Set(values).size !== values.length) {
         throw new Error(`Invalid feature dimension: ${domain}.${name}`);
       }
+    }
+  }
+  if (hasOwn(spec.domains, 'lexical')) {
+    const dimensions = spec.domains.lexical;
+    if (!record(dimensions) || !Object.keys(dimensions).length ||
+        Object.entries(dimensions).some(([name, values]) =>
+      !safeName(name) || !Array.isArray(values) || !values.length ||
+      values.some(value => !safeName(value)) || new Set(values).size !== values.length)) {
+      throw new Error('Invalid lexical feature inventory.');
     }
   }
   // Older registries may still carry syntax; new CORE registries need not.
