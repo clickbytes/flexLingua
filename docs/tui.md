@@ -1,6 +1,6 @@
 # Terminal UI
 
-flexLingua provides a local terminal application with exactly three tabs: Translate, Chat, and Forms. It runs directly on Node.js and does not start an HTTP server or browser page.
+flexLingua provides a local terminal application with exactly three modes: Translate, Chat, and Forms. It runs directly on Node.js and does not start an HTTP server or browser page.
 
 ## Start
 
@@ -15,8 +15,9 @@ On Windows, `start.bat` starts the same application after dependencies have been
 
 ## Navigation
 
-- F1, F2, and F3 select Translate, Chat, and Forms. Mouse clicks on the tab bar work when the terminal supports mouse input.
-- Tab and Shift+Tab move focus. Enter activates the focused action or submits the current input. Esc closes an open details panel or cancels a confirmation.
+- F1, F2, and F3 select Translate, Chat, and Forms. All controls are available from the keyboard; mouse navigation is not supported.
+- Tab and Shift+Tab move focus. Enter activates the focused action or submits the current input. Esc closes an open panel or cancels a confirmation.
+- Type `/settings` in the composer to edit session-only language and presentation settings. Apply commits the working copy; Cancel or Esc discards it. `/help` lists the current controls and commands.
 - Ctrl+C exits and restores the terminal input mode and cursor.
 - Ctrl+N opens the new-session confirmation in Chat. Confirming resets its in-memory dialogue session and history; cancelling preserves them.
 - When the Chat conversation or Translate details are focused, `j` and `k` scroll down and up.
@@ -39,7 +40,7 @@ Choose a language and search for a lemma or an inflected surface form. If the di
 
 ## Terminal size
 
-Translate uses side-by-side panels from 100 columns; narrower terminals stack the panels. Widths below 60 columns use compact labels. At fewer than 40 columns or 12 rows, the app asks you to enlarge the terminal. Resize events redraw the active tab.
+At fewer than 40 columns or 12 rows, the app asks you to enlarge the terminal. Resize events redraw the active mode while keeping its focus and selection.
 
 ## Standalone CLI
 
@@ -50,4 +51,4 @@ node tools/translate.mjs --languages
 node tools/translate.mjs --from en --to pl --text "The girl sees the dog." --json
 ```
 
-See [CLI usage](cli.md) for output fields, diagnostics, and exit codes.
+See [CLI usage](cli.md) for output fields, diagnostics, and exit codes. The redesign specification is tracked in [issue #324](https://github.com/clickbytes/flexLingua/issues/324).

@@ -119,12 +119,14 @@ export function createTui({runtime, terminal, output = process.stdout, services 
   ];
   const screen = createScreen({terminal, styleFor});
   const events = new EventEmitter();
-  const inputBridge = createInputBridge({terminal, onPaste: handlePaste});
+  const inputBridge = createInputBridge({terminal,
+    onPaste: (...args) => safely(handlePaste, args)});
   let started = false;
   let stopping = false;
   let stopPromise = null;
   let lastFrame = null;
   let cursorShown = null;
+  let fatalReported = false;
 
   function activeIndex() {
     return WORKSPACE_MODES.indexOf(workspaceState.activeMode);
@@ -627,7 +629,7 @@ export function createTui({runtime, terminal, output = process.stdout, services 
       return true;
     }
     if (action.type === 'quit') {
-      void stop(0);
+      runSafely(() => stop(0));
       return true;
     }
     workspaceState.commandNotice = 'Polecenie nie ma aktywnej akcji w tej wersji.';
@@ -737,7 +739,7 @@ export function createTui({runtime, terminal, output = process.stdout, services 
     }
     if (action.type === 'escape') {
       pending.selected = 1;
-      void confirmPendingAction();
+      runSafely(() => confirmPendingAction());
       return true;
     }
     if (action.type === 'cursor_left' || action.type === 'cursor_right' ||
@@ -748,7 +750,7 @@ export function createTui({runtime, terminal, output = process.stdout, services 
       return true;
     }
     if (action.type === 'submit') {
-      void confirmPendingAction();
+      runSafely(() => confirmPendingAction());
       return true;
     }
     return true;
@@ -891,15 +893,15 @@ export function createTui({runtime, terminal, output = process.stdout, services 
     }
     if (action.type === 'open_palette') return true;
     if (action.type === 'select_tab') {
-      void dispatchNamedCommand(WORKSPACE_MODES[action.index], {fromPalette: true});
+      runSafely(() => dispatchNamedCommand(WORKSPACE_MODES[action.index], {fromPalette: true}));
       return true;
     }
     if (action.type === 'new_session') {
-      void dispatchNamedCommand('new', {fromPalette: true});
+      runSafely(() => dispatchNamedCommand('new', {fromPalette: true}));
       return true;
     }
     if (action.type === 'submit') {
-      void submitPaletteBuffer();
+      runSafely(() => submitPaletteBuffer());
       return true;
     }
     const suggestions = commandSuggestions(workspaceState.commandBuffer, commandContext());
@@ -953,11 +955,11 @@ export function createTui({runtime, terminal, output = process.stdout, services 
       return true;
     }
     if (action.type === 'select_tab') {
-      void dispatchNamedCommand(WORKSPACE_MODES[action.index]);
+      runSafely(() => dispatchNamedCommand(WORKSPACE_MODES[action.index]));
       return true;
     }
     if (action.type === 'new_session') {
-      void dispatchNamedCommand('new');
+      runSafely(() => dispatchNamedCommand('new'));
       return true;
     }
     if (action.type === 'history_page_up' || action.type === 'cursor_up') {
@@ -996,7 +998,7 @@ export function createTui({runtime, terminal, output = process.stdout, services 
       return true;
     }
     if (action.type === 'new_session') {
-      void dispatchNamedCommand('new');
+      runSafely(() => dispatchNamedCommand('new'));
       return true;
     }
     if (['focus_next', 'cursor_right'].includes(action.type)) {
@@ -1099,7 +1101,7 @@ export function createTui({runtime, terminal, output = process.stdout, services 
     const action = actionForKey(name, data);
     const view = activeView();
     if (action.type === 'quit') {
-      void stop(0);
+      runSafely(() => stop(0));
       return;
     }
     const {width, height} = dimensions();
@@ -1125,7 +1127,7 @@ export function createTui({runtime, terminal, output = process.stdout, services 
       return;
     }
     if (action.type === 'select_tab') {
-      void dispatchNamedCommand(WORKSPACE_MODES[action.index]);
+      runSafely(() => dispatchNamedCommand(WORKSPACE_MODES[action.index]));
     } else if (action.type === 'open_palette') {
       openCommandPalette('/');
     } else if (action.type === 'focus_next' || action.type === 'focus_previous') {
@@ -1137,7 +1139,7 @@ export function createTui({runtime, terminal, output = process.stdout, services 
       setFocus(view, next.id);
       draw();
     } else if (action.type === 'new_session') {
-      void dispatchNamedCommand('new');
+      runSafely(() => dispatchNamedCommand('new'));
     } else if (action.type === 'history_page_up') {
       scrollHistory(-1, true);
     } else if (action.type === 'history_page_down') {
@@ -1146,7 +1148,7 @@ export function createTui({runtime, terminal, output = process.stdout, services 
       setFollowLatest(workspaceState, view.id, true);
       draw();
     } else if (action.type === 'submit') {
-      void dispatchSubmit(view, action, currentFocus(view, workspaceState));
+      runSafely(() => dispatchSubmit(view, action, currentFocus(view, workspaceState)));
     } else if (action.type === 'text' && ['j', 'k'].includes(action.value.toLowerCase()) &&
         ['history', 'details'].includes(currentFocus(view, workspaceState).id)) {
       scrollHistory(action.value.toLowerCase() === 'j' ? 1 : -1);
@@ -1174,7 +1176,39 @@ export function createTui({runtime, terminal, output = process.stdout, services 
   }
 
   function onSignal() {
-    void stop(0);
+    runSafely(() => stop(0));
+  }
+
+  function safely(handler, args = []) {
+    try {
+      const result = handler(...args);
+      if (result && typeof result.then === 'function') result.catch(reportFatal);
+      return result;
+    } catch (error) {
+      reportFatal(error);
+      return undefined;
+    }
+  }
+
+  function runSafely(task) {
+    try {
+      const result = task();
+      if (result && typeof result.then === 'function') result.catch(reportFatal);
+      return result;
+    } catch (error) {
+      reportFatal(error);
+      return undefined;
+    }
+  }
+
+  function reportFatal(error) {
+    if (fatalReported || stopping) return;
+    fatalReported = true;
+    runSafely(async () => {
+      await stop(1);
+      const message = sanitizeText(error?.message || 'Unexpected terminal UI failure.');
+      try { process.stderr.write(`flexLingua TUI stopped: ${message}\n`); } catch {}
+    });
   }
 
   async function stop(code = 0) {
@@ -1182,36 +1216,53 @@ export function createTui({runtime, terminal, output = process.stdout, services 
     stopping = true;
     invalidateRequests(workspaceState);
     stopPromise = (async () => {
-      terminal.removeListener?.('key', onKey);
-      terminal.removeListener?.('resize', onResize);
-      terminal.removeListener?.('paste', handlePaste);
-      process.removeListener('SIGINT', onSignal);
-      process.removeListener('SIGTERM', onSignal);
-      inputBridge.detach();
-      try {
-        await terminal.grabInput(false, true);
-      } catch {}
-      terminal.hideCursor(false);
-      terminal.styleReset();
-      terminal.fullscreen(false);
-      process.exitCode = code;
+      let cleanupError = null;
+      const cleanup = async action => {
+        try { await action(); }
+        catch (error) { cleanupError ??= error; }
+      };
+      await cleanup(() => terminal.removeListener?.('key', guardedKey));
+      await cleanup(() => terminal.removeListener?.('resize', guardedResize));
+      await cleanup(() => terminal.removeListener?.('paste', guardedPaste));
+      await cleanup(() => process.removeListener('SIGINT', onSignal));
+      await cleanup(() => process.removeListener('SIGTERM', onSignal));
+      await cleanup(() => inputBridge.detach());
+      await cleanup(() => terminal.grabInput(false, true));
+      await cleanup(() => terminal.hideCursor(false));
+      await cleanup(() => terminal.styleReset());
+      await cleanup(() => terminal.fullscreen(false));
+      process.exitCode = cleanupError ? 1 : code;
+      if (cleanupError) {
+        const message = sanitizeText(cleanupError?.message || 'Terminal cleanup failed.');
+        try { process.stderr.write(`flexLingua TUI cleanup failed: ${message}\n`); } catch {}
+      }
     })();
     return stopPromise;
   }
 
-  function start() {
+  const guardedKey = (...args) => safely(onKey, args);
+  const guardedResize = (...args) => safely(onResize, args);
+  const guardedPaste = (...args) => safely(handlePaste, args);
+
+  async function start() {
     if (started) return;
     started = true;
-    terminal.fullscreen(true);
-    terminal.hideCursor(true);
-    terminal.on('key', onKey);
-    terminal.on('resize', onResize);
-    terminal.on('paste', handlePaste);
-    process.on('SIGINT', onSignal);
-    process.on('SIGTERM', onSignal);
-    terminal.grabInput();
-    inputBridge.attach();
-    draw();
+    try {
+      terminal.fullscreen(true);
+      terminal.hideCursor(true);
+      terminal.on('key', guardedKey);
+      terminal.on('resize', guardedResize);
+      terminal.on('paste', guardedPaste);
+      process.on('SIGINT', onSignal);
+      process.on('SIGTERM', onSignal);
+      await terminal.grabInput();
+      if (stopping) return;
+      inputBridge.attach();
+      draw();
+    } catch (error) {
+      await stop(1);
+      throw error;
+    }
   }
 
   return Object.freeze({

@@ -36,7 +36,7 @@ Przy zmianie CORE, bridge lub zachowania konstrukcji wymagaj dla zmienionej pary
 
 ## Ręczny odbiór aplikacji terminalowej
 
-Uruchom `npm run tui` w interaktywnym terminalu; na Windows można użyć `start.bat`. Sprawdź trzy zakładki, klawiaturę, drafty, Unicode, zmianę rozmiaru, mały terminal, widoki Translate/Chat/Forms i odzyskanie terminala po wyjściu. Nie oznaczaj nieuruchomionego scenariusza jako zaliczonego. Jeśli środowisko nie udostępnia interaktywnego TTY albo drugiej platformy, zapisz `NOT RUN` i nazwij ograniczenie.
+Uruchom `npm run tui` w interaktywnym terminalu; na Windows można użyć `start.bat`. Sprawdź trzy tryby Translate/Chat/Forms, klawiaturę, drafty, Unicode, zmianę rozmiaru, mały terminal i odzyskanie terminala po wyjściu. `/help` pokazuje bieżące sterowanie; pełna specyfikacja redesignu jest w [issue #324](https://github.com/clickbytes/flexLingua/issues/324). Nie oznaczaj nieuruchomionego scenariusza jako zaliczonego. Jeśli środowisko nie udostępnia interaktywnego TTY albo drugiej platformy, zapisz `NOT RUN` i nazwij ograniczenie.
 
 ## Odbiór infrastruktury i zakończenie
 
