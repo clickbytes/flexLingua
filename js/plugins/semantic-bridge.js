@@ -58,6 +58,14 @@ export function createSemanticBridge({plan, core} = {}) {
   const transferPlans = plan.transferPlans.map(item => structuredClone(item));
 
   function transferFor(meaning, construction) {
+    if (meaning?.type === 'state' && meaning.kind === 'classification') {
+      const stateConstruction = 'state.classification';
+      if (construction !== undefined && construction !== stateConstruction) {
+        fail('PLUGIN_CAPABILITY_UNAVAILABLE',
+          `State classification does not match construction ${construction}.`);
+      }
+      return {construction: stateConstruction, stateKind: 'classification'};
+    }
     const conceptId = meaning?.concept;
     const candidates = transferPlans.filter(item => item.conceptId === conceptId &&
       (construction === undefined || construction === item.construction));
@@ -70,6 +78,35 @@ export function createSemanticBridge({plan, core} = {}) {
   }
 
   function validateMeaning(meaning, transfer) {
+    if (transfer?.stateKind === 'classification') {
+      const frame = core.ontology?.stateFrames?.classification;
+      if (!isRecord(meaning) || meaning.type !== 'state' ||
+          meaning.kind !== transfer.stateKind || meaning.version !== '1.31' ||
+          !isRecord(meaning.roles) || !isRecord(meaning.features) ||
+          Object.keys(meaning).sort().join(',') !== 'features,kind,roles,type,version' ||
+          Object.keys(meaning.features).sort().join(',') !== 'polarity,tense' ||
+          !frame || Object.keys(meaning.roles).length !== frame.roles.length ||
+          frame.roles.some(role => !Object.hasOwn(meaning.roles, role))) {
+        fail('PLUGIN_RESULT_INVALID', 'Invalid classification state or role frame.');
+      }
+      for (const role of frame.roles) {
+        const participant = meaning.roles[role];
+        if (!isRecord(participant) || typeof participant.concept !== 'string' ||
+            !core.ontology.isA(participant.concept, frame.roleTypes[role])) {
+          fail('PLUGIN_RESULT_INVALID', `Invalid classification participant: ${role}.`);
+        }
+        const reference = isRecord(participant.coreRef) ? participant.coreRef :
+          {kind: 'concept', id: participant.concept};
+        if (reference.kind !== 'concept' || reference.id !== participant.concept) {
+          fail('PLUGIN_CORE_REFERENCE_INVALID', `Conflicting CORE reference for ${role}.`);
+        }
+        try { core.resolve(reference); }
+        catch (error) {
+          fail('PLUGIN_CORE_REFERENCE_INVALID', `Unknown CORE reference for ${role}.`, error);
+        }
+      }
+      return true;
+    }
     if (!isRecord(meaning) || !isRecord(meaning.roles) || !transfer ||
         meaning.concept !== transfer.conceptId) {
       fail('PLUGIN_RESULT_INVALID', 'Meaning does not match its declared semantic transfer.');
@@ -136,6 +173,24 @@ export function createSemanticBridge({plan, core} = {}) {
   function projectMeaning(meaning, transfer, lexicalSenses = {}) {
     validateMeaning(meaning, transfer);
     const senses = cloneLexicalSenses(lexicalSenses, senseReferences);
+    if (transfer.stateKind === 'classification') {
+      for (const [role, participant] of Object.entries(meaning.roles)) {
+        const senseId = senses?.[role];
+        if (typeof senseId === 'string') {
+          const reference = coreRefForSense(senseId);
+          if (reference.kind === 'concept' && reference.id !== participant.concept) {
+            fail('PLUGIN_CORE_REFERENCE_INVALID',
+              `Lexical sense does not match classification role ${role}.`);
+          }
+        }
+      }
+      return {construction: transfer.construction, stateKind: transfer.stateKind,
+        roles: Object.fromEntries(Object.entries(meaning.roles).map(([role, participant]) =>
+          [role, {participant: structuredClone(participant),
+            coreRef: {kind: 'concept', id: participant.concept},
+            lexicalSense: typeof senses?.[role] === 'string' ?
+              coreRefForSense(senses[role]) : null}]))};
+    }
     const runtimeArguments = transfer.arguments.map(item => {
       const participant = meaning.roles[item.semanticRole] ?? null;
       const senseId = senses?.[item.semanticRole] ?? null;
