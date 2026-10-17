@@ -1,32 +1,6 @@
-const segmenter = new Intl.Segmenter(undefined, {granularity: 'grapheme'});
+import {graphemes, graphemeWidth, sanitizeText, textWidth} from './text.js';
 
-export function sanitizeText(value) {
-  return String(value ?? '')
-    .replace(/\r\n?/gu, '\n')
-    .replace(/\t/gu, '  ')
-    .replace(/[\x00-\x08\x0b-\x1f\x7f-\x9f]/gu, '');
-}
-
-export function graphemes(value) {
-  return Array.from(segmenter.segment(sanitizeText(value)), item => item.segment);
-}
-
-export function graphemeWidth(value) {
-  if (!value || /^\p{Mark}+$/u.test(value)) return 0;
-  if (/\p{Extended_Pictographic}|\p{Regional_Indicator}/u.test(value)) return 2;
-  const code = value.codePointAt(0);
-  if (code === 0x200d || (code >= 0xfe00 && code <= 0xfe0f)) return 0;
-  if (code >= 0x1100 && (code <= 0x115f || code === 0x2329 || code === 0x232a ||
-      (code >= 0x2e80 && code <= 0xa4cf) || (code >= 0xac00 && code <= 0xd7a3) ||
-      (code >= 0xf900 && code <= 0xfaff) || (code >= 0xfe10 && code <= 0xfe19) ||
-      (code >= 0xfe30 && code <= 0xfe6f) || (code >= 0xff00 && code <= 0xff60) ||
-      (code >= 0xffe0 && code <= 0xffe6))) return 2;
-  return 1;
-}
-
-export function textWidth(value) {
-  return graphemes(value).reduce((width, item) => width + graphemeWidth(item), 0);
-}
+export {graphemes, graphemeWidth, sanitizeText, textWidth} from './text.js';
 
 function wrapLongToken(token, width) {
   const lines = [];
