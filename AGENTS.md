@@ -38,6 +38,34 @@ are not part of the development or merge process.
 
 ## Validation policy: select the smallest level
 
+### Sentence-matrix workflow for language changes
+
+For translation, parsing, grammar, CORE mapping, lexical behavior, or morphology,
+the primary acceptance artifact is a small project-authored JSON sentence matrix.
+Each accepted row records `id`, `from`, `to`, `input`, `expected`, and enough
+static CORE information to review meaning. Refusals record the input and reason.
+
+1. Add or update only the rows for the current contract. Write expected surface
+   text and CORE by hand before using the engine; never copy engine output into
+   the oracle merely because it was produced.
+2. Run `node tools/review-sentences.mjs --input <fixture.json>`. This prints one
+   JSON line per sentence with input, actual output, expected output, status, and
+   analyzed CORE. Treat the fixture as input and the printed records as the
+   review material.
+3. Review every printed row linguistically and semantically: target wording,
+   roles, referents, tense, polarity, aspect, number, relation, ambiguity, and
+   expected refusal. A zero exit code only means exact strings matched; it does
+   not replace this review.
+4. Run at most one matching focused Node test when a mechanical invariant needs
+   regression protection. Do not start the full suite for an ordinary language
+   batch.
+5. Record the fixture path, command, reviewed row count, mismatches, and commit
+   SHA in the PR or issue. GitHub Actions are not used for this workflow.
+
+Sentence matrices may grow toward 1000 reviewed A1 sentences per direction, but
+split them into bounded thematic files. Review only the changed file plus a small
+stable regression sample; do not rerun the entire corpus after every edit.
+
 1. **FAST EDIT (default):** For text, markup, documentation, styling, or a small
    localized change that does not alter a behavioral contract, edit and stop;
    no automatic tests or Git review.
@@ -48,13 +76,10 @@ are not part of the development or merge process.
 3. **DATA CHECK:** When editing lexical, morphology, gold, or provenance data,
    run only the applicable focused validator if verification is needed.
    Do not launch every language audit for an unrelated dataset.
-4. **LOCAL PUSH GATE:** Install the versioned hooks once with
-   `npm run setup:local-hooks`. The pre-commit hook validates the A1 fixture
-   catalog. The pre-push hook runs `npm run check:release` on the committed
-   HEAD and writes `.local-checks/<SHA>.json` and `.log`. This includes
-   `npm test` and the A1 sentence matrix; do not launch duplicate full suites.
-   `npm run check:core-gates` remains a manual release command for a clean
-   checkout. Report the local result for the exact PR SHA.
+4. **RELEASE GATE (explicit only):** Run `npm run check:core-gates` only when
+   the user explicitly requests a release or full repository verification.
+   Local hooks must not turn an ordinary push into a full test run. Report the
+   exact commands actually run and never infer success from a commit or push.
 
 If a focused check fails, investigate the in-scope failure, fix it if appropriate,
 and rerun that check once. Do not launch unrelated checks in response. If an
@@ -88,7 +113,8 @@ Only choose paths relevant to the requested change.
 - Local hooks / release gating: `.githooks/`, `tools/local-check.mjs`,
   `tools/check-core-gates.mjs`, `package.json`; focused tests:
   `tests/local-workflow.test.js`, `tests/core-release-gates.test.js`.
-- Existing npm scripts are defined in `package.json`. Do not invent scripts.
+- Existing npm scripts are defined in `package.json`. Do not invent scripts;
+  the sentence-review CLI is called directly with `node`.
   Node test runner: `node --test tests/<relevant-file>.test.js`.
 
 ## Product invariants
