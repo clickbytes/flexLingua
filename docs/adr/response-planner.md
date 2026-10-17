@@ -23,6 +23,16 @@ does not contain PL/EN sentence pairs.
   participant remains a typed CORE referent.
 - Duplicate support is retained in evidence. Contradictory yes/no evidence or
   multiple distinct WH answers produces `refuse` with reason `ambiguous`.
+- Participant comparison is structural and uses the optional per-role
+  `referenceContext`. Equal grounded IDs permit only the declared mention
+  normalization: `features.definiteness` may differ. Different IDs do not match
+  for specific participants. Two indefinite mentions retain existential
+  proposition matching even when their local mention IDs differ; WH candidate
+  identity still distinguishes grounded IDs.
+- Unresolved anaphoric and deictic participants receive input-scoped unresolved
+  identities, so a copied pronoun cannot ground a fact by matching its JSON.
+  Without reference IDs, ordinary participants retain the legacy exact-mention
+  comparison; definiteness is not normalized and no identity is inferred.
 - Missing evidence produces `refuse` with reason `insufficient_context`.
   Unsupported question shapes produce `refuse` with reason `unsupported`.
 - A supplied, validated clarification question produces a `clarify` act linked

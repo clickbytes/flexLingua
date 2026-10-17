@@ -5,7 +5,8 @@ import {Engine} from '../js/core/engine.js';
 import {createRuleAdapter} from '../js/core/grammar.js';
 import {ConversationContext} from '../js/core/conversation.js';
 import {
-  createDialogueAct, createEvent, createQuestion, participant, validateInterlingua
+createDialogueAct, createEvent, createPredication, createQuestion, participant,
+validateInterlingua
 } from '../js/core/interlingua.js';
 
 const load=async path=>JSON.parse(await readFile(new URL('../data/'+path,import.meta.url),'utf8'));
@@ -96,18 +97,18 @@ test('planner rejects non-assert dialogue acts and malformed facts instead of tr
   assert.throws(()=>engine.planResponse({question:{type:'event'}}),/semantic question/);
 });
 
-test('ConversationContext answers its latest pending question from explicit assertion turns',()=>{
+test('ConversationContext does not equate repeated definite descriptions without identity evidence',()=>{
   const conversation=new ConversationContext(engine);
   conversation.appendDialogueAct(createDialogueAct('ask',{question}));
   conversation.appendDialogueAct(createDialogueAct('assert',{proposition:see()}));
   const plan=conversation.planResponse();
-  assert.equal(plan.act.act,'confirm');
+  assert.equal(plan.outcome,'unknown');
+  assert.equal(plan.reason,'insufficient_context');
   const response=conversation.respond({to:'pl'});
-  assert.equal(response.text,'Dziewczynka widzi psa.');
-  assert.equal(response.dialogueAct.act,'confirm');
+  assert.equal(response.dialogueAct.act,'refuse');
   assert.equal(response.turnCount,3);
   assert.deepEqual(conversation.snapshot().pendingQuestions,[]);
-  assert.equal(conversation.snapshot().turns[2].intent,'confirm');
+  assert.equal(conversation.snapshot().turns[2].intent,'refuse');
 });
 
 test('ConversationContext resolves deictic planner evidence per turn participant',()=>{
@@ -130,12 +131,21 @@ test('ConversationContext resolves deictic planner evidence per turn participant
   assert.equal(sameSpeaker.planResponse().act.act,'confirm');
   assert.equal(sameSpeaker.respond({to:'pl'}).dialogueAct.act,'confirm');
 
-  const addressee=new ConversationContext(engine);
-  addressee.translate({text:'Ty widzisz psa.',from:'pl',to:'en',
-    participants:{speakerId:'alice',addresseeId:'bob'}});
-  addressee.translate({text:'Czy ja widzę psa?',from:'pl',to:'en',
-    participants:{speakerId:'bob',addresseeId:'alice'}});
-  assert.equal(addressee.planResponse().act.act,'confirm');
+  const addresseeFact=createPredication('quality.big',{
+    referent:{kind:'deictic',anchor:'speaker'},
+    agreement:{person:'first',number:'singular'}
+  },
+    {tense:'present',polarity:'positive'});
+  const addresseeQuestion=createQuestion(createPredication('quality.big',{
+    referent:{kind:'deictic',anchor:'addressee'},
+    agreement:{person:'second',number:'singular'}
+  },{tense:'present',polarity:'positive'}));
+  const addresseePlan=engine.planResponse({question:addresseeQuestion,
+    facts:[addresseeFact],referenceContext:{
+      question:[{role:'question.proposition.roles.subject',referenceId:'actor:bob'}],
+      facts:[[{role:'proposition.roles.subject',referenceId:'actor:bob'}]]
+    }});
+  assert.equal(addresseePlan.act.act,'confirm');
 
   const speakerRole={referent:{kind:'deictic',anchor:'speaker'},
     agreement:{person:'first',number:'singular'}};
@@ -182,7 +192,7 @@ test('ConversationContext resolves deictic planner evidence per turn participant
   conflict.appendDialogueAct(createDialogueAct('ask',{
     question:createQuestion(makeSpeakerFact('positive'))
   }),{participants:{speakerId:'alice',addresseeId:'bob'}});
-  assert.equal(conflict.planResponse().reason,'ambiguous');
+  assert.equal(conflict.planResponse().reason,'insufficient_context');
 });
 
 test('failed response realization leaves the conversation history unchanged',()=>{
