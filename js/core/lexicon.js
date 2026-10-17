@@ -43,13 +43,12 @@ function normalizeSense(sense, category, lexeme, strict) {
         !['id','coreRef','priority','countability'].includes(key)))) {
     throw new Error(`Invalid or duplicate lexical sense: ${sense?.id}`);
   }
-  if (strict && (hasOwn(sense,'concept') || !hasOwn(sense,'coreRef'))) {
-    throw new Error(`LexicalSense must declare only coreRef: ${sense.id}`);
+  if (hasOwn(sense,'concept') || !hasOwn(sense,'coreRef')) {
+    throw new Error(`LexicalSense must declare coreRef: ${sense.id}`);
   }
-  const legacy = hasOwn(sense, 'concept') ? {kind:'concept', id:sense.concept} : null;
-  const ref = sense.coreRef || legacy;
+  const ref = sense.coreRef;
   if (!record(ref) || !['concept','operator','grammaticalFunction'].includes(ref.kind) || !validLexemeId(ref.id) ||
-      (legacy && sense.coreRef && keyOf(legacy) !== keyOf(sense.coreRef))) {
+      (ref.parameters !== undefined && !record(ref.parameters))) {
     throw new Error(`Invalid CORE mapping for lexical sense: ${sense.id}`);
   }
   if (category === 'quantifiers') {
@@ -79,9 +78,8 @@ function normalizeSense(sense, category, lexeme, strict) {
 }
 
 /**
- * Parses canonical 1.01 lexicons while accepting 1.0 concept/meaning fields at
- * the adapter boundary. Old input is normalized into the SAME CoreReference model.
- * Strict mode is used for shipped dictionaries and future importer validation.
+ * Parses lexical inventories with explicit typed CoreReferences. Strict mode
+ * additionally validates the canonical package shape for shipped dictionaries.
  */
 export function createLexicon(input, {strict = false} = {}) {
   if (!record(input) || !safeName(input.language) ||
@@ -123,12 +121,11 @@ export function createLexicon(input, {strict = false} = {}) {
         !hasOwn(item,'lemma'))) {
         throw new Error(`Canonical CORE sense mapping required: ${item.id}`);
       }
-      if (hasOwn(item,'concept') && hasOwn(item,'senses')) {
-        throw new Error(`Invalid sense inventory for ${item.id}: concept and senses conflict.`);
+      if (hasOwn(item,'concept')) {
+        throw new Error(`Lexical entry must declare CORE references in senses: ${item.id}`);
       }
       const originalSenses = item.senses || (category === 'quantifiers' ?
-        [{id:item.id,coreRef:quantifierCore(item.meaning)}] :
-        [{id:item.id,concept:item.concept}]);
+        [{id:item.id,coreRef:quantifierCore(item.meaning)}] : null);
       if (!Array.isArray(originalSenses) || !originalSenses.length ||
           originalSenses.length > MAX_SENSES) throw new Error(`Invalid sense inventory for ${item.id}`);
       const senses = originalSenses.map(sense => normalizeSense(sense,category,item,strict));
@@ -201,19 +198,35 @@ export function createLexicon(input, {strict = false} = {}) {
 /** Offline migration helper; never silently edits the caller's JSON. */
 export function migrateLexicon(input) {
   const original = structuredClone(input);
-  const view = createLexicon(original);
   const result = { ...original, lexicalModel:LEXICON_MODEL_VERSION };
   for (const category of Object.keys(CATEGORIES)) {
     if (!hasOwn(original,category)) continue;
     result[category] = original[category].map(entry => {
       const { concept:obsoleteConcept, ...rest } = entry;
-      const normalized = view.get(entry.id);
-      const senses = normalized.senses.map(sense => ({
-        id:sense.id, coreRef:structuredClone(sense.coreRef),
-        ...(sense.priority ? {priority:sense.priority} : {}),
-        ...(sense.countability ? {countability:sense.countability} : {})
-      }));
-      return { ...rest, ...(category === 'quantifiers' && !rest.lemma ? {lemma:normalized.lemma} : {}), senses };
+      if (obsoleteConcept !== undefined && hasOwn(entry,'senses')) {
+        throw new Error(`Invalid sense inventory for ${entry.id}: concept and senses conflict.`);
+      }
+      const sourceSenses=entry.senses || (category === 'quantifiers' ?
+        [{id:entry.id,coreRef:quantifierCore(entry.meaning)}] :
+        obsoleteConcept === undefined ? null : [{id:entry.id,concept:obsoleteConcept}]);
+      if (!Array.isArray(sourceSenses) || !sourceSenses.length || sourceSenses.length>MAX_SENSES) {
+        throw new Error(`Invalid sense inventory for ${entry.id}`);
+      }
+      const senses = sourceSenses.map(sense => {
+        if (!record(sense)) throw new Error(`Invalid lexical sense: ${sense?.id}`);
+        const legacy = hasOwn(sense,'concept') ? {kind:'concept',id:sense.concept} : null;
+        if (legacy && sense.coreRef && keyOf(legacy)!==keyOf(sense.coreRef)) {
+          throw new Error(`Conflicting CORE mapping for lexical sense: ${sense.id}`);
+        }
+        const coreRef=sense.coreRef || legacy;
+        if (!coreRef) throw new Error(`Missing CORE mapping for lexical sense: ${sense.id}`);
+        const priority=sense.priority ?? entry.priority ?? 0;
+        return {id:sense.id,coreRef:structuredClone(coreRef),
+          ...(priority ? {priority} : {}),
+          ...(sense.countability ? {countability:sense.countability} : {})};
+      });
+      const lemma=entry.lemma || entry.forms?.[0]?.text;
+      return { ...rest, ...(category === 'quantifiers' && !rest.lemma && lemma ? {lemma} : {}), senses };
     });
   }
   createLexicon(result,{strict:true});
