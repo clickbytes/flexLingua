@@ -3,10 +3,13 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import {
   GRAMMATICAL_PERSON, createFeatureRegistry, unifyFeatures, valueAt, featureSource,
-  matchesConditions, matchesAgreement, validateFeatureBundle
+  matchesConditions, matchesAgreement, validateFeatureBundle, createLanguageFeatureProfile
 } from '../js/core/features.js';
+import {createMorphFeatureRegistry,flattenMorphFeatures} from '../js/core/morphology/features.js';
 
 const fixture = JSON.parse(await readFile(new URL('../data/features.json', import.meta.url), 'utf8'));
+const morphologyFixture = JSON.parse(await readFile(new URL('../data/morphology/features.json', import.meta.url), 'utf8'));
+const profiles = JSON.parse(await readFile(new URL('./fixtures/language-feature-profiles.json', import.meta.url), 'utf8'));
 const clone = object => JSON.parse(JSON.stringify(object));
 
 test('Feature registry validates six structured domains', () => {
@@ -43,6 +46,41 @@ test('Feature registry copies input data instead of keeping mutable aliases', ()
   const registry = createFeatureRegistry(spec);
   spec.domains.participant.number[0] = 'tampered';
   assert.equal(registry.domains.participant.number[0], 'singular');
+});
+
+test('Versioned language profiles scope syntax and morphology without changing the shared inventories',()=>{
+  for(const profile of Object.values(profiles)){
+    const registry=createFeatureRegistry(fixture,profile);
+    const morphology=createMorphFeatureRegistry(morphologyFixture,profile);
+    assert.deepEqual(registry.domains.syntactic,profile.syntactic);
+    assert.deepEqual(morphology.dimensions,profile.morphology);
+    assert.deepEqual(registry.domains.participant.number,fixture.domains.participant.number);
+  }
+  assert.deepEqual(createFeatureRegistry(fixture,profiles.zeroCase).domains.syntactic,{});
+  assert.equal(createFeatureRegistry(fixture,profiles.twoCase).domains.syntactic.case.length,2);
+  assert.equal(createFeatureRegistry(fixture,profiles.tenCase).domains.syntactic.case.length,10);
+  assert.ok(morphologyFixture.dimensions.case.includes('abl'));
+  assert.equal(morphologyFixture.dimensions.case.includes('erg'),false);
+});
+
+test('Profile feature errors distinguish absent categories, unknown values, and conflicts',()=>{
+  const zero=createMorphFeatureRegistry(morphologyFixture,profiles.zeroCase);
+  const two=createMorphFeatureRegistry(morphologyFixture,profiles.twoCase);
+  assert.throws(()=>zero.supports({case:'nom'}),error=>error.code==='absent_feature_category');
+  assert.throws(()=>two.supports({case:'erg'}),error=>error.code==='unknown_feature_value');
+  assert.throws(()=>flattenMorphFeatures({subject_number:'first',subject:{number:'plural'}},two),
+    error=>error.code==='invalid_combination');
+  assert.deepEqual(flattenMorphFeatures({number:'singular',case:'acc'},two),
+    {number:'singular',case:'acc'});
+  assert.throws(()=>featureSource('subject.case',profiles.zeroCase),
+    error=>error.code==='absent_feature_category');
+  assert.deepEqual(featureSource('subject.case',profiles.twoCase),['subject','case']);
+});
+
+test('Language feature profile rejects duplicate values and a mismatched language',()=>{
+  const duplicate=clone(profiles.twoCase);duplicate.syntactic.case.push('nom');
+  assert.throws(()=>createLanguageFeatureProfile(duplicate),/Invalid syntactic feature dimension/);
+  assert.throws(()=>createLanguageFeatureProfile(profiles.twoCase,{language:'en'}),/Invalid or unsupported/);
 });
 
 test('Feature unification merges nonconflicting bindings without input mutation', () => {

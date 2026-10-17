@@ -236,3 +236,19 @@ may change target wording while preserving the CORE object. If an alternate
 wording does not exist, the preferred output is kept with a warning. Unknown
 fields and unsupported options fail validation. See the
 [profile contract and semantic boundary](adr/personality.md).
+
+## GEN-07 extension — language feature profiles
+
+An adapter may opt in to a versioned language feature profile by passing
+`featureProfile` to `createRuleAdapter()`. A morphology package may declare the
+same object in its optional `featureProfile` property. The closed v1.0 shape is
+defined by [`schemas/language-feature-profile.schema.json`](../schemas/language-feature-profile.schema.json):
+`language`, `syntactic`, and `morphology`, with each dimension mapped to a
+nonempty list of supported values. An omitted dimension means that category is
+absent. The language identifier must match the adapter or morphology package.
+
+Profiles are reported in `engine.capabilities()` only when explicitly declared.
+Packages without one keep the v0.4 semantic registry and v1.02 morphology
+inventory compatibility behavior. Morphology availability distinguishes
+`absent_feature_category`, `unknown_feature_value`, `invalid_combination`, and
+`missing_or_blocked_cell`; none of these statuses adds a form or CORE meaning.

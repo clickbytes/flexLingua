@@ -1,4 +1,4 @@
-import { record, hasOwn, safeName } from '../features.js';
+import { record, hasOwn, safeName, createLanguageFeatureProfile } from '../features.js';
 import { createLexicon } from '../lexicon.js';
 import { createMorphFeatureRegistry, flattenMorphFeatures } from './features.js';
 import { executeOperations, validateOperations } from './operations.js';
@@ -15,13 +15,17 @@ const safeText=text=>typeof text==='string' && text.length>0 && text.length<128 
  * Finite, validated paradigm interpreter. A bounded inverse form index supplies
  * all lexeme/feature readings, including homography. It is not an HFST compiler.
  */
-export function createMorphology(spec, dictionary, featureSpec, {core}={}) {
+export function createMorphology(spec, dictionary, featureSpec, options={}) {
+  const {core}=options;
   if (!record(spec) || spec.version!=='1.11' || !safeName(spec.language) ||
       !record(spec.paradigms) || !Array.isArray(spec.bindings) ||
       spec.bindings.length>MAX_LEXEMES || dictionary.language!==spec.language) {
     throw new Error('Invalid morphology package or language mismatch.');
   }
-  const registry=createMorphFeatureRegistry(featureSpec);
+  const rawProfile=options.featureProfile===undefined?spec.featureProfile:options.featureProfile;
+  const featureProfile=rawProfile===undefined?undefined:
+    createLanguageFeatureProfile(rawProfile,{language:spec.language});
+  const registry=createMorphFeatureRegistry(featureSpec,featureProfile);
   const lexical=createLexicon(dictionary,{strict:dictionary.lexicalModel==='1.01'});
   if (core) lexical.validateCore(core);
   const resolved=new Map(),states=new Map();
@@ -109,6 +113,7 @@ export function createMorphology(spec, dictionary, featureSpec, {core}={}) {
   const output=entry=>clone(entry);
   return Object.freeze({language:spec.language,version:'1.11',
     contractVersion:MORPHOLOGY_ADAPTER_CONTRACT_VERSION,registry,
+    ...(featureProfile?{featureProfile}:{}),
     lexicon:lexical,paradigms:resolved,
     has:lexemeId=>bindings.has(lexemeId),
     availability({lexemeId,features={},exact=true}={}){
@@ -116,7 +121,7 @@ export function createMorphology(spec, dictionary, featureSpec, {core}={}) {
       if(!binding)return {supported:false,reason:'unknown_lexeme'};
       let query;
       try{query=flattenMorphFeatures(features,registry);}
-      catch{return {supported:false,reason:'unsupported_feature'};}
+      catch(error){return {supported:false,reason:error?.code||'invalid_feature_value'};}
       const found=binding.forms.some(form=>matches(query,form.features)&&
         (!exact||Object.keys(query).length===Object.keys(form.features).length));
       return found?{supported:true,reason:null}:
@@ -142,7 +147,8 @@ export function createMorphology(spec, dictionary, featureSpec, {core}={}) {
       return bindings.get(lexemeId).forms.map(output);
     },
     describe(){return {language:spec.language,lexemes:bindings.size,paradigms:resolved.size,
-      forms:[...bindings.values()].reduce((sum,b)=>sum+b.forms.length,0),featuresVersion:registry.version};}
+      forms:[...bindings.values()].reduce((sum,b)=>sum+b.forms.length,0),featuresVersion:registry.version,
+      ...(featureProfile?{featureProfile}: {})};}
   });
 }
 
