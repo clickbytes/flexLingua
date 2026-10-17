@@ -21,7 +21,7 @@ function run(command,args,{log}={}){
     const receive=chunk=>{
       const value=chunk.toString();
       if(log)log.write(value);
-      tail=(tail+value).slice(-24000);
+    tail=(tail+value).slice(-6000);
     };
     child.stdout.on('data',receive);
     child.stderr.on('data',receive);
@@ -91,7 +91,8 @@ async function main(){
     throw new Error('HEAD or tracked files changed during the check; rerun on the final commit.');
   process.stdout.write('Local release checks '+report.status+' for '+sha+'. Report: '+reportPath+'\n');
   if(result.code!==0){
-    process.stderr.write(result.tail+'\n');
+    process.stderr.write('See '+logPath+' for the failing command and case.\n'+
+      result.tail.split(/\r?\n/u).slice(-24).join('\n')+'\n');
     process.exitCode=1;
   }
 }

@@ -7,7 +7,7 @@ const fixturePath='tests/fixtures/gold-conversation-a1.json';
 const fixtureText=await readFile(new URL('../'+fixturePath,import.meta.url),'utf8');
 const fixture=JSON.parse(fixtureText);
 const root=fileURLToPath(new URL('../',import.meta.url));
-const run=spawnSync(process.execPath,['--test','tests/dialogue-engine-a1.test.js'],{
+const run=spawnSync(process.execPath,['--test','--test-reporter=tap','tests/dialogue-engine-a1.test.js'],{
   cwd:root,encoding:'utf8',timeout:180000,maxBuffer:16*1024*1024
 });
 const output=String(run.stdout||'')+'\n'+String(run.stderr||'');
