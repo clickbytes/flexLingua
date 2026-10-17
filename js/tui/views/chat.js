@@ -220,28 +220,21 @@ export function createChatView({chatService, state: modeState, workspaceState} =
   function render({focus} = {}) {
     if (state.confirmReset) {
       const selected = focus?.id === 'cancel_reset' ? 'cancel_reset' : 'confirm_reset';
-      return {panels: [{title: 'Start a new local session?', lines: [
-        {text: 'Reset starts a new local session and clears its conversation history.', tone: 'warning'},
-        {text: `${selected === 'confirm_reset' ? '›' : ' '} [Reset session]`,
+      return {panels: [{title: 'Rozpocząć nową lokalną sesję?', lines: [
+        {text: 'Reset wyczyści kontekst Engine, historię i draft tej sesji.', tone: 'warning'},
+        {text: `${selected === 'confirm_reset' ? '›' : ' '} [Rozpocznij nową sesję]`,
           tone: selected === 'confirm_reset' ? 'accent' : 'neutral'},
-        {text: `${selected === 'cancel_reset' ? '›' : ' '} [Keep session]`,
+        {text: `${selected === 'cancel_reset' ? '›' : ' '} [Zachowaj sesję]`,
           tone: selected === 'cancel_reset' ? 'accent' : 'neutral'},
-        {text: 'Tab or ←/→ to choose · Enter to confirm · Esc to cancel', tone: 'muted'}
+        {text: 'Tab lub ←/→ wybór · Enter zatwierdź · Esc anuluj', tone: 'muted'}
       ]}]};
     }
 
-    const inputLines = [
-      ...(state.lastStatus ? [{text: `Last send: ${state.lastStatus}`,
-        tone: state.lastStatus === 'ok' ? 'muted' : 'warning'}] : [])
-    ];
     const events = conversationEvents();
     const historyLines = events.length ? events.flatMap(event => [
       ...eventLines(event), {text: '', tone: 'muted'}
     ]) : [{text: 'No messages yet.', tone: 'muted'}];
-    return {panels: [
-      {title: 'Chat', kind: 'input', lines: inputLines},
-      {title: `${focus?.id === 'history' ? '› ' : ''}Conversation`, lines: historyLines}
-    ]};
+    return {panels: [{title: `${focus?.id === 'history' ? '› ' : ''}Conversation`, lines: historyLines}]};
   }
 
   return {
@@ -249,10 +242,11 @@ export function createChatView({chatService, state: modeState, workspaceState} =
     label: 'Chat',
     state,
     fieldLabel: 'Message',
+    composerPrompt: 'Napisz wiadomość lub /polecenie…',
     actionLabel: 'Send',
     statusLine() {
-      return {text: `Session status: local · ${state.from ?? '?'} -> ${state.to ?? '?'} · turns ${
-        state.turnCount}/${state.maxTurns} · events ${state.eventCount}/${state.maxEvents}`,
+      return {text: `Sesja lokalna · ${state.from ?? '?'} → ${state.to ?? '?'} · akty ${
+        state.turnCount}/${state.maxTurns} · zdarzenia ${state.eventCount}/${state.maxEvents}`,
         tone: 'muted'};
     },
     focusTargets,

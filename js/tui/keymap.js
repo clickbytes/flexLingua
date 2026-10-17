@@ -14,6 +14,9 @@ export function actionForKey(name) {
   if (name === 'ESCAPE') return {type: 'escape'};
   if (name === 'CTRL_N') return {type: 'new_session'};
   if (name === 'CTRL_C') return {type: 'quit'};
+  if (name === 'PAGE_UP') return {type: 'history_page_up'};
+  if (name === 'PAGE_DOWN') return {type: 'history_page_down'};
+  if (name === 'CTRL_END') return {type: 'history_latest'};
   if (name === 'BACKSPACE') return {type: 'backspace'};
   if (name === 'DELETE') return {type: 'delete'};
   if (name === 'LEFT') return {type: 'cursor_left'};
