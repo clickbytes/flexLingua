@@ -86,6 +86,9 @@ test('F3: malformed particle append operation and absent stems fail closed',()=>
  const bad=structuredClone(enSpec);
  bad.bindings.find(x=>x.lexemeId==='en.look_for.1').stems.particle='';
  assert.throws(()=>createMorphology(bad,en,features,{core}),/Invalid morphology stem/);
+ const incomplete=structuredClone(enSpec);
+ delete incomplete.paradigms['en.noun.regular'].slots[1].steps[0].value;
+ assert.throws(()=>createMorphology(incomplete,en,features,{core}),/Invalid morphology operation/);
 });
 
 test('F3: no morphological binding changes CORE semantic ambiguity and old verbs remain covered',()=>{

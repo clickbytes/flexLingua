@@ -1,7 +1,18 @@
 import { record } from '../features.js';
 
-const OPERATIONS = new Set(['append','prepend','appendStem','stripSuffix','replaceSuffix','selectStem',
-  'harmonicSuffix','softenFinal','rootTemplate','reduplicate']);
+const OPERATION_FIELDS = Object.freeze({
+  append:{required:['op','value']},
+  prepend:{required:['op','value']},
+  appendStem:{required:['op','key']},
+  stripSuffix:{required:['op','value']},
+  replaceSuffix:{required:['op','from','to']},
+  selectStem:{required:['op','key']},
+  harmonicSuffix:{required:['op','template']},
+  softenFinal:{required:['op']},
+  rootTemplate:{required:['op','template']},
+  reduplicate:{required:['op','mode'],optional:['value']}
+});
+const OPERATIONS = new Set(Object.keys(OPERATION_FIELDS));
 const MAX_STEPS=16;
 const MAX_LENGTH=120;
 const LAST_VOWEL=/[aeıioöuü]/giu;
@@ -14,16 +25,24 @@ export function validateOperations(steps) {
   if (!Array.isArray(steps) || steps.length > MAX_STEPS) throw new Error('Invalid morphology operation list.');
   for (const step of steps) {
     if (!record(step) || !OPERATIONS.has(step.op)) throw new Error(`Unknown morphology operation: ${step?.op}`);
-    if (['append','prepend','stripSuffix','reduplicate'].includes(step.op) &&
-        !SAFE_STRING(step.value ?? '')) throw new Error('Invalid morphology operation value.');
+    const fields=OPERATION_FIELDS[step.op];
+    const allowed=new Set([...fields.required,...(fields.optional||[])]);
+    const unexpected=Object.keys(step).find(key=>!allowed.has(key));
+    if (unexpected) throw new Error(`Unexpected morphology operation field: ${unexpected}.`);
+    if (fields.required.some(key=>!Object.hasOwn(step,key))) {
+      throw new Error(`Invalid morphology operation fields for ${step.op}.`);
+    }
+    if (['append','prepend','stripSuffix'].includes(step.op) &&
+        (!SAFE_STRING(step.value) || !step.value)) throw new Error('Invalid morphology operation value.');
     if (step.op === 'replaceSuffix' && (!SAFE_STRING(step.from) || !SAFE_STRING(step.to) || !step.from)) {
       throw new Error('Invalid replacement suffix.');
     }
-    if (['selectStem','appendStem'].includes(step.op) && !/^[A-Za-z][A-Za-z0-9_]*$/u.test(step.key || '')) {
+    if (['selectStem','appendStem'].includes(step.op) &&
+        (typeof step.key!=='string' || !/^[A-Za-z][A-Za-z0-9_]*$/u.test(step.key))) {
       throw new Error('Invalid morphology stem key.');
     }
     if (step.op === 'harmonicSuffix' && (!SAFE_STRING(step.template) ||
-        !/^[AIDaeıioöuüçğştnmyrl]+$/u.test(step.template))) {
+        !/^[AIaeıioöuüçğştnmyrl]+$/u.test(step.template))) {
       throw new Error('Invalid vowel-harmony template.');
     }
     if (step.op === 'rootTemplate' && (!SAFE_STRING(step.template) ||
