@@ -92,10 +92,9 @@ A CLI adapter takes caller-provided UniMorph-style TSV rows (`lemma<TAB>form<TAB
 ```sh
 node tools/importers/unimorph.mjs \
   --profile /path/to/language-mapping.json \
-  --lexicon /path/to/language-lexicon.json \
-  --core /path/to/concepts.json \
   --input /path/to/source.tsv \
-  --source "source name and edition" --license "verified license" \
+  --source "source name and edition" --author "data curator" \
+  --license "license identifier or terms" \
   --out reviewed-candidates.json
 ```
 
@@ -103,12 +102,14 @@ The versioned mapping profile declares `language`, the GEN-07 `featureProfile`,
 `posTags`, tag-to-`feature`/`value` mappings, `unsupportedTags`, and the fixed
 `conflictPolicy: "review"`. A mapped value must occur in that language's
 morphology profile. The importer does not keep a built-in language whitelist or
-connect to the Internet. It writes only a new JSON filename under
-`import-staging/unimorph/`, after checking every candidate reference against
-the supplied CORE package. It refuses directory paths and existing output files,
-and never modifies active dictionaries. Unknown or declared unsupported tags,
+connect to the Internet. It resolves the language and morphology provider through
+`languages/registry.json`, then writes only a new JSON filename under
+`languages/<code>/import-staging/unimorph/` after checking candidate references
+against shared CORE. The result and each candidate are marked `unverified`; the
+source, author and license are recorded. It refuses directory paths and existing
+output files, and never modifies active dictionaries. Unknown or declared unsupported tags,
 ambiguous lemmas, conflicting tags, and malformed records go to review.
-Every candidate records its source and license and stays `verified: false`;
+Every candidate stays `verified: false`;
 human verification and actual source rights remain necessary before publication.
 
 ## Compiling, validating and reporting coverage
@@ -116,11 +117,11 @@ human verification and actual source rights remain necessary before publication.
 ```sh
 npm run check:lexicon
 npm run check:morphology
-node tools/compile-language.mjs pl --output /tmp/flexlingua-pl.json
+node tools/compile-language.mjs pl --output flexlingua-pl.json
 npm run check:release
 ```
 
-The coverage report counts **eligible canonical lexemes** of POS noun/verb/adjective that have active morphology bindings in this small dictionary. Full coverage there does *not* imply coverage of every word, every POS, every inflection cell or every construction in Polish and English. Source forms were used as golden checks for legacy slots. Actual linguistic quality should later be evaluated against *independent licensed* paradigms held out from development.
+The compiler resolves the language through `languages/registry.json`; an optional table is written only under `languages/<code>/compiled/` and the output argument must be a filename. The coverage report counts **eligible canonical lexemes** of POS noun/verb/adjective that have active morphology bindings in this small dictionary. Full coverage there does *not* imply coverage of every word, every POS, every inflection cell or every construction in Polish and English. Source forms were used as golden checks for legacy slots. Actual linguistic quality should later be evaluated against *independent licensed* paradigms held out from development.
 
 ## Important constraints
 

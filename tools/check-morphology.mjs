@@ -1,24 +1,37 @@
 import {pathToFileURL} from 'node:url';
 import {resolve} from 'node:path';
-import {createMorphology,materializeInflections} from '../js/core/morphology/engine.js';
+import {materializeInflections} from '../js/core/morphology/engine.js';
 import {morphologyCoverage} from '../js/core/morphology/compiler.js';
-import {createCoreLanguage} from '../js/core/core-language.js';
-import {DEFAULT_DATA_ROOT,loadLanguagePackages} from './language-packages.mjs';
+import {loadProjectPlugins,PROJECT_ROOT} from './project-plugins.mjs';
 
-export async function runMorphologyAudit({dataRoot=DEFAULT_DATA_ROOT}={}) {
+export async function runMorphologyAudit({projectRoot=PROJECT_ROOT}={}) {
+  const {registry}=await loadProjectPlugins({projectRoot});
   const coverage=[],skipped=[];
-  for(const {manifest,packages} of await loadLanguagePackages({dataRoot})) {
-    const audit=manifest.audits.morphology;
-    if(!audit.enabled) {
-      skipped.push({language:manifest.language,reason:audit.reason});
+  for(const code of registry.list()) {
+    const plugin=registry.get(code);
+    const declared=plugin.capabilities().some(item=>item.channel==='morphology' &&
+      item.status==='implemented');
+    const provider=plugin.morphology;
+    if(!declared || !provider) {
+      skipped.push({language:code,reason:'Morphology is unavailable.'});
       continue;
     }
-    const core=createCoreLanguage(packages.core);
-    const morphology=createMorphology(packages.morphology,packages.morphologyLexicon,
-      packages.morphologyFeatures,{core});
-    if(audit.legacyInflections)
-      materializeInflections(packages.morphologyLexicon,morphology,{assertLegacy:true});
+    if(typeof provider.inventory!=='function' || typeof provider.describe!=='function') {
+      skipped.push({language:code,reason:'Morphology inventory metadata is unavailable.'});
+      continue;
+    }
+    const description=provider.describe(),entries=provider.inventory();
+    if(!Array.isArray(entries) || description?.language!==code ||
+        !Number.isInteger(description.forms)) {
+      throw new Error(`Invalid morphology inventory from ${code}.`);
+    }
+    const morphology={language:code,lexicon:{entries},
+      has:lexemeId=>provider.availability({lexemeId,exact:false}).supported===true,
+      paradigm:input=>provider.paradigm(input),describe:()=>description};
     coverage.push(morphologyCoverage(morphology));
+    if(plugin.lexicon?.dictionary) {
+      materializeInflections(plugin.lexicon.dictionary,morphology,{assertLegacy:true});
+    }
   }
   return {morphologyVersion:'1.11',coverage,skipped};
 }

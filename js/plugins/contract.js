@@ -21,6 +21,7 @@ const PLUGIN_KEYS = [
 ];
 const REQUIRED_PLUGIN_KEYS = ['contractVersion', 'code', 'describe', 'capabilities'];
 const MORPHOLOGY_METHODS = ['generate', 'analyze', 'paradigm', 'availability'];
+const MORPHOLOGY_OPTIONAL_METHODS = ['inventory', 'describe'];
 const MAX_CAPABILITIES = 512;
 const MAX_EVIDENCE = 32;
 const MAX_DIAGNOSTICS = 64;
@@ -181,8 +182,11 @@ export function validateLanguagePlugin(plugin) {
   }
   if (owns(plugin, 'morphology')) {
     const provider = plugin.morphology;
-    if (!isRecord(provider) || !hasExactKeys(provider, MORPHOLOGY_METHODS) ||
-        MORPHOLOGY_METHODS.some(method => typeof provider[method] !== 'function')) {
+    if (!isRecord(provider) || !hasExactKeys(provider, MORPHOLOGY_METHODS,
+        MORPHOLOGY_OPTIONAL_METHODS) ||
+        MORPHOLOGY_METHODS.some(method => typeof provider[method] !== 'function') ||
+        MORPHOLOGY_OPTIONAL_METHODS.some(method => owns(provider, method) &&
+          typeof provider[method] !== 'function')) {
       invalid('Morphology provider requires generate(), analyze(), paradigm(), and availability().');
     }
     if (!morphologyRows.length) {
