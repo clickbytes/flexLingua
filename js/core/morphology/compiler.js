@@ -12,7 +12,9 @@ export function compileMorphology(morphology) {
     }
   }
   readings.sort((a,b)=>a.text.localeCompare(b.text,morphology.language) ||
-    a.lexemeId.localeCompare(b.lexemeId) || JSON.stringify(a.features).localeCompare(JSON.stringify(b.features)));
+    a.lexemeId.localeCompare(b.lexemeId) ||
+    JSON.stringify(a.features).localeCompare(JSON.stringify(b.features)) ||
+    a.variant.localeCompare(b.variant) || a.source.localeCompare(b.source));
   return {version:'1.11',language:morphology.language,kind:'finite-relation-table',
     stats:morphology.describe(),readings};
 }

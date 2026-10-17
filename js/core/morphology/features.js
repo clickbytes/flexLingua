@@ -15,8 +15,18 @@ export function createMorphFeatureRegistry(data, featureProfile) {
   const profile = featureProfile === undefined ? undefined : createLanguageFeatureProfile(featureProfile);
   const sourceDimensions = profile ? profile.morphology : data?.dimensions;
   if (!record(data) || data.version !== MORPH_FEATURE_VERSION || !record(data.dimensions) ||
-      !record(sourceDimensions) || (!profile && Object.keys(data.dimensions).length < 4)) {
+      !record(sourceDimensions) || !Object.keys(sourceDimensions).length ||
+      (data.language !== undefined && (!safeName(data.language) ||
+        (profile && data.language !== profile.language)))) {
     throw new Error('Invalid morphology feature registry.');
+  }
+  if (profile && data.language &&
+      (Object.keys(data.dimensions).length !== Object.keys(profile.morphology).length ||
+        Object.entries(data.dimensions).some(([key, domain]) =>
+          !Array.isArray(domain) || !Array.isArray(profile.morphology[key]) ||
+          domain.length !== profile.morphology[key].length ||
+          domain.some(value => !profile.morphology[key].includes(value))))) {
+    throw new Error('Local morphology dimensions conflict with the language profile.');
   }
   for (const [key, domain] of Object.entries(sourceDimensions)) {
     if (!safeName(key) || !Array.isArray(domain) || !domain.length ||
