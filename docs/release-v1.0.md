@@ -19,13 +19,13 @@ npm run dev
 # open http://127.0.0.1:8000/
 ```
 
-`check:core-gates` runs `check:release` once and emits deterministic JSON evidence: checked-out/source SHA, package version, a SHA-256 manifest of tracked files, Node/npm versions, test totals and gate outcomes. It refuses dirty tracked files or untracked files (except the local `.codegraph/` index). The CI `release-gate` job records the same fields from the two required jobs and aggregates their results without running the suites again. Reports omit timestamps, durations and process IDs.
+`check:core-gates` runs `check:release` once and emits deterministic JSON evidence: checked-out/source SHA, package version, a SHA-256 manifest of tracked files, Node/npm versions, test totals and gate outcomes. It refuses dirty tracked files or untracked files (except ignored local tool output). Reports omit timestamps, durations and process IDs. The versioned pre-push hook runs the checks locally and writes its SHA-specific result under `.local-checks/`.
 
 The package has no install-time or runtime dependencies. The UI runs through the local HTTP server; no standalone HTML is maintained or generated. The gate command does not publish or change `package.json`.
 
 ## Version, limitations and rollback
 
-Update `package.json` only after the planned change has passed its local and PR gates. Re-run `npm run check:core-gates` on the version-bearing commit and require the merge SHA's Actions before creating a release tag. Release notes must state the bounded supported behavior and known gaps; this prototype does not claim unrestricted translation or CEFR certification.
+Update `package.json` only after the planned change has passed its local checks and PR review. Re-run `npm run check:core-gates` on the version-bearing commit and record its SHA and result before creating a release tag. Release notes must state the bounded supported behavior and known gaps; this prototype does not claim unrestricted translation or CEFR certification.
 
 To roll back a released change, open a new PR containing `git revert <merge-sha>`, run the required checks, and merge only after they pass. Record the revert SHA and the reason in the incident and original issue; do not rewrite `main` history.
 

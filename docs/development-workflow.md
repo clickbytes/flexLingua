@@ -1,61 +1,44 @@
 # Jak pracujemy
 
-## Gdzie znajduje się aktualna informacja
+## Źródła informacji
 
 | Informacja | Miejsce |
 | --- | --- |
-| Zakres, kryteria odbioru, blokery, status i następny krok | GitHub Issue w `clickbytes/flexLingua` |
-| Zmiany kodu i testów, przegląd, dokładny SHA i wynik CI | GitHub Pull Request oraz Actions |
-| Faktyczny kontrakt produktu, architektura, API, uruchamianie i pochodzenie danych | Kod, testy i właściwy dokument w repozytorium |
+| Zakres, kryteria odbioru, zależności, blokery i następny krok | Issue w `clickbytes/flexLingua` |
+| Diff, przegląd, SHA i wynik lokalnych testów | Pull request |
+| Oczekiwane znaczenie zdań i odmowy | Wersjonowane goldy oraz testy |
+| Faktyczny kontrakt produktu i uruchamiania | Kod i właściwy dokument w repozytorium |
 
-GitHub Issues, pull requests i Actions są rejestrem pracy. Repozytorium opisuje działający produkt i trwałe decyzje.
+Nie prowadzimy osobnego `HANDOFF.MD`. GitHub Actions nie uruchamiają testów ani nie stanowią bramki merge.
+
+## Jednorazowe ustawienie lokalne
+
+Po sklonowaniu repozytorium uruchom `npm run setup:local-hooks`. Skrypt ustawia `core.hooksPath=.githooks` w lokalnej konfiguracji Git. Wersjonowane hooki działają przy kolejnych commitach i pushach z tego klona. Nie instaluj zależności: projekt nie ma pakietów runtime.
+
+`pre-commit` uruchamia `node tools/a1-evidence-ledger.mjs --catalog-only`: sprawdza deklaracje, integralność przypiętych goldów i rejestr konstrukcji bez wykonywania suite'ów. `pre-push` uruchamia `npm run check:release` na zapisanym HEAD. Polecenie zawiera walidatory, wszystkie testy Node oraz A1 H1. Lokalny raport i pełny log powstają w ignorowanym katalogu `.local-checks/<SHA>.json` i `.log`. Hook blokuje push po błędzie albo gdy śledzone pliki są niezapisane. Każdy push sprawdza tylko własny HEAD; inne referencje wypychaj osobno.
+
+Podczas edycji uruchamiaj celowany `node --test tests/<plik>.test.js` i właściwy walidator danych. Nie powtarzaj pełnego `npm test` obok `check:release`. Lokalny raport z hooka nie jest commitem ani publikacją; wpisz jego wynik, komendę, liczbę przypadków i dokładny SHA do PR. Jeśli hook nie uruchomił się lub test się nie powiódł, wpisz `NOT RUN` albo `FAIL` i zatrzymaj merge. Nie oznaczaj wyniku jako PASS na podstawie samego istnienia golda.
+
+## Macierz zdań A1
+
+Pilotażowa macierz jest w zamrożonym `data/coverage/a1-heldout-v1.json`: 100 autorskich par zdań daje 100 wejść EN→PL i 100 PL→EN oraz 20 jawnych odmów. `tests/a1-heldout.test.js` sprawdza powierzchnię, CORE źródła i celu oraz serializację CORE; jest częścią `npm test` uruchamianego przez hook. Expected zapisano niezależnie od wyniku silnika. Autor fixture'a był także autorem implementacji, więc próbka nie stanowi niezależnego benchmarku ani reprezentatywnego pomiaru CEFR A1.
+
+Nowe zdania redaguj partiami według konstrukcji. Dla każdego przypadku ustal przed uruchomieniem silnika: ID, kierunek, wejście, oczekiwany cel, CORE lub jawny powód odmowy. Przejrzyj polską składnię, przypadki, zgodę, role, czas, aspekt, polarność i analizę odwrotną. Nie przepisuj expected z rezultatu implementacji. H1 pozostaje zamrożony; kolejne partie prowadź w osobnych wersjonowanych goldach. Cel 1000 wejść na język jest planem rozbudowy macierzy, a nie obecnym wynikiem ani procentem CEFR.
 
 ## Przebieg zadania
 
-1. Wybierz gotowe issue. Upewnij się, że wynik, kryteria odbioru i zależności są zrozumiałe. Doprecyzuj je w issue, jeśli trzeba.
-2. Zrób małą gałąź i implementację. W trakcie uruchamiaj testy dotyczące zmiany.
-3. Otwórz PR powiązany z issue. Opisz rezultat i odnotuj faktycznie wykonane testy.
-4. Sprawdź Actions dla dokładnego SHA PR. Scal po przejściu wymaganych bramek i przeglądu zmian.
-5. Issue zamknij przez PR. Jeśli praca jest zablokowana, zapisz powód i następny krok w issue.
+1. Wybierz issue i ustal jego kryteria odbioru. Dla nowej konstrukcji przygotuj mały ręczny gold przed kodem.
+2. Zmień tylko potrzebne pliki. W trakcie używaj celowanych testów CLI.
+3. Zapisz commit; `pre-commit` zweryfikuje katalog goldów. Push uruchomi pełne lokalne sprawdzenie i zapisze raport SHA.
+4. Otwórz PR powiązany z issue. Wklej wynik lokalny dla dokładnego head SHA i wskaż nowe lub zmienione ID goldów. W issue albo epiku umieść krótkie podsumowanie z linkiem do PR.
+5. Scal po sprawdzeniu diffu, kryteriów odbioru i wyniku lokalnego. Zamknij issue przez PR. Przy blokadzie zapisz powód i następny krok w issue.
 
-Zależności i kolejność prac prowadzą GitHub Issues.
+Zmiana po ostatnim przebiegu wymaga nowego testu na końcowym commicie. Commit hook uruchamia kontrole lokalnie; GitHub nie weryfikuje ich zdalnie. Raport w PR jest zatem obowiązkowym dowodem przeglądu.
 
-## Testy
+## Wydanie i rollback
 
-Podczas pracy uruchamiaj testy właściwe dla zmiany. Przed zakończeniem użyj `npm run check:core-gates`; polecenie uruchamia `npm run check:release`, który zawiera `npm test`. Nie uruchamiaj osobno tych samych suite'ów. Wymagany przez konkretną zmianę dodatkowy gold uruchom wtedy, gdy nie jest częścią release gate. Raportuj wynik hostowanego Actions z dokładnym SHA.
+`npm run check:core-gates` pozostaje ręcznym poleceniem wydania dla czystego checkoutu. Uruchamia `check:release` jeden raz i wypisuje deterministyczny raport: SHA, wersję, manifest śledzonych plików z SHA-256, runtime i wyniki testów. Nie uruchamiaj go dodatkowo po przejściu identycznego pełnego przebiegu, chyba że wymaga tego wydanie lub zmienił się commit z wersją.
 
-Nie deklaruj PASS dla testu, którego nie uruchomiono. Nie zastępuj pełnego testu lokalnego ani Actions izolowanym fragmentem runtime.
+Po błędzie lokalnym popraw przyczynę i ponów odpowiednią kontrolę. Rollback wykonuj przez PR z `git revert <merge-sha>`, przepuść lokalny hook i zapisz SHA revertu w pierwotnym issue. Nie przepisuj historii `main`.
 
-## Deterministyczny dowód wydania
-
-`npm run check:core-gates` wymaga czystych śledzonych plików, uruchamia release checks jeden raz i wypisuje JSON zawierający SHA źródła, wersję z `package.json`, manifest śledzonych plików z SHA-256, wersje Node/npm, wyniki `node:test` oraz stan bramek. Lokalny indeks `.codegraph/` jest wyłączony z kontroli czystości i manifestu; pozostałe nieśledzone pliki blokują raport.
-
-CI uruchamia suite'y w `engine-tests` i `lexical-audits`, a `release-gate` agreguje ich wyniki, wersje runtime i podsumowanie testów bez uruchamiania suite'ów ponownie. Raport pomija czas, PID i inne wartości zmienne. Dwa uruchomienia dla tego samego drzewa, wersji runtime i wyników bramek mają więc identyczne treści.
-
-Polecenie raportujące nie publikuje wydania ani nie zmienia wersji. Podnieś `package.json` dopiero po zaliczeniu bramek dla planowanej zmiany; następnie ponownie zalicz je dla commita zawierającego nową wersję i wymagane Actions przed tagowaniem lub publikacją.
-
-## Wymagane statusy i merge na `main`
-
-Workflow `Core Engine CI` publikuje trzy bramki. W regułach gałęzi `main` wymagaj dokładnie tych statusów:
-
-| Job ID | Nazwa statusu w Actions |
-| --- | --- |
-| `engine-tests` | `Node unit and regression tests` |
-| `lexical-audits` | `Lexicon morphology gold and A1 checks` |
-| `release-gate` | `Aggregate release gate` |
-
-Polityka `main` powinna wymagać PR oraz przejścia wszystkich trzech statusów, blokować bezpośredni push, force-push i usunięcie gałęzi. Nie włączaj ogólnego bypassu. Sam workflow uruchamiający testy nie egzekwuje blokady merge — uznaj ją za aktywną dopiero po ustawieniu reguł w GitHub i próbie, w której PR z celowo nieudaną bramką jest rzeczywiście niemergowalny. Sprawdź bieżący status możliwości repozytorium w issue REL-02 (#19).
-
-## Awaria, wyjątek i rollback
-
-- Jeśli wymagany job nie przejdzie albo nie wystartuje, zatrzymaj merge, sprawdź log joba i popraw przyczynę na branchu PR. Ponownie uruchom Actions dla nowego SHA.
-- Nie omijaj nieudanego ani pominiętego statusu przez bezpośredni push, force-push lub ręczne oznaczenie testu jako zaliczonego.
-- Wyjątek awaryjny wymaga issue powiązanego z PR: zapisz powód, dokładnie pominięty status, zakres ryzyka, osobę zatwierdzającą, termin wygaśnięcia oraz plan przywrócenia reguły. Jeśli polityka GitHub nie pozwala na kontrolowany wyjątek, nie obchodź jej — napraw bramkę albo wstrzymaj merge.
-- Rollback wykonuj nowym PR z `git revert` wskazanego merge commita; nie przepisuj historii `main`. Uruchom wymagane bramki na PR rollbackowym, zmerguj po ich przejściu i dopisz SHA revertu do incydentu oraz pierwotnego issue.
-- Po wyjątku lub rollbacku potwierdź stan reguł `main` i zapisz wynik w powiązanym issue. Nie publikuj ponownie wydania, dopóki jego bramki nie przejdą.
-
-## Kiedy aktualizować dokumentację
-
-Zmień dokument tylko wtedy, gdy zadanie zmienia trwałą informację o zachowaniu produktu, API, schemacie, architekturze, uruchamianiu albo pochodzeniu danych. Zaktualizuj właściwy dokument w tym samym PR.
-
-Nie aktualizuj README, roadmapy ani indeksu dokumentacji tylko po to, by odnotować wykonane zadanie, testy, SHA lub status. Te informacje pozostają w issue, PR i Actions.
+Dokumentację aktualizuj wyłącznie po trwałej zmianie zachowania, API, schematu, architektury, poleceń albo provenance. Postęp i wyniki testów należą do issue i PR.

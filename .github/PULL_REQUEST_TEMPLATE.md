@@ -13,11 +13,11 @@ Describe the change and its result.
 
 ## Verification
 
-- [ ] `npm run check:release` passed locally, or the command and reason for not running it are recorded below.
-- [ ] Required GitHub Actions passed for this PR's exact head SHA.
-- Actions run URL and head SHA:
+- [ ] The local pre-push check passed for this PR's exact head SHA, or the failure is recorded below.
+- Local SHA, command, PASS/FAIL/NOT RUN, and A1 case IDs reviewed:
+- Local report (`.local-checks/<SHA>.json`) summary:
 
 ## Limitations or exceptions
 
-List checks that were not run or did not pass, with the linked blocker/approval issue, reason, owner, expiry, and rollback plan. Never report an unrun or failed check as passing.
+List checks that were not run or did not pass, with the linked blocker issue, reason, and next step. Never report an unrun or failed check as passing.
 
