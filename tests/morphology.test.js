@@ -52,6 +52,24 @@ test('v1.02 nested agreement rejects conflicts without broadening supported dime
    /Unsafe morphology feature path/);
 });
 
+test('v1.13 cell inventory reports variant-capable and blocked paths as defensive copies',()=>{
+ const spec=copy(enSpec);
+ const binding=spec.bindings.find(item=>item.lexemeId==='en.dog.1');
+ const slots=spec.paradigms[binding.paradigmId].slots;
+ const singular=slots.find(slot=>slot.features.number==='singular');
+ const plural=slots.find(slot=>slot.features.number==='plural');
+ binding.overrides.push(
+  {when:copy(singular.features),mode:'addVariant',forms:[{text:'doggo',variant:'colloquial'}]},
+  {when:copy(plural.features),mode:'block',forms:[]}
+ );
+ const morphology=createMorphology(spec,en,features);
+ const cells=morphology.cells({lexemeId:binding.lexemeId});
+ assert.deepEqual(cells.map(cell=>[cell.path,cell.blocked]),[['singular',false],['plural',true]]);
+ cells[0].features.number='tampered';
+ assert.equal(morphology.cells({lexemeId:binding.lexemeId})[0].features.number,'singular');
+ assert.deepEqual(morphology.paradigm({lexemeId:binding.lexemeId}).map(form=>form.text),['dog','doggo']);
+});
+
 test('v1.03 generated PL and EN paradigm forms agree with stored legacy cells',()=>{
  for(const [data,morph] of [[pl,plMorph],[en,enMorph]]){
   const derived=materializeInflections(data,morph,{assertLegacy:true});

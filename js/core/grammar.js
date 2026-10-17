@@ -89,12 +89,33 @@ function formPlaceholders(path) {
   return pathParts(path).flatMap(part => part.match(PLACEHOLDER)?.[1] || []);
 }
 
-function formsAt(lexeme, path) {
+function bindingsForPath(template, concrete) {
+  if(typeof concrete!=='string'||!concrete)return null;
+  const expected=pathParts(template),actual=concrete.split('.');
+  if(expected.length!==actual.length)return null;
+  let bindings={};
+  for(let index=0;index<expected.length;index++){
+    const placeholder=expected[index].match(PLACEHOLDER);
+    if(placeholder){
+      const unified=unifyFeatures(bindings,{[placeholder[1]]:actual[index]});
+      if(!unified)return null;
+      bindings=unified;
+    }else if(expected[index]!==actual[index])return null;
+  }
+  return bindings;
+}
+
+function fullMorphologyPath(path) {
+  if(typeof path!=='string'||!path)return null;
+  return path==='forms'||path.startsWith('forms.')?path:`forms.${path}`;
+}
+
+function formsAt(lexeme, path, bridge) {
   const parts = pathParts(path);
-  const result = [];
+  const legacy = [];
   function visit(value, index, bindings) {
     if (index === parts.length) {
-      if (typeof value === 'string' && value.trim()) result.push({ text: value, bindings });
+      if (typeof value === 'string' && value.trim()) legacy.push({ text: value, bindings });
       return;
     }
     const placeholder = parts[index].match(PLACEHOLDER);
@@ -110,7 +131,30 @@ function formsAt(lexeme, path) {
     }
   }
   visit(lexeme, 0, {});
-  return result;
+  const cells=(bridge?.cells||[]).flatMap(cell=>{
+    const cellPath=fullMorphologyPath(cell.path);
+    const bindings=bindingsForPath(path,cellPath);
+    const unified=bindings&&unifyFeatures(bindings,cell.features||{});
+    return unified?[{cell:{...cell,path:cellPath},bindings:unified}]:[];
+  });
+  const coveredPaths=new Set(cells.map(({cell})=>cell.path));
+  const candidates=(bridge?.candidates||[]).flatMap(candidate=>{
+    const candidatePath=fullMorphologyPath(candidate.path);
+    const bindings=bindingsForPath(path,candidatePath);
+    const consistent=bindings&&unifyFeatures(bindings,candidate.features||{});
+    return consistent?[{text:candidate.text,bindings,path:candidatePath,
+      morphologyFeatures:candidate.features||{},
+      variant:candidate.variant,source:candidate.source,coreRefs:candidate.coreRefs,
+      lexemeId:candidate.lexemeId}]:[];
+  });
+  const fallback=legacy.filter(form=>{
+    const concrete=parts.map(part=>{
+      const placeholder=part.match(PLACEHOLDER);
+      return placeholder?form.bindings[placeholder[1]]:part;
+    });
+    return !concrete.some(value=>value===undefined)&&!coveredPaths.has(concrete.join('.'));
+  });
+  return [...candidates,...fallback];
 }
 
 function validateConditions(when) {
@@ -715,10 +759,25 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology,featurePr
   const subjectRole = sentence.subjectRole;
   const nouns = expandLexemes(dictionary.nouns, dictionary.language, 'noun');
   const expandedVerbs = expandLexemes(dictionary.verbs, dictionary.language, 'verb');
+  const morphologyBridge=new Map(),morphologyBridgeCache=new Map();
+  if(morphology){
+    const canonicalBySense=new Map(morphology.lexicon.entries.flatMap(entry=>
+      entry.senses.map(sense=>[sense.id,entry.id])));
+    for(const lexeme of [...nouns,...expandedVerbs]){
+      const lexemeId=morphology.has(lexeme.id)?lexeme.id:canonicalBySense.get(lexeme.senseId);
+      if(!lexemeId||!morphology.has(lexemeId))continue;
+      if(!morphologyBridgeCache.has(lexemeId))morphologyBridgeCache.set(lexemeId,{
+        candidates:morphology.paradigm({lexemeId}),
+        cells:morphology.cells?.({lexemeId})||[]
+      });
+      morphologyBridge.set(lexeme,morphologyBridgeCache.get(lexemeId));
+    }
+  }
+  const formsAtLexeme=(lexeme,path)=>formsAt(lexeme,path,morphologyBridge.get(lexeme));
   const verbs = expandedVerbs.filter(lexeme => !!lexeme.concept);
   const stateVerbs = expandedVerbs.filter(lexeme =>
     hasOwn(grammar.states?.verbs || {},lexeme.stateFunction));
-  const nounForms = nouns.map(noun => ({ noun, forms: formsAt(noun, nounPhrase.path) }));
+  const nounForms = nouns.map(noun => ({ noun, forms: formsAtLexeme(noun, nounPhrase.path) }));
   const nominal = createNominalInterpreter({ dictionary, nounPhrase, nounForms });
   // An optional inventory of matrix predicates for propositional complements.
   const matrixLexemes = (dictionary.attitudes || []).map(x => ({ ...x }));
@@ -759,7 +818,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology,featurePr
   const verbForms = verbs.flatMap(lexeme => verbGrammar.rules.flatMap(rule => {
     const path=rule.polarity==='negative' && lexeme.negativeForms
       ? rule.path.replace(/^forms\./u,'negativeForms.') : rule.path;
-    return formsAt(lexeme,path).map(form => ({ ...form, lexeme, rule }));
+    return formsAtLexeme(lexeme,path).map(form => ({ ...form, lexeme, rule }));
   }));
   const stateGrammar = grammar.states || null;
   const stateVerbForms = stateGrammar ? stateVerbs.flatMap(lexeme => {
@@ -768,7 +827,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology,featurePr
       ? morphology.paradigm({lexemeId:lexeme.id}).map(form => ({
         text:form.text, features:form.features
       }))
-      : STATE_FORM_CELLS.flatMap(cell => formsAt(lexeme,cell.path).map(form => ({
+      : STATE_FORM_CELLS.flatMap(cell => formsAtLexeme(lexeme,cell.path).map(form => ({
         text:form.text, features:{tense:cell.tense,person:cell.person,number:cell.number,
           ...(cell.gender?{gender:cell.gender}:{}),
           ...(cell.pluralClass?{pluralClass:cell.pluralClass}:{})}
@@ -855,6 +914,28 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology,featurePr
       gender: agreement?.gender ?? subject.noun?.gender,
       pluralClass: subject.noun?.pluralClass
     } : {} };
+  }
+
+  function matchesMorphologyFeatures(entry,context,eventFeatures) {
+    const morphology=entry.morphologyFeatures;
+    if(!record(morphology))return true;
+    for(const [source,expected] of Object.entries(entry.rule.when||{})){
+      const [root,name]=featureSource(source);
+      if(hasOwn(morphology,name)&&morphology[name]!==expected)return false;
+      if(root==='subject'&&name==='person'&&hasOwn(morphology,'person')&&
+          morphology.person!==expected)return false;
+    }
+    for(const [name,value] of Object.entries(eventFeatures||{})){
+      if(hasOwn(morphology,name)&&morphology[name]!==value)return false;
+    }
+    for(const [binding,source] of Object.entries(verbGrammar.agreement||{})){
+      const [root,name]=featureSource(source);
+      const value=hasOwn(morphology,binding)?morphology[binding]:morphology[name];
+      const expected=root==='event'?context.event?.[name]:
+        name==='person'?context.subject?.person:context.subject?.[name];
+      if(value!==undefined&&expected!==undefined&&value!==expected)return false;
+    }
+    return true;
   }
 
   function matchVerb(tokens, at, candidate) {
@@ -1072,7 +1153,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology,featurePr
     if(!grammar.request)return [];
     const markerLength=matchesTokens(tokens,0,grammar.request.marker);
     if(!markerLength)return [];
-    const entries=verbs.flatMap(lexeme=>formsAt(lexeme,grammar.request.actionPath)
+    const entries=verbs.flatMap(lexeme=>formsAtLexeme(lexeme,grammar.request.actionPath)
       .filter(form=>!Object.keys(form.bindings).length)
       .map(form=>({lexeme,text:form.text,bindings:{},rule:{tense:'present',polarity:'positive',
         prefix:[],when:{'subject.person':'second','subject.number':'singular'}}})));
@@ -1277,7 +1358,8 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology,featurePr
               if (index !== tokens.length) return;
               const context = contextFor(parsedRoles, features);
               if (!matchesConditions(context, entry.rule.when || {}) ||
-                  !matchesAgreement(entry.bindings, verbGrammar.agreement, context)) {
+                  !matchesAgreement(entry.bindings, verbGrammar.agreement, context) ||
+                  !matchesMorphologyFeatures(entry,context,features)) {
                 budget.agreementFailed = true;
                 return;
               }
@@ -1361,7 +1443,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology,featurePr
     const modalForm=modal.forms[mode]?.[modalAgreementKey(person,number)];
     if (!modality || !modalForm) return [];
     const operator=modal.senses[0].coreRef.id;
-    return verbs.flatMap(lexeme => formsAt(lexeme,modality.infinitivePath)
+    return verbs.flatMap(lexeme => formsAtLexeme(lexeme,modality.infinitivePath)
       .filter(verbForm => Object.keys(verbForm.bindings).length === 0)
       .map(verbForm => ({
         lexeme, text: includeModal ? modalForm+' '+verbForm.text : verbForm.text,
@@ -1566,7 +1648,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology,featurePr
           entry.rule.aspect===undefined &&
           (!variant.when || Object.entries(variant.when).every(([key,value])=>
             entry.rule.when?.[key]===value)))
-          .flatMap(entry=>formsAt(entry.lexeme,yesNo.baseVerbPath).map(base=>({
+          .flatMap(entry=>formsAtLexeme(entry.lexeme,yesNo.baseVerbPath).map(base=>({
             ...entry,text:base.text,rule:{...entry.rule,
               prefix:polarity==='negative'?[yesNo.negator]:[]}
           })));
@@ -1611,7 +1693,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology,featurePr
         entry.lexeme.id,{...entry,rule:{...entry.rule,when:{}}}
       ])).values()];
       entries=entries
-        .flatMap(entry=>formsAt(entry.lexeme,yesNo.baseVerbPath).map(base=>({
+        .flatMap(entry=>formsAtLexeme(entry.lexeme,yesNo.baseVerbPath).map(base=>({
           ...entry,text:base.text,rule:{...entry.rule,prefix:[],when:{
             ...(variant.person?{'subject.person':variant.person,
               'subject.number':variant.number}:{})
@@ -1631,7 +1713,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology,featurePr
     const yesNo=questions.yesNo;
     const entries=stateVerbForms.filter(entry=>entry.kind==='possession'&&
       entry.features.tense==='present')
-      .flatMap(entry=>formsAt(entry.lexeme,yesNo.baseVerbPath).map(base=>({
+      .flatMap(entry=>formsAtLexeme(entry.lexeme,yesNo.baseVerbPath).map(base=>({
         ...entry,text:base.text
       })));
     return parseStateCandidates(tokens,budget,{entries,polarities:['negative'],doSupport:true});
@@ -1959,7 +2041,8 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology,featurePr
       (verbGrammar.aspectSource !== 'lexeme' || meaning.features.aspect === 'unknown' ||
         entry.lexeme.aspect === meaning.features.aspect) &&
       matchesConditions(context, entry.rule.when || {}) &&
-      matchesAgreement(entry.bindings, verbGrammar.agreement, context));
+      matchesAgreement(entry.bindings, verbGrammar.agreement, context) &&
+      matchesMorphologyFeatures(entry,context,meaning.features));
     if (!candidates.length) throw new Error(`No ${dictionary.language} verb form supports ${meaning.concept}, ` +
       `${meaning.features.tense}, ${meaning.features.polarity}, ${meaning.features.aspect}.`);
     const simpleCandidates = candidates.filter(entry => entry.rule.path !== 'forms.progressive');
@@ -2055,7 +2138,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology,featurePr
       const auxiliary=person==='first'?auxiliaries?.presentFirst:
         person==='second'?auxiliaries?.presentSecond:
         number==='singular'?auxiliaries?.presentThirdSingular:auxiliaries?.presentThirdPlural;
-      const base=formsAt(verb.lexeme,questions?.yesNo?.baseVerbPath||'');
+      const base=formsAtLexeme(verb.lexeme,questions?.yesNo?.baseVerbPath||'');
       if(!auxiliary||base.length!==1)throw new Error('Missing negative state do-support form.');
       const parts=frame.linearizations[0].flatMap(step=>
         step===frame.subjectRole?[surface(step)]:step==='@verb'?
@@ -2135,7 +2218,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology,featurePr
     const candidates=verbs.filter(lexeme=>lexeme.concept===action.concept &&
       (verbGrammar.aspectSource!=='lexeme' || action.features.aspect==='unknown' ||
         lexeme.aspect===action.features.aspect))
-      .flatMap(lexeme=>formsAt(lexeme,config.actionPath)
+      .flatMap(lexeme=>formsAtLexeme(lexeme,config.actionPath)
         .filter(form=>!Object.keys(form.bindings).length).map(form=>({lexeme,text:form.text})));
     if(!candidates.length || (verbGrammar.aspectSource==='lexeme' &&
         action.features.aspect==='unknown' && new Set(candidates.map(item=>item.lexeme.aspect)).size>1)) {
@@ -2175,7 +2258,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology,featurePr
     const chosen=verbs.filter(v=>v.concept===event.concept &&
       (verbGrammar.aspectSource!=='lexeme' || event.features.aspect==='unknown' ||
        event.features.aspect===v.aspect))
-      .map(v=>({lexeme:v,forms:formsAt(v,modality.infinitivePath)}))
+      .map(v=>({lexeme:v,forms:formsAtLexeme(v,modality.infinitivePath)}))
       .filter(x=>x.forms.length===1 && !Object.keys(x.forms[0].bindings).length);
     if(!chosen.length || (intention && verbGrammar.aspectSource==='lexeme' &&
       event.features.aspect==='unknown' && new Set(chosen.map(x=>x.lexeme.aspect)).size>1))
@@ -2363,7 +2446,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology,featurePr
           person==='first'?auxiliaries.presentFirst:
           person==='second'?auxiliaries.presentSecond:
           number==='singular'?auxiliaries.presentThirdSingular:auxiliaries.presentThirdPlural;
-        const base=formsAt(built.preferred.lexeme,q.yesNo.baseVerbPath);
+        const base=formsAtLexeme(built.preferred.lexeme,q.yesNo.baseVerbPath);
         if(!auxiliary || base.length!==1)throw new Error('Missing destination WH auxiliary or verb form.');
         const entry={...built.preferred,text:base[0].text,rule:{...built.preferred.rule,prefix:[]}};
         text=`${q.wh.destination.marker} ${auxiliary} ${built.linearize(entry,fallback)}`;
@@ -2411,7 +2494,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology,featurePr
       throw new Error('Unsupported question subject agreement.');
     };
     const auxiliaryEntry=()=>{
-      const base=formsAt(built.preferred.lexeme,q.yesNo.baseVerbPath);
+      const base=formsAtLexeme(built.preferred.lexeme,q.yesNo.baseVerbPath);
       if(base.length!==1)throw new Error('Missing unambiguous base verb form for question.');
       return {...built.preferred,text:base[0].text,rule:{
         ...built.preferred.rule,
@@ -2552,7 +2635,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology,featurePr
     const verb=stateVerbForms.find(entry=>entry.kind==='possession'&&
       entry.features.tense===clause.features.tense&&entry.features.person===person&&
       entry.features.number===number);
-    const base=verb&&formsAt(verb.lexeme,questions.yesNo.baseVerbPath);
+    const base=verb&&formsAtLexeme(verb.lexeme,questions.yesNo.baseVerbPath);
     if(!base || base.length!==1)throw new Error('Missing unambiguous state verb base form for question.');
     const surface=role=>{
       const ref=clause.roles[role];

@@ -66,6 +66,8 @@ export function createMorphology(spec, dictionary, featureSpec, options={}) {
     if(canonicalPos!==paradigm.pos)throw new Error(`Morphology POS mismatch: ${item.lexemeId}`);
     for(const stem of Object.values(item.stems))if(!safeText(stem))throw new Error('Invalid morphology stem.');
     const forms=[];
+    const blockedCells=new Set((item.overrides||[]).filter(override=>override?.mode==='block'&&record(override.when))
+      .map(override=>key(override.when)));
     const overrideModes=new Map();
     for(const override of item.overrides||[]){
       if(!record(override.when))throw new Error('Malformed morphology override.');
@@ -108,7 +110,11 @@ export function createMorphology(spec, dictionary, featureSpec, options={}) {
         inverse.get(normalized).push(entry);
       }
     }
-    bindings.set(item.lexemeId,Object.freeze({lexeme:lex,paradigmId:item.paradigmId,forms}));
+    const cells=[...paradigm.slots].map(([featuresKey,slot])=>({
+      features:clone(slot.features),path:slot.path?.join('.')||null,
+      blocked:blockedCells.has(featuresKey)
+    }));
+    bindings.set(item.lexemeId,Object.freeze({lexeme:lex,paradigmId:item.paradigmId,forms,cells}));
   }
   const output=entry=>clone(entry);
   return Object.freeze({language:spec.language,version:'1.11',
@@ -146,6 +152,10 @@ export function createMorphology(spec, dictionary, featureSpec, options={}) {
       if(!bindings.has(lexemeId))throw new Error(`Unknown morphology lexeme: ${lexemeId}`);
       return bindings.get(lexemeId).forms.map(output);
     },
+    cells({lexemeId}){
+      if(!bindings.has(lexemeId))throw new Error(`Unknown morphology lexeme: ${lexemeId}`);
+      return bindings.get(lexemeId).cells.map(output);
+    },
     describe(){return {language:spec.language,lexemes:bindings.size,paradigms:resolved.size,
       forms:[...bindings.values()].reduce((sum,b)=>sum+b.forms.length,0),featuresVersion:registry.version,
       ...(featureProfile?{featureProfile}: {})};}
@@ -161,17 +171,21 @@ export function materializeInflections(dictionary,morph,{assertLegacy=false}={})
   for(const group of ['nouns','verbs'])for(const lexeme of result[group]||[]){
     if(!morph.has(lexeme.id))continue;
     const generated=morph.paradigm({lexemeId:lexeme.id});
-    const legacy=lexeme.forms||{};
+    const cells=morph.cells?.({lexemeId:lexeme.id})||[];
+    const legacy=clone(lexeme.forms||{});
+    for(const cell of cells)if(cell.blocked&&cell.path)removeMaterializedPath(legacy,cell.path);
     const forms={};
+    const checkedPaths=new Set();
     for(const form of generated){
       if(!form.path)continue;
       const path=form.path.split('.');
       let slot=forms;
       for(const part of path.slice(0,-1))slot=slot[part]??=(Object.create(null));
       const leaf=path.at(-1);
-      // Adapter currently accepts one surface for a slot; alternate forms stay in morph API.
+      // The legacy projection keeps one surface; the adapter consumes the full candidate group.
       if(slot[leaf]===undefined)slot[leaf]=form.text;
-      if(assertLegacy){
+      if(assertLegacy&&!checkedPaths.has(form.path)){
+        checkedPaths.add(form.path);
         const old=path.reduce((obj,p)=>obj?.[p],legacy);
         if(typeof old==='string'&&old!==form.text)throw new Error(`Legacy form discrepancy for ${lexeme.id}/${form.path}: ${old} != ${form.text}`);
       }
@@ -201,4 +215,16 @@ export function materializeInflections(dictionary,morph,{assertLegacy=false}={})
     lexeme.forms=candidates;
   }
   return result;
+}
+
+function removeMaterializedPath(root,path) {
+  const parts=path.split('.');
+  if(parts[0]==='forms')parts.shift();
+  if(!parts.length)return;
+  let parent=root;
+  for(const part of parts.slice(0,-1)){
+    if(!record(parent?.[part]))return;
+    parent=parent[part];
+  }
+  if(record(parent))delete parent[parts.at(-1)];
 }

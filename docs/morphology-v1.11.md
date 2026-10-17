@@ -66,11 +66,14 @@ morphology.analyze({text:'koty'});
 
 morphology.paradigm({lexemeId:'pl.kot.1'});
 // Lists all supported paradigm cells, including grammatical features and provenance.
+
+morphology.cells({lexemeId:'pl.kot.1'});
+// Lists each declared feature cell and path, including cells blocked by an override.
 ```
 
 `engine.registerMorphology(adapter)` makes `engine.inflect`, `engine.analyzeForm`, `engine.inspectParadigm`, and `engine.resolveWord` available. The latter expands grammatical readings to all lexical senses and uses the same **explicit**, ontology-derived topic hints as the sentence resolver. Scores are heuristics, not probabilities.
 
-The `materializeInflections()` bridge is used by existing PL and EN grammar adapters to fill the current `forms.*` interface from generated forms. It checks populated legacy forms against derived outputs, preserves cells not yet generated, and does not mutate the caller's original JSON. The `createRuleAdapter(dictionary, grammar)` call without morphology remains supported.
+The `materializeInflections()` compatibility bridge fills the existing `forms.*` tables with one deterministic surface per path. It checks the first generated surface for each legacy path, preserves ungenerated cells, removes legacy fallback for explicitly blocked cells, and does not mutate the caller's original JSON. `createRuleAdapter(dictionary, grammar, {morphology})` consumes every generated candidate and its feature bundle during sentence analysis; realization uses the first generated candidate in stable paradigm order. Thus `addVariant` forms are parseable without creating new CORE senses. The `createRuleAdapter(dictionary, grammar)` call without morphology remains supported.
 
 ### Example: new lexemes with no surface tables
 
