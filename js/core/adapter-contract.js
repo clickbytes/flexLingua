@@ -1,4 +1,5 @@
 import {safeName,createLanguageFeatureProfile} from './features.js';
+import {validateTextProfile} from './text.js';
 
 export const LANGUAGE_ADAPTER_CONTRACT_VERSION='1.0';
 export const MORPHOLOGY_ADAPTER_CONTRACT_VERSION='1.0';
@@ -20,6 +21,14 @@ export function validateLanguageAdapter(adapter) {
     const described=createLanguageFeatureProfile(description.featureProfile,{language:adapter.code});
     if(JSON.stringify(profile)!==JSON.stringify(described))
       throw new Error('Language adapter feature profile does not match its description.');
+  }
+  if(adapter.textProfile!==undefined || description.textProfile!==undefined){
+    const profile=validateTextProfile(adapter.textProfile);
+    const described=validateTextProfile(description.textProfile);
+    if(profile.locale!==described.locale || profile.version!==described.version ||
+        profile.normalization!==described.normalization || profile.caseFold!==described.caseFold ||
+        profile.segmentation!==described.segmentation)
+      throw new Error('Language adapter text profile does not match its description.');
   }
   return description;
 }

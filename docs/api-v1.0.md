@@ -105,6 +105,14 @@ Morphology adapters expose `availability()`, and
 `engine.morphologyAvailability({language,lexemeId,features,exact?})` reports
 unsupported lexemes, features and paradigm cells without guessing a form.
 
+Rule adapters expose a validated `textProfile` in both the adapter and
+`describe()`. It declares the locale, NFC normalization, locale-aware lower-case
+matching, and the supported `unicode-whitespace-v1` segmenter. The shared
+`tokenize(text, profile)` API remains an array of tokens; each token array also
+has non-enumerable `sourceSpans` with original UTF-16 offsets. Call
+`tokenizeDetailed(text, profile)` for `{tokens, spans, normalizedText, profile}`.
+This segmenter does not infer word boundaries in languages without spaces.
+
 The grammar and lexicon schema is **v1.0** for EN, PL and TR. `data/features.json` stays on its own version (0.4), and the Interlingua nodes keep their individual serialization versions. Adding a new language does not require editing pairwise language translators, but it **does** require lexicon and grammar data, and must be tested for typological coverage.
 
 ## Supported constructions by adapter
