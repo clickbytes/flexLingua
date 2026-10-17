@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-10-17",
+  "packages": [
+    {
+      "path": "languages/tr/lexicon.json",
+      "version": "1.0",
+      "status": "legacy-review-required",
+      "author": "Not attributed in the existing package metadata",
+      "source": "Historical flexLingua Turkish lexical adapter package; entry-level source is not recorded",
+      "license": "Unconfirmed; no separate license statement is present in this package",
+      "reviewedAt": "2026-10-14",
+      "permittedUse": "Existing in-repository execution only. Do not redistribute or reuse externally until source and rights are reviewed.",
+      "migrationNote": "The existing concept mapping is represented as one explicit CORE-linked sense using the unchanged lexeme ID; no lexical entries or surface forms were added. Add verified entry-level source, author and license before adding or exporting lexical data."
+    },
+    {
+      "path": "languages/tr/grammar.json",
+      "version": "1.0",
+      "status": "legacy-review-required",
+      "author": "Not attributed in the existing package metadata",
+      "source": "Historical flexLingua Turkish grammar rules; individual rule authorship is not recorded",
+      "license": "Unconfirmed; no separate license statement is present in this package",
+      "reviewedAt": "2026-10-14",
+      "permittedUse": "Existing in-repository execution only. Do not redistribute or reuse externally until source and rights are reviewed.",
+      "migrationNote": "Add verified authorship and license metadata before expanding or exporting this legacy package."
+    },
+    {
+      "path": "languages/tr/manifest.json",
+      "status": "project-authored",
+      "source": "Project-authored limited Turkish plugin manifest for the migrated lexical and grammar subset.",
+      "license": "Project-authored; no separate SPDX data license grant is declared in this repository."
+    },
+    {
+      "path": "languages/tr/graph.json",
+      "status": "project-authored",
+      "source": "Project-authored LanguageGraph for the two migrated Turkish sentence constructions.",
+      "license": "Project-authored; no separate SPDX data license grant is declared in this repository."
+    },
+    {
+      "path": "languages/tr/features.json",
+      "status": "project-authored",
+      "source": "Derived from case, number, tense, and polarity values used by the migrated Turkish grammar and lexical forms.",
+      "license": "Project-authored; no separate SPDX data license grant is declared in this repository."
+    },
+    {
+      "path": "languages/tr/signal.json",
+      "status": "project-authored",
+      "source": "Project-authored Turkish written-signal profile using NFC and locale-aware case folding.",
+      "license": "Project-authored; no separate SPDX data license grant is declared in this repository."
+    },
+    {
+      "path": "languages/tr/bridge.json",
+      "status": "project-authored",
+      "source": "Project-authored bounded mappings for the migrated Turkish visual-perception and transfer-possession frames.",
+      "license": "Project-authored; no separate SPDX data license grant is declared in this repository."
+    },
+    {
+      "path": "languages/tr/provenance.json",
+      "status": "project-authored",
+      "source": "Project-authored provenance for the migrated Turkish language plugin package.",
+      "license": "Project-authored; no separate SPDX data license grant is declared in this repository."
+    }
+  ]
+}

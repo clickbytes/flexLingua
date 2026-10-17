@@ -895,8 +895,9 @@ function createGrammarInterpreter(sourceDictionary, rules,
     let roles=compiledCases.get(frame);
     if(!roles){roles=new Map();compiledCases.set(frame,roles);}
     for(const argument of transfer.arguments) {
-      const previous=roles.get(argument.semanticRole);
       const exponent=argument.caseExponent;
+      if(exponent===null||exponent===undefined)continue;
+      const previous=roles.get(argument.semanticRole);
       if(roles.has(argument.semanticRole)&&JSON.stringify(previous)!==JSON.stringify(exponent))
         throw new Error(`Conflicting case plans for ${transfer.conceptId}.${argument.semanticRole}.`);
       roles.set(argument.semanticRole,exponent);

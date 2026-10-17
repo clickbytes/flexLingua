@@ -1,0 +1,85 @@
+{
+  "id": "flexlingua.tr",
+  "code": "tr",
+  "schemaVersion": "1.0",
+  "graph": "graph.json",
+  "status": "limited-demo",
+  "directions": [
+    "tr->en"
+  ],
+  "capabilities": [
+    {
+      "operation": "analyze",
+      "channel": "sentence",
+      "construction": "event.visual_perception",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "tr.visual-perception.01"
+        }
+      ]
+    },
+    {
+      "operation": "realize",
+      "channel": "sentence",
+      "construction": "event.visual_perception",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "tr.visual-perception.01"
+        }
+      ]
+    },
+    {
+      "operation": "analyze",
+      "channel": "sentence",
+      "construction": "event.transfer_possession",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "tr.transfer-possession.01"
+        }
+      ]
+    },
+    {
+      "operation": "realize",
+      "channel": "sentence",
+      "construction": "event.transfer_possession",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "tr.transfer-possession.01"
+        }
+      ]
+    },
+    {
+      "operation": "lookup",
+      "channel": "lexicon",
+      "construction": "lexeme",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "tr.lexicon.01"
+        }
+      ]
+    },
+    {
+      "operation": "decode",
+      "channel": "signal",
+      "construction": "written",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "tr.written.01"
+        }
+      ]
+    }
+  ],
+  "provenance": "provenance.json"
+}
