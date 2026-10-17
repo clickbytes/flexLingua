@@ -12,6 +12,13 @@ Event documents without relative clauses keep version `0.2` or `0.5`, and older 
 
 Ordered discourse preserves each event's optional `timeReference`, `clockTime`, and `calendarDate` independently. Numeric clock/date discourse uses version `1.25`; materializing an event restores the complete validated event without moving temporal fields between events. The discourse root is limited to `version`, `type`, `entities`, `events` and `relations`. Each normalized event has `id`, `concept`, `roles` and `features`, plus only its declared temporal or passive extensions; `features` accepts `tense`, `polarity` and `aspect`. Unknown properties on the root, events, feature bundles, entity references and relations are rejected before materialization, rather than silently discarded. Other nodes keep their exact version-specific field sets.
 
+Language-transfer diagnostics live beside a successful realization result, not in
+the semantic document. Each `informationLoss` item has a JSON Pointer `path`
+into the source CORE, a `feature`, a machine-readable `cause` and a `status`.
+This keeps known surface neutralization distinct from missing source information;
+it does not authorize dropping an unsupported construction or an unknown CORE
+field.
+
 ## Event with a relative clause
 
 ```json
