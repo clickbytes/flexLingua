@@ -82,8 +82,21 @@ export function createSemanticBridge({plan, core} = {}) {
       const stateFieldsMatch = isRecord(meaning) &&
         Object.keys(meaning).length === stateFields.size &&
         Object.keys(meaning).every(key => stateFields.has(key));
+      const hasAnaphoricReferent = isRecord(meaning?.roles) &&
+        Object.values(meaning.roles).some(participant => participant?.referent?.kind === 'anaphoric');
+      const hasPossessor = isRecord(meaning?.roles) &&
+        Object.values(meaning.roles).some(participant =>
+          isRecord(participant) && Object.hasOwn(participant, 'possessor'));
+      const supportedStateVersion = typeof meaning?.version === 'string' &&
+        ['1.3', '1.5', '1.31', '1.6', '1.8'].includes(meaning.version) &&
+        (meaning.version === '1.6') === (meaning.kind === 'existence') &&
+        (meaning.version === '1.8') === hasAnaphoricReferent &&
+        (meaning.kind === 'classification'
+          ? meaning.version === '1.31' || (meaning.version === '1.8' && hasAnaphoricReferent)
+          : meaning.version !== '1.31') &&
+        (!hasPossessor || meaning.version === '1.5');
       if (!isRecord(meaning) || meaning.type !== 'state' ||
-          meaning.kind !== transfer.stateKind || typeof meaning.version !== 'string' ||
+          meaning.kind !== transfer.stateKind || !supportedStateVersion ||
           !isRecord(meaning.roles) || !isRecord(meaning.features) ||
           !stateFieldsMatch || !frame ||
           Object.keys(meaning.roles).length !== frame.roles.length ||
