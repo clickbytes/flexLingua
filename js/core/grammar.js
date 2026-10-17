@@ -573,6 +573,7 @@ function validateGrammar(dictionary, grammar) {
     const slots = hasPredicate ? [...roles, frame?.predicateRole] : roles;
     if (!record(frame) ||
         Object.keys(frame).some(key => !['subjectRole','cases','linearizations','prepositions',
+          'supportedTenses',
           'allowImplicitDeicticSubject','existentialMarker','existentialTenses',
           ...(hasPredicate ? ['predicateRole','predicateCase'] : [])].includes(key)) ||
         !['subjectRole','cases','linearizations'].every(key => hasOwn(frame,key)) ||
@@ -594,6 +595,10 @@ function validateGrammar(dictionary, grammar) {
           !Array.isArray(frame.linearizations) ||
           !frame.linearizations.some(sequence=>sequence.includes('@'+frame.existentialMarker)))) ||
         (frame.existentialTenses!==undefined && frame.existentialMarker===undefined) ||
+        (frame.supportedTenses!==undefined &&
+          (!Array.isArray(frame.supportedTenses) || !frame.supportedTenses.length ||
+            new Set(frame.supportedTenses).size!==frame.supportedTenses.length ||
+            frame.supportedTenses.some(tense=>!states.supportedTenses.includes(tense)))) ||
         !record(frame.cases) || Object.keys(frame.cases).length !== roles.length ||
         roles.some(role => !hasOwn(frame.cases,role)) ||
         !Array.isArray(frame.linearizations) || !frame.linearizations.length ||
@@ -879,6 +884,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     const readings = new Map();
     for (const base of entries) {
       const frame = stateGrammar.frames[base.kind];
+      if(frame.supportedTenses && !frame.supportedTenses.includes(base.features.tense))continue;
       if(stateGrammar.pastPredication==='positive_statement' && base.features.tense==='past' &&
           (base.kind!=='predication' || options.question))continue;
       if(options.gap && (base.kind!=='location' || options.gap!=='location'))continue;
@@ -1570,7 +1576,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     if(questions.yesNo.mode!=='auxiliary')return [];
     const yesNo=questions.yesNo;
     const copulaReadings=[];
-    const copulaEntries=stateVerbForms.filter(entry=>entry.kind==='predication'&&
+    const copulaEntries=stateVerbForms.filter(entry=>['predication','classification'].includes(entry.kind)&&
       stateGrammar.supportedTenses.includes(entry.features.tense)&&
       normalizedWord(entry.text)===tokens[0]);
     for(const entry of copulaEntries)copulaReadings.push(...parseStateCandidates(tokens.slice(1),
@@ -1977,6 +1983,9 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     if(!frame)throw new Error(`Unsupported state construction in ${dictionary.language}.`);
     if(!stateGrammar.supportedTenses.includes(meaning.features.tense)) {
       throw new Error(`No ${dictionary.language} state verb form supports ${meaning.features.tense}.`);
+    }
+    if(frame.supportedTenses && !frame.supportedTenses.includes(meaning.features.tense)) {
+      throw new Error(`No ${dictionary.language} ${meaning.kind} state frame supports ${meaning.features.tense}.`);
     }
     const polarity=meaning.features.polarity;
     if(!(stateGrammar.supportedPolarities || ['positive','negative']).includes(polarity)) {
@@ -2472,13 +2481,13 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
           item.slice(1).replace(/[.]$/u,'')],'?'))};
     }
     if(question.questionType==='yes_no'&&questions.yesNo.mode==='auxiliary'&&
-       clause.kind==='predication'&&clause.features?.tense==='present'&&
+       ['predication','classification'].includes(clause.kind)&&clause.features?.tense==='present'&&
        clause.features?.polarity==='positive'&&stateGrammar.supportedTenses.includes('present')) {
-      const frame=stateGrammar.frames.predication;
+      const frame=stateGrammar.frames[clause.kind];
       const subject=clause.roles[frame.subjectRole];
       const person=isDeicticReferent(subject)?subject.agreement.person:'third';
       const number=isDeicticReferent(subject)?subject.agreement.number:subject.features.number;
-      const verb=stateVerbForms.find(entry=>entry.kind==='predication'&&
+      const verb=stateVerbForms.find(entry=>entry.kind===clause.kind&&
         entry.features.tense==='present'&&entry.features.person===person&&entry.features.number===number);
       if(!verb)throw new Error('Missing state question copula form.');
       const surface=role=>{
@@ -2492,7 +2501,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
             ...(noun?.animacy?{animacy:noun.animacy}:{})};
           return nominal.realizeProperty(clause.predicate,context);
         }
-        if(isDeicticReferent(subject))return deicticPronounSurface(subject,
+        if(role===frame.subjectRole&&isDeicticReferent(subject))return deicticPronounSurface(subject,
           stateRoleCase(frame,role,clause.features.polarity));
         const ref=clause.roles[role];
         return plainNoun(ref,nounByConcept(ref.concept),stateRoleCase(frame,role,clause.features.polarity),

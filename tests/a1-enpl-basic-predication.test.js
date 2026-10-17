@@ -62,6 +62,25 @@ test('A1-ENPL-01 translates proximal demonstratives and class predication throug
   assert.equal(engine.translate({text:reverse.input,from:'pl',to:'en'}).text,reverse.expected);
 });
 
+test('A1-ENPL-10 preserves classification CORE for present negation and yes/no questions', () => {
+  const examples = [
+    ...basics.enToPl.filter(row => row.id.startsWith('A1-ENPL-10'))
+      .map(row => ({...row,from:'en',to:'pl'})),
+    ...basics.plToEn.filter(row => row.id.startsWith('A1-ENPL-10'))
+      .map(row => ({...row,from:'pl',to:'en'}))
+  ];
+  assert.equal(examples.length,8);
+  for (const row of examples) {
+    assert.deepEqual(engine.analyze({text:row.input,from:row.from}),row.core,row.id);
+    assert.equal(engine.translate({text:row.input,from:row.from,to:row.to}).text,
+      row.expected,row.id);
+    assert.deepEqual(engine.analyze({text:row.expected,from:row.to}),row.core,
+      `${row.id} reverse CORE`);
+    assert.equal(engine.realize({interlingua:row.core,to:row.from}).text,row.input,
+      `${row.id} source realization`);
+  }
+});
+
 test('A1-ENPL-01 keeps simple bounded and preserves declared failures', () => {
   assert.equal(engine.translate({text:'This is a simple cat.',from:'en',to:'pl'}).text,
     'To jest prosty kot.');
