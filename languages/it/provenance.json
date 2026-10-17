@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0",
+  "language": "it",
+  "reviewedAt": "2026-10-17",
+  "rightsPolicy": "Every JSON data package is listed with its current version, source, authorship, license status and permitted use. New packages require a record. Legacy packages with incomplete attribution are explicitly blocked from redistribution pending review.",
+  "sources": [
+    {
+      "path": "languages/it/lexicon.json",
+      "version": "1.0",
+      "status": "project-authored",
+      "author": "flexLingua project contributors",
+      "source": "Original bounded Italian lexical entries and present-tense grammar authored for issue #79; no external dictionary or corpus imported.",
+      "license": "Project-authored; no separate SPDX data license grant is declared in this repository.",
+      "reviewedAt": "2026-10-15",
+      "permittedUse": "Internal flexLingua prototype and regression samples only; external reuse requires rights-holder review.",
+      "originalPath": "data/it.json"
+    },
+    {
+      "path": "languages/it/grammar.json",
+      "version": "1.0",
+      "status": "project-authored",
+      "author": "flexLingua project contributors",
+      "source": "Original bounded Italian lexical entries and present-tense grammar authored for issue #79; no external dictionary or corpus imported.",
+      "license": "Project-authored; no separate SPDX data license grant is declared in this repository.",
+      "reviewedAt": "2026-10-15",
+      "permittedUse": "Internal flexLingua prototype and regression samples only; external reuse requires rights-holder review.",
+      "originalPath": "data/grammar/it.json"
+    },
+    {
+      "path": "languages/it/manifest.json",
+      "version": "1.0",
+      "status": "project-authored",
+      "author": "flexLingua project contributors",
+      "source": "Project-authored language package manifest describing the existing limited Italian lexicon, grammar and tokenizer profile; no external data imported.",
+      "license": "Project-authored; no separate SPDX data license grant is declared in this repository.",
+      "reviewedAt": "2026-10-17",
+      "permittedUse": "Internal flexLingua package configuration only; external reuse requires rights-holder review.",
+      "originalPath": "data/languages/it.json"
+    }
+  ]
+}

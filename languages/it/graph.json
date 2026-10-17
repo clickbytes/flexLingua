@@ -1,0 +1,93 @@
+{
+  "schemaVersion": "1.0",
+  "language": "it",
+  "nodes": [
+    {
+      "id": "it.identity",
+      "type": "identity",
+      "module": "identity",
+      "path": "manifest.json"
+    },
+    {
+      "id": "it.signal",
+      "type": "signal",
+      "module": "signal",
+      "path": "signal.json",
+      "capability": "written"
+    },
+    {
+      "id": "it.lexicon",
+      "type": "lexicon",
+      "module": "lexicon",
+      "path": "lexicon.json",
+      "capability": "lexeme"
+    },
+    {
+      "id": "it.syntax.features",
+      "type": "syntax",
+      "module": "features",
+      "path": "features.json"
+    },
+    {
+      "id": "it.syntax.visual-perception",
+      "type": "syntax",
+      "module": "grammar",
+      "path": "grammar.json",
+      "capability": "event.visual_perception"
+    },
+    {
+      "id": "it.bridge",
+      "type": "bridge",
+      "module": "bridge",
+      "path": "bridge.json"
+    },
+    {
+      "id": "it.evidence",
+      "type": "evidence",
+      "module": "evidence",
+      "path": "provenance.json"
+    }
+  ],
+  "edges": [
+    {
+      "from": "it.bridge",
+      "to": "it.syntax.visual-perception",
+      "relation": "maps-to"
+    },
+    {
+      "from": "it.syntax.visual-perception",
+      "to": "it.lexicon",
+      "relation": "licenses"
+    },
+    {
+      "from": "it.evidence",
+      "to": "it.identity",
+      "relation": "evidences"
+    },
+    {
+      "from": "it.evidence",
+      "to": "it.signal",
+      "relation": "evidences"
+    },
+    {
+      "from": "it.evidence",
+      "to": "it.lexicon",
+      "relation": "evidences"
+    },
+    {
+      "from": "it.evidence",
+      "to": "it.syntax.features",
+      "relation": "evidences"
+    },
+    {
+      "from": "it.evidence",
+      "to": "it.syntax.visual-perception",
+      "relation": "evidences"
+    },
+    {
+      "from": "it.evidence",
+      "to": "it.bridge",
+      "relation": "evidences"
+    }
+  ]
+}
