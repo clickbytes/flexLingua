@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0",
   "purpose": "Protected gate lists: planning targets that must currently hold, and the approved required case ids that prove them.",
-  "changePolicy": "Entries here are the required baseline. Removing an entry, downgrading a required target to planned, moving a case out of the list, or softening an approved expectation must be reviewed explicitly by a human and recorded in the linked GitHub issue or PR; validators and CI hard-fail on silent removal, missing, or emptying entries. requiredCaseIds starts empty only as the documented pre-TM-04 initial state and must be complete before any required gate can pass.",
+  "changePolicy": "Entries here are the required baseline. Removing an entry, downgrading a required target to planned, moving a case out of the list, or softening an approved expectation requires explicit human review recorded in the linked GitHub issue or PR. Validation rejects empty or duplicate lists, missing listed cases, and inconsistent required/approved tiers; simultaneous removal of an id and its case must be caught in the PR diff review, because a self-modifying list cannot detect that change alone.",
   "requiredTargetIds": [
     "concept.person.girl",
     "concept.animal.dog",

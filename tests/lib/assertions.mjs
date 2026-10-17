@@ -102,13 +102,13 @@ function compareParticipant(want, actual, path, fail, meaning) {
       fail(`${path}/agreement/number`, want.agreement.number, actual?.agreement?.number ?? 'none');
     }
   }
-  if (want.features && Object.keys(want.features).length) {
+  if (want.features && (Object.keys(want.features).length || meaning.roleFeaturesExact === true)) {
     compareFeatures(want.features, actual?.features ?? {}, `${path}/features`, fail, {
       extraAllowed: true,
       exact: meaning.roleFeaturesExact === true
     });
   }
-  if (Array.isArray(want.modifiers) && want.modifiers.length) {
+  if (Array.isArray(want.modifiers)) {
     compareModifiers(want.modifiers, actual, path, fail, {exact: meaning.modifiersExact === true});
   }
   if (want.quantity !== undefined) {
@@ -150,7 +150,7 @@ function compareMeaning(want, actual, fail, {partial = false} = {}) {
     compareParticipant(participant, actual.roles?.[name], `#/roles/${name}`, fail,
       {...want, roleFeaturesExact: partial ? false : want.roleFeaturesExact === true});
   }
-  if (want.features && Object.keys(want.features).length) {
+  if (want.features) {
     compareFeatures(want.features, actual.features ?? {}, '#/features', fail, {
       extraAllowed: partial || want.featuresAllowExtra === true,
       exact: false
@@ -254,6 +254,9 @@ export function compareCase(item, document) {
     compareMultiset(expected.informationLoss.required, document.informationLoss ?? [],
       sameInformationLossItem, fail, '/informationLoss',
       {allowUnexpected: expected.informationLoss.allowUnexpected});
+    compareMultiset(expected.diagnostics.required, document.diagnostics ?? [],
+      sameDiagnosticsCode, fail, '/diagnostics',
+      {allowUnexpected: expected.diagnostics.allowUnexpected});
   } else {
     if (document.text !== null) fail('text', null, document.text);
     if (document.meaning !== null) fail('meaning', null, document.meaning);
@@ -284,11 +287,9 @@ export function compareCase(item, document) {
     compareMultiset(expected.diagnostics.required, document.diagnostics ?? [],
       sameDiagnosticsCode, fail, '/diagnostics',
       {allowUnexpected: expected.diagnostics.allowUnexpected});
-    if (expected.status !== 'ambiguous') {
-      compareMultiset(expected.informationLoss.required, document.informationLoss ?? [],
-        sameInformationLossItem, fail, '/informationLoss',
-        {allowUnexpected: expected.informationLoss.allowUnexpected});
-    }
+    compareMultiset(expected.informationLoss.required, document.informationLoss ?? [],
+      sameInformationLossItem, fail, '/informationLoss',
+      {allowUnexpected: expected.informationLoss.allowUnexpected});
   }
   return {pass: failures.length === 0,
     kind: document?.status === 'error' ? 'infra' : (STATUS_KIND[expected.status] ?? 'unknown'),

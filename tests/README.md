@@ -44,27 +44,28 @@ Dla `unsupported|invalid|resource_limit` wymagane są `text:null`, `meaning:null
 ## Rządy zmian i ochrona zbioru
 
 - Nie wolno usuwać przypadku, zmniejszyć `required-ids`, zmienić `approved`→`exploratory`, podmienić expected na faktyczny output silnika ani zamazać błąd jako `unsupported` bez jawnego review.
-- Usunięcie lub zmiana wpisu w `tests/catalog/required-ids.json` wymaga wprost człowieka-review udokumentowanego w powiązanym issue/PR; walidator twardo odrzuca brakujące, puste lub wiążące się zmniejszeniem wykazy (hard fail).
+- Usunięcie lub zmiana wpisu w `tests/catalog/required-ids.json` wymaga jawnego przeglądu diffu przez człowieka, udokumentowanego w powiązanym issue/PR. Walidator odrzuca puste i zduplikowane listy, brakujący przypadek nadal wymieniony na liście oraz niespójność `required`/`approved`. Jednoczesnego skreślenia ID z listy i pliku przypadku nie da się wykryć z samego zmienianego katalogu; to kontrola review PR.
 - Teksty, koncepcje i diagnozy oczekiwane były pisane przed uruchomieniem; `review.source` dokumentuje niezależne źródło oczekiwań (np. dowody historyczne z issue), a PR pokazują wykonane komendy z SHA.
 - Warianty poza wymaganym zakresem mogą być obserwowane, ale nie podnoszą raportowanej jakości A1; deklaracje capabilities bez pozytywnego świadectwa są raportowane oddzielnie (coverage).
 
 ## Uruchamianie
 
 ```sh
-npm test                        # pełny gate: validate + matrix + coverage + CLI smoke + raporty
-node tests/run.mjs --validate   # tylko schematy i reguły krzyżowe (bez wykonania)
-node tests/run.mjs --matrix     # wykonanie macierzy na produkcyjnym TranslationService
-node tests/run.mjs --cli        # macierz + smoke procesu CLI (exit-code polityka)
-node tests/run.mjs --report     # raporty bez uruchomienia nie są dozwolone (exit 3)
+npm run test:validate           # tylko schematy i reguły krzyżowe (bez wykonania)
+npm run test:matrix             # macierz + coverage + raporty
+npm run test:cli                # macierz + coverage + smoke procesu CLI + raporty
+npm run test:report             # odtworzenie Markdown/JUnit z istniejącego matrix.json
+npm run test:ci                 # pełny gate: validate + matrix + coverage + CLI smoke + raporty
+npm test                        # ten sam pełny gate co test:ci i GitHub Actions
 ```
 
-Kody zakończenia: `0` — wszystkie gate zielone; `1` — wymagany FAIL/INFRA, niepoprawne lub niekompletne dane macierzy; `2` — błąd argumentów; `3` — `--report` bez wykonanej macierzy. Błędy infrastruktury (wyjątek, status `error`, exit 1 CLI) są zawsze czerwone i nigdy nie trafiają do kategorii odmów.
+Kody zakończenia: `0` — wszystkie wykonane gate zielone; `1` — wymagany FAIL/INFRA, niepoprawne lub niekompletne dane macierzy albo brak wymaganej próbki CLI; `2` — błąd argumentów; `3` — `--report` bez poprawnego, istniejącego `matrix.json`. `--report` nie uruchamia translacji. Błędy infrastruktury (wyjątek, status `error`, exit 1 CLI) są zawsze czerwone i nigdy nie trafiają do kategorii odmów.
 
-Raporty po każdym pełnym przebiegu: `tests/.reports/{matrix.json, summary.md, junit.xml}` (git-ignored). W akcji repozytorium runner dopisuje `summary.md` do `$GITHUB_STEP_SUMMARY`, a workspace `translation-matrix` publikuje je jako artefakt.
+Raporty po `test:matrix`, `test:cli` i pełnym przebiegu: `tests/.reports/{matrix.json, summary.md, junit.xml}` (git-ignored). JSON zawiera SHA, tryb, expected, observed i różnice dla każdego przypadku. `test:report` odtwarza dwie prezentacje z tego JSON bez zmiany wyników i bez ponownego wywołania Engine. W akcji repozytorium runner dopisuje `summary.md` do `$GITHUB_STEP_SUMMARY`, a workflow `translation-matrix` publikuje raporty jako artefakt.
 
 **Jak jawnie zademonstrować czerwony stan** (obowiązuje tylko lokalnie, nie commitujemy): tymczasowo zmień jedno pole `expected` w zatwierdzonym przypadku, np. `#/features/tense` w `A1-EN-PL-VISUAL-0001` albo usuń jeden z dwóch sensów w `A1-EN-PL-AMBIGUOUS-0001`, uruchom `npm test` — runner pokazuje FAIL/`GATE: RED` i kod 1; przywróć plik. Prawdziwe czerwone stany pochodzą ze zmian silnika/danych i blokują merge; naprawianie ich przez edycję expected jest zabronione (sekcja powyżej).
 
-GitHub Actions: workflow `.github/workflows/translation-matrix.yml` uruchamia te same runner i `npm test` dla każdego PR i dla pusha na `main` jako jeden wymagany status check o nazwie `translation-matrix`. Brak innych ścieżek testowych; `tests/.reports/` jest ignorowany przez git i nigdy nie jest commitowany.
+GitHub Actions: workflow `.github/workflows/translation-matrix.yml` uruchamia ten sam runner przez `npm test` dla PR do `main`, pusha na `main` i ręcznego `workflow_dispatch` jako jeden wymagany status check o nazwie `translation-matrix`. Brak innych ścieżek testowych; `tests/.reports/` jest ignorowany przez git i nigdy nie jest commitowany.
 
 ## Zgłaszanie regresji
 

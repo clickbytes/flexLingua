@@ -47,20 +47,21 @@ export function buildCoverage({declaredTuples, outcomes, requiredTargetIds,
   const warnings = [];
   let infraErrors = 0;
   const counts = {
-    translation: {pass: 0, required: 0},
-    refusal: {pass: 0, required: 0},
-    ambiguity: {pass: 0, required: 0}
+    translation: {pass: 0, requiredPass: 0, required: 0},
+    refusal: {pass: 0, requiredPass: 0, required: 0},
+    ambiguity: {pass: 0, requiredPass: 0, required: 0}
   };
 
   for (const {item, outcome} of outcomes) {
+    const bucket = outcome?.kind === 'translation' || outcome?.kind === 'refusal' ||
+      outcome?.kind === 'ambiguity' ? outcome.kind : null;
+    if (bucket && item.tier === 'required') counts[bucket].required += 1;
     if (outcome?.pass) {
-      const bucket = outcome.kind === 'translation' || outcome.kind === 'refusal' ||
-        outcome.kind === 'ambiguity' ? outcome.kind : null;
       if (bucket) {
         counts[bucket].pass += 1;
-        if (item.tier === 'required') counts[bucket].required += 1;
+        if (item.tier === 'required') counts[bucket].requiredPass += 1;
       }
-      if (outcome.kind === 'translation') {
+      if (outcome.kind === 'translation' && item.review?.status === 'approved') {
         witnessedTuples.add(`${item.direction}×${item.construction}`);
         const constructionTarget = `construction.${item.construction}`;
         if (!witnessDirections.has(constructionTarget)) {
@@ -90,7 +91,8 @@ export function buildCoverage({declaredTuples, outcomes, requiredTargetIds,
   const declaredWithoutWitness = declaredTuples.filter(tuple =>
     !witnessedTuples.has(`${tuple.direction}×${tuple.construction}`));
 
-  const verifiedTargets = witnesses.filter(entry => inCatalog.has(entry.targetId));
+  const verifiedTargets = witnesses.filter(entry => inCatalog.has(entry.targetId) &&
+    requiredDirections.every(direction => entry.directions.includes(direction)));
   const failures = [];
   const targets = (requiredTargetIds ?? []).map(targetId => {
     const directions = witnessDirections.get(targetId) ?? new Set();
@@ -100,12 +102,12 @@ export function buildCoverage({declaredTuples, outcomes, requiredTargetIds,
   });
 
   const categories = {
-    translation_pass: counts.translation.required,
-    required_translation: `${counts.translation.required}/${counts.translation.pass}`,
-    refusal_pass: counts.refusal.required,
-    required_refusal: `${counts.refusal.required}/${counts.refusal.pass}`,
-    ambiguity_pass: counts.ambiguity.required,
-    required_ambiguity: `${counts.ambiguity.required}/${counts.ambiguity.pass}`,
+    translation_pass: counts.translation.requiredPass,
+    required_translation: counts.translation.required,
+    refusal_pass: counts.refusal.requiredPass,
+    required_refusal: counts.refusal.required,
+    ambiguity_pass: counts.ambiguity.requiredPass,
+    required_ambiguity: counts.ambiguity.required,
     implemented_with_positive_witness: `${positiveTuples.length}/${declaredTuples.length}`,
     declared_implemented: declaredTuples.length,
     project_a1_verified: verifiedTargets.length,

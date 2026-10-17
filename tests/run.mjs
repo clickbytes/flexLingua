@@ -15,7 +15,7 @@ import {runCliSmoke} from './lib/cli.mjs';
 import {compareCase} from './lib/assertions.mjs';
 import {ALLOWED_DIRECTIONS} from './lib/discover.mjs';
 import {buildCoverage} from './lib/coverage.mjs';
-import {writeReports} from './lib/report.mjs';
+import {regenerateReports, writeReports} from './lib/report.mjs';
 import {loadMatrix} from './lib/validate.mjs';
 
 const RUNNER_DIR = dirname(fileURLToPath(import.meta.url));
@@ -24,18 +24,17 @@ const REPO_ROOT = dirname(RUNNER_DIR);
 const USAGE = `Usage: node tests/run.mjs [--validate|--matrix|--cli|--all] [--help]
 
   --validate   load and validate schemas, catalog, required-ids, gaps, cross rules
-  --matrix     validate first, then execute every approved case through the
-               production createTranslationService (never a second translator)
-  --cli        matrix plus the CLI subprocess smoke for cliSmoke-tagged cases
+  --matrix     validate, execute the matrix, account for coverage and write reports
+               through the production createTranslationService
+  --cli        matrix, coverage and the CLI subprocess smoke for cliSmoke-tagged cases
                (documented exit-code policy, single JSON document, no stacks)
-  --report     write tests/.reports/{matrix.json, summary.md, junit.xml} and
-               append the summary to GITHUB_STEP_SUMMARY when the env var is
-               set; without matrix input it exits 3
+  --report     regenerate summary.md and junit.xml from an existing matrix.json
+               without translating; without matrix.json it exits 3
   --all        validate + matrix + coverage accounting + CLI smoke + reports
                (this is what npm test and GitHub Actions run)
 
 Exit codes: 0 all green gates; 1 required FAIL/INFRA, invalid or incomplete
-matrix; 2 usage error; 3 --report invoked without a matrix run. Infrastructure
+matrix; 2 usage error; 3 --report invoked without a saved matrix. Infrastructure
 errors are always failures and are never re-interpreted as expected refusals.`;
 
 const TRIM = 240;
@@ -71,6 +70,7 @@ function parseFlags(argv) {
   }
   if (flags.all) { flags.validate = true; flags.matrix = true; flags.cli = true; flags.report = true; }
   if (flags.cli) { flags.matrix = true; }
+  if (flags.matrix) { flags.report = true; }
   return flags;
 }
 
@@ -97,10 +97,24 @@ function printIssues(issues) {
 
 async function main() {
   const flags = parseFlags(process.argv.slice(2));
-  if (flags === null || flags.help || (!flags.validate && !flags.matrix && !flags.cli)) {
+  if (flags === null || flags.help || (!flags.validate && !flags.matrix && !flags.report)) {
     console.log(USAGE);
-    if (flags !== null && flags.report) process.exitCode = 3;
-    else process.exitCode = flags !== null && flags.help ? 0 : 2;
+    process.exitCode = flags !== null && flags.help ? 0 : 2;
+    return;
+  }
+  if (flags.report && !flags.matrix && !flags.validate) {
+    try {
+      const written = await regenerateReports({testsRoot: RUNNER_DIR});
+      console.log(`REPORTS (regenerated without translation): ${written.files.join(', ')}`);
+    } catch (error) {
+      console.error(`REPORTS: ${clip(error?.message ?? String(error))}`);
+      process.exitCode = 3;
+    }
+    return;
+  }
+  if (flags.report && flags.validate && !flags.matrix) {
+    console.log('Use --validate alone, or --report alone to regenerate saved reports.');
+    process.exitCode = 2;
     return;
   }
   const started = Date.now();
@@ -118,6 +132,10 @@ async function main() {
   }
   if (hasErrors) {
     console.log('MATRIX: NOT RUN (invalid matrix data; required gate cannot be trusted)');
+    await writeReports({testsRoot: RUNNER_DIR, sha, matrix, outcomes: [], coverage: null,
+      cliSmoke: null, gates: {matrix: 'RED', coverage: 'NOT RUN', cli: 'NOT RUN'},
+      notRun: ['matrix: invalid input', 'coverage', 'CLI smoke'],
+      durationMs: Date.now() - started, mode: flags.all ? 'all' : flags.cli ? 'cli' : 'matrix'});
     process.exitCode = 1;
     return;
   }
@@ -131,6 +149,10 @@ async function main() {
     console.log('MATRIX: INCOMPLETE — no approved required cases exist yet ' +
       `(cases ${matrix.cases.length}, requiredCaseIds ${declaredRequiredCases.length}); ` +
       'zero cases are never reported as PASS');
+    await writeReports({testsRoot: RUNNER_DIR, sha, matrix, outcomes: [], coverage: null,
+      cliSmoke: null, gates: {matrix: 'RED', coverage: 'NOT RUN', cli: 'NOT RUN'},
+      notRun: ['matrix: incomplete required cases', 'coverage', 'CLI smoke'],
+      durationMs: Date.now() - started, mode: flags.all ? 'all' : flags.cli ? 'cli' : 'matrix'});
     process.exitCode = 1;
     return;
   }
@@ -158,7 +180,7 @@ async function main() {
         outcome.kind = 'infra';
       }
     }
-    outcomes.push({item, outcome, durationMs: Date.now() - startedAt});
+    outcomes.push({item, outcome, document, durationMs: Date.now() - startedAt});
   }
 
   const counts = {translation: {pass: 0, run: 0}, refusal: {pass: 0, run: 0},
@@ -199,19 +221,12 @@ async function main() {
     `ambiguity ${counts.ambiguity.pass}/${counts.ambiguity.run}, ` +
     `FAIL ${counts.fail.required} required / ${counts.fail.exploratory} exploratory, ` +
     `INFRA ${counts.infra.required} required / ${counts.infra.exploratory} exploratory, ` +
-    `NOT-RUN 0`);
+    `matrix cases NOT-RUN 0`);
   console.log(`Known gaps registered: ${gapCount} (reported separately, never counted as PASS)`);
 
-  let coverageFailed = false;
-  let coverageResult = null;
-  if (flags.all) {
-    const notRunLabels = [];
-    if (!flags.report) notRunLabels.push('report files (add --report)');
-    coverageResult = printCoverage({runtime, matrix, outcomes, gapCount, notRunLabels});
-    coverageFailed = !coverageResult.gate.passed;
-  } else {
-    console.log('Coverage accounting, CLI smoke and reports: NOT RUN (run --all for the full gates).');
-  }
+  const notRunLabels = flags.cli ? [] : ['CLI smoke (run --cli or --all)'];
+  const coverageResult = printCoverage({runtime, matrix, outcomes, gapCount, notRunLabels});
+  const coverageFailed = !coverageResult.gate.passed;
 
   let cliFailed = false;
   let cliResults = null;
@@ -220,6 +235,9 @@ async function main() {
     console.log('');
     if (smokeCases.length === 0) {
       console.log('CLI smoke: NOT RUN — no cliSmoke-tagged cases exist (explicit, not silent).');
+      cliResults = [];
+      cliFailed = true;
+      notRunLabels.push('CLI smoke: no cliSmoke-tagged cases');
     } else {
       console.log(`CLI SMOKE (${smokeCases.length} tagged cases): exit-code policy ` +
         '(ok→0; unsupported/invalid/ambiguous/resource_limit→2), single JSON document, no node:internal stacks');
@@ -244,7 +262,7 @@ async function main() {
   const matrixRed = failedRequired > 0;
   const gates = {
     matrix: matrixRed ? 'RED' : 'GREEN',
-    coverage: flags.all ? (coverageFailed ? 'RED' : 'GREEN') : 'NOT RUN',
+    coverage: coverageFailed ? 'RED' : 'GREEN',
     cli: (flags.cli || flags.all) ? (cliFailed ? 'RED' : 'GREEN') : 'NOT RUN'
   };
   if (matrixRed) {
@@ -252,11 +270,9 @@ async function main() {
   } else {
     console.log(`GATE (matrix): GREEN — ${outcomes.length} executed case(s), required (${declaredRequiredCases.length}) all PASS.`);
   }
-  if (flags.all) {
-    console.log(coverageFailed
-      ? 'GATE: RED — coverage: a required A1 target lacks a positive witness in the canonical pair directions. Merge to main stays blocked.'
-      : 'GATE (coverage): GREEN — every required A1 target is witnessed in both canonical directions.');
-  }
+  console.log(coverageFailed
+    ? 'GATE: RED — coverage: a required A1 target lacks a positive witness in the canonical pair directions. Merge to main stays blocked.'
+    : 'GATE (coverage): GREEN — every required A1 target is witnessed in both canonical directions.');
   if (flags.cli || flags.all) {
     console.log(cliFailed
       ? 'GATE: RED — CLI smoke: the shipped command line does not match the approved expectations or the exit-code policy.'
@@ -265,7 +281,8 @@ async function main() {
 
   if (flags.report) {
     const written = await writeReports({testsRoot: RUNNER_DIR, sha, matrix, outcomes,
-      coverage: coverageResult, cliSmoke: cliResults, gates, notRun: [], durationMs: Date.now() - started});
+      coverage: coverageResult, cliSmoke: cliResults, gates, notRun: notRunLabels,
+      durationMs: Date.now() - started, mode: flags.all ? 'all' : flags.cli ? 'cli' : 'matrix'});
     console.log(`REPORTS: ${written.files.join(', ')}`);
   }
 
@@ -328,11 +345,11 @@ function printCoverage({runtime, matrix, outcomes, gapCount, notRunLabels = []})
   });
   console.log('');
   console.log('COVERAGE (A1 canonical subset; witnesses only from approved PASSING cases):');
-  console.log(`  translation_pass ${coverage.categories.translation_pass} ` +
-    `(${coverage.categories.required_translation}); refusal_pass ` +
-    `${coverage.categories.refusal_pass} (${coverage.categories.required_refusal}); ` +
-    `ambiguity_pass ${coverage.categories.ambiguity_pass} ` +
-    `(${coverage.categories.required_ambiguity}); infra_errors ` +
+  console.log(`  translation_pass ${coverage.categories.translation_pass}/` +
+    `${coverage.categories.required_translation}; refusal_pass ` +
+    `${coverage.categories.refusal_pass}/${coverage.categories.required_refusal}; ` +
+    `ambiguity_pass ${coverage.categories.ambiguity_pass}/` +
+    `${coverage.categories.required_ambiguity}; infra_errors ` +
     `${coverage.categories.infra_errors}; not_run ${notRunLabels.length}` +
     (notRunLabels.length ? ` (${notRunLabels.join('; ')})` : ''));
   console.log(`  declared_implemented ${coverage.categories.declared_implemented} live tuples; ` +

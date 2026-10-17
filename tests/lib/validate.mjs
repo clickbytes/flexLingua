@@ -169,6 +169,14 @@ function checkRequiredIds(requiredIds, catalogById, caseIndex, issues) {
       severity: 'error', message: 'required-ids.json must hold the arrays requiredTargetIds and requiredCaseIds.'});
     return;
   }
+  if (targets.length === 0 || cases.length === 0) {
+    issues.push({kind: 'required-ids', file: 'tests/catalog/required-ids.json', id: undefined,
+      severity: 'error', message: 'Required target and case lists must both be non-empty.'});
+  }
+  if (new Set(targets).size !== targets.length || new Set(cases).size !== cases.length) {
+    issues.push({kind: 'required-ids', file: 'tests/catalog/required-ids.json', id: undefined,
+      severity: 'error', message: 'Required target and case ids must be unique.'});
+  }
   const targetShapeOk = targets.every(id => typeof id === 'string' && TARGET_ID_SHAPE.test(id));
   const caseShapeOk = cases.every(id => typeof id === 'string' && CASE_ID_SHAPE.test(id));
   if (!targetShapeOk || !caseShapeOk) {

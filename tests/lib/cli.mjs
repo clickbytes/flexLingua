@@ -89,7 +89,11 @@ export function runCliSmoke({cases, service, repoRoot}) {
       const comparison = compareCase(item, document);
       result.kind = comparison.kind;
       if (run.status !== expectedExit) {
-        result.kind = run.status === undefined || run.status === null ? 'infra' : comparison.kind;
+        result.kind = run.status === 1 || run.status === undefined || run.status === null
+          ? 'infra' : comparison.kind;
+        if (result.kind === 'infra') {
+          result.lines.push(`CLI INFRA: subprocess exited ${String(run.status)} instead of the documented ${expectedExit}`);
+        }
       }
       for (const failure of comparison.failures) {
         result.lines.push(`${failure.path}: expected ${clip(failure.expected)}; ` +
