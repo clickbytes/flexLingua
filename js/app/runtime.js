@@ -3,6 +3,7 @@ import {join} from 'node:path';
 import {Engine} from '../core/engine.js';
 import {createCoreLanguage} from '../core/core-language.js';
 import {DEFAULT_PROJECT_ROOT, loadPluginRegistry} from '../plugins/loader.js';
+import {createCapabilityService} from './capability-service.js';
 
 const CODE = /^[a-z]{2,8}$/u;
 const DIRECTION = /^[a-z]{2,8}->[a-z]{2,8}$/u;
@@ -56,6 +57,8 @@ export async function createAppRuntime({root = DEFAULT_PROJECT_ROOT} = {}) {
   const core = createCoreLanguage(ontology);
   const plugins = await loadPluginRegistry(root, {core});
   const engine = new Engine(ontology, features, plugins);
+  const capabilities = engine.capabilities();
+  const capabilityCatalog = createCapabilityService({languages, capabilities});
   return Object.freeze({root, ontology, features, plugins, engine, languages,
-    capabilities: engine.capabilities()});
+    capabilities, capabilityCatalog});
 }
