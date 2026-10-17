@@ -184,7 +184,9 @@ export function defineDeclarativeLanguagePlugin({manifest, graph, modules, core}
       generate: input => morphology.generate(input),
       analyze: input => morphology.analyze(input),
       paradigm: input => morphology.paradigm(input),
-      availability: input => morphology.availability(input)
+      availability: input => morphology.availability(input),
+      inventory: () => structuredClone(morphology.lexicon.entries),
+      describe: () => structuredClone(morphology.describe())
     });
   }
   if (signalCapabilities.length && signal) plugin.signal = signal;

@@ -37,7 +37,9 @@ adapterów zgodności ani wersjonowanych nazw `v2`.
    wymagają odpowiedniego `analyze()` lub `realize()`; plugin morphology-only
    może pominąć obie metody zdaniowe. `morphology`, `lexicon` i `signal` są
    opcjonalnymi providerami; ich brak oznacza brak capability, nie pusty plik
-   udający implementację.
+   udający implementację. Morfologia może dodatkowo udostępnić `inventory()` i
+   `describe()` dla narzędzi budujących skończoną tabelę; nie zastępują one
+   operacji `generate()`, `analyze()`, `paradigm()` ani `availability()`.
 5. Wspólny runtime nie rozgałęzia się po kodzie języka, aby realizować
    morfologię lub składnię. Registry może użyć `code` do wyboru pluginu; dalsze
    decyzje pochodzą z graphu, modułów danych i funkcji deklarowanych przez
