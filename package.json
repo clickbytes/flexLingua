@@ -4,6 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "translate": "node tools/translate.mjs",
+    "languages": "node tools/translate.mjs --languages",
     "test": "node --test tests/*.test.js",
     "dev": "node tools/serve.mjs",
     "check:lexicon": "node tools/check-lexicon.mjs",
