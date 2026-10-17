@@ -33,11 +33,11 @@
       "operation": "analyze",
       "channel": "sentence",
       "construction": "state.classification",
-      "status": "unsupported",
+      "status": "implemented",
       "evidence": [
         {
-          "kind": "manual-refusal",
-          "id": "pl.state-bridge-refusal.01"
+          "kind": "manual-sentence",
+          "id": "pl.state-classification.01"
         }
       ]
     },
@@ -45,11 +45,11 @@
       "operation": "realize",
       "channel": "sentence",
       "construction": "state.classification",
-      "status": "unsupported",
+      "status": "implemented",
       "evidence": [
         {
-          "kind": "manual-refusal",
-          "id": "pl.state-bridge-refusal.01"
+          "kind": "manual-sentence",
+          "id": "pl.state-classification.01"
         }
       ]
     },
