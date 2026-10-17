@@ -157,11 +157,16 @@ export function createChatService(runtime, {from: requestedFrom, to: requestedTo
         events: [userEvent, ...diagnosticEvents(diagnostics)], diagnostics, ...counters()};
     }
 
-    const unavailable = directionFailure(from, to);
-    if (unavailable) {
-      return {accepted: false, status: unavailable.status, responseStatus: 'not_attempted',
-        error: unavailable.error, events: [userEvent, ...diagnosticEvents(unavailable.diagnostics)],
-        diagnostics: unavailable.diagnostics, ...counters()};
+    const selectedDirection = setDirection({from, to});
+    if (selectedDirection.status !== 'ok') {
+      const diagnostics = selectedDirection.diagnostics ?? [];
+      const error = selectedDirection.error ?? errorDetails({
+        code: selectedDirection.code ?? diagnostics[0]?.code,
+        message: diagnostics[0]?.message
+      }, diagnostics);
+      return {accepted: false, status: selectedDirection.status, responseStatus: 'not_attempted',
+        error, events: [userEvent, ...diagnosticEvents(diagnostics)], diagnostics,
+        ...counters(selectedDirection.conversation)};
     }
 
     const turn = safeCall(() => dialogue.tryNextTurn({session, utterance: text, from, to}),
