@@ -5,7 +5,8 @@
 Optimize for fast, precise edits with the smallest reasonable amount of tool use.
 The default is **FAST EDIT**, not repository audit or release preparation.
 Follow the user's explicit task and stop when it is complete. Do not claim that
-unrun checks passed. These rules do not waive the project's PR/CI release gates.
+unrun checks passed. Tests run locally through versioned Git hooks; GitHub Actions
+are not part of the development or merge process.
 
 ## Scope and execution
 
@@ -27,8 +28,9 @@ unrun checks passed. These rules do not waive the project's PR/CI release gates.
 - Do **not** run `git status`, `git diff`, `git log`, `git show`, or similar Git
   inspection commands as routine preflight/postflight work. Use Git only when
   needed for the requested task, conflict safety, or an explicit PR/release flow.
-- Do **not** run tests, builds, formatters, linters, audits, `npm install`,
-  `npm audit`, or the development server just to be thorough.
+- Do **not** run extra tests, builds, formatters, linters, audits, `npm install`,
+  `npm audit`, or the development server just to be thorough. The local hooks
+  provide the automatic commit and push checks.
 - Do not launch broad searches, full test suites, background services, or
   additional validation after a change unless the task requires it.
 - Do not chain multiple verification commands that substantially duplicate
@@ -46,13 +48,13 @@ unrun checks passed. These rules do not waive the project's PR/CI release gates.
 3. **DATA CHECK:** When editing lexical, morphology, gold, or provenance data,
    run only the applicable focused validator if verification is needed.
    Do not launch every language audit for an unrelated dataset.
-4. **FULL GATE:** Run comprehensive checks only when explicitly asked to
-   prepare/verify a PR, merge, release, or significant cross-cutting change.
-   `npm run check:release` includes `npm test` and multiple data/gold audits:
-   do not run those separately again. `npm run check:core-gates` invokes the
-   full release checks and requires a clean, committed working tree; do not
-   run it during ordinary uncommitted editing. For release work, follow
-   `docs/development-workflow.md` and report CI status for the exact PR SHA.
+4. **LOCAL PUSH GATE:** Install the versioned hooks once with
+   `npm run setup:local-hooks`. The pre-commit hook validates the A1 fixture
+   catalog. The pre-push hook runs `npm run check:release` on the committed
+   HEAD and writes `.local-checks/<SHA>.json` and `.log`. This includes
+   `npm test` and the A1 sentence matrix; do not launch duplicate full suites.
+   `npm run check:core-gates` remains a manual release command for a clean
+   checkout. Report the local result for the exact PR SHA.
 
 If a focused check fails, investigate the in-scope failure, fix it if appropriate,
 and rerun that check once. Do not launch unrelated checks in response. If an
@@ -83,9 +85,9 @@ Only choose paths relevant to the requested change.
 - Studio / browser UI: `js/ui/studio.js`, `js/ui/dialogue.js`, `js/main.js`,
   `index.html`; possible tests: `tests/studio-ui.test.js`,
   `tests/dialogue-ui.test.js`, `tests/ui.test.js`.
-- CI / release gating: `.github/workflows/core-engine.yml`,
+- Local hooks / release gating: `.githooks/`, `tools/local-check.mjs`,
   `tools/check-core-gates.mjs`, `package.json`; focused tests:
-  `tests/ci-workflow.test.js`, `tests/core-release-gates.test.js`.
+  `tests/local-workflow.test.js`, `tests/core-release-gates.test.js`.
 - Existing npm scripts are defined in `package.json`. Do not invent scripts.
   Node test runner: `node --test tests/<relevant-file>.test.js`.
 
@@ -100,8 +102,8 @@ Only choose paths relevant to the requested change.
   update the minimum relevant test/fixture and document the rationale.
 - Update documentation only for a genuine lasting API, behavior, grammar,
   schema, architecture, run-command, or provenance contract change.
-  GitHub Issues/PRs/Actions hold task progress and test status; do not turn
-  README or ROADMAP into a task log.
+  GitHub Issues and PRs hold task progress and the local test result; do not
+  turn README or ROADMAP into a task log. A separate HANDOFF.MD is not used.
 
 ## Final response
 

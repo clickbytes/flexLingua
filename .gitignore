@@ -8,6 +8,7 @@ build/
 .playwright-cli/
 output/playwright/
 .cache/
+.local-checks/
 *.log
 
 # Local configuration and credentials
