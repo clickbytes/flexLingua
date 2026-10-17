@@ -58,19 +58,20 @@ function verifySurfaceInventory(entries, kind) {
   });
 }
 
-function matchingForms(lexeme, features) {
-  return lexeme.forms.filter(form => Object.entries(form.when || {}).every(([key, value]) => features[key] === value));
+function matchingForms(lexeme, features, forms=lexeme.forms) {
+  return forms.filter(form => Object.entries(form.when || form.features || {})
+    .every(([key, value]) => features[key] === value));
 }
 
-function formFor(lexeme, features) {
-  return matchingForms(lexeme, features)[0]?.text;
+function formFor(lexeme, features, forms=lexeme.forms) {
+  return matchingForms(lexeme, features, forms)[0]?.text;
 }
 
 /**
  * Shared, bounded noun-phrase interpreter. JSON provides agreement-specific surface
  * forms and slot order; no adapter implements adjective/quantifier morphology.
  */
-export function createNominalInterpreter({ dictionary, nounPhrase, nounForms, featureProfile }) {
+export function createNominalInterpreter({ dictionary, nounPhrase, nounForms, featureProfile, morphology }) {
   const qualified = nounPhrase.qualified || {};
   const quantityModel=nounPhrase.quantity;
   const quantityClassifiers=quantityModel?.classifiers||[];
@@ -88,6 +89,13 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms, fe
   const layouts = qualified.layouts || [qualified.layout || DEFAULT_LAYOUT];
   const layoutByQuantifier = qualified.layoutByQuantifier || {};
   const adjectives = verifySurfaceInventory(dictionary.adjectives || [], 'adjective');
+  const adjectiveParadigms=new Map();
+  function adjectiveForms(lexeme) {
+    if(!morphology?.has(lexeme.id))return lexeme.forms;
+    if(!adjectiveParadigms.has(lexeme.id))
+      adjectiveParadigms.set(lexeme.id,morphology.paradigm({lexemeId:lexeme.id}));
+    return adjectiveParadigms.get(lexeme.id);
+  }
   const degrees = verifySurfaceInventory(dictionary.degrees || [], 'degree');
   const quantifiers = verifySurfaceInventory(dictionary.quantifiers || [], 'quantifier');
   const agreementFeatures = qualified.adjectiveAgreementFeatures || [...AGREEMENT_KEYS];
@@ -226,12 +234,12 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms, fe
       };
       if(degreePlacement==='before') {
         for(const prefix of degreeChains(index))for(const lex of adjectives)
-          for(const form of matchingForms(lex,context)) {
+          for(const form of matchingForms(lex,context,adjectiveForms(lex))) {
             const length=matchesTokens(tokens,prefix.next,form.text);
             if(length)append(lex,prefix.next+length,prefix.degrees);
           }
       } else {
-        for(const lex of adjectives)for(const form of matchingForms(lex,context)) {
+        for(const lex of adjectives)for(const form of matchingForms(lex,context,adjectiveForms(lex))) {
           const length=matchesTokens(tokens,index,form.text);
           if(!length)continue;
           for(const suffix of degreeChains(index+length))append(lex,suffix.next,suffix.degrees);
@@ -245,7 +253,7 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms, fe
   function readProperty(tokens, at, context) {
     const found = [];
     for (const lexeme of adjectives) {
-      for (const form of matchingForms(lexeme, context)) {
+      for (const form of matchingForms(lexeme, context, adjectiveForms(lexeme))) {
         const length = matchesTokens(tokens, at, form.text);
         if (length) found.push({value: lexeme.concept, senseId: lexeme.senseId || lexeme.id,
           priority: lexeme.priority || 0, next: at + length});
@@ -269,7 +277,7 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms, fe
 
   function realizeProperty(concept, context) {
     for (const lexeme of propertyIndex.get(concept) || []) {
-      const form = formFor(lexeme, context);
+      const form = formFor(lexeme, context, adjectiveForms(lexeme));
       if (form) return form;
     }
     throw new Error(`Missing ${dictionary.language} adjective form for ${concept}.`);
