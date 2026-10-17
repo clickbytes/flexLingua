@@ -116,11 +116,13 @@ export function unifyFeatures(left, right) {
   return result;
 }
 
-/** Safe, bounded feature dependencies such as subject.number or event.polarity. */
-export function featureSource(source, featureProfile) {
+/** Safe feature dependencies; nonstandard roots are enabled by a construction's role inventory. */
+export function featureSource(source, featureProfile, controllers = []) {
   if (typeof source !== 'string') throw new Error('Invalid feature dependency.');
   const path = source.split('.');
-  if (path.length !== 2 || !['subject', 'event'].includes(path[0]) || !safeName(path[1])) {
+  if (path.length !== 2 || !safeName(path[0]) || !safeName(path[1]) ||
+      (!['subject','event'].includes(path[0]) &&
+        (!Array.isArray(controllers) || !controllers.includes(path[0])))) {
     throw new Error(`Invalid feature dependency: ${source}`);
   }
   if (featureProfile !== undefined && path[0] === 'subject' && path[1] === 'case') {
@@ -133,7 +135,7 @@ export function featureSource(source, featureProfile) {
 }
 
 export function valueAt(context, source) {
-  const [root, key] = featureSource(source);
+  const [root, key] = featureSource(source,undefined,Object.keys(context||{}));
   return hasOwn(context[root], key) ? context[root][key] : undefined;
 }
 

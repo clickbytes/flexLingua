@@ -1,0 +1,20 @@
+{
+  "language": "qaf",
+  "event": "event.visual_perception",
+  "globalController": "subject.number",
+  "objectController": "object.number",
+  "possessorController": "possessor.number",
+  "verbForms": {
+    "singular": "sees-by-controller-singular",
+    "plural": "sees-by-controller-plural"
+  },
+  "objectSentences": [
+    {"source": "The girl sees the book.", "expected": "The girl sees-by-controller-singular the book."},
+    {"source": "The girl sees the books.", "expected": "The girl sees-by-controller-plural the books."}
+  ],
+  "possessorSentences": [
+    {"source": "The girl sees my book.", "expected": "The girl sees-by-controller-singular my book.", "number": "singular"},
+    {"source": "The girl sees our book.", "expected": "The girl sees-by-controller-plural our book.", "number": "plural"}
+  ],
+  "conflictingPossessors": "My girl sees our book."
+}

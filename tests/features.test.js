@@ -112,6 +112,29 @@ test('Feature source resolution is bounded to subject and event namespaces', () 
   }
 });
 
+test('Construction role controllers are enabled by their validated role inventory',()=>{
+  assert.deepEqual(featureSource('object.number',undefined,['object','theme']),['object','number']);
+  assert.equal(valueAt({object:{number:'plural'}},'object.number'),'plural');
+  assert.ok(matchesConditions({event:{},subject:{number:'singular'},object:{number:'plural'}},
+    {'object.number':'plural'}));
+  assert.ok(matchesAgreement({number:'plural'},
+    {number:'object.number'},{subject:{number:'singular'},object:{number:'plural'}}));
+  assert.equal(matchesAgreement({number:'singular'},
+    {number:'object.number'},{subject:{number:'singular'},object:{number:'plural'}}),false);
+  assert.throws(()=>featureSource('recipient.number',undefined,['agent','theme']),/feature dependency/);
+});
+
+test('Hierarchical object and possessor morphology features retain conflicts',()=>{
+  const profile={version:'1.0',language:'qaf',syntactic:{},morphology:{
+    object_number:['singular','plural'],possessor_number:['singular','plural']
+  }};
+  const registry=createMorphFeatureRegistry(morphologyFixture,profile);
+  assert.deepEqual(flattenMorphFeatures({object:{number:'plural'},possessor:{number:'singular'}},registry),
+    {object_number:'plural',possessor_number:'singular'});
+  assert.throws(()=>flattenMorphFeatures({object:{number:'plural'},object_number:'singular'},registry),
+    error=>error.code==='invalid_combination');
+});
+
 test('Subject person and number conditions and agreement are exact across the full person-number matrix', () => {
   assert.deepEqual(Object.values(GRAMMATICAL_PERSON), ['first','second','third']);
   const mapping = { subjectPerson:'subject.person', subjectNumber:'subject.number' };

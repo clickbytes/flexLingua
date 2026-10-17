@@ -34,3 +34,12 @@ otrzymać wersjonowany profil `LanguageFeatureProfile` 1.0. Jeśli definiuje on
 `syntactic.case`, gramatyka i morfologia walidują nazwy przypadków względem tego
 inwentarza. Jeśli wymiaru brakuje, język jest bezprzypadkowy: szyk ramy
 identyfikuje role, a konfiguracja nie wymaga końcówek przypadków.
+
+Rama zdarzenia może deklarować lokalne kontrolery uzgodnienia, np.
+`"agreement": {"number": "theme.number"}`. Ścieżka `object.number` jest
+aliasem `theme.number`. Poza zachowanymi korzeniami `subject` i `event`, ścieżka
+musi wskazywać rolę danej ramy albo `possessor` odczytywany z typowanych
+posiadaczy NP. Brak kontrolowanej cechy
+powoduje odmowę realizacji/analizy, a kilka sprzecznych wartości `possessor`
+nie wybiera arbitralnie jednej z nich. Lokalna deklaracja zastępuje kontroler
+globalny dla tego samego wymiaru formy w tej ramie.
