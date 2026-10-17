@@ -7,13 +7,39 @@ import {record} from './features.js';
 export const RESPONSE_PLANNER_VERSION = '1.0';
 export const MAX_RESPONSE_FACTS = MAX_DIALOGUE_ACTS;
 
-function canonicalJson(value) {
-  if (Array.isArray(value)) return '[' + value.map(canonicalJson).join(',') + ']';
-  if (value && typeof value === 'object') {
-    return '{' + Object.keys(value).sort().map(key =>
-      JSON.stringify(key) + ':' + canonicalJson(value[key])).join(',') + '}';
+/** Structural comparison with narrow, planner-only participant normalization. */
+function sameValue(left,right,requireIdentity=false) {
+  if (Object.is(left,right)) return true;
+  if (Array.isArray(left) || Array.isArray(right)) {
+    return Array.isArray(left) && Array.isArray(right) && left.length===right.length &&
+      left.every((value,index)=>sameValue(value,right[index],requireIdentity));
   }
-  return JSON.stringify(value);
+  if (!record(left) || !record(right)) return false;
+
+  let leftValue=left,rightValue=right;
+  if (Object.hasOwn(left,'plannerIdentity') && Object.hasOwn(right,'plannerIdentity')) {
+    const bothIndefinite=left.features?.definiteness==='indefinite' &&
+      right.features?.definiteness==='indefinite';
+    if ((!bothIndefinite || requireIdentity) &&
+        left.plannerIdentity!==right.plannerIdentity) return false;
+    leftValue={...left};
+    rightValue={...right};
+    delete leftValue.plannerIdentity;
+    delete rightValue.plannerIdentity;
+    if (!bothIndefinite) {
+      for (const value of [leftValue,rightValue]) {
+        if (!record(value.features)) continue;
+        value.features={...value.features};
+        delete value.features.definiteness;
+      }
+    }
+  }
+
+  const leftKeys=Object.keys(leftValue).sort();
+  const rightKeys=Object.keys(rightValue).sort();
+  return leftKeys.length===rightKeys.length &&
+    leftKeys.every((key,index)=>key===rightKeys[index] &&
+      sameValue(leftValue[key],rightValue[key],requireIdentity));
 }
 
 function participantContext(references, scope, participants) {
@@ -67,13 +93,18 @@ function buildReferenceContext(value) {
 }
 
 function participantIdentityFor(roleValue,path,context) {
-  if (roleValue?.referent?.kind !== 'deictic') return null;
-  const grounded=roleValue.agreement?.number === 'singular' && context.byPath.has(path);
-  return {
-    id:grounded ? context.byPath.get(path) :
-      'unresolved:'+context.scope+':'+roleValue.referent.anchor,
-    grounded
-  };
+  const referenceId=context.byPath.get(path);
+  if (roleValue?.referent?.kind === 'deictic') {
+    const grounded=roleValue.agreement?.number === 'singular' && referenceId!==undefined;
+    return {id:grounded ? referenceId : 'unresolved:'+context.scope+':'+path,grounded};
+  }
+  if (roleValue?.referent?.kind === 'anaphoric' &&
+      roleValue.referent.resolution === 'unresolved') {
+    return referenceId===undefined ?
+      {id:'unresolved:'+context.scope+':'+path,grounded:false} :
+      {id:referenceId,grounded:true};
+  }
+  return referenceId===undefined ? null : {id:referenceId,grounded:true};
 }
 
 function referenceIdFor(roleValue,path,context) {
@@ -81,6 +112,8 @@ function referenceIdFor(roleValue,path,context) {
 }
 
 function participantInQuestion(roleValue,path,sourceContext,questionContext) {
+  if (roleValue?.referent?.kind === 'anaphoric' &&
+      roleValue.referent.resolution === 'unresolved') return null;
   if (roleValue?.referent?.kind !== 'deictic') return structuredClone(roleValue);
   const identity=participantIdentityFor(roleValue,path,sourceContext);
   if (!identity.grounded) return null;
@@ -95,10 +128,14 @@ function participantInQuestion(roleValue,path,sourceContext,questionContext) {
 
 function matchingRole(roleValue,path,context) {
   const copy=structuredClone(roleValue);
-  if (copy?.referent?.kind === 'deictic') {
+  if (copy?.referent?.kind === 'deictic' || copy?.referent?.kind === 'anaphoric') {
     const identity=participantIdentityFor(roleValue,path,context);
     copy.referent={kind:'planner_participant',id:identity.id};
-    if (identity.grounded && copy.agreement?.person) copy.agreement.person='grounded';
+    if (roleValue.referent.kind==='deictic' && identity.grounded && copy.agreement?.person)
+      copy.agreement.person='grounded';
+  } else {
+    const identity=participantIdentityFor(roleValue,path,context);
+    if (identity?.grounded) copy.plannerIdentity=identity.id;
   }
   if (Array.isArray(copy?.relatives)) {
     copy.relatives=copy.relatives.map((relative,index)=>({...relative,
@@ -125,8 +162,9 @@ function matchingView(node,path,context) {
   return copy;
 }
 
-function matchingKey(node,path,context) {
-  return canonicalJson(matchingView(node,path,context));
+function sameMeaning(left,leftPath,leftContext,right,rightPath,rightContext) {
+  return sameValue(matchingView(left,leftPath,leftContext),
+    matchingView(right,rightPath,rightContext));
 }
 
 function questionFrom(value, engine) {
@@ -227,12 +265,11 @@ function yesNoPlan(question, rows, engine, clarifyQuestion, questionContext) {
   const observations = [];
   for (const row of rows) {
     const actual = simpleTruth(row.clause,false,row.path);
-    if (expected && actual &&
-        matchingKey(expected.base,expected.path,questionContext) ===
-          matchingKey(actual.base,actual.path,row.context)) {
+    if (expected && actual && sameMeaning(expected.base,expected.path,questionContext,
+        actual.base,actual.path,row.context)) {
       observations.push({value:actual.value === expected.value,row});
-    } else if (matchingKey(row.clause,row.path,row.context) ===
-        matchingKey(question.proposition,'question.proposition',questionContext)) {
+    } else if (sameMeaning(row.clause,row.path,row.context,question.proposition,
+        'question.proposition',questionContext)) {
       observations.push({value:true,row});
     }
   }
@@ -285,23 +322,21 @@ function whPlan(question, rows, engine, clarifyQuestion, questionContext) {
     if (identity !== null) {
       candidateContext.byPath.set('question.proposition.roles.'+question.targetRole,identity);
     }
-    if (realization &&
-        matchingKey(realization,'question.proposition',candidateContext) ===
-          matchingKey(row.clause,row.path,row.context)) {
+    if (realization && sameMeaning(realization,'question.proposition',candidateContext,
+        row.clause,row.path,row.context)) {
       candidates.push({referent,realization,row,
-        identity:canonicalJson(matchingRole(event.roles[question.targetRole],rolePath,row.context))});
+        identity:matchingRole(event.roles[question.targetRole],rolePath,row.context)});
     }
   }
-  const unique = new Map();
+  const unique = [];
   for (const candidate of candidates) {
-    const key = candidate.identity;
-    if (!unique.has(key)) unique.set(key,candidate);
+    if (!unique.some(item=>sameValue(item.identity,candidate.identity,true))) unique.push(candidate);
   }
   const evidence = candidates.map(candidate=>evidenceRef(candidate.row));
-  if (!unique.size) return unknownPlan(question,'insufficient_context',[],clarifyQuestion,engine);
-  if (unique.size > 1) return unknownPlan(question,'ambiguous',evidence,clarifyQuestion,engine);
+  if (!unique.length) return unknownPlan(question,'insufficient_context',[],clarifyQuestion,engine);
+  if (unique.length > 1) return unknownPlan(question,'ambiguous',evidence,clarifyQuestion,engine);
 
-  const selected = unique.values().next().value;
+  const selected = unique[0];
   const act = createDialogueAct('answer',{question,
     response:{type:'referent',value:structuredClone(selected.referent)}});
   validateInterlingua(act,engine.ontology,engine.features);

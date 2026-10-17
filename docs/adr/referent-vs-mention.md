@@ -39,6 +39,13 @@ odrzucony, nawet gdy różni się wyłącznie definiteness.
 To zachowanie nie łączy nazw automatycznie i zostaje zachowane w wire format
 `0.4`. Zmiana kontraktu dotyczy przyszłego, jawnie wersjonowanego formatu.
 
+Planner odpowiedzi (`responsePlannerVersion: "1.0"`) nie zmienia tego wire
+formatu. Dostaje osobny, jawny `referenceContext` mapujący ścieżkę roli na ID;
+tylko równe ID pozwalają plannerowi pominąć różnicę `definiteness` podczas
+porównania. ID różnych wzmianek i nierozwiązane zaimki nie są łączone na
+podstawie podobieństwa tekstu. Szczegóły dopasowania opisuje
+`docs/adr/response-planner.md`.
+
 ## Właściwości encji i wzmianki
 
 | Dane | Miejsce w modelu | Reguła |
