@@ -9,6 +9,7 @@
 | Faktyczny kontrakt produktu, architektura, API, uruchamianie i pochodzenie danych | Kod, testy i właściwy dokument w repozytorium |
 
 GitHub Issues, pull requests i Actions są rejestrem pracy. Repozytorium opisuje działający produkt i trwałe decyzje.
+Nie utrzymujemy osobnego `HANDOFF.MD` ani kopii postępu w repozytorium; aktualny status i następny krok zapisuj w GitHub Issue, a diff i wyniki kontroli w PR oraz Actions.
 
 ## Przebieg zadania
 
