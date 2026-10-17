@@ -560,6 +560,19 @@ function validateGrammar(dictionary, grammar, featureProfile) {
             (safeName(step) || step === '@verb' || LITERAL.test(step))))) {
       throw new Error(`Invalid linearizations for ${concept}.`);
     }
+    if(frame.agreement!==undefined){
+      if(!record(frame.agreement)||!Object.keys(frame.agreement).length||
+          Object.entries(frame.agreement).some(([binding,source])=>
+            !safeName(binding)||!hasOwn(grammar.verb.agreement,binding)||typeof source!=='string')){
+        throw new Error(`Invalid frame agreement mapping for ${concept}.`);
+      }
+      const controllers=[...new Set([...frame.linearizations.flat().filter(step=>!step.startsWith('@')),
+        'object','possessor'])];
+      for(const source of Object.values(frame.agreement)){
+        try{featureSource(source,featureProfile,controllers);}
+        catch{throw new Error(`Invalid agreement controller for ${concept}: ${source}`);}
+      }
+    }
   }
   const stateSenses = (dictionary.verbs || []).flatMap(verb => verb.senses || [])
     .filter(sense => sense.coreRef?.kind === 'grammaticalFunction' &&
@@ -911,31 +924,68 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology,featurePr
     const agreement = isDeicticReferent(ref) ? ref.agreement : null;
     const count=ref?.quantifier?.kind==='exact'?ref.quantifier.value:null;
     const polishCountAgreement=dictionary.language==='pl' && (count===0 || count>=5);
-    return { event, subject: subject ? {
+    const context={ event, subject: subject ? {
       person: agreement?.person ?? GRAMMATICAL_PERSON.third,
       number: agreement?.number ?? (polishCountAgreement?'singular':ref?.features?.number),
       gender: agreement?.gender ?? subject.noun?.gender,
       pluralClass: subject.noun?.pluralClass
     } : {} };
+    const controllerFeatures=parsed=>{
+      const value=parsed?.value;
+      if(!record(value))return {};
+      const typedAgreement=isDeicticReferent(value)?value.agreement:null;
+      const features={
+        person:typedAgreement?.person??(value.features?'third':undefined),
+        number:typedAgreement?.number??value.features?.number,
+        gender:typedAgreement?.gender??parsed.noun?.gender,
+        pluralClass:parsed.noun?.pluralClass,
+        animacy:parsed.noun?.animacy,
+        definiteness:value.features?.definiteness
+      };
+      return Object.fromEntries(Object.entries(features).filter(([,feature])=>feature!==undefined));
+    };
+    for(const [role,parsed] of Object.entries(roles))
+      if(!['event','subject'].includes(role))context[role]=controllerFeatures(parsed);
+    if(!hasOwn(context,'object'))context.object=context.theme||{};
+    let possessor={},possessorConflict=false;
+    for(const parsed of Object.values(roles)){
+      const agreement=parsed?.value?.possessor?.agreement;
+      if(!record(agreement))continue;
+      const merged=unifyFeatures(possessor,agreement);
+      if(!merged){possessorConflict=true;break;}
+      possessor=merged;
+    }
+    context.possessor=possessorConflict?{}:possessor;
+    return context;
   }
 
-  function matchesMorphologyFeatures(entry,context,eventFeatures) {
+  const agreementForFrame=frame=>({...verbGrammar.agreement,...(frame?.agreement||{})});
+
+  function matchesMorphologyFeatures(entry,context,eventFeatures,agreement=verbGrammar.agreement) {
     const morphology=entry.morphologyFeatures;
     if(!record(morphology))return true;
     for(const [source,expected] of Object.entries(entry.rule.when||{})){
-      const [root,name]=featureSource(source);
+      const [root,name]=featureSource(source,undefined,Object.keys(context));
+      const dependency=Object.entries(agreement||{}).find(([binding,controller])=>{
+        const [controllerRoot,controllerName]=featureSource(controller,undefined,Object.keys(context));
+        return binding===name||controllerRoot===root&&controllerName===name;
+      })?.[1];
+      if(dependency){
+        const [controllerRoot,controllerName]=featureSource(dependency,undefined,Object.keys(context));
+        if(controllerRoot!==root||controllerName!==name)continue;
+      }
       if(hasOwn(morphology,name)&&morphology[name]!==expected)return false;
-      if(root==='subject'&&name==='person'&&hasOwn(morphology,'person')&&
-          morphology.person!==expected)return false;
     }
     for(const [name,value] of Object.entries(eventFeatures||{})){
       if(hasOwn(morphology,name)&&morphology[name]!==value)return false;
     }
-    for(const [binding,source] of Object.entries(verbGrammar.agreement||{})){
-      const [root,name]=featureSource(source);
-      const value=hasOwn(morphology,binding)?morphology[binding]:morphology[name];
-      const expected=root==='event'?context.event?.[name]:
-        name==='person'?context.subject?.person:context.subject?.[name];
+    for(const [binding,source] of Object.entries(agreement||{})){
+      const [root,name]=featureSource(source,undefined,Object.keys(context));
+      const keys=[...new Set([binding,`${root}_${name}`,name])].filter(key=>hasOwn(morphology,key));
+      const values=new Set(keys.map(key=>morphology[key]));
+      if(values.size>1)return false;
+      const value=keys.length?morphology[keys[0]]:undefined;
+      const expected=context[root]?.[name];
       if(value!==undefined&&expected!==undefined&&value!==expected)return false;
     }
     return true;
@@ -1361,8 +1411,8 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology,featurePr
               if (index !== tokens.length) return;
               const context = contextFor(parsedRoles, features);
               if (!matchesConditions(context, entry.rule.when || {}) ||
-                  !matchesAgreement(entry.bindings, verbGrammar.agreement, context) ||
-                  !matchesMorphologyFeatures(entry,context,features)) {
+                  !matchesAgreement(entry.bindings, agreementForFrame(frame), context) ||
+                  !matchesMorphologyFeatures(entry,context,features,agreementForFrame(frame))) {
                 budget.agreementFailed = true;
                 return;
               }
@@ -2044,8 +2094,8 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology,featurePr
       (verbGrammar.aspectSource !== 'lexeme' || meaning.features.aspect === 'unknown' ||
         entry.lexeme.aspect === meaning.features.aspect) &&
       matchesConditions(context, entry.rule.when || {}) &&
-      matchesAgreement(entry.bindings, verbGrammar.agreement, context) &&
-      matchesMorphologyFeatures(entry,context,meaning.features));
+      matchesAgreement(entry.bindings, agreementForFrame(frame), context) &&
+      matchesMorphologyFeatures(entry,context,meaning.features,agreementForFrame(frame)));
     if (!candidates.length) throw new Error(`No ${dictionary.language} verb form supports ${meaning.concept}, ` +
       `${meaning.features.tense}, ${meaning.features.polarity}, ${meaning.features.aspect}.`);
     const simpleCandidates = candidates.filter(entry => entry.rule.path !== 'forms.progressive');
@@ -2752,6 +2802,17 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology,featurePr
       if (!frame) throw new Error(`Missing grammatical frame for ${verb.concept}`);
       if (!semanticFrame.roles.includes(subjectRole)) {
         throw new Error('Subject semantic role missing from frame.');
+      }
+      for(const [binding,source] of Object.entries(frame.agreement||{})){
+        const [root,name]=featureSource(source,featureProfile,[...semanticFrame.roles,'object','possessor']);
+        const controllerExists=root==='event'||root==='subject'||root==='possessor'||
+          root==='object'&&(semanticFrame.roles.includes('object')||semanticFrame.roles.includes('theme'))||
+          semanticFrame.roles.includes(root);
+        if(!controllerExists)throw new Error(`Unknown agreement controller for ${verb.concept}: ${source}`);
+        const available=root==='event'?domains.event[name]:name==='person'?Object.values(GRAMMATICAL_PERSON):
+          name==='case'?domains.syntactic.case:
+            domains.participant[name]||domains.lexical[name];
+        if(!available)throw new Error(`Unknown agreement feature for ${verb.concept}.${binding}: ${source}`);
       }
       if (frame.bareRoles && frame.bareRoles.some(role=>!semanticFrame.roles.includes(role))) {
         throw new Error(`Unknown bare noun role for ${verb.concept}`);
