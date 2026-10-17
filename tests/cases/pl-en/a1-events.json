@@ -1,0 +1,143 @@
+{
+  "schemaVersion": "1.0",
+  "cases": [
+    {
+      "id": "A1-PL-EN-VISUAL-0001",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "visual_perception",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "Positive A1 visual-perception event pl>en: Polish bare NPs leave definiteness unspecified (unknown, not definite), the English realization selects determiners by explicit display policy, imperfective aspect is recorded only as unavoidable target loss, and the definite-determiner variant stays an endorsed alternative.",
+      "input": {"from": "pl", "to": "en", "text": "Dziewczynka widzi psa."},
+      "expected": {
+        "status": "ok",
+        "text": {"accepted": ["A girl sees a dog."]},
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": ["agent", "theme"],
+          "roles": {
+            "agent": {"concept": "person.girl",
+              "features": {"number": "singular", "definiteness": "unknown"}},
+            "theme": {"concept": "animal.dog",
+              "features": {"number": "singular", "definiteness": "unknown"}}
+          },
+          "roleFeaturesExact": true,
+          "features": {"tense": "present", "polarity": "positive", "aspect": "imperfective"},
+          "featuresAllowExtra": true,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/aspect": "imperfective",
+            "#/features/polarity": "positive"
+          }
+        },
+        "diagnostics": {"required": [], "allowUnexpected": true},
+        "alternatives": {"required": ["The girl sees the dog."], "allowUnexpected": true},
+        "informationLoss": {"required": [
+          {"cause": "target-grammar-does-not-encode-aspect", "feature": "aspect",
+            "path": "#/features/aspect", "status": "unavoidable"},
+          {"cause": "source-definiteness-unspecified-target-default", "feature": "definiteness",
+            "path": "#/roles/agent/features/definiteness", "status": "ambiguous"},
+          {"cause": "source-definiteness-unspecified-target-default", "feature": "definiteness",
+            "path": "#/roles/theme/features/definiteness", "status": "ambiguous"}
+        ], "allowUnexpected": false}
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent expectation authored 2026-10-17 before any engine run (Polish bare NPs carry no definiteness; widzi is imperfective present; English must not silently mark the agent definite), corroborated by the manual CLI evidence in issue #297; reviewed and approved 2026-10-18; observed matching at main@caffbd52b5951cccc06708d055574d68486d1a62.",
+        "author": "opencode-agent (OpenCode/GLM)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#345"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "sentence pl.analyze(event.visual_perception) -> en.realize"
+      }
+    },
+    {
+      "id": "A1-PL-EN-READ-0001",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "reading",
+      "construction": "event.read",
+      "tier": "required",
+      "priority": 2,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "Positive A1 reading event pl>en: Polish czyta is imperfective present with unspecified definiteness; the English realization is a present simple sentence with the display-policy determiner defaults, the definite-determiner variant stays an endorsed alternative, and the imperfective/progressive distinction is reported as unavoidable target loss rather than silently dropped.",
+      "input": {"from": "pl", "to": "en", "text": "Dziewczynka czyta ksi\u0105\u017bk\u0119."},
+      "expected": {
+        "status": "ok",
+        "text": {"accepted": ["A girl reads a book."]},
+        "meaning": {
+          "type": "event",
+          "concept": "event.read",
+          "roleSet": ["agent", "theme"],
+          "roles": {
+            "agent": {"concept": "person.girl",
+              "features": {"number": "singular", "definiteness": "unknown"}},
+            "theme": {"concept": "object.book",
+              "features": {"number": "singular", "definiteness": "unknown"}}
+          },
+          "roleFeaturesExact": true,
+          "features": {"tense": "present", "polarity": "positive", "aspect": "imperfective"},
+          "featuresAllowExtra": true,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/aspect": "imperfective",
+            "#/features/polarity": "positive"
+          }
+        },
+        "diagnostics": {"required": [], "allowUnexpected": true},
+        "alternatives": {"required": ["The girl reads the book."], "allowUnexpected": true},
+        "informationLoss": {"required": [
+          {"cause": "target-grammar-does-not-encode-aspect", "feature": "aspect",
+            "path": "#/features/aspect", "status": "unavoidable"},
+          {"cause": "source-definiteness-unspecified-target-default", "feature": "definiteness",
+            "path": "#/roles/agent/features/definiteness", "status": "ambiguous"},
+          {"cause": "source-definiteness-unspecified-target-default", "feature": "definiteness",
+            "path": "#/roles/theme/features/definiteness", "status": "ambiguous"}
+        ], "allowUnexpected": false}
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent expectation authored 2026-10-17 before any engine run (agent/theme singular with unspecified definiteness, imperfective present read event), corroborated by the manual CLI evidence in issue #297; reviewed and approved 2026-10-18; observed matching at main@caffbd52b5951cccc06708d055574d68486d1a62.",
+        "author": "opencode-agent (OpenCode/GLM)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#345"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.read",
+        "capability": "sentence pl.analyze(event.read) -> en.realize"
+      }
+    }
+  ]
+}

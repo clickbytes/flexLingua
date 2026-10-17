@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "1.0",
+  "cases": [
+    {
+      "id": "A1-PL-EN-STATE-0001",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "classification",
+      "construction": "state.classification",
+      "tier": "required",
+      "priority": 3,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "demonstrative",
+        "quantity": "none"
+      },
+      "purpose": "Positive A1 classification state pl>en: demonstrative Polish subject classifies an object.book category modified by quality.simple; the English copular realization keeps the modifier and reports only the unresolved category definiteness as ambiguous loss.",
+      "input": {"from": "pl", "to": "en", "text": "To jest prosta ksi\u0105\u017cka."},
+      "expected": {
+        "status": "ok",
+        "text": {"accepted": ["This is a simple book."]},
+        "meaning": {
+          "type": "state",
+          "kind": "classification",
+          "roleSet": ["subject", "category"],
+          "roles": {
+            "subject": {
+              "target": {"kind": "deictic", "anchor": "demonstrative"},
+              "agreement": {"person": "third", "number": "singular"}
+            },
+            "category": {
+              "concept": "object.book",
+              "features": {"number": "singular", "definiteness": "unknown"},
+              "modifiers": [{"concept": "quality.simple"}]
+            }
+          },
+          "roleFeaturesExact": true,
+          "modifiersExact": true,
+          "features": {"tense": "present", "polarity": "positive"},
+          "featuresAllowExtra": true,
+          "assert": {
+            "#/roles/subject/agreement/person": "third",
+            "#/roles/subject/agreement/number": "singular",
+            "#/roles/category/features/number": "singular",
+            "#/roles/category/modifiers/0/concept": "quality.simple"
+          }
+        },
+        "diagnostics": {"required": [], "allowUnexpected": true},
+        "alternatives": {"required": [], "allowUnexpected": false},
+        "informationLoss": {"required": [
+          {"cause": "source-definiteness-unspecified-target-default", "feature": "definiteness",
+            "path": "#/roles/category/features/definiteness", "status": "ambiguous"}
+        ], "allowUnexpected": false}
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent expectation authored 2026-10-17 before any engine run (demonstrative subject, simple-book classification, present positive; Polish leaves the category determiner unspecified), corroborated by the manual CLI evidence in issue #297; reviewed and approved 2026-10-18; observed matching at main@caffbd52b5951cccc06708d055574d68486d1a62.",
+        "author": "opencode-agent (OpenCode/GLM)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#345"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.state.classification",
+        "capability": "sentence pl.analyze(state.classification) -> en.realize"
+      }
+    }
+  ]
+}
