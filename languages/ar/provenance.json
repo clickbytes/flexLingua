@@ -9,20 +9,24 @@
       "author": "Not attributed in the existing package metadata",
       "source": "Curated typological demonstration, as declared in the package; individual form sources are not recorded",
       "license": "Project-authored label exists in package; rights and reuse terms are not specified",
-      "reviewedAt": "2026-10-14",
+      "reviewedAt": "2026-10-17",
       "permittedUse": "Existing in-repository demonstration only. Verify source and rights before reuse or export.",
-      "migrationNote": "The existing root-template cells are moved unchanged. Add verified author, version date and permitted-use terms before expanding or exporting this package."
+      "migrationNote": "The existing root-template cells are moved unchanged. Add verified author, version date and permitted-use terms before expanding or exporting this package.",
+      "runtimeUse": "languages/ar/index.js loads this morphology provider with one binding, ar.kataba.1, and two third-person masculine singular cells (past and present). The plugin exposes morphology operations only and declares no sentence direction.",
+      "reviewEvidence": "Compared the finite cells with project import commit 17a9b255783027890cc56dcd8141782a40212f7b and Arabic migration PR https://github.com/clickbytes/flexLingua/pull/277; the cells were moved unchanged. The only in-data attribution is a generic project-authored label, without a named author, per-form source, date, or reuse terms. The import message's source SHA 64e3795 is unavailable in this repository, and no repository-level license is declared, so source and reuse rights remain unconfirmed."
     },
     {
       "path": "languages/ar/morphology-lexicon.json",
       "version": "1.01",
       "status": "legacy-review-required",
       "author": "Not attributed in the existing package metadata",
-      "source": "Historical empty Arabic lexicon adapter package; entry-level source is not recorded",
+      "source": "Legacy flexLingua morphology lexicon with one entry, ar.kataba.1; entry-level origin is not recorded. The pre-migration sentence manifest declared lexicon:null.",
       "license": "Unconfirmed; no separate license statement is present in this package",
-      "reviewedAt": "2026-10-14",
+      "reviewedAt": "2026-10-17",
       "permittedUse": "Existing in-repository execution only. Do not redistribute or reuse externally until source and rights are reviewed.",
-      "migrationNote": "The historical source metadata describes an empty adapter although the current file contains ar.kataba.1. That entry and CORE reference are moved unchanged; confirm package authorship and license before adding lexical entries."
+      "migrationNote": "At migration, data/languages/ar.json declared lexicon:null for sentence parsing, while the separate data/morphology/ar-lexicon.json already contained ar.kataba.1. The current plugin loads this entry only as morphology inventory linked to event.write. Its author, original source, and reuse terms remain unconfirmed; verify them before adding or exporting lexical entries.",
+      "runtimeUse": "languages/ar/index.js loads this one verb entry as the morphology lexicon consumed by morphology.json. It maps ar.kataba.1 to CORE concept event.write and supplies the lexeme ID for the two generated cells; it is not a sentence lexicon.",
+      "reviewEvidence": "Compared the entry with data/morphology/ar-lexicon.json in project import commit 17a9b255783027890cc56dcd8141782a40212f7b and the Arabic migration diff in PR https://github.com/clickbytes/flexLingua/pull/277. The pre-migration data/languages/ar.json field lexicon:null referred to the absence of a sentence lexicon, not the separate morphology lexicon. No entry-level author, source citation, or rights grant was found. The import message's source SHA 64e3795 is unavailable in this repository. Keep the entry in the existing morphology-only package until source and reuse rights are verified."
     },
     {
       "path": "languages/ar/manifest.json",
