@@ -1,0 +1,11 @@
+{
+  "schemaVersion": "1.0",
+  "plugins": {
+    "ar": "ar",
+    "en": "en",
+    "fi": "fi",
+    "it": "it",
+    "pl": "pl",
+    "tr": "tr"
+  }
+}

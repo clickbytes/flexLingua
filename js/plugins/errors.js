@@ -4,7 +4,12 @@ const ERROR_STATUS = Object.freeze({
   PLUGIN_CAPABILITY_UNAVAILABLE: 'unsupported',
   PLUGIN_RESULT_INVALID: 'invalid',
   PLUGIN_DUPLICATE: 'invalid',
-  PLUGIN_RESOURCE_LIMIT: 'resource_limit'
+  PLUGIN_RESOURCE_LIMIT: 'resource_limit',
+  PLUGIN_NOT_FOUND: 'unsupported',
+  PLUGIN_PATH_INVALID: 'invalid',
+  PLUGIN_REGISTRY_INVALID: 'invalid',
+  PLUGIN_PACKAGE_INVALID: 'invalid',
+  PLUGIN_LOAD_FAILED: 'invalid'
 });
 
 export const PLUGIN_ERROR_CODES = Object.freeze(Object.keys(ERROR_STATUS));
