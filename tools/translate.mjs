@@ -1,24 +1,9 @@
-import {readFile} from 'node:fs/promises';
-import {join} from 'node:path';
-import {fileURLToPath} from 'node:url';
-import {Engine} from '../js/core/engine.js';
-import {createCoreLanguage} from '../js/core/core-language.js';
-import {loadPluginRegistry} from '../js/plugins/loader.js';
+import {createAppRuntime, listLanguages} from '../js/app/runtime.js';
+import {createTranslationService} from '../js/app/translation-service.js';
 
-const ROOT = fileURLToPath(new URL('../', import.meta.url));
 const USAGE = 'Usage: node tools/translate.mjs --languages [--json] | --from CODE --to CODE --text "sentence" [--json | --show-core]';
 const CODE = /^[a-z]{2,8}$/u;
-const DIRECTION = /^[a-z]{2,8}->[a-z]{2,8}$/u;
 const OPTIONS = new Set(['--languages', '--from', '--to', '--text', '--json', '--show-core']);
-
-function safeStatusMessage(status) {
-  return {
-    unsupported: 'The requested translation is unsupported.',
-    invalid: 'The request is invalid.',
-    ambiguous: 'The source has multiple possible meanings.',
-    resource_limit: 'The request exceeds supported resource limits.'
-  }[status] ?? 'The translation request could not be completed.';
-}
 
 function refusal(status, code, message, extra = {}) {
   const {diagnostics: suppliedDiagnostics, ...details} = extra;
@@ -57,41 +42,6 @@ function parseArgs(argv) {
   return parsed;
 }
 
-async function readJson(path) {
-  return JSON.parse(await readFile(path, 'utf8'));
-}
-
-async function discoverLanguages() {
-  const registry = await readJson(join(ROOT, 'languages', 'registry.json'));
-  if (registry?.schemaVersion !== '1.0' || !registry.plugins ||
-      Array.isArray(registry.plugins) || typeof registry.plugins !== 'object' ||
-      Object.keys(registry.plugins).length === 0) {
-    throw new Error('Invalid language registry.');
-  }
-  const languages = [];
-  for (const [code, directory] of Object.entries(registry.plugins).sort(([a], [b]) => a.localeCompare(b))) {
-    if (!CODE.test(code) || directory !== code) throw new Error(`Invalid registry entry for ${code}.`);
-    try {
-      const manifest = await readJson(join(ROOT, 'languages', directory, 'manifest.json'));
-      if (manifest?.code !== code || !['controlled-subset', 'limited-demo', 'morphology-only']
-        .includes(manifest.status) || !Array.isArray(manifest.capabilities) ||
-        (manifest.directions !== undefined && (!Array.isArray(manifest.directions) ||
-          manifest.directions.length > 512 || new Set(manifest.directions).size !== manifest.directions.length ||
-          manifest.directions.some(direction => typeof direction !== 'string' || !DIRECTION.test(direction))))) {
-        throw new Error('Invalid manifest identity, status, capabilities, or directions.');
-      }
-      languages.push({code, status: manifest.status, capabilities: manifest.capabilities,
-        ...(manifest.directions === undefined ? {} : {directions: manifest.directions}),
-        diagnostics: []});
-    } catch (error) {
-      languages.push({code, status: 'unavailable', capabilities: [],
-        diagnostics: [{code: 'PLUGIN_PACKAGE_UNAVAILABLE',
-          message: `Cannot inspect ${code} package: ${error.message}`}]});
-    }
-  }
-  return languages;
-}
-
 function print(document, {json = false, showCore = false} = {}) {
   if (json) {
     process.stdout.write(`${JSON.stringify(document, null, 2)}\n`);
@@ -117,73 +67,6 @@ function print(document, {json = false, showCore = false} = {}) {
   }
 }
 
-function statusFor(error) {
-  if (['unsupported', 'invalid', 'ambiguous', 'resource_limit'].includes(error?.status)) {
-    return error.status;
-  }
-  if (error?.code === 'PLUGIN_NOT_FOUND' || error?.code === 'PLUGIN_CAPABILITY_UNAVAILABLE') {
-    return 'unsupported';
-  }
-  if (error?.code === 'INVALID_INPUT') return 'invalid';
-  return null;
-}
-
-async function translate(options, languages) {
-  const base = {from: options.from, to: options.to, input: options.text,
-    text: null, meaning: null, alternatives: []};
-  const source = languages.find(item => item.code === options.from);
-  const target = languages.find(item => item.code === options.to);
-  if (!source || !target) {
-    const code = !source ? options.from : options.to;
-    return refusal('unsupported', 'PLUGIN_NOT_FOUND', `Language plugin not found: ${code}.`, base);
-  }
-  for (const language of [source, target]) {
-    if (language.status === 'unavailable') {
-      return refusal('unsupported', 'PLUGIN_PACKAGE_UNAVAILABLE',
-        `Language package ${language.code} is unavailable.`, base);
-    }
-  }
-  const direction = `${options.from}->${options.to}`;
-  const rejectingConstraints = [source, target].filter(language => language.directions !== undefined &&
-    !language.directions.includes(direction));
-  if (rejectingConstraints.length) {
-    return refusal('unsupported', 'PLUGIN_DIRECTION_UNAVAILABLE',
-      `Translation direction ${options.from} → ${options.to} is not declared by ${rejectingConstraints.map(language => language.code).join(', ')}.`, base);
-  }
-  const implemented = (language, operation) => language.capabilities.some(item =>
-    item.channel === 'sentence' && item.operation === operation && item.status === 'implemented');
-  if (!implemented(source, 'analyze') || !implemented(target, 'realize')) {
-    return refusal('unsupported', 'PLUGIN_CAPABILITY_UNAVAILABLE',
-      `Sentence translation ${options.from} → ${options.to} is unsupported by declared capabilities.`, base);
-  }
-
-  const [ontology, features] = await Promise.all([
-    readJson(join(ROOT, 'data', 'core', 'concepts.json')),
-    readJson(join(ROOT, 'data', 'core', 'features.json'))
-  ]);
-  const registry = await loadPluginRegistry(ROOT, {core: createCoreLanguage(ontology),
-    codes: [...new Set([options.from, options.to])]});
-  const engine = new Engine(ontology, features, registry);
-  try {
-    const readings = engine.analyzeCandidates({text: options.text, from: options.from});
-    if (readings.length !== 1) {
-      return refusal('ambiguous', 'AMBIGUOUS_MEANING',
-        `Source has ${readings.length} distinct semantic readings.`,
-        {...base, alternatives: readings.map(item => ({meaning: item.interlingua,
-          lexicalSenses: item.lexicalSenses, score: item.score}))});
-    }
-    const meaning = readings[0].interlingua;
-    const result = engine.realize({interlingua: meaning, to: options.to});
-    return {status: 'ok', ...base, text: result.text, meaning,
-      alternatives: result.alternatives ?? [], diagnostics: result.diagnostics ?? [],
-      warnings: result.warnings ?? [], informationLoss: result.informationLoss ?? []};
-  } catch (error) {
-    const status = statusFor(error);
-    if (!status) throw error;
-    return refusal(status, error.code ?? 'INVALID_INPUT', safeStatusMessage(status), base);
-  }
-}
-
 async function main() {
   let options;
   try {
@@ -196,9 +79,14 @@ async function main() {
     return;
   }
   try {
-    const languages = await discoverLanguages();
-    const document = options.languages ? {status: 'ok', languages} :
-      await translate(options, languages);
+    let document;
+    if (options.languages) {
+      document = {status: 'ok', languages: await listLanguages()};
+    } else {
+      const runtime = await createAppRuntime();
+      document = createTranslationService(runtime).translate({from: options.from, to: options.to,
+        text: options.text});
+    }
     print(document, options);
     process.exitCode = ['ok'].includes(document.status) ? 0 : 2;
   } catch (error) {
