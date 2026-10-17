@@ -96,7 +96,7 @@ test('mine is accepted as a possessive predicate but refused without a known pos
   const malformed=structuredClone(result.interlingua);
   malformed.roles.owned.possessor.agreement.person='second';
   assert.throws(()=>engine.analyze({from:'core',text:JSON.stringify(malformed)}),
-    /Invalid deictic participant/u);
+    /Invalid (?:deictic|typed) participant/u);
   const legacyVersion=structuredClone(result.interlingua);
   legacyVersion.version='1.23';
   assert.throws(()=>engine.analyze({from:'core',text:JSON.stringify(legacyVersion)}),

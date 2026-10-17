@@ -214,12 +214,13 @@ export class ConversationContext {
     };
   }
 
-  #antecedents(pronoun) {
+  #antecedents(pronoun,adapter) {
     const found=new Map();
     for(const [index,event] of this.#events.entries()){
       for(const [role,ref] of Object.entries(event.roles)){
-        if(!pronoun.concepts.includes(ref.concept) ||
-           ref.features?.number!=='singular')continue;
+        if(!ref.concept || ref.features?.number!=='singular' ||
+           !this.#engine.ontology.isA(ref.concept,'person') ||
+           adapter.subjectPronounFor?.(ref,this.#engine.ontology)!==pronoun.text)continue;
         const root=this.#root('e'+(index+1)+'.'+role);
         if(!found.has(root))found.set(root,{root,ref});
       }
@@ -327,7 +328,7 @@ export class ConversationContext {
     const pronoun=adapter.readSubjectPronoun?.(source);
     let antecedent=null, parsedText=source;
     if(pronoun){
-      const matches=this.#antecedents(pronoun);
+      const matches=this.#antecedents(pronoun,adapter);
       if(!matches.length)throw new Error('Unresolved anaphora: no prior person for '+pronoun.text+'.');
       if(matches.length!==1)throw new Error('Ambiguous anaphora: multiple earlier entities match '+pronoun.text+'.');
       antecedent=matches[0];

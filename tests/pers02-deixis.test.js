@@ -50,8 +50,11 @@ test('English you keeps both number readings as explicit Polish alternatives', (
 
 test('deictic pronouns stay separate from third-person anaphora', () => {
   assert.equal(engine.language('en').readDeicticPronoun('She sees a dog.').length,0);
-  assert.deepEqual(engine.language('en').readSubjectPronoun('She sees a dog.').concepts,
-    ['person.girl']);
+  const pronoun=engine.language('en').readSubjectPronoun('She sees a dog.');
+  assert.equal(pronoun.text,'she');
+  assert.deepEqual(pronoun.agreement,
+    {person:'third',number:'singular',gender:'feminine'});
+  assert.equal(Object.hasOwn(pronoun,'concepts'),false);
   const ordinary=engine.analyze({text:'The girl goes.',from:'en'});
   assert.equal(ordinary.version,'0.2');
   assert.equal(ordinary.roles.agent.concept,'person.girl');
@@ -70,7 +73,7 @@ test('deictic schema rejects invalid anchors, agreement and unversioned referenc
     const invalid=structuredClone(valid);
     mutate(invalid);
     assert.throws(()=>engine.realize({interlingua:invalid,to:'en'}),
-      /Invalid deictic participant|Unsupported event version/);
+      /Invalid (?:deictic|typed) participant|Unsupported event version/);
   }
   const roundTrip=engine.analyze({text:engine.realize({interlingua:valid,to:'core'}).text,
     from:'core'});
