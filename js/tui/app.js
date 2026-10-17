@@ -3,81 +3,27 @@ import {createChatService} from '../app/chat-service.js';
 import {createFormsService} from '../app/forms-service.js';
 import {createTranslationService} from '../app/translation-service.js';
 import {beginRequest, createWorkspaceState, finishRequest, invalidateRequests, isCurrentRequest,
-  WORKSPACE_MODES} from './state.js';
-import {TABS, actionForKey} from './keymap.js';
+  clearModeEntries, setFollowLatest, setViewportAnchor, WORKSPACE_MODES} from './state.js';
+import {actionForKey} from './keymap.js';
+import {editDraft, insertDraftText, layoutComposer, MAX_DRAFT_CODE_POINTS} from './composer.js';
+import {createInputBridge} from './input.js';
+import {resolveCommand} from './commands.js';
+import {commandSuggestions, completeCommand, renderCommandPalette} from './command-palette.js';
+import {computeLayout} from './layout.js';
+import {createScreen, sanitizeText, textWidth, wrapText} from './screen.js';
+import {graphemes, layoutText} from './text.js';
 import {styleFor} from './theme.js';
+import {buildTranscript} from './transcript.js';
+import {buildDetailsLines, detailsSectionCount} from './details.js';
+import {buildHelpLines} from './help.js';
 import {createTranslateView} from './views/translate.js';
 import {createChatView} from './views/chat.js';
 import {createFormsView} from './views/forms.js';
 
-const SMALL_TERMINAL_MESSAGE = 'Terminal too small. Resize to at least 40 columns and 12 rows.';
-const MAX_INPUT_CODEPOINTS = 4000;
-
-function sanitizeText(value) {
-  return String(value ?? '')
-    .replace(/\r\n?/gu, '\n')
-    .replace(/[\x00-\x08\x0b-\x1f\x7f-\x9f]/gu, '');
-}
-
-const segmenter = new Intl.Segmenter(undefined, {granularity: 'grapheme'});
-
-function graphemes(value) {
-  return Array.from(segmenter.segment(value), item => item.segment);
-}
-
-function graphemeWidth(value) {
-  if (!value || /^\p{Mark}+$/u.test(value)) return 0;
-  if (/\p{Extended_Pictographic}|\p{Regional_Indicator}/u.test(value)) return 2;
-  const code = value.codePointAt(0);
-  if (code === 0x200d || (code >= 0xfe00 && code <= 0xfe0f)) return 0;
-  if (code >= 0x1100 && (code <= 0x115f || code === 0x2329 || code === 0x232a ||
-      (code >= 0x2e80 && code <= 0xa4cf) || (code >= 0xac00 && code <= 0xd7a3) ||
-      (code >= 0xf900 && code <= 0xfaff) || (code >= 0xfe10 && code <= 0xfe19) ||
-      (code >= 0xfe30 && code <= 0xfe6f) || (code >= 0xff00 && code <= 0xff60) ||
-      (code >= 0xffe0 && code <= 0xffe6))) return 2;
-  return 1;
-}
-
-function textWidth(value) {
-  return graphemes(sanitizeText(value)).reduce((width, item) => width + graphemeWidth(item), 0);
-}
-
-function wrapText(value, maxWidth) {
-  const width = Math.max(1, Math.floor(maxWidth));
-  const safe = sanitizeText(value);
-  const lines = [];
-  for (const sourceLine of safe.split('\n')) {
-    let line = '';
-    let lineWidth = 0;
-    for (const item of graphemes(sourceLine)) {
-      const itemWidth = graphemeWidth(item);
-      if (line && lineWidth + itemWidth > width) {
-        lines.push(line);
-        line = '';
-        lineWidth = 0;
-      }
-      if (itemWidth <= width) {
-        line += item;
-        lineWidth += itemWidth;
-      }
-    }
-    lines.push(line);
-  }
-  return lines;
-}
-
-function fitText(value, maxWidth) {
-  const lines = wrapText(value, Math.max(1, maxWidth));
-  return lines[0] ?? '';
-}
+const SMALL_TERMINAL_MESSAGE = 'Za mały terminal. Powiększ do co najmniej 40 kolumn i 12 wierszy.';
 
 function positiveSize(value, fallback) {
   return Number.isFinite(value) && value > 0 ? Math.floor(value) : fallback;
-}
-
-function fieldText(view, focused) {
-  const prefix = focused ? '› ' : '  ';
-  return `${prefix}${view.fieldLabel}:`;
 }
 
 function focusTargetsFor(view) {
@@ -93,94 +39,63 @@ function currentFocus(view, workspaceState) {
   const savedId = workspaceState.focusRegion?.mode === view.id ?
     workspaceState.focusRegion.id : workspaceState.modes[view.id].focusRegionId;
   let index = targets.findIndex(item => item.id === savedId);
-  if (index < 0) {
-    index = 0;
-  }
+  if (index < 0) index = 0;
   workspaceState.modes[view.id].focusRegionId = targets[index].id;
   workspaceState.focusRegion = {mode: view.id, id: targets[index].id};
   return targets[index];
 }
 
-function focusIndexFor(view, workspaceState) {
-  const focus = currentFocus(view, workspaceState);
-  return focusTargetsFor(view).findIndex(item => item.id === focus.id);
+function composerLineCountFor(view, focus, width, state = view.state) {
+  const prompt = state.draft || view.composerPrompt || 'Type here…';
+  const prefix = focus.type === 'input' ? '› ' : '  ';
+  const availableWidth = Math.max(1, width - textWidth(prefix));
+  return layoutText(prompt, availableWidth).rows.length;
 }
 
-function buildHeader(width, activeIndex) {
-  const compact = width < 60;
-  const tabs = TABS.map((tab, index) => ({
-    text: `${index === activeIndex ? '[' : ''}${compact ? tab.label : `${tab.key} ${tab.label}`}${index === activeIndex ? ']' : ''}`,
-    tone: index === activeIndex ? 'accent' : 'neutral',
-    index
-  }));
-  const segments = [{text: compact ? 'flex' : 'flexLingua', tone: 'accent'},
-    {text: compact ? ' | ' : '  ·  ', tone: 'muted'}];
-  for (let index = 0; index < tabs.length; index++) {
-    if (index) segments.push({text: compact ? ' | ' : '  ·  ', tone: 'muted'});
-    segments.push(tabs[index]);
-  }
-  let column = 1;
-  const hitboxes = [];
-  for (const segment of segments) {
-    if (segment.index !== undefined) {
-      hitboxes.push({index: segment.index, start: column, end: column + textWidth(segment.text) - 1});
-    }
-    segment.start = column;
-    column += textWidth(segment.text);
-  }
-  return {segments, hitboxes};
+function transcriptRowsFor(view, focus, width) {
+  return buildTranscript(view, {focus}).flatMap(item =>
+    wrapText(item.text, width).map((text, index) => ({text, tone: item.tone ?? 'neutral',
+      entryId: item.entryId ?? null,
+      candidateIndex: index === 0 ? item.candidateIndex ?? null : null})));
 }
 
-function asPanelLines(panel, view, focusIndex) {
-  const lines = [];
-  if (panel.kind === 'input') {
-    lines.push({text: fieldText(view, focusIndex === 0), tone: focusIndex === 0 ? 'accent' : 'neutral'});
-    lines.push({text: view.state.draft || 'Type here…', tone: focusIndex === 0 ? 'neutral' : 'muted'});
-    lines.push({text: `${focusIndex === 1 ? '›' : ' '} [${view.actionLabel}]`, tone: focusIndex === 1 ? 'accent' : 'muted'});
-    if (view.state.status) lines.push({text: view.state.status, tone: 'warning'});
+function anchorAt(rows, requestedIndex) {
+  if (!rows.length) return null;
+  const index = Math.max(0, Math.min(requestedIndex, rows.length - 1));
+  let entryIndex = index;
+  while (entryIndex < rows.length && !rows[entryIndex].entryId) entryIndex++;
+  if (entryIndex >= rows.length) {
+    entryIndex = index;
+    while (entryIndex >= 0 && !rows[entryIndex].entryId) entryIndex--;
   }
-  for (const line of panel.lines ?? []) lines.push(typeof line === 'string' ? {text: line} : line);
-  return lines;
+  if (entryIndex < 0) return null;
+  const entryId = rows[entryIndex].entryId;
+  let firstIndex = entryIndex;
+  while (firstIndex > 0 && rows[firstIndex - 1].entryId === entryId) firstIndex--;
+  return {entryId, offset: Math.max(0, entryIndex - firstIndex)};
 }
 
-function buildContentRows(view, width, workspaceState) {
-  const description = view.render({width, compact: width < 60, state: view.state,
-    focus: currentFocus(view, workspaceState), focusIndex: focusIndexFor(view, workspaceState)});
-  const panels = description?.panels?.length ? description.panels : [{title: view.label, kind: 'input'}];
-  const focusIndex = focusIndexFor(view, workspaceState);
-  const rows = [];
-  const addPanel = (panel, panelWidth) => {
-    rows.push({text: panel.title ?? view.label, tone: 'accent'});
-    for (const item of asPanelLines(panel, view, focusIndex)) {
-      for (const text of wrapText(item.text, panelWidth)) {
-        rows.push({text, tone: item.tone ?? 'neutral'});
-      }
-    }
-    if (panels.length > 1) rows.push({text: '', tone: 'muted'});
-  };
+function startIndexFor(modeState, rows, viewportHeight) {
+  const maxStart = Math.max(0, rows.length - viewportHeight);
+  if (modeState.followLatest) return maxStart;
+  const anchor = modeState.viewportAnchor;
+  if (!anchor) return Math.min(Number(modeState.scrollTop) || 0, maxStart);
+  const entryStart = rows.findIndex(row => row.entryId === anchor.entryId);
+  if (entryStart < 0) return maxStart;
+  return Math.min(entryStart + Math.max(0, Number(anchor.offset) || 0), maxStart);
+}
 
-  if (view.id === 'translate' && width >= 100 && panels.length === 2) {
-    const paneWidth = Math.floor((width - 3) / 2);
-    const leftRows = [];
-    const rightRows = [];
-    const collect = (panel, target) => {
-      target.push({text: panel.title ?? view.label, tone: 'accent'});
-      for (const item of asPanelLines(panel, view, focusIndex)) {
-        for (const text of wrapText(item.text, paneWidth)) target.push({text, tone: item.tone ?? 'neutral'});
-      }
-    };
-    collect(panels[0], leftRows);
-    collect(panels[1], rightRows);
-    for (let index = 0; index < Math.max(leftRows.length, rightRows.length); index++) {
-      const left = leftRows[index] ?? {text: '', tone: 'neutral'};
-      const right = rightRows[index] ?? {text: '', tone: 'neutral'};
-      rows.push({split: true, left, right, paneWidth});
-    }
-  } else {
-    for (const panel of panels) addPanel(panel, width);
+function modeMetadata(view, focus) {
+  const state = view.state;
+  if (view.id === 'forms') {
+    const language = state.language ?? '?';
+    return `${focus.id === 'language' ? '›' : ''}${language} · local`;
   }
-
-  return rows;
+  const from = state.from ?? '?';
+  const to = state.to ?? '?';
+  if (focus.id === 'from') return `›${from} → ${to} · local`;
+  if (focus.id === 'to') return `${from} → ›${to} · local`;
+  return `${from} → ${to} · local`;
 }
 
 export function createTui({runtime, terminal, output = process.stdout, services = {}} = {}) {
@@ -198,11 +113,14 @@ export function createTui({runtime, terminal, output = process.stdout, services 
     createChatView({chatService, state: workspaceState.modes.chat, workspaceState}),
     createFormsView({runtime, formsService, state: workspaceState.modes.forms, workspaceState})
   ];
+  const screen = createScreen({terminal, styleFor});
   const events = new EventEmitter();
+  const inputBridge = createInputBridge({terminal, onPaste: handlePaste});
   let started = false;
   let stopping = false;
   let stopPromise = null;
-  let headerHitboxes = [];
+  let lastFrame = null;
+  let cursorShown = null;
 
   function activeIndex() {
     return WORKSPACE_MODES.indexOf(workspaceState.activeMode);
@@ -210,6 +128,75 @@ export function createTui({runtime, terminal, output = process.stdout, services 
 
   function activeView() {
     return views[activeIndex()];
+  }
+
+  function commandContext() {
+    return {activeMode: workspaceState.activeMode, runtime, modeStates: workspaceState.modes,
+      settingsAvailable: false};
+  }
+
+  function commandEditorState() {
+    return {draft: workspaceState.commandBuffer, cursor: workspaceState.commandCursor,
+      composerViewportTop: workspaceState.commandViewportTop, status: '', editorNotice: ''};
+  }
+
+  function syncCommandEditorState(state) {
+    workspaceState.commandBuffer = state.draft;
+    workspaceState.commandCursor = state.cursor;
+    workspaceState.commandViewportTop = state.composerViewportTop;
+  }
+
+  function clearCommandState() {
+    workspaceState.commandBuffer = '';
+    workspaceState.commandCursor = 0;
+    workspaceState.commandViewportTop = 0;
+    workspaceState.commandSelection = 0;
+    workspaceState.commandNotice = '';
+  }
+
+  function openCommandPalette(initial = '/') {
+    if (workspaceState.pendingConfirmation || activeView().state.confirmReset) return false;
+    workspaceState.overlay = {type: 'command_palette'};
+    workspaceState.commandBuffer = initial;
+    workspaceState.commandCursor = graphemes(initial).length;
+    workspaceState.commandViewportTop = 0;
+    workspaceState.commandSelection = 0;
+    workspaceState.commandNotice = '';
+    workspaceState.overlayScrollTop = 0;
+    draw();
+    return true;
+  }
+
+  function closeCommandPalette() {
+    if (workspaceState.overlay?.type !== 'command_palette') return false;
+    workspaceState.overlay = null;
+    clearCommandState();
+    draw();
+    return true;
+  }
+
+  function beginConfirmation(pendingConfirmation) {
+    workspaceState.pendingConfirmation = {...pendingConfirmation, selected: 0};
+    workspaceState.overlay = {type: 'confirmation'};
+    workspaceState.overlayScrollTop = 0;
+    draw();
+  }
+
+  function confirmationLines() {
+    const pending = workspaceState.pendingConfirmation;
+    if (!pending) return [];
+    const [confirmLabel, cancelLabel, message] = pending.type === 'clear_history' ?
+      ['Wyczyść historię tego trybu', 'Zachowaj historię',
+        'Usunięte zostaną tylko wpisy prezentacji. Draft i sesja Engine pozostaną bez zmian.'] :
+      ['Zresetuj sesję i zmień kierunek', 'Anuluj zmianę',
+        `Zmiana ${pending.from}→${pending.to} wymaga resetu lokalnej sesji Chat i jej historii.`];
+    return [
+      {text: pending.type === 'clear_history' ? 'Wyczyścić historię prezentacji?' : 'Potwierdź zmianę kierunku Chat', tone: 'accent'},
+      {text: message, tone: 'warning'},
+      {text: `${pending.selected === 0 ? '›' : ' '} [${confirmLabel}]`, tone: pending.selected === 0 ? 'accent' : 'neutral'},
+      {text: `${pending.selected === 1 ? '›' : ' '} [${cancelLabel}]`, tone: pending.selected === 1 ? 'accent' : 'neutral'},
+      {text: '←/→ lub Tab wybór · Enter zatwierdź · Esc anuluj', tone: 'muted'}
+    ];
   }
 
   function setFocus(view, id) {
@@ -233,77 +220,196 @@ export function createTui({runtime, terminal, output = process.stdout, services 
     };
   }
 
-  function put(text, x, y, tone = 'neutral', maxWidth = dimensions().width) {
-    const safe = fitText(text, maxWidth);
-    terminal.put({x, y, wrap: false, attr: styleFor(tone)}, safe);
+  function put(text, x, y, tone, maxWidth) {
+    screen.put({x, y, tone, maxWidth}, text);
   }
 
-  function drawHeader(width) {
-    const header = buildHeader(width, activeIndex());
-    headerHitboxes = header.hitboxes;
-    for (const segment of header.segments) put(segment.text, segment.start, 1, segment.tone, width - segment.start + 1);
+  function positionCursor(cursor) {
+    const visible = !!cursor;
+    if (cursorShown !== visible) {
+      terminal.hideCursor(!visible);
+      cursorShown = visible;
+    }
+    if (visible && typeof terminal.moveTo === 'function') {
+      terminal.moveTo(cursor.x, cursor.y);
+    }
   }
 
-  function drawFooter(width, height) {
-    const view = activeView();
-    const focus = currentFocus(view, workspaceState);
-    const focusLabel = focus.label;
-    const scrollHint = (view.state.details && focus.id === 'details') || focus.id === 'history' ?
-      ' · j/k scroll' : '';
-    const newSessionHint = view.id === 'chat' ? ' · Ctrl+N new session' : '';
-    const busyHint = workspaceState.busy ? ' · working…' : '';
-    const text = width < 60 ? `F1–F3 tabs · Tab focus: ${focusLabel}${scrollHint} · Enter · Esc · Ctrl+C exit` :
-      `F1/F2/F3 tabs · Tab/Shift+Tab focus: ${focusLabel}${scrollHint} · Enter · Esc${newSessionHint}${busyHint} · Ctrl+C exit`;
-    put(text, 1, height, 'muted', width);
+  function drawHeader(view, focus, width) {
+    const compact = width < 60;
+    const segments = [
+      {text: compact ? 'flex' : 'flexLingua', tone: 'accent'},
+      {text: view.label, tone: 'neutral'},
+      {text: modeMetadata(view, focus), tone: 'muted'}
+    ];
+    let column = 1;
+    for (let index = 0; index < segments.length; index++) {
+      const segment = segments[index];
+      if (index) {
+        put(' · ', column, 1, 'muted', width - column + 1);
+        column += textWidth(' · ');
+      }
+      put(segment.text, column, 1, segment.tone, width - column + 1);
+      column += textWidth(segment.text);
+    }
+  }
+
+  function drawFooter(view, focus, state, layout) {
+    const overlayType = workspaceState.overlay?.type;
+    const overlayFooter = {
+      command_palette: '↑/↓ wybór · Tab uzupełnij · Enter wykonaj · Esc zamknij · ^C wyjście',
+      help: 'PgUp/PgDn przewiń · Esc zamknij · F1–F3 tryby · ^C wyjście',
+      confirmation: '←/→ wybór · Enter zatwierdź · Esc anuluj · ^C wyjście',
+      details: '←/→ lub Tab: sekcja · PgUp/PgDn: przewijaj · Esc: wróć'
+    }[overlayType];
+    if (overlayFooter) {
+      put(overlayFooter, 1, layout.footer.y, 'muted', layout.width);
+      return;
+    }
+    const action = focus.id === 'candidate' ? '↑/↓ wybór · Enter zatwierdź' :
+      focus.type === 'selector' ? '←/→ język' :
+      focus.id === 'history' ? 'PgUp/PgDn historia' :
+        focus.id === 'details' ? 'Enter szczegóły' :
+          view.id === 'chat' ? 'Enter wyślij' :
+            view.id === 'forms' ? 'Enter szukaj' : 'Enter tłumacz';
+    const required = [action, '/help', '^C wyjście'];
+    const candidates = [
+      state.unseenCount ? `${state.unseenCount} nowych · ^End najnowsze` : 'PgUp/PgDn historia',
+      'F1–F3 tryby',
+      view.id === 'chat' ? 'Ctrl+N /new' : 'Tab fokus'
+    ];
+    let parts = required;
+    for (const candidate of candidates) {
+      const next = [...parts.slice(0, -1), candidate, parts.at(-1)];
+      if (textWidth(next.join(' · ')) <= layout.width) parts = next;
+    }
+    const text = parts.join(' · ');
+    put(text, 1, layout.footer.y, 'muted', layout.width);
+  }
+
+  function drawSmallTerminal(layout) {
+    if (layout.height === 1) {
+      put('^C', 1, 1, 'warning', layout.width);
+      return;
+    }
+    put(layout.width < 20 ? 'flex' : 'flex · za mały terminal', 1, 1, 'accent', layout.width);
+    if (layout.height >= 3) {
+      let row = 2;
+      for (const line of wrapText(SMALL_TERMINAL_MESSAGE, layout.width)) {
+        if (row >= layout.height) break;
+        put(line, 1, row++, 'warning', layout.width);
+      }
+    }
+    put(layout.width < 16 ? '^C' : '^C wyjście · powiększ do 40×12', 1, layout.height, 'muted', layout.width);
   }
 
   function draw() {
-    if (!started || stopping) return;
+    if (!started || stopping) return {changedRows: 0};
     const {width, height} = dimensions();
-    terminal.eraseDisplay();
-    if (width < 40 || height < 12) {
-      if (height < 3) {
-        put('Terminal too small.', 1, 1, 'warning', width);
-        return;
-      }
-      drawHeader(width);
-      put('─'.repeat(Math.max(1, width)), 1, 2, 'muted', width);
-      let row = 3;
-      const messageLimit = height >= 4 ? height - 1 : height;
-      for (const line of wrapText(SMALL_TERMINAL_MESSAGE, width)) {
-        if (row > messageLimit) break;
-        put(line, 1, row++, 'warning', width);
-      }
-      if (height >= 4) drawFooter(width, height);
-      return;
-    }
-
-    drawHeader(width);
-    put('─'.repeat(Math.max(1, width)), 1, 2, 'muted', width);
-
     const view = activeView();
-    const statusLine = typeof view.statusLine === 'function' ? view.statusLine() : null;
-    const contentStart = statusLine ? 4 : 3;
-    if (statusLine) put(statusLine.text, 1, 3, statusLine.tone ?? 'muted', width);
-    const rows = buildContentRows(view, width, workspaceState);
-    const contentHeight = Math.max(0, height - contentStart);
-    const maxScroll = Math.max(0, rows.length - contentHeight);
-    const scrollTop = Math.max(0, Math.min(Number(view.state.scrollTop) || 0, maxScroll));
-    if (view.state.scrollTop !== undefined) view.state.scrollTop = scrollTop;
-    let row = contentStart;
-    for (const content of rows.slice(scrollTop, scrollTop + contentHeight)) {
-      if (row >= height) break;
-      if (content.split) {
-        put(content.left.text, 1, row, content.left.tone, content.paneWidth);
-        put('│', content.paneWidth + 2, row, 'muted', 1);
-        put(content.right.text, content.paneWidth + 4, row, content.right.tone,
-          width - content.paneWidth - 3);
-      } else {
-        put(content.text, 1, row, content.tone, width);
-      }
-      row++;
+    const focus = currentFocus(view, workspaceState);
+    const commandPaletteOpen = workspaceState.overlay?.type === 'command_palette';
+    const editorState = commandPaletteOpen ? commandEditorState() : view.state;
+    const editorFocus = commandPaletteOpen ? {type: 'input', id: 'command'} : focus;
+    const editorView = commandPaletteOpen ? {state: editorState, composerPrompt: 'Wpisz polecenie…'} : view;
+    const composerLines = composerLineCountFor(editorView, editorFocus, width, editorState);
+    const layout = computeLayout({width, height, composerLines});
+    screen.beginFrame(width, height);
+    if (layout.tooSmall) {
+      drawSmallTerminal(layout);
+      lastFrame = {mode: view.id, layout, historyRows: []};
+      const result = screen.commit();
+      positionCursor(null);
+      return result;
     }
-    drawFooter(width, height);
+
+    drawHeader(view, focus, width);
+    let historyRows;
+    const overlayType = workspaceState.overlay?.type;
+    const chatResetOverlay = overlayType === 'confirmation' &&
+      workspaceState.overlay.action === 'reset_chat';
+    const panelOverlayType = chatResetOverlay ? null : overlayType;
+    if (panelOverlayType === 'command_palette') {
+      const suggestions = commandSuggestions(workspaceState.commandBuffer, commandContext());
+      workspaceState.commandSelection = suggestions.length ?
+        Math.max(0, Math.min(workspaceState.commandSelection, suggestions.length - 1)) : 0;
+      historyRows = renderCommandPalette({buffer: workspaceState.commandBuffer,
+        selectedIndex: workspaceState.commandSelection, width,
+        height: layout.history.height - (workspaceState.commandNotice ? 1 : 0),
+        context: commandContext()});
+      if (workspaceState.commandNotice) {
+        historyRows.push({text: workspaceState.commandNotice, tone: 'warning'});
+      }
+    } else if (panelOverlayType === 'help') {
+      historyRows = buildHelpLines(commandContext());
+    } else if (panelOverlayType === 'details') {
+      const overlay = workspaceState.overlay;
+      const modeState = workspaceState.modes[overlay.mode];
+      const entry = modeState?.entries.find(item => item.id === overlay.entryId);
+      historyRows = buildDetailsLines(entry, {mode: overlay.mode, sectionIndex: overlay.sectionIndex});
+    } else if (panelOverlayType === 'confirmation') {
+      historyRows = confirmationLines();
+    } else {
+      historyRows = transcriptRowsFor(view, focus, width);
+    }
+    historyRows = historyRows.flatMap(item => wrapText(item.text, width).map((text, index) =>
+      ({text, tone: item.tone ?? 'neutral', entryId: item.entryId ?? null,
+        candidateIndex: index === 0 ? item.candidateIndex ?? null : null})));
+    if (!commandPaletteOpen && view.state.editorNotice) {
+      historyRows.push(...wrapText(view.state.editorNotice, width).map(text =>
+        ({text, tone: 'warning', entryId: null})));
+    }
+    if (overlayType !== 'command_palette' && workspaceState.commandNotice) {
+      historyRows.push(...wrapText(workspaceState.commandNotice, width).map(text =>
+        ({text, tone: 'warning', entryId: null})));
+    }
+    const modeState = view.state;
+    const maxStart = Math.max(0, historyRows.length - layout.history.height);
+    let scrollTop = ['help', 'details'].includes(panelOverlayType) ?
+      Math.max(0, Math.min(workspaceState.overlayScrollTop, maxStart)) :
+      panelOverlayType ? 0 : startIndexFor(modeState, historyRows, layout.history.height);
+    if (!panelOverlayType && view.id === 'forms' && focus.id === 'candidate') {
+      const selectedCandidate = historyRows.findIndex(row =>
+        row.entryId === modeState.searchEntryId && row.candidateIndex === modeState.selectedIndex);
+      if (selectedCandidate >= 0) {
+        if (selectedCandidate < scrollTop) scrollTop = selectedCandidate;
+        else if (selectedCandidate >= scrollTop + layout.history.height) {
+          scrollTop = selectedCandidate - layout.history.height + 1;
+        }
+        scrollTop = Math.min(scrollTop, maxStart);
+        setFollowLatest(workspaceState, 'forms', false);
+      }
+    }
+    if (['help', 'details'].includes(panelOverlayType)) workspaceState.overlayScrollTop = scrollTop;
+    if (!panelOverlayType) {
+      modeState.scrollTop = scrollTop;
+      const anchor = anchorAt(historyRows, scrollTop);
+      if (anchor) modeState.viewportAnchor = anchor;
+    }
+    for (let offset = 0; offset < layout.history.height; offset++) {
+      const row = historyRows[scrollTop + offset];
+      if (!row) break;
+      put(row.text, 1, layout.history.y + offset, row.tone, width);
+    }
+    put('─'.repeat(width), 1, layout.historySeparator.y, 'muted', width);
+
+    const composer = layoutComposer(editorState, {width, height: layout.composer.height,
+      prompt: commandPaletteOpen ? 'Wpisz polecenie…' : view.composerPrompt || 'Type here…',
+      focused: commandPaletteOpen || (!panelOverlayType && focus.type === 'input')});
+    if (commandPaletteOpen) syncCommandEditorState(editorState);
+    for (let offset = 0; offset < composer.lines.length; offset++) {
+      const row = composer.lines[offset];
+      put(row.text, 1, layout.composer.y + offset, row.tone, width);
+    }
+    put('─'.repeat(width), 1, layout.composerSeparator.y, 'muted', width);
+    drawFooter(view, focus, modeState, layout);
+    lastFrame = {mode: view.id, layout, historyRows, overlayType: panelOverlayType};
+    const result = screen.commit();
+    positionCursor(composer.cursor ? {
+      x: 1 + composer.cursor.column,
+      y: layout.composer.y + composer.cursor.row
+    } : null);
+    return result;
   }
 
   function selectMode(mode) {
@@ -318,40 +424,319 @@ export function createTui({runtime, terminal, output = process.stdout, services 
     return true;
   }
 
-  function editDraft(action) {
+  function showEditorNotice(message) {
     const view = activeView();
-    const state = view.state;
-    const previousDraft = state.draft;
-    const chars = Array.from(state.draft);
-    const cursor = Math.min(state.cursor, chars.length);
-    if (action.type === 'text') {
-      const insert = Array.from(sanitizeText(action.value).replace(/\n/gu, ''));
-      if (!insert.length || chars.length + insert.length > MAX_INPUT_CODEPOINTS) return;
-      chars.splice(cursor, 0, ...insert);
-      state.cursor = cursor + insert.length;
-      state.status = '';
-    } else if (action.type === 'backspace' && cursor > 0) {
-      chars.splice(cursor - 1, 1);
-      state.cursor = cursor - 1;
-      state.status = '';
-    } else if (action.type === 'delete' && cursor < chars.length) {
-      chars.splice(cursor, 1);
-      state.status = '';
-    } else if (action.type === 'cursor_left') {
-      state.cursor = Math.max(0, cursor - 1);
-    } else if (action.type === 'cursor_right') {
-      state.cursor = Math.min(chars.length, cursor + 1);
-    } else if (action.type === 'cursor_home') {
-      state.cursor = 0;
-    } else if (action.type === 'cursor_end') {
-      state.cursor = chars.length;
-    }
-    state.draft = chars.join('');
-    if (state.draft !== previousDraft) view.onDraftChange?.({runtime, state});
+    view.state.editorNotice = message;
   }
 
-  async function dispatchSubmit(view, action, focus) {
+  function handlePaste(text, metadata = {}) {
+    if (workspaceState.overlay?.type === 'command_palette') {
+      const editor = commandEditorState();
+      if (metadata.tooLarge) {
+        workspaceState.commandNotice = `Wklejony tekst przekracza limit ${MAX_DRAFT_CODE_POINTS} code points; bufor polecenia pozostał bez zmian.`;
+        draw();
+        return;
+      }
+      const result = insertDraftText(editor, text);
+      syncCommandEditorState(editor);
+      if (!result.accepted) {
+        workspaceState.commandNotice = `Limit pola wynosi ${MAX_DRAFT_CODE_POINTS} code points; bufor polecenia pozostał bez zmian.`;
+      } else if (result.changed) {
+        workspaceState.commandSelection = 0;
+        workspaceState.commandNotice = '';
+      }
+      draw();
+      return;
+    }
+    const view = activeView();
+    const focus = currentFocus(view, workspaceState);
+    const {width, height} = dimensions();
+    if (width < 40 || height < 12 || focus.type !== 'input') return;
+    if (metadata.tooLarge) {
+      showEditorNotice(`Wklejony tekst przekracza limit ${MAX_DRAFT_CODE_POINTS} code points; draft pozostał bez zmian.`);
+      draw();
+      return;
+    }
+    const result = insertDraftText(view.state, text);
+    if (!result.accepted) {
+      showEditorNotice(`Limit pola wynosi ${MAX_DRAFT_CODE_POINTS} code points; draft pozostał bez zmian.`);
+    } else if (result.changed) {
+      view.state.editorNotice = '';
+      workspaceState.commandNotice = '';
+      view.onDraftChange?.({runtime, state: view.state});
+    }
+    draw();
+  }
+
+  function editActiveDraft(action) {
+    const view = activeView();
+    const {width} = dimensions();
+    const result = editDraft(view.state, action, {width});
+    if (!result.accepted) {
+      showEditorNotice(`Limit pola wynosi ${MAX_DRAFT_CODE_POINTS} code points; draft pozostał bez zmian.`);
+    } else if (result.reason === 'too_many_code_points') {
+      showEditorNotice(`Limit pola wynosi ${MAX_DRAFT_CODE_POINTS} code points; draft pozostał bez zmian.`);
+    } else if (result.changed) {
+      view.state.editorNotice = '';
+      workspaceState.commandNotice = '';
+      view.onDraftChange?.({runtime, state: view.state});
+    }
+    draw();
+  }
+
+  function updateChatDirectionState() {
+    const snapshot = chatService.snapshot();
+    const state = workspaceState.modes.chat;
+    state.from = snapshot.from;
+    state.to = snapshot.to;
+    state.settings.from = snapshot.from;
+    state.settings.to = snapshot.to;
+    for (const key of ['turnCount', 'maxTurns', 'eventCount', 'maxEvents']) {
+      if (Number.isSafeInteger(snapshot[key])) state[key] = snapshot[key];
+    }
+  }
+
+  function clearModePresentation(mode) {
+    clearModeEntries(workspaceState, mode);
+    const state = workspaceState.modes[mode];
+    state.selectedEntryId = null;
+    state.scrollTop = 0;
+    if (mode === 'translate') {
+      state.result = null;
+      state.status = '';
+    } else if (mode === 'forms') {
+      state.result = null;
+      state.matches = [];
+      state.selectedIndex = 0;
+      state.status = '';
+    }
+  }
+
+  async function applyCommandAction(action) {
+    if (workspaceState.busy) {
+      workspaceState.commandNotice = 'Poczekaj na zakończenie bieżącej operacji.';
+      draw();
+      return false;
+    }
+    if (action.type === 'switch_mode') {
+      if (action.mode === 'translate' && action.from) {
+        const state = workspaceState.modes.translate;
+        state.from = action.from;
+        state.to = action.to;
+        state.settings.from = action.from;
+        state.settings.to = action.to;
+        state.result = null;
+        state.selectedEntryId = null;
+        state.status = '';
+      } else if (action.mode === 'forms' && action.language) {
+        const state = workspaceState.modes.forms;
+        state.language = action.language;
+        state.settings.language = action.language;
+        state.result = null;
+        state.matches = [];
+        state.selectedIndex = 0;
+        state.selectedEntryId = null;
+        state.status = '';
+      } else if (action.mode === 'chat' && action.from) {
+        const result = chatService.setDirection({from: action.from, to: action.to});
+        if (result.status === 'reset_required') {
+          beginConfirmation({type: 'chat_direction', from: action.from, to: action.to,
+            returnMode: workspaceState.activeMode});
+          return true;
+        }
+        if (result.status !== 'ok') {
+          workspaceState.commandNotice = result.diagnostics?.[0]?.message ??
+            result.error?.message ?? 'Nie można ustawić kierunku Chat.';
+          draw();
+          return false;
+        }
+        updateChatDirectionState();
+      }
+      workspaceState.overlay = null;
+      workspaceState.commandNotice = '';
+      selectMode(action.mode);
+      return true;
+    }
+    if (action.type === 'swap_direction') {
+      const state = workspaceState.modes.translate;
+      [state.from, state.to] = [state.to, state.from];
+      state.settings.from = state.from;
+      state.settings.to = state.to;
+      state.result = null;
+      state.selectedEntryId = null;
+      state.status = '';
+      workspaceState.overlay = null;
+      workspaceState.commandNotice = '';
+      selectMode('translate');
+      return true;
+    }
+    if (action.type === 'open_panel' && action.panel === 'help') {
+      workspaceState.overlay = {type: 'help'};
+      workspaceState.overlayScrollTop = 0;
+      workspaceState.commandNotice = '';
+      draw();
+      return true;
+    }
+    if (action.type === 'open_details') {
+      const modeState = workspaceState.modes[action.mode];
+      const entry = modeState?.entries.find(item => item.id === action.entryId);
+      if (!entry) {
+        workspaceState.commandNotice = 'Nie znaleziono wpisu do pokazania w Details.';
+        draw();
+        return false;
+      }
+      workspaceState.overlay = {type: 'details', mode: action.mode, entryId: entry.id,
+        sectionIndex: 0, scrollTop: 0};
+      workspaceState.overlayScrollTop = 0;
+      workspaceState.commandNotice = '';
+      draw();
+      return true;
+    }
+    if (action.type === 'confirm_clear') {
+      beginConfirmation({type: 'clear_history', mode: action.mode});
+      return true;
+    }
+    if (action.type === 'new_session') {
+      workspaceState.overlay = null;
+      workspaceState.commandNotice = '';
+      events.emit('newSession', {activeMode: 'chat'});
+      return true;
+    }
+    if (action.type === 'quit') {
+      void stop(0);
+      return true;
+    }
+    workspaceState.commandNotice = 'Polecenie nie ma aktywnej akcji w tej wersji.';
+    draw();
+    return false;
+  }
+
+  async function runResolvedCommand(result, {fromPalette = false, sourceMode = workspaceState.activeMode,
+    clearSourceDraft = true} = {}) {
+    if (workspaceState.busy) {
+      workspaceState.commandNotice = 'Poczekaj na zakończenie bieżącej operacji.';
+      draw();
+      return false;
+    }
+    if (!fromPalette && clearSourceDraft) {
+      const state = workspaceState.modes[sourceMode];
+      state.draft = '';
+      state.cursor = 0;
+      state.editorNotice = '';
+    }
+    workspaceState.overlay = null;
+    clearCommandState();
+    workspaceState.commandNotice = '';
+    return applyCommandAction(result.action);
+  }
+
+  function reportCommandError(message, {inPalette = false} = {}) {
+    workspaceState.commandNotice = sanitizeText(message);
+    if (inPalette) {
+      workspaceState.overlay = {type: 'command_palette'};
+    }
+    draw();
+  }
+
+  async function confirmPendingAction() {
+    const pending = workspaceState.pendingConfirmation;
+    if (!pending) return;
+    if (pending.selected === 1) {
+      workspaceState.pendingConfirmation = null;
+      workspaceState.overlay = null;
+      workspaceState.commandNotice = 'Anulowano; stan i historia pozostały bez zmian.';
+      draw();
+      return;
+    }
+    if (pending.type === 'clear_history') {
+      clearModePresentation(pending.mode);
+      workspaceState.pendingConfirmation = null;
+      workspaceState.overlay = null;
+      workspaceState.commandNotice = pending.mode === 'chat' ?
+        'Wyczyszczono historię prezentacji; kontekst Engine pozostał bez zmian.' :
+        'Wyczyszczono historię prezentacji; draft pozostał bez zmian.';
+      draw();
+      return;
+    }
+    if (pending.type === 'chat_direction') {
+      const previousDraft = workspaceState.modes.chat.draft;
+      const previousCursor = workspaceState.modes.chat.cursor;
+      const reset = await chatService.reset();
+      if (reset.status !== 'ok') {
+        workspaceState.pendingConfirmation = null;
+        workspaceState.overlay = null;
+        workspaceState.commandNotice = reset.diagnostics?.[0]?.message ?? 'Nie udało się zresetować sesji Chat.';
+        draw();
+        return;
+      }
+      const changed = chatService.setDirection({from: pending.from, to: pending.to});
+      if (changed.status !== 'ok') {
+        workspaceState.pendingConfirmation = null;
+        workspaceState.overlay = null;
+        workspaceState.commandNotice = changed.diagnostics?.[0]?.message ?? 'Nie udało się zmienić kierunku Chat.';
+        draw();
+        return;
+      }
+      clearModeEntries(workspaceState, 'chat');
+      updateChatDirectionState();
+      const state = workspaceState.modes.chat;
+      state.draft = previousDraft;
+      state.cursor = previousCursor;
+      state.scrollTop = 0;
+      state.lastStatus = '';
+      state.status = '';
+      state.confirmReset = false;
+      workspaceState.pendingConfirmation = null;
+      workspaceState.overlay = null;
+      workspaceState.commandNotice = 'Sesja Chat została zresetowana i ma nowy kierunek.';
+      selectMode('chat');
+    }
+  }
+
+  function handleConfirmationAction(action) {
+    const pending = workspaceState.pendingConfirmation;
+    if (!pending) return false;
+    if (action.type === 'escape') {
+      pending.selected = 1;
+      void confirmPendingAction();
+      return true;
+    }
+    if (action.type === 'cursor_left' || action.type === 'cursor_right' ||
+        action.type === 'focus_next' || action.type === 'focus_previous' ||
+        action.type === 'cursor_up' || action.type === 'cursor_down') {
+      pending.selected = pending.selected === 0 ? 1 : 0;
+      draw();
+      return true;
+    }
+    if (action.type === 'submit') {
+      void confirmPendingAction();
+      return true;
+    }
+    return true;
+  }
+
+  async function dispatchSubmit(view, action, focus, {literalInput = false} = {}) {
     const state = view.state;
+    if (action.type === 'submit' && focus?.type === 'input' && !state.draft.trim()) {
+      state.editorNotice = 'Wpisz tekst przed wysłaniem; pusty draft nie uruchamia Engine.';
+      draw();
+      return;
+    }
+    if (action.type === 'submit' && focus?.type === 'input' && !literalInput) {
+      const command = resolveCommand(state.draft, commandContext());
+      if (command.kind === 'error') {
+        reportCommandError(command.message);
+        return;
+      }
+      if (command.kind === 'command') {
+        await runResolvedCommand(command, {sourceMode: view.id});
+        return;
+      }
+      if (command.kind === 'literal') {
+        state.draft = command.text;
+        state.cursor = graphemes(state.draft).length;
+      }
+    }
     const token = beginRequest(workspaceState, view.id, {draft: state.draft,
       from: state.from, to: state.to, language: state.language});
     if (!token) {
@@ -365,7 +750,11 @@ export function createTui({runtime, terminal, output = process.stdout, services 
       const handled = typeof view.handleAction === 'function' ?
         await view.handleAction(action, context) : false;
       if (handled === false && typeof view.onSubmit === 'function') {
-        await view.onSubmit({...context, state});
+        if (!state.draft.trim()) {
+          state.editorNotice = 'Wpisz tekst przed wysłaniem; pusty draft nie uruchamia Engine.';
+        } else {
+          await view.onSubmit({...context, state});
+        }
       } else if (handled === false) {
         state.status = 'Draft saved for this mode.';
       }
@@ -379,13 +768,261 @@ export function createTui({runtime, terminal, output = process.stdout, services 
     }
   }
 
-  function onKey(name) {
-    const action = actionForKey(name);
+  function scrollHistory(direction, page = false) {
+    if (!lastFrame || lastFrame.mode !== workspaceState.activeMode || lastFrame.layout.tooSmall) return;
+    if (['help', 'details'].includes(workspaceState.overlay?.type)) {
+      const maxStart = Math.max(0, lastFrame.historyRows.length - lastFrame.layout.history.height);
+      const amount = page ? Math.max(1, lastFrame.layout.history.height - 1) : 1;
+      workspaceState.overlayScrollTop = Math.max(0, Math.min(
+        workspaceState.overlayScrollTop + direction * amount, maxStart));
+      draw();
+      return;
+    }
+    const mode = workspaceState.activeMode;
+    const state = workspaceState.modes[mode];
+    const rows = lastFrame.historyRows;
+    const viewportHeight = lastFrame.layout.history.height;
+    const maxStart = Math.max(0, rows.length - viewportHeight);
+    const current = startIndexFor(state, rows, viewportHeight);
+    const amount = page ? Math.max(1, viewportHeight - 1) : 1;
+    const next = Math.max(0, Math.min(current + direction * amount, maxStart));
+    if (direction > 0 && next >= maxStart) {
+      setFollowLatest(workspaceState, mode, true);
+    } else {
+      const anchor = anchorAt(rows, next);
+      if (anchor) setViewportAnchor(workspaceState, mode, anchor.entryId, anchor.offset);
+      state.scrollTop = next;
+    }
+    draw();
+  }
+
+  async function dispatchNamedCommand(name, {fromPalette = false} = {}) {
+    const result = resolveCommand(`/${name}`, commandContext());
+    if (result.kind === 'error') {
+      reportCommandError(result.message, {inPalette: fromPalette});
+      return false;
+    }
+    if (result.kind !== 'command') return false;
+    return runResolvedCommand(result, {fromPalette, clearSourceDraft: false});
+  }
+
+  async function submitPaletteBuffer() {
+    const result = resolveCommand(workspaceState.commandBuffer, commandContext());
+    if (result.kind === 'error') {
+      reportCommandError(result.message, {inPalette: true});
+      return;
+    }
+    if (result.kind === 'command') {
+      await runResolvedCommand(result, {fromPalette: true});
+      return;
+    }
+    if (result.kind !== 'literal') {
+      reportCommandError('Wpisz polecenie rozpoczynające się od /.', {inPalette: true});
+      return;
+    }
+
+    const view = activeView();
+    const state = view.state;
+    const previousDraft = state.draft;
+    const previousCursor = state.cursor;
+    const inputFocus = focusTargetsFor(view).find(item => item.type === 'input') ?? {id: 'draft', type: 'input'};
+    workspaceState.overlay = null;
+    clearCommandState();
+    state.draft = result.text;
+    state.cursor = graphemes(result.text).length;
+    await dispatchSubmit(view, {type: 'submit'}, inputFocus, {literalInput: true});
+    state.draft = previousDraft;
+    state.cursor = previousCursor;
+    draw();
+  }
+
+  function handleCommandPaletteAction(action) {
+    if (action.type === 'escape') {
+      closeCommandPalette();
+      return true;
+    }
+    if (action.type === 'open_palette') return true;
+    if (action.type === 'select_tab') {
+      void dispatchNamedCommand(WORKSPACE_MODES[action.index], {fromPalette: true});
+      return true;
+    }
+    if (action.type === 'new_session') {
+      void dispatchNamedCommand('new', {fromPalette: true});
+      return true;
+    }
+    if (action.type === 'submit') {
+      void submitPaletteBuffer();
+      return true;
+    }
+    const suggestions = commandSuggestions(workspaceState.commandBuffer, commandContext());
+    if (action.type === 'cursor_up' || action.type === 'cursor_down' ||
+        action.type === 'history_page_up' || action.type === 'history_page_down') {
+      if (!suggestions.length) return true;
+      const step = action.type === 'history_page_up' ? -5 : action.type === 'history_page_down' ? 5 :
+        action.type === 'cursor_up' ? -1 : 1;
+      workspaceState.commandSelection = Math.max(0, Math.min(
+        workspaceState.commandSelection + step, suggestions.length - 1));
+      workspaceState.commandNotice = '';
+      draw();
+      return true;
+    }
+    if (action.type === 'focus_next') {
+      if (!suggestions.length) return true;
+      const selected = suggestions[workspaceState.commandSelection] ?? suggestions[0];
+      workspaceState.commandBuffer = completeCommand(workspaceState.commandBuffer, selected);
+      workspaceState.commandCursor = graphemes(workspaceState.commandBuffer).length;
+      workspaceState.commandViewportTop = 0;
+      workspaceState.commandNotice = '';
+      draw();
+      return true;
+    }
+    if (action.type === 'focus_previous') {
+      if (suggestions.length) workspaceState.commandSelection =
+        (workspaceState.commandSelection - 1 + suggestions.length) % suggestions.length;
+      draw();
+      return true;
+    }
+    const editor = commandEditorState();
+    const result = editDraft(editor, action, {width: dimensions().width});
+    syncCommandEditorState(editor);
+    if (result.changed) {
+      workspaceState.commandSelection = 0;
+      workspaceState.commandNotice = '';
+    }
+    draw();
+    return true;
+  }
+
+  function handleHelpAction(action) {
+    if (action.type === 'escape' || action.type === 'submit') {
+      workspaceState.overlay = null;
+      workspaceState.overlayScrollTop = 0;
+      draw();
+      return true;
+    }
+    if (action.type === 'open_palette') {
+      openCommandPalette('/');
+      return true;
+    }
+    if (action.type === 'select_tab') {
+      void dispatchNamedCommand(WORKSPACE_MODES[action.index]);
+      return true;
+    }
+    if (action.type === 'new_session') {
+      void dispatchNamedCommand('new');
+      return true;
+    }
+    if (action.type === 'history_page_up' || action.type === 'cursor_up') {
+      scrollHistory(-1, action.type === 'history_page_up');
+      return true;
+    }
+    if (action.type === 'history_page_down' || action.type === 'cursor_down') {
+      scrollHistory(1, action.type === 'history_page_down');
+      return true;
+    }
+    if (action.type === 'history_latest') {
+      workspaceState.overlayScrollTop = Number.MAX_SAFE_INTEGER;
+      draw();
+      return true;
+    }
+    return true;
+  }
+
+  function handleDetailsAction(action) {
+    const overlay = workspaceState.overlay;
+    if (action.type === 'escape' || action.type === 'submit') {
+      workspaceState.overlay = null;
+      workspaceState.overlayScrollTop = 0;
+      workspaceState.commandNotice = '';
+      draw();
+      return true;
+    }
+    if (action.type === 'select_tab') {
+      workspaceState.overlay = null;
+      workspaceState.overlayScrollTop = 0;
+      selectMode(WORKSPACE_MODES[action.index]);
+      return true;
+    }
+    if (action.type === 'open_palette') {
+      openCommandPalette('/');
+      return true;
+    }
+    if (action.type === 'new_session') {
+      void dispatchNamedCommand('new');
+      return true;
+    }
+    if (['focus_next', 'cursor_right'].includes(action.type)) {
+      const modeState = workspaceState.modes[overlay.mode];
+      const entry = modeState?.entries.find(item => item.id === overlay.entryId);
+      if (entry) {
+        const count = detailsSectionCount(entry);
+        overlay.sectionIndex = (overlay.sectionIndex + 1) % count;
+        workspaceState.overlayScrollTop = 0;
+      }
+      draw();
+      return true;
+    }
+    if (['focus_previous', 'cursor_left'].includes(action.type)) {
+      const modeState = workspaceState.modes[overlay.mode];
+      const entry = modeState?.entries.find(item => item.id === overlay.entryId);
+      if (entry) {
+        const count = detailsSectionCount(entry);
+        overlay.sectionIndex = (overlay.sectionIndex - 1 + count) % count;
+        workspaceState.overlayScrollTop = 0;
+      }
+      draw();
+      return true;
+    }
+    if (action.type === 'history_page_up' || action.type === 'cursor_up') {
+      scrollHistory(-1, action.type === 'history_page_up');
+      return true;
+    }
+    if (action.type === 'history_page_down' || action.type === 'cursor_down') {
+      scrollHistory(1, action.type === 'history_page_down');
+      return true;
+    }
+    if (action.type === 'history_latest') {
+      workspaceState.overlayScrollTop = Number.MAX_SAFE_INTEGER;
+      draw();
+      return true;
+    }
+    if (action.type === 'text' && ['j', 'k'].includes(action.value.toLowerCase())) {
+      scrollHistory(action.value.toLowerCase() === 'j' ? 1 : -1);
+      return true;
+    }
+    return true;
+  }
+
+  function onKey(name, matches, data) {
+    const action = actionForKey(name, data);
     const view = activeView();
     if (action.type === 'quit') {
       void stop(0);
-    } else if (action.type === 'select_tab') {
-      selectMode(WORKSPACE_MODES[action.index]);
+      return;
+    }
+    const {width, height} = dimensions();
+    if (width < 40 || height < 12) return;
+    if (workspaceState.overlay?.type === 'command_palette') {
+      handleCommandPaletteAction(action);
+      return;
+    }
+    if (workspaceState.overlay?.type === 'help') {
+      handleHelpAction(action);
+      return;
+    }
+    if (workspaceState.overlay?.type === 'details') {
+      handleDetailsAction(action);
+      return;
+    }
+    if (workspaceState.overlay?.type === 'confirmation' &&
+        workspaceState.overlay.action !== 'reset_chat') {
+      handleConfirmationAction(action);
+      return;
+    }
+    if (action.type === 'select_tab') {
+      void dispatchNamedCommand(WORKSPACE_MODES[action.index]);
+    } else if (action.type === 'open_palette') {
+      openCommandPalette('/');
     } else if (action.type === 'focus_next' || action.type === 'focus_previous') {
       const targets = focusTargetsFor(view);
       const direction = action.type === 'focus_next' ? 1 : -1;
@@ -395,9 +1032,19 @@ export function createTui({runtime, terminal, output = process.stdout, services 
       setFocus(view, next.id);
       draw();
     } else if (action.type === 'new_session') {
-      events.emit('newSession', {activeMode: view.id});
+      void dispatchNamedCommand('new');
+    } else if (action.type === 'history_page_up') {
+      scrollHistory(-1, true);
+    } else if (action.type === 'history_page_down') {
+      scrollHistory(1, true);
+    } else if (action.type === 'history_latest') {
+      setFollowLatest(workspaceState, view.id, true);
+      draw();
     } else if (action.type === 'submit') {
       void dispatchSubmit(view, action, currentFocus(view, workspaceState));
+    } else if (action.type === 'text' && ['j', 'k'].includes(action.value.toLowerCase()) &&
+        ['history', 'details'].includes(currentFocus(view, workspaceState).id)) {
+      scrollHistory(action.value.toLowerCase() === 'j' ? 1 : -1);
     } else if (typeof view.handleAction === 'function' &&
         view.handleAction(action, {runtime, events, focus: currentFocus(view, workspaceState),
           workspaceState, setFocus: id => setFocus(view, id)})) {
@@ -409,15 +1056,12 @@ export function createTui({runtime, terminal, output = process.stdout, services 
       else view.state.status = '';
       draw();
     } else if (currentFocus(view, workspaceState).type === 'input') {
-      editDraft(action);
-      draw();
+      if (action.type === 'text' && action.value === '/' && !view.state.draft.trim()) {
+        openCommandPalette('/');
+        return;
+      }
+      editActiveDraft(action);
     }
-  }
-
-  function onMouse(name, data = {}) {
-    if (!/LEFT.*(?:PRESSED|BUTTON)/u.test(name) || data.y !== 1) return;
-    const hit = headerHitboxes.find(item => data.x >= item.start && data.x <= item.end);
-    if (hit) selectMode(WORKSPACE_MODES[hit.index]);
   }
 
   function onResize() {
@@ -434,10 +1078,11 @@ export function createTui({runtime, terminal, output = process.stdout, services 
     invalidateRequests(workspaceState);
     stopPromise = (async () => {
       terminal.removeListener?.('key', onKey);
-      terminal.removeListener?.('mouse', onMouse);
       terminal.removeListener?.('resize', onResize);
+      terminal.removeListener?.('paste', handlePaste);
       process.removeListener('SIGINT', onSignal);
       process.removeListener('SIGTERM', onSignal);
+      inputBridge.detach();
       try {
         await terminal.grabInput(false, true);
       } catch {}
@@ -455,11 +1100,12 @@ export function createTui({runtime, terminal, output = process.stdout, services 
     terminal.fullscreen(true);
     terminal.hideCursor(true);
     terminal.on('key', onKey);
-    terminal.on('mouse', onMouse);
     terminal.on('resize', onResize);
+    terminal.on('paste', handlePaste);
     process.on('SIGINT', onSignal);
     process.on('SIGTERM', onSignal);
-    terminal.grabInput({mouse: 'button'});
+    terminal.grabInput();
+    inputBridge.attach();
     draw();
   }
 
