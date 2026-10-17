@@ -13,7 +13,8 @@ const ERROR_STATUS = Object.freeze({
   PLUGIN_GRAPH_INVALID: 'invalid',
   PLUGIN_GRAPH_CYCLE: 'invalid',
   PLUGIN_MODULE_MISSING: 'invalid',
-  PLUGIN_CORE_REFERENCE_INVALID: 'invalid'
+  PLUGIN_CORE_REFERENCE_INVALID: 'invalid',
+  PLUGIN_OPERATION_FAILED: 'error'
 });
 
 export const PLUGIN_ERROR_CODES = Object.freeze(Object.keys(ERROR_STATUS));

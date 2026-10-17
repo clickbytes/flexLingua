@@ -13,6 +13,10 @@ const isRecord = value => {
   return prototype === Object.prototype || prototype === null;
 };
 const DIAGNOSTIC_CODE = /^[A-Z][A-Z0-9_]{0,63}$/u;
+const INTERNAL_PLUGIN_FAILURE_CODES = new Set([
+  'PLUGIN_RESULT_INVALID', 'PLUGIN_PACKAGE_INVALID', 'PLUGIN_GRAPH_INVALID',
+  'PLUGIN_GRAPH_CYCLE', 'PLUGIN_MODULE_MISSING', 'PLUGIN_CORE_REFERENCE_INVALID'
+]);
 
 function fail(code, message, cause) {
   throw new PluginError(code, message, cause === undefined ? undefined : {cause});
@@ -67,23 +71,34 @@ function validateInput(input, operation) {
 }
 
 function errorResult(error, operation) {
+  if (INTERNAL_PLUGIN_FAILURE_CODES.has(error?.code)) {
+    throw new PluginError('PLUGIN_OPERATION_FAILED',
+      `Language plugin ${operation} failed.`, {cause: error});
+  }
   const code = typeof error?.code === 'string' && DIAGNOSTIC_CODE.test(error.code)
     ? error.code : 'PLUGIN_OPERATION_FAILED';
   let status = error?.status;
   if (!['ok', 'ambiguous', 'unsupported', 'invalid', 'resource_limit'].includes(status)) {
-    if (['SOURCE_TEXT_SIZE_LIMIT', 'SOURCE_TOKEN_LIMIT'].includes(error?.code)) {
+    if (typeof error?.code === 'string' && /_(?:LIMIT|TOO_COMPLEX)$/u.test(error.code)) {
       status = 'resource_limit';
     } else if (['SOURCE_CHARACTER_UNSUPPORTED', 'SOURCE_SEGMENTER_UNAVAILABLE']
       .includes(error?.code) || error?.status === 'unsupported') {
       status = 'unsupported';
-    } else if (error?.code === 'SOURCE_TEXT_INVALID' || error?.status === 'invalid' ||
-        error instanceof TypeError) {
+    } else if (error?.code === 'SOURCE_TEXT_INVALID' || error?.status === 'invalid') {
       status = 'invalid';
-    } else {
-      status = 'unsupported';
     }
   }
-  const diagnostic = {code, message: String(error?.message || `${operation} is unsupported.`).slice(0, 1024)};
+  if (!['ambiguous', 'unsupported', 'invalid', 'resource_limit'].includes(status)) {
+    throw new PluginError('PLUGIN_OPERATION_FAILED',
+      `Language plugin ${operation} failed.`, {cause: error});
+  }
+  const message = {
+    ambiguous: 'The input has multiple possible analyses.',
+    unsupported: 'The requested language construction is unsupported.',
+    invalid: 'The language plugin rejected the request.',
+    resource_limit: 'The request exceeds supported resource limits.'
+  }[status];
+  const diagnostic = {code, message};
   return {status, diagnostics: [diagnostic]};
 }
 
