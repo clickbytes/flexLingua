@@ -22,3 +22,9 @@ paradygmaty i odrzuca nieznane cechy, błędne operacje i brakujące powiązania
 
 Obecne EN, PL i TR używają tej samej implementacji adaptera. Zakres TR jest
 ograniczony do historycznej demonstracji i nie wynika z niego poziom CEFR.
+
+Ten kontrakt opisuje API adapterów v1.0, ale nie mapowanie ról semantycznych CORE
+na funkcje składniowe, kontrolery uzgodnienia i cechy formy. Wersjonowany most
+oraz profile możliwości języka opisuje
+[ADR ogólnego kontraktu cech językowych](generic-language-feature-contract.md).
+Kontrakt v1.0 pozostaje kompatybilny; migracja nowej funkcji jest opt-in.
