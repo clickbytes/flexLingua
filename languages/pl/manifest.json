@@ -1,0 +1,154 @@
+{
+  "id": "flexlingua.pl",
+  "code": "pl",
+  "schemaVersion": "1.0",
+  "graph": "graph.json",
+  "status": "controlled-subset",
+  "capabilities": [
+    {
+      "operation": "analyze",
+      "channel": "sentence",
+      "construction": "event.visual_perception",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "pl.visual-perception.01"
+        }
+      ]
+    },
+    {
+      "operation": "realize",
+      "channel": "sentence",
+      "construction": "event.visual_perception",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "pl.visual-perception.01"
+        }
+      ]
+    },
+    {
+      "operation": "analyze",
+      "channel": "sentence",
+      "construction": "state.classification",
+      "status": "unsupported",
+      "evidence": [
+        {
+          "kind": "manual-refusal",
+          "id": "pl.state-bridge-refusal.01"
+        }
+      ]
+    },
+    {
+      "operation": "realize",
+      "channel": "sentence",
+      "construction": "state.classification",
+      "status": "unsupported",
+      "evidence": [
+        {
+          "kind": "manual-refusal",
+          "id": "pl.state-bridge-refusal.01"
+        }
+      ]
+    },
+    {
+      "operation": "analyze",
+      "channel": "sentence",
+      "construction": "question.yes-no",
+      "status": "unsupported",
+      "evidence": [
+        {
+          "kind": "manual-refusal",
+          "id": "pl.question-bridge-refusal.01"
+        }
+      ]
+    },
+    {
+      "operation": "realize",
+      "channel": "sentence",
+      "construction": "question.yes-no",
+      "status": "unsupported",
+      "evidence": [
+        {
+          "kind": "manual-refusal",
+          "id": "pl.question-bridge-refusal.01"
+        }
+      ]
+    },
+    {
+      "operation": "generate",
+      "channel": "morphology",
+      "construction": "word",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "pl.morphology.01"
+        }
+      ]
+    },
+    {
+      "operation": "analyze",
+      "channel": "morphology",
+      "construction": "word",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "pl.morphology.01"
+        }
+      ]
+    },
+    {
+      "operation": "paradigm",
+      "channel": "morphology",
+      "construction": "word",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "pl.morphology.01"
+        }
+      ]
+    },
+    {
+      "operation": "availability",
+      "channel": "morphology",
+      "construction": "word",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "pl.morphology.01"
+        }
+      ]
+    },
+    {
+      "operation": "lookup",
+      "channel": "lexicon",
+      "construction": "lexeme",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "pl.lexicon.01"
+        }
+      ]
+    },
+    {
+      "operation": "decode",
+      "channel": "signal",
+      "construction": "written",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "pl.written.01"
+        }
+      ]
+    }
+  ],
+  "provenance": "provenance.json"
+}

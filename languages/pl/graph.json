@@ -1,0 +1,120 @@
+{
+  "schemaVersion": "1.0",
+  "language": "pl",
+  "nodes": [
+    {
+      "id": "pl.identity",
+      "type": "identity",
+      "module": "identity",
+      "path": "manifest.json"
+    },
+    {
+      "id": "pl.signal",
+      "type": "signal",
+      "module": "signal",
+      "path": "signal.json",
+      "capability": "written"
+    },
+    {
+      "id": "pl.lexicon",
+      "type": "lexicon",
+      "module": "lexicon",
+      "path": "lexicon.json",
+      "capability": "lexeme"
+    },
+    {
+      "id": "pl.features",
+      "type": "morphology",
+      "module": "features",
+      "path": "features.json"
+    },
+    {
+      "id": "pl.morphology",
+      "type": "morphology",
+      "module": "morphology",
+      "path": "morphology.json",
+      "capability": "word"
+    },
+    {
+      "id": "pl.syntax.visual-perception",
+      "type": "syntax",
+      "module": "grammar",
+      "path": "grammar.json",
+      "capability": "event.visual_perception"
+    },
+    {
+      "id": "pl.bridge",
+      "type": "bridge",
+      "module": "bridge",
+      "path": "bridge.json"
+    },
+    {
+      "id": "pl.evidence",
+      "type": "evidence",
+      "module": "evidence",
+      "path": "provenance.json"
+    }
+  ],
+  "edges": [
+    {
+      "from": "pl.bridge",
+      "to": "pl.syntax.visual-perception",
+      "relation": "maps-to"
+    },
+    {
+      "from": "pl.syntax.visual-perception",
+      "to": "pl.lexicon",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.syntax.visual-perception",
+      "to": "pl.morphology",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.morphology",
+      "to": "pl.signal",
+      "relation": "realizes"
+    },
+    {
+      "from": "pl.morphology",
+      "to": "pl.features",
+      "relation": "depends-on"
+    },
+    {
+      "from": "pl.evidence",
+      "to": "pl.identity",
+      "relation": "evidences"
+    },
+    {
+      "from": "pl.evidence",
+      "to": "pl.signal",
+      "relation": "evidences"
+    },
+    {
+      "from": "pl.evidence",
+      "to": "pl.lexicon",
+      "relation": "evidences"
+    },
+    {
+      "from": "pl.evidence",
+      "to": "pl.features",
+      "relation": "evidences"
+    },
+    {
+      "from": "pl.evidence",
+      "to": "pl.morphology",
+      "relation": "evidences"
+    },
+    {
+      "from": "pl.evidence",
+      "to": "pl.syntax.visual-perception",
+      "relation": "evidences"
+    },
+    {
+      "from": "pl.evidence",
+      "to": "pl.bridge",
+      "relation": "evidences"
+    }
+  ]
+}
