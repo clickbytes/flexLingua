@@ -93,6 +93,7 @@ export function createFormsView({runtime, formsService} = {}) {
         lexemeId: candidate.lexeme.id});
       if (morphology.status === 'unsupported') {
         state.result = {status: 'morphology_unsupported', lexeme: candidate.lexeme,
+          providerStatus: morphology.providerStatus, hasProvider: morphology.hasProvider,
           diagnostics: morphology.diagnostics ?? []};
         state.status = state.result.status;
         return;
@@ -106,14 +107,28 @@ export function createFormsView({runtime, formsService} = {}) {
 
       const paradigm = formsService.inspectParadigm({language: state.language, lexemeId: candidate.lexeme.id});
       if (paradigm.status !== 'ok') {
+        if (morphology.status === 'no_paradigm') {
+          state.result = {status: 'no_paradigm', lexeme: candidate.lexeme,
+            providerStatus: morphology.providerStatus, hasProvider: morphology.hasProvider,
+            hasParadigm: morphology.hasParadigm, paradigmStatus: morphology.paradigmStatus,
+            availability: morphology.availability, description: morphology.description,
+            forms: [], analyses: candidate.analyses,
+            diagnostics: morphology.diagnostics ?? []};
+          state.status = 'no_paradigm';
+          return;
+        }
         state.result = {status: 'error', lexeme: candidate.lexeme, message: paradigm.message,
           diagnostics: paradigm.diagnostics ?? []};
         state.status = 'error';
         return;
       }
-      const status = morphology.status === 'no_paradigm' ? 'no_paradigm' : 'found';
-      state.result = {status, lexeme: candidate.lexeme, availability: morphology.availability,
-        description: morphology.description, forms: paradigm.forms,
+      const forms = Array.isArray(paradigm.forms) ? paradigm.forms : [];
+      const status = forms.length ? 'found' : morphology.status === 'no_paradigm' ?
+        'no_paradigm' : 'empty_paradigm';
+      state.result = {status, lexeme: candidate.lexeme,
+        providerStatus: morphology.providerStatus, hasProvider: morphology.hasProvider,
+        availability: morphology.availability, description: morphology.description, forms,
+        hasParadigm: morphology.hasParadigm, paradigmStatus: morphology.paradigmStatus,
         analyses: candidate.analyses};
       state.status = status;
     } catch (error) {
@@ -164,6 +179,7 @@ export function createFormsView({runtime, formsService} = {}) {
           return;
         }
         state.result = {status: 'morphology_unsupported', message: 'Morphology not supported for this language',
+          providerStatus: morphology.providerStatus, hasProvider: morphology.hasProvider,
           diagnostics: morphology.diagnostics ?? []};
         state.status = state.result.status;
         return;
@@ -268,12 +284,15 @@ export function createFormsView({runtime, formsService} = {}) {
     const lines = [{text: `Entry: ${result.lexeme.lemma} · ${result.lexeme.id}`,
       tone: 'accent'}];
     if (result.status === 'no_paradigm') {
-      lines.push({text: 'Entry found; provider reports no supported paradigm.', tone: 'warning'});
-      if (result.availability?.reason) lines.push({text: `Provider: ${result.availability.reason}`, tone: 'muted'});
-      if (result.forms?.length) lines.push({text: 'Forms returned by inspectParadigm:', tone: 'muted'});
+      lines.push({text: 'Dictionary entry found; provider reports no morphology binding.', tone: 'warning'},
+        {text: 'No forms were returned for this entry.', tone: 'muted'});
+    } else if (result.status === 'empty_paradigm') {
+      lines.push({text: 'Provider returned no forms; absence of a paradigm is unconfirmed.', tone: 'warning'});
     } else {
       lines.push({text: 'Forms returned by the language provider:', tone: 'muted'});
     }
+    if (result.availability?.reason) lines.push({text: `Provider availability: ${result.availability.reason}`,
+      tone: 'muted'});
     for (const analysis of result.analyses ?? []) {
       const features = featureEntries(analysis.features).map(([key, value]) => `${key}=${value}`).join(', ');
       if (features) lines.push({text: `Matched form features: ${features}`, tone: 'muted'});
@@ -286,7 +305,9 @@ export function createFormsView({runtime, formsService} = {}) {
         lines.push({text: `${features ? `${features}: ` : ''}${form.text ?? ''}`, tone: 'neutral'});
       }
     }
-    if (!groups.length) lines.push({text: 'No forms returned by the provider.', tone: 'muted'});
+    if (!groups.length && !['no_paradigm', 'empty_paradigm'].includes(result.status)) {
+      lines.push({text: 'No forms returned by the provider.', tone: 'muted'});
+    }
     return lines;
   }
 
