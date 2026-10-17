@@ -15,6 +15,7 @@ import {runCliSmoke} from './lib/cli.mjs';
 import {compareCase} from './lib/assertions.mjs';
 import {ALLOWED_DIRECTIONS} from './lib/discover.mjs';
 import {buildCoverage} from './lib/coverage.mjs';
+import {writeReports} from './lib/report.mjs';
 import {loadMatrix} from './lib/validate.mjs';
 
 const RUNNER_DIR = dirname(fileURLToPath(import.meta.url));
@@ -27,12 +28,15 @@ const USAGE = `Usage: node tests/run.mjs [--validate|--matrix|--cli|--all] [--he
                production createTranslationService (never a second translator)
   --cli        matrix plus the CLI subprocess smoke for cliSmoke-tagged cases
                (documented exit-code policy, single JSON document, no stacks)
-  --all        validate + matrix + coverage accounting + CLI smoke (report
-               files land with TM-08 and stay explicitly NOT RUN until then)
+  --report     write tests/.reports/{matrix.json, summary.md, junit.xml} and
+               append the summary to GITHUB_STEP_SUMMARY when the env var is
+               set; without matrix input it exits 3
+  --all        validate + matrix + coverage accounting + CLI smoke + reports
+               (this is what npm test and GitHub Actions run)
 
 Exit codes: 0 all green gates; 1 required FAIL/INFRA, invalid or incomplete
-matrix; 2 usage error. Infrastructure errors are always failures and are never
-re-interpreted as expected refusals.`;
+matrix; 2 usage error; 3 --report invoked without a matrix run. Infrastructure
+errors are always failures and are never re-interpreted as expected refusals.`;
 
 const TRIM = 240;
 const KIND_LABEL = Object.freeze({
@@ -54,16 +58,18 @@ function readSha() {
 }
 
 function parseFlags(argv) {
-  const flags = {validate: false, matrix: false, cli: false, all: false, help: false};
+  const flags = {validate: false, matrix: false, cli: false, all: false,
+    report: false, help: false};
   for (const arg of argv) {
     if (arg === '--validate') flags.validate = true;
     else if (arg === '--matrix') flags.matrix = true;
     else if (arg === '--cli') flags.cli = true;
+    else if (arg === '--report') flags.report = true;
     else if (arg === '--all') flags.all = true;
     else if (arg === '--help' || arg === '-h') flags.help = true;
     else return null;
   }
-  if (flags.all) { flags.validate = true; flags.matrix = true; flags.cli = true; }
+  if (flags.all) { flags.validate = true; flags.matrix = true; flags.cli = true; flags.report = true; }
   if (flags.cli) { flags.matrix = true; }
   return flags;
 }
@@ -93,7 +99,8 @@ async function main() {
   const flags = parseFlags(process.argv.slice(2));
   if (flags === null || flags.help || (!flags.validate && !flags.matrix && !flags.cli)) {
     console.log(USAGE);
-    process.exitCode = flags !== null && flags.help ? 0 : 2;
+    if (flags !== null && flags.report) process.exitCode = 3;
+    else process.exitCode = flags !== null && flags.help ? 0 : 2;
     return;
   }
   const started = Date.now();
@@ -196,15 +203,18 @@ async function main() {
   console.log(`Known gaps registered: ${gapCount} (reported separately, never counted as PASS)`);
 
   let coverageFailed = false;
+  let coverageResult = null;
   if (flags.all) {
-    const notRunLabels = ['report files (land with TM-08)'];
-    if (!flags.cli) notRunLabels.unshift('CLI smoke (lands with TM-07)');
-    coverageFailed = !printCoverage({runtime, matrix, outcomes, gapCount, notRunLabels});
+    const notRunLabels = [];
+    if (!flags.report) notRunLabels.push('report files (add --report)');
+    coverageResult = printCoverage({runtime, matrix, outcomes, gapCount, notRunLabels});
+    coverageFailed = !coverageResult.gate.passed;
   } else {
     console.log('Coverage accounting, CLI smoke and reports: NOT RUN (run --all for the full gates).');
   }
 
   let cliFailed = false;
+  let cliResults = null;
   if (flags.cli || flags.all) {
     const smokeCases = matrix.cases.filter(item => item.cliSmoke === true);
     console.log('');
@@ -213,9 +223,9 @@ async function main() {
     } else {
       console.log(`CLI SMOKE (${smokeCases.length} tagged cases): exit-code policy ` +
         '(ok→0; unsupported/invalid/ambiguous/resource_limit→2), single JSON document, no node:internal stacks');
-      const smoke = runCliSmoke({cases: smokeCases, service, repoRoot: REPO_ROOT});
+      cliResults = runCliSmoke({cases: smokeCases, service, repoRoot: REPO_ROOT});
       let smokePassed = 0;
-      for (const result of smoke) {
+      for (const result of cliResults) {
         if (result.pass) {
           smokePassed += 1;
           console.log(`CLI-PASS [${result.kind}] ${result.id} (${result.durationMs} ms)`);
@@ -225,30 +235,42 @@ async function main() {
           for (const line of result.lines) console.log(`    - ${line}`);
         }
       }
-      console.log(`CLI smoke: ${smokePassed}/${smoke.length} passed.`);
-      cliFailed = smokePassed !== smoke.length;
+      console.log(`CLI smoke: ${smokePassed}/${cliResults.length} passed.`);
+      cliFailed = smokePassed !== cliResults.length;
     }
   }
 
   const failedRequired = counts.fail.required + counts.infra.required;
-  if (failedRequired > 0) {
+  const matrixRed = failedRequired > 0;
+  const gates = {
+    matrix: matrixRed ? 'RED' : 'GREEN',
+    coverage: flags.all ? (coverageFailed ? 'RED' : 'GREEN') : 'NOT RUN',
+    cli: (flags.cli || flags.all) ? (cliFailed ? 'RED' : 'GREEN') : 'NOT RUN'
+  };
+  if (matrixRed) {
     console.log(`GATE: RED — ${failedRequired} required case(s) did not pass. Merge to main stays blocked.`);
-    process.exitCode = 1;
-    return;
+  } else {
+    console.log(`GATE (matrix): GREEN — ${outcomes.length} executed case(s), required (${declaredRequiredCases.length}) all PASS.`);
   }
-  if (coverageFailed) {
-    console.log('GATE: RED — coverage: a required A1 target lacks a positive witness in the canonical pair directions. Merge to main stays blocked.');
-    process.exitCode = 1;
-    return;
+  if (flags.all) {
+    console.log(coverageFailed
+      ? 'GATE: RED — coverage: a required A1 target lacks a positive witness in the canonical pair directions. Merge to main stays blocked.'
+      : 'GATE (coverage): GREEN — every required A1 target is witnessed in both canonical directions.');
   }
-  if (cliFailed) {
-    console.log('GATE: RED — CLI smoke: the shipped command line does not match the approved expectations or the exit-code policy.');
-    process.exitCode = 1;
-    return;
+  if (flags.cli || flags.all) {
+    console.log(cliFailed
+      ? 'GATE: RED — CLI smoke: the shipped command line does not match the approved expectations or the exit-code policy.'
+      : 'GATE (CLI smoke): GREEN — the shipped command line matches the approved expectations and the exit-code policy.');
   }
-  console.log(`GATE: GREEN — ${outcomes.length} executed case(s), required (${declaredRequiredCases.length}) all PASS.`);
+
+  if (flags.report) {
+    const written = await writeReports({testsRoot: RUNNER_DIR, sha, matrix, outcomes,
+      coverage: coverageResult, cliSmoke: cliResults, gates, notRun: [], durationMs: Date.now() - started});
+    console.log(`REPORTS: ${written.files.join(', ')}`);
+  }
+
+  process.exitCode = matrixRed || coverageFailed || cliFailed ? 1 : 0;
   console.log(`Duration: ${Date.now() - started} ms.`);
-  process.exitCode = 0;
 }
 
 /** Live declared sentence tuples: manifest direction limits ∩ (source analyze ∩ target realize). */
@@ -292,7 +314,7 @@ function extractDeclaredTuples(runtime) {
   return tuples;
 }
 
-/** Print the coverage section; returns true when the required-target gate passes. */
+/** Print the coverage section; returns the full coverage object (gate included). */
 function printCoverage({runtime, matrix, outcomes, gapCount, notRunLabels = []}) {
   const coverage = buildCoverage({
     declaredTuples: extractDeclaredTuples(runtime),
@@ -329,7 +351,7 @@ function printCoverage({runtime, matrix, outcomes, gapCount, notRunLabels = []})
       `${target.witnessed.join(', ') || 'no direction'}` +
       (target.missing.length ? ` — missing ${target.missing.join(', ')}` : ''));
   }
-  return coverage.gate.passed;
+  return coverage;
 }
 
 function printFailures(failures) {
