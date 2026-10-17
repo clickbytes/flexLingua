@@ -356,8 +356,6 @@
           },
           "refusalCases": {
             "en->pl": [
-              "A1-ENPL-06-NEG-01",
-              "A1-ENPL-06-QUESTION-01",
               "A1-ENPL-06-PAST-01",
               "A1-ENPL-06-AGREEMENT-01",
               "A1-ENPL-06-UNCONFIGURED-01",
@@ -420,7 +418,12 @@
       "coreContract": {
         "type": "event",
         "kind": [
-          "present-progressive"
+          "event.read",
+          "event.write",
+          "event.eat",
+          "event.drink",
+          "event.help",
+          "event.open"
         ],
         "roles": [
           "agent",
@@ -439,14 +442,64 @@
         "none",
         "yes_no"
       ],
-      "implementationStatus": "planned",
+      "implementationStatus": "implemented",
       "dependencies": [
         "A1-ENPL-08"
       ],
-      "evidence": [],
-      "knownGaps": [
-        "Negative and yes/no progressive cases are pending batch 09 gold and execution."
-      ]
+      "evidence": [
+        {
+          "sourceId": "progressive",
+          "fixture": "tests/fixtures/gold-a1-present-progressive.json",
+          "suite": "tests/a1-present-progressive.test.js",
+          "positiveCases": {
+            "en->pl": [
+              "A1-ENPL-06-EN-01",
+              "A1-ENPL-06-EN-02",
+              "A1-ENPL-06-EN-03",
+              "A1-ENPL-06-EN-04",
+              "A1-ENPL-06-EN-05",
+              "A1-ENPL-06-EN-06",
+              "A1-ENPL-09-NEG-01",
+              "A1-ENPL-09-NEG-02",
+              "A1-ENPL-09-NEG-03",
+              "A1-ENPL-09-NEG-04",
+              "A1-ENPL-09-NEG-05",
+              "A1-ENPL-09-NEG-06",
+              "A1-ENPL-09-QUESTION-01",
+              "A1-ENPL-09-QUESTION-02",
+              "A1-ENPL-09-QUESTION-03",
+              "A1-ENPL-09-QUESTION-04",
+              "A1-ENPL-09-QUESTION-05",
+              "A1-ENPL-09-QUESTION-06"
+            ],
+            "pl->en": [
+              "A1-ENPL-06-PL-01",
+              "A1-ENPL-06-PL-02",
+              "A1-ENPL-06-PL-03",
+              "A1-ENPL-06-PL-04",
+              "A1-ENPL-06-PL-05",
+              "A1-ENPL-06-PL-06",
+              "A1-ENPL-09-PL-NEG-01",
+              "A1-ENPL-09-PL-NEG-02",
+              "A1-ENPL-09-PL-NEG-03",
+              "A1-ENPL-09-PL-NEG-04",
+              "A1-ENPL-09-PL-NEG-05",
+              "A1-ENPL-09-PL-NEG-06"
+            ]
+          },
+          "refusalCases": {
+            "en->pl": [
+              "A1-ENPL-06-PAST-01",
+              "A1-ENPL-06-AGREEMENT-01",
+              "A1-ENPL-06-UNCONFIGURED-01",
+              "A1-ENPL-06-MISSING-THEME-01",
+              "A1-ENPL-06-VERB-AGREEMENT-01"
+            ],
+            "pl->en": []
+          }
+        }
+      ],
+      "knownGaps": []
     },
     {
       "id": "A1-ENPL-10",
