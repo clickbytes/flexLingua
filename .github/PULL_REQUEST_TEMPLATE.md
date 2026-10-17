@@ -13,11 +13,11 @@ Describe the change and its result.
 
 ## Verification
 
-- [ ] The local pre-push check passed for this PR's exact head SHA, or the failure is recorded below.
-- Local SHA, command, PASS/FAIL/NOT RUN, and A1 case IDs reviewed:
-- Local report (`.local-checks/<SHA>.json`) summary:
+- [ ] I ran the sentence review CLI for the changed fixture and reviewed each changed row's wording and CORE.
+- Fixture, command, reviewed case IDs/count, mismatches, and commit SHA:
+- Focused Node test or data validator (if needed): command and PASS/FAIL/NOT RUN:
 
 ## Limitations or exceptions
 
-List checks that were not run or did not pass, with the linked blocker issue, reason, and next step. Never report an unrun or failed check as passing.
+List any requested checks that were not run or did not pass, with reason and next step. Never report an unrun or failed check as passing. GitHub Actions are not used.
 

@@ -19,7 +19,7 @@ npm run dev
 # open http://127.0.0.1:8000/
 ```
 
-`check:core-gates` runs `check:release` once and emits deterministic JSON evidence: checked-out/source SHA, package version, a SHA-256 manifest of tracked files, Node/npm versions, test totals and gate outcomes. It refuses dirty tracked files or untracked files (except ignored local tool output). Reports omit timestamps, durations and process IDs. The versioned pre-push hook runs the checks locally and writes its SHA-specific result under `.local-checks/`.
+`check:core-gates` runs `check:release` once and emits deterministic JSON evidence: checked-out/source SHA, package version, a SHA-256 manifest of tracked files, Node/npm versions, test totals and gate outcomes. It refuses dirty tracked files or untracked files. Reports omit timestamps, durations and process IDs. It is an explicit release command; Git hooks do not run checks on commit or push.
 
 The package has no install-time or runtime dependencies. The UI runs through the local HTTP server; no standalone HTML is maintained or generated. The gate command does not publish or change `package.json`.
 

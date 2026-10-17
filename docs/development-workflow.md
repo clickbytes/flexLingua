@@ -5,40 +5,50 @@
 | Informacja | Miejsce |
 | --- | --- |
 | Zakres, kryteria odbioru, zależności, blokery i następny krok | Issue w `clickbytes/flexLingua` |
-| Diff, przegląd, SHA i wynik lokalnych testów | Pull request |
-| Oczekiwane znaczenie zdań i odmowy | Wersjonowane goldy oraz testy |
+| Diff, przegląd, SHA i wynik lokalnej macierzy | Pull request |
+| Oczekiwane znaczenie zdań i odmowy | Wersjonowane goldy |
 | Faktyczny kontrakt produktu i uruchamiania | Kod i właściwy dokument w repozytorium |
 
 Nie prowadzimy osobnego `HANDOFF.MD`. GitHub Actions nie uruchamiają testów ani nie stanowią bramki merge.
 
-## Jednorazowe ustawienie lokalne
+## Lokalne sprawdzanie zmian językowych
 
-Po sklonowaniu repozytorium uruchom `npm run setup:local-hooks`. Skrypt ustawia `core.hooksPath=.githooks` w lokalnej konfiguracji Git. Wersjonowane hooki działają przy kolejnych commitach i pushach z tego klona. Nie instaluj zależności: projekt nie ma pakietów runtime.
+Nie instalujemy hooków Git. Commit i push nie uruchamiają testów automatycznie. Repozytorium nie ma aktywnych workflowów GitHub Actions.
 
-`pre-commit` uruchamia `node tools/a1-evidence-ledger.mjs --catalog-only`: sprawdza deklaracje, integralność przypiętych goldów i rejestr konstrukcji bez wykonywania suite'ów. `pre-push` uruchamia `npm run check:release` na zapisanym HEAD. Polecenie zawiera walidatory, wszystkie testy Node oraz A1 H1. Lokalny raport i pełny log powstają w ignorowanym katalogu `.local-checks/<SHA>.json` i `.log`. Hook blokuje push po błędzie albo gdy śledzone pliki są niezapisane. Każdy push sprawdza tylko własny HEAD; inne referencje wypychaj osobno.
+Macierz zdań jest podstawowym narzędziem odbioru dla zmian tłumaczenia, gramatyki, parsera, leksykonu i semantyki. Uruchom:
 
-Podczas edycji uruchamiaj celowany `node --test tests/<plik>.test.js` i właściwy walidator danych. Nie powtarzaj pełnego `npm test` obok `check:release`. Lokalny raport z hooka nie jest commitem ani publikacją; wpisz jego wynik, komendę, liczbę przypadków i dokładny SHA do PR. Jeśli hook nie uruchomił się lub test się nie powiódł, wpisz `NOT RUN` albo `FAIL` i zatrzymaj merge. Nie oznaczaj wyniku jako PASS na podstawie samego istnienia golda.
+```powershell
+node tools/review-sentences.mjs --input tests/fixtures/gold-a1-enpl-composition-v2.json
+```
+
+CLI wypisuje dla każdego wiersza wejście, expected, actual, wynik, CORE lub odmowę. Przejrzyj każdy zmieniony wiersz pod względem naturalności, gramatyki, ról, czasu, aspektu, polaryzacji, liczby, relacji i sensu. Status `match` potwierdza tylko zgodność tekstu z zapisanym expected; nie zastępuje oceny językowej.
+
+Expected i CORE zapisuj ręcznie przed uruchomieniem silnika. Nie kopiuj wyniku engine do golda bez niezależnej decyzji, że jest poprawny. Goldy rosną partiami tematycznymi w kierunku 1000 zdań na kierunek; nie uruchamiaj całej macierzy po każdej zmianie.
+
+Zapisz w PR/issue plik macierzy, komendę, liczbę przejrzanych wierszy, mismatche i SHA commita. Gdy zmiana zachowania wymaga mechanicznej regresji, uruchom jeden pasujący `node --test tests/<plik>.test.js`. Przy zmianie danych wybierz jeden właściwy walidator.
+
+Pełne `npm run check:core-gates` jest jawnym poleceniem wydaniowym albo pełnej weryfikacji na żądanie; zwykły batch go nie uruchamia. Nie dubluj kontroli pokrytych przez pełny gate.
 
 ## Macierz zdań A1
 
-Pilotażowa macierz jest w zamrożonym `data/coverage/a1-heldout-v1.json`: 100 autorskich par zdań daje 100 wejść EN→PL i 100 PL→EN oraz 20 jawnych odmów. `tests/a1-heldout.test.js` sprawdza powierzchnię, CORE źródła i celu oraz serializację CORE; jest częścią `npm test` uruchamianego przez hook. Expected zapisano niezależnie od wyniku silnika. Autor fixture'a był także autorem implementacji, więc próbka nie stanowi niezależnego benchmarku ani reprezentatywnego pomiaru CEFR A1.
+Pilotażowa macierz jest w zamrożonym `data/coverage/a1-heldout-v1.json`: 100 autorskich par zdań daje 100 wejść EN→PL i 100 PL→EN oraz 20 jawnych odmów. `tests/a1-heldout.test.js` sprawdza powierzchnię, CORE źródła i celu oraz serializację CORE jako jawny test regresyjny. Expected zapisano niezależnie od wyniku silnika. Autor fixture'a był także autorem implementacji, więc próbka nie stanowi niezależnego benchmarku ani reprezentatywnego pomiaru CEFR A1.
 
-Nowe zdania redaguj partiami według konstrukcji. Dla każdego przypadku ustal przed uruchomieniem silnika: ID, kierunek, wejście, oczekiwany cel, CORE lub jawny powód odmowy. Przejrzyj polską składnię, przypadki, zgodę, role, czas, aspekt, polarność i analizę odwrotną. Nie przepisuj expected z rezultatu implementacji. H1 pozostaje zamrożony; kolejne partie prowadź w osobnych wersjonowanych goldach. Cel 1000 wejść na język jest planem rozbudowy macierzy, a nie obecnym wynikiem ani procentem CEFR.
+Nowe zdania redaguj partiami według konstrukcji. Dla każdego przypadku ustal ID, kierunek, wejście, oczekiwany cel i CORE albo jawny powód odmowy. Przejrzyj polską składnię, przypadki, zgodę, role, czas, aspekt, polarność i analizę odwrotną. H1 pozostaje zamrożony; kolejne partie prowadź w osobnych wersjonowanych goldach. Cel 1000 wejść na język jest planem rozbudowy macierzy, a nie obecnym wynikiem ani procentem CEFR A1.
 
 ## Przebieg zadania
 
 1. Wybierz issue i ustal jego kryteria odbioru. Dla nowej konstrukcji przygotuj mały ręczny gold przed kodem.
-2. Zmień tylko potrzebne pliki. W trakcie używaj celowanych testów CLI.
-3. Zapisz commit; `pre-commit` zweryfikuje katalog goldów. Push uruchomi pełne lokalne sprawdzenie i zapisze raport SHA.
-4. Otwórz PR powiązany z issue. Wklej wynik lokalny dla dokładnego head SHA i wskaż nowe lub zmienione ID goldów. W issue albo epiku umieść krótkie podsumowanie z linkiem do PR.
+2. Zmień tylko potrzebne pliki. Uruchom lokalny CLI dla zmienionego pliku gold i przejrzyj wyniki.
+3. Uruchom jeden celowany test lub walidator, jeśli jest potrzebny do sprawdzenia zmienionego kontraktu.
+4. Zapisz commit i otwórz PR powiązany z issue. Umieść w PR wynik przeglądu zdań i SHA.
 5. Scal po sprawdzeniu diffu, kryteriów odbioru i wyniku lokalnego. Zamknij issue przez PR. Przy blokadzie zapisz powód i następny krok w issue.
 
-Zmiana po ostatnim przebiegu wymaga nowego testu na końcowym commicie. Commit hook uruchamia kontrole lokalnie; GitHub nie weryfikuje ich zdalnie. Raport w PR jest zatem obowiązkowym dowodem przeglądu.
+Jeśli plik gold lub implementacja zmieniły się po ostatnim przeglądzie, ponownie uruchom CLI na końcowym commicie i przejrzyj zmienione wiersze. CI nie jest uruchamiane.
 
 ## Wydanie i rollback
 
-`npm run check:core-gates` pozostaje ręcznym poleceniem wydania dla czystego checkoutu. Uruchamia `check:release` jeden raz i wypisuje deterministyczny raport: SHA, wersję, manifest śledzonych plików z SHA-256, runtime i wyniki testów. Nie uruchamiaj go dodatkowo po przejściu identycznego pełnego przebiegu, chyba że wymaga tego wydanie lub zmienił się commit z wersją.
+`npm run check:core-gates` uruchamiaj wyłącznie na jawne żądanie pełnej weryfikacji albo wydania. Uruchamia `check:release` jeden raz i wypisuje deterministyczny raport: SHA, wersję, manifest śledzonych plików z SHA-256, runtime i wyniki testów. Wymaga czystego checkoutu.
 
-Po błędzie lokalnym popraw przyczynę i ponów odpowiednią kontrolę. Rollback wykonuj przez PR z `git revert <merge-sha>`, przepuść lokalny hook i zapisz SHA revertu w pierwotnym issue. Nie przepisuj historii `main`.
+Po błędzie lokalnym popraw przyczynę i powtórz odpowiedni przegląd lub kontrolę. Rollback wykonuj przez PR z `git revert <merge-sha>` i zapisz SHA revertu w pierwotnym issue. Nie przepisuj historii `main`.
 
-Dokumentację aktualizuj wyłącznie po trwałej zmianie zachowania, API, schematu, architektury, poleceń albo provenance. Postęp i wyniki testów należą do issue i PR.
+Dokumentację aktualizuj wyłącznie po trwałej zmianie zachowania, API, schematu, architektury, poleceń albo provenance. Postęp i wyniki należą do issue i PR.

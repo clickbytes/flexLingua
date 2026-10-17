@@ -5,8 +5,9 @@
 Optimize for fast, precise edits with the smallest reasonable amount of tool use.
 The default is **FAST EDIT**, not repository audit or release preparation.
 Follow the user's explicit task and stop when it is complete. Do not claim that
-unrun checks passed. Tests run locally through versioned Git hooks; GitHub Actions
-are not part of the development or merge process.
+unrun checks passed. Language changes use the local sentence review CLI and a
+human review of its output. GitHub Actions are not part of the development or
+merge process, and Git hooks do not launch tests.
 
 ## Scope and execution
 
@@ -29,8 +30,8 @@ are not part of the development or merge process.
   inspection commands as routine preflight/postflight work. Use Git only when
   needed for the requested task, conflict safety, or an explicit PR/release flow.
 - Do **not** run extra tests, builds, formatters, linters, audits, `npm install`,
-  `npm audit`, or the development server just to be thorough. The local hooks
-  provide the automatic commit and push checks.
+  `npm audit`, or the development server just to be thorough. Commits and pushes
+  have no automatic checks.
 - Do not launch broad searches, full test suites, background services, or
   additional validation after a change unless the task requires it.
 - Do not chain multiple verification commands that substantially duplicate
@@ -78,8 +79,8 @@ stable regression sample; do not rerun the entire corpus after every edit.
    Do not launch every language audit for an unrelated dataset.
 4. **RELEASE GATE (explicit only):** Run `npm run check:core-gates` only when
    the user explicitly requests a release or full repository verification.
-   Local hooks must not turn an ordinary push into a full test run. Report the
-   exact commands actually run and never infer success from a commit or push.
+   Commits and pushes run no checks automatically. Report the exact commands
+   actually run and never infer success from a commit or push.
 
 If a focused check fails, investigate the in-scope failure, fix it if appropriate,
 and rerun that check once. Do not launch unrelated checks in response. If an
@@ -110,9 +111,9 @@ Only choose paths relevant to the requested change.
 - Studio / browser UI: `js/ui/studio.js`, `js/ui/dialogue.js`, `js/main.js`,
   `index.html`; possible tests: `tests/studio-ui.test.js`,
   `tests/dialogue-ui.test.js`, `tests/ui.test.js`.
-- Local hooks / release gating: `.githooks/`, `tools/local-check.mjs`,
-  `tools/check-core-gates.mjs`, `package.json`; focused tests:
-  `tests/local-workflow.test.js`, `tests/core-release-gates.test.js`.
+- Local sentence review / release gating: `tools/review-sentences.mjs`,
+  `tools/check-core-gates.mjs`, `package.json`; focused test:
+  `tests/core-release-gates.test.js`.
 - Existing npm scripts are defined in `package.json`. Do not invent scripts;
   the sentence-review CLI is called directly with `node`.
   Node test runner: `node --test tests/<relevant-file>.test.js`.

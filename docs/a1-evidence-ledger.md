@@ -64,9 +64,9 @@ Raport zawiera statusy `pass`, `fail`, `not-run` wraz z faktycznym kodem wyjści
 
 Rejestr oddziela liczbę jawnie oznaczonych przykładów od rzeczywistych wyników testów. `cefr.percentage:null` pozostaje obowiązkowe.
 
-## Połączenie z CI i własność kodu
+## Lokalne uruchomienie
 
-`check:a1-evidence` jest częścią `lexical-audits` oraz `check:release`. Osobny person gold także jest wykonywany przez `check:gold-person` w `lexical-audits` i `check:release`. Lokalny UI uruchamia się przez HTTP.
+Nie ma aktywnych workflowów GitHub Actions. `npm run report:a1-evidence`, `npm run check:a1-evidence` i `npm run check:release` są ręcznymi poleceniami; nie uruchamiaj ich jako domyślnego przeglądu każdego batcha. Do zmienionych zdań używaj `node tools/review-sentences.mjs --input <fixture.json>` i ręcznie oceń tekst oraz CORE. Pełny `npm run check:core-gates` służy wyłącznie do jawnej pełnej weryfikacji lub wydania. Lokalny UI uruchamia się przez HTTP.
 
 ## Wynik prawdziwego CI po Batch 7
 
