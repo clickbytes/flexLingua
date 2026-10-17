@@ -16,7 +16,8 @@ const safeText=text=>typeof text==='string' && text.length>0 && text.length<128 
  */
 export function createMorphology(spec, dictionary, featureSpec, options={}) {
   const {core}=options;
-  if (!record(spec) || spec.version!=='1.11' || !safeName(spec.language) ||
+  if (!record(spec) || !record(dictionary) || !record(featureSpec) ||
+      spec.version!=='1.11' || !safeName(spec.language) ||
       !record(spec.paradigms) || !Array.isArray(spec.bindings) ||
       spec.bindings.length>MAX_LEXEMES || dictionary.language!==spec.language) {
     throw new Error('Invalid morphology package or language mismatch.');
@@ -138,6 +139,12 @@ export function createMorphology(spec, dictionary, featureSpec, options={}) {
       const query=flattenMorphFeatures(features,registry);
       const matchesForm=binding.forms.filter(form=>
         matches(query,form.features)&&(exact?Object.keys(query).length===Object.keys(form.features).length:true));
+      if(!matchesForm.length){
+        const error=new Error(`Missing or blocked morphology cell for ${lexemeId}.`);
+        error.code='MORPHOLOGY_CELL_UNAVAILABLE';
+        error.status='unsupported';
+        throw error;
+      }
       return matchesForm.map(output);
     },
     analyze({text}){

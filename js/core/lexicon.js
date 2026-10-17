@@ -21,7 +21,8 @@ function freezeDeep(value) {
   return value;
 }
 
-const keyOf = ref => `${ref.kind}:${ref.id}:${JSON.stringify(ref.parameters || {})}`;
+const keyOf = ref => `${ref.kind}:${ref.id}:${JSON.stringify(Object.entries(ref.parameters || {})
+  .sort(([left], [right]) => left.localeCompare(right)))}`;
 function quantifierCore(meaning) {
   if (meaning?.kind === 'universal' && Object.keys(meaning).length === 1) {
     return {kind:'operator',id:'quantifier.universal'};
