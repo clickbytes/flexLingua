@@ -1,38 +1,3 @@
-function hasSentenceOperation(capabilities, operation) {
-  return capabilities.some(item => item.channel === 'sentence' && item.operation === operation &&
-    item.status === 'implemented');
-}
-
-function pluginInventory(runtime) {
-  const registry = runtime.plugins;
-  const manifests = new Map((runtime.languages ?? []).map(item => [item.code, item]));
-  const plugins = new Map();
-  for (const code of registry?.list?.() ?? []) {
-    const manifest = manifests.get(code);
-    if (!manifest || manifest.status === 'unavailable') continue;
-    try {
-      const plugin = registry.get(code);
-      const capabilities = plugin.capabilities();
-      if (Array.isArray(capabilities)) plugins.set(code, {manifest, capabilities});
-    } catch {}
-  }
-
-  const directions = [];
-  for (const [from, source] of plugins) {
-    if (!hasSentenceOperation(source.capabilities, 'analyze')) continue;
-    for (const [to, target] of plugins) {
-      if (!hasSentenceOperation(target.capabilities, 'realize')) continue;
-      const direction = `${from}->${to}`;
-      if ([source.manifest, target.manifest].some(item => item.directions !== undefined &&
-          !item.directions.includes(direction))) continue;
-      directions.push({from, to});
-    }
-  }
-  directions.sort((left, right) => left.from.localeCompare(right.from) ||
-    left.to.localeCompare(right.to));
-  return {plugins, directions};
-}
-
 function unique(values) {
   return [...new Set(values)];
 }
@@ -60,26 +25,40 @@ function diagnosticText(item) {
 }
 
 export function createTranslateView({runtime, translationService} = {}) {
-  if (!runtime?.plugins || typeof translationService?.translate !== 'function') {
+  if (!runtime?.capabilityCatalog || typeof translationService?.translate !== 'function') {
     throw new Error('Translate view requires the application runtime and translation service.');
   }
 
-  const inventory = pluginInventory(runtime);
-  const directions = inventory.directions;
-  const languages = [...inventory.plugins.keys()];
-  const preferred = directions.find(item => item.from === 'en' && item.to === 'pl') ?? directions[0];
+  const catalog = runtime.capabilityCatalog;
+  const languages = catalog.listLanguages().map(item => item.code);
+  const availableDirections = catalog.listDirections({availableOnly: true});
+  const preferred = availableDirections.find(item => item.from === 'en' && item.to === 'pl') ??
+    availableDirections[0];
   const defaultFrom = preferred?.from ?? (languages.includes('en') ? 'en' : languages[0] ?? null);
-  const defaultTo = preferred?.to ?? (languages.includes('pl') ? 'pl' : languages[0] ?? null);
+  const defaultTo = preferred?.to ?? (languages.includes('pl') ? 'pl' :
+    languages.find(code => code !== defaultFrom) ?? defaultFrom);
   const state = {draft: '', cursor: 0, focusIndex: 0, status: '', from: defaultFrom,
     to: defaultTo, result: null, details: false, scrollTop: 0};
 
   function hasDirection(from, to) {
-    return directions.some(item => item.from === from && item.to === to);
+    return catalog.translation({from, to}).status === 'available';
+  }
+
+  function directionLabel() {
+    const direction = catalog.translation({from: state.from, to: state.to});
+    if (direction.status === 'available') return 'limited subset';
+    if (direction.status === 'direction_unavailable') return 'unsupported (manifest restriction)';
+    if (direction.status === 'capability_unavailable') return 'unsupported (capability unavailable)';
+    if (direction.status === 'package_unavailable') return 'unsupported (package unavailable)';
+    if (direction.status === 'runtime_unavailable') return 'unsupported (runtime unavailable)';
+    return 'unsupported';
   }
 
   function hasOperation(language, operation) {
-    const plugin = inventory.plugins.get(language);
-    return !!plugin && hasSentenceOperation(plugin.capabilities, operation);
+    const item = catalog.language(language);
+    if (!item || item.status !== 'available') return false;
+    return operation === 'analyze' ? item.runtimeCapabilities.parsing :
+      operation === 'realize' ? item.runtimeCapabilities.realization : false;
   }
 
   function canSwap() {
@@ -197,8 +176,7 @@ export function createTranslateView({runtime, translationService} = {}) {
       {text: `${toFocused ? '›' : ' '} To: ${state.to ?? 'unavailable'}${
         hasOperation(state.to, 'realize') ? '' : ' (realization unavailable)'}  ←/→`,
         tone: toFocused ? 'accent' : 'neutral'},
-      {text: `Direction: ${state.from ?? '—'}→${state.to ?? '—'} · ${
-        directionSupported ? 'supported' : 'unsupported'}`,
+      {text: `Direction: ${state.from ?? '—'}→${state.to ?? '—'} · ${directionLabel()}`,
         tone: directionSupported ? 'muted' : 'warning'},
       {text: `${sourceFocused ? '›' : ' '} Source text`, tone: sourceFocused ? 'accent' : 'neutral'},
       {text: state.draft || 'Type a sentence here.', tone: sourceFocused ? 'neutral' : 'muted'},
@@ -212,9 +190,17 @@ export function createTranslateView({runtime, translationService} = {}) {
   }
 
   function renderResultPanel() {
+    if (!languages.length) return [
+      {text: 'No language packages are available.', tone: 'warning'},
+      {text: 'Translation cannot be started until a language plugin is available.', tone: 'muted'}
+    ];
+    if (!availableDirections.length && !state.result) return [
+      {text: 'No declared translation direction is currently available.', tone: 'warning'},
+      {text: 'Known language pairs remain selectable so their exact refusal can be shown.', tone: 'muted'}
+    ];
     if (!state.result) return [
       {text: `Direction: ${state.from ?? '—'}→${state.to ?? '—'} · ${
-        hasDirection(state.from, state.to) ? 'supported' : 'unsupported'}`,
+        directionLabel()}`,
         tone: hasDirection(state.from, state.to) ? 'muted' : 'warning'},
       {text: 'No translation yet.', tone: 'muted'}
     ];
