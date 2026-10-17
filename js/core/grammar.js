@@ -275,6 +275,47 @@ function validateGrammar(dictionary, grammar, featureProfile) {
             !['number','gender','pluralClass'].includes(key) || !safeName(val)))))) {
     throw new Error('Invalid declarative relative-clause markers.');
   }
+  const quantityModel=grammar.nounPhrase.quantity;
+  const quantityNumbers=featureProfile?.morphology?.number||['singular','plural'];
+  if(quantityModel!==undefined) {
+    const exactNumberKeys=record(quantityModel.exactNumber)?Object.keys(quantityModel.exactNumber):[];
+    const validQuantityNumber=value=>typeof value==='string'&&quantityNumbers.includes(value);
+    const validQuantityConditions=conditions=>record(conditions)&&
+      Object.entries(conditions).every(([key,value])=>
+        (key==='number'?validQuantityNumber(value):key==='case'&&caseValues.includes(value)));
+    if(!record(quantityModel)||Object.keys(quantityModel).sort().join(',')!==
+        'classifiers,defaultNumber,exactNumber,version'||quantityModel.version!=='1.0'||
+        !validQuantityNumber(quantityModel.defaultNumber)||!record(quantityModel.exactNumber)||
+        exactNumberKeys.length>21||exactNumberKeys.some(key=>! /^(?:0|[1-9]|1[0-9]|20)$/u.test(key)||
+          !validQuantityNumber(quantityModel.exactNumber[key]))||
+        !Array.isArray(quantityModel.classifiers)||quantityModel.classifiers.length>16) {
+      throw new Error('Invalid exact-quantity grammar contract.');
+    }
+    const classifierIds=new Set();
+    const classifierRules=[];
+    for(const classifier of quantityModel.classifiers) {
+      if(!record(classifier)||Object.keys(classifier).sort().join(',')!==
+          'concepts,forms,id,required,when'||!safeName(classifier.id)||classifierIds.has(classifier.id)||
+          !Array.isArray(classifier.concepts)||!classifier.concepts.length||classifier.concepts.length>16||
+          classifier.concepts.some(concept=>!LEXEME_ID.test(concept))||
+          new Set(classifier.concepts).size!==classifier.concepts.length||
+          !validQuantityConditions(classifier.when)||typeof classifier.required!=='boolean'||
+          !Array.isArray(classifier.forms)||!classifier.forms.length||classifier.forms.length>16||
+          classifier.forms.some(form=>!record(form)||
+            Object.keys(form).some(key=>!['text','when'].includes(key))||
+            !/^[\p{L}]+(?:\s+[\p{L}]+)*$/u.test(form.text||'')||
+            form.when!==undefined&&!validQuantityConditions(form.when))) {
+        throw new Error(`Invalid classifier declaration: ${classifier?.id}`);
+      }
+      const overlap=classifierRules.some(previous=>
+        previous.concepts.some(concept=>classifier.concepts.includes(concept))&&
+        Object.entries(previous.when).every(([key,value])=>
+          !hasOwn(classifier.when,key)||classifier.when[key]===value));
+      if(overlap)throw new Error(`Ambiguous classifier declaration: ${classifier.id}`);
+      classifierIds.add(classifier.id);
+      classifierRules.push(classifier);
+    }
+  }
 
   const anaphora=grammar.anaphora;
   if(anaphora!==undefined){
@@ -816,6 +857,15 @@ export function createRuleAdapter(sourceDictionary, rules,
     hasOwn(grammar.states?.verbs || {},lexeme.stateFunction));
   const nounForms = nouns.map(noun => ({ noun, forms: formsAtLexeme(noun, nounPhrase.path) }));
   const nominal = createNominalInterpreter({ dictionary, nounPhrase, nounForms });
+  const exactQuantityValue=ref=>{
+    const value=ref?.quantity||ref?.quantifier;
+    return value?.kind==='exact'?value.value:null;
+  };
+  const grammaticalNumberFor=(ref,parsed=null)=>{
+    if(parsed?.grammaticalNumber)return parsed.grammaticalNumber;
+    const count=exactQuantityValue(ref);
+    return count===null?ref?.features?.number:nominal.numberForQuantity(count);
+  };
   // An optional inventory of matrix predicates for propositional complements.
   const matrixLexemes = (dictionary.attitudes || []).map(x => ({ ...x }));
   const comp = grammar.sentence.complement;
@@ -917,20 +967,21 @@ export function createRuleAdapter(sourceDictionary, rules,
   }
 
   function plainNoun(ref, noun, gramCase, fallback, allowBare = false) {
-    const count=ref.quantifier?.kind==='exact'?ref.quantifier.value:null;
+    const count=exactQuantityValue(ref);
+    const grammaticalNumber=grammaticalNumberFor(ref);
     const surfaceCase=dictionary.language==='pl' && (count===0 || count>=5) &&
       ['nom','acc'].includes(gramCase)?'gen':gramCase;
     const forms = nounForms.find(item => item.noun === noun)?.forms || [];
-    const form = forms.find(candidate => candidate.bindings.number === ref.features.number &&
+    const form = forms.find(candidate => candidate.bindings.number === grammaticalNumber &&
       (candidate.bindings.case === undefined || candidate.bindings.case === surfaceCase));
-    if (!form) throw new Error(`Missing ${ref.features.number}/${surfaceCase || '-'} noun form for ${noun.lemma}.`);
+    if (!form) throw new Error(`Missing ${grammaticalNumber}/${surfaceCase || '-'} noun form for ${noun.lemma}.`);
     const surface=nominal.render(ref, noun, form.text, surfaceCase, fallback,
-      {allowBare,quantifierCase:gramCase});
+      {allowBare,quantifierCase:gramCase,grammaticalNumber});
     if(!ref.possessor)return surface;
     const owner=ref.possessor;
     const ownerEntry=possessives.find(entry=>entry.anchor===owner.referent?.anchor &&
       entry.person===owner.agreement?.person && entry.number===owner.agreement?.number);
-    const context={number:ref.features.number,case:surfaceCase,
+    const context={number:grammaticalNumber,case:surfaceCase,
       ...(noun.gender?{gender:noun.gender}:{}),...(noun.pluralClass?{pluralClass:noun.pluralClass}:{}),
       ...(noun.animacy?{animacy:noun.animacy}:{})};
     const word=ownerEntry?.forms.find(item=>Object.entries(item.when||{}).every(([key,value])=>
@@ -943,11 +994,12 @@ export function createRuleAdapter(sourceDictionary, rules,
     const subject = roles[grammaticalSubjectRole];
     const ref = subject?.value;
     const agreement = isDeicticReferent(ref) ? ref.agreement : null;
-    const count=ref?.quantifier?.kind==='exact'?ref.quantifier.value:null;
+    const count=exactQuantityValue(ref);
     const polishCountAgreement=dictionary.language==='pl' && (count===0 || count>=5);
+    const subjectNumber=grammaticalNumberFor(ref,subject);
     const context={ event, subject: formalSubject ? {...formalSubject.agreement} : subject ? {
       person: agreement?.person ?? GRAMMATICAL_PERSON.third,
-      number: agreement?.number ?? (polishCountAgreement?'singular':ref?.features?.number),
+      number: agreement?.number ?? (polishCountAgreement?'singular':subjectNumber),
       gender: agreement?.gender ?? subject.noun?.gender,
       pluralClass: subject.noun?.pluralClass
     } : {} };
@@ -957,7 +1009,7 @@ export function createRuleAdapter(sourceDictionary, rules,
       const typedAgreement=isDeicticReferent(value)?value.agreement:null;
       const features={
         person:typedAgreement?.person??(value.features?'third':undefined),
-        number:typedAgreement?.number??value.features?.number,
+        number:typedAgreement?.number??grammaticalNumberFor(value,parsed),
         gender:typedAgreement?.gender??parsed.noun?.gender,
         pluralClass:parsed.noun?.pluralClass,
         animacy:parsed.noun?.animacy,
@@ -2733,6 +2785,7 @@ export function createRuleAdapter(sourceDictionary, rules,
     const concepts = ontology?.concepts;
     const scopedRegistry=featureProfile?createFeatureRegistry(featureRegistry,featureProfile):featureRegistry;
     const domains = scopedRegistry?.domains;
+    const grammaticalNumbers=featureProfile?.morphology?.number||domains?.participant?.number||[];
     if (!record(concepts) || !domains) throw new Error('Missing ontology or feature registry.');
     const validateSyntacticCase=(grammaticalCase,message)=>{
       if(!Array.isArray(domains.syntactic.case)) {
@@ -2753,9 +2806,14 @@ export function createRuleAdapter(sourceDictionary, rules,
       }
     }
     nominal.validateOntology(ontology, scopedRegistry);
+    for(const classifier of nounPhrase.quantity?.classifiers||[])for(const concept of classifier.concepts) {
+      if(ontology.get(concept)?.type!=='entity'||!nouns.some(noun=>noun.concept===concept)) {
+        throw new Error(`Classifier ${classifier.id} is not licensed for a known noun concept: ${concept}`);
+      }
+    }
     for (const marker of relativeGrammar.markers) {
       for (const [name,value] of Object.entries(marker.when || {})) {
-        const domain = name === 'number' ? domains.participant.number : domains.lexical[name];
+        const domain = name === 'number' ? grammaticalNumbers : domains.lexical[name];
         if (!domain?.includes(value)) throw new Error(`Invalid relative marker feature: ${name}=${value}`);
       }
     }
@@ -2796,7 +2854,7 @@ export function createRuleAdapter(sourceDictionary, rules,
       const [root, name] = featureSource(source);
       const available = root === 'event' ? domains.event[name] :
         (name==='person' ? Object.values(GRAMMATICAL_PERSON) :
-          domains.participant[name] || domains.lexical[name]);
+          name==='number'?grammaticalNumbers:domains.participant[name] || domains.lexical[name]);
       if (!available) throw new Error(`Unknown agreement source for ${binding}: ${source}`);
     }
     for (const rule of verbGrammar.rules) {
@@ -2804,7 +2862,7 @@ export function createRuleAdapter(sourceDictionary, rules,
         const [root, name] = featureSource(source);
         const allowed = root === 'event' ? domains.event[name] :
           (name==='person' ? Object.values(GRAMMATICAL_PERSON) :
-            domains.participant[name] || domains.lexical[name]);
+            name==='number'?grammaticalNumbers:domains.participant[name] || domains.lexical[name]);
         if (!allowed?.includes(value)) throw new Error(`Unknown conditional feature: ${source}=${value}`);
       }
     }
@@ -2837,7 +2895,7 @@ export function createRuleAdapter(sourceDictionary, rules,
         if(!controllerExists)throw new Error(`Unknown agreement controller for ${verb.concept}: ${source}`);
         const available=root==='event'?domains.event[name]:name==='person'?Object.values(GRAMMATICAL_PERSON):
           name==='case'?domains.syntactic.case:
-            domains.participant[name]||domains.lexical[name];
+            name==='number'?grammaticalNumbers:domains.participant[name]||domains.lexical[name];
         if(!available)throw new Error(`Unknown agreement feature for ${verb.concept}.${binding}: ${source}`);
       }
       if (frame.bareRoles && frame.bareRoles.some(role=>!semanticFrame.roles.includes(role))) {
