@@ -2,7 +2,6 @@ import { record, hasOwn, safeName, createLanguageFeatureProfile } from '../featu
 import { createLexicon } from '../lexicon.js';
 import { createMorphFeatureRegistry, flattenMorphFeatures } from './features.js';
 import { executeOperations, validateOperations } from './operations.js';
-import {MORPHOLOGY_ADAPTER_CONTRACT_VERSION} from '../adapter-contract.js';
 
 const ID=/^[A-Za-z][A-Za-z0-9_]*(?:\.[A-Za-z0-9_]+)*$/u;
 const MAX_SLOTS=256,MAX_LEXEMES=30000,MAX_ANALYSES=64,MAX_COMPILED_FORMS=300000;
@@ -118,7 +117,7 @@ export function createMorphology(spec, dictionary, featureSpec, options={}) {
   }
   const output=entry=>clone(entry);
   return Object.freeze({language:spec.language,version:'1.11',
-    contractVersion:MORPHOLOGY_ADAPTER_CONTRACT_VERSION,registry,
+    registry,
     ...(featureProfile?{featureProfile}:{}),
     lexicon:lexical,paradigms:resolved,
     has:lexemeId=>bindings.has(lexemeId),

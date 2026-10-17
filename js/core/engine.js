@@ -1,17 +1,16 @@
 import { createDiscourse, createEventRelation, createCoordination, createNegation, createComplement, createConditional, createInformationStructure, materializeEvent, validateInterlingua, MAX_DISCOURSE_EVENTS, QUESTION_VERSION, MODALITY_VERSION, STATE_VERSION, DIALOGUE_ACT_VERSION, PASSIVE_VERSION, CONDITIONAL_VERSION, validateCoreferenceMap, sameDiscourseReferent } from './interlingua.js';
 import { createFeatureRegistry, record, safeName, hasOwn } from './features.js';
 import { createCoreLanguage } from './core-language.js';
-import { splitSentences, sentenceText } from './text.js';
-import {EngineError, isResourceLimitError} from './errors.js';
+import { splitSentences } from './text.js';
+import {EngineError, isResourceLimitError, toEngineError, pluginResultError} from './errors.js';
 import {RESOURCE_LIMITS} from './resource-limits.js';
 import {createResponsePlanner, RESPONSE_PLANNER_VERSION} from './response-planner.js';
 import {createDialogueEngine as createDialogueEngineApi, DIALOGUE_ENGINE_VERSION}
   from './dialogue-engine.js';
 import {applyPersonalityProfile, createPersonalityProfile, PERSONALITY_PROFILE_VERSION}
   from './personality.js';
-import {validateLanguageAdapter,validateMorphologyAdapter,
-  LANGUAGE_ADAPTER_CONTRACT_VERSION,MORPHOLOGY_ADAPTER_CONTRACT_VERSION}
-  from './adapter-contract.js';
+import {LANGUAGE_PLUGIN_CONTRACT_VERSION, normalizeAnalysisResult, normalizeRealizationResult}
+  from '../plugins/contract.js';
 
 const MAX_CANDIDATES = 16;
 
@@ -99,90 +98,39 @@ function eventWithin(node) {
   return null;
 }
 
-function pointerChildPath(path,segment) {
-  const escaped=String(segment).replace(/~/gu,'~0').replace(/\//gu,'~1');
-  return `${path}/${escaped}`;
-}
-
-function collectInformationLoss(interlingua,adapter) {
-  const diagnostics=[],seen=new Set();
-  const visit=(node,path='#')=>{
-    if(!node || typeof node!=='object')return;
-    if(['event','state','comparison'].includes(node.type) &&
-        typeof adapter.informationLoss==='function') {
-      const reported=adapter.informationLoss(node);
-      if(!Array.isArray(reported))throw new Error('Invalid language information-loss report.');
-      for(const entry of reported) {
-        if(!entry || Object.keys(entry).sort().join(',')!=='cause,feature,path,status' ||
-            typeof entry.path!=='string' || !entry.path.startsWith('#/') ||
-            typeof entry.feature!=='string' || !entry.feature ||
-            typeof entry.cause!=='string' || !entry.cause ||
-            !['unavoidable','unsupported','ambiguous'].includes(entry.status)) {
-          throw new Error('Invalid language information-loss diagnostic.');
-        }
-        const diagnostic={...entry,path:path+entry.path.slice(1)};
-        const key=JSON.stringify(diagnostic);
-        if(!seen.has(key)){seen.add(key);diagnostics.push(diagnostic);}
-      }
-    }
-    if(node.type==='discourse') {
-      node.events.forEach((event,index)=>visit(materializeEvent(node,event),
-        pointerChildPath(pointerChildPath(path,'events'),index)));
-    } else if(node.type==='question') {
-      visit(node.proposition,pointerChildPath(path,'proposition'));
-    } else if(node.type==='complement') {
-      visit(node.content,pointerChildPath(path,'content'));
-    } else if(node.type==='scope' || node.type==='modality') {
-      visit(node.operand,pointerChildPath(path,'operand'));
-    } else if(node.type==='coordination') {
-      node.clauses.forEach((clause,index)=>visit(clause,
-        pointerChildPath(pointerChildPath(path,'clauses'),index)));
-    } else if(node.type==='conditional') {
-      visit(node.condition,pointerChildPath(path,'condition'));
-      visit(node.consequence,pointerChildPath(path,'consequence'));
-      if(node.otherwise)visit(node.otherwise,pointerChildPath(path,'otherwise'));
-    } else if(node.type==='dialogue_act' && node.payload?.action) {
-      visit(node.payload.action,pointerChildPath(pointerChildPath(path,'payload'),'action'));
-    }
-  };
-  visit(interlingua);
-  return diagnostics;
-}
-
-/** One semantic ontology, N language-neutral grammar adapters and independent JSON lexicons. */
+/** One semantic ontology and a registry of language-neutral LanguagePlugin providers. */
 export class Engine {
-  constructor(ontology, features) {
+  constructor(ontology, features, plugins) {
+    if (!plugins || typeof plugins.get !== 'function' || typeof plugins.list !== 'function') {
+      throw new EngineError('PLUGIN_REGISTRY_INVALID', 'Engine requires a LanguagePlugin registry.');
+    }
     this.core = createCoreLanguage(ontology);
     this.ontology = this.core.ontology;
     this.features = createFeatureRegistry(features);
-    this.languages = new Map();
-    this.morphologies = new Map();
+    this.plugins = plugins;
     this.responsePlanner = createResponsePlanner(this);
   }
 
-  registerLanguage(adapter) {
-    validateLanguageAdapter(adapter);
-    if (this.languages.has(adapter.code)) throw new Error(`Duplicate language: ${adapter.code}`);
-    if (typeof adapter.validateOntology === 'function') {
-      adapter.validateOntology(this.ontology, this.features, this.core);
+  plugin(code) {
+    try {
+      return this.plugins.get(code);
+    } catch (error) {
+      throw toEngineError(error);
     }
-    this.languages.set(adapter.code, adapter);
-    return this;
   }
 
-  /** Morphology has its own adapter contract and need not implement sentence syntax. */
-  registerMorphology(adapter) {
-    validateMorphologyAdapter(adapter);
-    if (this.morphologies.has(adapter.language)) throw new Error(`Duplicate morphology: ${adapter.language}`);
-    if (!adapter.lexicon?.validateCore(this.core)) throw new Error('Unvalidated morphology CORE lexicon.');
-    this.morphologies.set(adapter.language, adapter);
-    return this;
+  /** Shared submodules still address a language by code; resolve it through the registry. */
+  language(code) {
+    return this.plugin(code);
   }
 
   morphology(language) {
-    const adapter = this.morphologies.get(language);
-    if (!adapter) throw new Error(`Unsupported morphology language: ${language}`);
-    return adapter;
+    const provider = this.plugin(language).morphology;
+    if (!provider) {
+      throw new EngineError('PLUGIN_CAPABILITY_UNAVAILABLE',
+        `Morphology is unsupported for language ${language}.`, {status: 'unsupported'});
+    }
+    return provider;
   }
 
   morphologyAvailability({language,lexemeId,features,exact=true}) {
@@ -208,8 +156,15 @@ export class Engine {
    */
   resolveWord({language,text,context={}}) {
     const settings=this.validateContext(context);
+    const plugin=this.plugin(language);
+    const lexicon=plugin.lexicon;
+    if(typeof lexicon?.get!=='function') {
+      throw new EngineError('PLUGIN_CAPABILITY_UNAVAILABLE',
+        `Lexical lookup is unsupported for language ${language}.`, {status: 'unsupported'});
+    }
     return this.analyzeForm({language,text}).flatMap(analysis=>{
-      const lex=this.morphology(language).lexicon.get(analysis.lexemeId);
+      const lex=lexicon.get(analysis.lexemeId);
+      if(!lex)return [];
       return lex.senses.map(sense=>({
         ...analysis, senseId:sense.id, coreRef:sense.coreRef,
         score:(sense.priority||0)+(settings.topics||[]).reduce((n,topic)=>
@@ -219,24 +174,27 @@ export class Engine {
       reading.coreRef.id===settings.senses.lexeme).sort((a,b)=>b.score-a.score);
   }
 
-  language(code) {
-    const adapter = this.languages.get(code);
-    if (!adapter) throw new Error(`Unsupported language: ${code}`);
-    return adapter;
-  }
-
   /** Query a validated language lexicon without bypassing CORE references. */
   lookupLexemes({ language, lemma }) {
     if (typeof lemma !== 'string' || !lemma.trim()) throw new Error('Invalid lemma query.');
-    const index = this.language(language).lexicon;
-    return index ? index.lookup(lemma) : [];
+    const lexicon=this.plugin(language).lexicon;
+    const lookup = lexicon?.lookup;
+    if(typeof lookup!=='function') {
+      throw new EngineError('PLUGIN_CAPABILITY_UNAVAILABLE',
+        `Lexical lookup is unsupported for language ${language}.`, {status: 'unsupported'});
+    }
+    return lookup.call(lexicon, lemma);
   }
 
   /** Reverse lexical lookup by an exact CORE reference (including parameters). */
   lexemesForCore({ language, coreRef }) {
     this.core.resolve(coreRef);
-    const index = this.language(language).lexicon;
-    return index ? index.forCore(coreRef) : [];
+    const lexicon=this.plugin(language).lexicon;
+    if(typeof lexicon?.forCore!=='function') {
+      throw new EngineError('PLUGIN_CAPABILITY_UNAVAILABLE',
+        `CORE lexical lookup is unsupported for language ${language}.`, {status: 'unsupported'});
+    }
+    return lexicon.forCore(coreRef);
   }
 
   resolveCoreRef(ref) { return this.core.resolve(ref); }
@@ -249,17 +207,18 @@ export class Engine {
   /** Plan a response in CORE, then realize its proposition with the selected language adapter. */
   respond({question,facts,clarifyQuestion,to,profile,referenceContext}={}) {
     const personality=createPersonalityProfile(profile);
-    if (typeof to !== 'string' || (to !== 'core' && !this.languages.has(to))) {
+    if (typeof to !== 'string' || !to) {
       throw new Error(`Unsupported response language: ${to}`);
     }
+    if(to!=='core')this.plugin(to);
     const plan = this.planResponse({question,facts,clarifyQuestion,referenceContext});
     if (!plan.realization) {
       return {plan,text:null,warnings:[],alternatives:[],informationLoss:[]};
     }
     const output = this.realize({interlingua:plan.realization,to,profile:personality});
     const style=personality.realization.replyStyles[to]||'standard';
-    const adapter=to==='core'?null:this.language(to);
-    const styled=adapter?.styleReply ? adapter.styleReply(output,style) : output;
+    const plugin=to==='core'?null:this.plugin(to);
+    const styled=plugin?.styleReply ? plugin.styleReply(output,style) : output;
     return {plan,text:styled.text,warnings:[...(styled.warnings||[])],
       alternatives:[...(styled.alternatives||[])],
       informationLoss:[...(styled.informationLoss||[])]};
@@ -442,7 +401,43 @@ export class Engine {
   /** Parse a controlled coordination or wide negation. Both markers are language-local JSON.
    * This is deliberately NOT naive free-text splitting across unrecognized structures.
    */
-  analyzeSentence(sentence, adapter, depth = 0) {
+  pluginAnalysisCandidates(plugin, text, context = {}) {
+    try {
+      if (typeof plugin?.analyze !== 'function') {
+        throw new EngineError('PLUGIN_CAPABILITY_UNAVAILABLE',
+          `Sentence analysis is unsupported for language ${plugin?.code || 'unknown'}.`,
+          {status: 'unsupported'});
+      }
+      const result = normalizeAnalysisResult(plugin.analyze({text, context}));
+      if (!['ok', 'ambiguous'].includes(result.status)) {
+        throw pluginResultError(result, 'analysis');
+      }
+      return result.readings.map(reading => ({
+        interlingua: reading.meaning,
+        lexicalSenses: reading.analysis?.lexicalSenses || {},
+        score: Number.isFinite(reading.analysis?.score) ? reading.analysis.score : 0
+      }));
+    } catch (error) {
+      throw toEngineError(error);
+    }
+  }
+
+  pluginRealization(plugin, meaning, context = {}) {
+    try {
+      if (typeof plugin?.realize !== 'function') {
+        throw new EngineError('PLUGIN_CAPABILITY_UNAVAILABLE',
+          `Sentence realization is unsupported for language ${plugin?.code || 'unknown'}.`,
+          {status: 'unsupported'});
+      }
+      const result = normalizeRealizationResult(plugin.realize({meaning, context}));
+      if (result.status !== 'ok') throw pluginResultError(result, 'realization');
+      return result;
+    } catch (error) {
+      throw toEngineError(error);
+    }
+  }
+
+  analyzeSentence(sentence, adapter, depth = 0, pluginContext = {}) {
     if (depth > 3) throw new EngineError('COMPLEMENT_DEPTH_LIMIT','Complement nesting depth exceeded.');
     const text = sentence.trim().replace(/\.\s*$/u, '');
     const prefix = adapter.wideNegation;
@@ -474,10 +469,10 @@ export class Engine {
       consequenceText=consequenceText.replace(thenPattern,'').replace(/,$/u,'').trim();
       if(!conditionText||!consequenceText||(otherwiseText!==undefined&&!otherwiseText))
         throw new Error('Incomplete conditional clause.');
-      const conditions=this.analyzeSentence(conditionText+'.',adapter,depth+1);
-      const consequences=this.analyzeSentence(consequenceText+'.',adapter,depth+1);
+      const conditions=this.analyzeSentence(conditionText+'.',adapter,depth+1,pluginContext);
+      const consequences=this.analyzeSentence(consequenceText+'.',adapter,depth+1,pluginContext);
       const alternatives=otherwiseText===undefined? [null]:
-        this.analyzeSentence(otherwiseText+'.',adapter,depth+1);
+        this.analyzeSentence(otherwiseText+'.',adapter,depth+1,pluginContext);
       const readings=[];
       conditionalCandidates:for(const condition of conditions)for(const consequence of consequences)
         for(const alternative of alternatives) {
@@ -501,7 +496,7 @@ export class Engine {
     const connective = adapter.connective;
     let atomic=[], atomError;
     try {
-      atomic=adapter.analyzeCandidates(body+'.');
+      atomic=this.pluginAnalysisCandidates(adapter,body+'.',pluginContext);
     } catch (error) {
       if(isResourceLimitError(error))throw error;
       atomError=error;
@@ -528,7 +523,7 @@ export class Engine {
       try {
         const span=fragments.slice(start,end).join(' '+connective+' ')+'.';
         try {
-          candidates=adapter.analyzeCandidates(span)
+          candidates=this.pluginAnalysisCandidates(adapter,span,pluginContext)
             .filter(item=>['event','modality','scope'].includes(item.interlingua.type));
         } catch(error) {
           if(isResourceLimitError(error))throw error;
@@ -537,7 +532,7 @@ export class Engine {
         if(!candidates.length && end===start+1) {
           const heads=adapter.parseComplementHeads?.(span.replace(/\.\s*$/u,''))||[];
           candidates=heads.flatMap(head=>
-            this.analyzeSentence(head.content,adapter,depth+1).map(inner=>({
+            this.analyzeSentence(head.content,adapter,depth+1,pluginContext).map(inner=>({
               interlingua:createComplement(head.concept,head.experiencer,
                 inner.interlingua,head.tense),
               lexicalSenses:{matrix:head.senseId,content:inner.lexicalSenses},
@@ -581,7 +576,7 @@ export class Engine {
     const possibleComplements=adapter.parseComplementHeads?.(body) || [];
     if(possibleComplements.length) {
       const results=possibleComplements.flatMap(head=>
-        this.analyzeSentence(head.content,adapter,depth+1).map(inner=>({
+        this.analyzeSentence(head.content,adapter,depth+1,pluginContext).map(inner=>({
           interlingua:createComplement(head.concept,head.experiencer,
             inner.interlingua,head.tense),
           lexicalSenses:{matrix:head.senseId,content:inner.lexicalSenses},
@@ -637,18 +632,17 @@ export class Engine {
       throw new EngineError('SOURCE_TEXT_SIZE_LIMIT',
         `Source text exceeds ${RESOURCE_LIMITS.sourceTextCodeUnits} UTF-16 code units.`);
     }
-    const adapter = this.language(from);
+    const adapter = this.plugin(from);
     if(typeof text==='string'&&text.includes('?')) {
       if (settings.coreference !== undefined)
         throw new Error('Explicit discourse coreference is not supported in questions.');
       if(!/^[^.!?]+\?$/u.test(text.trim())) {
         throw new Error('Only simple sentences with a single final question mark are supported; mixed question discourse or punctuation is unsupported.');
       }
-      if(typeof adapter.analyzeQuestionCandidates!=='function'){
-        throw new Error('Unsupported question construction in source language: '+from);
-      }
-      const readings=adapter.analyzeQuestionCandidates(text);
+      const readings=this.pluginAnalysisCandidates(adapter,text,
+        settings.construction ? {construction: settings.construction} : {});
       const candidates=readings.filter(candidate=>
+        candidate.interlingua.type==='question' &&
         Object.entries(settings.senses||{}).every(([role,concept])=>
           eventWithin(candidate.interlingua)?.roles?.[role]?.concept===concept))
         .map(candidate=>({...candidate,score:(candidate.score||0)+
@@ -676,7 +670,8 @@ export class Engine {
       if(sentences.length===1 && pronounSlots.length===1 && pronounSlots[0]===0) {
         let directReadings=[];
         try {
-          const direct=this.analyzeSentence(sentences[0],adapter);
+          const direct=this.analyzeSentence(sentences[0],adapter,0,
+            settings.construction ? {construction: settings.construction} : {});
           directReadings=direct.filter(candidate=>
             ['event','state'].includes(candidate.interlingua.type));
         } catch (error) {
@@ -717,7 +712,8 @@ export class Engine {
       throw new Error('Role-specific sense constraints currently require a single sentence.');
     }
     const scored = sentences.map(sentence => {
-      const raw = this.analyzeSentence(sentence, adapter);
+      const raw = this.analyzeSentence(sentence, adapter,0,
+        settings.construction ? {construction: settings.construction} : {});
       const candidates = raw.filter(candidate => Object.entries(settings.senses || {})
         .every(([role, concept]) => eventWithin(candidate.interlingua)?.roles?.[role]?.concept === concept))
         .map(candidate => ({ ...candidate, score: (candidate.score || 0) +
@@ -789,168 +785,69 @@ export class Engine {
   }
 
   realize({ interlingua, to, pronounRealization='repeat', profile,
-    lexicalRegister='neutral',informationStructure }) {
+    lexicalRegister='neutral',informationStructure,construction }) {
     const personality=createPersonalityProfile(profile);
     if (profile !== undefined) pronounRealization=personality.realization.pronounRealization;
     if(!['repeat','safe'].includes(pronounRealization))
-      throw new Error('Invalid pronoun realization policy.');
+      throw new EngineError('INVALID_INPUT','Invalid pronoun realization policy.',{status:'invalid'});
     if(!['neutral','formal','plain'].includes(lexicalRegister))
-      throw new Error('Invalid lexical register.');
+      throw new EngineError('INVALID_INPUT','Invalid lexical register.',{status:'invalid'});
     validateInterlingua(interlingua, this.ontology, this.features);
     if(informationStructure!==undefined) {
       const expected=createInformationStructure(interlingua,informationStructure);
       if(Object.keys(informationStructure).length!==2 ||
-          informationStructure.topic!==expected.topic || informationStructure.focus!==expected.focus)
-        throw new Error('Invalid information structure.');
+          informationStructure.topic!==expected.topic ||
+          informationStructure.focus!==expected.focus)
+        throw new EngineError('INVALID_INPUT','Invalid information structure.',{status:'invalid'});
     }
     if (to === 'core') {
-      return { text: JSON.stringify(interlingua, null, 2), warnings: [],
-        alternatives: [], informationLoss:[], interlingua };
+      return {text:JSON.stringify(interlingua,null,2),warnings:[],alternatives:[],
+        informationLoss:[],interlingua};
     }
-    if (interlingua.type === 'dialogue_act') {
-      if(interlingua.act!=='request')
-        throw new Error('Language realization of this dialogue act is not supported; use CORE JSON.');
-      const adapter=this.language(to);
-      if(!adapter.realizeRequest)throw new Error(`Unsupported polite request realization in ${to}.`);
-      const output=adapter.realizeRequest(interlingua);
-      if(!output||typeof output.text!=='string'||!output.text.trim())
-        throw new Error(`Invalid request realization from adapter: ${to}`);
-      return applyPersonalityProfile({...output,interlingua,
-        informationLoss:collectInformationLoss(interlingua,adapter)},personality);
+    const plugin=this.plugin(to);
+    const context={lexicalRegister,
+      ...(construction===undefined?{}:{construction}),
+      ...(informationStructure===undefined?{}:{informationStructure})};
+    try {
+      const output=this.pluginRealization(plugin,interlingua,context);
+      return applyPersonalityProfile({...output,interlingua},personality);
+    } catch(error) {
+      if(interlingua.type!=='discourse' || error?.status!=='unsupported')throw error;
     }
-    const adapter = this.language(to);
-    const locale=adapter.textProfile?.locale||to;
-    const realizeClause = (node, options={}) => {
-      if (node.type === 'question') {
-        if(typeof adapter.realizeQuestion!=='function') {
-          throw new Error(`Unsupported question construction for ${to}: missing language grammar.`);
-        }
-        const output=adapter.realizeQuestion(node);
-        if(!output||typeof output.text!=='string'||!output.text.trim()) {
-          throw new Error(`Invalid question realization from adapter: ${to}`);
-        }
-        const event=node.proposition;
-        if(event.type==='event'&&event.features.aspect!=='unknown'&&
-           adapter.describe?.().support?.aspectEncoding===false) {
-          return {...output,warnings:[...(output.warnings||[]),
-            `Target ${to} does not encode source aspect ${event.features.aspect} in this construction.`]};
-        }
-        return output;
-      }
-      if (node.type === 'modality') {
-        if (!adapter.realizeModal) throw new Error(`Unsupported modal construction in ${to}.`);
-        return adapter.realizeModal(node);
-      }
-      if (node.type === 'state') {
-        if (!adapter.realizeState) throw new Error(`Unsupported state construction in ${to}.`);
-        const output=adapter.realizeState(node);
-        if (!output || typeof output.text!=='string' || !output.text.trim()) {
-          throw new Error(`Invalid state realization from adapter: ${to}`);
-        }
-        return output;
-      }
-      if (node.type === 'comparison') {
-        if (!adapter.realizeComparison) throw new Error(`Unsupported comparison construction in ${to}.`);
-        return adapter.realizeComparison(node);
-      }
-      if (node.type === 'event') {
-        const output = adapter.realize(node,{...options,lexicalRegister,informationStructure});
-        if (!output || typeof output.text !== 'string' || !output.text.trim()) {
-          throw new Error(`Invalid realization from adapter: ${to}`);
-        }
-        if (node.features.aspect !== 'unknown' && adapter.describe?.().support?.aspectEncoding === false) {
-          return { ...output, warnings: [...(output.warnings || []),
-            `Target ${to} does not encode source aspect ${node.features.aspect} in this construction.`] };
-        }
-        return output;
-      }
-      if (node.type === 'complement') {
-        const content = realizeClause(node.content);
-        return { text: adapter.realizeComplement(node, content.text),
-          warnings: content.warnings || [], alternatives: [] };
-      }
-      if(node.type==='conditional') {
-        const rules=adapter.conditional;
-        if(!rules)throw new Error(`No ${to} conditional rule.`);
-        const condition=realizeClause(node.condition);
-        const consequence=realizeClause(node.consequence);
-        const otherwise=node.otherwise?realizeClause(node.otherwise):null;
-        const lowerClause=part=>part.text.replace(/[.!?]\s*$/u,'')
-          .replace(/^./u,char=>char.toLocaleLowerCase(locale));
-        const sentence=rules.if[0].toLocaleUpperCase(locale)+rules.if.slice(1)+' '+
-          lowerClause(condition)+', '+rules.then+' '+lowerClause(consequence)+
-          (otherwise?', '+rules.otherwise+' '+lowerClause(otherwise):'');
-        return {text:sentenceText([sentence],'.',locale),
-          warnings:[condition,consequence,...(otherwise?[otherwise]:[])].flatMap((part,index)=>
-            (part.warnings||[]).map(w=>`Conditional clause ${index+1}: ${w}`)),
-          alternatives:[]};
-      }
-      if (node.type === 'coordination') {
-        if (!adapter.connective) throw new Error(`No ${to} coordination rule.`);
-        const parts = node.clauses.map(realizeClause);
-        const clauseTexts = parts.map((part, i) => {
-          const str = part.text.replace(/\.\s*$/u, '');
-          return i ? str[0].toLocaleLowerCase(locale) + str.slice(1) : str;
-        });
-        return {
-          text: sentenceText([clauseTexts.join(` ${adapter.connective} `)],'.',locale),
-          warnings: parts.flatMap((part, index) => (part.warnings || []).map(w => `Clause ${index + 1}: ${w}`)),
-          alternatives: []
-        };
-      }
-      if (node.type === 'scope') {
-        if (node.operand?.type === 'modality') {
-          if (!adapter.realizeModal) throw new Error(`Unsupported modal negation in ${to}.`);
-          return adapter.realizeModal(node);
-        }
-        if (!adapter.wideNegation) throw new Error(`No ${to} wide negation rule.`);
-        const operand = realizeClause(node.operand);
-        const text = sentenceText([adapter.wideNegation + ' ' +
-          operand.text.replace(/\.\s*$/u, '').toLocaleLowerCase(locale)],'.',locale);
-        return { text, warnings: operand.warnings || [], alternatives: [] };
-      }
-      throw new Error('Unsupported semantic clause node.');
-    };
-    if (interlingua.type !== 'discourse') {
-      return applyPersonalityProfile({...realizeClause(interlingua), interlingua,
-        informationLoss:collectInformationLoss(interlingua,adapter)},personality);
+    const parts=interlingua.events.map(event=>this.pluginRealization(plugin,
+      materializeEvent(interlingua,event),context));
+    const warnings=parts.flatMap((part,index)=>(part.warnings||[])
+      .map(warning=>'Event '+(index+1)+': '+warning));
+    if(pronounRealization==='safe' && interlingua.events.length>1) {
+      warnings.push('Safe discourse pronouns are not declared by this plugin; noun phrases were repeated.');
     }
-    const pronounizedEvents=[];
-    const suppressed=[];
-    const parts = interlingua.events.map((event,index)=>{
-      let subjectPronoun=null;
-      if(pronounRealization==='safe' && index>0 && event.roles?.[adapter.subjectRole]) {
-        const sharedId=event.roles[adapter.subjectRole];
-        const earlier=interlingua.events.slice(0,index);
-        if(earlier.some(item=>Object.values(item.roles).includes(sharedId))) {
-          const referent=interlingua.entities[sharedId];
-          const candidate=referent?.concept && this.ontology.isA(referent.concept,'person')
-            ?adapter.subjectPronounFor?.(referent,this.ontology):null;
-          const competing=new Set(candidate?earlier.flatMap(item=>
-            Object.values(item.roles).filter(id=>
-              adapter.subjectPronounFor?.(interlingua.entities[id],this.ontology)===candidate)):[]);
-          if(candidate && competing.size===1 && competing.has(sharedId)) {
-            subjectPronoun=candidate;
-            pronounizedEvents.push(index+1);
-          } else suppressed.push('Event '+(index+1)+
-            ': target subject pronoun was not safe or available; repeated noun phrase.');
-        }
-      }
-      return realizeClause(materializeEvent(interlingua,event),
-        subjectPronoun?{subjectPronoun}:{});
-    });
-    return applyPersonalityProfile({
-      text: parts.map(part => part.text).join(' '), interlingua,
-      warnings: [...parts.flatMap((part, i) => (part.warnings || []).map(warning =>
-        `Event ${i + 1}: ${warning}`)),...suppressed],
-      alternatives: [],
-      informationLoss:collectInformationLoss(interlingua,adapter),
-      ...(pronounRealization==='safe'?{pronounizedEvents}:{})
-    },personality);
+    return applyPersonalityProfile({status:'ok',
+      text:parts.map(part=>part.text).join(' '),interlingua,warnings,alternatives:[],
+      informationLoss:parts.flatMap(part=>part.informationLoss||[]),diagnostics:[]},personality);
   }
 
-  /** Stable, serializable discovery interface (does not expose mutable adapters). */
+  /** Stable discovery view built from registered LanguagePlugins and their providers. */
   capabilities() {
+    const languages=this.plugins.list().map(code=>{
+      const plugin=this.plugin(code);
+      const declarations=plugin.capabilities();
+      const implemented=(channel,operation)=>declarations.some(item=>
+        item.channel===channel && item.operation===operation && item.status==='implemented');
+      return {
+        code,
+        ...plugin.describe(),
+        capabilities:declarations,
+        runtimeCapabilities:{
+          parsing:implemented('sentence','analyze'),
+          realization:implemented('sentence','realize'),
+          questions:declarations.some(item=>item.channel==='sentence' &&
+            item.status==='implemented' && /question|interrogative/iu.test(item.construction)),
+          morphology:!!plugin.morphology,
+          lexicon:!!plugin.lexicon,
+          signal:!!plugin.signal
+        }
+      };
+    });
     return { interlinguaVersion: '1.0', questionDocumentVersion: QUESTION_VERSION,
       eventRelationDocumentVersion: '1.28',
       passiveEventDocumentVersion: PASSIVE_VERSION,
@@ -959,23 +856,11 @@ export class Engine {
       responsePlannerVersion: RESPONSE_PLANNER_VERSION,
       dialogueEngineVersion: DIALOGUE_ENGINE_VERSION,
       personalityProfileVersion: PERSONALITY_PROFILE_VERSION,
-      languageAdapterContractVersion:LANGUAGE_ADAPTER_CONTRACT_VERSION,
-      morphologyAdapterContractVersion:MORPHOLOGY_ADAPTER_CONTRACT_VERSION,
+      languagePluginContractVersion:LANGUAGE_PLUGIN_CONTRACT_VERSION,
       modalityDocumentVersion: MODALITY_VERSION, stateDocumentVersion: STATE_VERSION,
       stateFrameVersion: this.ontology.stateFrameVersion,
       coreLanguage: {code:'core', version:this.core.version, format:'interlingua-json'},
-      languages: [...this.languages.values()].map(a => ({
-        code:a.code,
-        ...a.describe?.(),
-        runtimeCapabilities:{
-          parsing:typeof a.analyzeCandidates==='function',
-          realization:typeof a.realize==='function',
-          questions:typeof a.analyzeQuestionCandidates==='function' &&
-            typeof a.realizeQuestion==='function',
-          morphology:this.morphologies.has(a.code)
-        }
-      })),
-      morphologies: [...this.morphologies.values()].map(a=>a.describe()) };
+      languages };
   }
 
   /** Safe entry point for UIs: malformed input is a result, not an unhandled exception. */
@@ -988,7 +873,8 @@ export class Engine {
         'INVALID_COREFERENCE' : /Unsupported language/.test(error.message) ?
         'UNSUPPORTED_LANGUAGE' : /UNRESOLVED_DEIXIS/i.test(error.message) ?
         'UNRESOLVED_DEIXIS' : /Missing|No .*lexeme|No .*form|no complement|no .*construction|no .*quantifier|does not match|Cannot realize|Unsupported question construction|Unsupported state construction|Unsupported modal|prohibition not available/.test(error.message) ?
-        'UNSUPPORTED_CONSTRUCTION' : 'INVALID_INPUT'), message: error.message } };
+        'UNSUPPORTED_CONSTRUCTION' : 'INVALID_INPUT'), message: error.message,
+        ...(error?.status?{status:error.status}:{}) } };
     }
   }
 
@@ -1000,7 +886,8 @@ export class Engine {
     for (const candidate of candidates) {
       try {
         const output = this.realize({ interlingua: candidate.interlingua, to,
-          pronounRealization,profile,lexicalRegister,informationStructure });
+          pronounRealization,profile,lexicalRegister,informationStructure,
+          construction:context?.construction });
         results.push({ ...candidate, output });
       } catch (error) {
         firstError ||= error;
