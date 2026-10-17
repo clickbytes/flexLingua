@@ -28,23 +28,29 @@ ma gramatyki zdaniowej. Brak modułu nie jest równoważny pustemu modułowi.
 ## Interfejs JavaScript ESM
 
 Plugin ma stabilny `code` zgodny z registry i wersję kontraktu. `describe()`
-zwraca serializowalne identity i wersje; `capabilities()` podaje tylko
-funkcjonalności rzeczywiście dostępne po walidacji. `analyze()` i `realize()`
-zwracają jawny status, nie rzucają tekstu tłumaczenia dla refusal.
+zwraca serializowalne `{language, version}`; `capabilities()` podaje listę
+deklaracji `{operation, channel, construction, status, evidence}`. Status
+`implemented` wymaga ręcznie sprawdzonego zdania, a `unsupported` — jawnej
+ręcznej odmowy. Deklaracje są per konstrukcja, bez ogólnego `all`. Plugin
+o capability zdaniowej wystawia odpowiednie `analyze()` i/lub `realize()`;
+plugin morphology-only może je pominąć zamiast dodawać fikcyjne metody.
+Udostępnione `analyze()` i `realize()` zwracają jawny status, bez tekstu
+przedstawionego jako sukces przy refusal.
 
 ```js
 export default {
   contractVersion: '1.0',
   code: 'en',
-  describe() {
-    return { language: 'en', manifestVersion: '1.0', graphVersion: '1.0' };
-  },
+  describe() { return { language: 'en', version: '1.0' }; },
   capabilities() {
-    return {
-      parsing: ['controlled-event-present'],
-      realization: ['controlled-event-present'],
-      morphology: true
-    };
+    return [
+      { operation: 'analyze', channel: 'sentence',
+        construction: 'controlled-event-present', status: 'unsupported',
+        evidence: [{ kind: 'manual-refusal', id: 'en-example-refusal-01' }] },
+      { operation: 'realize', channel: 'sentence',
+        construction: 'controlled-event-present', status: 'unsupported',
+        evidence: [{ kind: 'manual-refusal', id: 'en-example-refusal-01' }] }
+    ];
   },
   analyze({ text, context = {} }) {
     // Deleguje do wspólnego runtime; przykład nie jest implementacją parsera.
@@ -86,12 +92,14 @@ Nieznane pole CORE jest błędem walidacji, a nie ostrzeżeniem do zignorowania.
 
 ## Manifest i LanguageGraph
 
-Manifest opisuje `language`, wersję pakietu, wersje kontraktów, locale,
-tokenizer, moduły, kierunki oraz capability per konstrukcja. Capability ma
+Manifest wymaga `id`, `code`, `schemaVersion`, względnej ścieżki `graph`,
+statusu pakietu, listy capabilities oraz ścieżki `provenance`. Capability ma
 status `implemented` albo `unsupported`; pierwszego nie deklaruje się wyłącznie
 na podstawie danych w graphie. Każda deklaracja wymaga realnego provideru i
-ręcznie sprawdzonego zdania lub jawnej odmowy. Schemat manifestu i statusów
-zostanie wdrożony w R02/R03.
+ręcznie sprawdzonego zdania lub jawnej odmowy. Schematy manifestu i capability
+znajdują się w `schemas/language-plugin.schema.json` i
+`schemas/plugin-capability.schema.json`; sprawdzanie ścieżek w katalogu
+pakietu należy do R03.
 
 `graph.json` jest typowanym grafem jednego języka: stabilne ID węzłów, zamknięte
 typy węzłów, walidowane atrybuty i zamknięte typy krawędzi. Krawędź nie może
@@ -102,25 +110,24 @@ JavaScript jako danych. Dokładne enumy i dozwolone pary typów należą do R04.
 
 ```json
 {
+  "id": "language.pl",
+  "code": "pl",
   "schemaVersion": "1.0",
-  "language": "pl",
-  "locale": "pl",
-  "modules": {
-    "graph": "graph.json",
-    "lexicon": "lexicon.json",
-    "grammar": "grammar.json",
-    "morphology": "morphology.json"
-  },
-  "capabilities": {
-    "parsing": ["controlled-event-present"],
-    "realization": ["controlled-event-present"],
-    "morphology": ["noun-number-case", "verb-tense-person"]
-  }
+  "graph": "graph.json",
+  "status": "controlled-subset",
+  "capabilities": [{
+    "operation": "analyze",
+    "channel": "sentence",
+    "construction": "controlled-event-present",
+    "status": "implemented",
+    "evidence": [{ "kind": "manual-sentence", "id": "pl-controlled-present-01" }]
+  }],
+  "provenance": "provenance.json"
 }
 ```
 
-To tylko ilustracja pól. R03 definiuje bezpieczne rozwiązywanie ścieżek,
-walidację wymaganych modułów i zgodność `capabilities()` runtime z manifestem.
+To ilustracja kształtu danych. R03 definiuje bezpieczne rozwiązywanie ścieżek,
+walidację zawartości pakietu i zgodność `capabilities()` runtime z manifestem.
 
 ## Pakiety z ograniczonym zakresem
 

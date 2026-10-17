@@ -33,9 +33,11 @@ adapterów zgodności ani wersjonowanych nazw `v2`.
 3. `MeaningGraph` jest jedyną reprezentacją znaczenia między analizą źródła a
    realizacją celu. LanguageGraph opisuje zasoby i reguły konkretnego języka;
    nie kopiuje konceptów CORE ani nie zastępuje MeaningGraph.
-4. Plugin publicznie udostępnia `describe()`, `capabilities()`, `analyze()` i
-   `realize()`. `morphology`, `lexicon` i `signal` są opcjonalnymi providerami;
-   ich brak oznacza brak capability, nie pusty plik udający implementację.
+4. Plugin udostępnia `describe()` i `capabilities()`. Capability zdaniowe
+   wymagają odpowiedniego `analyze()` lub `realize()`; plugin morphology-only
+   może pominąć obie metody zdaniowe. `morphology`, `lexicon` i `signal` są
+   opcjonalnymi providerami; ich brak oznacza brak capability, nie pusty plik
+   udający implementację.
 5. Wspólny runtime nie rozgałęzia się po kodzie języka, aby realizować
    morfologię lub składnię. Registry może użyć `code` do wyboru pluginu; dalsze
    decyzje pochodzą z graphu, modułów danych i funkcji deklarowanych przez
@@ -61,7 +63,14 @@ export default {
   contractVersion: '1.0',
   code: 'pl',
   describe() { return { language: 'pl', version: '1.0' }; },
-  capabilities() { return { parsing: true, realization: true }; },
+  capabilities() { return [
+    { operation: 'analyze', channel: 'sentence',
+      construction: 'controlled-event-present', status: 'implemented',
+      evidence: [{ kind: 'manual-sentence', id: 'pl-controlled-present-01' }] },
+    { operation: 'realize', channel: 'sentence',
+      construction: 'controlled-event-present', status: 'implemented',
+      evidence: [{ kind: 'manual-sentence', id: 'pl-controlled-present-01' }] }
+  ]; },
   analyze({ text, context = {} }) {
     return { status: 'ok', readings: [{ meaning: {} }], diagnostics: [] };
   },
@@ -82,7 +91,10 @@ zmienia grafu znaczenia.
 
 Dozwolone statusy wyniku to `ok`, `ambiguous`, `unsupported`, `invalid` oraz
 `resource_limit`. Każdy diagnostic ma stabilny `code` i czytelny `message`;
-szczegółowe wymagane pola oraz walidację określa kontrakt wdrażany w R02.
+szczegółowe wymagane pola oraz walidację określa `js/plugins/contract.js`.
+Capabilities są listą deklaracji per operacja, kanał i konstrukcja. Każda
+deklaracja ma status `implemented` lub `unsupported` oraz dowód w postaci
+ręcznie sprawdzonego zdania albo ręcznej odmowy; ogólne `all` jest niedozwolone.
 
 ## LanguageGraph
 
