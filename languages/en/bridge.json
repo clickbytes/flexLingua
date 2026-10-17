@@ -7,18 +7,34 @@
         {
           "role": "agent",
           "argument": "subject",
-      "syntacticFunction": "subject"
+          "syntacticFunction": "subject"
         },
         {
           "role": "theme",
           "argument": "object",
-      "syntacticFunction": "object"
+          "syntacticFunction": "object"
         }
       ]
     },
     {
       "construction": "event.visual_attention",
       "conceptId": "event.visual_attention",
+      "arguments": [
+        {
+          "role": "agent",
+          "argument": "subject",
+          "syntacticFunction": "subject"
+        },
+        {
+          "role": "theme",
+          "argument": "object",
+          "syntacticFunction": "object"
+        }
+      ]
+    },
+    {
+      "construction": "event.read",
+      "conceptId": "event.read",
       "arguments": [
         {
           "role": "agent",

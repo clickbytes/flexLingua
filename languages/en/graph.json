@@ -43,6 +43,13 @@
       "capability": "event.visual_perception"
     },
     {
+      "id": "en.syntax.read",
+      "type": "syntax",
+      "module": "grammar",
+      "path": "grammar.json",
+      "capability": "event.read"
+    },
+    {
       "id": "en.syntax.visual-attention",
       "type": "syntax",
       "module": "grammar",
@@ -168,6 +175,26 @@
     {
       "from": "en.evidence",
       "to": "en.bridge",
+      "relation": "evidences"
+    },
+    {
+      "from": "en.bridge",
+      "to": "en.syntax.read",
+      "relation": "maps-to"
+    },
+    {
+      "from": "en.syntax.read",
+      "to": "en.lexicon",
+      "relation": "licenses"
+    },
+    {
+      "from": "en.syntax.read",
+      "to": "en.morphology",
+      "relation": "licenses"
+    },
+    {
+      "from": "en.evidence",
+      "to": "en.syntax.read",
       "relation": "evidences"
     }
   ]

@@ -43,6 +43,13 @@
       "capability": "event.visual_perception"
     },
     {
+      "id": "pl.syntax.read",
+      "type": "syntax",
+      "module": "grammar",
+      "path": "grammar.json",
+      "capability": "event.read"
+    },
+    {
       "id": "pl.syntax.classification",
       "type": "syntax",
       "module": "grammar",
@@ -141,6 +148,26 @@
     {
       "from": "pl.evidence",
       "to": "pl.bridge",
+      "relation": "evidences"
+    },
+    {
+      "from": "pl.bridge",
+      "to": "pl.syntax.read",
+      "relation": "maps-to"
+    },
+    {
+      "from": "pl.syntax.read",
+      "to": "pl.lexicon",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.syntax.read",
+      "to": "pl.morphology",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.evidence",
+      "to": "pl.syntax.read",
       "relation": "evidences"
     }
   ]
