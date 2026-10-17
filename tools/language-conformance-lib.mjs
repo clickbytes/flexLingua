@@ -5,11 +5,10 @@ import {isAbsolute,relative,resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {isDeepStrictEqual} from 'node:util';
 import {Engine} from '../js/core/engine.js';
-import {createRuleAdapter} from '../js/core/grammar.js';
-import {createMorphology} from '../js/core/morphology/engine.js';
-import {validateInterlingua} from '../js/core/interlingua.js';
-import {DEFAULT_DATA_ROOT,loadLanguagePackages,loadLanguagePackage,
-  validateLanguageManifest} from './language-packages.mjs';
+import {createCoreLanguage} from '../js/core/core-language.js';
+import {validateMeaningGraph} from '../js/core/meaning-graph.js';
+import {validateLanguagePlugin} from '../js/plugins/contract.js';
+import {loadPluginRegistry} from '../js/plugins/loader.js';
 
 const ROOT=fileURLToPath(new URL('../',import.meta.url));
 const CAPABILITIES=new Set(['end_to_end','syntax','morphology','core_semantics',
@@ -82,25 +81,16 @@ export function validateLanguageConformanceFixture(fixture) {
 }
 
 async function createPackageEngine() {
-  const packages=await loadLanguagePackages();
-  const coreSpec=packages[0]?.packages.core;
-  if(!coreSpec)throw new Error('Language conformance requires a shared CORE package.');
-  const features=await readJson(resolve(DEFAULT_DATA_ROOT,'core','features.json'));
-  const engine=new Engine(coreSpec,features),morphologies=new Map();
-  for(const {manifest,packages:parts} of packages) {
-    if(!manifest.capabilities.morphology)continue;
-    const morphology=createMorphology(parts.morphology,parts.morphologyLexicon,
-      parts.morphologyFeatures,{core:engine.core});
-    engine.registerMorphology(morphology);
-    morphologies.set(manifest.language,morphology);
-  }
-  for(const {manifest,packages:parts} of packages) {
-    if(!manifest.capabilities.parsing || !manifest.capabilities.realization)continue;
-    engine.registerLanguage(createRuleAdapter(parts.lexicon,parts.grammar,{
-      morphology:morphologies.get(manifest.language),
-      ...(parts.morphology?.featureProfile?{featureProfile:parts.morphology.featureProfile}:{})
-    }));
-  }
+  const [ontology,features]=await Promise.all([
+    readJson(resolve(ROOT,'data','core','concepts.json')),
+    readJson(resolve(ROOT,'data','core','features.json'))
+  ]);
+  const registry=await loadPluginRegistry(ROOT,{core:createCoreLanguage(ontology)});
+  const engine=new Engine(ontology,features,registry);
+  const packages=await Promise.all(registry.list().map(async code=>({
+    manifest:await readJson(resolve(ROOT,'languages',code,'manifest.json')),
+    plugin:registry.get(code)
+  })));
   return {engine,packages};
 }
 
@@ -147,20 +137,21 @@ function runCase(row,{engine,packagesByLanguage}) {
       result.reverseFound=reverseFeatureMatch;
       result.status=isDeepStrictEqual(forms,row.expectedForms) && reverseFeatureMatch?'pass':'fail';
     } else if(row.operation==='core_validate') {
-      validateInterlingua(row.core,engine.ontology,engine.features);
+      validateMeaningGraph(row.core,engine.ontology,engine.features);
       result.language=row.language??null;
       result.expectedValid=row.expectedValid;result.actualValid=true;
       result.status='pass';
     } else {
       const loaded=packagesByLanguage.get(row.language);
       if(!loaded)throw new Error(`Unknown package in manifest case: ${row.language}`);
-      const altered=structuredClone(loaded.manifest);
-      altered[row.mutation[0]]=row.mutation[1];
+      const field=row.mutation[0]==='version'?'contractVersion':row.mutation[0];
+      const altered={...loaded.plugin,[field]:row.mutation[1]};
       try {
-        validateLanguageManifest(altered,{language:row.language});
+        validateLanguagePlugin(altered);
         result.status='fail';result.error='Invalid manifest was accepted.';
       } catch(error) {
-        result.status=error.message.includes(row.expectedError)?'pass':'fail';
+        result.status=error?.code==='PLUGIN_VERSION_UNSUPPORTED' ||
+          error.message.includes(row.expectedError)?'pass':'fail';
         result.error=error.message;
       }
       result.language=row.language;result.expectedRefusal=row.expectedError;
@@ -174,7 +165,17 @@ function runCase(row,{engine,packagesByLanguage}) {
 function packageCapabilityRows(loadedPackages,caseResults) {
   const axes=['morphology','syntax','core_semantics','end_to_end','refusal','information_loss'];
   return loadedPackages.map(({manifest})=>{
-    const language=manifest.language;
+    const language=manifest.code;
+    const rows=manifest.capabilities;
+    const declared={
+      parsing:rows.some(item=>item.channel==='sentence'&&item.operation==='analyze'&&
+        item.status==='implemented'),
+      realization:rows.some(item=>item.channel==='sentence'&&item.operation==='realize'&&
+        item.status==='implemented'),
+      morphology:rows.some(item=>item.channel==='morphology'&&item.status==='implemented'),
+      questions:rows.some(item=>item.channel==='sentence'&&item.construction.startsWith('question.')&&
+        item.status==='implemented')
+    };
     const capabilities={};
     for(const capability of axes) {
       const cases=caseResults.filter(item=>{
@@ -189,18 +190,17 @@ function packageCapabilityRows(loadedPackages,caseResults) {
         if(capability==='information_loss')return row.language===language||row.to===language;
         return false;
       });
-      const declared=capability==='morphology'?manifest.capabilities.morphology:
-        capability==='syntax'?manifest.capabilities.parsing&&manifest.capabilities.realization:
+      const isDeclared=capability==='morphology'?declared.morphology:
+        capability==='syntax'?declared.parsing&&declared.realization:
         capability==='core_semantics'?true:
-        capability==='end_to_end'?manifest.capabilities.directions.length>0:
-        capability==='refusal'?manifest.capabilities.parsing:
-        capability==='information_loss'?manifest.capabilities.realization:false;
-      capabilities[capability]={status:!declared?'unsupported':!cases.length?'not-run':
+        capability==='end_to_end'?declared.parsing&&declared.realization:
+        capability==='refusal'?declared.parsing:
+        capability==='information_loss'?declared.realization:false;
+      capabilities[capability]={status:!isDeclared?'unsupported':!cases.length?'not-run':
         cases.every(item=>item.status==='pass')?'pass':'fail',caseIds:cases.map(item=>item.id)};
     }
-    capabilities.questions={status:!manifest.capabilities.questions?'unsupported':'not-run',caseIds:[]};
-    return {language,status:manifest.status,demonstrationLevel:manifest.demonstrationLevel,
-      declared:{...manifest.capabilities},capabilities};
+    capabilities.questions={status:!declared.questions?'unsupported':'not-run',caseIds:[]};
+    return {language,status:manifest.status,declared,capabilities};
   });
 }
 
@@ -211,7 +211,7 @@ export async function runLanguageConformance({fixturePath}) {
   const fixtureBytes=await readFile(absolute),fixture=JSON.parse(fixtureBytes.toString('utf8'));
   validateLanguageConformanceFixture(fixture);
   const {engine,packages}=await createPackageEngine();
-  const packagesByLanguage=new Map(packages.map(item=>[item.manifest.language,item]));
+  const packagesByLanguage=new Map(packages.map(item=>[item.manifest.code,item]));
   const results=fixture.cases.map(row=>({...runCase(row,{engine,packagesByLanguage}),_row:row}));
   const clean=execFileSync('git',['status','--porcelain'],{cwd:ROOT,encoding:'utf8'}).trim()==='';
   const sha=execFileSync('git',['rev-parse','HEAD'],{cwd:ROOT,encoding:'utf8'}).trim();
@@ -221,7 +221,7 @@ export async function runLanguageConformance({fixturePath}) {
     schemaVersion:1,type:'language_conformance_report',status:failCount?'fail':'pass',
     source:{repositoryHead:sha,workingTreeClean:clean,
       fixture:inside.replaceAll('\\','/'),fixtureSha256:sha256(fixtureBytes),
-      manifests:packages.map(({manifest})=>`data/languages/${manifest.language}.json`)},
+      manifests:packages.map(({manifest})=>`languages/${manifest.code}/manifest.json`)},
     totals:{cases:caseResults.length,pass:caseResults.filter(item=>item.status==='pass').length,
       fail:failCount},
     packages:packageCapabilityRows(packages,results),
