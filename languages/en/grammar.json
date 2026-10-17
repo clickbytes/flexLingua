@@ -43,6 +43,10 @@
   "nounPhrase": {
     "path": "forms.{number}",
     "subjectCase": "nom",
+    "deicticCases": {
+      "agent": "nom",
+      "theme": "acc"
+    },
     "allowBare": false,
     "determiners": {
       "singular": {

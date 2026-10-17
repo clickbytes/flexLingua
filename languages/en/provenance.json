@@ -129,6 +129,13 @@
           "scope": "Nominative/object deictic pronouns and possessor realization for data/grammar/en.json."
         },
         {
+          "issue": "#362",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored deictic case profile mapping the agent role to nominative and the theme role to accusative for object-position pronouns; no external inventory was imported.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "nounPhrase.deicticCases for object deictic pronouns (me/us) in data/grammar/en.json."
+        },
+        {
           "issue": "#65",
           "author": "flexLingua project contributors",
           "source": "Original bounded English grammar frames for purchase and explicit prices; no external rule inventory copied.",

@@ -2,6 +2,36 @@ import {PluginError} from './errors.js';
 
 const isRecord = value => value !== null && typeof value === 'object' && !Array.isArray(value);
 
+/**
+ * ADR person-deixis deictic participant contract, identical to the state-role
+ * branch in validateMeaning: `{referent:{kind:"deictic",anchor},agreement:{person,number}}`
+ * with anchor/person consistency (speaker↔first, addressee↔second,
+ * demonstrative↔third/singular). Anaphoric participants are deliberately not
+ * accepted here; unresolved anaphora keeps its own bounded refusal behavior.
+ */
+function holdsDeicticParticipantContract(participant) {
+  if (!isRecord(participant) ||
+      Object.keys(participant).sort().join(',') !== 'agreement,referent' ||
+      !isRecord(participant.referent) || !isRecord(participant.agreement) ||
+      Object.keys(participant.referent).sort().join(',') !== 'anchor,kind' ||
+      participant.referent.kind !== 'deictic' ||
+      Object.keys(participant.agreement).sort().join(',') !== 'number,person' ||
+      !['speaker', 'addressee', 'demonstrative'].includes(participant.referent.anchor) ||
+      !['first', 'second', 'third'].includes(participant.agreement.person) ||
+      !['singular', 'plural'].includes(participant.agreement.number)) {
+    return false;
+  }
+  if (participant.referent.anchor === 'speaker') {
+    return participant.agreement.person === 'first';
+  }
+  if (participant.referent.anchor === 'addressee') {
+    return participant.agreement.person === 'second';
+  }
+  return participant.agreement.person === 'third' &&
+    participant.agreement.number === 'singular';
+}
+
+
 function fail(code, message, cause) {
   throw new PluginError(code, message, cause === undefined ? undefined : {cause});
 }
@@ -169,7 +199,12 @@ export function createSemanticBridge({plan, core} = {}) {
         : typeof participant.concept === 'string'
           ? {kind: 'concept', id: participant.concept} : null;
       if (!reference) {
-        fail('PLUGIN_CORE_REFERENCE_INVALID', `Participant has no typed CORE reference for role ${role}.`);
+        // ADR person-deixis: event roles may carry deictic participants without a
+        // CORE concept; they are identity anchors, not entity references.
+        if (!holdsDeicticParticipantContract(participant)) {
+          fail('PLUGIN_CORE_REFERENCE_INVALID', `Participant has no typed CORE reference for role ${role}.`);
+        }
+        continue;
       }
       try {
         core.resolve(reference);

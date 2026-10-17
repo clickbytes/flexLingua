@@ -1,0 +1,119 @@
+{
+  "schemaVersion": "1.0",
+  "cases": [
+    {
+      "id": "A1-PL-EN-DEIXIS-0001",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "deixis",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 4,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "mixed",
+        "number": "singular",
+        "reference": "deictic",
+        "quantity": "none"
+      },
+      "purpose": "Positive deictic witness for the addressee theme: the explicit Polish sentence is analyzed into one ADR v1.22 reading (agent speaker/first/singular, theme addressee/second/singular, imperfective lexeme aspect) and realized as a plain present English clause; only the aspect marking is lost, reported explicitly as unavoidable because the English target encodes no aspect.",
+      "input": {"from": "pl", "to": "en", "text": "Ja widzę ciebie."},
+      "expected": {
+        "status": "ok",
+        "text": {"accepted": ["I see you."]},
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": ["agent", "theme"],
+          "roles": {
+            "agent": {"target": {"kind": "deictic", "anchor": "speaker"},
+              "agreement": {"person": "first", "number": "singular"}},
+            "theme": {"target": {"kind": "deictic", "anchor": "addressee"},
+              "agreement": {"person": "second", "number": "singular"}}
+          },
+          "features": {"tense": "present", "polarity": "positive", "aspect": "imperfective"},
+          "assert": {"#/version": "1.22"}
+        },
+        "diagnostics": {"required": [], "allowUnexpected": false},
+        "alternatives": {"required": [], "allowUnexpected": false},
+        "informationLoss": {"required": [
+          {"cause": "target-grammar-does-not-encode-aspect", "feature": "aspect",
+            "path": "#/features/aspect", "status": "unavoidable"}
+        ], "allowUnexpected": false}
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent expectation authored 2026-10-18 from ADR person-deixis.md before the fixed engine run (explicit PL sentence stays one singular deictic reading; EN target must not contradict speaker/addressee anchors), verified against the observed MeaningGraph; observed matching on branch tm/p362-deixis-infra (see issue #362).",
+        "author": "opencode-agent (OpenCode/GLM)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#362"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "pl.analyze + en.realize positive witness: deictic addressee/second/singular theme preserved into CORE v1.22 and realized as the plain English clause"
+      }
+    },
+    {
+      "id": "A1-PL-EN-DEIXIS-0002",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "deixis",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 4,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "mixed",
+        "number": "singular",
+        "reference": "deictic",
+        "quantity": "none"
+      },
+      "purpose": "Addressee-as-agent positive witness: the explicit Polish subject pronoun fixes the agent to the addressee (second/singular) while the object stays the speaker (first/singular), and the English realization keeps both deictic anchors; complements the en-pl ambiguity witness where English `you` cannot resolve the agent number by itself.",
+      "input": {"from": "pl", "to": "en", "text": "Ty widzisz mnie."},
+      "expected": {
+        "status": "ok",
+        "text": {"accepted": ["You see me."]},
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": ["agent", "theme"],
+          "roles": {
+            "agent": {"target": {"kind": "deictic", "anchor": "addressee"},
+              "agreement": {"person": "second", "number": "singular"}},
+            "theme": {"target": {"kind": "deictic", "anchor": "speaker"},
+              "agreement": {"person": "first", "number": "singular"}}
+          },
+          "features": {"tense": "present", "polarity": "positive", "aspect": "imperfective"},
+          "assert": {"#/version": "1.22"}
+        },
+        "diagnostics": {"required": [], "allowUnexpected": false},
+        "alternatives": {"required": [], "allowUnexpected": false},
+        "informationLoss": {"required": [
+          {"cause": "target-grammar-does-not-encode-aspect", "feature": "aspect",
+            "path": "#/features/aspect", "status": "unavoidable"}
+        ], "allowUnexpected": false}
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent expectation authored 2026-10-18 from ADR person-deixis.md before the fixed engine run (PL explicit pronouns resolve both anchors; EN object pronoun must surface as `me`, guarded here against the accept-case fall back to nominative), verified against the observed MeaningGraph; observed matching on branch tm/p362-deixis-infra (see issue #362).",
+        "author": "opencode-agent (OpenCode/GLM)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#362"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "pl.analyze + en.realize positive witness: deictic addressee/second/singular agent and speaker/first/singular theme realized as `You see me.`"
+      }
+    }
+  ]
+}
