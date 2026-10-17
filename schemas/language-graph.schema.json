@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://flexlingua.local/schemas/language-graph.schema.json",
+  "title": "flexLingua typed language graph",
+  "type": "object",
+  "required": ["schemaVersion", "language", "nodes", "edges"],
+  "properties": {
+    "schemaVersion": {"const": "1.0"},
+    "language": {"type": "string", "pattern": "^[a-z]{2,8}$"},
+    "nodes": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 10000,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/node"}
+    },
+    "edges": {
+      "type": "array",
+      "maxItems": 50000,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/edge"}
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*$",
+      "maxLength": 128,
+      "not": {"pattern": "(^|[._-])(constructor|prototype|__proto__)([._-]|$)"}
+    },
+    "relativeJsonPath": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._/-]*\\.json$",
+      "not": {"pattern": "(^|/)\\.\\.(/|$)"}
+    },
+    "node": {
+      "type": "object",
+      "required": ["id", "type", "module"],
+      "properties": {
+        "id": {"$ref": "#/$defs/identifier"},
+        "type": {"enum": ["identity", "signal", "lexicon", "morphology", "syntax", "bridge", "pragmatics", "evidence"]},
+        "module": {"$ref": "#/$defs/identifier"},
+        "path": {"$ref": "#/$defs/relativeJsonPath"},
+        "capability": {"$ref": "#/$defs/identifier"}
+      },
+      "additionalProperties": false
+    },
+    "edge": {
+      "type": "object",
+      "required": ["from", "to", "relation"],
+      "properties": {
+        "from": {"$ref": "#/$defs/identifier"},
+        "to": {"$ref": "#/$defs/identifier"},
+        "relation": {"enum": ["depends-on", "maps-to", "licenses", "realizes", "evidences"]}
+      },
+      "additionalProperties": false
+    }
+  }
+}

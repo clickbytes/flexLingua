@@ -9,7 +9,11 @@ const ERROR_STATUS = Object.freeze({
   PLUGIN_PATH_INVALID: 'invalid',
   PLUGIN_REGISTRY_INVALID: 'invalid',
   PLUGIN_PACKAGE_INVALID: 'invalid',
-  PLUGIN_LOAD_FAILED: 'invalid'
+  PLUGIN_LOAD_FAILED: 'invalid',
+  PLUGIN_GRAPH_INVALID: 'invalid',
+  PLUGIN_GRAPH_CYCLE: 'invalid',
+  PLUGIN_MODULE_MISSING: 'invalid',
+  PLUGIN_CORE_REFERENCE_INVALID: 'invalid'
 });
 
 export const PLUGIN_ERROR_CODES = Object.freeze(Object.keys(ERROR_STATUS));
