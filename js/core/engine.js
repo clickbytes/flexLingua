@@ -395,12 +395,14 @@ export class Engine {
     if (depth > 3) throw new EngineError('COMPLEMENT_DEPTH_LIMIT','Complement nesting depth exceeded.');
     const text = sentence.trim().replace(/\.\s*$/u, '');
     const prefix = adapter.wideNegation;
-    const normal = text.toLocaleLowerCase();
-    const scoped = typeof prefix === 'string' && normal.startsWith(prefix.toLocaleLowerCase() + ' ');
+    const locale=adapter.textProfile?.locale||adapter.code;
+    const normal = text.toLocaleLowerCase(locale);
+    const scoped = typeof prefix === 'string' &&
+      normal.startsWith(prefix.toLocaleLowerCase(locale) + ' ');
     const body = scoped ? text.slice(prefix.length).trim() : text;
     const conditional=adapter.conditional;
-    const lowerBody=body.toLocaleLowerCase(adapter.code);
-    if(conditional && lowerBody.startsWith(conditional.if.toLocaleLowerCase(adapter.code)+' ')) {
+    const lowerBody=body.toLocaleLowerCase(locale);
+    if(conditional && lowerBody.startsWith(conditional.if.toLocaleLowerCase(locale)+' ')) {
       const rest=body.slice(conditional.if.length).trim();
       const comma=rest.indexOf(',');
       if(comma<1)throw new Error('Conditional clauses require a comma after the if-clause.');
@@ -765,6 +767,7 @@ export class Engine {
       return applyPersonalityProfile({...output,interlingua},personality);
     }
     const adapter = this.language(to);
+    const locale=adapter.textProfile?.locale||to;
     const realizeClause = (node, options={}) => {
       if (node.type === 'question') {
         if(typeof adapter.realizeQuestion!=='function') {
@@ -821,11 +824,11 @@ export class Engine {
         const consequence=realizeClause(node.consequence);
         const otherwise=node.otherwise?realizeClause(node.otherwise):null;
         const lowerClause=part=>part.text.replace(/[.!?]\s*$/u,'')
-          .replace(/^./u,char=>char.toLocaleLowerCase(to));
-        const sentence=rules.if[0].toLocaleUpperCase(to)+rules.if.slice(1)+' '+
+          .replace(/^./u,char=>char.toLocaleLowerCase(locale));
+        const sentence=rules.if[0].toLocaleUpperCase(locale)+rules.if.slice(1)+' '+
           lowerClause(condition)+', '+rules.then+' '+lowerClause(consequence)+
           (otherwise?', '+rules.otherwise+' '+lowerClause(otherwise):'');
-        return {text:sentenceText([sentence]),
+        return {text:sentenceText([sentence],'.',locale),
           warnings:[condition,consequence,...(otherwise?[otherwise]:[])].flatMap((part,index)=>
             (part.warnings||[]).map(w=>`Conditional clause ${index+1}: ${w}`)),
           alternatives:[]};
@@ -835,10 +838,10 @@ export class Engine {
         const parts = node.clauses.map(realizeClause);
         const clauseTexts = parts.map((part, i) => {
           const str = part.text.replace(/\.\s*$/u, '');
-          return i ? str[0].toLocaleLowerCase() + str.slice(1) : str;
+          return i ? str[0].toLocaleLowerCase(locale) + str.slice(1) : str;
         });
         return {
-          text: sentenceText([clauseTexts.join(` ${adapter.connective} `)]),
+          text: sentenceText([clauseTexts.join(` ${adapter.connective} `)],'.',locale),
           warnings: parts.flatMap((part, index) => (part.warnings || []).map(w => `Clause ${index + 1}: ${w}`)),
           alternatives: []
         };
@@ -851,7 +854,7 @@ export class Engine {
         if (!adapter.wideNegation) throw new Error(`No ${to} wide negation rule.`);
         const operand = realizeClause(node.operand);
         const text = sentenceText([adapter.wideNegation + ' ' +
-          operand.text.replace(/\.\s*$/u, '').toLocaleLowerCase()]);
+          operand.text.replace(/\.\s*$/u, '').toLocaleLowerCase(locale)],'.',locale);
         return { text, warnings: operand.warnings || [], alternatives: [] };
       }
       throw new Error('Unsupported semantic clause node.');

@@ -35,6 +35,14 @@ otrzymać wersjonowany profil `LanguageFeatureProfile` 1.0. Jeśli definiuje on
 inwentarza. Jeśli wymiaru brakuje, język jest bezprzypadkowy: szyk ramy
 identyfikuje role, a konfiguracja nie wymaga końcówek przypadków.
 
+`createRuleAdapter` deklaruje także `textProfile` w adapterze i jego opisie:
+wersję `1.0`, kanoniczne locale BCP 47, normalizację `NFC`, lokalne
+`toLocaleLowerCase` oraz segmentację `unicode-whitespace-v1`. Wspólny tokenizer
+dzieli tokeny na białych znakach Unicode i zachowuje apostrofy wewnętrzne,
+przecinki oraz span UTF-16 względem oryginalnego wejścia. Nie wykonuje
+segmentacji słów dla języków bez spacji; nieznany profil segmentacji jest
+odrzucany zamiast zastępowany domyślną regułą.
+
 Rama zdarzenia może deklarować lokalne kontrolery uzgodnienia, np.
 `"agreement": {"number": "theme.number"}`. Ścieżka `object.number` jest
 aliasem `theme.number`. Poza zachowanymi korzeniami `subject` i `event`, ścieżka

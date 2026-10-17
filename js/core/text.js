@@ -2,6 +2,52 @@ import {EngineError} from './errors.js';
 import {RESOURCE_LIMITS} from './resource-limits.js';
 
 export const MAX_SOURCE_TEXT_LENGTH = RESOURCE_LIMITS.sourceTextCodeUnits;
+export const TEXT_PROFILE_VERSION = '1.0';
+const TEXT_SEGMENTATION = 'unicode-whitespace-v1';
+const TOKEN_PATTERN = /[\p{L}\d][\p{L}\p{M}\d]*(?:['’ʼ\-:][\p{L}\d][\p{L}\p{M}\d]*)*|,/uy;
+const VALIDATED_TEXT_PROFILES = new WeakSet();
+
+function record(value) {
+  return value !== null && typeof value === 'object' && !Array.isArray(value);
+}
+
+export function createTextProfile(locale, options = {}) {
+  if (!record(options) || Object.keys(options).some(key => key !== 'segmentation')) {
+    throw new Error('Invalid or unsupported text segmentation profile.');
+  }
+  const segmentation=options.segmentation ?? TEXT_SEGMENTATION;
+  if (typeof locale !== 'string' || !locale || segmentation !== TEXT_SEGMENTATION) {
+    throw new Error('Invalid or unsupported text segmentation profile.');
+  }
+  let canonical;
+  try { [canonical] = Intl.getCanonicalLocales(locale); }
+  catch { throw new Error('Text profile must declare a valid locale.'); }
+  if (!canonical) throw new Error('Text profile must declare a valid locale.');
+  const profile=Object.freeze({version:TEXT_PROFILE_VERSION, locale:canonical, normalization:'NFC',
+    caseFold:'locale-lower', segmentation:TEXT_SEGMENTATION});
+  VALIDATED_TEXT_PROFILES.add(profile);
+  return profile;
+}
+
+export function validateTextProfile(profile, {locale} = {}) {
+  if (record(profile) && VALIDATED_TEXT_PROFILES.has(profile)) return profile;
+  if (!record(profile) || Object.keys(profile).sort().join(',') !==
+      'caseFold,locale,normalization,segmentation,version' ||
+      profile.version !== TEXT_PROFILE_VERSION || profile.normalization !== 'NFC' ||
+      profile.caseFold !== 'locale-lower' || profile.segmentation !== TEXT_SEGMENTATION ||
+      (locale !== undefined && profile.locale !== locale)) {
+    throw new Error('Invalid or unsupported text profile.');
+  }
+  const canonical = createTextProfile(profile.locale);
+  if (canonical.version !== profile.version || canonical.locale !== profile.locale ||
+      canonical.normalization !== profile.normalization || canonical.caseFold !== profile.caseFold ||
+      canonical.segmentation !== profile.segmentation) {
+    throw new Error('Text profile locale must use its canonical form.');
+  }
+  return canonical;
+}
+
+const DEFAULT_TEXT_PROFILE = createTextProfile('und');
 
 function requireBoundedText(text) {
   if (typeof text !== 'string' || !text.trim()) {
@@ -13,28 +59,94 @@ function requireBoundedText(text) {
   }
 }
 
-/** Strict tokenization: unsupported punctuation is never silently discarded. */
-export function tokenize(text) {
-  requireBoundedText(text);
-  const raw = text.trim().replace(/[.!]\s*$/u, '').toLocaleLowerCase();
-  if (!/^[\p{L}\d:\-'\s,]+$/u.test(raw) || /,,/u.test(raw)) {
-    throw new Error('Only simple sentences with letters, spaces and a final period are supported.');
-  }
-  const tokens = raw.replace(/,/gu, ' , ').split(/\s+/u).filter(Boolean);
-  if (tokens.length > 70) {
-    throw new EngineError('SOURCE_TOKEN_LIMIT', 'Sentence exceeds the prototype limit.');
-  }
-  return tokens;
+function bodyRange(text) {
+  let start = text.length - text.trimStart().length;
+  let end = text.trimEnd().length;
+  if (/[.!]$/u.test(text.slice(start,end))) end--;
+  while (end > start && /\s/u.test(text[end-1])) end--;
+  if (start >= end) throw new EngineError('SOURCE_TEXT_INVALID', 'Enter a sentence.');
+  return {start,end};
 }
 
-export function matchesTokens(tokens, index, phrase) {
-  const expected = phrase.toLocaleLowerCase().split(/\s+/u);
+function appendNormalized(source, sourceOffset, locale) {
+  if (typeof Intl.Segmenter !== 'function') {
+    throw new EngineError('SOURCE_SEGMENTER_UNAVAILABLE',
+      'Unicode grapheme segmentation is unavailable.');
+  }
+  let text = '';
+  const sourceMap = [];
+  const segmenter = new Intl.Segmenter(locale, {granularity:'grapheme'});
+  for (const item of segmenter.segment(source)) {
+    const normalized = item.segment.normalize('NFC')
+      .toLocaleLowerCase(locale).normalize('NFC');
+    const start = sourceOffset + item.index;
+    const end = start + item.segment.length;
+    text += normalized;
+    for (let i=0;i<normalized.length;i++) sourceMap.push({start,end});
+  }
+  return {text,sourceMap};
+}
+
+/** Normalize by the declared language profile and retain original UTF-16 spans. */
+export function tokenizeDetailed(text, rawProfile = DEFAULT_TEXT_PROFILE) {
+  requireBoundedText(text);
+  const profile = validateTextProfile(rawProfile);
+  if (/\p{C}/u.test(text)) {
+    throw new EngineError('SOURCE_CHARACTER_UNSUPPORTED',
+      'Control, format, private-use, and unassigned characters are unsupported.');
+  }
+  const {start,end} = bodyRange(text);
+  const {text:normalized,sourceMap} = appendNormalized(text.slice(start,end),start,profile.locale);
+  const tokens = [], spans = [];
+  let index = 0;
+  while (index < normalized.length) {
+    const point = String.fromCodePoint(normalized.codePointAt(index));
+    if (/^\s$/u.test(point)) { index += point.length; continue; }
+    TOKEN_PATTERN.lastIndex = index;
+    const match = TOKEN_PATTERN.exec(normalized);
+    if (!match) {
+      const span = sourceMap[index];
+      throw new EngineError('SOURCE_CHARACTER_UNSUPPORTED',
+        `Unsupported source character at UTF-16 offset ${span?.start ?? start}.`);
+    }
+    const tokenStart = index;
+    index += match[0].length;
+    if (match[0] === ',' && tokens.at(-1) === ',') {
+      throw new EngineError('SOURCE_CHARACTER_UNSUPPORTED',
+        `Repeated comma at UTF-16 offset ${sourceMap[tokenStart]?.start ?? start}.`);
+    }
+    const first = sourceMap[tokenStart], last = sourceMap[index-1];
+    tokens.push(match[0]);
+    spans.push({start:first.start,end:last.end});
+    if (tokens.length > 70) {
+      throw new EngineError('SOURCE_TOKEN_LIMIT', 'Sentence exceeds the prototype limit.');
+    }
+  }
+  if (!tokens.length) throw new EngineError('SOURCE_TEXT_INVALID', 'Enter a sentence.');
+  Object.defineProperties(tokens, {
+    sourceSpans:{value:spans,enumerable:false},
+    textProfile:{value:profile,enumerable:false}
+  });
+  return {tokens,spans,normalizedText:normalized,profile};
+}
+
+/** Strict tokenizer: unsupported punctuation is never silently discarded. */
+export function tokenize(text, profile = DEFAULT_TEXT_PROFILE) {
+  return tokenizeDetailed(text,profile).tokens;
+}
+
+export function matchesTokens(tokens, index, phrase, rawProfile = tokens?.textProfile || DEFAULT_TEXT_PROFILE) {
+  const profile = validateTextProfile(rawProfile);
+  const expected = phrase.normalize('NFC').toLocaleLowerCase(profile.locale)
+    .normalize('NFC').split(/\s+/u);
   return expected.every((word, i) => tokens[index + i] === word) ? expected.length : 0;
 }
 
-export function sentenceText(parts, terminator = '.') {
-  const text = parts.flat().join(' ').replace(/\s+/gu, ' ').replace(/\s+,/gu, ',').trim();
-  return text.charAt(0).toLocaleUpperCase() + text.slice(1) + terminator;
+export function sentenceText(parts, terminator = '.', locale = 'und') {
+  let text = parts.flat().join(' ').replace(/\s+/gu, ' ').replace(/\s+,/gu, ',').trim();
+  text = text.normalize('NFC');
+  const [first,...rest]=Array.from(text);
+  return (first?.toLocaleUpperCase(locale)||'') + rest.join('') + terminator;
 }
 
 /** Parse an ordered list of semantic roles and literal function words. */

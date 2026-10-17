@@ -3,7 +3,8 @@ import { createEvent, createQuestion, createRelativeClause, createDialogueAct, c
 import { createLexicon } from './lexicon.js';
 import { materializeInflections } from './morphology/engine.js';
 import { createNominalInterpreter } from './nominals.js';
-import { matchesTokens, sentenceText, tokenize } from './text.js';
+import { createTextProfile, matchesTokens as matchTokenPhrase,
+  sentenceText as formatSentence, tokenize as tokenizeText, validateTextProfile } from './text.js';
 import {EngineError} from './errors.js';
 import {RESOURCE_LIMITS} from './resource-limits.js';
 import {LANGUAGE_ADAPTER_CONTRACT_VERSION} from './adapter-contract.js';
@@ -775,9 +776,12 @@ function formatMessage(template, variables) {
   return template?.replace(/\{([a-zA-Z]+)\}/gu, (_match, key) => String(variables[key] ?? ''));
 }
 
-export function createRuleAdapter(sourceDictionary, rules, {morphology,featureProfile:rawFeatureProfile} = {}) {
+export function createRuleAdapter(sourceDictionary, rules,
+  {morphology,featureProfile:rawFeatureProfile,textProfile:rawTextProfile} = {}) {
   const featureProfile=rawFeatureProfile===undefined?undefined:
     createLanguageFeatureProfile(rawFeatureProfile,{language:sourceDictionary.language});
+  const textProfile=rawTextProfile===undefined?createTextProfile(sourceDictionary.language):
+    validateTextProfile(rawTextProfile);
   const prepared = morphology ? materializeInflections(sourceDictionary, morphology, {assertLegacy:true}) : sourceDictionary;
   const lexicon = createLexicon(prepared);
   // A compatibility view lets existing declarative grammar use the normalized
@@ -785,6 +789,9 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology,featurePr
   const dictionary = lexicon.dictionary;
   const grammar = validateGrammar(dictionary, rules, featureProfile);
   const { nounPhrase, sentence, verb: verbGrammar, frames } = grammar;
+  const matchesTokens=(tokens,index,phrase)=>matchTokenPhrase(tokens,index,phrase,textProfile);
+  const tokenize=text=>tokenizeText(text,textProfile);
+  const sentenceText=(parts,terminator='.')=>formatSentence(parts,terminator,textProfile.locale);
   const possessives=nounPhrase.possessives || [];
   const subjectRole = sentence.subjectRole;
   const nouns = expandLexemes(dictionary.nouns, dictionary.language, 'noun');
@@ -2883,6 +2890,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology,featurePr
   return {
     code: grammar.language, contractVersion:LANGUAGE_ADAPTER_CONTRACT_VERSION,
     ...(featureProfile?{featureProfile}:{}),
+    textProfile,
     analyze, analyzeCandidates, realize, realizeState, realizeComparison, realizeRequest, realizeModal, validateOntology, lexicon,
     analyzeQuestionCandidates:questions?analyzeQuestionCandidates:undefined,
     realizeQuestion:questions?realizeQuestion:undefined,
@@ -2902,6 +2910,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology,featurePr
     },
     describe: () => ({ language: grammar.language, grammarVersion: grammar.version,
       ...(featureProfile?{featureProfile}:{}),
+      textProfile,
       nouns: dictionary.nouns.length, verbs: dictionary.verbs.length, ...nominal.describe(),
       nounSenses: nouns.length, verbSenses: verbs.length, frames: Object.keys(frames).length,
       support: { relativeClauses: relativeGrammar.maxDepth > 0,
