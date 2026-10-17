@@ -127,7 +127,7 @@ Nowy wariant dokumentu `1.26` wersjonuje uczestnika z polem `possessor` i stan p
 - `data/concepts.json` pozostaje ontologią pojęć. Nie dodajemy do niej `I`, `you`, `speaker` ani `addressee` jako bytów.
 - `data/features.json` zachowuje obecną domenę dla zwykłych referencji. Osoba i liczba gramatyczna deiktycznej referencji należą do nowego, wersjonowanego `agreement`, walidowanego osobną gałęzią.
 - PERS-02 dodaje leksykalne mapowania `ja/ty/my/wy` i `I/you/we`, walidowany zapis referencji oraz kontrolowane zdania teraźniejsze PL/EN. PERS-03/04/05 rozszerzają zgodę, fleksję, czas przeszły i pytania; PERS-06 dostarcza niezależny gold integracyjny.
-- Ten ADR ustala kontrakt i ryzyka. Bieżący zakres runtime opisuje [PERS-02](../pers02-deictic-pronouns.md); pozostałe wiersze tabeli testów są wymaganiami dla dalszych zadań.
+- Ten ADR ustala kontrakt i ryzyka. Bieżące wsparcie zdań wynika z manifestów pluginów i jest sprawdzane przez [CLI](../cli.md); wcześniejszy PERS-02 opisuje historyczny etap projektu.
 
 ## Wymagane testy przy wdrażaniu kontraktu
 

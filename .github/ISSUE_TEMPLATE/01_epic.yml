@@ -65,7 +65,7 @@ body:
     id: exit
     attributes:
       label: Kryteria odbioru całego epiku (DoD)
-      description: "Pisz mierzalne checklisty: test, artefakt, dowód, negatywny scenariusz."
+      description: "Pisz mierzalne checklisty: komenda CLI, artefakt, dowód albo jawna odmowa."
       placeholder: "- [ ] ..." 
     validations:
       required: true

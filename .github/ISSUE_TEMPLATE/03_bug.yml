@@ -9,7 +9,7 @@ body:
       options:
         - CORE / parser / INTER
         - PL / EN / morphology
-        - CI / release
+        - CLI / runtime
         - GUI / Studio
         - Docs / dane
     validations:
@@ -17,7 +17,7 @@ body:
   - type: input
     id: sha
     attributes:
-      label: Commit SHA / runner / Node
+      label: Commit SHA / Node / platforma
       placeholder: "SHA..., Node 22.x, platforma..."
     validations:
       required: true
@@ -38,7 +38,7 @@ body:
   - type: textarea
     id: evidence
     attributes:
-      label: Dowody (logi, CI, testy)
+      label: Dowody (CLI, komunikaty, logi)
       description: "Usuwaj sekrety i dane osobowe z logów."
     validations:
       required: true
@@ -46,6 +46,6 @@ body:
     id: acceptance
     attributes:
       label: Kryteria poprawki
-      placeholder: "- [ ] Reprodukcja jako test...\n- [ ] Naprawa...\n- [ ] Cała regresja..."
+      placeholder: "- [ ] Minimalna komenda CLI odtwarza problem...\n- [ ] Naprawa...\n- [ ] Ręczny wynik potwierdza zmianę..."
     validations:
       required: true

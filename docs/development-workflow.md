@@ -1,65 +1,32 @@
 # Jak pracujemy
 
-> **Zmiana R21:** testy, goldy i runner macierzy są usuwane. Aktualne ręczne komendy CLI i oczekiwane znaczenia są w [examples/cli-sentences.md](../examples/cli-sentences.md); końcowe czyszczenie workflow nastąpi w R22.
+## Źródła statusu
 
-## Źródła informacji
+Zakres, kryteria odbioru, zależności i blokery są zapisane w GitHub Issue. Pull request zawiera zmianę, wykonane komendy, ręczny wynik oraz dokładny SHA. README i roadmap opisują trwały produkt, nie postęp pojedynczych zadań. Nie prowadzimy pliku `HANDOFF.MD`.
 
-| Informacja | Miejsce |
-| --- | --- |
-| Zakres, kryteria odbioru, zależności, blokery i następny krok | Issue w `clickbytes/flexLingua` |
-| Diff, przegląd, SHA i wynik lokalnej macierzy | Pull request |
-| Oczekiwane znaczenie zdań i odmowy | Wersjonowane goldy |
-| Faktyczny kontrakt produktu i uruchamiania | Kod i właściwy dokument w repozytorium |
+## Przydział i zakres
 
-Nie prowadzimy osobnego `HANDOFF.MD`. GitHub Actions nie uruchamiają testów ani nie stanowią bramki merge.
+1. Przed pracą skomentuj issue właścicielem, zakresem plików, bazowym SHA i zależnościami. Dla pracy w epiku pokaż aktywne przydziały również w issue epiku.
+2. Prowadź jedno issue i jeden PR naraz. Po merge następne zadanie bazuj na świeżym `main` i zapisz jego SHA w przydziale.
+3. Zanim edytujesz, zaplanuj wszystkie podoperacje dla danego pliku i wprowadź je łącznie. Nie zmieniaj niezwiązanych danych, UI ani wspólnych plików przypisanych innemu zadaniu.
+4. Powiąż PR z jednym issue i zapisz w nim zmienione zachowanie, exact commit SHA, wykonane sprawdzenia oraz ograniczenia.
 
-## Lokalne sprawdzanie zmian językowych
+## Ręczny odbiór przez CLI
 
-Nie instalujemy hooków Git. Commit i push nie uruchamiają testów automatycznie. Repozytorium nie ma aktywnych workflowów GitHub Actions.
+CLI jest jedyną ścieżką akceptacji zdań. Sprawdź dostępne pakiety, a potem uruchom rzeczywiste zdania w każdym zmienionym kierunku:
 
-Macierz zdań jest podstawowym narzędziem odbioru dla zmian tłumaczenia, gramatyki, parsera, leksykonu i semantyki. Uruchom:
-
-```powershell
-node tools/review-sentences.mjs --input tests/fixtures/gold-a1-enpl-composition-v2.json
+```sh
+node tools/translate.mjs --languages
+node tools/translate.mjs --from en --to pl --text "The girl sees the dog." --json
+node tools/translate.mjs --from en --to ar --text "The girl sees the dog." --json
 ```
 
-CLI wypisuje dla każdego wiersza wejście, expected, actual, wynik, CORE lub odmowę. Przejrzyj każdy zmieniony wiersz pod względem naturalności, gramatyki, ról, czasu, aspektu, polaryzacji, liczby, relacji i sensu. Status `match` potwierdza tylko zgodność tekstu z zapisanym expected; nie zastępuje oceny językowej.
+Przed uruchomieniem określ oczekiwany tekst i sens CORE niezależnie od silnika. Ręcznie porównaj tekst, role i referenty, czas, aspekt, polaryzację, liczbę, relacje, alternatywy, utratę informacji i diagnostykę. Dla odmowy zanotuj powód i kod wyjścia. Nie interpretuj tekstu z `unsupported` jako tłumaczenia.
 
-Macierz przekrojową pakietów i jej lokalny zestaw regresji opisuje [generic-language-conformance.md](generic-language-conformance.md). Raport JSON uruchom poleceniem:
+W issue lub PR zapisz każdą komendę, kierunek, oczekiwane i rzeczywiste znaczenie, zwrócony tekst albo odmowę, CORE/diagnostykę, exit code i SHA. [Przykłady](../examples/cli-sentences.md) są instrukcjami dla człowieka, nie runnerem ani oracle do automatycznego odtwarzania.
 
-```powershell
-node tools/review-sentences.mjs --input tests/fixtures/generic-language-conformance.json --report
-npm run check:language-conformance
-```
+Dla zmian, które nie dotyczą zachowania językowego, wykonuj tylko kontrole składni, importów, referencji lub CLI potrzebne do sprawdzenia zakresu. Automatyczne suite i GitHub Actions nie są bramką odbioru. Zapisz dokładne komendy; nie deklaruj wykonania komend pominiętych.
 
-Raport automatyzuje porównanie ze statycznymi goldami i pokazuje capability `unsupported` lub `not-run`; nadal należy ręcznie ocenić zdania i CORE. Skrypt jest lokalny i nie jest częścią `check:release`.
+## Zakończenie pracy
 
-Expected i CORE zapisuj ręcznie przed uruchomieniem silnika. Nie kopiuj wyniku engine do golda bez niezależnej decyzji, że jest poprawny. Goldy rosną partiami tematycznymi w kierunku 1000 zdań na kierunek; nie uruchamiaj całej macierzy po każdej zmianie.
-
-Zapisz w PR/issue plik macierzy, komendę, liczbę przejrzanych wierszy, mismatche i SHA commita. Gdy zmiana zachowania wymaga mechanicznej regresji, uruchom jeden pasujący `node --test tests/<plik>.test.js`. Przy zmianie danych wybierz jeden właściwy walidator.
-
-Pełne `npm run check:core-gates` jest jawnym poleceniem wydaniowym albo pełnej weryfikacji na żądanie; zwykły batch go nie uruchamia. Nie dubluj kontroli pokrytych przez pełny gate.
-
-## Macierz zdań A1
-
-Pilotażowa macierz jest w zamrożonym `data/coverage/a1-heldout-v1.json`: 100 autorskich par zdań daje 100 wejść EN→PL i 100 PL→EN oraz 20 jawnych odmów. `tests/a1-heldout.test.js` sprawdza powierzchnię, CORE źródła i celu oraz serializację CORE jako jawny test regresyjny. Expected zapisano niezależnie od wyniku silnika. Autor fixture'a był także autorem implementacji, więc próbka nie stanowi niezależnego benchmarku ani reprezentatywnego pomiaru CEFR A1.
-
-Nowe zdania redaguj partiami według konstrukcji. Dla każdego przypadku ustal ID, kierunek, wejście, oczekiwany cel i CORE albo jawny powód odmowy. Przejrzyj polską składnię, przypadki, zgodę, role, czas, aspekt, polarność i analizę odwrotną. H1 pozostaje zamrożony; kolejne partie prowadź w osobnych wersjonowanych goldach. Cel 1000 wejść na język jest planem rozbudowy macierzy, a nie obecnym wynikiem ani procentem CEFR A1.
-
-## Przebieg zadania
-
-1. Wybierz issue i ustal jego kryteria odbioru. Dla nowej konstrukcji przygotuj mały ręczny gold przed kodem.
-2. Zmień tylko potrzebne pliki. Uruchom lokalny CLI dla zmienionego pliku gold i przejrzyj wyniki.
-3. Uruchom jeden celowany test lub walidator, jeśli jest potrzebny do sprawdzenia zmienionego kontraktu.
-4. Zapisz commit i otwórz PR powiązany z issue. Umieść w PR wynik przeglądu zdań i SHA.
-5. Scal po sprawdzeniu diffu, kryteriów odbioru i wyniku lokalnego. Zamknij issue przez PR. Przy blokadzie zapisz powód i następny krok w issue.
-
-Jeśli plik gold lub implementacja zmieniły się po ostatnim przeglądzie, ponownie uruchom CLI na końcowym commicie i przejrzyj zmienione wiersze. CI nie jest uruchamiane.
-
-## Wydanie i rollback
-
-`npm run check:core-gates` uruchamiaj wyłącznie na jawne żądanie pełnej weryfikacji albo wydania. Uruchamia `check:release` jeden raz i wypisuje deterministyczny raport: SHA, wersję, manifest śledzonych plików z SHA-256, runtime i wyniki testów. Wymaga czystego checkoutu.
-
-Po błędzie lokalnym popraw przyczynę i powtórz odpowiedni przegląd lub kontrolę. Rollback wykonuj przez PR z `git revert <merge-sha>` i zapisz SHA revertu w pierwotnym issue. Nie przepisuj historii `main`.
-
-Dokumentację aktualizuj wyłącznie po trwałej zmianie zachowania, API, schematu, architektury, poleceń albo provenance. Postęp i wyniki należą do issue i PR.
+Po przeglądzie diffu i wyników otwórz jeden PR powiązany z issue. Scal go po spełnieniu kryteriów i ręcznym sprawdzeniu wyniku. Nie przedstawiaj ograniczonego przykładu jako miary jakości całego języka ani poziomu CEFR. Przy blockerze opisz konkretny brak i następny krok w issue.

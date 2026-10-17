@@ -1,11 +1,11 @@
-name: "TASK — implementacja lub test"
+name: "TASK — implementacja lub przegląd CLI"
 description: "Jedno zadanie z wynikiem, kryteriami odbioru i weryfikacją."
 title: "[TASK][P1][CORE] "
 body:
   - type: markdown
     attributes:
       value: |
-        Jedno issue opisuje jeden rezultat. Kryteria mają być sprawdzalne, a testy adekwatne do zmiany.
+        Jedno issue opisuje jeden rezultat. Kryteria mają być sprawdzalne przez ręczny przegląd właściwego CLI.
         Powiąż issue z epikiem i blockerami, gdy mają zastosowanie. Aktualny status zapisuj tutaj.
   - type: input
     id: parent
@@ -30,8 +30,8 @@ body:
     attributes:
       label: Obszar
       options:
-        - CORE / data / testy
-        - Platform / CI
+        - CORE / data / CLI
+        - Platform / docs
         - GUI / Studio
         - Research
     validations:
@@ -70,7 +70,7 @@ body:
     id: validation
     attributes:
       label: Weryfikacja
-      placeholder: "Właściwe testy i potrzebne goldy."
+      placeholder: "Komendy CLI, oczekiwane znaczenie i odmowy albo inne potrzebne kontrole."
     validations:
       required: true
   - type: textarea
