@@ -1,0 +1,269 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-10-17",
+  "packages": [
+    {
+      "path": "languages/pl/lexicon.json",
+      "version": "1.0",
+      "status": "project-authored",
+      "author": "flexLingua project contributors; individual entry authors are not recorded",
+      "source": "Original project-maintained Polish lexical entries, including 28 project-authored LEX-01 senses and reviewed inflection cells; no external lexicon was imported.",
+      "license": "Project-authored; no separate SPDX license grant is declared in this repository",
+      "reviewedAt": "2026-10-15",
+      "permittedUse": "Used in flexLingua. No third-party dictionary definitions or protected Oxford lists are included. External reuse requires rights-holder review because this repository declares no separate data license.",
+      "authoredBatches": [
+        {
+          "issue": "#43",
+          "author": "flexLingua project contributors",
+          "source": "Original project-authored concepts, English/Polish lexical senses and productive noun morphology; no third-party lexicon or protected list was copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "28 new bilingual noun concepts covering family, people, places and objects."
+        },
+        {
+          "issue": "#44",
+          "author": "flexLingua project contributors",
+          "source": "Original project-authored food and shopping object concepts, English/Polish lexical senses, and controlled inflection forms; no third-party lexicon or protected list was copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "28 bilingual food and everyday shopping noun concepts; English orange is separately mapped as fruit and color."
+        },
+        {
+          "issue": "#45",
+          "author": "flexLingua project contributors",
+          "source": "Original Polish predicate lexemes, aspect annotations, inflection tables, sense mappings, and declared tense/aspect/role capabilities; no third-party lexicon was copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license."
+        },
+        {
+          "issue": "#47",
+          "author": "flexLingua project contributors",
+          "source": "Original Polish polysemous pilot and port lexemes with separate CORE references.",
+          "license": "Project-authored; the repository declares no separate SPDX data license."
+        },
+        {
+          "issue": "#48",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored deictic personal-pronoun case forms linked to the existing grammatical-function CORE sense; no external pronoun inventory was imported.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "Controlled nominative and object-case forms for first- and second-person pronouns. Language package: data/pl.json."
+        },
+        {
+          "issue": "#65",
+          "author": "flexLingua project contributors",
+          "source": "Original project-authored Polish service and travel senses, inflected forms, and transaction verb paradigms; no external dictionary list imported.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "30 new Polish lexical senses and the kupować/kosztować event predicates."
+        },
+        {
+          "issue": "#155",
+          "author": "flexLingua project contributors",
+          "source": "Original project-authored bounded English/Polish class-predication and proximal-demonstrative entries; no external lexicon or list copied.",
+          "license": "Project-authored; the repository declares no separate data license.",
+          "scope": "A1-ENPL-01: proximal demonstratives, a distinct directional class-membership state, and the bounded quality.simple sense."
+        }
+      ],
+      "migratedFrom": "data/pl.json"
+    },
+    {
+      "path": "languages/pl/grammar.json",
+      "version": "1.0",
+      "status": "legacy-review-required",
+      "author": "Historical rules are not attributed; SPACE-04 time-deixis mappings are project-authored",
+      "source": "Historical flexLingua Polish grammar rules and the bounded dziś/dzisiaj/jutro/wczoraj realization map added for SPACE-04",
+      "license": "Unconfirmed; no separate license statement is present in this package",
+      "reviewedAt": "2026-10-17",
+      "permittedUse": "Existing in-repository execution only. Do not redistribute or reuse externally until source and rights are reviewed.",
+      "migrationNote": "Historical rule authorship and rights remain unconfirmed. The SPACE-04 mappings are project-authored; external redistribution remains blocked pending review. The A2-03 additions are project-authored and remain bounded to the in-repository adapter; no historical data was copied.",
+      "authoredBatches": [
+        {
+          "issue": "#165",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored bounded positive Polish past predication rules for typed CORE predication; no external grammar inventory copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "A1-ENPL-05: positive past be + adjective statements only, with past negation/questions and other state kinds refused. Language package: data/grammar/pl.json."
+        },
+        {
+          "issue": "#159",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored bounded Polish event grammar licensing bare beverage themes only for event.drink; no external grammar inventory copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "A1-ENPL-03: water, milk, coffee, and tea as bare beverage themes. Language package: data/grammar/pl.json."
+        },
+        {
+          "issue": "#45",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored bounded event frame, case, aspect, tense, and typed theme declarations for eat, drink, work, learn, and sleep.",
+          "license": "Project-authored; the repository declares no separate SPDX data license."
+        },
+        {
+          "issue": "#48",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored deictic personal-pronoun case forms linked to the existing grammatical-function CORE sense; no external pronoun inventory was imported.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "Controlled nominative and object-case forms for first- and second-person pronouns. Language package: data/grammar/pl.json."
+        },
+        {
+          "issue": "#48",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored case-governed personal pronoun and agreement-marked possessive grammar; no external inventory was imported.",
+          "license": "Project-authored; the repository declares no separate data license.",
+          "scope": "Nominative/object deictic pronouns and possessor realization for data/grammar/pl.json."
+        },
+        {
+          "issue": "#65",
+          "author": "flexLingua project contributors",
+          "source": "Original bounded Polish grammar frames for purchase and explicit prices; no external rule inventory copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "Controlled imperfective kupować/kosztować frames."
+        },
+        {
+          "issue": "#171",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored Polish third-person pronoun inventory declared by person, number, and grammatical gender, without mapping pronouns to person concepts.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "A1-ENPL-08: ona/on agreement and unresolved third-person parsing."
+        },
+        {
+          "issue": "#173",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored present-tense classification negation and yes/no marking; no external grammar inventory copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "A1-ENPL-10: present negative and yes/no classification with a separate CORE frame. Language package: data/grammar/pl.json."
+        },
+        {
+          "issue": "#175",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored bounded Polish presentational existential order and nie ma negation with genitive entity; no external grammar inventory copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "A1-ENPL-12: present w/na/przy existence statements, czy questions and nie ma negation."
+        }
+      ],
+      "migratedFrom": "data/grammar/pl.json"
+    },
+    {
+      "path": "languages/pl/morphology.json",
+      "version": "1.11",
+      "status": "legacy-review-required",
+      "author": "Not attributed in the existing package metadata",
+      "source": "Historical flexLingua curated forms plus LEX-01 project-authored productive noun bindings and explicit irregular-cell overrides. Historical entry attribution remains incomplete.",
+      "license": "Project-authored label exists in package; rights and reuse terms are not specified",
+      "reviewedAt": "2026-10-15",
+      "permittedUse": "Existing in-repository execution only. Verify source and rights before reuse or export.",
+      "migrationNote": "Add verified author, version date and permitted-use terms to the package provenance. The A2-03 additions are project-authored and remain bounded to the in-repository adapter; no historical data was copied.",
+      "authoredBatches": [
+        {
+          "issue": "#165",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored Polish past forms for the copular state lexeme; no external lexical entry copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "A1-ENPL-05: positive past state predication copula forms. Language package: data/pl.json."
+        },
+        {
+          "issue": "#43",
+          "author": "flexLingua project contributors",
+          "source": "Original project-authored concepts, English/Polish lexical senses and productive noun morphology; no third-party lexicon or protected list was copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "28 new bilingual noun concepts covering family, people, places and objects."
+        },
+        {
+          "issue": "#44",
+          "author": "flexLingua project contributors",
+          "source": "Original project-authored food and shopping object concepts, English/Polish lexical senses, and controlled inflection forms; no third-party lexicon or protected list was copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "28 bilingual food and everyday shopping noun concepts; English orange is separately mapped as fruit and color."
+        },
+        {
+          "issue": "#45",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored finite Polish verb paradigms bindings for the LEX-03 predicate set.",
+          "license": "Project-authored; the repository declares no separate SPDX data license."
+        },
+        {
+          "issue": "#46",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored complete Polish -cja and neuter irregular plural paradigms with independently checked nominative, oblique and inverse cells.",
+          "license": "Project-authored; the repository declares no separate SPDX data license."
+        },
+        {
+          "issue": "#47",
+          "author": "flexLingua project contributors",
+          "source": "Productive Polish pilot and port declension bindings for the LEX-05 ambiguity examples.",
+          "license": "Project-authored; the repository declares no separate SPDX data license."
+        },
+        {
+          "issue": "#65",
+          "author": "flexLingua project contributors",
+          "source": "Original inflection bindings and explicitly curated forms for the project-authored service lexemes and transaction verbs.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "Polish case/number mappings and kupować/kosztować conjugations for the A2-03 additions."
+        },
+        {
+          "issue": "#155",
+          "author": "flexLingua project contributors",
+          "source": "Original bounded English invariant and Polish regular adjective bindings for the project-authored simple sense; no external paradigms copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "English simple and Polish prosty inflection bindings for A1-ENPL-01."
+        }
+      ],
+      "migratedFrom": "data/morphology/pl.json"
+    },
+    {
+      "path": "languages/pl/manifest.json",
+      "version": "1.0",
+      "status": "project-authored",
+      "author": "flexLingua project contributors",
+      "source": "Project-authored language plugin package metadata for the migrated Polish data.",
+      "license": "Project-authored; no separate SPDX data license grant is declared in this repository.",
+      "reviewedAt": "2026-10-17",
+      "permittedUse": "Internal flexLingua package configuration only; external reuse requires rights-holder review."
+    },
+    {
+      "path": "languages/pl/graph.json",
+      "version": "1.0",
+      "status": "project-authored",
+      "author": "flexLingua project contributors",
+      "source": "Project-authored language plugin package metadata for the migrated Polish data.",
+      "license": "Project-authored; no separate SPDX data license grant is declared in this repository.",
+      "reviewedAt": "2026-10-17",
+      "permittedUse": "Internal flexLingua package configuration only; external reuse requires rights-holder review."
+    },
+    {
+      "path": "languages/pl/features.json",
+      "version": "1.0",
+      "status": "project-authored",
+      "author": "flexLingua project contributors",
+      "source": "Derived from feature values used by the migrated Polish morphology package.",
+      "license": "Project-authored; no separate SPDX data license grant is declared in this repository.",
+      "reviewedAt": "2026-10-17",
+      "permittedUse": "Internal flexLingua package configuration only; external reuse requires rights-holder review."
+    },
+    {
+      "path": "languages/pl/signal.json",
+      "version": "1.0",
+      "status": "project-authored",
+      "author": "flexLingua project contributors",
+      "source": "Project-authored language plugin package metadata for the migrated Polish data.",
+      "license": "Project-authored; no separate SPDX data license grant is declared in this repository.",
+      "reviewedAt": "2026-10-17",
+      "permittedUse": "Internal flexLingua package configuration only; external reuse requires rights-holder review."
+    },
+    {
+      "path": "languages/pl/bridge.json",
+      "version": "1.0",
+      "status": "project-authored",
+      "author": "flexLingua project contributors",
+      "source": "Project-authored bounded mapping of the migrated Polish event frame to CORE roles.",
+      "license": "Project-authored; no separate SPDX data license grant is declared in this repository.",
+      "reviewedAt": "2026-10-17",
+      "permittedUse": "Internal flexLingua package configuration only; external reuse requires rights-holder review."
+    },
+    {
+      "path": "languages/pl/provenance.json",
+      "version": "1.0",
+      "status": "project-authored",
+      "author": "flexLingua project contributors",
+      "source": "Project-authored language plugin package metadata for the migrated Polish data.",
+      "license": "Project-authored; no separate SPDX data license grant is declared in this repository.",
+      "reviewedAt": "2026-10-17",
+      "permittedUse": "Internal flexLingua package configuration only; external reuse requires rights-holder review."
+    }
+  ]
+}

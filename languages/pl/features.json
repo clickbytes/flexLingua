@@ -1,0 +1,93 @@
+{
+  "version": "1.02",
+  "language": "pl",
+  "dimensions": {
+    "number": [
+      "singular",
+      "plural"
+    ],
+    "case": [
+      "nom",
+      "gen",
+      "dat",
+      "acc",
+      "inst",
+      "loc",
+      "voc"
+    ],
+    "tense": [
+      "past",
+      "present"
+    ],
+    "person": [
+      "first",
+      "second",
+      "third"
+    ],
+    "gender": [
+      "masculine",
+      "feminine",
+      "neuter"
+    ],
+    "pluralClass": [
+      "virile",
+      "nonvirile"
+    ],
+    "animacy": [
+      "animate",
+      "inanimate"
+    ]
+  },
+  "featureProfile": {
+    "version": "1.0",
+    "language": "pl",
+    "syntactic": {
+      "case": [
+        "nom",
+        "gen",
+        "dat",
+        "acc",
+        "inst",
+        "loc",
+        "voc"
+      ]
+    },
+    "morphology": {
+      "number": [
+        "singular",
+        "plural"
+      ],
+      "case": [
+        "nom",
+        "gen",
+        "dat",
+        "acc",
+        "inst",
+        "loc",
+        "voc"
+      ],
+      "tense": [
+        "past",
+        "present"
+      ],
+      "person": [
+        "first",
+        "second",
+        "third"
+      ],
+      "gender": [
+        "masculine",
+        "feminine",
+        "neuter"
+      ],
+      "pluralClass": [
+        "virile",
+        "nonvirile"
+      ],
+      "animacy": [
+        "animate",
+        "inanimate"
+      ]
+    }
+  }
+}
