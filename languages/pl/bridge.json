@@ -47,6 +47,30 @@
           }
         }
       ]
+    },
+    {
+      "construction": "state.classification",
+      "stateKind": "classification",
+      "arguments": [
+        {
+          "role": "subject",
+          "argument": "subject",
+          "syntacticFunction": "subject",
+          "caseExponent": {
+            "kind": "case",
+            "value": "nom"
+          }
+        },
+        {
+          "role": "category",
+          "argument": "category",
+          "syntacticFunction": "object",
+          "caseExponent": {
+            "kind": "case",
+            "value": "acc"
+          }
+        }
+      ]
     }
   ]
 }

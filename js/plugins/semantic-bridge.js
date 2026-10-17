@@ -58,58 +58,67 @@ export function createSemanticBridge({plan, core} = {}) {
   const transferPlans = plan.transferPlans.map(item => structuredClone(item));
 
   function transferFor(meaning, construction) {
-    if (meaning?.type === 'state' && meaning.kind === 'classification') {
-      const stateConstruction = 'state.classification';
-      if (construction !== undefined && construction !== stateConstruction) {
-        fail('PLUGIN_CAPABILITY_UNAVAILABLE',
-          `State classification does not match construction ${construction}.`);
-      }
-      return {construction: stateConstruction, stateKind: 'classification'};
-    }
-    const conceptId = meaning?.concept;
-    const candidates = transferPlans.filter(item => item.conceptId === conceptId &&
+    const candidates = transferPlans.filter(item =>
+      (item.stateKind !== undefined
+        ? meaning?.type === 'state' && meaning.kind === item.stateKind
+        : meaning?.concept === item.conceptId) &&
       (construction === undefined || construction === item.construction));
     if (candidates.length !== 1) {
+      const identity = meaning?.type === 'state' ? `state.${String(meaning.kind)}` :
+        String(meaning?.concept);
       fail('PLUGIN_CAPABILITY_UNAVAILABLE', candidates.length
-        ? `Meaning ${conceptId} has multiple transfer plans; specify a construction.`
-        : `No semantic transfer is declared for ${String(conceptId)}.`);
+        ? `Meaning ${identity} has multiple transfer plans; specify a construction.`
+        : `No semantic transfer is declared for ${identity}.`);
     }
     return candidates[0];
   }
 
   function validateMeaning(meaning, transfer) {
-    if (transfer?.stateKind === 'classification') {
-      const frame = core.ontology?.stateFrames?.classification;
+    if (transfer?.stateKind !== undefined) {
+      const frame = core.ontology?.stateFrames?.[transfer.stateKind];
+      const stateFields = new Set(['features', 'kind', 'roles', 'type', 'version']);
+      if (transfer.stateKind === 'predication') stateFields.add('predicate');
+      if (['location', 'existence'].includes(transfer.stateKind)) stateFields.add('relation');
+      const stateFieldsMatch = isRecord(meaning) &&
+        Object.keys(meaning).length === stateFields.size &&
+        Object.keys(meaning).every(key => stateFields.has(key));
       if (!isRecord(meaning) || meaning.type !== 'state' ||
-          meaning.kind !== transfer.stateKind || meaning.version !== '1.31' ||
+          meaning.kind !== transfer.stateKind || typeof meaning.version !== 'string' ||
           !isRecord(meaning.roles) || !isRecord(meaning.features) ||
-          Object.keys(meaning).sort().join(',') !== 'features,kind,roles,type,version' ||
-          Object.keys(meaning.features).sort().join(',') !== 'polarity,tense' ||
-          !frame || Object.keys(meaning.roles).length !== frame.roles.length ||
-          frame.roles.some(role => !Object.hasOwn(meaning.roles, role))) {
-        fail('PLUGIN_RESULT_INVALID', 'Invalid classification state or role frame.');
+          !stateFieldsMatch || !frame ||
+          Object.keys(meaning.roles).length !== frame.roles.length ||
+          frame.roles.some(role => !Object.hasOwn(meaning.roles, role)) ||
+          transfer.arguments.length !== frame.roles.length ||
+          frame.roles.some(role => !transfer.arguments.some(item => item.semanticRole === role))) {
+        fail('PLUGIN_RESULT_INVALID', 'Invalid state or role frame.');
       }
       for (const role of frame.roles) {
         const participant = meaning.roles[role];
         const referent = participant?.referent;
         const agreement = participant?.agreement;
-        const deictic = isRecord(participant) &&
+        const typedReferent = isRecord(participant) &&
           Object.keys(participant).sort().join(',') === 'agreement,referent' &&
-          isRecord(referent) && Object.keys(referent).sort().join(',') === 'anchor,kind' &&
-          referent.kind === 'deictic' &&
-          ['speaker', 'addressee', 'demonstrative'].includes(referent.anchor) &&
-          isRecord(agreement) && Object.keys(agreement).sort().join(',') === 'number,person' &&
+          isRecord(referent) && isRecord(agreement) &&
+          ['first', 'second', 'third'].includes(agreement.person) &&
           ['singular', 'plural'].includes(agreement.number) &&
-          (referent.anchor === 'speaker' ? agreement.person === 'first' :
-            referent.anchor === 'addressee' ? agreement.person === 'second' :
-              agreement.person === 'third' && agreement.number === 'singular');
-        const conceptId = deictic ? 'person' : participant?.concept;
-        if (!isRecord(participant) || (Object.hasOwn(participant, 'referent') && !deictic) ||
-            typeof conceptId !== 'string' ||
-            !core.ontology.isA(conceptId, frame.roleTypes[role])) {
-          fail('PLUGIN_RESULT_INVALID', `Invalid classification participant: ${role}.`);
+          (Object.keys(referent).sort().join(',') === 'anchor,kind' &&
+            referent.kind === 'deictic' &&
+            Object.keys(agreement).sort().join(',') === 'number,person' &&
+            ['speaker', 'addressee', 'demonstrative'].includes(referent.anchor) &&
+            (referent.anchor === 'speaker' ? agreement.person === 'first' :
+              referent.anchor === 'addressee' ? agreement.person === 'second' :
+                agreement.person === 'third' && agreement.number === 'singular') ||
+           Object.keys(referent).sort().join(',') === 'kind,resolution' &&
+            referent.kind === 'anaphoric' && referent.resolution === 'unresolved' &&
+            agreement.person === 'third' && agreement.number === 'singular' &&
+            Object.keys(agreement).sort().join(',') === 'gender,number,person' &&
+            ['feminine', 'masculine'].includes(agreement.gender));
+        const conceptId = typedReferent ? 'person' : participant?.concept;
+        if (!isRecord(participant) || (Object.hasOwn(participant, 'referent') && !typedReferent) ||
+            typeof conceptId !== 'string' || !core.ontology.isA(conceptId, frame.roleTypes[role])) {
+          fail('PLUGIN_RESULT_INVALID', `Invalid state participant for semantic role ${role}.`);
         }
-        if (deictic) continue;
+        if (typedReferent) continue;
         const reference = isRecord(participant.coreRef) ? participant.coreRef :
           {kind: 'concept', id: participant.concept};
         if (reference.kind !== 'concept' || reference.id !== participant.concept) {
@@ -188,26 +197,6 @@ export function createSemanticBridge({plan, core} = {}) {
   function projectMeaning(meaning, transfer, lexicalSenses = {}) {
     validateMeaning(meaning, transfer);
     const senses = cloneLexicalSenses(lexicalSenses, senseReferences);
-    if (transfer.stateKind === 'classification') {
-      for (const [role, participant] of Object.entries(meaning.roles)) {
-        const senseId = senses?.[role];
-        if (typeof senseId === 'string') {
-          const reference = coreRefForSense(senseId);
-          if (reference.kind === 'concept' && reference.id !== participant.concept) {
-            fail('PLUGIN_CORE_REFERENCE_INVALID',
-              `Lexical sense does not match classification role ${role}.`);
-          }
-        }
-      }
-      return {construction: transfer.construction, stateKind: transfer.stateKind,
-        meaning: structuredClone(meaning), features: structuredClone(meaning.features),
-        roles: Object.fromEntries(Object.entries(meaning.roles).map(([role, participant]) =>
-          [role, {participant: structuredClone(participant),
-            coreRef: typeof participant.concept === 'string' ?
-              {kind: 'concept', id: participant.concept} : null,
-            lexicalSense: typeof senses?.[role] === 'string' ?
-              coreRefForSense(senses[role]) : null}]))};
-    }
     const runtimeArguments = transfer.arguments.map(item => {
       const participant = meaning.roles[item.semanticRole] ?? null;
       const senseId = senses?.[item.semanticRole] ?? null;
@@ -238,7 +227,8 @@ export function createSemanticBridge({plan, core} = {}) {
     });
     return {
       construction: transfer.construction,
-      conceptId: transfer.conceptId,
+      ...(transfer.stateKind === undefined ? {conceptId: transfer.conceptId} :
+        {stateKind: transfer.stateKind}),
       meaning: structuredClone(meaning),
       features: structuredClone(meaning.features),
       arguments: runtimeArguments

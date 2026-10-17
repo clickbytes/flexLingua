@@ -163,10 +163,13 @@ function compileTransfers(graph, modules, core, senseIds, capabilities, featureD
     }
     for (const [index, transfer] of data.transfers.entries()) {
       const label = `${node.module}.transfers[${index}]`;
-      const required = ['construction', 'conceptId', 'arguments'];
-      const optional = ['senseId'];
+      const required = ['construction', 'arguments'];
+      const optional = ['conceptId', 'stateKind', 'senseId'];
+      const hasConcept = isRecord(transfer) && hasOwn(transfer, 'conceptId');
+      const hasState = isRecord(transfer) && hasOwn(transfer, 'stateKind');
       if (!isRecord(transfer) || required.some(key => !hasOwn(transfer, key)) ||
           Object.keys(transfer).some(key => !required.includes(key) && !optional.includes(key)) ||
+          hasConcept === hasState ||
           !safeId(transfer.construction) || !Array.isArray(transfer.arguments) ||
           !transfer.arguments.length || transfer.arguments.length > 32) {
         fail('PLUGIN_GRAPH_INVALID', `Invalid transfer plan at ${label}.`);
@@ -174,10 +177,16 @@ function compileTransfers(graph, modules, core, senseIds, capabilities, featureD
       const capability = capabilities.find(item => item.channel === 'sentence' &&
         item.status === 'implemented' && item.construction === transfer.construction);
       if (!capability) fail('PLUGIN_GRAPH_INVALID', `Transfer has no implemented capability at ${label}.`);
-      const duplicateKey = `${transfer.construction}\u0000${transfer.conceptId}`;
+      const stateFrame = hasState ? core.ontology?.stateFrames?.[transfer.stateKind] : null;
+      if (hasState && (!safeId(transfer.stateKind) || !stateFrame)) {
+        fail('PLUGIN_GRAPH_INVALID', `Unknown CORE state kind at ${label}: ${String(transfer.stateKind)}.`);
+      }
+      const concept = hasConcept ? resolveConcept(core, transfer.conceptId, label) : null;
+      const semanticRoles = stateFrame?.roles ?? concept?.roles;
+      const transferTarget = hasState ? `state:${transfer.stateKind}` : transfer.conceptId;
+      const duplicateKey = `${transfer.construction}\u0000${transferTarget}`;
       if (seen.has(duplicateKey)) fail('PLUGIN_GRAPH_INVALID', `Duplicate transfer plan at ${label}.`);
       seen.add(duplicateKey);
-      const concept = resolveConcept(core, transfer.conceptId, label);
       if (transfer.senseId !== undefined && !senseIds.has(transfer.senseId)) {
         fail('PLUGIN_CORE_REFERENCE_INVALID', `Unknown sense ID at ${label}: ${transfer.senseId}.`);
       }
@@ -190,8 +199,8 @@ function compileTransfers(graph, modules, core, senseIds, capabilities, featureD
             Object.keys(argument).some(key => !requiredFields.includes(key) && !optionalFields.includes(key)) ||
             typeof argument.role !== 'string' || !argument.role || argument.role.length > 64 ||
             !safeId(argument.argument) ||
-            !safeId(argument.syntacticFunction) || !Array.isArray(concept.roles) ||
-            !concept.roles.includes(argument.role)) {
+            !safeId(argument.syntacticFunction) || !Array.isArray(semanticRoles) ||
+            !semanticRoles.includes(argument.role)) {
           fail('PLUGIN_GRAPH_INVALID', `Invalid semantic role or argument at ${at}.`);
         }
         if (roles.has(argument.role) || argumentsById.has(argument.argument)) {
@@ -234,9 +243,12 @@ function compileTransfers(graph, modules, core, senseIds, capabilities, featureD
           }
         }
       }
+      if (stateFrame && stateFrame.roles.some(role => !roles.has(role))) {
+        fail('PLUGIN_GRAPH_INVALID', `State transfer does not map every required CORE role at ${label}.`);
+      }
       transferPlans.push({
         construction: transfer.construction,
-        conceptId: transfer.conceptId,
+        ...(hasConcept ? {conceptId: transfer.conceptId} : {stateKind: transfer.stateKind}),
         ...(transfer.senseId === undefined ? {} : {senseId: transfer.senseId}),
         arguments: args
       });
@@ -247,12 +259,16 @@ function compileTransfers(graph, modules, core, senseIds, capabilities, featureD
     item.status === 'implemented').map(item => item.construction));
   const compiled = new Set(transferPlans.map(item => item.construction));
   for (const construction of expected) {
-    if (!compiled.has(construction) && construction !== 'state.classification') {
+    if (!compiled.has(construction)) {
       fail('PLUGIN_GRAPH_INVALID', `Implemented sentence capability has no semantic transfer: ${construction}.`);
     }
   }
-  return transferPlans.sort((a, b) => a.construction < b.construction ? -1 :
-    a.construction > b.construction ? 1 : a.conceptId < b.conceptId ? -1 : 1);
+  return transferPlans.sort((a, b) => {
+    const left = a.conceptId ?? a.stateKind;
+    const right = b.conceptId ?? b.stateKind;
+    return a.construction < b.construction ? -1 : a.construction > b.construction ? 1 :
+      left < right ? -1 : left > right ? 1 : 0;
+  });
 }
 
 /** Compile validated graph declarations and independent module data into an immutable runtime plan. */
