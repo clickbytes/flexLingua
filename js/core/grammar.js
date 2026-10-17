@@ -1,7 +1,6 @@
 import { createEvent, createQuestion, createRelativeClause, createDialogueAct, createModality, createNegation,
   createIdentity, createPredication, createClassification, createPossession, createLocation, createExistence, createComparison, createInformationStructure, MAX_RELATIVE_DEPTH } from './meaning-graph.js';
 import { createLexicon } from './lexicon.js';
-import { materializeInflections } from './morphology/engine.js';
 import { createNominalInterpreter } from './nominals.js';
 import { createTextProfile, matchesTokens as matchTokenPhrase,
   sentenceText as formatSentence, tokenize as tokenizeText, validateTextProfile,
@@ -893,8 +892,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
     createLanguageFeatureProfile(rawFeatureProfile,{language:sourceDictionary.language});
   const textProfile=rawTextProfile===undefined?createTextProfile(sourceDictionary.language):
     validateTextProfile(rawTextProfile);
-  const prepared = morphology ? materializeInflections(sourceDictionary, morphology, {assertLegacy:true}) : sourceDictionary;
-  const lexicon = createLexicon(prepared);
+  const lexicon = createLexicon(sourceDictionary);
   // A compatibility view lets existing declarative grammar use the normalized
   // meaning inventory while the canonical source always points through CORE.
   const dictionary = lexicon.dictionary;
@@ -964,7 +962,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
   const stateVerbs = expandedVerbs.filter(lexeme =>
     hasOwn(grammar.states?.verbs || {},lexeme.stateFunction));
   const nounForms = nouns.map(noun => ({ noun, forms: formsAtLexeme(noun, nounPhrase.path) }));
-  const nominal = createNominalInterpreter({ dictionary, nounPhrase, nounForms, featureProfile });
+  const nominal = createNominalInterpreter({ dictionary, nounPhrase, nounForms, featureProfile, morphology });
   const exactQuantityValue=ref=>{
     const value=ref?.quantity||ref?.quantifier;
     return value?.kind==='exact'?value.value:null;
