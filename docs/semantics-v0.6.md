@@ -79,7 +79,7 @@ The helper removes the gap argument and retains the other semantic roles. Realiz
 }
 ```
 
-The two placeholder events above illustrate only the structure: real events **must contain complete semantic roles and feature bundles**. Use `createCoordination([completeClause1, completeClause2])`. The number of child clauses is 2–4. Each child may be a complete event, modal clause, scoped clause, comparison, or finite propositional complement. Nested coordinations are rejected. Connector spellings are in `data/grammar/{en,pl}.json` (`and` / `i`). A coordination is not converted into two independent discourse entities and is not an event sequence. Each member retains its own polarity and participant references; shared identity must be represented explicitly rather than inferred from spelling.
+The two placeholder events above illustrate only the structure: real events must contain every required semantic role and valid feature bundles. Optional roles are described below. Use `createCoordination([completeClause1, completeClause2])`. The number of child clauses is 2–4. Each child may be a complete event, modal clause, scoped clause, comparison, or finite propositional complement. Nested coordinations are rejected. Connector spellings are in `data/grammar/{en,pl}.json` (`and` / `i`). A coordination is not converted into two independent discourse entities and is not an event sequence. Each member retains its own polarity and participant references; shared identity must be represented explicitly rather than inferred from spelling.
 
 The PL/EN parser uses bounded chart-style spans to find complete coordinated
 clauses. A coordinated complement such as “The girl believes that the boy sees
@@ -88,6 +88,23 @@ the dog and the boy believes that the girl sees a cat” is represented as
 the embedded event keep their explicit role gap. Analysis is capped at 16
 candidate readings, four coordinated clauses, and the existing CORE clause
 tree depth; over-limit or malformed spans are rejected.
+
+## Optional semantic roles and syntax-only formal subjects
+
+An event concept may declare a subset of `roles` as `optionalRoles`; every
+other role stays required. For concepts without this property, the existing
+rule remains that all frame roles are required. An absent optional role means
+that CORE does not assert a participant for it. A language-specific linearization
+may omit an optional role that is present in CORE; the realization result keeps
+the original CORE, while analyzing only the generated text cannot recover an
+unspoken role.
+
+`omittedRoles` has a separate construction-level meaning and still licenses
+only the passive omitted `agent`. A WH `targetRole` is a question gap, validated
+separately from both optional roles and constructional omission. An explicit
+`person.unknown` is an actual typed participant. A declared `@expletive` uses a
+surface form and local agreement from the language grammar, but adds no entity
+or participant to CORE.
 
 ## Passive event realization (CORE 1.29)
 

@@ -518,9 +518,10 @@ function validateEventShape(node, ontology, registry, qualifiedAllowed = true, c
   }
   const missing=event.roles.filter(role=>!hasOwn(node.roles||{},role) && role!==gap);
   const allowedMissing=passive?(omitted||[]):[];
-  if (!record(node.roles) || missing.length!==allowedMissing.length ||
-      missing.some(role=>!allowedMissing.includes(role)) ||
-      Object.keys(node.roles).length !== event.roles.length - (gap ? 1 : 0) - allowedMissing.length) {
+  const optionalRoles=event.optionalRoles||[];
+  if (!record(node.roles) || missing.some(role=>
+        !allowedMissing.includes(role) && !optionalRoles.includes(role)) ||
+      allowedMissing.some(role=>!missing.includes(role))) {
     throw new Error('Event roles do not match the semantic frame.');
   }
   for (const role of event.roles) {
@@ -529,7 +530,10 @@ function validateEventShape(node, ontology, registry, qualifiedAllowed = true, c
       continue;
     }
     if(allowedMissing.includes(role))continue;
-    if (!hasOwn(node.roles, role)) throw new Error(`Missing semantic role: ${role}`);
+    if (!hasOwn(node.roles, role)) {
+      if(optionalRoles.includes(role))continue;
+      throw new Error(`Missing semantic role: ${role}`);
+    }
     const ref = node.roles[role];
     validateReferent(ref, ontology, registry, role, qualifiedAllowed, clauseAllowed, depth,
       [DEICTIC_VERSION,NUMERIC_TIME_VERSION,POSSESSIVE_VERSION,PASSIVE_VERSION,ANAPHORA_VERSION].includes(node.version),

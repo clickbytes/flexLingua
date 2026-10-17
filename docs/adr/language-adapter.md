@@ -43,3 +43,14 @@ posiadaczy NP. Brak kontrolowanej cechy
 powoduje odmowę realizacji/analizy, a kilka sprzecznych wartości `possessor`
 nie wybiera arbitralnie jednej z nich. Lokalna deklaracja zastępuje kontroler
 globalny dla tego samego wymiaru formy w tej ramie.
+
+Ontologia zdarzenia może jawnie oznaczyć podzbiór `roles` jako `optionalRoles`;
+pozostałe role są wymagane, a brak pola zachowuje dotychczasową regułę „wszystkie
+role wymagane”. Linearizacja może pominąć rolę opcjonalną lub zawierać ją raz.
+Obecny CORE zachowuje przekazany argument nawet wtedy, gdy docelowa linearizacja
+nie ma dla niego wykładnika. Ponowna analiza samego tekstu może go nie odzyskać.
+
+Rama może zadeklarować składniowy znacznik `@expletive` przez
+`formalSubject: {surface, agreement}`. Parser zużywa `surface`, a `agreement`
+steruje wyłącznie zgodą formy; żadne z tych pól nie tworzy encji ani referenta
+CORE. Nieoznaczony `@expletive` i formalny podmiot bez deklaracji są odrzucane.

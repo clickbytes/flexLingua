@@ -16,7 +16,8 @@ import {
 /**
  * Shared grammar interpreter v0.6 (compositional clauses and qualified noun phrases).
  * JSON defines linearizations, case selection, conditional inflection and agreement.
- * A linearization contains each semantic role exactly once plus an @verb slot;
+ * Required semantic roles occur once; optional roles occur at most once. An
+ * @expletive slot requires a declared formal subject and never adds a CORE role.
  * it is not restricted to an S-V-O structure or complements after the verb.
  */
 const GRAMMAR_VERSIONS = new Set(['0.6', '1.0']);
@@ -573,6 +574,19 @@ function validateGrammar(dictionary, grammar, featureProfile) {
         catch{throw new Error(`Invalid agreement controller for ${concept}: ${source}`);}
       }
     }
+    const usesExpletive=frame.linearizations.some(sequence=>sequence.includes('@expletive'));
+    const formalSubject=frame.formalSubject;
+    const agreementFeatures=new Set(['person','number','gender','pluralClass']);
+    if(usesExpletive!==hasOwn(frame,'formalSubject') ||
+        (formalSubject!==undefined && (!record(formalSubject) ||
+          Object.keys(formalSubject).sort().join(',')!=='agreement,surface' ||
+          !/^[\p{L}]+$/u.test(formalSubject.surface||'') ||
+          !record(formalSubject.agreement) || !Object.keys(formalSubject.agreement).length ||
+          Object.entries(formalSubject.agreement).some(([name,value])=>
+            !agreementFeatures.has(name)||!safeName(value)))) ||
+        frame.linearizations.some(sequence=>sequence.filter(step=>step==='@expletive').length>1)) {
+      throw new Error(`Invalid formal subject/expletive declaration for ${concept}.`);
+    }
   }
   const stateSenses = (dictionary.verbs || []).flatMap(verb => verb.senses || [])
     .filter(sense => sense.coreRef?.kind === 'grammaticalFunction' &&
@@ -918,13 +932,13 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology,featurePr
     return `${word} ${surface}`;
   }
 
-  function contextFor(roles, event, grammaticalSubjectRole = subjectRole) {
+  function contextFor(roles, event, grammaticalSubjectRole = subjectRole, {formalSubject=null}={}) {
     const subject = roles[grammaticalSubjectRole];
     const ref = subject?.value;
     const agreement = isDeicticReferent(ref) ? ref.agreement : null;
     const count=ref?.quantifier?.kind==='exact'?ref.quantifier.value:null;
     const polishCountAgreement=dictionary.language==='pl' && (count===0 || count>=5);
-    const context={ event, subject: subject ? {
+    const context={ event, subject: formalSubject ? {...formalSubject.agreement} : subject ? {
       person: agreement?.person ?? GRAMMATICAL_PERSON.third,
       number: agreement?.number ?? (polishCountAgreement?'singular':ref?.features?.number),
       gender: agreement?.gender ?? subject.noun?.gender,
@@ -1409,7 +1423,8 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology,featurePr
             }
             if (position === sequence.length) {
               if (index !== tokens.length) return;
-              const context = contextFor(parsedRoles, features);
+              const context = contextFor(parsedRoles, features,subjectRole,
+                {formalSubject:sequence.includes('@expletive')?frame.formalSubject:null});
               if (!matchesConditions(context, entry.rule.when || {}) ||
                   !matchesAgreement(entry.bindings, agreementForFrame(frame), context) ||
                   !matchesMorphologyFeatures(entry,context,features,agreementForFrame(frame))) {
@@ -1445,11 +1460,12 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology,featurePr
               return;
             }
             if (step.startsWith('@')) {
-              if(step.slice(1)===skipPreposition) {
+              const literal=step==='@expletive'?frame.formalSubject.surface:step.slice(1);
+              if(literal===skipPreposition) {
                 search(position+1,index,parsedRoles);
                 return;
               }
-              const count = matchesTokens(tokens, index, step.slice(1));
+              const count = matchesTokens(tokens, index, literal);
               if (count) search(position + 1, index + count, parsedRoles);
               return;
             }
@@ -2088,7 +2104,9 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology,featurePr
       [role, { value: ref, noun: isDeicticReferent(ref) ? null :
         nounByConcept(ref.concept,options.lexicalRegister) }]));
     if (relative) roles[relative.gap] = relative.antecedent;
-    const context = contextFor(roles, meaning.features);
+    const sequence=options.sequence || frame.linearizations[0];
+    const context = contextFor(roles, meaning.features,subjectRole,
+      {formalSubject:sequence.includes('@expletive')?frame.formalSubject:null});
     const candidates = verbForms.filter(entry => entry.lexeme.concept === meaning.concept &&
       entry.rule.tense === meaning.features.tense && entry.rule.polarity === meaning.features.polarity &&
       (verbGrammar.aspectSource !== 'lexeme' || meaning.features.aspect === 'unknown' ||
@@ -2104,9 +2122,10 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology,featurePr
     // CORE aspect does not distinguish English progressive from simple present.
     const preferred = preferencePool.find(v => v.lexeme.aspect === preferredAspect) || preferencePool[0];
     function linearize(entry, def) {
-      const parts = (options.sequence || frame.linearizations[0]).flatMap(step => {
+      const parts = sequence.flatMap(step => {
         if (step === relative?.gap) return [];
         if (step === '@verb') return [...entry.rule.prefix, entry.text];
+        if (step === '@expletive') return [frame.formalSubject.surface];
         if (step.startsWith('@')) return [step.slice(1)];
         if (step === subjectRole && options.subjectPronoun)
           return [options.subjectPronoun];
@@ -2828,10 +2847,14 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology,featurePr
       }
       for (const sequence of frame.linearizations) {
         const roles = sequence.filter(step => !step.startsWith('@'));
+        const roleCounts=new Map(roles.map(role=>[role,roles.filter(value=>value===role).length]));
+        const optionalRoles=new Set(semanticFrame.optionalRoles||[]);
+        const requiredRoles=semanticFrame.roles.filter(role=>!optionalRoles.has(role));
         if (sequence.filter(step => step === '@verb').length !== 1 ||
-            roles.length !== semanticFrame.roles.length ||
             roles.some(role => !semanticFrame.roles.includes(role)) ||
-            new Set(roles).size !== semanticFrame.roles.length) {
+            [...roleCounts.values()].some(count=>count!==1) ||
+            requiredRoles.some(role=>roleCounts.get(role)!==1) ||
+            (sequence.includes('@expletive')&&roles.includes(subjectRole))) {
           throw new Error(`Linearization roles do not match ontology for ${verb.concept}`);
         }
       }

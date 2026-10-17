@@ -83,6 +83,11 @@ export class Ontology {
           !concept.roles.every(safeName) || new Set(concept.roles).size !== concept.roles.length)) {
         throw new Error(`Invalid semantic roles for ${id}`);
       }
+      if (concept.optionalRoles !== undefined && (concept.type !== 'event' ||
+          !Array.isArray(concept.optionalRoles) || !concept.optionalRoles.every(safeName) ||
+          new Set(concept.optionalRoles).size !== concept.optionalRoles.length)) {
+        throw new Error(`Invalid optional semantic roles for ${id}`);
+      }
       if (concept.roleTypes !== undefined && (!record(concept.roleTypes) ||
           Object.entries(concept.roleTypes).some(([role, type]) => !safeName(role) || !validConceptId(type)))) {
         throw new Error(`Invalid semantic role types for ${id}`);
@@ -110,11 +115,16 @@ export class Ontology {
       if (current.type === 'event' && (!roles || roles.length === 0)) {
         throw new Error(`Event ${id} must declare or inherit semantic roles.`);
       }
+      const optionalRoles = current.type === 'event'
+        ? [...new Set([...(base?.optionalRoles || []), ...(current.optionalRoles || [])])] : undefined;
+      if (current.type === 'event' && optionalRoles.some(role => !roles.includes(role))) {
+        throw new Error(`Unknown optional semantic role in ${id}`);
+      }
       const roleTypes = current.type === 'event' ? { ...(base?.roleTypes || {}), ...(current.roleTypes || {}) } : undefined;
       if (current.type === 'event' && Object.keys(roleTypes).some(role => !roles.includes(role))) {
         throw new Error(`Unknown semantic role type in ${id}`);
       }
-      normalized[id] = { ...current, ...(roles ? { roles, roleTypes } : {}) };
+      normalized[id] = { ...current, ...(roles ? { roles, optionalRoles, roleTypes } : {}) };
       states.set(id, 2);
       return normalized[id];
     };
@@ -223,6 +233,19 @@ export class Ontology {
     const concept = this.get(id);
     if (concept?.type !== 'event') throw new Error(`Unknown event concept: ${id}`);
     return [...concept.roles];
+  }
+
+  requiredFrameRoles(id) {
+    const concept = this.get(id);
+    if (concept?.type !== 'event') throw new Error(`Unknown event concept: ${id}`);
+    const optional = new Set(concept.optionalRoles || []);
+    return concept.roles.filter(role => !optional.has(role));
+  }
+
+  optionalFrameRoles(id) {
+    const concept = this.get(id);
+    if (concept?.type !== 'event') throw new Error(`Unknown event concept: ${id}`);
+    return [...(concept.optionalRoles || [])];
   }
 
   /** Relations can be inherited; symmetric relations can also be traversed backwards. */
