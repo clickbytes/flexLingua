@@ -23,6 +23,15 @@ node tools/review-sentences.mjs --input tests/fixtures/gold-a1-enpl-composition-
 
 CLI wypisuje dla każdego wiersza wejście, expected, actual, wynik, CORE lub odmowę. Przejrzyj każdy zmieniony wiersz pod względem naturalności, gramatyki, ról, czasu, aspektu, polaryzacji, liczby, relacji i sensu. Status `match` potwierdza tylko zgodność tekstu z zapisanym expected; nie zastępuje oceny językowej.
 
+Macierz przekrojową pakietów i jej lokalny zestaw regresji opisuje [generic-language-conformance.md](generic-language-conformance.md). Raport JSON uruchom poleceniem:
+
+```powershell
+node tools/review-sentences.mjs --input tests/fixtures/generic-language-conformance.json --report
+npm run check:language-conformance
+```
+
+Raport automatyzuje porównanie ze statycznymi goldami i pokazuje capability `unsupported` lub `not-run`; nadal należy ręcznie ocenić zdania i CORE. Skrypt jest lokalny i nie jest częścią `check:release`.
+
 Expected i CORE zapisuj ręcznie przed uruchomieniem silnika. Nie kopiuj wyniku engine do golda bez niezależnej decyzji, że jest poprawny. Goldy rosną partiami tematycznymi w kierunku 1000 zdań na kierunek; nie uruchamiaj całej macierzy po każdej zmianie.
 
 Zapisz w PR/issue plik macierzy, komendę, liczbę przejrzanych wierszy, mismatche i SHA commita. Gdy zmiana zachowania wymaga mechanicznej regresji, uruchom jeden pasujący `node --test tests/<plik>.test.js`. Przy zmianie danych wybierz jeden właściwy walidator.
