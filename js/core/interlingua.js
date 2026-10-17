@@ -336,6 +336,11 @@ export function createDiscourse(events, { coreference = {}, relations = [] } = {
     if (!record(event) || event.type !== 'event' || !record(event.roles)) {
       throw new Error('Discourse only supports independent event clauses.');
     }
+    const allowedFields=['version','type','concept','roles','features','timeReference',
+      'clockTime','calendarDate','voice','omittedRoles'];
+    if(Object.keys(event).some(key=>!allowedFields.includes(key))) {
+      throw new Error('Event document contains unsupported fields.');
+    }
     if (Object.values(event.roles).some(ref => record(ref) && hasOwn(ref, 'referent'))) {
       throw new Error('UNRESOLVED_DEIXIS: cross-turn participant identity requires explicit session context.');
     }
@@ -361,7 +366,10 @@ export function createDiscourse(events, { coreference = {}, relations = [] } = {
       currentMentions.set(mention,roles[role]);
     }
     for (const [mention,id] of currentMentions) earlierMentions.set(mention,id);
-    return { id: 'e'+(index + 1), concept: event.concept, roles, features: event.features,
+    return {id:'e'+(index+1),concept:event.concept,roles,features:{...event.features},
+      ...(hasOwn(event,'timeReference')?{timeReference:event.timeReference}:{}),
+      ...(hasOwn(event,'clockTime')?{clockTime:{...event.clockTime}}:{}),
+      ...(hasOwn(event,'calendarDate')?{calendarDate:{...event.calendarDate}}:{}),
       ...(event.voice?{voice:event.voice}:{}),
       ...(event.omittedRoles?{omittedRoles:[...event.omittedRoles]}:{}) };
   });
@@ -383,6 +391,8 @@ export function createDiscourse(events, { coreference = {}, relations = [] } = {
         ? PASSIVE_VERSION : relationEdges.length ? EVENT_RELATIONS_VERSION :
       events.some(event=>Object.values(event.roles).some(ref=>record(ref)&&hasOwn(ref,'possessor')))
         ? POSSESSIVE_VERSION :
+      events.some(event=>hasOwn(event,'clockTime')||hasOwn(event,'calendarDate'))
+        ? NUMERIC_TIME_VERSION :
       events.some(event => event.version === CLAUSE_VERSION) ? CLAUSE_VERSION :
       events.some(event => event.version === QUALIFIED_VERSION) ||
         events.some(event=>Object.values(event.roles).some(isQualifiedParticipant))
@@ -1034,7 +1044,7 @@ function validateInterlinguaDocument(node, ontology, registry) {
     return node;
   }
   if (node.type !== 'discourse' || ![DISCOURSE_VERSION, QUALIFIED_VERSION, CLAUSE_VERSION,
-    POSSESSIVE_VERSION, EVENT_RELATIONS_VERSION, PASSIVE_VERSION].includes(node.version) ||
+    NUMERIC_TIME_VERSION,POSSESSIVE_VERSION, EVENT_RELATIONS_VERSION, PASSIVE_VERSION].includes(node.version) ||
       !record(node.entities) || !Array.isArray(node.events) ||
       node.events.length < 2 || node.events.length > MAX_DISCOURSE_EVENTS ||
       !Array.isArray(node.relations)) {
