@@ -1,0 +1,17 @@
+{
+  "language": "und",
+  "qualified": {
+    "maxAdjectives": 3,
+    "maxDegreeDepth": 2,
+    "adjectivePlacement": "layout",
+    "degreePlacement": "after",
+    "layouts": [
+      ["quantifier", "determiner", "modifiers", "noun"],
+      ["quantifier", "determiner", "noun", "modifiers"]
+    ],
+    "layoutByQuantifier": {
+      "universal": 0,
+      "exact": 1
+    }
+  }
+}
