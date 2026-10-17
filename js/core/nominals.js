@@ -72,6 +72,8 @@ function formFor(lexeme, features) {
  */
 export function createNominalInterpreter({ dictionary, nounPhrase, nounForms }) {
   const qualified = nounPhrase.qualified || {};
+  const quantityModel=nounPhrase.quantity;
+  const quantityClassifiers=quantityModel?.classifiers||[];
   const demonstratives = nounPhrase.demonstratives || [];
   if (!Array.isArray(demonstratives) || demonstratives.length > 4 || demonstratives.some(entry =>
     !record(entry) || Object.keys(entry).some(key => !['distance','forms'].includes(key)) ||
@@ -122,11 +124,13 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms }) 
     quantifierFormIndex.get(first).push({lexeme,form});
   }
   if (!Array.isArray(layouts) || !layouts.length || layouts.length > 3 ||
-      layouts.some(layout => !Array.isArray(layout) || layout.length < 3 || layout.length > 4 ||
+      layouts.some(layout => !Array.isArray(layout) || layout.length < 3 || layout.length > 5 ||
         new Set(layout).size !== layout.length || layout.filter(slot=>slot==='noun').length!==1 ||
         !layout.includes('modifiers') || !layout.includes('quantifier') ||
+        (quantityClassifiers.length>0&&!layout.includes('classifier')) ||
+        (quantityClassifiers.length===0&&layout.includes('classifier')) ||
         (Object.keys(nounPhrase.determiners).length > 0 && !layout.includes('determiner')) ||
-        layout.some(slot => !['quantifier', 'determiner', 'modifiers', 'noun'].includes(slot))) ||
+        layout.some(slot => !['quantifier', 'classifier', 'determiner', 'modifiers', 'noun'].includes(slot))) ||
       !record(layoutByQuantifier) ||
       Object.entries(layoutByQuantifier).some(([kind, index]) =>
         !['exact', 'universal'].includes(kind) || !Number.isInteger(index) ||
@@ -159,6 +163,17 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms }) 
   function featuresFor(noun, number, grammaticalCase) {
     return { number, case: grammaticalCase, gender: noun.gender,
       pluralClass: noun.pluralClass, animacy: noun.animacy };
+  }
+
+  function numberForQuantity(value) {
+    if(!quantityModel)return value===1?'singular':'plural';
+    return quantityModel.exactNumber[String(value)]||quantityModel.defaultNumber;
+  }
+
+  function classifierRule(noun, context, quantity) {
+    if(!quantity || quantity.kind!=='exact')return null;
+    return quantityClassifiers.find(rule=>rule.concepts.includes(noun.concept) &&
+      Object.entries(rule.when||{}).every(([key,value])=>context[key]===value))||null;
   }
 
   function parseProperties(tokens, at, context, limit) {
@@ -275,13 +290,17 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms }) 
               state.quantifier || state.definiteness==='indefinite')) return;
           if(state.quantifier?.meaning.kind==='exact') {
             const value=state.quantifier.meaning.value;
-            if(number!==(value===1?'singular':'plural'))return;
+            if(number!==(quantityModel?numberForQuantity(value):value===1?'singular':'plural'))return;
             const genitiveCount=dictionary.language==='pl' &&
               (value===0 || value>=5) && ['nom','acc'].includes(grammaticalCase);
             if(form.bindings.case!==undefined && form.bindings.case!==
                 (genitiveCount?'gen':grammaticalCase))return;
           } else if(form.bindings.case!==undefined && form.bindings.case!==grammaticalCase) return;
           const firstAdj = state.lexemes[0];
+          const exact=state.quantifier?.meaning.kind==='exact'?
+            {kind:'exact',value:state.quantifier.meaning.value}:null;
+          const requiredClassifier=classifierRule(noun,context,exact);
+          if(requiredClassifier?.required && state.classifier!==requiredClassifier.id)return;
           if (state.quantifier && layoutByQuantifier[state.quantifier.meaning.kind] !== undefined &&
               layoutByQuantifier[state.quantifier.meaning.kind] !== layoutIndex) return;
           if (!state.determinerChosen && !state.demonstrative && !nounPhrase.allowBare &&
@@ -291,10 +310,11 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms }) 
               state.marker !== (firstAdj?.indefiniteArticle || noun.indefiniteArticle)) return;
           const options = {};
           if (state.modifiers.length) options.modifiers = state.modifiers;
-          if (state.quantifier) options.quantifier = state.quantifier.meaning;
+          if(exact&&quantityModel)options.quantity=exact;
+          else if (state.quantifier) options.quantifier = state.quantifier.meaning;
           if(state.demonstrative)options.demonstrative=state.demonstrative;
           found.push({ value: participant(noun.concept, state.demonstrative?'definite':state.definiteness, number, options),
-            noun, senseId: noun.senseId, next: at,
+            noun, grammaticalNumber:number, senseId: noun.senseId, next: at,
             bare: !state.determinerChosen && !state.demonstrative && !state.quantifier,
             modifierSenses: state.lexemes.map(lex => lex.id),
             quantifierSense: state.quantifier?.id });
@@ -311,6 +331,16 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms }) 
             if(!Object.entries(form.when||{}).every(([key,value])=>context[key]===value))continue;
             const len = matchesTokens(tokens, at, form.text);
             if (len) advance(at + len, { quantifier });
+          }
+        } else if(step==='classifier') {
+          const exact=state.quantifier?.meaning.kind==='exact'?
+            {kind:'exact',value:state.quantifier.meaning.value}:null;
+          const required=classifierRule(noun,context,exact);
+          if(!required?.required)advance(at,{classifier:null});
+          if(required)for(const form of required.forms) {
+            if(!Object.entries(form.when||{}).every(([key,value])=>context[key]===value))continue;
+            const len=matchesTokens(tokens,at,form.text);
+            if(len)advance(at+len,{classifier:required.id});
           }
         } else if (step === 'determiner') {
           const maps = nounPhrase.determiners[number] || {};
@@ -343,24 +373,24 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms }) 
         const length=matchesTokens(tokens,index,form.text);
         if(length)starts.push({next:index+length,demonstrative:entry.distance});
       }
-      for(const start of starts)search(0,start.next,{ definiteness:'unknown',marker:null,modifiers:[],lexemes:[],quantifier:null,demonstrative:start.demonstrative });
+      for(const start of starts)search(0,start.next,{ definiteness:'unknown',marker:null,modifiers:[],lexemes:[],quantifier:null,classifier:null,demonstrative:start.demonstrative });
     }
     return found;
   }
 
   function render(ref, noun, nounText, grammaticalCase, fallback,
-    { allowBare = false, quantifierCase = grammaticalCase } = {}) {
+    { allowBare = false, quantifierCase = grammaticalCase, grammaticalNumber=ref.features.number } = {}) {
     const lexicalBare=['mass','both'].includes(noun.countability);
     if(noun.countability==='mass' &&
-       (ref.features.number!=='singular' || ref.quantifier ||
+       (grammaticalNumber!=='singular' || ref.quantity || ref.quantifier ||
         ref.features.definiteness==='indefinite')) {
       throw new Error(`Unsupported countability for ${noun.lemma}.`);
     }
-    const context = featuresFor(noun, ref.features.number, grammaticalCase);
+    const context = featuresFor(noun, grammaticalNumber, grammaticalCase);
     const def = ref.features.definiteness === 'unknown' ? fallback : ref.features.definiteness;
-    const mapping = nounPhrase.determiners[ref.features.number]?.[def];
+    const mapping = nounPhrase.determiners[grammaticalNumber]?.[def];
     let marker = ref.demonstrative || ref.possessor ||
-      ((allowBare || lexicalBare) && ref.features.definiteness === 'unknown')
+      ((allowBare || lexicalBare || ref.quantity) && ref.features.definiteness === 'unknown')
       ? null : markerFor(noun, mapping);
     const modifierWords = [];
     let firstAdjective = null;
@@ -381,14 +411,17 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms }) 
     if (qualified.articleFromFirstModifier && marker && def === 'indefinite' &&
         firstAdjective?.indefiniteArticle) marker = firstAdjective.indefiniteArticle;
     let quantifier = '';
-    if (ref.quantifier) {
-      const lexical = quantifierIndex.get(meaningKey(ref.quantifier))?.[0];
-      if (!lexical) throw new Error(`Missing ${dictionary.language} quantifier for ${meaningKey(ref.quantifier)}.`);
-      quantifier = formFor(lexical, featuresFor(noun,ref.features.number,quantifierCase));
-      if (!quantifier) throw new Error(`Missing ${dictionary.language} quantifier form for ${meaningKey(ref.quantifier)}.`);
+    const quantity=ref.quantity||ref.quantifier;
+    if (quantity) {
+      const lexical = quantityModel&&quantity.kind==='exact' ?
+        quantifierIndex.get(meaningKey({kind:'exact',value:quantity.value}))?.[0] :
+        quantifierIndex.get(meaningKey(quantity))?.[0];
+      if (!lexical) throw new Error(`Missing ${dictionary.language} quantifier for ${meaningKey(quantity)}.`);
+      quantifier = formFor(lexical, featuresFor(noun,grammaticalNumber,quantifierCase));
+      if (!quantifier) throw new Error(`Missing ${dictionary.language} quantifier form for ${meaningKey(quantity)}.`);
       if (def !== 'definite') marker = null;
     }
-    if (!nounPhrase.allowBare && !allowBare && marker === undefined && !ref.quantifier) {
+    if (!nounPhrase.allowBare && !allowBare && marker === undefined && !ref.quantifier && !ref.quantity) {
       throw new Error(`Missing ${def} determiner for ${noun.lemma}.`);
     }
     let demonstrative='';
@@ -398,7 +431,14 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms }) 
         .every(([key,value])=>context[key]===value))?.text;
       if(!demonstrative)throw new Error(`Missing ${dictionary.language} ${ref.demonstrative} demonstrative form for ${noun.lemma}.`);
     }
-    const slots = { quantifier, determiner: marker || '', modifiers: modifierWords.join(' '), noun: nounText };
+    const classifier=classifierRule(noun,context,quantity);
+    let classifierText='';
+    if(classifier) {
+      classifierText=classifier.forms.find(form=>Object.entries(form.when||{})
+        .every(([key,value])=>context[key]===value))?.text;
+      if(!classifierText)throw new Error(`Missing classifier form for ${noun.lemma}.`);
+    }
+    const slots = { quantifier, classifier:classifierText||'', determiner: marker || '', modifiers: modifierWords.join(' '), noun: nounText };
     const layout = layouts[layoutByQuantifier[ref.quantifier?.kind] ?? 0];
     return [demonstrative,...layout.map(slot => slots[slot] || '')].filter(Boolean).join(' ');
   }
@@ -411,16 +451,17 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms }) 
         }
       }
     }
+    const grammaticalNumbers=registry.featureProfile?.morphology?.number||registry.domains.participant.number;
     for (const entries of [adjectives, degrees, quantifiers]) for (const lex of entries) {
       for (const form of lex.forms) for (const [name, value] of Object.entries(form.when || {})) {
-        const domain = name === 'number' ? registry.domains.participant.number :
+        const domain = name === 'number' ? grammaticalNumbers :
           name === 'case' ? registry.domains.syntactic.case : registry.domains.lexical[name];
         if (!domain?.includes(value)) throw new Error(`Unsupported inflection condition ${name}=${value} in ${lex.id}`);
       }
     }
     for(const entry of nounPhrase.possessives || [])for(const form of entry.forms) {
       for(const [name,value] of Object.entries(form.when || {})) {
-        const domain=name==='number'?registry.domains.participant.number:
+        const domain=name==='number'?grammaticalNumbers:
           name==='case'?registry.domains.syntactic.case:registry.domains.lexical[name];
         if(!domain?.includes(value))
           throw new Error(`Unsupported possessive agreement ${name}=${value} in ${entry.person} person.`);
@@ -431,5 +472,6 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms }) 
   }
 
   return { read, readProperty, readComparative, realizeProperty, realizeComparative, render, validateOntology,
+    numberForQuantity,
     describe: () => ({ adjectives: adjectives.length, degrees: degrees.length, quantifiers: quantifiers.length }) };
 }

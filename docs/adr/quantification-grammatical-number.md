@@ -1,6 +1,6 @@
 # ADR: liczność semantyczna, kwantyfikacja i liczba gramatyczna
 
-**Status:** Accepted dla przyszłego kontraktu CORE; bez zmian runtime i wire format w GEN-17.  
+**Status:** Accepted; dokładna, ograniczona ilość 0–20 została wdrożona jako CORE event `1.34` w GEN-22. Operatorów i scope nie zaimplementowano.
 **Data:** 2026-10-17.  
 **Zakres:** rozdzielenie semantycznej liczności, operatorów kwantyfikacji i zakresu, policzalności sensu oraz wyboru wykładników gramatycznych.  
 **Zależności:** GEN-06 / #184 oraz countability sensu z #174.  
@@ -60,14 +60,16 @@ Countability zostaje przy **wybranym sensie rzeczownika**, zgodnie z #174. Nie p
 
 W konstrukcji mandaryńskiej typu `sān běn shū` („trzy classifier książka”) ilość trzy pozostaje semantyczna, a dobór jednostki `běn` należy do gramatyki konstrukcji i selekcji między classifierem a rzeczownikiem. Adapter musi dobrać i walidować ten element lokalnie. Nie dopisujemy globalnego `number=classifier` ani nie wyciągamy liczby mnogiej z braku widocznego sufiksu.
 
-## Kontrakt wdrożeniowy na przyszłe issue
+## Zakres wdrożony i dalszy kontrakt
 
-Osobne zadanie implementacyjne musi przed zmianą danych ustalić i wersjonować:
+GEN-22 wdraża wersjonowany exact count `0..20`. Uczestnik wersji 1.34 zawiera `quantity: {kind:'exact', value}` i pomija gramatyczne `features.number`; parser i realizator pakietu języka wybierają lokalną liczbę oraz zgodę. Opt-in `nounPhrase.quantity` ma wersję `1.0`, `defaultNumber`, ograniczone `exactNumber` oraz listę classifierów przypisanych do istniejących pojęć rzeczowników. Każdy classifier ma lokalne warunki liczby/przypadka, statyczne formy i informację, czy jest wymagany; konflikty i nieobsługiwane cechy odrzucają pakiet. Classifier nie staje się pojęciem ani uczestnikiem CORE. W EN/PL dotychczasowe formy i serializacje legacy pozostają czytelne; toy profile pokazuje dual dla dokładnie dwóch.
 
-1. **Ilość nominalną**: jawny exact count oraz ograniczone stany typu nieokreślonej liczby mnogiej; nie utożsamiać referenta zbiorowego z jednym, wymyślonym elementem.
+Osobne zadanie nadal musi przed rozszerzeniem zakresu ustalić i wersjonować:
+
+1. **Ilość nominalną poza exact 0–20**: ograniczone stany typu nieokreślonej liczby mnogiej; nie utożsamiać referenta zbiorowego z jednym, wymyślonym elementem.
 2. **Graf kwantyfikacji**: typowany operator, zmienna, restrykcja, zakres i relacje częściowego porządku; walidacja odrzuconych odwołań, cykli i błędnych typów.
 3. **Przeniesienie z legacy**: bezstratne czytanie obecnego CORE 1.0; migracja jawna i opisana. Nie reinterpretować `participant.features.number` w miejscu.
-4. **Most do języka**: wybór liczby i kontrolera uzgodnienia, przypadka, form liczebników, classifiera/jednostki oraz strategii języka bez oznaczania ich jako niezmienników CORE.
+4. **Most do języka**: dalsze reguły wyboru kontrolera uzgodnienia, przypadka, form liczebników, classifiera/jednostki oraz strategii języka bez oznaczania ich jako niezmienników CORE.
 5. **Countability**: reuse pola sensu z #174; walidacja `mass/count/both` pozostaje leksykalna i niezależna od zakresu zdania.
 6. **Granice**: skończone limity złożoności zakresu i jawne kody ambiguity/unsupported/resource limit. Pełny theorem prover i nieograniczone rozstrzyganie scope są poza MVP.
 
@@ -75,7 +77,7 @@ Przy nowych goldach trzeba sprawdzać oba kierunki i roundtrip CORE. Expected CO
 
 ## Stan obecny i regresje
 
-Obecne `participant()` w `js/core/interlingua.js` umieszcza `features.number` i `quantifier` w jednym obiekcie. Walidator wymaga `exact=1 → singular`, `exact!=1 → plural` oraz `universal → plural`. `data/features.json` dopuszcza dla uczestnika `singular` i `plural`, podczas gdy `data/morphology/features.json` ma również `dual`. To historyczny kontrakt ograniczonego EN/PL prototypu, nie reguła międzyjęzykowa.
+Legacy `participant()` w `js/core/interlingua.js` nadal łączy `features.number` z `quantifier`; walidator zachowuje dawne reguły `exact=1 → singular`, `exact!=1 → plural` i `universal → plural`. Event `1.34` używa osobnego `quantity` i nie przenosi `dual` do `data/features.json`. Opcjonalna gramatyka ilości mapuje liczbę exact na lokalną formę rzeczownika, agreement i classifier; niepełne profile odmawiają zamiast zgadywać.
 
 `tests/space05-numbers-time.test.js` utrwala dokładne ilości 0–20 i powyższe mapowanie liczby; `tests/qualifiers.test.js` utrwala exact=2, universal i walidację wartości. Oba pliki są **legacy-compatible** i nie powinny być zmieniane przez ten spike. `tests/semantics.test.js` pozostaje ogólną regresją semantyczną; nie stanowi niezależnego golda obu zakresów `∀/∃`. Pełny oracle scope należy dodać dopiero do implementacyjnego issue.
 

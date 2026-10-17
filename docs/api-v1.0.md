@@ -68,6 +68,21 @@ Earlier event documents (`version: "0.2"`), qualified referents (`"0.5"`), relat
 
 Version `1.26` adds an optional typed `possessor` to an entity referent. Its value is a deictic owner with the same `{referent, agreement}` shape used for first- and second-person pronouns. Possessive information stays separate from the entity's CORE concept; `my book` still refers to `object.book`. Possessive state constructions use state version `1.26`. Earlier documents remain valid without the field.
 
+Event version `1.34` represents exact nominal quantity (`0` through `20`) separately from grammatical number. A quantity participant has `quantity: {"kind":"exact","value":2}` and a `features` object containing definiteness without `number`; language adapters derive local noun form and agreement from that quantity. A grammar package may insert a licensed classifier as a language-side form; it does not add a classifier entity or concept to CORE. Legacy qualified participants that pair `quantifier: {"kind":"exact",...}` with `features.number` remain valid with their previous meaning. This version does not add universal-quantifier scope or a general quantifier calculus.
+
+The opt-in grammar contract is `nounPhrase.quantity: {version:"1.0", defaultNumber, exactNumber, classifiers}`. `exactNumber` maps selected decimal counts to values in the adapter's morphology feature profile; `defaultNumber` covers other exact counts. A classifier declaration binds bounded forms and number/case conditions to existing noun concepts. Required classifiers must be present in analysis and are emitted in the configured `classifier` layout slot; overlapping declarations and unsupported features fail registration.
+
+```json
+{
+  "version": "1.34", "type": "event", "concept": "event.visual_perception",
+  "roles": {
+    "agent": {"concept": "person.girl", "features": {"definiteness": "unknown"}, "quantity": {"kind": "exact", "value": 2}},
+    "theme": {"concept": "object.book", "features": {"definiteness": "unknown"}, "quantity": {"kind": "exact", "value": 2}}
+  },
+  "features": {"tense": "present", "polarity": "positive", "aspect": "unknown"}
+}
+```
+
 ```json
 {
   "version": "1.0", "type": "complement", "concept": "event.belief",
