@@ -91,12 +91,25 @@ A CLI adapter takes caller-provided UniMorph-style TSV rows (`lemma<TAB>form<TAB
 
 ```sh
 node tools/importers/unimorph.mjs \
-  --language pl --input /path/to/source.tsv \
+  --profile /path/to/language-mapping.json \
+  --lexicon /path/to/language-lexicon.json \
+  --core /path/to/concepts.json \
+  --input /path/to/source.tsv \
   --source "source name and edition" --license "verified license" \
-  --out /path/to/staging.json
+  --out reviewed-candidates.json
 ```
 
-The importer does not connect to the Internet, download third-party datasets, invent CORE references or modify active dictionaries. Unknown tags, missing mapping, ambiguous lemmas and malformed records go to the review queue. Human verification and actual source licenses remain necessary before publication.
+The versioned mapping profile declares `language`, the GEN-07 `featureProfile`,
+`posTags`, tag-to-`feature`/`value` mappings, `unsupportedTags`, and the fixed
+`conflictPolicy: "review"`. A mapped value must occur in that language's
+morphology profile. The importer does not keep a built-in language whitelist or
+connect to the Internet. It writes only a new JSON filename under
+`import-staging/unimorph/`, after checking every candidate reference against
+the supplied CORE package. It refuses directory paths and existing output files,
+and never modifies active dictionaries. Unknown or declared unsupported tags,
+ambiguous lemmas, conflicting tags, and malformed records go to review.
+Every candidate records its source and license and stays `verified: false`;
+human verification and actual source rights remain necessary before publication.
 
 ## Compiling, validating and reporting coverage
 
