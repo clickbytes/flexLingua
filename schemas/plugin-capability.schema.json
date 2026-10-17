@@ -35,6 +35,10 @@
       "then": {"properties": {"operation": {"enum": ["decode", "encode"]}}}
     },
     {
+      "if": {"properties": {"channel": {"const": "signal"}, "status": {"const": "implemented"}}, "required": ["channel", "status"]},
+      "then": {"properties": {"operation": {"const": "decode"}, "construction": {"const": "written"}}}
+    },
+    {
       "if": {"properties": {"status": {"const": "implemented"}}, "required": ["status"]},
       "then": {"properties": {"evidence": {"contains": {"properties": {"kind": {"const": "manual-sentence"}}, "required": ["kind"]}}}}
     },

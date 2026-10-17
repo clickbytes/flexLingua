@@ -237,7 +237,6 @@ export function defineDeclarativeLanguagePlugin({manifest, graph, modules, core}
             `Realization is unsupported for construction ${transfer.construction}.`);
         }
         if (!adapter) fail('PLUGIN_CAPABILITY_UNAVAILABLE', 'Sentence realization is unsupported.');
-        semanticBridge.projectMeaning(input.meaning, transfer);
         const result = adapter.realize(input.meaning, {
           ...(context.lexicalRegister ? {lexicalRegister: context.lexicalRegister} : {}),
           ...(context.subjectPronoun ? {subjectPronoun: context.subjectPronoun} : {}),
@@ -247,9 +246,19 @@ export function defineDeclarativeLanguagePlugin({manifest, graph, modules, core}
           fail('PLUGIN_CAPABILITY_UNAVAILABLE', 'Realizer produced no supported sentence.');
         }
         const informationLoss = adapter.informationLoss(input.meaning);
+        const trace = semanticBridge.realizationTrace(input.meaning, transfer, informationLoss);
+        const unsupportedFeature = trace.find(item => item.status === 'unsupported');
+        if (unsupportedFeature) {
+          fail('PLUGIN_CAPABILITY_UNAVAILABLE',
+            `Target cannot realize semantic feature ${unsupportedFeature.feature}.`);
+        }
         return normalizeRealizationResult({status: 'ok', text: result.text,
           alternatives: result.alternatives || [], warnings: result.warnings || [],
-          informationLoss, diagnostics: []});
+          informationLoss: trace.flatMap(item => {
+            if (item.status === 'preserved') return [];
+            const loss = informationLoss.find(candidate => candidate.path === item.path);
+            return loss ? [loss] : [];
+          }), diagnostics: []});
       } catch (error) {
         return refusalRealization(error);
       }

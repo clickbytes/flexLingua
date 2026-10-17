@@ -75,8 +75,8 @@ export default {
     return { status: 'ok', readings: [{ meaning: {} }], diagnostics: [] };
   },
   realize({ meaning, context = {} }) {
-    return { status: 'ok', text: '…', alternatives: [], diagnostics: [],
-      informationLoss: [] };
+    return { status: 'ok', text: '…', alternatives: [], warnings: [],
+      diagnostics: [], informationLoss: [] };
   }
 };
 ```
@@ -85,9 +85,10 @@ Przykład pokazuje kształt, a nie poprawne znaczenie dla zdania. `analyze()`
 zwraca ograniczone odczytania. Przy wielu nierozstrzygniętych odczytaniach zwraca
 `ambiguous` i jawne alternatywy zamiast udawać pewność. `realize()` w stanie
 `unsupported`, `invalid` lub `resource_limit` nie zwraca tekstu jako sukcesu.
-Obie operacje zwracają `diagnostics[]`; udana realizacja może dodatkowo zwracać
-`warnings`, `alternatives` i `informationLoss[]`. Diagnostyka transferu nie
-zmienia grafu znaczenia.
+Obie operacje zwracają `diagnostics[]`; każdy wynik realizacji jawnie zawiera
+`alternatives[]`, `warnings[]` i `informationLoss[]`. Pusta tablica strat oznacza
+brak wykrytej straty w obsługiwanym zakresie, a nie gwarancję pełnej jakości.
+Diagnostyka transferu nie zmienia grafu znaczenia.
 
 Dozwolone statusy wyniku to `ok`, `ambiguous`, `unsupported`, `invalid` oraz
 `resource_limit`. Każdy diagnostic ma stabilny `code` i czytelny `message`;

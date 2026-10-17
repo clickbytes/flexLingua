@@ -200,6 +200,7 @@ export function createSemanticBridge({plan, core} = {}) {
         }
       }
       return {construction: transfer.construction, stateKind: transfer.stateKind,
+        meaning: structuredClone(meaning), features: structuredClone(meaning.features),
         roles: Object.fromEntries(Object.entries(meaning.roles).map(([role, participant]) =>
           [role, {participant: structuredClone(participant),
             coreRef: typeof participant.concept === 'string' ?
@@ -238,9 +239,65 @@ export function createSemanticBridge({plan, core} = {}) {
     return {
       construction: transfer.construction,
       conceptId: transfer.conceptId,
+      meaning: structuredClone(meaning),
+      features: structuredClone(meaning.features),
       arguments: runtimeArguments
     };
   }
 
-  return Object.freeze({transferFor, validateMeaning, validateReading, projectMeaning, coreRefForSense});
+  function realizationTrace(meaning, transfer, informationLoss) {
+    const projection = projectMeaning(meaning, transfer);
+    if (!Array.isArray(informationLoss)) {
+      fail('PLUGIN_RESULT_INVALID', 'Realizer informationLoss trace must be an array.');
+    }
+
+    const semanticFeatures = [];
+    const collect = (value, path) => {
+      if (!isRecord(value)) return;
+      for (const [key, item] of Object.entries(value)) {
+        const segment = key.replace(/~/gu, '~0').replace(/\//gu, '~1');
+        const itemPath = `${path}/${segment}`;
+        if (isRecord(item)) collect(item, itemPath);
+        else semanticFeatures.push({path: itemPath, feature: key});
+      }
+    };
+    collect(meaning.features, '#/features');
+    for (const [role, participant] of Object.entries(meaning.roles || {})) {
+      const rolePath = role.replace(/~/gu, '~0').replace(/\//gu, '~1');
+      collect(participant?.features, `#/roles/${rolePath}/features`);
+      if (participant?.quantity !== undefined) {
+        semanticFeatures.push({path: `#/roles/${rolePath}/quantity`, feature: 'quantity'});
+      }
+    }
+    if (meaning.quantity !== undefined) {
+      semanticFeatures.push({path: '#/quantity', feature: 'quantity'});
+    }
+
+    const losses = new Map();
+    for (const item of informationLoss) {
+      if (!isRecord(item) || typeof item.path !== 'string' ||
+          typeof item.feature !== 'string' || typeof item.cause !== 'string' ||
+          !['unavoidable', 'unsupported', 'ambiguous'].includes(item.status) ||
+          losses.has(item.path)) {
+        fail('PLUGIN_RESULT_INVALID', 'Realizer supplied an invalid or duplicate informationLoss trace.');
+      }
+      if (!semanticFeatures.some(feature =>
+        feature.path === item.path && feature.feature === item.feature)) {
+        fail('PLUGIN_RESULT_INVALID', `Realizer informationLoss does not match a meaning feature: ${item.path}.`);
+      }
+      losses.set(item.path, item);
+    }
+
+    if (JSON.stringify(projection.meaning) !== JSON.stringify(meaning)) {
+      fail('PLUGIN_RESULT_INVALID', 'Semantic bridge dropped meaning during realization projection.');
+    }
+    return semanticFeatures.map(feature => {
+      const loss = losses.get(feature.path);
+      return {...feature, status: !loss ? 'preserved'
+        : loss.status === 'unsupported' ? 'unsupported' : 'neutralized'};
+    });
+  }
+
+  return Object.freeze({transferFor, validateMeaning, validateReading, projectMeaning,
+    realizationTrace, coreRefForSense});
 }

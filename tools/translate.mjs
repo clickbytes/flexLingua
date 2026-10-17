@@ -12,7 +12,11 @@ const DIRECTION = /^[a-z]{2,8}->[a-z]{2,8}$/u;
 const OPTIONS = new Set(['--languages', '--from', '--to', '--text', '--json', '--show-core']);
 
 function refusal(status, code, message, extra = {}) {
-  return {status, ...extra, diagnostics: [{code, message}]};
+  const {diagnostics: suppliedDiagnostics, ...details} = extra;
+  return {status, ...details,
+    alternatives: details.alternatives ?? [],
+    informationLoss: details.informationLoss ?? [],
+    diagnostics: suppliedDiagnostics?.length ? suppliedDiagnostics : [{code, message}]};
 }
 
 function parseArgs(argv) {
@@ -167,7 +171,8 @@ async function translate(options, languages) {
   } catch (error) {
     const status = statusFor(error);
     if (!status) throw error;
-    return refusal(status, error.code ?? 'INVALID_INPUT', error.message, base);
+    return refusal(status, error.code ?? 'INVALID_INPUT', error.message,
+      {...base, diagnostics: error.diagnostics});
   }
 }
 
@@ -191,7 +196,7 @@ async function main() {
   } catch (error) {
     const document = refusal('error', error.code ?? 'INFRASTRUCTURE_ERROR', error.message,
       {from: options.from ?? null, to: options.to ?? null, input: options.text ?? null,
-        text: null, meaning: null, alternatives: []});
+        text: null, meaning: null, alternatives: [], diagnostics: error.diagnostics});
     print(document, options);
     process.exitCode = 1;
   }
