@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "1.0",
+  "language": "ar",
+  "nodes": [
+    {"id": "ar.identity", "type": "identity", "module": "identity", "path": "manifest.json"},
+    {"id": "ar.signal", "type": "signal", "module": "signal", "path": "signal.json", "capability": "written"},
+    {"id": "ar.lexicon", "type": "lexicon", "module": "lexicon", "path": "morphology-lexicon.json"},
+    {"id": "ar.features", "type": "morphology", "module": "features", "path": "features.json"},
+    {"id": "ar.morphology", "type": "morphology", "module": "morphology", "path": "morphology.json", "capability": "word"},
+    {"id": "ar.evidence", "type": "evidence", "module": "evidence", "path": "provenance.json"}
+  ],
+  "edges": [
+    {"from": "ar.morphology", "to": "ar.signal", "relation": "realizes"},
+    {"from": "ar.morphology", "to": "ar.features", "relation": "depends-on"},
+    {"from": "ar.morphology", "to": "ar.lexicon", "relation": "depends-on"},
+    {"from": "ar.evidence", "to": "ar.identity", "relation": "evidences"},
+    {"from": "ar.evidence", "to": "ar.signal", "relation": "evidences"},
+    {"from": "ar.evidence", "to": "ar.lexicon", "relation": "evidences"},
+    {"from": "ar.evidence", "to": "ar.features", "relation": "evidences"},
+    {"from": "ar.evidence", "to": "ar.morphology", "relation": "evidences"}
+  ]
+}

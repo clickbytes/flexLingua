@@ -1,0 +1,46 @@
+{
+  "id": "flexlingua.ar",
+  "code": "ar",
+  "schemaVersion": "1.0",
+  "graph": "graph.json",
+  "status": "morphology-only",
+  "directions": [],
+  "capabilities": [
+    {
+      "operation": "generate",
+      "channel": "morphology",
+      "construction": "word",
+      "status": "implemented",
+      "evidence": [{"kind": "manual-sentence", "id": "ar.root-template.01"}]
+    },
+    {
+      "operation": "analyze",
+      "channel": "morphology",
+      "construction": "word",
+      "status": "implemented",
+      "evidence": [{"kind": "manual-sentence", "id": "ar.root-template.01"}]
+    },
+    {
+      "operation": "paradigm",
+      "channel": "morphology",
+      "construction": "word",
+      "status": "implemented",
+      "evidence": [{"kind": "manual-sentence", "id": "ar.root-template.01"}]
+    },
+    {
+      "operation": "availability",
+      "channel": "morphology",
+      "construction": "word",
+      "status": "implemented",
+      "evidence": [{"kind": "manual-sentence", "id": "ar.root-template.01"}]
+    },
+    {
+      "operation": "decode",
+      "channel": "signal",
+      "construction": "written",
+      "status": "implemented",
+      "evidence": [{"kind": "manual-sentence", "id": "ar.written.01"}]
+    }
+  ],
+  "provenance": "provenance.json"
+}
