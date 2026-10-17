@@ -64,7 +64,7 @@ export const EVIDENCE_SOURCES = Object.freeze([
  {id:'barebeverages',fixture:'tests/fixtures/gold-a1-bare-beverages.json',sha256:'4716ca1dc5b6d021a69dc0cba4d99222b2a904aa08bd399fa4219a36482be231',classification:'regression',args:['--test','tests/a1-bare-beverages.test.js']},
  {id:'existential',fixture:'tests/fixtures/gold-a1-existential-locatives.json',sha256:'873f21e643d77287993899b50caa9f766ce899adde10a661ac0735fa59dbc1fc',classification:'regression',args:['--test','tests/a1-existential-locatives.test.js']},
  {id:'paststate',fixture:'tests/fixtures/gold-a1-past-state-predication.json',sha256:'88f9dce71c8a935c6dbe72497226d731d8fd639074e70f2effeab8066e2d01db',classification:'regression',args:['--test','tests/a1-past-state-predication.test.js']},
- {id:'progressive',fixture:'tests/fixtures/gold-a1-present-progressive.json',sha256:'fba5c785c325dd562a64e38c877af85348841e5bd66f6c6f21d483d76d7f4a7f',classification:'regression',args:['--test','tests/a1-present-progressive.test.js']},
+ {id:'progressive',fixture:'tests/fixtures/gold-a1-present-progressive.json',sha256:'196cb01f35439dd8e0b708b2de4664da27e654b1814ffe62d12df2353327e3a1',classification:'regression',args:['--test','tests/a1-present-progressive.test.js']},
  {id:'spacetime',fixture:'tests/fixtures/gold-space-time-a1.json',sha256:'03a6ff2530977242b8becd6c9c18ae07b3a986e8d5508672980aea2f3ca17357',classification:'regression',args:['--test','tests/a1-space-time.test.js']},
  {id:'heldout',fixture:'data/coverage/a1-heldout-v1.json',sha256:'2913b8ea0451ee51b321342336a310f5d1f2b2743a8e6b22999ef7e818f3fee3',classification:'held-out',authorIndependent:false,args:['--test','tests/a1-heldout.test.js']}
 ]);
@@ -195,7 +195,7 @@ export function verifyEvidenceFixture(sourceId,text) {
 }
 
 function extractRows(id,corpus) {
- const validSchema=id==='state'?[1,2]:[1];
+ const validSchema=id==='state'||id==='progressive'?[1,2]:[1];
  if(!record(corpus)||!validSchema.includes(corpus.schemaVersion)||corpus.license!=='project-authored')
    throw new Error('Invalid source license/schema: '+id);
  let positive=[],negative=[],morphology=[],productive=[];

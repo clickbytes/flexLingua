@@ -33,7 +33,7 @@ Każde uruchomienie zestawu gold ma status, faktyczny PID procesu Node, wersję 
 | Napoje bez rodzajnika A1-ENPL-03 | 8 | 5 | 0 |
 | Egzystencjalne lokatywy A1-ENPL-04 | 4 | 6 | 0 |
 | Predykacja stanu w czasie przeszłym A1-ENPL-05 | 10 | 7 | 0 |
-| Present progressive A1-ENPL-06 | 12 | 7 | 0 |
+| Present progressive A1-ENPL-06/09 | 30 | 5 | 0 |
 | Przestrzeń i czas | 64 | 9 | 0 |
 | Held-out VAL-02 H1 | 200 (100 na kierunek) | 20 | 0 |
 
@@ -56,7 +56,7 @@ npm run check:release           # pełny zestaw kontroli CORE i testów Node
 - `tests/anaphora-e2a.test.js` dla golda A1-ENPL-08: 6 pozytywnych przypadków i 4 odmowy;
 - `tests/a1-bare-beverages.test.js` i `tests/a1-existential-locatives.test.js` dla źródeł A1-ENPL-03/04;
 - `tests/a1-past-state-predication.test.js` dla 10 dwukierunkowych przypadków predykacji przeszłej i 7 odmów;
-- `tests/a1-present-progressive.test.js` dla 12 dwukierunkowych przypadków present progressive i 7 odmów;
+- `tests/a1-present-progressive.test.js` dla 30 przypadków progressive (18 EN→PL: po 6 pozytywnych, negatywnych i pytań yes/no; 12 PL→EN: po 6 pozytywnych i negatywnych, realizowanych prostym angielskim present) oraz 5 odmów;
 - `tests/a1-space-time.test.js` dla 64 pozytywnych przypadków dwukierunkowych i 9 odmów;
 - `tests/a1-heldout.test.js` dla 200 zdań dwukierunkowych i 20 odmów.
 

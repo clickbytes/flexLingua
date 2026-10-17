@@ -204,6 +204,13 @@
           "source": "Project-authored English third-person pronoun inventory declared by person, number, and grammatical gender, without mapping pronouns to person concepts.",
           "license": "Project-authored; the repository declares no separate SPDX data license.",
           "scope": "A1-ENPL-08: she/he agreement and unresolved third-person parsing."
+        },
+        {
+          "issue": "#172",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored English present-progressive negation and be-inversion rules for the existing six configured event verbs; no external grammar inventory copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "A1-ENPL-09: present negative and yes/no forms for read, write, eat, drink, help, and open. Language package: data/grammar/en.json."
         }
       ]
     },

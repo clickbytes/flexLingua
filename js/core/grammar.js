@@ -1557,6 +1557,12 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
         }));
       }
     }
+    const progressiveEntries=verbForms.filter(entry=>entry.rule.tense==='present'&&
+      entry.rule.aspect==='imperfective'&&entry.rule.path==='forms.progressive'&&
+      entry.rule.prefix.length>0&&normalizedWord(entry.rule.prefix[0])===tokens[0])
+      .map(entry=>({...entry,rule:{...entry.rule,prefix:entry.rule.prefix.slice(1)}}));
+    if(progressiveEntries.length)results.push(...parseClause(tokens.slice(1),gap,antecedent,0,
+      questionBudget(counter),{verbEntries:progressiveEntries,omitGap:!!gap,...options}));
     return results;
   }
 
@@ -1660,8 +1666,12 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
       add(parseStateCandidates(tokens.slice(1),questionBudget(counter),{
         polarities:['positive'],question:true}),'yes_no');
       add(parseClause(tokens.slice(1),null,null,0,questionBudget(counter)),'yes_no');
-    } else if(mode==='auxiliary' && Object.values(questions.yesNo.auxiliaries)
-        .some(word=>tokens[0]===normalizedWord(word))) {
+    } else if(mode==='auxiliary' && (
+        Object.values(questions.yesNo.auxiliaries).some(word=>tokens[0]===normalizedWord(word)) ||
+        verbForms.some(entry=>entry.rule.tense==='present'&&entry.rule.aspect==='imperfective'&&
+          entry.rule.path==='forms.progressive'&&entry.rule.prefix.length>0&&
+          tokens[0]===normalizedWord(entry.rule.prefix[0]))
+      )) {
       add(analyzeAuxiliaryQuestion(tokens,null,null,counter),'yes_no');
     } else if(tokens[0]===normalizedWord(questions.wh.agent.marker)) {
       add(parseClause(tokens.slice(1),'agent',gapSyntax(),0,questionBudget(counter),{
@@ -1934,8 +1944,11 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
       matchesAgreement(entry.bindings, verbGrammar.agreement, context));
     if (!candidates.length) throw new Error(`No ${dictionary.language} verb form supports ${meaning.concept}, ` +
       `${meaning.features.tense}, ${meaning.features.polarity}, ${meaning.features.aspect}.`);
+    const simpleCandidates = candidates.filter(entry => entry.rule.path !== 'forms.progressive');
+    const preferencePool = simpleCandidates.length ? simpleCandidates : candidates;
     const preferredAspect = verbGrammar.preferredAspects?.[meaning.concept];
-    const preferred = candidates.find(v => v.lexeme.aspect === preferredAspect) || candidates[0];
+    // CORE aspect does not distinguish English progressive from simple present.
+    const preferred = preferencePool.find(v => v.lexeme.aspect === preferredAspect) || preferencePool[0];
     function linearize(entry, def) {
       const parts = (options.sequence || frame.linearizations[0]).flatMap(step => {
         if (step === relative?.gap) return [];
@@ -2384,6 +2397,15 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     };
     const renderAt=def=>{
       if(question.questionType==='yes_no') {
+        if(built.preferred.rule.tense==='present'&&
+           built.preferred.rule.aspect==='imperfective'&&
+           built.preferred.rule.path==='forms.progressive') {
+          const prefix=built.preferred.rule.prefix;
+          const fronted=prefix?.[0];
+          if(!fronted)throw new Error('Missing progressive auxiliary for question.');
+          const entry={...built.preferred,rule:{...built.preferred.rule,prefix:prefix.slice(1)}};
+          return wrap(fronted+' '+built.linearize(entry,def));
+        }
         return wrap(auxiliary()+' '+built.linearize(auxiliaryEntry(),def));
       }
       if(question.questionType!=='wh')throw new Error('Unsupported question kind.');
