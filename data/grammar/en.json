@@ -880,7 +880,10 @@
         "classification"
       ],
       "grammar.state_possession": "possession",
-      "grammar.state_location": "location"
+      "grammar.state_location": [
+        "location",
+        "existence"
+      ]
     },
     "frames": {
       "predication": {
@@ -914,10 +917,6 @@
       },
       "location": {
         "subjectRole": "subject",
-        "existentialMarker": "there",
-        "existentialTenses": [
-          "present"
-        ],
         "cases": {
           "subject": "nom",
           "location": "loc"
@@ -945,25 +944,46 @@
             "@verb",
             "@at",
             "location"
-          ],
+          ]
+        ]
+      },
+      "existence": {
+        "supportedTenses": [
+          "present"
+        ],
+        "subjectRole": "entity",
+        "negativeVerbForms": {
+          "singular": "isn't",
+          "plural": "aren't"
+        },
+        "cases": {
+          "entity": "nom",
+          "location": "loc"
+        },
+        "prepositions": {
+          "in": "interior",
+          "on": "surface",
+          "at": "point"
+        },
+        "linearizations": [
           [
             "@there",
             "@verb",
-            "subject",
+            "entity",
             "@in",
             "location"
           ],
           [
             "@there",
             "@verb",
-            "subject",
+            "entity",
             "@on",
             "location"
           ],
           [
             "@there",
             "@verb",
-            "subject",
+            "entity",
             "@at",
             "location"
           ]
@@ -988,7 +1008,9 @@
     "negativeStrategies": {
       "predication": "postverbal",
       "classification": "postverbal",
-      "possession": "do-support"
+      "possession": "do-support",
+      "location": "postverbal",
+      "existence": "replacement"
     }
   },
   "messages": {

@@ -57,12 +57,13 @@ export const EVIDENCE_SOURCES = Object.freeze([
  {id:'movement',fixture:'tests/fixtures/gold-movement-a1.json',sha256:'f0cb1c7b9a1023e0135797bcb5d74b8f793e08a93397a2a3b94b80fabb0d7975',classification:'regression',args:['--test','tests/movement-a1.test.js']},
  {id:'actions',fixture:'tests/fixtures/gold-daily-actions-a1.json',sha256:'00a66d5cdf7f25b186fcfd96c153303a790edf8d4ee14647ebf06ee710b37ad2',classification:'regression',args:['--test','tests/daily-actions-a1.test.js']},
  {id:'composition',fixture:'tests/fixtures/gold-a1-crossbatch.json',sha256:'dadf9698a7f572b059e1ec2b006d9314d31f844995df35701843b1775db0ce8d',classification:'regression',args:['--test','tests/a1-crossbatch-composition.test.js']},
+ {id:'compositionv2',fixture:'tests/fixtures/gold-a1-enpl-composition-v2.json',sha256:'6837170572ce1edf0d842ebd5aa92865d4c18b72e10d12fe961fea2e141145fb',classification:'regression',args:['--test','tests/a1-enpl-composition-v2.test.js']},
  {id:'person',fixture:'tests/fixtures/gold-person-a1.json',sha256:'2b292bf3cbb7ec48c577cb7d1597a0bc7db48a84d5e8b02e3a33890479df61c9',classification:'regression',args:['--test','tests/a1-person-gold.test.js']},
  {id:'state',fixture:'tests/fixtures/gold-state-a1.json',sha256:'fa464db26afacf522ccb72f229f467a046991765497985f7d878dc676d7cd960',classification:'regression',args:['--test','tests/a1-state-gold.test.js']},
  {id:'thirdperson',fixture:'tests/fixtures/gold-a1-third-person.json',sha256:'bd66cbc28dd097e5d6b2f72d9da13a2c2c8c54570a8e40885ff1d503fa3b6c7a',classification:'regression',args:['--test','tests/anaphora-e2a.test.js']},
  {id:'enplbasic',fixture:'tests/fixtures/gold-a1-enpl-basics.json',sha256:'8ac259652f04607effa0920c1a1d9911de6a5d5ce9438e3131cf684d4103217a',classification:'regression',args:['--test','tests/a1-enpl-basic-predication.test.js']},
  {id:'barebeverages',fixture:'tests/fixtures/gold-a1-bare-beverages.json',sha256:'a28c2b08550cb303768ca78135cbfe5d989aa75abf863a54da448d786f1d4b05',classification:'regression',args:['--test','tests/a1-bare-beverages.test.js']},
- {id:'existential',fixture:'tests/fixtures/gold-a1-existential-locatives.json',sha256:'873f21e643d77287993899b50caa9f766ce899adde10a661ac0735fa59dbc1fc',classification:'regression',args:['--test','tests/a1-existential-locatives.test.js']},
+ {id:'existential',fixture:'tests/fixtures/gold-a1-existential-locatives.json',sha256:'bb021bd6aaa4da888c3c5940bc428e91295075413e16d8fc96fea6829b124c39',classification:'regression',args:['--test','tests/a1-existential-locatives.test.js']},
  {id:'paststate',fixture:'tests/fixtures/gold-a1-past-state-predication.json',sha256:'88f9dce71c8a935c6dbe72497226d731d8fd639074e70f2effeab8066e2d01db',classification:'regression',args:['--test','tests/a1-past-state-predication.test.js']},
  {id:'progressive',fixture:'tests/fixtures/gold-a1-present-progressive.json',sha256:'196cb01f35439dd8e0b708b2de4664da27e654b1814ffe62d12df2353327e3a1',classification:'regression',args:['--test','tests/a1-present-progressive.test.js']},
  {id:'spacetime',fixture:'tests/fixtures/gold-space-time-a1.json',sha256:'03a6ff2530977242b8becd6c9c18ae07b3a986e8d5508672980aea2f3ca17357',classification:'regression',args:['--test','tests/a1-space-time.test.js']},
@@ -195,7 +196,7 @@ export function verifyEvidenceFixture(sourceId,text) {
 }
 
 function extractRows(id,corpus) {
- const validSchema=id==='state'||id==='progressive'?[1,2]:[1];
+ const validSchema=['state','progressive','existential'].includes(id)?[1,2]:[1];
  if(!record(corpus)||!validSchema.includes(corpus.schemaVersion)||corpus.license!=='project-authored')
    throw new Error('Invalid source license/schema: '+id);
  let positive=[],negative=[],morphology=[],productive=[];
@@ -204,7 +205,7 @@ function extractRows(id,corpus) {
      throw new Error('Malformed G2 fixture.');
    positive=corpus.cases;
    negative=corpus.unsupported;
- }else if(id==='composition'){
+ }else if(id==='composition'||id==='compositionv2'){
    if(!Array.isArray(corpus.cases)||!Array.isArray(corpus.unsupported))
      throw new Error('Malformed composition fixture.');
    positive=corpus.cases;
@@ -229,6 +230,11 @@ function extractRows(id,corpus) {
      {id:pair.id+'-PL',from:'pl',to:'en',input:pair.pl,expected:pair.en,core:pair.core}
    ]);
    negative=corpus.unsupported;
+ }else if(id==='existential'){
+   if(!Array.isArray(corpus.translations)||!Array.isArray(corpus.invalid))
+     throw new Error('Malformed existential gold fixture.');
+   positive=corpus.translations;
+   negative=corpus.invalid;
  }else if(id==='state'){
    if(!Array.isArray(corpus.enToPl)||!Array.isArray(corpus.plToEn)||
       !Array.isArray(corpus.unsupported))throw new Error('Malformed state gold fixture.');

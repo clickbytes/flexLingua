@@ -22,42 +22,44 @@ const engine=new Engine(concepts,features)
   .registerLanguage(createRuleAdapter(en,enGrammar,{morphology:enMorph}))
   .registerLanguage(createRuleAdapter(pl,plGrammar,{morphology:plMorph}));
 
-function locationSignature(node) {
-  return {
-    version:node.version,type:node.type,kind:node.kind,
-    roles:Object.fromEntries(Object.entries(node.roles).map(([role,ref])=>[
-      role,{concept:ref.concept,number:ref.features.number}
-    ])),
-    features:node.features,relation:node.relation
-  };
-}
+const proposition=node=>node.type==='question'?node.proposition:node;
+const semanticSignature=node=>{
+  const value=proposition(node);
+  return {type:node.type,questionType:node.questionType,
+    proposition:{version:value.version,type:value.type,kind:value.kind,
+      roles:Object.fromEntries(Object.entries(value.roles).map(([role,ref])=>[
+        role,{concept:ref.concept,number:ref.features.number}
+      ])),features:value.features,relation:value.relation}};
+};
 
-test('A1-ENPL-04 preserves location CORE across existential and ordinary locative order',()=>{
+test('A1-ENPL-12 preserves typed existence and ordinary location separately',()=>{
   assert.equal(gold.license,'project-authored');
-  for(const [rows,from,to] of [[gold.enToPl,'en','pl'],[gold.plToEn,'pl','en']]) {
-    for(const row of rows) {
-      const output=engine.translate({from,to,text:row.input});
-      assert.equal(output.text,row.expected,row.id+' target surface');
-      assert.deepEqual(output.interlingua,row.core,row.id+' translated CORE');
-      assert.deepEqual(engine.analyze({from,text:row.input}),row.core,row.id+' source CORE');
-      assert.deepEqual(locationSignature(engine.analyze({from:to,text:row.expected})),
-        locationSignature(row.core),row.id+' target CORE');
-      const serialized=engine.realize({interlingua:row.core,to:'core'}).text;
-      assert.deepEqual(engine.analyze({from:'core',text:serialized}),row.core,
-        row.id+' CORE JSON round trip');
-    }
+  for(const row of gold.translations) {
+    const output=engine.translate({from:row.from,to:row.to,text:row.input});
+    assert.equal(output.text,row.expected,row.id+' target surface');
+    assert.deepEqual(output.interlingua,row.core,row.id+' translated CORE');
+    assert.deepEqual(engine.analyze({from:row.from,text:row.input}),row.core,row.id+' source CORE');
+    assert.deepEqual(semanticSignature(engine.analyze({from:row.to,text:row.expected})),
+      semanticSignature(row.core),row.id+' target CORE');
+    const serialized=engine.realize({interlingua:row.core,to:'core'}).text;
+    assert.deepEqual(engine.analyze({from:'core',text:serialized}),row.core,
+      row.id+' CORE JSON round trip');
   }
+  const existence=proposition(gold.translations.find(row=>row.id==='A1-ENPL-12-EN-NEG-01').core);
+  const location=proposition(gold.translations.find(row=>row.id==='A1-ENPL-12-EN-LOC-NEG-01').core);
+  assert.notEqual(existence.kind,location.kind);
+  assert.notDeepEqual(existence.roles,location.roles);
 });
 
-test('A1-ENPL-04 explicitly refuses existential forms beyond its declared scope',()=>{
+test('A1-ENPL-12 refuses tense, agreement and relation outside the contract',()=>{
   for(const row of gold.invalid) {
     const result=engine.tryTranslate({from:row.from,to:row.from==='en'?'pl':'en',text:row.input});
     assert.equal(result.ok,false,row.id+' should be refused');
   }
 });
 
-test('A1-ENPL-04 validates existential markers and tense declarations',()=>{
+test('A1-ENPL-12 grammar validation fails closed for replacement forms',()=>{
   const invalid=structuredClone(enGrammar);
-  delete invalid.states.frames.location.existentialMarker;
-  assert.throws(()=>createRuleAdapter(en,invalid),/Invalid location state frame/);
+  invalid.states.frames.existence.negativeVerbForms.singular='';
+  assert.throws(()=>createRuleAdapter(en,invalid),/Invalid existence state frame/);
 });

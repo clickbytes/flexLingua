@@ -54,7 +54,7 @@ npm run check:release           # pełny zestaw kontroli CORE i testów Node
 - test Node dla 40 przypadków osoby/deiksów oraz 10 błędnych form;
 - `tests/a1-state-gold.test.js` dla 48 zdań stanów i 7 odmów;
 - `tests/anaphora-e2a.test.js` dla golda A1-ENPL-08: 6 pozytywnych przypadków i 4 odmowy;
-- `tests/a1-bare-beverages.test.js` dla 12 przypadków A1-ENPL-03/11 i 4 odmów oraz `tests/a1-existential-locatives.test.js` dla źródła A1-ENPL-04;
+- `tests/a1-bare-beverages.test.js` dla 12 przypadków A1-ENPL-03/11 i 4 odmów, `tests/a1-existential-locatives.test.js` dla 7 przypadków A1-ENPL-04/12 i 4 odmów oraz `tests/a1-enpl-composition-v2.test.js` dla 5 kombinacji batchy 08–12 i 1 odmowy;
 - `tests/a1-past-state-predication.test.js` dla 10 dwukierunkowych przypadków predykacji przeszłej i 7 odmów;
 - `tests/a1-present-progressive.test.js` dla 30 przypadków progressive (18 EN→PL: po 6 pozytywnych, negatywnych i pytań yes/no; 12 PL→EN: po 6 pozytywnych i negatywnych, realizowanych prostym angielskim present) oraz 5 odmów;
 - `tests/a1-space-time.test.js` dla 64 pozytywnych przypadków dwukierunkowych i 9 odmów;

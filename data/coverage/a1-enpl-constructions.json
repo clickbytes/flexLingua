@@ -183,10 +183,10 @@
       "coreContract": {
         "type": "state",
         "kind": [
-          "location"
+          "existence"
         ],
         "roles": [
-          "subject",
+          "entity",
           "location"
         ]
       },
@@ -210,23 +210,14 @@
           "suite": "tests/a1-existential-locatives.test.js",
           "positiveCases": {
             "en->pl": [
-              "A1-ENPL-04-EN-01",
-              "A1-ENPL-04-EN-02"
+              "A1-ENPL-12-EN-POS-01"
             ],
             "pl->en": [
-              "A1-ENPL-04-PL-01",
-              "A1-ENPL-04-PL-02"
+              "A1-ENPL-12-PL-POS-01"
             ]
           },
           "refusalCases": {
-            "en->pl": [
-              "A1-ENPL-04-NEG-01",
-              "A1-ENPL-04-NEG-02",
-              "A1-ENPL-04-NEG-03",
-              "A1-ENPL-04-NEG-04",
-              "A1-ENPL-04-NEG-05",
-              "A1-ENPL-04-NEG-06"
-            ],
+            "en->pl": [],
             "pl->en": []
           }
         }
@@ -628,9 +619,9 @@
           "location"
         ],
         "roles": [
-          "theme",
-          "location",
-          "relation"
+          "entity",
+          "subject",
+          "location"
         ]
       },
       "tense": [
@@ -644,15 +635,39 @@
         "none",
         "yes_no"
       ],
-      "implementationStatus": "planned",
+      "implementationStatus": "implemented",
       "dependencies": [
         "A1-ENPL-11",
         "ADR-state-existence-accepted"
       ],
-      "evidence": [],
-      "knownGaps": [
-        "Semantic ADR acceptance and reviewed existence/location gold are prerequisites for batch 12."
-      ]
+      "evidence": [
+        {
+          "sourceId": "existential",
+          "fixture": "tests/fixtures/gold-a1-existential-locatives.json",
+          "suite": "tests/a1-existential-locatives.test.js",
+          "positiveCases": {
+            "en->pl": [
+              "A1-ENPL-12-EN-NEG-01",
+              "A1-ENPL-12-EN-Q-01",
+              "A1-ENPL-12-EN-LOC-NEG-01"
+            ],
+            "pl->en": [
+              "A1-ENPL-12-PL-NEG-01",
+              "A1-ENPL-12-PL-Q-01"
+            ]
+          },
+          "refusalCases": {
+            "en->pl": [
+              "A1-ENPL-12-REF-01",
+              "A1-ENPL-12-REF-02",
+              "A1-ENPL-12-REF-03",
+              "A1-ENPL-12-REF-04"
+            ],
+            "pl->en": []
+          }
+        }
+      ],
+      "knownGaps": []
     }
   ]
 }

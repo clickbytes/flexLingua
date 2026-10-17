@@ -15,13 +15,13 @@ const status=kind=>Object.fromEntries(EVIDENCE_SOURCES.map(s=>
 const run=(changes={})=>buildA1EvidenceLedger({manifest,ontology,corpora,checks:status('pass'),constructionRegistry,...changes});
 const byId=(report,id)=>report.targets.find(x=>x.id===id);
 
-test('A1 VAL-03: all sixteen project-authored fixtures are inventoried',()=>{
+test('A1 VAL-03: all seventeen project-authored fixtures are inventoried',()=>{
  const report=run();
- assert.equal(report.totals.sources,16);
+ assert.equal(report.totals.sources,17);
  assert.deepEqual({p:report.totals.positive,n:report.totals.negative,
    f:report.totals.morphologyCells,productive:report.totals.productiveOnly},
-   {p:574,n:102,f:60,productive:2});
- assert.equal(report.verification.positiveVerified,574);
+   {p:582,n:101,f:60,productive:2});
+ assert.equal(report.verification.positiveVerified,582);
  const basic=report.sources.find(x=>x.id==='enplbasic');
  assert.equal(corpora.enplbasic.license,'project-authored');
  assert.equal(corpora.enplbasic.provenance.source,'project-authored');
@@ -67,8 +67,14 @@ test('A1 VAL-03: all sixteen project-authored fixtures are inventoried',()=>{
  assert.deepEqual(family11.declared.refusal,{'en->pl':3,'pl->en':1});
  const existential=report.sources.find(x=>x.id==='existential');
  assert.deepEqual({positive:existential.samples.positive,negative:existential.samples.negative},
-   {positive:4,negative:6});
- assert.deepEqual(existential.byDirection,{'en->pl':2,'pl->en':2});
+   {positive:7,negative:4});
+ assert.deepEqual(existential.byDirection,{'en->pl':4,'pl->en':3});
+ const family12=report.constructionCoverage.families.find(x=>x.id==='A1-ENPL-12');
+ assert.equal(family12.implementationStatus,'implemented');
+ assert.equal(family12.evidenceStatus,'verified');
+ assert.equal(family12.knownGaps.length,0);
+ assert.deepEqual(family12.declared.positive,{'en->pl':3,'pl->en':2});
+ assert.deepEqual(family12.declared.refusal,{'en->pl':4,'pl->en':0});
  const paststate=report.sources.find(x=>x.id==='paststate');
  assert.deepEqual({positive:paststate.samples.positive,negative:paststate.samples.negative},
    {positive:10,negative:7});
@@ -109,7 +115,7 @@ test('A1 VAL-03: all sixteen project-authored fixtures are inventoried',()=>{
      .reduce((sum,row)=>sum+row[kind],0),report.sampleQuality.declared[kind]);
  assert.equal(Object.values(report.sampleQuality.declared.morphologyByLanguage)
    .reduce((sum,count)=>sum+count,0),report.totals.morphologyCells);
- assert.equal(report.sampleQuality.verified.positive,574);
+ assert.equal(report.sampleQuality.verified.positive,582);
  assert.equal(report.targetSummary.total,23);
  assert.deepEqual({concepts:report.targets.filter(x=>x.unitType==='concept').length,
    constructions:report.targets.filter(x=>x.unitType==='construction').length},
@@ -204,7 +210,7 @@ test('A1 VAL-03: catalog-only CLI does not claim any executed checks',()=>{
  assert.equal(proc.status,0,proc.stderr);
  const report=JSON.parse(proc.stdout);
  assert.equal(report.verification.status,'not-run');
- assert.equal(report.verification.suitesNotRun,16);
+ assert.equal(report.verification.suitesNotRun,17);
  assert.equal(report.cefr.percentage,null);
  assert.equal(report.constructionCoverage.families.find(x=>x.id==='A1-ENPL-01').evidenceStatus,'declared-unverified');
  assert.equal(report.constructionCoverage.families.find(x=>x.id==='A1-ENPL-08').evidenceStatus,'declared-unverified');

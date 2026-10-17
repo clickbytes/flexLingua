@@ -29,6 +29,7 @@ export const EVENT_RELATIONS_VERSION = '1.28';
 export const PASSIVE_VERSION = '1.29';
 export const CONDITIONAL_VERSION = '1.30';
 export const ANAPHORA_VERSION = '1.32';
+export const EXISTENCE_VERSION = '1.33';
 export const EVENT_RELATION_TYPES = Object.freeze([
   'event_relation.before', 'event_relation.after', 'event_relation.because'
 ]);
@@ -106,6 +107,7 @@ function stateFeatures(features) {
 
 function createState(kind, roles, features, predicate) {
   const version=Object.values(roles).some(isAnaphoricReferent)?ANAPHORA_VERSION:
+    kind==='existence'?EXISTENCE_VERSION:
     kind==='classification'?CLASSIFICATION_VERSION:
     Object.values(roles).some(ref=>record(ref)&&hasOwn(ref,'possessor'))
     ?POSSESSIVE_VERSION:STATE_VERSION;
@@ -138,6 +140,10 @@ export function createPossession(owner, owned, features = {}) {
 
 export function createLocation(subject, location, relation, features = {}) {
   return { ...createState('location', location === undefined ? {subject} : {subject,location}, features), relation };
+}
+
+export function createExistence(entity, location, relation, features = {}) {
+  return {...createState('existence',{entity,location},features),relation};
 }
 
 /** Compare a property degree for two explicit entities, independent of word order. */
@@ -511,7 +517,7 @@ function validateEventShape(node, ontology, registry, qualifiedAllowed = true, c
 function validateStateShape(node, ontology, registry, gap = null) {
   const frame = ontology?.stateFrames?.[node.kind];
   const hasPredicate = node.kind === 'predication';
-  const hasLocation = node.kind === 'location';
+  const hasLocation = ['location','existence'].includes(node.kind);
   const fields = hasPredicate ?
     ['version','type','kind','predicate','roles','features'] :
     ['version','type','kind','roles','features',...(hasLocation?['relation']:[])];
@@ -519,8 +525,9 @@ function validateStateShape(node, ontology, registry, gap = null) {
   const classificationVersion=node.version===CLASSIFICATION_VERSION ||
     (node.version===ANAPHORA_VERSION && hasAnaphoric);
   if (ontology?.stateFrameVersion !== STATE_FRAME_VERSION || !frame ||
-      ![STATE_VERSION,POSSESSIVE_VERSION,CLASSIFICATION_VERSION,ANAPHORA_VERSION].includes(node.version) ||
-      !['identity','predication','classification','possession','location'].includes(node.kind) ||
+      ![STATE_VERSION,POSSESSIVE_VERSION,CLASSIFICATION_VERSION,ANAPHORA_VERSION,EXISTENCE_VERSION].includes(node.version) ||
+      !['identity','predication','classification','possession','location','existence'].includes(node.kind) ||
+      (node.kind==='existence')!==(node.version===EXISTENCE_VERSION) ||
       (node.kind==='classification' && !classificationVersion) ||
       (node.kind!=='classification' && node.version===CLASSIFICATION_VERSION) ||
       (node.version===ANAPHORA_VERSION)!==hasAnaphoric ||
@@ -893,7 +900,7 @@ function validateClauseTree(node, ontology, registry, depth = 0, gap = null) {
       [CLAUSE_VERSION, SEMANTIC_VERSION, NUMERIC_TIME_VERSION,POSSESSIVE_VERSION,
         PASSIVE_VERSION].includes(node.version),0,gap);
   } else if (node.type === 'state') {
-    if (![STATE_VERSION,POSSESSIVE_VERSION,CLASSIFICATION_VERSION,ANAPHORA_VERSION].includes(node.version)) throw new Error('Unsupported state version.');
+    if (![STATE_VERSION,POSSESSIVE_VERSION,CLASSIFICATION_VERSION,ANAPHORA_VERSION,EXISTENCE_VERSION].includes(node.version)) throw new Error('Unsupported state version.');
     validateStateShape(node,ontology,registry,gap);
   } else if (node.type === 'complement') {
     const frame = ontology.get(node.concept);
