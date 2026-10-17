@@ -1,4 +1,5 @@
 import {EventEmitter} from 'node:events';
+import {createTranslationService} from '../app/translation-service.js';
 import {TABS, actionForKey} from './keymap.js';
 import {styleFor} from './theme.js';
 import {createTranslateView} from './views/translate.js';
@@ -75,6 +76,21 @@ function fieldText(view, focused) {
   return `${prefix}${view.fieldLabel}:`;
 }
 
+function focusTargetsFor(view) {
+  const configured = typeof view.focusTargets === 'function' ? view.focusTargets() : null;
+  return Array.isArray(configured) && configured.length ? configured : [
+    {id: 'draft', type: 'input', label: view.fieldLabel},
+    {id: 'action', type: 'action', label: view.actionLabel}
+  ];
+}
+
+function currentFocus(view) {
+  const targets = focusTargetsFor(view);
+  if (view.state.focusIndex >= targets.length) view.state.focusIndex = targets.length - 1;
+  if (view.state.focusIndex < 0) view.state.focusIndex = 0;
+  return targets[view.state.focusIndex];
+}
+
 function buildHeader(width, activeIndex) {
   const compact = width < 60;
   const tabs = TABS.map((tab, index) => ({
@@ -112,21 +128,19 @@ function asPanelLines(panel, view, focusIndex) {
   return lines;
 }
 
-function buildContentRows(view, width, height) {
-  const description = view.render({width, compact: width < 60, state: view.state});
+function buildContentRows(view, width) {
+  const description = view.render({width, compact: width < 60, state: view.state,
+    focus: currentFocus(view), focusIndex: view.state.focusIndex});
   const panels = description?.panels?.length ? description.panels : [{title: view.label, kind: 'input'}];
   const rows = [];
-  const rowLimit = Math.max(0, height - 3);
   const addPanel = (panel, panelWidth) => {
-    if (rows.length >= rowLimit) return;
     rows.push({text: panel.title ?? view.label, tone: 'accent'});
     for (const item of asPanelLines(panel, view, view.state.focusIndex)) {
       for (const text of wrapText(item.text, panelWidth)) {
-        if (rows.length >= rowLimit) return;
         rows.push({text, tone: item.tone ?? 'neutral'});
       }
     }
-    if (panels.length > 1 && rows.length < rowLimit) rows.push({text: '', tone: 'muted'});
+    if (panels.length > 1) rows.push({text: '', tone: 'muted'});
   };
 
   if (view.id === 'translate' && width >= 100 && panels.length === 2) {
@@ -141,7 +155,7 @@ function buildContentRows(view, width, height) {
     };
     collect(panels[0], leftRows);
     collect(panels[1], rightRows);
-    for (let index = 0; index < Math.max(leftRows.length, rightRows.length) && rows.length < rowLimit; index++) {
+    for (let index = 0; index < Math.max(leftRows.length, rightRows.length); index++) {
       const left = leftRows[index] ?? {text: '', tone: 'neutral'};
       const right = rightRows[index] ?? {text: '', tone: 'neutral'};
       rows.push({split: true, left, right, paneWidth});
@@ -153,13 +167,14 @@ function buildContentRows(view, width, height) {
   return rows;
 }
 
-export function createTui({runtime, terminal, output = process.stdout, input = process.stdin} = {}) {
+export function createTui({runtime, terminal, output = process.stdout} = {}) {
   if (!runtime?.engine) throw new Error('TUI requires an initialized application runtime.');
   if (!terminal || typeof terminal.grabInput !== 'function' || typeof terminal.put !== 'function') {
     throw new Error('TUI requires a Terminal Kit terminal instance.');
   }
 
-  const views = [createTranslateView(), createChatView(), createFormsView()];
+  const translationService = createTranslationService(runtime);
+  const views = [createTranslateView({runtime, translationService}), createChatView(), createFormsView()];
   const events = new EventEmitter();
   let activeIndex = 0;
   let started = false;
@@ -187,9 +202,11 @@ export function createTui({runtime, terminal, output = process.stdout, input = p
 
   function drawFooter(width, height) {
     const view = views[activeIndex];
-    const focusLabel = view.state.focusIndex === 0 ? view.fieldLabel : view.actionLabel;
-    const text = width < 60 ? `F1–F3 tabs · Tab focus: ${focusLabel} · Enter · Esc · Ctrl+C exit` :
-      `F1/F2/F3 tabs · Tab/Shift+Tab focus: ${focusLabel} · Enter · Esc · Ctrl+N new session · Ctrl+C exit`;
+    const focus = currentFocus(view);
+    const focusLabel = focus.label;
+    const scrollHint = view.state.details && focus.id === 'details' ? ' · j/k scroll' : '';
+    const text = width < 60 ? `F1–F3 tabs · Tab focus: ${focusLabel}${scrollHint} · Enter · Esc · Ctrl+C exit` :
+      `F1/F2/F3 tabs · Tab/Shift+Tab focus: ${focusLabel}${scrollHint} · Enter · Esc · Ctrl+N new session · Ctrl+C exit`;
     put(text, 1, height, 'muted', width);
   }
 
@@ -217,9 +234,14 @@ export function createTui({runtime, terminal, output = process.stdout, input = p
     drawHeader(width);
     put('─'.repeat(Math.max(1, width)), 1, 2, 'muted', width);
 
-    const rows = buildContentRows(views[activeIndex], width, height);
+    const rows = buildContentRows(views[activeIndex], width);
+    const view = views[activeIndex];
+    const contentHeight = Math.max(0, height - 3);
+    const maxScroll = Math.max(0, rows.length - contentHeight);
+    const scrollTop = Math.max(0, Math.min(Number(view.state.scrollTop) || 0, maxScroll));
+    if (view.state.scrollTop !== undefined) view.state.scrollTop = scrollTop;
     let row = 3;
-    for (const content of rows) {
+    for (const content of rows.slice(scrollTop, scrollTop + contentHeight)) {
       if (row >= height) break;
       if (content.split) {
         put(content.left.text, 1, row, content.left.tone, content.paneWidth);
@@ -237,12 +259,14 @@ export function createTui({runtime, terminal, output = process.stdout, input = p
   function selectTab(index) {
     if (!Number.isInteger(index) || index < 0 || index >= views.length) return false;
     activeIndex = index;
+    currentFocus(views[activeIndex]);
     draw();
     return true;
   }
 
   function editDraft(action) {
     const state = views[activeIndex].state;
+    const previousDraft = state.draft;
     const chars = Array.from(state.draft);
     const cursor = Math.min(state.cursor, chars.length);
     if (action.type === 'text') {
@@ -268,6 +292,7 @@ export function createTui({runtime, terminal, output = process.stdout, input = p
       state.cursor = chars.length;
     }
     state.draft = chars.join('');
+    if (state.draft !== previousDraft) views[activeIndex].onDraftChange?.({runtime, state});
   }
 
   function onKey(name) {
@@ -278,16 +303,20 @@ export function createTui({runtime, terminal, output = process.stdout, input = p
     } else if (action.type === 'select_tab') {
       selectTab(action.index);
     } else if (action.type === 'focus_next' || action.type === 'focus_previous') {
-      const count = 2;
+      const count = focusTargetsFor(view).length;
       const direction = action.type === 'focus_next' ? 1 : -1;
       view.state.focusIndex = (view.state.focusIndex + direction + count) % count;
+      draw();
+    } else if (action.type === 'new_session') {
+      events.emit('newSession', {activeTab: view.id});
+    } else if (typeof view.handleAction === 'function' &&
+        view.handleAction(action, {runtime, events, focus: currentFocus(view)})) {
+      currentFocus(view);
       draw();
     } else if (action.type === 'escape') {
       if (view.state.focusIndex !== 0) view.state.focusIndex = 0;
       else view.state.status = '';
       draw();
-    } else if (action.type === 'new_session') {
-      events.emit('newSession', {activeTab: view.id});
     } else if (action.type === 'submit') {
       if (typeof view.onSubmit === 'function') {
         Promise.resolve(view.onSubmit({runtime, state: view.state, events})).catch(error => {
@@ -298,7 +327,7 @@ export function createTui({runtime, terminal, output = process.stdout, input = p
         view.state.status = 'Draft saved for this tab.';
       }
       draw();
-    } else if (view.state.focusIndex === 0) {
+    } else if (currentFocus(view).type === 'input') {
       editDraft(action);
       draw();
     }
@@ -360,7 +389,6 @@ export function createTui({runtime, terminal, output = process.stdout, input = p
     on: events.on.bind(events),
     off: events.off.bind(events),
     getState: () => ({activeTab: views[activeIndex].id,
-      tabs: views.map(view => ({id: view.id, draft: view.state.draft,
-        focusIndex: view.state.focusIndex, status: view.state.status}))})
+      tabs: views.map(view => ({id: view.id, ...structuredClone(view.state)}))})
   });
 }
