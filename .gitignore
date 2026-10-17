@@ -3,6 +3,7 @@ coverage/
 dist/
 build/
 /import-staging/
+tests/.reports/
 
 # Local tool output
 .codegraph/

@@ -1,6 +1,6 @@
 # Kanoniczna macierz testów zdań
 
-`tests/` jest **jedynym** katalogiem testów w repozytorium i jedynym źródłem prawdy o oczekiwanych tłumaczeniach zdań. Status produktu: najpierw pojedyncze zdania poziomu A1 (etykieta autorska planistyczna, bez twierdzeń o pełnym CEFR) dla PL↔EN, z jawnymi odmowami i pilotami innych deklarowanych kierunków. Nie odtwarzamy historycznych unit testów, gold-runnerów CEFR, benchmarków ani testów TUI; jedyne dopuszczone uruchomienie to runner `tests/run.mjs` (docelowo `npm test`) oraz workflow `translation-matrix` w GitHub Actions.
+`tests/` jest **jedynym** katalogiem testów w repozytorium i jedynym źródłem prawdy o oczekiwanych tłumaczeniach zdań. Status produktu: najpierw pojedyncze zdania poziomu A1 (etykieta autorska planistyczna, bez twierdzeń o pełnym CEFR) dla PL↔EN, z jawnymi odmowami i pilotami innych deklarowanych kierunków. Nie odtwarzamy historycznych unit testów, gold-runnerów CEFR, benchmarków ani testów TUI; jedyne dopuszczone uruchomienie to runner `tests/run.mjs` (`npm test`) oraz workflow `translation-matrix` w GitHub Actions.
 
 ## Struktura docelowa
 
@@ -48,17 +48,23 @@ Dla `unsupported|invalid|resource_limit` wymagane są `text:null`, `meaning:null
 - Teksty, koncepcje i diagnozy oczekiwane były pisane przed uruchomieniem; `review.source` dokumentuje niezależne źródło oczekiwań (np. dowody historyczne z issue), a PR pokazują wykonane komendy z SHA.
 - Warianty poza wymaganym zakresem mogą być obserwowane, ale nie podnoszą raportowanej jakości A1; deklaracje capabilities bez pozytywnego świadectwa są raportowane oddzielnie (coverage).
 
-## Uruchamianie (planowane do czasu runnera TM-09)
-
-Następujące komendy **będą** obsługiwane przez `tests/run.mjs`; do czasu włączenia skryptów npm nie istnieje żadne automatyczne uruchomienie i żadnej komendy nie wolno podawać jako działającej:
+## Uruchamianie
 
 ```sh
-node tests/run.mjs --validate   # schematy + reguły krzyżowe
+npm test                        # pełny gate: validate + matrix + coverage + CLI smoke + raporty
+node tests/run.mjs --validate   # tylko schematy i reguły krzyżowe (bez wykonania)
 node tests/run.mjs --matrix     # wykonanie macierzy na produkcyjnym TranslationService
-node tests/run.mjs --all        # validate + matrix + coverage + cli smoke + raporty
+node tests/run.mjs --cli        # macierz + smoke procesu CLI (exit-code polityka)
+node tests/run.mjs --report     # raporty bez uruchomienia nie są dozwolone (exit 3)
 ```
 
-Po TM-09 te same komendy uruchomi `npm test`, a GitHub Actions (`translation-matrix`) powtórzy je dla PR do `main` i pusha `main` jako jeden wymagany check.
+Kody zakończenia: `0` — wszystkie gate zielone; `1` — wymagany FAIL/INFRA, niepoprawne lub niekompletne dane macierzy; `2` — błąd argumentów; `3` — `--report` bez wykonanej macierzy. Błędy infrastruktury (wyjątek, status `error`, exit 1 CLI) są zawsze czerwone i nigdy nie trafiają do kategorii odmów.
+
+Raporty po każdym pełnym przebiegu: `tests/.reports/{matrix.json, summary.md, junit.xml}` (git-ignored). W akcji repozytorium runner dopisuje `summary.md` do `$GITHUB_STEP_SUMMARY`, a workspace `translation-matrix` publikuje je jako artefakt.
+
+**Jak jawnie zademonstrować czerwony stan** (obowiązuje tylko lokalnie, nie commitujemy): tymczasowo zmień jedno pole `expected` w zatwierdzonym przypadku, np. `#/features/tense` w `A1-EN-PL-VISUAL-0001` albo usuń jeden z dwóch sensów w `A1-EN-PL-AMBIGUOUS-0001`, uruchom `npm test` — runner pokazuje FAIL/`GATE: RED` i kod 1; przywróć plik. Prawdziwe czerwone stany pochodzą ze zmian silnika/danych i blokują merge; naprawianie ich przez edycję expected jest zabronione (sekcja powyżej).
+
+GitHub Actions: workflow `.github/workflows/translation-matrix.yml` uruchamia te same runner i `npm test` dla każdego PR i dla pusha na `main` jako jeden wymagany status check o nazwie `translation-matrix`. Brak innych ścieżek testowych; `tests/.reports/` jest ignorowany przez git i nigdy nie jest commitowany.
 
 ## Zgłaszanie regresji
 

@@ -12,7 +12,10 @@
     "tui": "node tools/tui.mjs",
     "compile:pl": "node tools/compile-language.mjs pl",
     "compile:en": "node tools/compile-language.mjs en",
-    "compile:ar": "node tools/compile-language.mjs ar"
+    "compile:ar": "node tools/compile-language.mjs ar",
+    "test": "node tests/run.mjs --all",
+    "test:matrix": "node tests/run.mjs --matrix",
+    "test:cli": "node tests/run.mjs --cli"
   },
   "dependencies": {
     "terminal-kit": "3.1.4"
