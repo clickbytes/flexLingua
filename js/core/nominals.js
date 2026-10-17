@@ -70,7 +70,7 @@ function formFor(lexeme, features) {
  * Shared, bounded noun-phrase interpreter. JSON provides agreement-specific surface
  * forms and slot order; no adapter implements adjective/quantifier morphology.
  */
-export function createNominalInterpreter({ dictionary, nounPhrase, nounForms }) {
+export function createNominalInterpreter({ dictionary, nounPhrase, nounForms, featureProfile }) {
   const qualified = nounPhrase.qualified || {};
   const quantityModel=nounPhrase.quantity;
   const quantityClassifiers=quantityModel?.classifiers||[];
@@ -93,6 +93,10 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms }) 
   const agreementFeatures = qualified.adjectiveAgreementFeatures || [...AGREEMENT_KEYS];
   const adjectivePlacement=qualified.adjectivePlacement ?? qualified.adjectiveOrder ?? 'layout';
   const degreePlacement=qualified.degreePlacement ?? qualified.degreeOrder ?? 'before';
+  if(featureProfile && !Object.hasOwn(featureProfile.syntactic,'case') &&
+      nounForms.some(entry=>entry.forms.some(form=>form.bindings.case!==undefined))) {
+    throw new Error('Caseless language cannot declare noun case forms.');
+  }
   if (!Array.isArray(agreementFeatures) || new Set(agreementFeatures).size !== agreementFeatures.length ||
       agreementFeatures.some(feature => !AGREEMENT_KEYS.has(feature))) {
     throw new Error('Invalid adjective agreement features.');
@@ -161,13 +165,24 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms }) 
   const maxDegreeDepth = qualified.maxDegreeDepth || MAX_MODIFIER_DEPTH - 1;
 
   function featuresFor(noun, number, grammaticalCase) {
-    return { number, case: grammaticalCase, gender: noun.gender,
+    return { number, ...(grammaticalCase == null ? {} : {case: grammaticalCase}), gender: noun.gender,
       pluralClass: noun.pluralClass, animacy: noun.animacy };
   }
 
   function numberForQuantity(value) {
-    if(!quantityModel)return value===1?'singular':'plural';
+    if(!quantityModel)throw new Error('Exact quantity requires a language quantity profile.');
     return quantityModel.exactNumber[String(value)]||quantityModel.defaultNumber;
+  }
+
+  function surfaceCaseForQuantity(value, grammaticalCase) {
+    const rule=quantityModel?.caseOverrides?.find(item=>
+      item.values.includes(value) && item.from.includes(grammaticalCase));
+    return rule?.to ?? grammaticalCase;
+  }
+
+  function agreementNumberForQuantity(value, grammaticalNumber) {
+    const rule=quantityModel?.agreementOverrides?.find(item=>item.values.includes(value));
+    return rule?.number ?? grammaticalNumber;
   }
 
   function classifierRule(noun, context, quantity) {
@@ -274,11 +289,10 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms }) 
     const found = [];
     let visited = 0;
     for (const { noun, forms } of nounForms) for (const form of forms) for (const [layoutIndex, layout] of layouts.entries()) {
-      const genitiveCountCase=dictionary.language==='pl' &&
-        ['nom','acc'].includes(grammaticalCase) && quantifiers.some(q=>
-          q.meaning.kind==='exact' && (q.meaning.value===0 || q.meaning.value>=5));
-      if (form.bindings.case !== undefined && form.bindings.case !== grammaticalCase &&
-          !(genitiveCountCase && form.bindings.case==='gen')) continue;
+      const possibleCases=new Set([grammaticalCase,
+        ...(quantityModel?.caseOverrides||[]).filter(rule=>rule.from.includes(grammaticalCase))
+          .map(rule=>rule.to)]);
+      if (form.bindings.case !== undefined && !possibleCases.has(form.bindings.case)) continue;
       const number = form.bindings.number;
       if (!number) continue;
       const context = featuresFor(noun, number, grammaticalCase);
@@ -290,11 +304,9 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms }) 
               state.quantifier || state.definiteness==='indefinite')) return;
           if(state.quantifier?.meaning.kind==='exact') {
             const value=state.quantifier.meaning.value;
-            if(number!==(quantityModel?numberForQuantity(value):value===1?'singular':'plural'))return;
-            const genitiveCount=dictionary.language==='pl' &&
-              (value===0 || value>=5) && ['nom','acc'].includes(grammaticalCase);
+            if(!quantityModel || number!==numberForQuantity(value))return;
             if(form.bindings.case!==undefined && form.bindings.case!==
-                (genitiveCount?'gen':grammaticalCase))return;
+                surfaceCaseForQuantity(value,grammaticalCase))return;
           } else if(form.bindings.case!==undefined && form.bindings.case!==grammaticalCase) return;
           const firstAdj = state.lexemes[0];
           const exact=state.quantifier?.meaning.kind==='exact'?
@@ -413,6 +425,8 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms }) 
     let quantifier = '';
     const quantity=ref.quantity||ref.quantifier;
     if (quantity) {
+      if(quantity.kind==='exact' && !quantityModel)
+        throw new Error('Exact quantity requires a language quantity profile.');
       const lexical = quantityModel&&quantity.kind==='exact' ?
         quantifierIndex.get(meaningKey({kind:'exact',value:quantity.value}))?.[0] :
         quantifierIndex.get(meaningKey(quantity))?.[0];
@@ -439,7 +453,7 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms }) 
       if(!classifierText)throw new Error(`Missing classifier form for ${noun.lemma}.`);
     }
     const slots = { quantifier, classifier:classifierText||'', determiner: marker || '', modifiers: modifierWords.join(' '), noun: nounText };
-    const layout = layouts[layoutByQuantifier[ref.quantifier?.kind] ?? 0];
+    const layout = layouts[layoutByQuantifier[quantity?.kind] ?? 0];
     return [demonstrative,...layout.map(slot => slots[slot] || '')].filter(Boolean).join(' ');
   }
 
@@ -455,14 +469,16 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms }) 
     for (const entries of [adjectives, degrees, quantifiers]) for (const lex of entries) {
       for (const form of lex.forms) for (const [name, value] of Object.entries(form.when || {})) {
         const domain = name === 'number' ? grammaticalNumbers :
-          name === 'case' ? registry.domains.syntactic.case : registry.domains.lexical[name];
+          name === 'case' ? (registry.featureProfile ? registry.featureProfile.syntactic.case :
+            registry.domains.syntactic.case) : registry.domains.lexical[name];
         if (!domain?.includes(value)) throw new Error(`Unsupported inflection condition ${name}=${value} in ${lex.id}`);
       }
     }
     for(const entry of nounPhrase.possessives || [])for(const form of entry.forms) {
       for(const [name,value] of Object.entries(form.when || {})) {
         const domain=name==='number'?grammaticalNumbers:
-          name==='case'?registry.domains.syntactic.case:registry.domains.lexical[name];
+          name==='case'?(registry.featureProfile ? registry.featureProfile.syntactic.case :
+            registry.domains.syntactic.case):registry.domains.lexical[name];
         if(!domain?.includes(value))
           throw new Error(`Unsupported possessive agreement ${name}=${value} in ${entry.person} person.`);
       }
@@ -472,6 +488,6 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms }) 
   }
 
   return { read, readProperty, readComparative, realizeProperty, realizeComparative, render, validateOntology,
-    numberForQuantity,
+    numberForQuantity, surfaceCaseForQuantity, agreementNumberForQuantity,
     describe: () => ({ adjectives: adjectives.length, degrees: degrees.length, quantifiers: quantifiers.length }) };
 }

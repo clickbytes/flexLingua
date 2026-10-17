@@ -4,7 +4,8 @@ import { createLexicon } from './lexicon.js';
 import { materializeInflections } from './morphology/engine.js';
 import { createNominalInterpreter } from './nominals.js';
 import { createTextProfile, matchesTokens as matchTokenPhrase,
-  sentenceText as formatSentence, tokenize as tokenizeText, validateTextProfile } from './text.js';
+  sentenceText as formatSentence, tokenize as tokenizeText, validateTextProfile,
+  textProfileForSignal } from './text.js';
 import {EngineError} from './errors.js';
 import {RESOURCE_LIMITS} from './resource-limits.js';
 import {
@@ -282,12 +283,25 @@ function validateGrammar(dictionary, grammar, featureProfile) {
     const validQuantityConditions=conditions=>record(conditions)&&
       Object.entries(conditions).every(([key,value])=>
         (key==='number'?validQuantityNumber(value):key==='case'&&caseValues.includes(value)));
-    if(!record(quantityModel)||Object.keys(quantityModel).sort().join(',')!==
-        'classifiers,defaultNumber,exactNumber,version'||quantityModel.version!=='1.0'||
+    if(!record(quantityModel)||Object.keys(quantityModel).some(key=>
+        !['classifiers','defaultNumber','exactNumber','version','caseOverrides','agreementOverrides'].includes(key))||
+        !['classifiers','defaultNumber','exactNumber','version'].every(key=>hasOwn(quantityModel,key))||
+        quantityModel.version!=='1.0'||
         !validQuantityNumber(quantityModel.defaultNumber)||!record(quantityModel.exactNumber)||
         exactNumberKeys.length>21||exactNumberKeys.some(key=>! /^(?:0|[1-9]|1[0-9]|20)$/u.test(key)||
           !validQuantityNumber(quantityModel.exactNumber[key]))||
-        !Array.isArray(quantityModel.classifiers)||quantityModel.classifiers.length>16) {
+        !Array.isArray(quantityModel.classifiers)||quantityModel.classifiers.length>16||
+        (quantityModel.caseOverrides!==undefined&&(!Array.isArray(quantityModel.caseOverrides)||
+          quantityModel.caseOverrides.length>16||quantityModel.caseOverrides.some(rule=>
+            !record(rule)||Object.keys(rule).sort().join(',')!=='from,to,values'||
+            !Array.isArray(rule.from)||!rule.from.length||rule.from.some(value=>!caseValues.includes(value))||
+            !caseValues.includes(rule.to)||!Array.isArray(rule.values)||!rule.values.length||
+            rule.values.some(value=>!Number.isInteger(value)||value<0||value>20))))||
+        (quantityModel.agreementOverrides!==undefined&&(!Array.isArray(quantityModel.agreementOverrides)||
+          quantityModel.agreementOverrides.length>16||quantityModel.agreementOverrides.some(rule=>
+            !record(rule)||Object.keys(rule).sort().join(',')!=='number,values'||
+            !validQuantityNumber(rule.number)||!Array.isArray(rule.values)||!rule.values.length||
+            rule.values.some(value=>!Number.isInteger(value)||value<0||value>20))))) {
       throw new Error('Invalid exact-quantity grammar contract.');
     }
     const classifierIds=new Set();
@@ -492,6 +506,16 @@ function validateGrammar(dictionary, grammar, featureProfile) {
   if (nounVariables.some(part => !['number', 'case'].includes(part)) ||
       !nounVariables.includes('number') || typeof grammar.nounPhrase.allowBare !== 'boolean') {
     throw new Error('Unsupported noun form placeholder or bare-noun policy.');
+  }
+  if (!hasSyntacticCases && (nounVariables.includes('case') ||
+      grammar.nounPhrase.subjectCase !== null)) {
+    throw new Error('Caseless language cannot declare a noun case or nominative default.');
+  }
+  const deicticCases=grammar.nounPhrase.deicticCases;
+  if (deicticCases!==undefined && (!record(deicticCases) ||
+      Object.entries(deicticCases).some(([role,value])=>
+        !safeName(role) || !(value===null&&!hasSyntacticCases) && !caseValues.includes(value)))) {
+    throw new Error('Invalid deictic pronoun case profile.');
   }
   if (!record(grammar.nounPhrase.determiners)) throw new Error('Invalid determiner mappings.');
   for (const [number, mappings] of Object.entries(grammar.nounPhrase.determiners)) {
@@ -816,8 +840,43 @@ function formatMessage(template, variables) {
   return template?.replace(/\{([a-zA-Z]+)\}/gu, (_match, key) => String(variables[key] ?? ''));
 }
 
-export function createRuleAdapter(sourceDictionary, rules,
-  {morphology,featureProfile:rawFeatureProfile,textProfile:rawTextProfile} = {}) {
+/** Select one package module by graph layer, without resolving filesystem paths. */
+function planModule(plan, layer, predicate) {
+  const names=[...new Set(plan.layers[layer].map(node=>node.module))];
+  const modules=names.map(name=>plan.modules[name]).filter(predicate);
+  if(modules.length!==1)throw new Error(`Compiled plan requires one ${layer} grammar module.`);
+  return modules[0];
+}
+
+export function createRuleAdapter(source, rules,
+  options = {}) {
+  if(Array.isArray(source?.transferPlans)) {
+    const plan=source;
+    if(!record(plan.modules)||!record(plan.layers)||!safeName(plan.language)||
+        !['lexicon','syntax','morphology','signal'].every(layer=>Array.isArray(plan.layers[layer]))) {
+      throw new Error('Invalid compiled grammar plan.');
+    }
+    const dictionary=planModule(plan,'lexicon',data=>
+      record(data)&&data.language===plan.language&&Array.isArray(data.nouns));
+    const grammar=planModule(plan,'syntax',data=>
+      record(data)&&data.language===plan.language&&record(data.frames));
+    const localModules=Object.values(plan.modules).filter(data=>record(data)&&record(data.featureProfile));
+    const featureProfile=localModules[0]?.featureProfile;
+    if(!featureProfile)throw new Error('Compiled grammar requires a local feature profile.');
+    if(localModules.some(data=>JSON.stringify(data.featureProfile)!==JSON.stringify(featureProfile)))
+      throw new Error('Conflicting local feature profiles.');
+    const signal=plan.layers.signal.length?planModule(plan,'signal',data=>record(data)&&data.channel==='written'):null;
+    return createGrammarInterpreter(dictionary,grammar,{
+      ...(record(rules)?rules:{}),
+      ...(featureProfile?{featureProfile}:{}),
+      ...(signal?{textProfile:textProfileForSignal(signal,plan.language)}:{})
+    },plan);
+  }
+  return createGrammarInterpreter(source,rules,options);
+}
+
+function createGrammarInterpreter(sourceDictionary, rules,
+  {morphology,featureProfile:rawFeatureProfile,textProfile:rawTextProfile} = {}, compiledPlan = null) {
   const featureProfile=rawFeatureProfile===undefined?undefined:
     createLanguageFeatureProfile(rawFeatureProfile,{language:sourceDictionary.language});
   const textProfile=rawTextProfile===undefined?createTextProfile(sourceDictionary.language):
@@ -829,6 +888,20 @@ export function createRuleAdapter(sourceDictionary, rules,
   const dictionary = lexicon.dictionary;
   const grammar = validateGrammar(dictionary, rules, featureProfile);
   const { nounPhrase, sentence, verb: verbGrammar, frames } = grammar;
+  const compiledCases=new WeakMap();
+  if(compiledPlan)for(const transfer of compiledPlan.transferPlans) {
+    const frame=frames[transfer.conceptId];
+    if(!frame)continue;
+    let roles=compiledCases.get(frame);
+    if(!roles){roles=new Map();compiledCases.set(frame,roles);}
+    for(const argument of transfer.arguments) {
+      const previous=roles.get(argument.semanticRole);
+      const exponent=argument.caseExponent;
+      if(roles.has(argument.semanticRole)&&JSON.stringify(previous)!==JSON.stringify(exponent))
+        throw new Error(`Conflicting case plans for ${transfer.conceptId}.${argument.semanticRole}.`);
+      roles.set(argument.semanticRole,exponent);
+    }
+  }
   function informationLoss(meaning) {
     if (!record(meaning) || !record(meaning.roles)) return [];
     const hasDeterminers=Object.keys(nounPhrase.determiners).length>0;
@@ -878,7 +951,7 @@ export function createRuleAdapter(sourceDictionary, rules,
   const stateVerbs = expandedVerbs.filter(lexeme =>
     hasOwn(grammar.states?.verbs || {},lexeme.stateFunction));
   const nounForms = nouns.map(noun => ({ noun, forms: formsAtLexeme(noun, nounPhrase.path) }));
-  const nominal = createNominalInterpreter({ dictionary, nounPhrase, nounForms });
+  const nominal = createNominalInterpreter({ dictionary, nounPhrase, nounForms, featureProfile });
   const exactQuantityValue=ref=>{
     const value=ref?.quantity||ref?.quantifier;
     return value?.kind==='exact'?value.value:null;
@@ -960,7 +1033,12 @@ export function createRuleAdapter(sourceDictionary, rules,
   for (const list of nounIndex.values()) list.sort((left, right) => right.priority - left.priority);
 
   function roleCase(frame, role, features, ref) {
-    const mapping = frame.cases?.[role] || (role === subjectRole ? nounPhrase.subjectCase : undefined);
+    const rolePlan=compiledCases.get(frame);
+    const planned=rolePlan?.get(role);
+    if(planned && !['case','zero'].includes(planned.kind))
+      throw new Error(`Unsupported case exponent: ${planned.kind}.`);
+    const mapping = rolePlan?.has(role)?(planned?.kind==='case'?planned.value:null):
+      frame.cases?.[role] ?? (role === subjectRole ? nounPhrase.subjectCase : undefined);
     let result = record(mapping) ? (mapping[ref?.features?.definiteness] || mapping.unknown) : mapping;
     for (const alternation of frame.caseAlternations === false ? [] : grammar.cases?.alternations || []) {
       if (result === alternation.from &&
@@ -979,7 +1057,7 @@ export function createRuleAdapter(sourceDictionary, rules,
 
   function deicticCase(grammaticalCase,role) {
     if(grammaticalCase)return grammaticalCase;
-    return dictionary.language==='en' && role!==subjectRole?'acc':nounPhrase.subjectCase;
+    return nounPhrase.deicticCases?.[role] ?? nounPhrase.subjectCase;
   }
 
   /** Relative agreement is derived from the antecedent lexeme, not its surface case. */
@@ -991,8 +1069,7 @@ export function createRuleAdapter(sourceDictionary, rules,
   function plainNoun(ref, noun, gramCase, fallback, allowBare = false) {
     const count=exactQuantityValue(ref);
     const grammaticalNumber=grammaticalNumberFor(ref);
-    const surfaceCase=dictionary.language==='pl' && (count===0 || count>=5) &&
-      ['nom','acc'].includes(gramCase)?'gen':gramCase;
+    const surfaceCase=count===null?gramCase:nominal.surfaceCaseForQuantity(count,gramCase);
     const forms = nounForms.find(item => item.noun === noun)?.forms || [];
     const form = forms.find(candidate => candidate.bindings.number === grammaticalNumber &&
       (candidate.bindings.case === undefined || candidate.bindings.case === surfaceCase));
@@ -1017,11 +1094,11 @@ export function createRuleAdapter(sourceDictionary, rules,
     const ref = subject?.value;
     const agreement = isDeicticReferent(ref) ? ref.agreement : null;
     const count=exactQuantityValue(ref);
-    const polishCountAgreement=dictionary.language==='pl' && (count===0 || count>=5);
     const subjectNumber=grammaticalNumberFor(ref,subject);
     const context={ event, subject: formalSubject ? {...formalSubject.agreement} : subject ? {
       person: agreement?.person ?? GRAMMATICAL_PERSON.third,
-      number: agreement?.number ?? (polishCountAgreement?'singular':subjectNumber),
+      number: agreement?.number ?? (count===null?subjectNumber:
+        nominal.agreementNumberForQuantity(count,subjectNumber)),
       gender: agreement?.gender ?? subject.noun?.gender,
       pluralClass: subject.noun?.pluralClass
     } : {} };
@@ -1550,7 +1627,7 @@ export function createRuleAdapter(sourceDictionary, rules,
               if (count) search(position + 1, index + count, parsedRoles);
               return;
             }
-            const caseRule = frame.cases?.[step];
+            const caseRule = compiledCases.get(frame)?.has(step)?null:frame.cases?.[step];
             const cases = record(caseRule) ? [...new Set(Object.values(caseRule))] :
               [roleCase(frame, step, features)];
             for (const grammaticalCase of cases) {
@@ -1560,7 +1637,7 @@ export function createRuleAdapter(sourceDictionary, rules,
                 ...(step===subjectRole && grammaticalCase===nounPhrase.subjectCase
                   ?readStateSubjectPronouns(tokens,index):[])];
               for (const parsed of phrases) {
-                if (dictionary.language==='en' && parsed.bare && frame.bareRoleConcepts?.[step] &&
+                if (parsed.bare && frame.bareRoleConcepts?.[step] &&
                     !bareRoleAllows(frame,step,parsed.noun.concept)) continue;
                 if (record(caseRule)) {
                   const implied = Object.keys(caseRule).find(key => key !== 'unknown' &&
@@ -2284,7 +2361,7 @@ export function createRuleAdapter(sourceDictionary, rules,
       const gramCase=stateRoleCase(frame,role,polarity);
       const categoryRole=meaning.kind==='classification'&&role==='category';
       return plainNoun(ref,noun,gramCase,categoryRole?'indefinite':nounPhrase.defaultDefiniteness,
-        categoryRole&&dictionary.language==='pl');
+        categoryRole&&nounPhrase.allowBare);
     };
     if(polarity==='negative'&&negativeStrategy==='do-support') {
       const auxiliaries=questions?.yesNo?.auxiliaries;
@@ -2807,14 +2884,15 @@ export function createRuleAdapter(sourceDictionary, rules,
     const concepts = ontology?.concepts;
     const scopedRegistry=featureProfile?createFeatureRegistry(featureRegistry,featureProfile):featureRegistry;
     const domains = scopedRegistry?.domains;
+    const syntactic = scopedRegistry?.featureProfile?.syntactic ?? domains?.syntactic;
     const grammaticalNumbers=featureProfile?.morphology?.number||domains?.participant?.number||[];
     if (!record(concepts) || !domains) throw new Error('Missing ontology or feature registry.');
     const validateSyntacticCase=(grammaticalCase,message)=>{
-      if(!Array.isArray(domains.syntactic.case)) {
+      if(!Array.isArray(syntactic.case)) {
         if(grammaticalCase===null||grammaticalCase===undefined)return;
         throw new Error('Absent feature category: syntactic.case');
       }
-      if(!domains.syntactic.case.includes(grammaticalCase)) throw new Error(message);
+      if(!syntactic.case.includes(grammaticalCase)) throw new Error(message);
     };
     for (const noun of nouns) {
       if (own(concepts, noun.concept)?.type !== 'entity') {
@@ -2916,7 +2994,7 @@ export function createRuleAdapter(sourceDictionary, rules,
           semanticFrame.roles.includes(root);
         if(!controllerExists)throw new Error(`Unknown agreement controller for ${verb.concept}: ${source}`);
         const available=root==='event'?domains.event[name]:name==='person'?Object.values(GRAMMATICAL_PERSON):
-          name==='case'?domains.syntactic.case:
+          name==='case'?syntactic.case:
             name==='number'?grammaticalNumbers:domains.participant[name]||domains.lexical[name];
         if(!available)throw new Error(`Unknown agreement feature for ${verb.concept}.${binding}: ${source}`);
       }

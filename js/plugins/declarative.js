@@ -153,15 +153,8 @@ export function defineDeclarativeLanguagePlugin({manifest, graph, modules, core}
 
   let adapter = null;
   if (hasSentenceImplementation) {
-    const featureProfile = morphologyModule?.data.featureProfile ??
-      findFeatureModule(plan)?.featureProfile ?? grammar.featureProfile;
-    const textProfile = signalModule?.data.textProfile ?? signalModule?.data.profile;
     try {
-      adapter = createRuleAdapter(dictionary, grammar, {
-        ...(morphology ? {morphology} : {}),
-        ...(featureProfile ? {featureProfile} : {}),
-        ...(textProfile ? {textProfile} : {})
-      });
+      adapter = createRuleAdapter(plan, morphology ? {morphology} : {});
       adapter.lexicon.validateCore(core);
     } catch (error) {
       fail('PLUGIN_PACKAGE_INVALID', 'Cannot build the declared sentence runtime.', error);
