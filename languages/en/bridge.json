@@ -47,6 +47,22 @@
           "syntacticFunction": "object"
         }
       ]
+    },
+    {
+      "construction": "state.classification",
+      "stateKind": "classification",
+      "arguments": [
+        {
+          "role": "subject",
+          "argument": "subject",
+          "syntacticFunction": "subject"
+        },
+        {
+          "role": "category",
+          "argument": "category",
+          "syntacticFunction": "object"
+        }
+      ]
     }
   ]
 }
