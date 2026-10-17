@@ -1,0 +1,12 @@
+{
+  "id": "zero-case",
+  "language": "qaa",
+  "profile": {
+    "version": "1.0",
+    "language": "qaa",
+    "syntactic": {},
+    "morphology": {"number": ["singular", "plural"]}
+  },
+  "linearization": ["agent", "theme", "@verb"],
+  "expected": "The girl the book sees."
+}

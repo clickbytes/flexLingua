@@ -167,6 +167,7 @@ function validateConditions(when) {
 
 function validateGrammar(dictionary, grammar, featureProfile) {
   const caseValues=featureProfile ? (featureProfile.syntactic.case || []) : LEGACY_CASE_VALUES;
+  const hasSyntacticCases=caseValues.length>0;
   if (!record(dictionary) || !record(grammar) || dictionary.language !== grammar.language ||
       !GRAMMAR_VERSIONS.has(grammar.version) || dictionary.version !== grammar.version) {
     throw new Error('Dictionary/grammar mismatch or unsupported grammar version.');
@@ -626,7 +627,8 @@ function validateGrammar(dictionary, grammar, featureProfile) {
           ...(hasPredicate ? ['predicateRole','predicateCase'] : [])].includes(key)) ||
         !['subjectRole','cases','linearizations'].every(key => hasOwn(frame,key)) ||
         (hasPredicate && (frame.predicateRole !== 'predicate' || !safeName(frame.predicateRole) ||
-          !safeName(frame.predicateCase) || frame.allowImplicitDeicticSubject === true)) ||
+          (hasSyntacticCases?!safeName(frame.predicateCase):frame.predicateCase!==null) ||
+          frame.allowImplicitDeicticSubject === true)) ||
         (frame.allowImplicitDeicticSubject !== undefined &&
           typeof frame.allowImplicitDeicticSubject !== 'boolean') ||
         frame.subjectRole !== (kind === 'possession' ? 'owner' : kind==='existence'?'entity':'subject') ||
@@ -660,6 +662,7 @@ function validateGrammar(dictionary, grammar, featureProfile) {
     }
     for (const role of roles) {
       const mapping = frame.cases[role];
+      if(!hasSyntacticCases&&mapping===null)continue;
       if (safeName(mapping)) continue;
       if (!record(mapping) || Object.keys(mapping).length !== 2 ||
           !['positive','negative'].every(polarity => safeName(mapping[polarity]))) {
@@ -2657,6 +2660,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology,featurePr
     if (!record(concepts) || !domains) throw new Error('Missing ontology or feature registry.');
     const validateSyntacticCase=(grammaticalCase,message)=>{
       if(!Array.isArray(domains.syntactic.case)) {
+        if(grammaticalCase===null||grammaticalCase===undefined)return;
         throw new Error('Absent feature category: syntactic.case');
       }
       if(!domains.syntactic.case.includes(grammaticalCase)) throw new Error(message);
