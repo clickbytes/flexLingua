@@ -1,5 +1,5 @@
 import { createEvent, createQuestion, createRelativeClause, createDialogueAct, createModality, createNegation,
-  createIdentity, createPredication, createClassification, createPossession, createLocation, createExistence, createComparison, createInformationStructure, MAX_RELATIVE_DEPTH } from './interlingua.js';
+  createIdentity, createPredication, createClassification, createPossession, createLocation, createExistence, createComparison, createInformationStructure, MAX_RELATIVE_DEPTH } from './meaning-graph.js';
 import { createLexicon } from './lexicon.js';
 import { materializeInflections } from './morphology/engine.js';
 import { createNominalInterpreter } from './nominals.js';

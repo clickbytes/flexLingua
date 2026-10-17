@@ -2,9 +2,9 @@
  * Bounded, in-memory session for controlled PL/EN clauses and typed CORE acts.
  * It does not persist state or infer identity from repeated surface text.
  */
-import {createDiscourse, createDialogueAct, validateInterlingua,
+import {createDiscourse, createDialogueAct, validateMeaningGraph,
   MAX_DISCOURSE_EVENTS, MAX_DIALOGUE_ACTS}
-  from './interlingua.js';
+  from './meaning-graph.js';
 import {record, safeName} from './features.js';
 import {splitSentences} from './text.js';
 import {applyPersonalityProfile, createPersonalityProfile} from './personality.js';
@@ -232,14 +232,14 @@ export class ConversationContext {
     this.#assertTurnCapacity();
     const participants=validateParticipantIds(participantInput);
     const candidate=structuredClone(act);
-    validateInterlingua(candidate,this.#engine.ontology,this.#engine.features);
+    validateMeaningGraph(candidate,this.#engine.ontology,this.#engine.features);
     const assertion=candidate.act==='assert' ? candidate.payload.proposition : null;
     const event=assertion?.type==='event' ? structuredClone(assertion) : null;
     if(event && this.#events.length>=this.#maxEvents)
       throw new Error('Conversation context limit reached; reset required.');
     const events=event ? [...this.#events,event] : this.#events;
     const graph=eventGraph(events,this.#links);
-    if(graph)validateInterlingua(graph,this.#engine.ontology,this.#engine.features);
+    if(graph)validateMeaningGraph(graph,this.#engine.ontology,this.#engine.features);
     const turn=this.#turnRecord(candidate,participants,
       {eventIndex:event ? events.length : null});
 
@@ -364,7 +364,7 @@ export class ConversationContext {
     if(antecedent)links['e'+(this.#events.length+1)+'.'+adapter.subjectRole]=antecedent.root;
     const events=[...this.#events,event];
     const graph=eventGraph(events,links);
-    if(graph)validateInterlingua(graph,this.#engine.ontology,this.#engine.features);
+    if(graph)validateMeaningGraph(graph,this.#engine.ontology,this.#engine.features);
 
     const baseline=this.#engine.realize({interlingua:event,to,...profileOptions});
     let output=baseline,pronounized=false;
@@ -473,7 +473,7 @@ export class DialogueContext {
       throw new Error('Dialogue history limit reached; reset required.');
     }
     const candidate=structuredClone(act);
-    validateInterlingua(candidate,this.#engine.ontology,this.#engine.features);
+    validateMeaningGraph(candidate,this.#engine.ontology,this.#engine.features);
     const pending=structuredClone(this.#pendingQuestions);
 
     if (candidate.act === 'ask') {
