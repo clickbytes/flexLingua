@@ -1,35 +1,36 @@
-function jsonLines(label, value, tone = 'muted') {
-  let formatted;
-  try {
-    formatted = JSON.stringify(value ?? null, null, 2);
-  } catch {
-    formatted = 'null';
-  }
-  return formatted.split('\n').map((text, index) => ({
-    text: index === 0 ? `${label}: ${text}` : `  ${text}`,
-    tone
-  }));
+function meaningSummary(meaning) {
+  if (!meaning || typeof meaning !== 'object') return 'MeaningGraph unavailable';
+  const label = meaning.concept ?? meaning.kind ?? meaning.type ?? 'graph';
+  const roles = Object.entries(meaning.roles ?? {}).map(([role, value]) =>
+    `${role}: ${value?.concept ?? value?.referent ?? 'unspecified'}`);
+  return `${label}${roles.length ? ` · ${roles.join(', ')}` : ''}`;
 }
 
 function eventLines(event) {
   if (event.type === 'user_utterance') {
     return [{text: `You (${event.language ?? 'unknown'}): ${event.text ?? ''}`, tone: 'neutral'}];
   }
+  if (event.type === 'turn_output') {
+    return [{text: `Turn output (${event.from ?? 'unknown'} -> ${event.to ?? 'unknown'}): ${
+      event.text ?? ''}`, tone: 'accent'}];
+  }
   if (event.type === 'semantic_reading') {
     return [
       {text: `Semantic reading${event.dialogueAct?.act ? ` · ${event.dialogueAct.act}` : ''}`, tone: 'accent'},
-      ...jsonLines('MeaningGraph', event.meaning),
-      ...(event.dialogueAct ? jsonLines('Dialogue act', event.dialogueAct) : []),
-      ...(event.alternatives?.length ? jsonLines('Alternatives', event.alternatives) : []),
-      ...(event.informationLoss?.length ? jsonLines('Information loss', event.informationLoss) : [])
+      {text: `MeaningGraph: ${meaningSummary(event.meaning)}`, tone: 'muted'},
+      ...(event.alternatives?.length ? [{text: `Alternatives: ${event.alternatives.length}`,
+        tone: 'muted'}] : []),
+      ...(event.informationLoss?.length ? [{text: `Information loss: ${event.informationLoss.length}`,
+        tone: 'warning'}] : [])
     ];
   }
   if (event.type === 'engine_response') {
     return [
       {text: `Engine response: ${event.text ?? ''}`, tone: 'accent'},
-      ...(event.meaning ? jsonLines('Response meaning', event.meaning) : []),
-      ...(event.dialogueAct ? jsonLines('Response dialogue act', event.dialogueAct) : []),
-      ...(event.informationLoss?.length ? jsonLines('Information loss', event.informationLoss) : [])
+      ...(event.meaning ? [{text: `Response meaning: ${meaningSummary(event.meaning)}`,
+        tone: 'muted'}] : []),
+      ...(event.informationLoss?.length ? [{text: `Information loss: ${event.informationLoss.length}`,
+        tone: 'warning'}] : [])
     ];
   }
   if (event.type === 'diagnostic') {
@@ -52,9 +53,13 @@ export function createChatView({chatService} = {}) {
     cursor: 0,
     focusIndex: 0,
     status: '',
-    language: chatService.language,
+    defaults: initial.defaults,
+    from: initial.from ?? initial.defaults?.from ?? null,
+    to: initial.to ?? initial.defaults?.to ?? null,
     turnCount: initial.turnCount,
     maxTurns: initial.maxTurns,
+    eventCount: initial.eventCount,
+    maxEvents: initial.maxEvents,
     lastStatus: '',
     history: [],
     scrollTop: 0,
@@ -76,6 +81,8 @@ export function createChatView({chatService} = {}) {
   function updateCounters(result) {
     if (Number.isSafeInteger(result.turnCount)) state.turnCount = result.turnCount;
     if (Number.isSafeInteger(result.maxTurns)) state.maxTurns = result.maxTurns;
+    if (Number.isSafeInteger(result.eventCount)) state.eventCount = result.eventCount;
+    if (Number.isSafeInteger(result.maxEvents)) state.maxEvents = result.maxEvents;
   }
 
   function addServiceFailure(error) {
@@ -88,12 +95,15 @@ export function createChatView({chatService} = {}) {
   function send() {
     const text = state.draft;
     try {
-      const result = chatService.send({text, from: state.language, to: state.language});
+      const result = chatService.send({text, from: state.from, to: state.to});
       state.history.push(...(Array.isArray(result.events) ? result.events : []));
       state.scrollTop = Number.MAX_SAFE_INTEGER;
       updateCounters(result);
-      state.lastStatus = result.status ?? 'error';
-      if (text.trim()) {
+      const responseStatus = result.responseStatus &&
+        !['not_requested', 'not_attempted'].includes(result.responseStatus) ?
+        ` · response ${result.responseStatus}` : '';
+      state.lastStatus = `${result.status ?? 'error'}${responseStatus}`;
+      if (result.accepted && text.trim()) {
         state.draft = '';
         state.cursor = 0;
       }
@@ -188,7 +198,8 @@ export function createChatView({chatService} = {}) {
     fieldLabel: 'Message',
     actionLabel: 'Send',
     statusLine() {
-      return {text: `Session status: local · language ${state.language} · turns ${state.turnCount}/${state.maxTurns}`,
+      return {text: `Session status: local · ${state.from ?? '?'} -> ${state.to ?? '?'} · turns ${
+        state.turnCount}/${state.maxTurns} · events ${state.eventCount}/${state.maxEvents}`,
         tone: 'muted'};
     },
     focusTargets,
