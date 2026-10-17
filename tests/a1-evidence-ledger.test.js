@@ -20,8 +20,8 @@ test('A1 VAL-03: all sixteen project-authored fixtures are inventoried',()=>{
  assert.equal(report.totals.sources,16);
  assert.deepEqual({p:report.totals.positive,n:report.totals.negative,
    f:report.totals.morphologyCells,productive:report.totals.productiveOnly},
-   {p:570,n:103,f:60,productive:2});
- assert.equal(report.verification.positiveVerified,570);
+   {p:574,n:102,f:60,productive:2});
+ assert.equal(report.verification.positiveVerified,574);
  const basic=report.sources.find(x=>x.id==='enplbasic');
  assert.equal(corpora.enplbasic.license,'project-authored');
  assert.equal(corpora.enplbasic.provenance.source,'project-authored');
@@ -57,8 +57,14 @@ test('A1 VAL-03: all sixteen project-authored fixtures are inventoried',()=>{
  assert.equal(family02.evidence[0].suiteStatus,'pass');
  const bareBeverages=report.sources.find(x=>x.id==='barebeverages');
  assert.deepEqual({positive:bareBeverages.samples.positive,negative:bareBeverages.samples.negative},
-   {positive:8,negative:5});
- assert.deepEqual(bareBeverages.byDirection,{'en->pl':4,'pl->en':4});
+   {positive:12,negative:4});
+ assert.deepEqual(bareBeverages.byDirection,{'en->pl':6,'pl->en':6});
+ const family11=report.constructionCoverage.families.find(x=>x.id==='A1-ENPL-11');
+ assert.equal(family11.implementationStatus,'implemented');
+ assert.equal(family11.evidenceStatus,'verified');
+ assert.equal(family11.knownGaps.length,0);
+ assert.deepEqual(family11.declared.positive,{'en->pl':2,'pl->en':2});
+ assert.deepEqual(family11.declared.refusal,{'en->pl':3,'pl->en':1});
  const existential=report.sources.find(x=>x.id==='existential');
  assert.deepEqual({positive:existential.samples.positive,negative:existential.samples.negative},
    {positive:4,negative:6});
@@ -103,7 +109,7 @@ test('A1 VAL-03: all sixteen project-authored fixtures are inventoried',()=>{
      .reduce((sum,row)=>sum+row[kind],0),report.sampleQuality.declared[kind]);
  assert.equal(Object.values(report.sampleQuality.declared.morphologyByLanguage)
    .reduce((sum,count)=>sum+count,0),report.totals.morphologyCells);
- assert.equal(report.sampleQuality.verified.positive,570);
+ assert.equal(report.sampleQuality.verified.positive,574);
  assert.equal(report.targetSummary.total,23);
  assert.deepEqual({concepts:report.targets.filter(x=>x.unitType==='concept').length,
    constructions:report.targets.filter(x=>x.unitType==='construction').length},

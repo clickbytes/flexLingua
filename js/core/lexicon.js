@@ -36,7 +36,10 @@ function quantifierCore(meaning) {
 function normalizeSense(sense, category, lexeme, strict) {
   if (!record(sense) || !validLexemeId(sense.id) ||
       !Number.isInteger(sense.priority ?? 0) || Math.abs(sense.priority ?? 0) > 100 ||
-      (strict && Object.keys(sense).some(key => !['id','coreRef','priority'].includes(key)))) {
+      (sense.countability !== undefined &&
+        (category !== 'nouns' || !['mass','count','both'].includes(sense.countability))) ||
+      (strict && Object.keys(sense).some(key =>
+        !['id','coreRef','priority','countability'].includes(key)))) {
     throw new Error(`Invalid or duplicate lexical sense: ${sense?.id}`);
   }
   if (strict && (hasOwn(sense,'concept') || !hasOwn(sense,'coreRef'))) {
@@ -148,7 +151,8 @@ export function createLexicon(input, {strict = false} = {}) {
       const summary = freezeDeep({
         id:item.id, lemma, language:source.language, category, pos: category === 'functionWords' ?
           item.pos || 'PART' : category.slice(0,-1),
-        senses:senses.map(({id,coreRef,priority}) => ({id,coreRef,priority}))
+        senses:senses.map(({id,coreRef,priority,countability}) =>
+          ({id,coreRef,priority,...(countability ? {countability} : {})}))
       });
       entries.push(summary);
       byId.set(item.id,summary);
@@ -205,7 +209,8 @@ export function migrateLexicon(input) {
       const normalized = view.get(entry.id);
       const senses = normalized.senses.map(sense => ({
         id:sense.id, coreRef:structuredClone(sense.coreRef),
-        ...(sense.priority ? {priority:sense.priority} : {})
+        ...(sense.priority ? {priority:sense.priority} : {}),
+        ...(sense.countability ? {countability:sense.countability} : {})
       }));
       return { ...rest, ...(category === 'quantifiers' && !rest.lemma ? {lemma:normalized.lemma} : {}), senses };
     });

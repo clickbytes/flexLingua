@@ -166,9 +166,7 @@
           },
           "refusalCases": {
             "en->pl": [
-              "A1-ENPL-03-NEG-01",
               "A1-ENPL-03-NEG-02",
-              "A1-ENPL-03-NEG-03",
               "A1-ENPL-03-NEG-04"
             ],
             "pl->en": [
@@ -563,11 +561,13 @@
       "id": "A1-ENPL-11",
       "sourceDirection": "en->pl",
       "coreContract": {
-        "type": "nominal",
+        "type": "event",
         "kind": [
-          "countability"
+          "event.visual_perception",
+          "event.drink"
         ],
         "roles": [
+          "agent",
           "theme"
         ],
         "countability": [
@@ -585,14 +585,38 @@
       "question": [
         "none"
       ],
-      "implementationStatus": "planned",
+      "implementationStatus": "implemented",
       "dependencies": [
         "A1-ENPL-10"
       ],
-      "evidence": [],
-      "knownGaps": [
-        "Lexical countability senses and cross-frame mass-noun gold are pending batch 11."
-      ]
+      "evidence": [
+        {
+          "sourceId": "barebeverages",
+          "fixture": "tests/fixtures/gold-a1-bare-beverages.json",
+          "suite": "tests/a1-bare-beverages.test.js",
+          "positiveCases": {
+            "en->pl": [
+              "A1-ENPL-11-EN-01",
+              "A1-ENPL-11-EN-02"
+            ],
+            "pl->en": [
+              "A1-ENPL-11-PL-01",
+              "A1-ENPL-11-PL-02"
+            ]
+          },
+          "refusalCases": {
+            "en->pl": [
+              "A1-ENPL-03-NEG-02",
+              "A1-ENPL-03-NEG-04",
+              "A1-ENPL-11-NEG-01"
+            ],
+            "pl->en": [
+              "A1-ENPL-03-NEG-05"
+            ]
+          }
+        }
+      ],
+      "knownGaps": []
     },
     {
       "id": "A1-ENPL-12",

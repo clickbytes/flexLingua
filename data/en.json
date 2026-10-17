@@ -1484,6 +1484,7 @@
       "senses": [
         {
           "id": "en.juice.1.sense.1",
+          "countability": "mass",
           "coreRef": {
             "kind": "concept",
             "id": "beverage.juice"
@@ -1570,6 +1571,7 @@
       "senses": [
         {
           "id": "en.water.1.sense.1",
+          "countability": "mass",
           "coreRef": {
             "kind": "concept",
             "id": "beverage.water"
@@ -1588,6 +1590,7 @@
       "senses": [
         {
           "id": "en.milk.1.sense.1",
+          "countability": "mass",
           "coreRef": {
             "kind": "concept",
             "id": "beverage.milk"
@@ -1606,6 +1609,7 @@
       "senses": [
         {
           "id": "en.coffee.1.sense.1",
+          "countability": "mass",
           "coreRef": {
             "kind": "concept",
             "id": "beverage.coffee"
@@ -1624,6 +1628,7 @@
       "senses": [
         {
           "id": "en.tea.1.sense.1",
+          "countability": "mass",
           "coreRef": {
             "kind": "concept",
             "id": "beverage.tea"
