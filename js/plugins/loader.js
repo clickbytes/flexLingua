@@ -203,10 +203,15 @@ export async function loadPluginRegistry(root = DEFAULT_PROJECT_ROOT, options = 
   if (typeof root !== 'string' || !root.trim()) {
     fail('PLUGIN_PATH_INVALID', 'Project root must be a non-empty local path.');
   }
-  if (!isRecord(options) || Object.keys(options).some(key => key !== 'core')) {
-    fail('PLUGIN_INVALID', 'Loader options may contain only core.');
+  if (!isRecord(options) || Object.keys(options).some(key => !['core', 'codes'].includes(key))) {
+    fail('PLUGIN_INVALID', 'Loader options may contain only core and codes.');
   }
-  const {core} = options;
+  const {core, codes} = options;
+  if (codes !== undefined && (!Array.isArray(codes) || codes.length < 1 ||
+      codes.length > 128 || codes.some(code => typeof code !== 'string' ||
+        !LANGUAGE_CODE.test(code)) || new Set(codes).size !== codes.length)) {
+    fail('PLUGIN_INVALID', 'Loader codes must be a non-empty list of distinct language codes.');
+  }
   let projectRoot;
   try {
     projectRoot = await realDirectory(resolve(root), null, 'project root');
@@ -220,7 +225,14 @@ export async function loadPluginRegistry(root = DEFAULT_PROJECT_ROOT, options = 
   const registryDocument = await readJson(registryPath, 'language registry',
     'PLUGIN_REGISTRY_INVALID');
   const entries = validateRegistryDocument(registryDocument);
+  if (codes?.some(code => !entries.some(entry => entry.code === code))) {
+    fail('PLUGIN_NOT_FOUND', 'Requested language plugin is not in the registry.');
+  }
   const registry = new PluginRegistry();
-  for (const entry of entries) await loadOne(languageRoot, entry, core, registry);
+  for (const entry of entries) {
+    if (codes === undefined || codes.includes(entry.code)) {
+      await loadOne(languageRoot, entry, core, registry);
+    }
+  }
   return registry;
 }
