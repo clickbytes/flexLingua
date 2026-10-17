@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0",
   "statement": "Deliberately uncovered behaviors observed on the production service. A known gap is never an approved case and never counts as PASS: translation success, controlled refusal, ambiguity, known gaps, and infrastructure errors are always reported separately. Every observation here was produced by the CLI/the same service path at the recorded SHA and matched an independently authored expectation where one exists.",
-  "observationHorizon": "All observations recorded at this file's creation come from manual CLI runs on 2026-10-17 at main@caffbd52b5951cccc06708d055574d68486d1a62; re-observation is required before any gap state may move.",
+  "observationHorizon": "Rows record their own observation SHA in observedAtSha and each state move requires an observation at that SHA. Original observations were manual CLI runs on 2026-10-17 at main@caffbd52b5951cccc06708d055574d68486d1a62; later re-observations (e.g. the 2026-10-18 deictic repair, issue #362) carry their own SHA.",
   "gaps": [
     {
       "id": "GAP-EN-PL-DEIXIS-0001",
@@ -20,16 +20,16 @@
         },
         "features": {"tense": "present", "polarity": "positive"}
       },
-      "observedStatus": "error",
-      "observedDiagnosticsCodes": ["INFRASTRUCTURE_ERROR"],
-      "observedExitCode": 1,
-      "observedAtSha": "caffbd52b5951cccc06708d055574d68486d1a62",
+      "observedStatus": "ambiguous",
+      "observedDiagnosticsCodes": ["AMBIGUOUS_MEANING"],
+      "observedExitCode": 2,
+      "observedAtSha": "2873a8f08d47a87a94eab49300ec1647a1270bd5",
       "severity": "high",
-      "state": "open",
-      "owner": "epic #341 (TM) — follow-up issue required",
-      "issue": "#346",
-      "retestPolicy": "Re-run the CLI on every branch SHA that touches en analyze or pl realize for deictic roles. While the crash reproduces the gap stays open; no behavioral change here without a dedicated approved issue, at which point this entry is re-observed and either closed or rewritten as an approved case.",
-      "note": "First-person agent and second-person theme deixis has no accepted analysis path yet: the engine throws an infrastructure error (document status error, CLI exit 1). Deliberately NOT recorded as an approved case — an infrastructure error must never be turned into an expected refusal, and this A1-priority sentence stays honestly uncovered."
+      "state": "closed",
+      "owner": "#362 — deictic event repair (Drugi agent, opencode/GLM)",
+      "issue": "#362",
+      "retestPolicy": "Closed by the #362 repair: the ADR person-deixis contract is now enforced by approved cases and they are the executable guard. If A1-EN-PL-DEIXIS-0001/0003 or the positive deictic witnesses ever fail or regress to an infrastructure error, re-open this family.",
+      "note": "History: at main@caffbd52b5951cccc06708d055574d68486d1a62 this input crashed as status error/INFRASTRUCTURE_ERROR exit 1 because valid ADR v1.22 deictic readers failed the event-role bridge validation (PLUGIN_CORE_REFERENCE_INVALID classified as an internal plugin failure). Re-observed 2026-10-18 at the repair SHA: status ambiguous with exactly two explicit ADR v1.22 readings (addressee second/singular and second/plural; English `you` does not resolve number), text null, meaning null, exit 2. Closed as approved cases: A1-EN-PL-DEIXIS-0001 (ambiguity), A1-EN-PL-DEIXIS-0002 (positive en->pl), A1-PL-EN-DEIXIS-0001/0002 (positive pl->en). An infrastructure error was never turned into an approved refusal."
     },
     {
       "id": "GAP-EN-PL-QUANTITY-0002",
@@ -111,6 +111,34 @@
       "issue": "#346",
       "retestPolicy": "Paired retest with GAP-EN-FI-VISUAL-0003: re-run the CLI on every SHA touching fi analyze declarations or morphology compile coverage; the gap may close only into approved positive witnesses for both directions.",
       "note": "Same mismatch as GAP-EN-FI-VISUAL-0003 in the reverse direction: fi.analyze declares event.visual_attention implemented yet the service refuses it before any analysis. Recorded as one pair so neither direction silently regresses into a fake refusal-based pass."
+    },
+    {
+      "id": "GAP-PL-EN-CLITIC-0005",
+      "direction": "pl-en",
+      "family": "deixis",
+      "input": {"from": "pl", "to": "en", "text": "Widzę cię."},
+      "expectedIndependent": {
+        "type": "event",
+        "concept": "event.visual_perception",
+        "roleSet": ["agent", "theme"],
+        "roles": {
+          "agent": {"target": {"kind": "deictic", "anchor": "speaker"},
+            "agreement": {"person": "first", "number": "singular"}},
+          "theme": {"target": {"kind": "deictic", "anchor": "addressee"},
+            "agreement": {"person": "second", "number": "singular"}}
+        },
+        "features": {"tense": "present", "polarity": "positive"}
+      },
+      "observedStatus": "unsupported",
+      "observedDiagnosticsCodes": ["LANGUAGE_CONSTRUCTION_UNSUPPORTED"],
+      "observedExitCode": 2,
+      "observedAtSha": "2873a8f08d47a87a94eab49300ec1647a1270bd5",
+      "severity": "medium",
+      "state": "open",
+      "owner": "#362 — clitic deictic analysis follow-up required",
+      "issue": "#362",
+      "retestPolicy": "Re-run the CLI on every SHA that touches the pl deictic analysis inventory (languages/pl function forms or grammar deictic reading). This gap may close only by implementing the short accusative clitic analysis and recording approved positive witnesses — never by turning the current bounded refusal into an approved boundary case.",
+      "note": "The short accusative clitic `cię` is the unmarked Polish object form at A1, while the pl analysis inventory currently covers only full forms (`mnie`, `ciebie`; explicit subjects `ja`/`ty`). The refusal is bounded and honest (explicit unsupported status, exit 2, no invented meaning), but the sentence is inside the project's stated A1 scope, so it is registered as a product gap rather than an approved case. Discovered while re-observing GAP-EN-PL-DEIXIS-0001 during the #362 repair."
     }
   ]
 }
