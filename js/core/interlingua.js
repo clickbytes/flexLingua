@@ -30,6 +30,14 @@ export const PASSIVE_VERSION = '1.29';
 export const CONDITIONAL_VERSION = '1.30';
 export const ANAPHORA_VERSION = '1.32';
 export const EXISTENCE_VERSION = '1.33';
+const EVENT_VERSIONS = Object.freeze([
+  INTERLINGUA_VERSION,QUALIFIED_VERSION,CLAUSE_VERSION,SEMANTIC_VERSION,
+  DEICTIC_VERSION,NUMERIC_TIME_VERSION,POSSESSIVE_VERSION,PASSIVE_VERSION,ANAPHORA_VERSION
+]);
+const DISCOURSE_VERSIONS = Object.freeze([
+  DISCOURSE_VERSION,QUALIFIED_VERSION,CLAUSE_VERSION,NUMERIC_TIME_VERSION,
+  POSSESSIVE_VERSION,EVENT_RELATIONS_VERSION,PASSIVE_VERSION
+]);
 export const EVENT_RELATION_TYPES = Object.freeze([
   'event_relation.before', 'event_relation.after', 'event_relation.because'
 ]);
@@ -333,12 +341,15 @@ export function createDiscourse(events, { coreference = {}, relations = [] } = {
   const entities = Object.create(null);
   const earlierMentions = new Map();
   const steps = events.map((event, index) => {
-    if (!record(event) || event.type !== 'event' || !record(event.roles)) {
+    if (!record(event) || event.type !== 'event' || !record(event.roles) ||
+        !hasOwn(event,'concept') || !record(event.features) ||
+        (hasOwn(event,'version') && !EVENT_VERSIONS.includes(event.version))) {
       throw new Error('Discourse only supports independent event clauses.');
     }
     const allowedFields=['version','type','concept','roles','features','timeReference',
       'clockTime','calendarDate','voice','omittedRoles'];
-    if(Object.keys(event).some(key=>!allowedFields.includes(key))) {
+    if(Object.keys(event).some(key=>!allowedFields.includes(key)) ||
+        Object.keys(event.features).some(key=>!['tense','polarity','aspect'].includes(key))) {
       throw new Error('Event document contains unsupported fields.');
     }
     if (Object.values(event.roles).some(ref => record(ref) && hasOwn(ref, 'referent'))) {
@@ -370,8 +381,8 @@ export function createDiscourse(events, { coreference = {}, relations = [] } = {
       ...(hasOwn(event,'timeReference')?{timeReference:event.timeReference}:{}),
       ...(hasOwn(event,'clockTime')?{clockTime:{...event.clockTime}}:{}),
       ...(hasOwn(event,'calendarDate')?{calendarDate:{...event.calendarDate}}:{}),
-      ...(event.voice?{voice:event.voice}:{}),
-      ...(event.omittedRoles?{omittedRoles:[...event.omittedRoles]}:{}) };
+      ...(hasOwn(event,'voice')?{voice:event.voice}:{}),
+      ...(hasOwn(event,'omittedRoles')?{omittedRoles:[...event.omittedRoles]}:{}) };
   });
   for (const link of links) {
     if (!earlierMentions.has(link.source)) {
@@ -425,12 +436,25 @@ function assertAcyclicEventRelations(events, relations) {
 }
 
 export function materializeEvent(discourse, event) {
+  const allowed=['id','concept','roles','features','timeReference','clockTime',
+    'calendarDate','voice','omittedRoles'];
+  if (!record(discourse) || discourse.type!=='discourse' ||
+      !DISCOURSE_VERSIONS.includes(discourse.version) ||
+      !hasExactKeys(discourse,['version','type','entities','events','relations']) ||
+      !record(discourse.entities) || !Array.isArray(discourse.events) ||
+      !Array.isArray(discourse.relations) || !record(event) ||
+      ['id','concept','roles','features'].some(key=>!hasOwn(event,key)) ||
+      Object.keys(event).some(key=>!allowed.includes(key)) ||
+      !record(event.roles) || !record(event.features) ||
+      Object.keys(event.features).some(key=>!['tense','polarity','aspect'].includes(key))) {
+    throw new Error('Event document contains unsupported fields.');
+  }
   const roles = Object.fromEntries(Object.entries(event.roles).map(([role, id]) =>
     [role, discourse.entities[id]]));
   return createEvent(event.concept, roles, {...event.features,
-    ...(event.timeReference?{timeReference:event.timeReference}:{}),
-    ...(event.clockTime?{clockTime:event.clockTime}:{}),
-    ...(event.calendarDate?{calendarDate:event.calendarDate}:{})},
+    ...(hasOwn(event,'timeReference')?{timeReference:event.timeReference}:{}),
+    ...(hasOwn(event,'clockTime')?{clockTime:event.clockTime}:{}),
+    ...(hasOwn(event,'calendarDate')?{calendarDate:event.calendarDate}:{})},
     {voice:event.voice,omittedRoles:event.omittedRoles});
 }
 
@@ -902,8 +926,7 @@ function validateClauseTree(node, ontology, registry, depth = 0, gap = null) {
   if (node.type === 'comparison') {
     validateComparisonShape(node,ontology,registry);
   } else if (node.type === 'event') {
-    if (![INTERLINGUA_VERSION, QUALIFIED_VERSION, CLAUSE_VERSION, SEMANTIC_VERSION,
-      DEICTIC_VERSION, NUMERIC_TIME_VERSION,POSSESSIVE_VERSION,PASSIVE_VERSION,ANAPHORA_VERSION].includes(node.version)) {
+    if (!EVENT_VERSIONS.includes(node.version)) {
       throw new Error('Unsupported event version.');
     }
     validateEventShape(node, ontology, registry, node.version !== INTERLINGUA_VERSION,
@@ -1043,8 +1066,8 @@ function validateInterlinguaDocument(node, ontology, registry) {
     validateClauseTree(node, ontology, registry);
     return node;
   }
-  if (node.type !== 'discourse' || ![DISCOURSE_VERSION, QUALIFIED_VERSION, CLAUSE_VERSION,
-    NUMERIC_TIME_VERSION,POSSESSIVE_VERSION, EVENT_RELATIONS_VERSION, PASSIVE_VERSION].includes(node.version) ||
+  if (node.type !== 'discourse' || !DISCOURSE_VERSIONS.includes(node.version) ||
+      !hasExactKeys(node,['version','type','entities','events','relations']) ||
       !record(node.entities) || !Array.isArray(node.events) ||
       node.events.length < 2 || node.events.length > MAX_DISCOURSE_EVENTS ||
       !Array.isArray(node.relations)) {
@@ -1076,6 +1099,7 @@ function validateInterlinguaDocument(node, ontology, registry) {
   }
   if (node.relations.length < node.events.length - 1 ||
       node.relations.some((edge, i) => !record(edge) ||
+        !hasExactKeys(edge,['from','to','type']) ||
         (i<node.events.length-1 && (edge.type !== 'precedes' ||
           edge.from !== node.events[i].id || edge.to !== node.events[i + 1].id)) ||
         (i>=node.events.length-1 &&

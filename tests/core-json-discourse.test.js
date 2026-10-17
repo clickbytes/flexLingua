@@ -28,6 +28,26 @@ test('CORE JSON roundtrip preserves safe null-prototype discourse dictionaries',
  const translated=engine.translate({text:JSON.stringify(original),from:'core',to:'pl'});
  assert.equal(translated.text,'Ojciec pomaga siostrze. Siostra otwiera książkę.');
 });
+test('CORE discourse rejects unknown fields at every normalized layer',()=>{
+ const engine=make();
+ const source=engine.analyze({
+  text:'The father helps the sister. The sister opens the book.',from:'en'
+ });
+ const mutations=[
+  document=>{document.evidentiality='hearsay';},
+  document=>{document.events[0].evidentiality='hearsay';},
+  document=>{document.events[0].features.evidentiality='hearsay';},
+  document=>{document.events[0].roles.unlicensed='p1';},
+  document=>{document.relations[0].evidentiality='hearsay';},
+  document=>{document.entities[Object.keys(document.entities)[0]].evidentiality='hearsay';}
+ ];
+ for(const mutate of mutations){
+  const tampered=structuredClone(source);
+  mutate(tampered);
+  assert.throws(()=>engine.analyze({text:JSON.stringify(tampered),from:'core'}),error=>
+   error.name==='EngineError');
+ }
+});
 test('CORE JSON refuses prototype manipulation before discourse normalization',()=>{
  const engine=make();
  const text='The father helps the sister. The sister opens the book.';
