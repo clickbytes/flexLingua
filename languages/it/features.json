@@ -1,0 +1,36 @@
+{
+  "version": "1.0",
+  "language": "it",
+  "dimensions": {
+    "number": [
+      "singular",
+      "plural"
+    ],
+    "person": [
+      "third"
+    ],
+    "tense": [
+      "present"
+    ],
+    "case": [
+      "nom",
+      "acc"
+    ]
+  },
+  "featureProfile": {
+    "version": "1.0",
+    "language": "it",
+    "syntactic": {
+      "case": [
+        "nom",
+        "acc"
+      ]
+    },
+    "morphology": {
+      "number": [
+        "singular",
+        "plural"
+      ]
+    }
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "id": "flexlingua.it",
+  "code": "it",
+  "schemaVersion": "1.0",
+  "graph": "graph.json",
+  "status": "limited-demo",
+  "capabilities": [
+    {
+      "operation": "analyze",
+      "channel": "sentence",
+      "construction": "event.visual_perception",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "it.visual-perception.01"
+        }
+      ]
+    },
+    {
+      "operation": "realize",
+      "channel": "sentence",
+      "construction": "event.visual_perception",
+      "status": "unsupported",
+      "evidence": [
+        {
+          "kind": "manual-refusal",
+          "id": "it.outgoing-only.01"
+        }
+      ]
+    },
+    {
+      "operation": "lookup",
+      "channel": "lexicon",
+      "construction": "lexeme",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "it.lexicon.01"
+        }
+      ]
+    },
+    {
+      "operation": "decode",
+      "channel": "signal",
+      "construction": "written",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "it.written.01"
+        }
+      ]
+    }
+  ],
+  "provenance": "provenance.json"
+}
