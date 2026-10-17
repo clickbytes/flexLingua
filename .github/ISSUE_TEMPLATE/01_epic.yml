@@ -54,6 +54,14 @@ body:
     validations:
       required: true
   - type: textarea
+    id: context_docs
+    attributes:
+      label: Kontrakty / decyzje bazowe (opcjonalnie)
+      description: "Linkuj obowiązujące ADR lub dokumenty z docs/. Nie kopiuj ich treści."
+      placeholder: "https://github.com/clickbytes/flexLingua/blob/main/docs/adr/..."
+    validations:
+      required: false
+  - type: textarea
     id: exit
     attributes:
       label: Kryteria odbioru całego epiku (DoD)
