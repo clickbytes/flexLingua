@@ -1,6 +1,6 @@
 /**
  * Language-independent feature inventory and non-destructive feature unification.
- * Semantic dimensions are declared in data/features.json, not in a language adapter.
+ * CORE semantic dimensions and language-local syntax are separate inventories.
  */
 export const FEATURE_VERSION = '0.4';
 export const LANGUAGE_FEATURE_PROFILE_VERSION = '1.0';
@@ -58,7 +58,7 @@ export function createFeatureRegistry(spec, featureProfile) {
   if (!record(spec) || spec.version !== FEATURE_VERSION || !record(spec.domains)) {
     throw new Error('Unsupported or missing feature registry version.');
   }
-  for (const domain of ['event', 'participant', 'lexical', 'syntactic']) {
+  for (const domain of ['event', 'participant', 'lexical']) {
     const dimensions = spec.domains[domain];
     if (!record(dimensions) || !Object.keys(dimensions).length) {
       throw new Error(`Missing feature domain: ${domain}`);
@@ -70,12 +70,21 @@ export function createFeatureRegistry(spec, featureProfile) {
       }
     }
   }
+  // Older registries may still carry syntax; new CORE registries need not.
+  if (hasOwn(spec.domains, 'syntactic')) {
+    const dimensions = spec.domains.syntactic;
+    if (!record(dimensions) || !Object.keys(dimensions).length ||
+        Object.entries(dimensions).some(([name, values]) =>
+      !safeName(name) || !Array.isArray(values) || !values.length ||
+      values.some(value => !safeName(value)) || new Set(values).size !== values.length)) {
+      throw new Error('Invalid syntactic feature inventory.');
+    }
+  }
   // Copy on input: later edits to caller JSON cannot change a running engine.
   const registry = JSON.parse(JSON.stringify(spec));
   if (featureProfile !== undefined) {
     const profile = createLanguageFeatureProfile(featureProfile);
-    // The profile replaces only language syntax dimensions; semantic domains stay neutral.
-    registry.domains.syntactic = JSON.parse(JSON.stringify(profile.syntactic));
+    // Keep the CORE registry intact. Local syntax is read through featureProfile.
     registry.featureProfile = profile;
   }
   return registry;
@@ -125,7 +134,7 @@ export function featureSource(source, featureProfile, controllers = []) {
         (!Array.isArray(controllers) || !controllers.includes(path[0])))) {
     throw new Error(`Invalid feature dependency: ${source}`);
   }
-  if (featureProfile !== undefined && path[0] === 'subject' && path[1] === 'case') {
+  if (featureProfile !== undefined && path[1] === 'case') {
     const profile = createLanguageFeatureProfile(featureProfile);
     if (!hasOwn(profile.syntactic, 'case')) {
       throw featureError('absent_feature_category', 'Language profile has no syntactic case category.');

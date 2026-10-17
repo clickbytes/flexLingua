@@ -47,6 +47,19 @@ export function validateTextProfile(profile, {locale} = {}) {
   return canonical;
 }
 
+/** Resolve the written signal declaration of one compiled language package. */
+export function textProfileForSignal(signalModule, language) {
+  if (!record(signalModule) || signalModule.channel !== 'written' ||
+      typeof language !== 'string' || !language) {
+    throw new Error('Missing written signal profile for language.');
+  }
+  const profile = validateTextProfile(signalModule.textProfile ?? signalModule.profile);
+  if (profile.locale.split('-')[0] !== language) {
+    throw new Error('Written signal locale does not match language.');
+  }
+  return profile;
+}
+
 const DEFAULT_TEXT_PROFILE = createTextProfile('und');
 
 function requireBoundedText(text) {
