@@ -858,35 +858,37 @@ function planModule(plan, layer, predicate) {
   return modules[0];
 }
 
-export function createRuleAdapter(source, rules,
-  options = {}) {
-  if(Array.isArray(source?.transferPlans)) {
-    const plan=source;
-    if(!record(plan.modules)||!record(plan.layers)||!safeName(plan.language)||
-        !['lexicon','syntax','morphology','signal'].every(layer=>Array.isArray(plan.layers[layer]))) {
-      throw new Error('Invalid compiled grammar plan.');
-    }
-    const dictionary=planModule(plan,'lexicon',data=>
-      record(data)&&data.language===plan.language&&Array.isArray(data.nouns));
-    const grammar=planModule(plan,'syntax',data=>
-      record(data)&&data.language===plan.language&&record(data.frames));
-    const localModules=Object.values(plan.modules).filter(data=>record(data)&&record(data.featureProfile));
-    const featureProfile=localModules[0]?.featureProfile;
-    if(!featureProfile)throw new Error('Compiled grammar requires a local feature profile.');
-    if(localModules.some(data=>JSON.stringify(data.featureProfile)!==JSON.stringify(featureProfile)))
-      throw new Error('Conflicting local feature profiles.');
-    const signal=plan.layers.signal.length?planModule(plan,'signal',data=>record(data)&&data.channel==='written'):null;
-    return createGrammarInterpreter(dictionary,grammar,{
-      ...(record(rules)?rules:{}),
-      ...(featureProfile?{featureProfile}:{}),
-      ...(signal?{textProfile:textProfileForSignal(signal,plan.language)}:{})
-    },plan);
+/** Build the sentence runtime from one compiled LanguageGraph plan. */
+export function createRuleAdapter(plan, options = {}) {
+  if(arguments.length>2)throw new Error('Invalid compiled grammar runtime arguments.');
+  if(!record(plan)||!Array.isArray(plan.transferPlans)||!record(plan.modules)||
+      !record(plan.layers)||!safeName(plan.language)||
+      !['lexicon','syntax','morphology','signal'].every(layer=>Array.isArray(plan.layers[layer]))) {
+    throw new Error('Invalid compiled grammar plan.');
   }
-  return createGrammarInterpreter(source,rules,options);
+  if(!record(options)||Object.keys(options).some(key=>key!=='morphology')) {
+    throw new Error('Invalid compiled grammar runtime options.');
+  }
+  const {morphology}=options;
+  const dictionary=planModule(plan,'lexicon',data=>
+    record(data)&&data.language===plan.language&&Array.isArray(data.nouns));
+  const grammar=planModule(plan,'syntax',data=>
+    record(data)&&data.language===plan.language&&record(data.frames));
+  const localModules=Object.values(plan.modules).filter(data=>record(data)&&record(data.featureProfile));
+  const featureProfile=localModules[0]?.featureProfile;
+  if(!featureProfile)throw new Error('Compiled grammar requires a local feature profile.');
+  if(localModules.some(data=>JSON.stringify(data.featureProfile)!==JSON.stringify(featureProfile)))
+    throw new Error('Conflicting local feature profiles.');
+  const signal=plan.layers.signal.length?planModule(plan,'signal',data=>record(data)&&data.channel==='written'):null;
+  return createGrammarInterpreter(dictionary,grammar,{
+    morphology,
+    featureProfile,
+    ...(signal?{textProfile:textProfileForSignal(signal,plan.language)}:{})
+  },plan);
 }
 
 function createGrammarInterpreter(sourceDictionary, rules,
-  {morphology,featureProfile:rawFeatureProfile,textProfile:rawTextProfile} = {}, compiledPlan = null) {
+  {morphology,featureProfile:rawFeatureProfile,textProfile:rawTextProfile}, compiledPlan) {
   const featureProfile=rawFeatureProfile===undefined?undefined:
     createLanguageFeatureProfile(rawFeatureProfile,{language:sourceDictionary.language});
   const textProfile=rawTextProfile===undefined?createTextProfile(sourceDictionary.language):
@@ -899,7 +901,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
   const grammar = validateGrammar(dictionary, rules, featureProfile);
   const { nounPhrase, sentence, verb: verbGrammar, frames } = grammar;
   const compiledCases=new WeakMap();
-  if(compiledPlan)for(const transfer of compiledPlan.transferPlans) {
+  for(const transfer of compiledPlan.transferPlans) {
     const frame=frames[transfer.conceptId];
     if(!frame)continue;
     let roles=compiledCases.get(frame);
