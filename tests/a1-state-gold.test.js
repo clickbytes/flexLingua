@@ -15,6 +15,7 @@ const engine=new Engine(concepts,features)
   .registerLanguage(createRuleAdapter(pl,plGrammar));
 
 function participantFrom(spec) {
+  if(spec.referent)return {referent:spec.referent,agreement:spec.agreement};
   if(spec.anchor)return {
     referent:{kind:'deictic',anchor:spec.anchor},
     agreement:{person:spec.person,number:spec.number}
@@ -49,6 +50,8 @@ function signature(document) {
   const roles=Object.fromEntries(Object.entries(node.roles).map(([name,ref])=>[
     name,ref.referent?.kind==='deictic'?
       {anchor:ref.referent.anchor,person:ref.agreement.person,number:ref.agreement.number}:
+      ref.referent?.kind==='anaphoric'?
+        {referent:ref.referent,agreement:ref.agreement}:
       {concept:ref.concept,number:ref.features.number}
   ]));
   return {

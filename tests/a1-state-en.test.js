@@ -19,12 +19,12 @@ const engine = new Engine(ontology, features).registerMorphology(morphology)
   .registerLanguage(english);
 
 const predication = (subject, polarity = 'positive', tense = 'present') => ({
-  version: '1.23', type: 'state', kind: 'predication', predicate: 'quality.big',
+  version: subject.referent?.kind==='anaphoric'?'1.32':'1.23', type: 'state', kind: 'predication', predicate: 'quality.big',
   roles: {subject}, features: {tense, polarity}
 });
 
 const possession = (owner, definiteness = 'indefinite', polarity = 'positive', tense = 'present') => ({
-  version: '1.23', type: 'state', kind: 'possession',
+  version: owner.referent?.kind==='anaphoric'?'1.32':'1.23', type: 'state', kind: 'possession',
   roles: {
     owner,
     owned: {concept: 'object.book', features: {definiteness, number: 'singular'}}
@@ -41,6 +41,10 @@ const speaker = {referent: {kind: 'deictic', anchor: 'speaker'},
 const addressee = {referent: {kind: 'deictic', anchor: 'addressee'},
   agreement: {person: 'second', number: 'singular'}};
 const girl = {concept: 'person.girl', features: {definiteness: 'definite', number: 'singular'}};
+const unresolvedFemale = {referent:{kind:'anaphoric',resolution:'unresolved'},
+  agreement:{person:'third',number:'singular',gender:'feminine'}};
+const unresolvedMale = {referent:{kind:'anaphoric',resolution:'unresolved'},
+  agreement:{person:'third',number:'singular',gender:'masculine'}};
 
 test('STATE-03 declares and reverse-analyzes present and past forms of be and have', () => {
   const paradigms = [
@@ -78,10 +82,10 @@ test('STATE-03 analyzes and realizes be as a typed property predication', () => 
   const examples = [
     ['I am big.', predication(speaker)],
     ['You are big.', predication(addressee)],
-    ['She is big.', predication(girl)],
+    ['She is big.', predication(unresolvedFemale)],
     ['I was big.', predication(speaker, 'positive', 'past')],
     ['You were big.', predication(addressee, 'positive', 'past')],
-    ['She was big.', predication(girl, 'positive', 'past')]
+    ['She was big.', predication(unresolvedFemale, 'positive', 'past')]
   ];
 
   for (const [text, expected] of examples) {
@@ -92,7 +96,8 @@ test('STATE-03 analyzes and realizes be as a typed property predication', () => 
     assert.deepEqual(engine.analyze({text: engine.realize({interlingua: meaning, to: 'core'}).text,
       from: 'core'}), expected);
   }
-  assert.deepEqual(engine.analyze({text:'She has a book.',from:'en'}),possession(girl));
+  assert.deepEqual(engine.analyze({text:'She has a book.',from:'en'}),possession(unresolvedFemale));
+  assert.deepEqual(engine.analyze({text:'He is big.',from:'en'}),predication(unresolvedMale));
 });
 
 test('STATE-03 analyzes have and do-support questions as typed possession', () => {
@@ -105,7 +110,7 @@ test('STATE-03 analyzes have and do-support questions as typed possession', () =
   assert.ok(en.verbs.find(item=>item.id==='en.be.state.1').senses
     .some(sense=>sense.coreRef?.id==='grammar.state_copula'));
 
-  const expectedQuestion = question(possession(girl));
+  const expectedQuestion = question(possession(unresolvedFemale));
   const analyzedQuestion = engine.analyze({text: 'Does she have a book?', from: 'en'});
   assert.deepEqual(analyzedQuestion, expectedQuestion);
   const output = engine.realize({interlingua: analyzedQuestion, to: 'en'}).text;
@@ -113,7 +118,7 @@ test('STATE-03 analyzes have and do-support questions as typed possession', () =
   assert.deepEqual(engine.analyze({text: engine.realize({interlingua: analyzedQuestion, to: 'core'}).text,
     from: 'core'}), expectedQuestion);
 
-  const past=question(possession(girl,'indefinite','positive','past'));
+  const past=question(possession(unresolvedFemale,'indefinite','positive','past'));
   const pastQuestion=engine.analyze({text:'Did she have a book?',from:'en'});
   assert.deepEqual(pastQuestion,past);
   const pastOutput=engine.realize({interlingua:pastQuestion,to:'en'}).text;
@@ -125,10 +130,13 @@ test('STATE-03 rejects agreement errors, incomplete clauses and auxiliary collis
     'I is big.', 'I were big.', 'She were big.', 'Does you have a book?',
     'Does she has a book?', 'Did she had a book?',
     'She is.', 'Does she have?', 'Have a book.',
-    'She is reading a book.', 'I have seen the dog.'
+    'I have seen the dog.'
   ]) {
     assert.throws(() => engine.analyze({text, from: 'en'}), undefined, text);
   }
+  const progressive=engine.analyze({text:'She is reading a book.',from:'en'});
+  assert.equal(progressive.type,'event');
+  assert.deepEqual(progressive.roles.agent,unresolvedFemale);
   assert.deepEqual(engine.analyze({text:'I am not big.',from:'en'}),predication(speaker,'negative'));
   assert.deepEqual(engine.analyze({text:'I do not have a book.',from:'en'}),
     possession(speaker,'indefinite','negative'));

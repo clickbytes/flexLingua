@@ -69,7 +69,7 @@
       "author": "flexLingua project contributors; individual entry authors are not recorded",
       "source": "Original project-maintained English lexical entries, including 28 project-authored LEX-01 senses curated in-repository rather than bulk-imported.",
       "license": "Project-authored; no separate SPDX license grant is declared in this repository",
-      "reviewedAt": "2026-10-15",
+      "reviewedAt": "2026-10-17",
       "permittedUse": "Used in flexLingua. No third-party dictionary definitions or protected Oxford lists are included. External reuse requires rights-holder review because this repository declares no separate data license.",
       "authoredBatches": [
         {
@@ -118,6 +118,13 @@
           "source": "Original project-authored bounded English/Polish class-predication and proximal-demonstrative entries; no external lexicon or list copied.",
           "license": "Project-authored; the repository declares no separate data license.",
           "scope": "A1-ENPL-01: proximal demonstratives, a distinct directional class-membership state, and the bounded quality.simple sense."
+        },
+        {
+          "issue": "#171",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored lexical grammatical-gender annotations for English person lexemes used only to check third-person pronoun agreement; no external lexicon data copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "A1-ENPL-08: feminine/masculine agreement metadata for girl, boy, and woman."
         }
       ]
     },
@@ -139,7 +146,7 @@
       "author": "Historical rules are not attributed; SPACE-04 time-deixis mappings are project-authored",
       "source": "Historical flexLingua English grammar rules and the bounded today/tomorrow/yesterday realization map added for SPACE-04",
       "license": "Unconfirmed; no separate license statement is present in this package",
-      "reviewedAt": "2026-10-15",
+      "reviewedAt": "2026-10-17",
       "permittedUse": "Existing in-repository execution only. Do not redistribute or reuse externally until source and rights are reviewed.",
       "migrationNote": "Historical rule authorship and rights remain unconfirmed. The SPACE-04 mappings are project-authored; external redistribution remains blocked pending review. The A2-03 additions are project-authored and remain bounded to the in-repository adapter; no historical data was copied.",
       "authoredBatches": [
@@ -190,6 +197,13 @@
           "source": "Original bounded English grammar frames for purchase and explicit prices; no external rule inventory copied.",
           "license": "Project-authored; the repository declares no separate SPDX data license.",
           "scope": "Controlled present/past purchase and cost frames."
+        },
+        {
+          "issue": "#171",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored English third-person pronoun inventory declared by person, number, and grammatical gender, without mapping pronouns to person concepts.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "A1-ENPL-08: she/he agreement and unresolved third-person parsing."
         }
       ]
     },
@@ -200,7 +214,7 @@
       "author": "Historical rules are not attributed; SPACE-04 time-deixis mappings are project-authored",
       "source": "Historical flexLingua Polish grammar rules and the bounded dziś/dzisiaj/jutro/wczoraj realization map added for SPACE-04",
       "license": "Unconfirmed; no separate license statement is present in this package",
-      "reviewedAt": "2026-10-15",
+      "reviewedAt": "2026-10-17",
       "permittedUse": "Existing in-repository execution only. Do not redistribute or reuse externally until source and rights are reviewed.",
       "migrationNote": "Historical rule authorship and rights remain unconfirmed. The SPACE-04 mappings are project-authored; external redistribution remains blocked pending review. The A2-03 additions are project-authored and remain bounded to the in-repository adapter; no historical data was copied.",
       "authoredBatches": [
@@ -244,6 +258,13 @@
           "source": "Original bounded Polish grammar frames for purchase and explicit prices; no external rule inventory copied.",
           "license": "Project-authored; the repository declares no separate SPDX data license.",
           "scope": "Controlled imperfective kupować/kosztować frames."
+        },
+        {
+          "issue": "#171",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored Polish third-person pronoun inventory declared by person, number, and grammatical gender, without mapping pronouns to person concepts.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "A1-ENPL-08: ona/on agreement and unresolved third-person parsing."
         }
       ]
     },

@@ -5,6 +5,7 @@
     {
       "id": "en.girl.1",
       "lemma": "girl",
+      "gender": "feminine",
       "forms": {
         "singular": "girl",
         "plural": "girls"
@@ -23,6 +24,7 @@
     {
       "id": "en.boy.1",
       "lemma": "boy",
+      "gender": "masculine",
       "forms": {
         "singular": "boy",
         "plural": "boys"
@@ -379,6 +381,7 @@
     {
       "id": "en.woman.1",
       "lemma": "woman",
+      "gender": "feminine",
       "senses": [
         {
           "id": "en.woman.1.sense.1",

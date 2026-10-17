@@ -77,8 +77,13 @@ test('Batch E: direct symbolic graph construction shares only explicitly identic
     {coreference:{'e2.agent':'e2.agent'}}),/earlier/);
 });
 
-test('Batch E: absent pronoun grammar is not silently inferred',()=>{
+test('Batch E: unresolved third person preserves agreement without an invented entity',()=>{
   const engine=make();
   const result=engine.tryTranslate({text:'She sees the dog.',from:'en',to:'pl'});
-  assert.equal(result.ok,false);
+  assert.equal(result.ok,true);
+  assert.equal(result.value.text,'Ona widzi psa.');
+  const meaning=engine.analyzeCandidates({text:'She sees the dog.',from:'en'})[0].interlingua;
+  assert.deepEqual(meaning.roles.agent.referent,
+    {kind:'anaphoric',resolution:'unresolved'});
+  assert.equal(Object.hasOwn(meaning.roles.agent,'concept'),false);
 });
