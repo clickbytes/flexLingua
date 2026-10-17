@@ -193,13 +193,6 @@ export function createTui({runtime, terminal, output = process.stdout, services 
     }
   }
 
-  events.on('newSession', ({activeMode} = {}) => {
-    if (activeMode !== 'chat') return;
-    const view = views[WORKSPACE_MODES.indexOf('chat')];
-    view.onNewSession?.({setFocus: id => setFocus(view, id)});
-    draw();
-  });
-
   function dimensions() {
     return {
       width: positiveSize(terminal.width, positiveSize(output.columns, 80)),
@@ -361,9 +354,7 @@ export function createTui({runtime, terminal, output = process.stdout, services 
       Math.max(0, Math.min(workspaceState.overlayScrollTop, maxStart)) :
       panelOverlayType ? 0 : startIndexFor(modeState, historyRows, layout.history.height);
     if (panelOverlayType === 'settings') {
-      const panel = workspaceState.overlay;
-      const selectedRow = panel.list ? panel.listSelected + 3 :
-        panel.selected + 2;
+      const selectedRow = Math.max(0, historyRows.findIndex(row => row.text.startsWith('›')));
       if (selectedRow < scrollTop) scrollTop = selectedRow;
       if (selectedRow >= scrollTop + layout.history.height) {
         scrollTop = selectedRow - layout.history.height + 1;
@@ -724,7 +715,6 @@ export function createTui({runtime, terminal, output = process.stdout, services 
       state.scrollTop = 0;
       state.lastStatus = '';
       state.status = '';
-      state.confirmReset = false;
       if (pending.type === 'settings_chat_direction') commitSettings(pending.draft);
       workspaceState.pendingConfirmation = null;
       workspaceState.overlay = null;
@@ -738,6 +728,7 @@ export function createTui({runtime, terminal, output = process.stdout, services 
   function handleConfirmationAction(action) {
     const pending = workspaceState.pendingConfirmation;
     if (!pending) return false;
+    if (pending.running) return true;
     if (action.type === 'select_tab') {
       workspaceState.pendingConfirmation = null;
       workspaceState.overlay = null;
