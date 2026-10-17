@@ -68,5 +68,5 @@ export function createChatService(runtime, {language = 'en'} = {}) {
       turnCount: conversation.turnCount, maxTurns: conversation.maxTurns};
   }
 
-  return Object.freeze({language, send, reset});
+  return Object.freeze({language, snapshot: counters, send, reset});
 }
