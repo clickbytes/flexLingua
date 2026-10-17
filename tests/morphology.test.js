@@ -4,7 +4,7 @@ import {readFile} from 'node:fs/promises';
 import {Engine} from '../js/core/engine.js';
 import {createMorphology, materializeInflections} from '../js/core/morphology/engine.js';
 import {createMorphFeatureRegistry,flattenMorphFeatures} from '../js/core/morphology/features.js';
-import {executeOperations} from '../js/core/morphology/operations.js';
+import {executeOperations,validateOperations} from '../js/core/morphology/operations.js';
 import {createCoreLanguage} from '../js/core/core-language.js';
 import {createEnglishAdapter} from '../js/languages/en.js';
 import {createPolishAdapter} from '../js/languages/pl.js';
@@ -118,6 +118,45 @@ test('v1.04 operations support harmony, morphophonology and non-concatenative te
  assert.equal(executeOperations({stem:'t',stems:{root:'كتب'},steps:[{op:'rootTemplate',template:'{1}َ{2}َ{3}َ'}]}).text,'كَتَبَ');
  assert.throws(()=>executeOperations({stem:'go',steps:[{op:'replaceRegex',pattern:'.*'}]}),/Unknown morphology operation/);
  assert.throws(()=>executeOperations({stem:'abc',steps:[{op:'stripSuffix',value:'x'}]}),/does not end/);
+});
+
+test('v1.11 morphology operations require exact arguments and reject unexecuted symbols',()=>{
+ const valid=[
+  {op:'append',value:'s'},
+  {op:'prepend',value:'re'},
+  {op:'appendStem',key:'particle'},
+  {op:'stripSuffix',value:'s'},
+  {op:'replaceSuffix',from:'y',to:'ies'},
+  {op:'selectStem',key:'past'},
+  {op:'harmonicSuffix',template:'lAr'},
+  {op:'softenFinal'},
+  {op:'rootTemplate',template:'{1}a{2}a{3}'},
+  {op:'reduplicate',mode:'whole'}
+ ];
+ for (const step of valid) {
+  assert.equal(validateOperations([step]),true);
+  assert.throws(()=>validateOperations([{...step,unexpected:'value'}]),
+    /Unexpected morphology operation field/);
+ }
+ for (const step of [
+  {op:'append'},
+  {op:'prepend'},
+  {op:'appendStem'},
+  {op:'stripSuffix'},
+  {op:'replaceSuffix',from:'y'},
+  {op:'replaceSuffix',to:'ies'},
+  {op:'selectStem'},
+  {op:'harmonicSuffix'},
+  {op:'rootTemplate'},
+  {op:'reduplicate'}
+ ]) assert.throws(()=>validateOperations([step]),/Invalid morphology operation/);
+ assert.throws(()=>validateOperations([{op:'append',value:''}]),/Invalid morphology operation value/);
+ assert.throws(()=>executeOperations({stem:'kat',steps:[{op:'append'}]}),
+   /Invalid morphology operation/);
+ assert.throws(()=>validateOperations([{op:'harmonicSuffix',template:'D'}]),
+   /Invalid vowel-harmony template/);
+ assert.equal(executeOperations({stem:'kitap',steps:[{op:'harmonicSuffix',template:'A'}]}).text,
+   'kitapa');
 });
 
 test('v1.05 irregulars and stem variants are data, not branches in JS',()=>{

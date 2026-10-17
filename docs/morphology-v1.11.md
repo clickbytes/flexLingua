@@ -47,6 +47,8 @@ Morphology requests may express supported agreement dimensions as flat keys or u
 
 The interpreter rejects unknown operations, unsafe identifiers, conflicting overrides, impossible feature values, cyclic paradigm inheritance, path injection and oversized inventories. It limits rule steps, slots, lexemes and precomputed forms. The inverse index is built once per package in browser memory. **This is a finite mapping compiler, not a genuine weighted or two-level FST;** replacing it with an optimized backend can be a later stage.
 
+Each operation has a closed argument schema and is validated when a paradigm is registered as well as before direct execution. Missing required values, unexpected fields, and empty values where the operation requires content are rejected before any step runs. `harmonicSuffix` computes only the `A` and `I` vowel-harmony symbols; unsupported macros such as `D` are rejected rather than emitted literally.
+
 ### Generation and reverse analysis
 
 ```js
