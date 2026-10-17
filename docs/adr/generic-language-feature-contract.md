@@ -181,6 +181,25 @@ GEN-20 #198 ma sprawdzać macierz i dowody, nie tworzyć globalnego union. GEN-1
 tożsamości wzmianki #194 i ADR liczności #195 pozostają odrębne; ich semantyk
 nie jest częścią tego kontraktu.
 
+### GEN-09: mapowanie ról na przypadki
+
+Gdy profil zawiera `syntactic.case`, wartości `frame.cases`, alternacji oraz
+znaczników pytań muszą należeć do tego inwentarza. To samo nazewnictwo jest
+dostępne w domenie morfologii pakietu, a analiza i realizacja korzystają z tych
+samych deklaracji ramy. Przypadek pozostaje wykładnikiem języka; nie jest
+dodawany do ról ani referentów CORE.
+
+Jeśli profil pomija `syntactic.case`, język jest bezprzypadkowy: szyk w
+`linearizations` rozróżnia role, rzeczowniki nie mają placeholdera `{case}`,
+a `frame.cases` można pominąć. Ramy stanów, które wymagają jawnego pola,
+używają `null`, aby oznaczyć brak wykładnika przypadku. Nie wprowadza się
+sztucznej końcówki ani domyślnego przypadku.
+
+`tests/generic-case-systems.test.js` przeprowadza ręcznie opisane mini-pipeline
+EN → CORE → język testowy → CORE dla profili 0-, 2- i 10-przypadkowego.
+Wariant 10-przypadkowy sprawdza dwadzieścia komórek liczby i przypadku dla
+leksemu, dwa przyporządkowania ról oraz round-trip składni.
+
 ## Testy i dowody do zachowania
 
 GEN-06 nie zmienia runtime, więc nie uruchamia testów. Przy wdrażaniu profilu

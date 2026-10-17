@@ -28,3 +28,9 @@ na funkcje składniowe, kontrolery uzgodnienia i cechy formy. Wersjonowany most
 oraz profile możliwości języka opisuje
 [ADR ogólnego kontraktu cech językowych](generic-language-feature-contract.md).
 Kontrakt v1.0 pozostaje kompatybilny; migracja nowej funkcji jest opt-in.
+
+`createRuleAdapter(dictionary, grammar, {featureProfile})` może dodatkowo
+otrzymać wersjonowany profil `LanguageFeatureProfile` 1.0. Jeśli definiuje on
+`syntactic.case`, gramatyka i morfologia walidują nazwy przypadków względem tego
+inwentarza. Jeśli wymiaru brakuje, język jest bezprzypadkowy: szyk ramy
+identyfikuje role, a konfiguracja nie wymaga końcówek przypadków.
