@@ -7,7 +7,7 @@ import {createDiscourse, createDialogueAct, validateMeaningGraph,
   from './meaning-graph.js';
 import {record, safeName} from './features.js';
 import {splitSentences} from './text.js';
-import {applyPersonalityProfile, createPersonalityProfile} from './personality.js';
+import {createPersonalityProfile} from './personality.js';
 import {SessionMemory} from './memory.js';
 import {parseMemoryDocument,serializeMemory} from './memory-store.js';
 
@@ -331,6 +331,7 @@ export class ConversationContext {
       return {
         text:output.text,warnings:[...(output.warnings||[])],
         alternatives:output.alternatives||[],
+        informationLoss:output.informationLoss||[],diagnostics:output.diagnostics||[],
         interlingua:question,dialogueAct:act,conversation:session.interlingua,
         eventCount:this.#events.length,turnCount:this.#turns.length,focus:session.focus
       };
@@ -376,10 +377,10 @@ export class ConversationContext {
           target.subjectPronounFor?.(ref)===surface)
           .map(([role])=>this.#root('e'+(index+1)+'.'+role)))):new Set();
       if(surface && possibleOrigins.size===1 && possibleOrigins.has(antecedent.root)){
-        const realized=target.realize(event,{subjectPronoun:surface});
-        output=applyPersonalityProfile({...baseline,text:realized.text,
-          alternatives:realized.alternatives||[],
-          warnings:[...new Set([...(baseline.warnings||[]),...(realized.warnings||[])])]},personality);
+        const realized=this.#engine.realize({interlingua:event,to,...profileOptions,
+          subjectPronoun:surface});
+        output={...realized,
+          warnings:[...new Set([...(baseline.warnings||[]),...(realized.warnings||[])])]};
         pronounized=true;
       } else {
         output={...baseline,warnings:[...(baseline.warnings||[]),
@@ -398,6 +399,7 @@ export class ConversationContext {
     return {
       text:output.text, warnings:[...(output.warnings||[])],
       alternatives:output.alternatives||[],
+      informationLoss:output.informationLoss||[],diagnostics:output.diagnostics||[],
       interlingua:event,dialogueAct:act,conversation:graph?structuredClone(graph):null,
       eventCount:events.length,turnCount:this.#turns.length,
       focus:structuredClone(turn.focus),
@@ -416,7 +418,11 @@ export class ConversationContext {
         /Conversation context limit|Conversation turn limit/.test(error.message)?'CONTEXT_LIMIT':
         /supported semantic reading|requires one event/.test(error.message)?
           'UNSUPPORTED_CONSTRUCTION':'INVALID_INPUT');
-      return {ok:false,error:{code,message:error.message}};
+      const diagnostics=Array.isArray(error?.diagnostics)&&error.diagnostics.length ?
+        structuredClone(error.diagnostics):[{code,message:error.message}];
+      return {ok:false,error:{code,message:error.message,
+        ...(error?.status?{status:error.status}:{}),
+        diagnostics},diagnostics};
     }
   }
 }

@@ -213,7 +213,7 @@ export class Engine {
     if(to!=='core')this.plugin(to);
     const plan = this.planResponse({question,facts,clarifyQuestion,referenceContext});
     if (!plan.realization) {
-      return {plan,text:null,warnings:[],alternatives:[],informationLoss:[]};
+      return {plan,text:null,warnings:[],alternatives:[],informationLoss:[],diagnostics:[]};
     }
     const output = this.realize({interlingua:plan.realization,to,profile:personality});
     const style=personality.realization.replyStyles[to]||'standard';
@@ -221,7 +221,8 @@ export class Engine {
     const styled=plugin?.styleReply ? plugin.styleReply(output,style) : output;
     return {plan,text:styled.text,warnings:[...(styled.warnings||[])],
       alternatives:[...(styled.alternatives||[])],
-      informationLoss:[...(styled.informationLoss||[])]};
+      informationLoss:[...(styled.informationLoss||[])],
+      diagnostics:[...(styled.diagnostics||[])]};
   }
 
   /** Create a multi-turn orchestration facade over this Engine. */
@@ -785,7 +786,7 @@ export class Engine {
   }
 
   realize({ interlingua, to, pronounRealization='repeat', profile,
-    lexicalRegister='neutral',informationStructure,construction }) {
+    lexicalRegister='neutral',informationStructure,construction,subjectPronoun }) {
     const personality=createPersonalityProfile(profile);
     if (profile !== undefined) pronounRealization=personality.realization.pronounRealization;
     if(!['repeat','safe'].includes(pronounRealization))
@@ -802,11 +803,12 @@ export class Engine {
     }
     if (to === 'core') {
       return {text:JSON.stringify(interlingua,null,2),warnings:[],alternatives:[],
-        informationLoss:[],interlingua};
+        informationLoss:[],diagnostics:[],interlingua};
     }
     const plugin=this.plugin(to);
     const context={lexicalRegister,
       ...(construction===undefined?{}:{construction}),
+      ...(subjectPronoun===undefined?{}:{subjectPronoun}),
       ...(informationStructure===undefined?{}:{informationStructure})};
     try {
       const output=this.pluginRealization(plugin,interlingua,context);
@@ -818,12 +820,13 @@ export class Engine {
       materializeEvent(interlingua,event),context));
     const warnings=parts.flatMap((part,index)=>(part.warnings||[])
       .map(warning=>'Event '+(index+1)+': '+warning));
+    const diagnostics=parts.flatMap(part=>part.diagnostics||[]);
     if(pronounRealization==='safe' && interlingua.events.length>1) {
       warnings.push('Safe discourse pronouns are not declared by this plugin; noun phrases were repeated.');
     }
     return applyPersonalityProfile({status:'ok',
       text:parts.map(part=>part.text).join(' '),interlingua,warnings,alternatives:[],
-      informationLoss:parts.flatMap(part=>part.informationLoss||[]),diagnostics:[]},personality);
+      informationLoss:parts.flatMap(part=>part.informationLoss||[]),diagnostics},personality);
   }
 
   /** Stable discovery view built from registered LanguagePlugins and their providers. */
@@ -874,7 +877,8 @@ export class Engine {
         'UNSUPPORTED_LANGUAGE' : /UNRESOLVED_DEIXIS/i.test(error.message) ?
         'UNRESOLVED_DEIXIS' : /Missing|No .*lexeme|No .*form|no complement|no .*construction|no .*quantifier|does not match|Cannot realize|Unsupported question construction|Unsupported state construction|Unsupported modal|prohibition not available/.test(error.message) ?
         'UNSUPPORTED_CONSTRUCTION' : 'INVALID_INPUT'), message: error.message,
-        ...(error?.status?{status:error.status}:{}) } };
+        ...(error?.status?{status:error.status}:{}),
+        ...(Array.isArray(error?.diagnostics)?{diagnostics:structuredClone(error.diagnostics)}:{}) } };
     }
   }
 
@@ -913,6 +917,7 @@ export class Engine {
     return {
       ...best.output,
       warnings,
+      diagnostics:[...(best.output.diagnostics||[])],
       lexicalSenses: best.lexicalSenses,
       semanticAlternatives: others.map(other => ({
         text: other.output.text, interlingua: other.interlingua,

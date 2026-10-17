@@ -241,6 +241,9 @@ export function normalizeAnalysisResult(result) {
   if (result.status === 'ok' && readings.length < 1) {
     invalidResult('Successful analysis must contain at least one reading.');
   }
+  if (result.status === 'ok' && diagnostics.length) {
+    invalidResult('Successful analysis cannot contain refusal diagnostics.');
+  }
   if (result.status === 'ambiguous' && readings.length < 2) {
     invalidResult('Ambiguous analysis must contain at least two readings.');
   }
@@ -272,24 +275,24 @@ function validateInformationLoss(value) {
 
 /** Validate and normalize the single public realization result shape. */
 export function normalizeRealizationResult(result) {
-  if (!hasExactKeys(result, ['status', 'diagnostics'],
-      ['text', 'alternatives', 'warnings', 'informationLoss']) ||
+  if (!hasExactKeys(result, ['status', 'text', 'alternatives', 'warnings',
+      'informationLoss', 'diagnostics']) ||
       !PLUGIN_RESULT_STATUSES.includes(result.status) ||
-      (owns(result, 'text') && result.text !== null && typeof result.text !== 'string')) {
+      (result.text !== null && typeof result.text !== 'string')) {
     invalidResult('Invalid language realization result shape or status.');
   }
   const diagnostics = validateDiagnosticList(result.diagnostics, 'Realization');
-  const alternatives = validateStringList(
-    owns(result, 'alternatives') ? result.alternatives : [], 'alternatives', MAX_ALTERNATIVES);
-  const warnings = validateStringList(
-    owns(result, 'warnings') ? result.warnings : [], 'warnings', MAX_DIAGNOSTICS);
-  const informationLoss = validateInformationLoss(
-    owns(result, 'informationLoss') ? result.informationLoss : []);
-  let text = result.text ?? null;
+  const alternatives = validateStringList(result.alternatives, 'alternatives', MAX_ALTERNATIVES);
+  const warnings = validateStringList(result.warnings, 'warnings', MAX_DIAGNOSTICS);
+  const informationLoss = validateInformationLoss(result.informationLoss);
+  const text = result.text;
 
   if (result.status === 'ok') {
     if (typeof text !== 'string' || !text.trim() || text.length > 4096) {
       invalidResult('Successful realization must contain non-empty text.');
+    }
+    if (diagnostics.length) {
+      invalidResult('Successful realization cannot contain refusal diagnostics.');
     }
     if (alternatives.includes(text)) invalidResult('Primary realization is duplicated as an alternative.');
   } else {
