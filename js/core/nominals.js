@@ -1,4 +1,4 @@
-import { participant, modifier, MAX_ENTITY_MODIFIERS, MAX_MODIFIER_DEPTH } from './interlingua.js';
+import { participant, modifier, MAX_ENTITY_MODIFIERS, MAX_MODIFIER_DEPTH } from './meaning-graph.js';
 import { record, safeName, hasOwn } from './features.js';
 import { matchesTokens } from './text.js';
 

@@ -1,0 +1,464 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://flexlingua.local/schemas/meaning-graph.schema.json",
+  "title": "flexLingua MeaningGraph CORE document",
+  "description": "One versioned language-neutral semantic document. Ontology-dependent roles, feature values, type relations, contextual gaps, graph cycles and graph-wide resource limits are checked by validateMeaningGraph.",
+  "$comment": "The runtime preserves RESOURCE_LIMITS.interlinguaNodes (10000) and interlinguaDepth (32), MAX_CLAUSE_DEPTH (5), MAX_RELATIVE_DEPTH (2), MAX_MODIFIER_DEPTH (3), and their associated breadth limits. JSON Schema expresses the local array and object bounds; validateMeaningGraph remains authoritative for graph-wide limits and ontology-dependent constraints.",
+  "oneOf": [
+    {"$ref": "#/$defs/event"},
+    {"$ref": "#/$defs/state"},
+    {"$ref": "#/$defs/comparison"},
+    {"$ref": "#/$defs/coordination"},
+    {"$ref": "#/$defs/scope"},
+    {"$ref": "#/$defs/complement"},
+    {"$ref": "#/$defs/modality"},
+    {"$ref": "#/$defs/conditional"},
+    {"$ref": "#/$defs/question"},
+    {"$ref": "#/$defs/dialogueAct"},
+    {"$ref": "#/$defs/discourse"}
+  ],
+  "$defs": {
+    "safeName": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_]*$",
+      "not": {"enum": ["__proto__", "prototype", "constructor"]}
+    },
+    "conceptId": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_]*(?:\\.[A-Za-z][A-Za-z0-9_]*)*$",
+      "maxLength": 100
+    },
+    "entityId": {"type": "string", "pattern": "^p[1-9][0-9]*$"},
+    "eventId": {"type": "string", "pattern": "^e[1-8]$"},
+    "eventVersion": {
+      "enum": ["0.2", "0.5", "0.6", "1.0", "1.22", "1.25", "1.26", "1.29", "1.32", "1.34"]
+    },
+    "eventFeatures": {
+      "type": "object",
+      "required": ["tense", "polarity", "aspect"],
+      "properties": {
+        "tense": {"type": "string"},
+        "polarity": {"type": "string"},
+        "aspect": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "stateFeatures": {
+      "type": "object",
+      "required": ["tense", "polarity"],
+      "properties": {
+        "tense": {"type": "string"},
+        "polarity": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "participantFeatures": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["number", "definiteness"],
+          "properties": {
+            "number": {"type": "string"},
+            "definiteness": {"type": "string"}
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["definiteness"],
+          "properties": {"definiteness": {"type": "string"}},
+          "additionalProperties": false
+        }
+      ]
+    },
+    "agreement": {
+      "type": "object",
+      "required": ["person", "number"],
+      "properties": {
+        "person": {"enum": ["first", "second", "third"]},
+        "number": {"enum": ["singular", "plural"]},
+        "gender": {"enum": ["feminine", "masculine"]}
+      },
+      "additionalProperties": false
+    },
+    "typedReferent": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["kind", "anchor"],
+          "properties": {
+            "kind": {"const": "deictic"},
+            "anchor": {"enum": ["speaker", "addressee", "demonstrative"]}
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["kind", "resolution"],
+          "properties": {
+            "kind": {"const": "anaphoric"},
+            "resolution": {"const": "unresolved"}
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "quantity": {
+      "type": "object",
+      "required": ["kind", "value"],
+      "properties": {
+        "kind": {"const": "exact"},
+        "value": {"type": "integer", "minimum": 0, "maximum": 20}
+      },
+      "additionalProperties": false
+    },
+    "quantifier": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["kind"],
+          "properties": {"kind": {"const": "universal"}},
+          "additionalProperties": false
+        },
+        {"$ref": "#/$defs/quantity"}
+      ]
+    },
+    "modifierLeaf": {
+      "type": "object",
+      "required": ["concept"],
+      "properties": {"concept": {"$ref": "#/$defs/conceptId"}},
+      "additionalProperties": false
+    },
+    "modifierMiddle": {
+      "type": "object",
+      "required": ["concept"],
+      "properties": {
+        "concept": {"$ref": "#/$defs/conceptId"},
+        "modifiers": {"type": "array", "minItems": 1, "maxItems": 3, "items": {"$ref": "#/$defs/modifierLeaf"}}
+      },
+      "additionalProperties": false
+    },
+    "modifier": {
+      "type": "object",
+      "required": ["concept"],
+      "properties": {
+        "concept": {"$ref": "#/$defs/conceptId"},
+        "modifiers": {"type": "array", "minItems": 1, "maxItems": 3, "items": {"$ref": "#/$defs/modifierMiddle"}}
+      },
+      "additionalProperties": false
+    },
+    "eventFragment": {
+      "type": "object",
+      "required": ["concept", "roles", "features"],
+      "properties": {
+        "version": {"$ref": "#/$defs/eventVersion"},
+        "type": {"const": "event"},
+        "concept": {"$ref": "#/$defs/conceptId"},
+        "roles": {"$ref": "#/$defs/roleBindings"},
+        "features": {"$ref": "#/$defs/eventFeatures"},
+        "timeReference": {"type": "string"},
+        "clockTime": {"$ref": "#/$defs/clockTime"},
+        "calendarDate": {"$ref": "#/$defs/calendarDate"},
+        "voice": {"const": "passive"},
+        "omittedRoles": {"type": "array", "minItems": 1, "maxItems": 1, "items": {"const": "agent"}}
+      },
+      "dependentRequired": {"version": ["type"], "type": ["version"]},
+      "additionalProperties": false
+    },
+    "event": {
+      "allOf": [
+        {"$ref": "#/$defs/eventFragment"},
+        {
+          "type": "object",
+          "required": ["version", "type"],
+          "properties": {
+            "version": {"$ref": "#/$defs/eventVersion"},
+            "type": {"const": "event"}
+          }
+        }
+      ]
+    },
+    "clockTime": {
+      "type": "object",
+      "required": ["hour", "minute"],
+      "properties": {
+        "hour": {"type": "integer", "minimum": 0, "maximum": 23},
+        "minute": {"type": "integer", "minimum": 0, "maximum": 59}
+      },
+      "additionalProperties": false
+    },
+    "calendarDate": {
+      "type": "object",
+      "required": ["year", "month", "day"],
+      "properties": {
+        "year": {"type": "integer", "minimum": 1, "maximum": 9999},
+        "month": {"type": "integer", "minimum": 1, "maximum": 12},
+        "day": {"type": "integer", "minimum": 1, "maximum": 31}
+      },
+      "additionalProperties": false
+    },
+    "roleBindings": {
+      "type": "object",
+      "propertyNames": {"$ref": "#/$defs/safeName"},
+      "additionalProperties": {"$ref": "#/$defs/referent"}
+    },
+    "referent": {
+      "oneOf": [
+        {"$ref": "#/$defs/entityReferent"},
+        {"$ref": "#/$defs/typedParticipant"}
+      ]
+    },
+    "entityReferent": {
+      "type": "object",
+      "required": ["concept", "features"],
+      "properties": {
+        "concept": {"$ref": "#/$defs/conceptId"},
+        "features": {"$ref": "#/$defs/participantFeatures"},
+        "possessor": {"$ref": "#/$defs/referent"},
+        "modifiers": {"type": "array", "minItems": 1, "maxItems": 3, "items": {"$ref": "#/$defs/modifier"}},
+        "quantifier": {"$ref": "#/$defs/quantifier"},
+        "quantity": {"$ref": "#/$defs/quantity"},
+        "relatives": {"type": "array", "minItems": 1, "maxItems": 2, "items": {"$ref": "#/$defs/relativeClause"}},
+        "demonstrative": {"const": "proximal"}
+      },
+      "additionalProperties": false
+    },
+    "typedParticipant": {
+      "type": "object",
+      "required": ["referent", "agreement"],
+      "properties": {
+        "referent": {"$ref": "#/$defs/typedReferent"},
+        "agreement": {"$ref": "#/$defs/agreement"}
+      },
+      "additionalProperties": false
+    },
+    "relativeClause": {
+      "type": "object",
+      "required": ["type", "gap", "event"],
+      "properties": {
+        "type": {"const": "relative"},
+        "gap": {"$ref": "#/$defs/safeName"},
+        "event": {"$ref": "#/$defs/eventFragment"}
+      },
+      "additionalProperties": false
+    },
+    "state": {
+      "oneOf": [
+        {"$ref": "#/$defs/identityState"},
+        {"$ref": "#/$defs/predicationState"},
+        {"$ref": "#/$defs/classificationState"},
+        {"$ref": "#/$defs/possessionState"},
+        {"$ref": "#/$defs/locationState"},
+        {"$ref": "#/$defs/existenceState"}
+      ]
+    },
+    "identityState": {
+      "type": "object",
+      "required": ["version", "type", "kind", "roles", "features"],
+      "properties": {
+        "version": {"enum": ["1.23", "1.26", "1.32"]}, "type": {"const": "state"}, "kind": {"const": "identity"},
+        "roles": {"type": "object", "required": ["subject", "complement"], "properties": {"subject": {"$ref": "#/$defs/referent"}, "complement": {"$ref": "#/$defs/referent"}}, "additionalProperties": false},
+        "features": {"$ref": "#/$defs/stateFeatures"}
+      },
+      "additionalProperties": false
+    },
+    "predicationState": {
+      "type": "object",
+      "required": ["version", "type", "kind", "predicate", "roles", "features"],
+      "properties": {
+        "version": {"enum": ["1.23", "1.26", "1.32"]}, "type": {"const": "state"}, "kind": {"const": "predication"}, "predicate": {"$ref": "#/$defs/conceptId"},
+        "roles": {"type": "object", "required": ["subject"], "properties": {"subject": {"$ref": "#/$defs/referent"}}, "additionalProperties": false},
+        "features": {"$ref": "#/$defs/stateFeatures"}
+      },
+      "additionalProperties": false
+    },
+    "classificationState": {
+      "type": "object",
+      "required": ["version", "type", "kind", "roles", "features"],
+      "properties": {
+        "version": {"enum": ["1.31", "1.32"]}, "type": {"const": "state"}, "kind": {"const": "classification"},
+        "roles": {"type": "object", "required": ["subject", "category"], "properties": {"subject": {"$ref": "#/$defs/referent"}, "category": {"$ref": "#/$defs/referent"}}, "additionalProperties": false},
+        "features": {"$ref": "#/$defs/stateFeatures"}
+      },
+      "additionalProperties": false
+    },
+    "possessionState": {
+      "type": "object",
+      "required": ["version", "type", "kind", "roles", "features"],
+      "properties": {
+        "version": {"enum": ["1.23", "1.26", "1.32"]}, "type": {"const": "state"}, "kind": {"const": "possession"},
+        "roles": {"type": "object", "required": ["owner", "owned"], "properties": {"owner": {"$ref": "#/$defs/referent"}, "owned": {"$ref": "#/$defs/referent"}}, "additionalProperties": false},
+        "features": {"$ref": "#/$defs/stateFeatures"}
+      },
+      "additionalProperties": false
+    },
+    "locationState": {
+      "type": "object",
+      "required": ["version", "type", "kind", "roles", "features", "relation"],
+      "properties": {
+        "version": {"enum": ["1.23", "1.26", "1.32"]}, "type": {"const": "state"}, "kind": {"const": "location"},
+        "roles": {"type": "object", "required": ["subject", "location"], "properties": {"subject": {"$ref": "#/$defs/referent"}, "location": {"$ref": "#/$defs/referent"}}, "additionalProperties": false},
+        "features": {"$ref": "#/$defs/stateFeatures"}, "relation": {"enum": ["interior", "surface", "point"]}
+      },
+      "additionalProperties": false
+    },
+    "existenceState": {
+      "type": "object",
+      "required": ["version", "type", "kind", "roles", "features", "relation"],
+      "properties": {
+        "version": {"const": "1.33"}, "type": {"const": "state"}, "kind": {"const": "existence"},
+        "roles": {"type": "object", "required": ["entity", "location"], "properties": {"entity": {"$ref": "#/$defs/referent"}, "location": {"$ref": "#/$defs/referent"}}, "additionalProperties": false},
+        "features": {"$ref": "#/$defs/stateFeatures"}, "relation": {"enum": ["interior", "surface", "point"]}
+      },
+      "additionalProperties": false
+    },
+    "whLocationGapState": {
+      "type": "object",
+      "required": ["version", "type", "kind", "roles", "features", "relation"],
+      "properties": {
+        "version": {"enum": ["1.23", "1.26"]}, "type": {"const": "state"}, "kind": {"const": "location"},
+        "roles": {"type": "object", "required": ["subject"], "properties": {"subject": {"$ref": "#/$defs/referent"}}, "additionalProperties": false},
+        "features": {"$ref": "#/$defs/stateFeatures"}, "relation": {"const": "unspecified"}
+      },
+      "additionalProperties": false
+    },
+    "comparison": {
+      "type": "object",
+      "required": ["version", "type", "predicate", "relation", "roles", "features"],
+      "properties": {
+        "version": {"const": "1.27"}, "type": {"const": "comparison"}, "predicate": {"$ref": "#/$defs/conceptId"},
+        "relation": {"enum": ["greater", "less"]},
+        "roles": {"type": "object", "required": ["subject", "standard"], "properties": {"subject": {"$ref": "#/$defs/referent"}, "standard": {"$ref": "#/$defs/referent"}}, "additionalProperties": false},
+        "features": {"$ref": "#/$defs/stateFeatures"}
+      },
+      "additionalProperties": false
+    },
+    "coordination": {
+      "type": "object",
+      "required": ["version", "type", "connective", "clauses"],
+      "properties": {
+        "version": {"const": "0.6"}, "type": {"const": "coordination"}, "connective": {"const": "and"},
+        "clauses": {"type": "array", "minItems": 2, "maxItems": 4, "items": {"oneOf": [{"$ref": "#/$defs/event"}, {"$ref": "#/$defs/modality"}, {"$ref": "#/$defs/scope"}, {"$ref": "#/$defs/comparison"}, {"$ref": "#/$defs/complement"}]}}
+      },
+      "additionalProperties": false
+    },
+    "scope": {
+      "type": "object",
+      "required": ["version", "type", "operator", "operand"],
+      "properties": {
+        "version": {"enum": ["0.6", "1.0", "1.20", "1.30"]}, "type": {"const": "scope"}, "operator": {"const": "not"},
+        "operand": {"$ref": "#/$defs/clause"}
+      },
+      "additionalProperties": false
+    },
+    "complementContent": {
+      "oneOf": [{"$ref": "#/$defs/event"}, {"$ref": "#/$defs/coordination"}, {"$ref": "#/$defs/scope"}, {"$ref": "#/$defs/complement"}, {"$ref": "#/$defs/modality"}]
+    },
+    "complement": {
+      "type": "object",
+      "required": ["version", "type", "concept", "experiencer", "content", "features"],
+      "properties": {
+        "version": {"const": "1.0"}, "type": {"const": "complement"}, "concept": {"$ref": "#/$defs/conceptId"},
+        "experiencer": {"$ref": "#/$defs/referent"}, "content": {"$ref": "#/$defs/complementContent"},
+        "features": {"type": "object", "required": ["tense"], "properties": {"tense": {"enum": ["past", "present", "future"]}}, "additionalProperties": false}
+      },
+      "additionalProperties": false
+    },
+    "modality": {
+      "type": "object",
+      "required": ["version", "type", "operator", "operand"],
+      "properties": {
+        "version": {"const": "1.20"}, "type": {"const": "modality"},
+        "operator": {"enum": ["modality.ability", "modality.obligation", "modality.intention"]},
+        "operand": {"oneOf": [{"$ref": "#/$defs/event"}, {"$ref": "#/$defs/scope"}]}
+      },
+      "additionalProperties": false
+    },
+    "conditional": {
+      "type": "object",
+      "required": ["version", "type", "kind", "condition", "consequence"],
+      "properties": {
+        "version": {"const": "1.30"}, "type": {"const": "conditional"}, "kind": {"const": "real"},
+        "condition": {"oneOf": [{"$ref": "#/$defs/event"}, {"$ref": "#/$defs/scope"}]},
+        "consequence": {"oneOf": [{"$ref": "#/$defs/event"}, {"$ref": "#/$defs/modality"}, {"$ref": "#/$defs/scope"}]},
+        "otherwise": {"oneOf": [{"$ref": "#/$defs/event"}, {"$ref": "#/$defs/modality"}, {"$ref": "#/$defs/scope"}]}
+      },
+      "additionalProperties": false
+    },
+    "clause": {
+      "oneOf": [{"$ref": "#/$defs/event"}, {"$ref": "#/$defs/state"}, {"$ref": "#/$defs/comparison"}, {"$ref": "#/$defs/coordination"}, {"$ref": "#/$defs/scope"}, {"$ref": "#/$defs/complement"}, {"$ref": "#/$defs/modality"}, {"$ref": "#/$defs/conditional"}]
+    },
+    "yesNoQuestion": {
+      "type": "object",
+      "required": ["version", "type", "questionType", "proposition"],
+      "properties": {"version": {"const": "1.19"}, "type": {"const": "question"}, "questionType": {"const": "yes_no"}, "proposition": {"$ref": "#/$defs/clause"}},
+      "additionalProperties": false
+    },
+    "whQuestion": {
+      "type": "object",
+      "required": ["version", "type", "questionType", "targetRole", "proposition"],
+      "properties": {
+        "version": {"const": "1.19"}, "type": {"const": "question"}, "questionType": {"const": "wh"},
+        "targetRole": {"$ref": "#/$defs/safeName"},
+        "proposition": {"oneOf": [{"$ref": "#/$defs/clause"}, {"$ref": "#/$defs/whLocationGapState"}]}
+      },
+      "additionalProperties": false
+    },
+    "question": {"oneOf": [{"$ref": "#/$defs/yesNoQuestion"}, {"$ref": "#/$defs/whQuestion"}]},
+    "dialogueContext": {"oneOf": [{"$ref": "#/$defs/clause"}, {"$ref": "#/$defs/question"}]},
+    "dialogueAct": {
+      "oneOf": [
+        {"type": "object", "required": ["version", "type", "act", "payload"], "properties": {"version": {"const": "1.24"}, "type": {"const": "dialogue_act"}, "act": {"const": "assert"}, "payload": {"type": "object", "required": ["proposition"], "properties": {"proposition": {"$ref": "#/$defs/clause"}}, "additionalProperties": false}}, "additionalProperties": false},
+        {"type": "object", "required": ["version", "type", "act", "payload"], "properties": {"version": {"const": "1.24"}, "type": {"const": "dialogue_act"}, "act": {"const": "ask"}, "payload": {"type": "object", "required": ["question"], "properties": {"question": {"$ref": "#/$defs/question"}}, "additionalProperties": false}}, "additionalProperties": false},
+        {"type": "object", "required": ["version", "type", "act", "payload"], "properties": {"version": {"const": "1.24"}, "type": {"const": "dialogue_act"}, "act": {"const": "answer"}, "payload": {"type": "object", "required": ["question", "response"], "properties": {"question": {"$ref": "#/$defs/question"}, "response": {"oneOf": [{"type": "object", "required": ["type", "value"], "properties": {"type": {"const": "yes_no"}, "value": {"type": "boolean"}}, "additionalProperties": false}, {"type": "object", "required": ["type", "value"], "properties": {"type": {"const": "referent"}, "value": {"$ref": "#/$defs/referent"}}, "additionalProperties": false}]}}, "additionalProperties": false}}, "additionalProperties": false},
+        {"type": "object", "required": ["version", "type", "act", "payload"], "properties": {"version": {"const": "1.24"}, "type": {"const": "dialogue_act"}, "act": {"const": "confirm"}, "payload": {"type": "object", "required": ["question"], "properties": {"question": {"$ref": "#/$defs/yesNoQuestion"}}, "additionalProperties": false}}, "additionalProperties": false},
+        {"type": "object", "required": ["version", "type", "act", "payload"], "properties": {"version": {"const": "1.24"}, "type": {"const": "dialogue_act"}, "act": {"const": "clarify"}, "payload": {"type": "object", "required": ["inReplyTo", "question"], "properties": {"inReplyTo": {"$ref": "#/$defs/dialogueContext"}, "question": {"$ref": "#/$defs/question"}}, "additionalProperties": false}}, "additionalProperties": false},
+        {"type": "object", "required": ["version", "type", "act", "payload"], "properties": {"version": {"const": "1.24"}, "type": {"const": "dialogue_act"}, "act": {"const": "refuse"}, "payload": {"type": "object", "required": ["question", "reason"], "properties": {"question": {"$ref": "#/$defs/question"}, "reason": {"enum": ["ambiguous", "insufficient_context", "unsupported", "out_of_scope"]}}, "additionalProperties": false}}, "additionalProperties": false},
+        {"type": "object", "required": ["version", "type", "act", "payload"], "properties": {"version": {"const": "1.24"}, "type": {"const": "dialogue_act"}, "act": {"const": "request"}, "payload": {"type": "object", "required": ["action", "politeness"], "properties": {"action": {"$ref": "#/$defs/event"}, "politeness": {"const": "polite"}}, "additionalProperties": false}}, "additionalProperties": false}
+      ]
+    },
+    "discourseRoleBindings": {
+      "type": "object",
+      "propertyNames": {"$ref": "#/$defs/safeName"},
+      "additionalProperties": {"$ref": "#/$defs/entityId"}
+    },
+    "discourseEvent": {
+      "type": "object",
+      "required": ["id", "concept", "roles", "features"],
+      "properties": {
+        "id": {"$ref": "#/$defs/eventId"}, "concept": {"$ref": "#/$defs/conceptId"},
+        "roles": {"$ref": "#/$defs/discourseRoleBindings"}, "features": {"$ref": "#/$defs/eventFeatures"},
+        "timeReference": {"type": "string"}, "clockTime": {"$ref": "#/$defs/clockTime"}, "calendarDate": {"$ref": "#/$defs/calendarDate"},
+        "voice": {"const": "passive"}, "omittedRoles": {"type": "array", "minItems": 1, "maxItems": 1, "items": {"const": "agent"}}
+      },
+      "additionalProperties": false
+    },
+    "discourseRelation": {
+      "type": "object",
+      "required": ["from", "to", "type"],
+      "properties": {
+        "from": {"$ref": "#/$defs/eventId"}, "to": {"$ref": "#/$defs/eventId"},
+        "type": {"enum": ["precedes", "event_relation.before", "event_relation.after", "event_relation.because"]}
+      },
+      "additionalProperties": false
+    },
+    "discourse": {
+      "type": "object",
+      "required": ["version", "type", "entities", "events", "relations"],
+      "properties": {
+        "version": {"enum": ["0.4", "0.5", "0.6", "1.25", "1.26", "1.28", "1.29"]},
+        "type": {"const": "discourse"},
+        "entities": {"type": "object", "propertyNames": {"$ref": "#/$defs/entityId"}, "additionalProperties": {"$ref": "#/$defs/referent"}},
+        "events": {"type": "array", "minItems": 2, "maxItems": 8, "items": {"$ref": "#/$defs/discourseEvent"}},
+        "relations": {"type": "array", "minItems": 1, "maxItems": 63, "items": {"$ref": "#/$defs/discourseRelation"}}
+      },
+      "additionalProperties": false
+    },
+    "coreferenceLinks": {
+      "type": "object",
+      "maxProperties": 32,
+      "propertyNames": {"type": "string", "pattern": "^e[1-8]\\.[A-Za-z][A-Za-z0-9_]*$"},
+      "additionalProperties": {"type": "string", "pattern": "^e[1-8]\\.[A-Za-z][A-Za-z0-9_]*$"}
+    }
+  }
+}

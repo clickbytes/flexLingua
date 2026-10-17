@@ -1,4 +1,4 @@
-import { createDiscourse, createEventRelation, createCoordination, createNegation, createComplement, createConditional, createInformationStructure, materializeEvent, validateInterlingua, MAX_DISCOURSE_EVENTS, QUESTION_VERSION, MODALITY_VERSION, STATE_VERSION, DIALOGUE_ACT_VERSION, PASSIVE_VERSION, CONDITIONAL_VERSION, validateCoreferenceMap, sameDiscourseReferent } from './interlingua.js';
+import { createDiscourse, createEventRelation, createCoordination, createNegation, createComplement, createConditional, createInformationStructure, materializeEvent, validateMeaningGraph, MAX_DISCOURSE_EVENTS, QUESTION_VERSION, MODALITY_VERSION, STATE_VERSION, DIALOGUE_ACT_VERSION, PASSIVE_VERSION, CONDITIONAL_VERSION, validateCoreferenceMap, sameDiscourseReferent } from './meaning-graph.js';
 import { createFeatureRegistry, record, safeName, hasOwn } from './features.js';
 import { createCoreLanguage } from './core-language.js';
 import { splitSentences } from './text.js';
@@ -294,7 +294,7 @@ export class Engine {
           roles:{...second.interlingua.roles,[adapter.subjectRole]:h.ref}};
         const coreference={['e2.'+adapter.subjectRole]:'e1.'+h.role};
         const meaning=createDiscourse([h.item.interlingua,normalized],{coreference});
-        validateInterlingua(meaning,this.ontology,this.features);
+        validateMeaningGraph(meaning,this.ontology,this.features);
         readings.push({interlingua:meaning,
           lexicalSenses:{e1:h.item.lexicalSenses,e2:second.lexicalSenses},
           score:(h.item.score||0)+(second.score||0),
@@ -392,7 +392,7 @@ export class Engine {
     }
     return states.map(state=>{
       const interlingua=createDiscourse(state.events,{coreference:state.links});
-      validateInterlingua(interlingua,this.ontology,this.features);
+      validateMeaningGraph(interlingua,this.ontology,this.features);
       return {interlingua,lexicalSenses:state.lexicalSenses,score:state.score,
         anaphoraTrace:state.trace};
     });
@@ -478,7 +478,7 @@ export class Engine {
         for(const alternative of alternatives) {
           const proposition=createConditional(condition.interlingua,
             consequence.interlingua,alternative?.interlingua);
-          try { validateInterlingua(proposition,this.ontology,this.features); }
+          try { validateMeaningGraph(proposition,this.ontology,this.features); }
           catch(error) {
             if(error.code!=='INTERLINGUA_INVALID')throw error;
             continue;
@@ -619,7 +619,7 @@ export class Engine {
         throw new EngineError('CORE_JSON_INVALID','Invalid CORE JSON document.',{cause:error});
       }
       assertSafeCoreJsonGraph(meaning);
-      try { validateInterlingua(meaning, this.ontology, this.features); }
+      try { validateMeaningGraph(meaning, this.ontology, this.features); }
       catch (error) {
         if(isResourceLimitError(error))throw error;
         throw new EngineError('CORE_SCHEMA_INVALID',error.message,{cause:error});
@@ -652,7 +652,7 @@ export class Engine {
         .sort((a,b)=>b.score-a.score).slice(0,MAX_CANDIDATES);
       if(!candidates.length)throw new Error('No semantic question reading matches context constraints.');
       return candidates.map(candidate=>{
-        validateInterlingua(candidate.interlingua,this.ontology,this.features);
+        validateMeaningGraph(candidate.interlingua,this.ontology,this.features);
         return candidate;
       });
     }
@@ -691,7 +691,7 @@ export class Engine {
             .sort((a,b)=>b.score-a.score).slice(0,MAX_CANDIDATES);
           if(!candidates.length)throw new Error('No semantic reading matches the context constraints.');
           return candidates.map(candidate=>{
-            validateInterlingua(candidate.interlingua,this.ontology,this.features);
+            validateMeaningGraph(candidate.interlingua,this.ontology,this.features);
             return candidate;
           });
         }
@@ -727,7 +727,7 @@ export class Engine {
     });
     if (scored.length === 1) {
       return scored[0].map(candidate => {
-        validateInterlingua(candidate.interlingua, this.ontology, this.features);
+        validateMeaningGraph(candidate.interlingua, this.ontology, this.features);
         return candidate;
       });
     }
@@ -774,7 +774,7 @@ export class Engine {
         {coreference:settings.coreference || {},
           relations:(settings.eventRelations||[]).map(edge=>
             createEventRelation(edge.type,edge.from,edge.to))});
-      validateInterlingua(interlingua, this.ontology, this.features);
+      validateMeaningGraph(interlingua, this.ontology, this.features);
       return { interlingua, lexicalSenses: combination.senses, score: combination.score };
     });
   }
@@ -792,7 +792,7 @@ export class Engine {
       throw new EngineError('INVALID_INPUT','Invalid pronoun realization policy.',{status:'invalid'});
     if(!['neutral','formal','plain'].includes(lexicalRegister))
       throw new EngineError('INVALID_INPUT','Invalid lexical register.',{status:'invalid'});
-    validateInterlingua(interlingua, this.ontology, this.features);
+    validateMeaningGraph(interlingua, this.ontology, this.features);
     if(informationStructure!==undefined) {
       const expected=createInformationStructure(interlingua,informationStructure);
       if(Object.keys(informationStructure).length!==2 ||
