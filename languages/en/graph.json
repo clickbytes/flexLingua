@@ -43,6 +43,13 @@
       "capability": "event.visual_perception"
     },
     {
+      "id": "en.syntax.visual-attention",
+      "type": "syntax",
+      "module": "grammar",
+      "path": "grammar.json",
+      "capability": "event.visual_attention"
+    },
+    {
       "id": "en.syntax.classification",
       "type": "syntax",
       "module": "grammar",
@@ -70,6 +77,11 @@
     },
     {
       "from": "en.bridge",
+      "to": "en.syntax.visual-attention",
+      "relation": "maps-to"
+    },
+    {
+      "from": "en.bridge",
       "to": "en.syntax.classification",
       "relation": "maps-to"
     },
@@ -80,6 +92,16 @@
     },
     {
       "from": "en.syntax.visual-perception",
+      "to": "en.morphology",
+      "relation": "licenses"
+    },
+    {
+      "from": "en.syntax.visual-attention",
+      "to": "en.lexicon",
+      "relation": "licenses"
+    },
+    {
+      "from": "en.syntax.visual-attention",
       "to": "en.morphology",
       "relation": "licenses"
     },
@@ -131,6 +153,11 @@
     {
       "from": "en.evidence",
       "to": "en.syntax.visual-perception",
+      "relation": "evidences"
+    },
+    {
+      "from": "en.evidence",
+      "to": "en.syntax.visual-attention",
       "relation": "evidences"
     },
     {

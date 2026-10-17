@@ -1,0 +1,22 @@
+{
+  "version": "1.02",
+  "language": "fi",
+  "dimensions": {
+    "number": [
+      "singular",
+      "plural"
+    ],
+    "case": [
+      "nominative",
+      "genitive",
+      "partitive",
+      "inessive",
+      "elative",
+      "illative",
+      "adessive",
+      "ablative",
+      "allative",
+      "translative"
+    ]
+  }
+}

@@ -1,0 +1,120 @@
+{
+  "schemaVersion": "1.0",
+  "language": "fi",
+  "nodes": [
+    {
+      "id": "fi.identity",
+      "type": "identity",
+      "module": "identity",
+      "path": "manifest.json"
+    },
+    {
+      "id": "fi.signal",
+      "type": "signal",
+      "module": "signal",
+      "path": "signal.json",
+      "capability": "written"
+    },
+    {
+      "id": "fi.lexicon",
+      "type": "lexicon",
+      "module": "lexicon",
+      "path": "lexicon.json",
+      "capability": "lexeme"
+    },
+    {
+      "id": "fi.features",
+      "type": "morphology",
+      "module": "features",
+      "path": "features.json"
+    },
+    {
+      "id": "fi.morphology",
+      "type": "morphology",
+      "module": "morphology",
+      "path": "morphology.json",
+      "capability": "word"
+    },
+    {
+      "id": "fi.syntax.visual-attention",
+      "type": "syntax",
+      "module": "grammar",
+      "path": "grammar.json",
+      "capability": "event.visual_attention"
+    },
+    {
+      "id": "fi.bridge",
+      "type": "bridge",
+      "module": "bridge",
+      "path": "bridge.json"
+    },
+    {
+      "id": "fi.evidence",
+      "type": "evidence",
+      "module": "evidence",
+      "path": "provenance.json"
+    }
+  ],
+  "edges": [
+    {
+      "from": "fi.bridge",
+      "to": "fi.syntax.visual-attention",
+      "relation": "maps-to"
+    },
+    {
+      "from": "fi.syntax.visual-attention",
+      "to": "fi.lexicon",
+      "relation": "licenses"
+    },
+    {
+      "from": "fi.syntax.visual-attention",
+      "to": "fi.morphology",
+      "relation": "licenses"
+    },
+    {
+      "from": "fi.morphology",
+      "to": "fi.signal",
+      "relation": "realizes"
+    },
+    {
+      "from": "fi.morphology",
+      "to": "fi.features",
+      "relation": "depends-on"
+    },
+    {
+      "from": "fi.evidence",
+      "to": "fi.identity",
+      "relation": "evidences"
+    },
+    {
+      "from": "fi.evidence",
+      "to": "fi.signal",
+      "relation": "evidences"
+    },
+    {
+      "from": "fi.evidence",
+      "to": "fi.lexicon",
+      "relation": "evidences"
+    },
+    {
+      "from": "fi.evidence",
+      "to": "fi.features",
+      "relation": "evidences"
+    },
+    {
+      "from": "fi.evidence",
+      "to": "fi.morphology",
+      "relation": "evidences"
+    },
+    {
+      "from": "fi.evidence",
+      "to": "fi.syntax.visual-attention",
+      "relation": "evidences"
+    },
+    {
+      "from": "fi.evidence",
+      "to": "fi.bridge",
+      "relation": "evidences"
+    }
+  ]
+}

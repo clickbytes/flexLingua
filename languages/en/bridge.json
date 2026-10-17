@@ -15,6 +15,22 @@
       "syntacticFunction": "object"
         }
       ]
+    },
+    {
+      "construction": "event.visual_attention",
+      "conceptId": "event.visual_attention",
+      "arguments": [
+        {
+          "role": "agent",
+          "argument": "subject",
+          "syntacticFunction": "subject"
+        },
+        {
+          "role": "theme",
+          "argument": "object",
+          "syntacticFunction": "object"
+        }
+      ]
     }
   ]
 }

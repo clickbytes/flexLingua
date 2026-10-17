@@ -1,0 +1,130 @@
+{
+  "id": "flexlingua.fi",
+  "code": "fi",
+  "schemaVersion": "1.0",
+  "graph": "graph.json",
+  "status": "controlled-subset",
+  "capabilities": [
+    {
+      "operation": "analyze",
+      "channel": "sentence",
+      "construction": "event.visual_attention",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "fi.visual-attention.01"
+        }
+      ]
+    },
+    {
+      "operation": "realize",
+      "channel": "sentence",
+      "construction": "event.visual_attention",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "fi.visual-attention.01"
+        }
+      ]
+    },
+    {
+      "operation": "analyze",
+      "channel": "sentence",
+      "construction": "question.yes-no",
+      "status": "unsupported",
+      "evidence": [
+        {
+          "kind": "manual-refusal",
+          "id": "fi.question-refusal.01"
+        }
+      ]
+    },
+    {
+      "operation": "realize",
+      "channel": "sentence",
+      "construction": "question.yes-no",
+      "status": "unsupported",
+      "evidence": [
+        {
+          "kind": "manual-refusal",
+          "id": "fi.question-refusal.01"
+        }
+      ]
+    },
+    {
+      "operation": "generate",
+      "channel": "morphology",
+      "construction": "word",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "fi.morphology.01"
+        }
+      ]
+    },
+    {
+      "operation": "analyze",
+      "channel": "morphology",
+      "construction": "word",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "fi.morphology.01"
+        }
+      ]
+    },
+    {
+      "operation": "paradigm",
+      "channel": "morphology",
+      "construction": "word",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "fi.morphology.01"
+        }
+      ]
+    },
+    {
+      "operation": "availability",
+      "channel": "morphology",
+      "construction": "word",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "fi.morphology.01"
+        }
+      ]
+    },
+    {
+      "operation": "lookup",
+      "channel": "lexicon",
+      "construction": "lexeme",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "fi.lexicon.01"
+        }
+      ]
+    },
+    {
+      "operation": "decode",
+      "channel": "signal",
+      "construction": "written",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "fi.written.01"
+        }
+      ]
+    }
+  ],
+  "provenance": "provenance.json"
+}
