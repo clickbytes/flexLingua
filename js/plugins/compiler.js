@@ -71,7 +71,7 @@ function scanReferences(value, core, senseIds, label, seen = new WeakSet(), dept
       } catch (error) {
         fail('PLUGIN_CORE_REFERENCE_INVALID', `Unknown CORE reference in ${label}.`, error);
       }
-      if (typeof value.id === 'string' && value.coreRef.kind === 'concept') {
+      if (typeof value.id === 'string') {
         if (!safeReferenceId(value.id)) fail('PLUGIN_CORE_REFERENCE_INVALID', `Invalid sense ID in ${label}.`);
         const reference = JSON.stringify(value.coreRef);
         if (senseIds.has(value.id) && senseIds.get(value.id) !== reference) {
