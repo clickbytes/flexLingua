@@ -104,10 +104,12 @@ Nowy wire format używa osobnej wersji dokumentu `1.22` (niezależnej od wersji 
 
 ## Ryzyka integracji z E4 i dyskursem
 
-`ConversationContext` obecnie rozwiązuje ograniczone zaimki trzeciej osoby do wcześniejszych encji i zapisuje ich współdzielenie jako linki `eN.role → eM.role`. Kotwica deiktyczna nie jest takim linkiem: `speaker` w dwóch turach może oznaczać różne osoby, a ten sam człowiek może być mówcą w jednej turze i adresatem w następnej. PERS-02+ oraz integracja dialogu muszą zatem:
+`ConversationContext` rozwiązuje ograniczone zaimki trzeciej osoby do wcześniejszych encji i zapisuje ich współdzielenie jako linki `eN.role → eM.role`. Kotwica deiktyczna nie jest takim linkiem: `speaker` w dwóch turach może oznaczać różne osoby, a ten sam człowiek może być mówcą w jednej turze i adresatem w następnej. Każda tura zapisuje więc osobne `referenceId` dla wystąpień uczestników. Jawne `speakerId`/`addresseeId` wiążą kotwicę z `actor:<id>`; bez nich używany jest identyfikator lokalny dla tury. Planner porównuje te identyfikatory, a nie same etykiety kotwic:
 
 - przechowywać referencje deiktyczne jako osobny wariant uczestnika, nie jako `person.girl`/`person.boy`;
-- wiązać je z grafem `discourse.entities` tylko wtedy, gdy kontekst jawnie podaje wspólne stabilne ID;
+- uznawać tożsamość między turami tylko przy zgodnych, jawnych identyfikatorach; brak mapowania daje `unknown/insufficient_context`;
+- pozwalać temu samemu stabilnemu ID wystąpić jako `speaker` w jednej turze i `addressee` w innej, bez dopisywania tożsamości do CORE;
+- nie utożsamiać liczby mnogiej z pojedynczym aktorem na podstawie jednego ID;
 - nie dopasowywać zaimków pierwszej/drugiej osoby do `#antecedents()` używanego dla `he/she/on/ona`;
 - sprawdzać snapshot → `JSON.stringify`/`JSON.parse` → walidacja → realization bez utraty kotwic, osoby, liczby ani jawnej tożsamości;
 - odrzucić nieznaną kotwicę, niezgodność `speaker/first` i `addressee/second`, nieznaną liczbę, niejednoznaczną perspektywę oraz niejawny link koreferencji.

@@ -110,6 +110,81 @@ test('ConversationContext answers its latest pending question from explicit asse
   assert.equal(conversation.snapshot().turns[2].intent,'confirm');
 });
 
+test('ConversationContext resolves deictic planner evidence per turn participant',()=>{
+  const differentSpeakers=new ConversationContext(engine);
+  differentSpeakers.translate({text:'I see a dog.',from:'en',to:'pl',
+    participants:{speakerId:'alice',addresseeId:'bob'}});
+  differentSpeakers.translate({text:'Do I see a dog?',from:'en',to:'pl',
+    participants:{speakerId:'bob',addresseeId:'alice'}});
+  const before=differentSpeakers.snapshot();
+  const unrelated=differentSpeakers.planResponse();
+  assert.equal(unrelated.outcome,'unknown');
+  assert.equal(unrelated.reason,'insufficient_context');
+  assert.deepEqual(differentSpeakers.snapshot(),before);
+
+  const sameSpeaker=new ConversationContext(engine);
+  sameSpeaker.translate({text:'I see a dog.',from:'en',to:'pl',
+    participants:{speakerId:'alice',addresseeId:'bob'}});
+  sameSpeaker.translate({text:'Do I see a dog?',from:'en',to:'pl',
+    participants:{speakerId:'alice',addresseeId:'bob'}});
+  assert.equal(sameSpeaker.planResponse().act.act,'confirm');
+  assert.equal(sameSpeaker.respond({to:'pl'}).dialogueAct.act,'confirm');
+
+  const addressee=new ConversationContext(engine);
+  addressee.translate({text:'Ty widzisz psa.',from:'pl',to:'en',
+    participants:{speakerId:'alice',addresseeId:'bob'}});
+  addressee.translate({text:'Czy ja widzę psa?',from:'pl',to:'en',
+    participants:{speakerId:'bob',addresseeId:'alice'}});
+  assert.equal(addressee.planResponse().act.act,'confirm');
+
+  const speakerRole={referent:{kind:'deictic',anchor:'speaker'},
+    agreement:{person:'first',number:'singular'}};
+  const makeSpeakerFact=polarity=>createEvent('event.visual_perception',{
+    agent:speakerRole,theme:ref('animal.dog')
+  },{tense:'present',polarity,aspect:'imperfective'});
+  const makeWhatQuestion=()=>createQuestion(createEvent('event.visual_perception',{
+    agent:{referent:{kind:'deictic',anchor:'addressee'},
+      agreement:{person:'second',number:'singular'}}
+  },{tense:'present',polarity:'positive',aspect:'imperfective'}),
+  {questionType:'wh',targetRole:'theme'});
+  const wh=new ConversationContext(engine);
+  wh.appendDialogueAct(createDialogueAct('assert',{
+    proposition:makeSpeakerFact('positive')
+  }),{participants:{speakerId:'alice',addresseeId:'bob'}});
+  wh.appendDialogueAct(createDialogueAct('ask',{
+    question:makeWhatQuestion()
+  }),{participants:{speakerId:'bob',addresseeId:'alice'}});
+  const whPlan=wh.planResponse();
+  assert.equal(whPlan.outcome,'answer');
+  assert.equal(whPlan.realization.roles.agent.referent.anchor,'addressee');
+
+  const unnameableWh=new ConversationContext(engine);
+  unnameableWh.appendDialogueAct(createDialogueAct('assert',{
+    proposition:makeSpeakerFact('positive')
+  }),{participants:{speakerId:'alice',addresseeId:'bob'}});
+  unnameableWh.appendDialogueAct(createDialogueAct('ask',{
+    question:makeWhatQuestion()
+  }),{participants:{speakerId:'carol',addresseeId:'bob'}});
+  assert.equal(unnameableWh.planResponse().reason,'insufficient_context');
+
+  const unresolved=new ConversationContext(engine);
+  unresolved.translate({text:'I see a dog.',from:'en',to:'pl'});
+  unresolved.translate({text:'Do I see a dog?',from:'en',to:'pl'});
+  assert.equal(unresolved.planResponse().reason,'insufficient_context');
+
+  const conflict=new ConversationContext(engine);
+  conflict.appendDialogueAct(createDialogueAct('assert',{
+    proposition:makeSpeakerFact('positive')
+  }),{participants:{speakerId:'alice',addresseeId:'bob'}});
+  conflict.appendDialogueAct(createDialogueAct('assert',{
+    proposition:makeSpeakerFact('negative')
+  }),{participants:{speakerId:'alice',addresseeId:'bob'}});
+  conflict.appendDialogueAct(createDialogueAct('ask',{
+    question:createQuestion(makeSpeakerFact('positive'))
+  }),{participants:{speakerId:'alice',addresseeId:'bob'}});
+  assert.equal(conflict.planResponse().reason,'ambiguous');
+});
+
 test('failed response realization leaves the conversation history unchanged',()=>{
   const conversation=new ConversationContext(engine);
   conversation.appendDialogueAct(createDialogueAct('ask',{question}));

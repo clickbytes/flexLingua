@@ -249,15 +249,29 @@ export class ConversationContext {
     return this.snapshot();
   }
 
+  #plannerReferenceContext(question,assertionTurns) {
+    const questionKey=canonicalJson(question);
+    const questionTurn=[...this.#turns].reverse().find(turn=>turn.intent==='ask' &&
+      canonicalJson(turn.interlingua.payload.question)===questionKey);
+    return {
+      question:questionTurn?.references || [],
+      questionParticipants:questionTurn?.participants,
+      facts:assertionTurns.map(turn=>turn.references)
+    };
+  }
+
   /** Plan against the latest pending question and explicit assert turns in this session. */
   planResponse({facts,clarifyQuestion}={}) {
     const pending=this.#dialogue.snapshot().pendingQuestions;
     if(!pending.length)throw new Error('Conversation has no pending question to answer.');
-    const assertions=facts===undefined ? this.#turns
-      .filter(turn=>turn.intent==='assert')
+    const assertionTurns=facts===undefined ? this.#turns
+      .filter(turn=>turn.intent==='assert') : [];
+    const assertions=facts===undefined ? assertionTurns
       .map(turn=>turn.interlingua.payload.proposition) : facts;
+    const referenceContext=this.#plannerReferenceContext(
+      pending[pending.length-1],assertionTurns);
     return this.#engine.planResponse({question:pending[pending.length-1],
-      facts:assertions,clarifyQuestion});
+      facts:assertions,clarifyQuestion,referenceContext});
   }
 
   /** Realize and append a planned reply; session state changes only after planning succeeds. */
@@ -265,11 +279,14 @@ export class ConversationContext {
     this.#assertTurnCapacity();
     const pending=this.#dialogue.snapshot().pendingQuestions;
     if(!pending.length)throw new Error('Conversation has no pending question to answer.');
-    const assertions=facts===undefined ? this.#turns
-      .filter(turn=>turn.intent==='assert')
+    const assertionTurns=facts===undefined ? this.#turns
+      .filter(turn=>turn.intent==='assert') : [];
+    const assertions=facts===undefined ? assertionTurns
       .map(turn=>turn.interlingua.payload.proposition) : facts;
+    const referenceContext=this.#plannerReferenceContext(
+      pending[pending.length-1],assertionTurns);
     const response=this.#engine.respond({question:pending[pending.length-1],
-      facts:assertions,clarifyQuestion,to,profile});
+      facts:assertions,clarifyQuestion,to,profile,referenceContext});
     const session=this.appendDialogueAct(response.plan.act,{participants});
     return {...response,dialogueAct:response.plan.act,
       conversation:session.interlingua,turnCount:this.#turns.length,focus:session.focus};
