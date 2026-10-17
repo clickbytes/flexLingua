@@ -5,8 +5,11 @@ import {createTranslationService} from '../app/translation-service.js';
 import {beginRequest, createWorkspaceState, finishRequest, invalidateRequests, isCurrentRequest,
   setFollowLatest, setViewportAnchor, WORKSPACE_MODES} from './state.js';
 import {actionForKey} from './keymap.js';
+import {editDraft, insertDraftText, layoutComposer, MAX_DRAFT_CODE_POINTS} from './composer.js';
+import {createInputBridge} from './input.js';
 import {computeLayout} from './layout.js';
 import {createScreen, sanitizeText, textWidth, wrapText} from './screen.js';
+import {layoutText} from './text.js';
 import {styleFor} from './theme.js';
 import {buildTranscript} from './transcript.js';
 import {createTranslateView} from './views/translate.js';
@@ -14,7 +17,6 @@ import {createChatView} from './views/chat.js';
 import {createFormsView} from './views/forms.js';
 
 const SMALL_TERMINAL_MESSAGE = 'Za mały terminal. Powiększ do co najmniej 40 kolumn i 12 wierszy.';
-const MAX_INPUT_CODEPOINTS = 4000;
 
 function positiveSize(value, fallback) {
   return Number.isFinite(value) && value > 0 ? Math.floor(value) : fallback;
@@ -39,14 +41,12 @@ function currentFocus(view, workspaceState) {
   return targets[index];
 }
 
-function composerLinesFor(view, focus, width) {
+function composerLineCountFor(view, focus, width) {
   const state = view.state;
   const prompt = state.draft || view.composerPrompt || 'Type here…';
   const prefix = focus.type === 'input' ? '› ' : '  ';
   const availableWidth = Math.max(1, width - textWidth(prefix));
-  const lines = wrapText(prompt, availableWidth);
-  return lines.map((text, index) => ({text: `${index === 0 ? prefix : '  '}${text}`,
-    tone: state.draft ? 'neutral' : 'muted'}));
+  return layoutText(prompt, availableWidth).rows.length;
 }
 
 function transcriptRowsFor(view, focus, width) {
@@ -111,10 +111,12 @@ export function createTui({runtime, terminal, output = process.stdout, services 
   ];
   const screen = createScreen({terminal, styleFor});
   const events = new EventEmitter();
+  const inputBridge = createInputBridge({terminal, onPaste: handlePaste});
   let started = false;
   let stopping = false;
   let stopPromise = null;
   let lastFrame = null;
+  let cursorShown = null;
 
   function activeIndex() {
     return WORKSPACE_MODES.indexOf(workspaceState.activeMode);
@@ -147,6 +149,17 @@ export function createTui({runtime, terminal, output = process.stdout, services 
 
   function put(text, x, y, tone, maxWidth) {
     screen.put({x, y, tone, maxWidth}, text);
+  }
+
+  function positionCursor(cursor) {
+    const visible = !!cursor;
+    if (cursorShown !== visible) {
+      terminal.hideCursor(!visible);
+      cursorShown = visible;
+    }
+    if (visible && typeof terminal.moveTo === 'function') {
+      terminal.moveTo(cursor.x, cursor.y);
+    }
   }
 
   function drawHeader(view, focus, width) {
@@ -210,17 +223,23 @@ export function createTui({runtime, terminal, output = process.stdout, services 
     const {width, height} = dimensions();
     const view = activeView();
     const focus = currentFocus(view, workspaceState);
-    const composerLines = composerLinesFor(view, focus, width);
-    const layout = computeLayout({width, height, composerLines: composerLines.length});
+    const composerLines = composerLineCountFor(view, focus, width);
+    const layout = computeLayout({width, height, composerLines});
     screen.beginFrame(width, height);
     if (layout.tooSmall) {
       drawSmallTerminal(layout);
       lastFrame = {mode: view.id, layout, historyRows: []};
-      return screen.commit();
+      const result = screen.commit();
+      positionCursor(null);
+      return result;
     }
 
     drawHeader(view, focus, width);
     const historyRows = transcriptRowsFor(view, focus, width);
+    if (view.state.editorNotice) {
+      historyRows.push(...wrapText(view.state.editorNotice, width).map(text =>
+        ({text, tone: 'warning', entryId: null})));
+    }
     const modeState = view.state;
     const scrollTop = startIndexFor(modeState, historyRows, layout.history.height);
     modeState.scrollTop = scrollTop;
@@ -233,15 +252,21 @@ export function createTui({runtime, terminal, output = process.stdout, services 
     }
     put('─'.repeat(width), 1, layout.historySeparator.y, 'muted', width);
 
-    const visibleComposer = composerLines.slice(-layout.composer.height);
-    for (let offset = 0; offset < visibleComposer.length; offset++) {
-      const row = visibleComposer[offset];
+    const composer = layoutComposer(view.state, {width, height: layout.composer.height,
+      prompt: view.composerPrompt || 'Type here…', focused: focus.type === 'input'});
+    for (let offset = 0; offset < composer.lines.length; offset++) {
+      const row = composer.lines[offset];
       put(row.text, 1, layout.composer.y + offset, row.tone, width);
     }
     put('─'.repeat(width), 1, layout.composerSeparator.y, 'muted', width);
     drawFooter(view, focus, modeState, layout);
     lastFrame = {mode: view.id, layout, historyRows};
-    return screen.commit();
+    const result = screen.commit();
+    positionCursor(composer.cursor ? {
+      x: 1 + composer.cursor.column,
+      y: layout.composer.y + composer.cursor.row
+    } : null);
+    return result;
   }
 
   function selectMode(mode) {
@@ -256,40 +281,53 @@ export function createTui({runtime, terminal, output = process.stdout, services 
     return true;
   }
 
-  function editDraft(action) {
+  function showEditorNotice(message) {
     const view = activeView();
-    const state = view.state;
-    const previousDraft = state.draft;
-    const chars = Array.from(state.draft);
-    const cursor = Math.min(state.cursor, chars.length);
-    if (action.type === 'text') {
-      const insert = Array.from(sanitizeText(action.value).replace(/\n/gu, ''));
-      if (!insert.length || chars.length + insert.length > MAX_INPUT_CODEPOINTS) return;
-      chars.splice(cursor, 0, ...insert);
-      state.cursor = cursor + insert.length;
-      state.status = '';
-    } else if (action.type === 'backspace' && cursor > 0) {
-      chars.splice(cursor - 1, 1);
-      state.cursor = cursor - 1;
-      state.status = '';
-    } else if (action.type === 'delete' && cursor < chars.length) {
-      chars.splice(cursor, 1);
-      state.status = '';
-    } else if (action.type === 'cursor_left') {
-      state.cursor = Math.max(0, cursor - 1);
-    } else if (action.type === 'cursor_right') {
-      state.cursor = Math.min(chars.length, cursor + 1);
-    } else if (action.type === 'cursor_home') {
-      state.cursor = 0;
-    } else if (action.type === 'cursor_end') {
-      state.cursor = chars.length;
+    view.state.editorNotice = message;
+  }
+
+  function handlePaste(text, metadata = {}) {
+    const view = activeView();
+    const focus = currentFocus(view, workspaceState);
+    const {width, height} = dimensions();
+    if (width < 40 || height < 12 || focus.type !== 'input') return;
+    if (metadata.tooLarge) {
+      showEditorNotice(`Wklejony tekst przekracza limit ${MAX_DRAFT_CODE_POINTS} code points; draft pozostał bez zmian.`);
+      draw();
+      return;
     }
-    state.draft = chars.join('');
-    if (state.draft !== previousDraft) view.onDraftChange?.({runtime, state});
+    const result = insertDraftText(view.state, text);
+    if (!result.accepted) {
+      showEditorNotice(`Limit pola wynosi ${MAX_DRAFT_CODE_POINTS} code points; draft pozostał bez zmian.`);
+    } else if (result.changed) {
+      view.state.editorNotice = '';
+      view.onDraftChange?.({runtime, state: view.state});
+    }
+    draw();
+  }
+
+  function editActiveDraft(action) {
+    const view = activeView();
+    const {width} = dimensions();
+    const result = editDraft(view.state, action, {width});
+    if (!result.accepted) {
+      showEditorNotice(`Limit pola wynosi ${MAX_DRAFT_CODE_POINTS} code points; draft pozostał bez zmian.`);
+    } else if (result.reason === 'too_many_code_points') {
+      showEditorNotice(`Limit pola wynosi ${MAX_DRAFT_CODE_POINTS} code points; draft pozostał bez zmian.`);
+    } else if (result.changed) {
+      view.state.editorNotice = '';
+      view.onDraftChange?.({runtime, state: view.state});
+    }
+    draw();
   }
 
   async function dispatchSubmit(view, action, focus) {
     const state = view.state;
+    if (action.type === 'submit' && focus?.type === 'input' && !state.draft.trim()) {
+      state.editorNotice = 'Wpisz tekst przed wysłaniem; pusty draft nie uruchamia Engine.';
+      draw();
+      return;
+    }
     const token = beginRequest(workspaceState, view.id, {draft: state.draft,
       from: state.from, to: state.to, language: state.language});
     if (!token) {
@@ -303,7 +341,11 @@ export function createTui({runtime, terminal, output = process.stdout, services 
       const handled = typeof view.handleAction === 'function' ?
         await view.handleAction(action, context) : false;
       if (handled === false && typeof view.onSubmit === 'function') {
-        await view.onSubmit({...context, state});
+        if (!state.draft.trim()) {
+          state.editorNotice = 'Wpisz tekst przed wysłaniem; pusty draft nie uruchamia Engine.';
+        } else {
+          await view.onSubmit({...context, state});
+        }
       } else if (handled === false) {
         state.status = 'Draft saved for this mode.';
       }
@@ -337,8 +379,8 @@ export function createTui({runtime, terminal, output = process.stdout, services 
     draw();
   }
 
-  function onKey(name) {
-    const action = actionForKey(name);
+  function onKey(name, matches, data) {
+    const action = actionForKey(name, data);
     const view = activeView();
     if (action.type === 'quit') {
       void stop(0);
@@ -381,8 +423,7 @@ export function createTui({runtime, terminal, output = process.stdout, services 
       else view.state.status = '';
       draw();
     } else if (currentFocus(view, workspaceState).type === 'input') {
-      editDraft(action);
-      draw();
+      editActiveDraft(action);
     }
   }
 
@@ -401,8 +442,10 @@ export function createTui({runtime, terminal, output = process.stdout, services 
     stopPromise = (async () => {
       terminal.removeListener?.('key', onKey);
       terminal.removeListener?.('resize', onResize);
+      terminal.removeListener?.('paste', handlePaste);
       process.removeListener('SIGINT', onSignal);
       process.removeListener('SIGTERM', onSignal);
+      inputBridge.detach();
       try {
         await terminal.grabInput(false, true);
       } catch {}
@@ -421,9 +464,11 @@ export function createTui({runtime, terminal, output = process.stdout, services 
     terminal.hideCursor(true);
     terminal.on('key', onKey);
     terminal.on('resize', onResize);
+    terminal.on('paste', handlePaste);
     process.on('SIGINT', onSignal);
     process.on('SIGTERM', onSignal);
     terminal.grabInput();
+    inputBridge.attach();
     draw();
   }
 
