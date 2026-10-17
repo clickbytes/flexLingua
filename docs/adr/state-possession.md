@@ -75,3 +75,7 @@ Wartości ról wynikają z typowanych ramek w `data/concepts.json`. Rejestr jest
 - Nieobsługiwane są także relacje rodzinne i inne predykaty bez jawnej ramki. Nie wolno mapować ich na istniejące zdarzenie ani na samą tożsamość.
 
 Sense `quality.simple` jest ograniczony do „nieskomplikowany pod względem struktury, projektu lub użycia”; nie obejmuje automatycznie znaczenia „łatwy”. Kolejne zadania językowe mogą rozszerzyć analizę i realizację na podstawie tych ramek; powinny zachować wersje kontraktów CORE i wyraźnie zgłaszać nierozstrzygniętą niejednoznaczność.
+
+## Addendum A1-ENPL-08: third-person state subjects
+
+In state frames, `she/he` and `ona/on` are third-person pronouns with grammatical agreement. They do not resolve to `person.girl` or `person.boy`. An unresolved pronoun may fill the existing `subject` or `owner` role as the versioned CORE participant `{referent:{kind:"anaphoric",resolution:"unresolved"},agreement:{person:"third",number:"singular",gender}}` in version `1.32`. State kind and role direction remain unchanged: `She is big` is predication and `She has a book` is possession. Discourse links the participant only when a unique compatible person antecedent is present; absent or ambiguous evidence is reported explicitly.

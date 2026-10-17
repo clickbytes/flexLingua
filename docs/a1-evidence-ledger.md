@@ -12,7 +12,7 @@ Rejestr obejmuje wcześniejsze próbki, gold stanów STATE-05 i osobny korpus VA
 
 Każde źródło ma klasyfikację `development`, `regression` albo `held-out`. Raport pokazuje osobno próbki zadeklarowane i próbki z potwierdzonym przejściem testu. H1 jest poza zestawem rozwojowym, ale nie jest niezależną ewaluacją: autorem fixture był implementer.
 
-Ledger przypina SHA-256 do wszystkich piętnastu plików gold i sprawdza je przed uruchomieniem któregokolwiek zestawu. Zmianę gold należy połączyć z ponownym przeglądem i aktualizacją digestu w `tools/a1-evidence-ledger-lib.mjs`. Brak pliku, niepoprawny JSON albo rozbieżny digest kończy CLI błędem przed zapisem raportu. `tools/report-a1.mjs` sprawdza w ten sam sposób G2.
+Ledger przypina SHA-256 do każdego pliku gold zadeklarowanego w `EVIDENCE_SOURCES` i sprawdza je przed uruchomieniem któregokolwiek zestawu. Zmianę gold należy połączyć z ponownym przeglądem i aktualizacją digestu w `tools/a1-evidence-ledger-lib.mjs`. Brak pliku, niepoprawny JSON albo rozbieżny digest kończy CLI błędem przed zapisem raportu. `tools/report-a1.mjs` sprawdza w ten sam sposób G2.
 
 `sampleQuality.declared` i `sampleQuality.verified` zawierają osobne liczniki EN→PL i PL→EN dla próbek pozytywnych i negatywnych. Morfologia jest rozbita według języka. Duplikaty są wykrywane po normalizacji Unicode NFC, wielkości liter i białych znaków; raport podaje powtórzone obserwacje, grupy z powtórzeniami wewnątrz źródeł i grupy obejmujące wiele źródeł. Te kategorie mogą się pokrywać. `release.id` jest skrótem przypiętych wejść i definicji zestawów, więc nie zmienia się między powtórzeniami przy tych samych danych. Zapis przez `--output` jest atomowy.
 
@@ -29,13 +29,13 @@ Każde uruchomienie zestawu gold ma status, faktyczny PID procesu Node, wersję 
 | Kompozycja/dyskurs | 46 | 1 | 0 |
 | Osoba/deiksy PERS-06 | 40 | 10 | 0 |
 | Stany STATE-05 | 48 | 7 | 0 |
+| Zaimek trzeciej osoby A1-ENPL-08 | 6 | 4 | 0 |
 | Napoje bez rodzajnika A1-ENPL-03 | 8 | 5 | 0 |
 | Egzystencjalne lokatywy A1-ENPL-04 | 4 | 6 | 0 |
 | Predykacja stanu w czasie przeszłym A1-ENPL-05 | 10 | 7 | 0 |
 | Present progressive A1-ENPL-06 | 12 | 7 | 0 |
 | Przestrzeń i czas | 64 | 9 | 0 |
 | Held-out VAL-02 H1 | 200 (100 na kierunek) | 20 | 0 |
-| **Razem** | **538** | **99** | **60** |
 
 To **przypadki kontrolowane**, nie wymierny procent pokrycia CEFR. Każdy przypadek jest przypisany do własnego pliku źródłowego i testu. W porównaniu przypadków sprawdzamy tylko **jawnie opisane** znaczenia CORE (pojęcie predykatu i te role, które fixture wyraźnie deklaruje); nie wnioskujemy obecności haseł z samej pisowni ani z analizy silnika, aby uniknąć tautologii. Nakładanie się autorstwa, projektowania reguł i oceny nie gwarantuje testu niewidzianych wcześniej zdań.
 
@@ -43,7 +43,7 @@ To **przypadki kontrolowane**, nie wymierny procent pokrycia CEFR. Każdy przypa
 
 ```sh
 npm run report:a1-evidence      # sam katalog, bez testów — verification.status = not-run
-npm run check:a1-evidence       # 15 źródeł z EVIDENCE_SOURCES, fail-closed
+npm run check:a1-evidence       # źródła z EVIDENCE_SOURCES, fail-closed
 npm run check:release           # pełny zestaw kontroli CORE i testów Node
 ```
 
@@ -53,6 +53,7 @@ npm run check:release           # pełny zestaw kontroli CORE i testów Node
 - `tests/a1-enpl-basic-predication.test.js` dla golda A1-ENPL-01 (2 positive, 2 refusals);
 - test Node dla 40 przypadków osoby/deiksów oraz 10 błędnych form;
 - `tests/a1-state-gold.test.js` dla 48 zdań stanów i 7 odmów;
+- `tests/anaphora-e2a.test.js` dla golda A1-ENPL-08: 6 pozytywnych przypadków i 4 odmowy;
 - `tests/a1-bare-beverages.test.js` i `tests/a1-existential-locatives.test.js` dla źródeł A1-ENPL-03/04;
 - `tests/a1-past-state-predication.test.js` dla 10 dwukierunkowych przypadków predykacji przeszłej i 7 odmów;
 - `tests/a1-present-progressive.test.js` dla 12 dwukierunkowych przypadków present progressive i 7 odmów;

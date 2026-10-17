@@ -259,8 +259,8 @@ export class Engine {
       item.interlingua?.type==='event');
     if(!first.length)throw new Error('Unresolved anaphora: first clause is not a supported event.');
     const hypotheses=first.flatMap(item=>Object.entries(item.interlingua.roles)
-      .filter(([,ref])=>pronoun.concepts.includes(ref.concept) &&
-        ref.features?.number==='singular')
+      .filter(([,ref])=>!hasOwn(ref,'referent') && ref.features?.number==='singular' &&
+        this.ontology.isA(ref.concept,'person') && adapter.subjectPronounFor?.(ref,this.ontology)===pronoun.text)
       .map(([role,ref])=>({item,role,ref})));
     if(!hypotheses.length)throw new Error('Unresolved anaphora: no compatible antecedent for '+
       pronoun.text+'.');
@@ -275,7 +275,7 @@ export class Engine {
     const readings=[];
     for(const h of hypotheses){
       if(h.role!==selected.role || !sameDiscourseReferent(h.ref,selected.ref))continue;
-      const expanded=adapter.expandSubjectPronoun(sentences[1],h.ref);
+      const expanded=adapter.expandSubjectPronoun(sentences[1],h.ref,this.ontology);
       const parsed=this.analyzeSentence(expanded,adapter).filter(item=>
         item.interlingua?.type==='event' &&
         item.interlingua.roles?.[adapter.subjectRole]?.concept===h.ref.concept);
@@ -315,8 +315,9 @@ export class Engine {
       const unique=new Map();
       for(const [index,event] of state.events.entries()){
         for(const [role,ref] of Object.entries(event.roles)){
-          if(!pronoun.concepts.includes(ref.concept) ||
-             ref.features?.number!=='singular')continue;
+          if(hasOwn(ref,'referent') || ref.features?.number!=='singular' ||
+             !this.ontology.isA(ref.concept,'person') ||
+             adapter.subjectPronounFor?.(ref,this.ontology)!==pronoun.text)continue;
           const root=rootOf('e'+(index+1)+'.'+role,state.links);
           if(!unique.has(root))unique.set(root,{root,ref});
         }
@@ -358,7 +359,7 @@ export class Engine {
           const match=antecedents(state,pronoun).find(item=>
             item.root===selected.root && sameDiscourseReferent(item.ref,selected.ref));
           if(!match)continue;
-          const expanded=adapter.expandSubjectPronoun(text,match.ref);
+          const expanded=adapter.expandSubjectPronoun(text,match.ref,this.ontology);
           const parsed=this.analyzeSentence(expanded,adapter).filter(item=>
             item.interlingua?.type==='event' &&
             item.interlingua.roles?.[adapter.subjectRole]?.concept===match.ref.concept);
@@ -620,19 +621,19 @@ export class Engine {
       .filter(i=>i>=0);
     if(pronounSlots.length){
       if(sentences.length===1 && pronounSlots.length===1 && pronounSlots[0]===0) {
-        let stateReadings=[];
+        let directReadings=[];
         try {
           const direct=this.analyzeSentence(sentences[0],adapter);
-          if(direct.length && direct.every(candidate=>candidate.interlingua.type==='state'))
-            stateReadings=direct;
+          directReadings=direct.filter(candidate=>
+            ['event','state'].includes(candidate.interlingua.type));
         } catch (error) {
           if(isResourceLimitError(error))throw error;
           /* General event anaphora still follows the discourse path below. */
         }
-        if(stateReadings.length) {
+        if(directReadings.length) {
           if(settings.coreference!==undefined)
             throw new Error('Explicit coreference requires at least two discourse sentences.');
-          const candidates=stateReadings.filter(candidate=>
+          const candidates=directReadings.filter(candidate=>
             Object.entries(settings.senses||{}).every(([role,concept])=>
               candidate.interlingua.roles?.[role]?.concept===concept))
             .map(candidate=>({...candidate,score:(candidate.score||0)+
@@ -867,10 +868,11 @@ export class Engine {
         const earlier=interlingua.events.slice(0,index);
         if(earlier.some(item=>Object.values(item.roles).includes(sharedId))) {
           const referent=interlingua.entities[sharedId];
-          const candidate=adapter.subjectPronounFor?.(referent);
+          const candidate=referent?.concept && this.ontology.isA(referent.concept,'person')
+            ?adapter.subjectPronounFor?.(referent,this.ontology):null;
           const competing=new Set(candidate?earlier.flatMap(item=>
             Object.values(item.roles).filter(id=>
-              adapter.subjectPronounFor?.(interlingua.entities[id])===candidate)):[]);
+              adapter.subjectPronounFor?.(interlingua.entities[id],this.ontology)===candidate)):[]);
           if(candidate && competing.size===1 && competing.has(sharedId)) {
             subjectPronoun=candidate;
             pronounizedEvents.push(index+1);

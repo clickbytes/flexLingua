@@ -1,0 +1,138 @@
+{
+  "schemaVersion": 1,
+  "license": "project-authored",
+  "provenance": {
+    "source": "project-authored",
+    "author": "flexLingua project contributors",
+    "rights": "Project-authored; no separate SPDX data license is declared in this repository.",
+    "review": "Expected CORE and target strings are manually specified from the A1-ENPL-08 contract, not generated from engine output.",
+    "reviewedAt": "2026-10-17"
+  },
+  "scope": "A1-ENPL-08: third-person singular pronouns retain a typed unresolved referent without lexical identity; discourse resolution requires one compatible prior person antecedent.",
+  "enToPl": [
+    {
+      "id": "A1-ENPL-08-EN-01",
+      "input": "She has a book.",
+      "expected": "Ona ma książkę.",
+      "reverseAdjustments": [{"role":"owned","feature":"definiteness","value":"unknown"}],
+      "core": {
+        "version": "1.32",
+        "type": "state",
+        "kind": "possession",
+        "roles": {
+          "owner": {
+            "referent": {"kind": "anaphoric", "resolution": "unresolved"},
+            "agreement": {"person": "third", "number": "singular", "gender": "feminine"}
+          },
+          "owned": {"concept": "object.book", "features": {"definiteness": "indefinite", "number": "singular"}}
+        },
+        "features": {"tense": "present", "polarity": "positive"}
+      }
+    },
+    {
+      "id": "A1-ENPL-08-EN-02",
+      "input": "He is big.",
+      "expected": "On jest duży.",
+      "core": {
+        "version": "1.32",
+        "type": "state",
+        "kind": "predication",
+        "predicate": "quality.big",
+        "roles": {
+          "subject": {
+            "referent": {"kind": "anaphoric", "resolution": "unresolved"},
+            "agreement": {"person": "third", "number": "singular", "gender": "masculine"}
+          }
+        },
+        "features": {"tense": "present", "polarity": "positive"}
+      }
+    },
+    {
+      "id": "A1-ENPL-08-EN-03",
+      "input": "She is reading a book.",
+      "expected": "Ona czyta książkę.",
+      "reverseAdjustments": [{"role":"theme","feature":"definiteness","value":"unknown"}],
+      "core": {
+        "version": "1.32",
+        "type": "event",
+        "concept": "event.read",
+        "roles": {
+          "agent": {
+            "referent": {"kind": "anaphoric", "resolution": "unresolved"},
+            "agreement": {"person": "third", "number": "singular", "gender": "feminine"}
+          },
+          "theme": {"concept": "object.book", "features": {"definiteness": "indefinite", "number": "singular"}}
+        },
+        "features": {"tense": "present", "polarity": "positive", "aspect": "imperfective"}
+      }
+    }
+  ],
+  "plToEn": [
+    {
+      "id": "A1-ENPL-08-PL-01",
+      "input": "Ona ma książkę.",
+      "expected": "She has a book.",
+      "reverseAdjustments": [{"role":"owned","feature":"definiteness","value":"indefinite"}],
+      "core": {
+        "version": "1.32",
+        "type": "state",
+        "kind": "possession",
+        "roles": {
+          "owner": {
+            "referent": {"kind": "anaphoric", "resolution": "unresolved"},
+            "agreement": {"person": "third", "number": "singular", "gender": "feminine"}
+          },
+          "owned": {"concept": "object.book", "features": {"definiteness": "unknown", "number": "singular"}}
+        },
+        "features": {"tense": "present", "polarity": "positive"}
+      }
+    },
+    {
+      "id": "A1-ENPL-08-PL-02",
+      "input": "On jest duży.",
+      "expected": "He is big.",
+      "core": {
+        "version": "1.32",
+        "type": "state",
+        "kind": "predication",
+        "predicate": "quality.big",
+        "roles": {
+          "subject": {
+            "referent": {"kind": "anaphoric", "resolution": "unresolved"},
+            "agreement": {"person": "third", "number": "singular", "gender": "masculine"}
+          }
+        },
+        "features": {"tense": "present", "polarity": "positive"}
+      }
+    },
+    {
+      "id": "A1-ENPL-08-PL-03",
+      "input": "Ona czyta książkę.",
+      "expected": "She reads a book.",
+      "reverseAdjustments": [
+        {"role":"theme","feature":"definiteness","value":"indefinite"},
+        {"scope":"features","feature":"aspect","value":"unknown"}
+      ],
+      "core": {
+        "version": "1.32",
+        "type": "event",
+        "concept": "event.read",
+        "roles": {
+          "agent": {
+            "referent": {"kind": "anaphoric", "resolution": "unresolved"},
+            "agreement": {"person": "third", "number": "singular", "gender": "feminine"}
+          },
+          "theme": {"concept": "object.book", "features": {"definiteness": "unknown", "number": "singular"}}
+        },
+        "features": {"tense": "present", "polarity": "positive", "aspect": "imperfective"}
+      }
+    }
+  ],
+  "morphology": [],
+  "invalid": [
+    {"id":"A1-ENPL-08-NEG-01","from":"en","input":"She sees the dog. She sees the cat.","reasonCode":"UNRESOLVED_ANAPHORA","reason":"A pronoun in the first clause has no preceding antecedent."},
+    {"id":"A1-ENPL-08-NEG-02","from":"en","input":"The boy sees the dog. She sees the cat.","reasonCode":"UNRESOLVED_ANAPHORA","reason":"The prior person does not match the pronoun's grammatical gender."},
+    {"id":"A1-ENPL-08-NEG-03","from":"en","input":"The girls see the dog. She sees the cat.","reasonCode":"UNRESOLVED_ANAPHORA","reason":"A plural antecedent does not match a third-person singular pronoun."},
+    {"id":"A1-ENPL-08-NEG-04","from":"en","input":"The girl sees the girl. She sees the dog.","reasonCode":"AMBIGUOUS_ANAPHORA","reason":"Two compatible person antecedents are present."}
+  ]
+}

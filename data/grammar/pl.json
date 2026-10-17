@@ -1553,15 +1553,19 @@
     "subjectPronouns": [
       {
         "text": "ona",
-        "concepts": [
-          "person.girl"
-        ]
+        "agreement": {
+          "person": "third",
+          "number": "singular",
+          "gender": "feminine"
+        }
       },
       {
         "text": "on",
-        "concepts": [
-          "person.boy"
-        ]
+        "agreement": {
+          "person": "third",
+          "number": "singular",
+          "gender": "masculine"
+        }
       }
     ]
   },

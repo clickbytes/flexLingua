@@ -8,6 +8,7 @@ import {validateInterlingua} from '../js/core/interlingua.js';
 const load=async path=>JSON.parse(await readFile(new URL('../data/'+path,import.meta.url),'utf8'));
 const [concepts,features,en,pl,eg,pg]=await Promise.all(
   ['concepts.json','features.json','en.json','pl.json','grammar/en.json','grammar/pl.json'].map(load));
+const gold8=JSON.parse(await readFile(new URL('../tests/fixtures/gold-a1-third-person.json',import.meta.url),'utf8'));
 const make=()=>new Engine(concepts,features)
   .registerLanguage(createRuleAdapter(en,eg))
   .registerLanguage(createRuleAdapter(pl,pg));
@@ -43,14 +44,47 @@ test('E2a: resolves he/she and on/ona only against a single preceding person',()
   }
 });
 
+test('A1-ENPL-08: no-context third-person readings preserve a typed unresolved referent',()=>{
+  const engine=make();
+  assert.equal(gold8.provenance.source,'project-authored');
+  assert.ok(gold8.provenance.author);
+  assert.ok(gold8.provenance.rights);
+  assert.ok(gold8.provenance.review);
+  assert.equal(gold8.provenance.reviewedAt,'2026-10-17');
+  for(const [rows,from,to] of [[gold8.enToPl,'en','pl'],[gold8.plToEn,'pl','en']]){
+    for(const row of rows){
+      const sourceCore=engine.analyze({text:row.input,from});
+      const translated=engine.translate({text:row.input,from,to});
+      assert.deepEqual(sourceCore,row.core,row.id+' source CORE');
+      assert.equal(translated.text,row.expected,row.id+' target surface');
+      assert.deepEqual(translated.interlingua,row.core,row.id+' translated CORE');
+      const reverseCore=structuredClone(row.core);
+      for(const adjustment of row.reverseAdjustments||[]){
+        if(adjustment.scope==='features')reverseCore.features[adjustment.feature]=adjustment.value;
+        else reverseCore.roles[adjustment.role].features[adjustment.feature]=adjustment.value;
+      }
+      assert.deepEqual(engine.analyze({text:row.expected,from:to}),reverseCore,row.id+' reverse CORE');
+      for(const ref of Object.values(row.core.roles||{})){
+        if(ref.referent?.kind==='anaphoric')
+          assert.equal(Object.hasOwn(ref,'concept'),false,row.id+' has no lexical person identity');
+      }
+    }
+  }
+  for(const row of gold8.invalid){
+    const result=engine.tryTranslate({text:row.input,from:row.from,to:'pl'});
+    assert.equal(result.ok,false,row.id);
+    assert.equal(result.error.code,row.reasonCode,row.id);
+  }
+});
+
 test('E2a: conflicting or missing antecedents fail with deterministic error codes',()=>{
   const engine=make();
   for(const [source,from,code] of [
     ['The girl sees the girl. She sees the dog.','en','AMBIGUOUS_ANAPHORA'],
     ['The boy sees the dog. She sees the cat.','en','UNRESOLVED_ANAPHORA'],
     ['The girl sees the dog. He sees the cat.','en','UNRESOLVED_ANAPHORA'],
-    ['She sees the cat.','en','UNRESOLVED_ANAPHORA'],
     ['The girl sees the dog. Ona sees the cat.','en','UNSUPPORTED_CONSTRUCTION'],
+    ['The girls see the dog. She sees the cat.','en','UNRESOLVED_ANAPHORA'],
     ['Chłopiec widzi chłopca. On widzi kota.','pl','AMBIGUOUS_ANAPHORA'],
     ['Chłopiec widzi psa. Ona widzi kota.','pl','UNRESOLVED_ANAPHORA']
   ]){
@@ -98,10 +132,15 @@ test('E2a: existing discourse without pronouns keeps separate entity identities'
     'Dziewczynka widzi psa.');
 });
 
-test('E2a: pronoun inventory is declarative and checked against ontology and active nouns',()=>{
+test('A1-ENPL-08: pronoun inventory declares agreement and never maps to a person concept',()=>{
   const broken=structuredClone(eg);
-  broken.anaphora.subjectPronouns[0].concepts=['person.woman'];
-  assert.throws(()=>makeWith(en,broken,pl,pg),/unavailable person concept/);
+  assert.deepEqual(broken.anaphora.subjectPronouns[0].agreement,
+    {person:'third',number:'singular',gender:'feminine'});
+  broken.anaphora.subjectPronouns[0].agreement.gender='unknown';
+  assert.throws(()=>makeWith(en,broken,pl,pg),/subject pronoun declaration/);
+  const wrongGender=structuredClone(en);
+  wrongGender.nouns.find(noun=>noun.id==='en.girl.1').gender='unknown';
+  assert.throws(()=>createRuleAdapter(wrongGender,eg),/lexical grammatical gender/);
   broken.anaphora.subjectPronouns[0].text='<script>';
   assert.throws(()=>createRuleAdapter(en,broken),/subject pronoun declaration/);
   const duplicate=structuredClone(eg);

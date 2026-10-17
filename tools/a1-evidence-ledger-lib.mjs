@@ -58,7 +58,8 @@ export const EVIDENCE_SOURCES = Object.freeze([
  {id:'actions',fixture:'tests/fixtures/gold-daily-actions-a1.json',sha256:'00a66d5cdf7f25b186fcfd96c153303a790edf8d4ee14647ebf06ee710b37ad2',classification:'regression',args:['--test','tests/daily-actions-a1.test.js']},
  {id:'composition',fixture:'tests/fixtures/gold-a1-crossbatch.json',sha256:'dadf9698a7f572b059e1ec2b006d9314d31f844995df35701843b1775db0ce8d',classification:'regression',args:['--test','tests/a1-crossbatch-composition.test.js']},
  {id:'person',fixture:'tests/fixtures/gold-person-a1.json',sha256:'2b292bf3cbb7ec48c577cb7d1597a0bc7db48a84d5e8b02e3a33890479df61c9',classification:'regression',args:['--test','tests/a1-person-gold.test.js']},
- {id:'state',fixture:'tests/fixtures/gold-state-a1.json',sha256:'bb31fa232f550ef92c1dbdc1676349b66f059ed28249e995cbc5b161089ae64b',classification:'regression',args:['--test','tests/a1-state-gold.test.js']},
+ {id:'state',fixture:'tests/fixtures/gold-state-a1.json',sha256:'fa464db26afacf522ccb72f229f467a046991765497985f7d878dc676d7cd960',classification:'regression',args:['--test','tests/a1-state-gold.test.js']},
+ {id:'thirdperson',fixture:'tests/fixtures/gold-a1-third-person.json',sha256:'bd66cbc28dd097e5d6b2f72d9da13a2c2c8c54570a8e40885ff1d503fa3b6c7a',classification:'regression',args:['--test','tests/anaphora-e2a.test.js']},
  {id:'enplbasic',fixture:'tests/fixtures/gold-a1-enpl-basics.json',sha256:'60c98ab51b5ef43d562c6b91c95b697827d6115da1df7f398ee1eef9413d257d',classification:'regression',args:['--test','tests/a1-enpl-basic-predication.test.js']},
  {id:'barebeverages',fixture:'tests/fixtures/gold-a1-bare-beverages.json',sha256:'4716ca1dc5b6d021a69dc0cba4d99222b2a904aa08bd399fa4219a36482be231',classification:'regression',args:['--test','tests/a1-bare-beverages.test.js']},
  {id:'existential',fixture:'tests/fixtures/gold-a1-existential-locatives.json',sha256:'873f21e643d77287993899b50caa9f766ce899adde10a661ac0735fa59dbc1fc',classification:'regression',args:['--test','tests/a1-existential-locatives.test.js']},
@@ -279,6 +280,7 @@ function explicitConcepts(row) {
    let core=row.core;
    if(core.kind==='question'&&core.questionType==='yes_no')core=core.proposition;
    if(core.type==='state'){
+   if(core.kind==='predication'&&core.predicate)concepts.push(core.predicate);
      for(const role of Object.values(core.roles||{}))
        if(role?.concept)concepts.push(role.concept);
    }else if(['identity','predication','possession'].includes(core.kind)){
@@ -316,6 +318,20 @@ function coreDescriptor(core) {
  const question=core.kind==='question'&&core.questionType==='yes_no'?'yes_no':'none';
  const base=core.kind==='question'?core.proposition:core;
  if(!record(base))return null;
+ const unresolvedEntries=Object.entries(base.roles||{}).filter(([,ref])=>
+   ref?.referent?.kind==='anaphoric'&&ref.referent.resolution==='unresolved');
+ if(unresolvedEntries.length){
+   const valid=ref=>record(ref)&&Object.keys(ref).sort().join(',')==='agreement,referent'&&
+     record(ref.referent)&&Object.keys(ref.referent).sort().join(',')==='kind,resolution'&&
+     record(ref.agreement)&&Object.keys(ref.agreement).sort().join(',')==='gender,number,person'&&
+     ref.agreement.person==='third'&&ref.agreement.number==='singular'&&
+     ['feminine','masculine'].includes(ref.agreement.gender);
+   if(base.version!=='1.32'||unresolvedEntries.some(([,ref])=>!valid(ref)))return null;
+   const unresolvedRoles=unresolvedEntries.map(([role])=>role);
+   const features=base.features??base;
+   return {type:'referent',kind:'unresolved-third-person',roles:unresolvedRoles,
+     tense:features.tense,polarity:features.polarity,question};
+ }
  const type=base.type??(['classification','predication','possession','identity','location'].includes(base.kind)?'state':undefined);
  const kind=type==='event'?base.concept:base.kind;
  const features=base.features??base;

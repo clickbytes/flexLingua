@@ -135,4 +135,10 @@ Nowy wariant dokumentu `1.26` wersjonuje uczestnika z polem `possessor` i stan p
 4. Bezpieczna realizacja polskiego czasu przeszłego przy znanym rodzaju oraz jawna alternatywa/odmowa przy rodzaju nieznanym.
 5. Dwie tury tego samego jawnie zidentyfikowanego mówcy i tury ze zmianą mówcy; brak koreferencji między samymi etykietami `speaker`/`addressee`.
 
+## Addendum A1-ENPL-08: unresolved third person
+
+The third-person subject inventory declares agreement, not a person concept. `She`/`ona` carry `{person:"third", number:"singular", gender:"feminine"}` and `he`/`on` carry the masculine counterpart. CORE stores this as `{referent:{kind:"anaphoric",resolution:"unresolved"},agreement}` under document version `1.32`; it carries no age, job, name, or `person.girl`/`person.boy` identity.
+
+In a single clause the unresolved pronoun is preserved in the target when its form and agreement are supported. For Polish adjective agreement the grammatical gender is available, while identity remains unresolved. In discourse an English or Polish third-person pronoun links only to one unique earlier person with matching singular number and grammatical gender. No compatible antecedent yields `UNRESOLVED_ANAPHORA`; multiple compatible antecedents yield `AMBIGUOUS_ANAPHORA`. A pronoun does not create `person.unknown` or turn its grammatical gender into lexical identity.
+
 Te przypadki wymagają niezależnie zapisanych oczekiwań PL↔CORE↔EN. Nie wystarczy sprawdzić, że parser i realizator zgadzają się ze sobą.

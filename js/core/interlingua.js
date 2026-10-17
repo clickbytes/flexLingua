@@ -28,6 +28,7 @@ export const COMPARISON_VERSION = '1.27';
 export const EVENT_RELATIONS_VERSION = '1.28';
 export const PASSIVE_VERSION = '1.29';
 export const CONDITIONAL_VERSION = '1.30';
+export const ANAPHORA_VERSION = '1.32';
 export const EVENT_RELATION_TYPES = Object.freeze([
   'event_relation.before', 'event_relation.after', 'event_relation.because'
 ]);
@@ -67,10 +68,11 @@ export function eventSemanticSignature(event) {
 
 export function createEvent(concept, roles, features, {voice,omittedRoles}={}) {
   const hasDeictic = Object.values(roles).some(ref => record(ref) && hasOwn(ref, 'referent'));
+  const hasAnaphoric = Object.values(roles).some(isAnaphoricReferent);
   const hasPossessor = Object.values(roles).some(ref => record(ref) && hasOwn(ref,'possessor'));
   const event={
     version: voice==='passive' || (Array.isArray(omittedRoles)&&omittedRoles.length) ?
-      PASSIVE_VERSION : hasPossessor ? POSSESSIVE_VERSION :
+      PASSIVE_VERSION : hasAnaphoric ? ANAPHORA_VERSION : hasPossessor ? POSSESSIVE_VERSION :
       hasOwn(features,'clockTime') || hasOwn(features,'calendarDate') ? NUMERIC_TIME_VERSION :
       hasDeictic ? DEICTIC_VERSION :
       Object.values(roles).some(ref => record(ref) && hasOwn(ref, 'relatives')) ? CLAUSE_VERSION :
@@ -103,7 +105,8 @@ function stateFeatures(features) {
 }
 
 function createState(kind, roles, features, predicate) {
-  const version=kind==='classification'?CLASSIFICATION_VERSION:
+  const version=Object.values(roles).some(isAnaphoricReferent)?ANAPHORA_VERSION:
+    kind==='classification'?CLASSIFICATION_VERSION:
     Object.values(roles).some(ref=>record(ref)&&hasOwn(ref,'possessor'))
     ?POSSESSIVE_VERSION:STATE_VERSION;
   const state = { version, type: 'state', kind, roles,
@@ -163,6 +166,10 @@ export function isQualifiedParticipant(ref) {
     hasOwn(ref, 'quantifier') || hasOwn(ref, 'relatives') || hasOwn(ref,'demonstrative'));
 }
 
+function isAnaphoricReferent(ref) {
+  return record(ref) && ref.referent?.kind === 'anaphoric';
+}
+
 function validateModifiers(nodes, ontology, parentType, depth, budget) {
   if (!Array.isArray(nodes) || nodes.length < 1 || nodes.length > MAX_ENTITY_MODIFIERS ||
       depth > MAX_MODIFIER_DEPTH) throw new Error('Modifier tree depth or breadth limit exceeded.');
@@ -184,22 +191,26 @@ function validateModifiers(nodes, ontology, parentType, depth, budget) {
 }
 
 function validateReferent(ref, ontology, registry, label, qualifiedAllowed, clauseAllowed = false, relativeDepth = 0,
-  deicticAllowed = false) {
+  typedAllowed = false, anaphoricAllowed = false) {
   if (record(ref) && hasOwn(ref, 'referent')) {
     const referent = ref.referent;
     const agreement = ref.agreement;
-    if (!deicticAllowed || Object.keys(ref).sort().join(',') !== 'agreement,referent' ||
-        !record(referent) || Object.keys(referent).sort().join(',') !== 'anchor,kind' ||
-        referent.kind !== 'deictic' || !['speaker','addressee','demonstrative'].includes(referent.anchor) ||
-        !record(agreement) || Object.keys(agreement).sort().join(',') !== 'number,person' ||
-        !['first','second','third'].includes(agreement.person) ||
-        !['singular','plural'].includes(agreement.number) ||
-        (referent.anchor === 'speaker' && agreement.person !== 'first') ||
-        (referent.anchor === 'addressee' && agreement.person !== 'second') ||
-        (referent.anchor === 'demonstrative' &&
-          (agreement.person !== 'third' || agreement.number !== 'singular'))) {
-      throw new Error(`Invalid deictic participant for ${label}.`);
-    }
+    const common=typedAllowed && Object.keys(ref).sort().join(',') === 'agreement,referent' &&
+      record(agreement) && ['first','second','third'].includes(agreement.person) &&
+      ['singular','plural'].includes(agreement.number);
+    const deictic=common && record(referent) && Object.keys(referent).sort().join(',') === 'anchor,kind' &&
+      referent.kind === 'deictic' && ['speaker','addressee','demonstrative'].includes(referent.anchor) &&
+      Object.keys(agreement).sort().join(',') === 'number,person' &&
+      (referent.anchor === 'speaker' ? agreement.person === 'first' :
+        referent.anchor === 'addressee' ? agreement.person === 'second' :
+          agreement.person === 'third' && agreement.number === 'singular');
+    const anaphoric=anaphoricAllowed && common && record(referent) &&
+      Object.keys(referent).sort().join(',') === 'kind,resolution' &&
+      referent.kind === 'anaphoric' && referent.resolution === 'unresolved' &&
+      Object.keys(agreement).sort().join(',') === 'gender,number,person' &&
+      agreement.person === 'third' && agreement.number === 'singular' &&
+      ['feminine','masculine'].includes(agreement.gender);
+    if (!(deictic || anaphoric)) throw new Error(`Invalid typed participant for ${label}.`);
     return;
   }
   if (!record(ref) || !ontology?.concepts?.[ref.concept] ||
@@ -217,7 +228,7 @@ function validateReferent(ref, ontology, registry, label, qualifiedAllowed, clau
   }
   if (hasOwn(ref,'possessor')) {
     if(!qualifiedAllowed)throw new Error(`Possessive participants require Interlingua v${POSSESSIVE_VERSION}.`);
-    validateReferent(ref.possessor,ontology,registry,`${label} possessor`,false,false,0,true);
+    validateReferent(ref.possessor,ontology,registry,`${label} possessor`,false,false,0,true,false);
   }
   if (hasOwn(ref, 'relatives')) {
     if (!clauseAllowed || relativeDepth >= MAX_RELATIVE_DEPTH ||
@@ -416,6 +427,10 @@ function validateEventShape(node, ontology, registry, qualifiedAllowed = true, c
     throw new Error('Event document contains unsupported fields.');
   }
   const hasNumericTime=hasOwn(node,'clockTime')||hasOwn(node,'calendarDate');
+  const hasAnaphoric=Object.values(node.roles||{}).some(isAnaphoricReferent);
+  if ((node.version===ANAPHORA_VERSION)!==hasAnaphoric) {
+    throw new Error('Unresolved third-person referents require their explicit event version.');
+  }
   if((hasNumericTime && ![NUMERIC_TIME_VERSION,POSSESSIVE_VERSION,PASSIVE_VERSION].includes(node.version)) ||
       (!hasNumericTime && node.version===NUMERIC_TIME_VERSION)) {
     throw new Error('Numeric time fields require a compatible event version.');
@@ -477,7 +492,8 @@ function validateEventShape(node, ontology, registry, qualifiedAllowed = true, c
     if (!hasOwn(node.roles, role)) throw new Error(`Missing semantic role: ${role}`);
     const ref = node.roles[role];
     validateReferent(ref, ontology, registry, role, qualifiedAllowed, clauseAllowed, depth,
-      [DEICTIC_VERSION,NUMERIC_TIME_VERSION,POSSESSIVE_VERSION,PASSIVE_VERSION].includes(node.version));
+      [DEICTIC_VERSION,NUMERIC_TIME_VERSION,POSSESSIVE_VERSION,PASSIVE_VERSION,ANAPHORA_VERSION].includes(node.version),
+      node.version===ANAPHORA_VERSION);
     const constraint = event.roleTypes?.[role];
     if (constraint && !(hasOwn(ref, 'referent') ? ontology.isA('person', constraint) :
       ontology.isA(ref.concept, constraint))) {
@@ -499,10 +515,15 @@ function validateStateShape(node, ontology, registry, gap = null) {
   const fields = hasPredicate ?
     ['version','type','kind','predicate','roles','features'] :
     ['version','type','kind','roles','features',...(hasLocation?['relation']:[])];
+  const hasAnaphoric=Object.values(node.roles||{}).some(isAnaphoricReferent);
+  const classificationVersion=node.version===CLASSIFICATION_VERSION ||
+    (node.version===ANAPHORA_VERSION && hasAnaphoric);
   if (ontology?.stateFrameVersion !== STATE_FRAME_VERSION || !frame ||
-      ![STATE_VERSION,POSSESSIVE_VERSION,CLASSIFICATION_VERSION].includes(node.version) ||
+      ![STATE_VERSION,POSSESSIVE_VERSION,CLASSIFICATION_VERSION,ANAPHORA_VERSION].includes(node.version) ||
       !['identity','predication','classification','possession','location'].includes(node.kind) ||
-      (node.kind==='classification')!==(node.version===CLASSIFICATION_VERSION) ||
+      (node.kind==='classification' && !classificationVersion) ||
+      (node.kind!=='classification' && node.version===CLASSIFICATION_VERSION) ||
+      (node.version===ANAPHORA_VERSION)!==hasAnaphoric ||
       (hasLocation && !(gap === 'location' && node.relation === 'unspecified') &&
         !['interior','surface','point'].includes(node.relation)) ||
       Object.keys(node).length !== fields.length || Object.keys(node).some(key => !fields.includes(key)) ||
@@ -518,7 +539,8 @@ function validateStateShape(node, ontology, registry, gap = null) {
   validateFeatureBundle(node.features, registry.domains.state, 'state');
   for (const role of frame.roles.filter(role => role !== gap)) {
     const ref = node.roles[role];
-    validateReferent(ref, ontology, registry, role, true, true, 0, true);
+    validateReferent(ref, ontology, registry, role, true, true, 0, true,
+      node.version===ANAPHORA_VERSION);
     const concept = hasOwn(ref,'referent') ? 'person' : ref.concept;
     if (!ontology.isA(concept,frame.roleTypes[role])) {
       throw new Error(`Participant for ${role} violates state role type ${frame.roleTypes[role]}.`);
@@ -699,7 +721,7 @@ function validateQuestion(node, ontology, registry) {
   if (!safeName(node.targetRole) || !record(p) || p.type!=='event' ||
       !['version','type','concept','roles','features'].every(k=>hasOwn(p,k)) ||
       Object.keys(p).length!==5 ||
-      ![INTERLINGUA_VERSION,QUALIFIED_VERSION,CLAUSE_VERSION,SEMANTIC_VERSION,DEICTIC_VERSION,NUMERIC_TIME_VERSION].includes(p.version) ||
+      ![INTERLINGUA_VERSION,QUALIFIED_VERSION,CLAUSE_VERSION,SEMANTIC_VERSION,DEICTIC_VERSION,NUMERIC_TIME_VERSION,ANAPHORA_VERSION].includes(p.version) ||
       !record(p.roles)) {
     throw new Error('Invalid WH question proposition or semantic targetRole.');
   }
@@ -864,14 +886,14 @@ function validateClauseTree(node, ontology, registry, depth = 0, gap = null) {
     validateComparisonShape(node,ontology,registry);
   } else if (node.type === 'event') {
     if (![INTERLINGUA_VERSION, QUALIFIED_VERSION, CLAUSE_VERSION, SEMANTIC_VERSION,
-      DEICTIC_VERSION, NUMERIC_TIME_VERSION,POSSESSIVE_VERSION,PASSIVE_VERSION].includes(node.version)) {
+      DEICTIC_VERSION, NUMERIC_TIME_VERSION,POSSESSIVE_VERSION,PASSIVE_VERSION,ANAPHORA_VERSION].includes(node.version)) {
       throw new Error('Unsupported event version.');
     }
     validateEventShape(node, ontology, registry, node.version !== INTERLINGUA_VERSION,
       [CLAUSE_VERSION, SEMANTIC_VERSION, NUMERIC_TIME_VERSION,POSSESSIVE_VERSION,
         PASSIVE_VERSION].includes(node.version),0,gap);
   } else if (node.type === 'state') {
-    if (![STATE_VERSION,POSSESSIVE_VERSION,CLASSIFICATION_VERSION].includes(node.version)) throw new Error('Unsupported state version.');
+    if (![STATE_VERSION,POSSESSIVE_VERSION,CLASSIFICATION_VERSION,ANAPHORA_VERSION].includes(node.version)) throw new Error('Unsupported state version.');
     validateStateShape(node,ontology,registry,gap);
   } else if (node.type === 'complement') {
     const frame = ontology.get(node.concept);

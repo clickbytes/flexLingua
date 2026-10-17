@@ -63,6 +63,10 @@ function isDeicticReferent(ref) {
   return record(ref) && hasOwn(ref, 'referent');
 }
 
+function isAnaphoricReferent(ref) {
+  return isDeicticReferent(ref) && ref.referent?.kind === 'anaphoric';
+}
+
 function own(obj, key) {
   return hasOwn(obj, key) ? obj[key] : undefined;
 }
@@ -228,17 +232,25 @@ function validateGrammar(dictionary, grammar) {
         anaphora.subjectPronouns.length<1 || anaphora.subjectPronouns.length>8){
       throw new Error('Invalid anaphora grammar inventory.');
     }
-    const seen=new Set();
+    const seen=new Set(),seenAgreements=new Set();
+    const grammaticalGenders=new Set(['feminine','masculine','neuter']);
+    if(dictionary.nouns.some(noun=>noun.gender!==undefined&&
+        !grammaticalGenders.has(noun.gender))){
+      throw new Error('Invalid lexical grammatical gender for third-person agreement.');
+    }
     for(const entry of anaphora.subjectPronouns){
-      if(!record(entry) || Object.keys(entry).sort().join(',')!=='concepts,text' ||
+      const agreement=entry?.agreement;
+      const agreementKey=record(agreement)?JSON.stringify(agreement):'';
+      if(!record(entry) || Object.keys(entry).sort().join(',')!=='agreement,text' ||
           !/^[\p{L}]+$/u.test(entry.text||'') ||
           seen.has(entry.text.toLocaleLowerCase(grammar.language)) ||
-          !Array.isArray(entry.concepts) || !entry.concepts.length ||
-          entry.concepts.length>12 || new Set(entry.concepts).size!==entry.concepts.length ||
-          entry.concepts.some(concept=>!LEXEME_ID.test(concept))){
+          !record(agreement) || Object.keys(agreement).sort().join(',')!=='gender,number,person' ||
+          agreement.person!=='third' || agreement.number!=='singular' ||
+          !['feminine','masculine'].includes(agreement.gender) || seenAgreements.has(agreementKey)){
         throw new Error('Invalid subject pronoun declaration.');
       }
       seen.add(entry.text.toLocaleLowerCase(grammar.language));
+      seenAgreements.add(agreementKey);
     }
   }
 
@@ -823,7 +835,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     return { event, subject: subject ? {
       person: agreement?.person ?? GRAMMATICAL_PERSON.third,
       number: agreement?.number ?? (polishCountAgreement?'singular':ref?.features?.number),
-      gender: subject.noun?.gender,
+      gender: agreement?.gender ?? subject.noun?.gender,
       pluralClass: subject.noun?.pluralClass
     } : {} };
   }
@@ -981,7 +993,8 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
                 ?subject.value.agreement:null;
               const context={number:subjectAgreement?.number ?? subject.value.features?.number,
                 case:frame.predicateCase,
-                ...(subject.noun?.gender?{gender:subject.noun.gender}:{}),
+                ...(subjectAgreement?.gender ?? subject.noun?.gender
+                  ?{gender:subjectAgreement?.gender ?? subject.noun?.gender}:{}),
                 ...(subject.noun?.pluralClass?{pluralClass:subject.noun.pluralClass}:{}),
                 ...(subject.noun?.animacy?{animacy:subject.noun.animacy}:{})};
               phrases=[...nominal.readProperty(tokens,index,context),
@@ -1060,11 +1073,8 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     for(const pronoun of subjectPronouns) {
       const size=matchesTokens(tokens,index,pronoun.text);
       if(!size)continue;
-      for(const concept of pronoun.concepts) {
-        if(!nounIndex.has(concept))continue;
-        found.push({value:{concept,features:{number:'singular',definiteness:'definite'}},
-          noun:nounByConcept(concept),next:index+size,senseId:null,priority:0});
-      }
+      found.push({value:{referent:{kind:'anaphoric',resolution:'unresolved'},
+        agreement:{...pronoun.agreement}},noun:null,next:index+size,senseId:null,priority:0});
     }
     return found;
   }
@@ -1296,7 +1306,9 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
             for (const grammaticalCase of cases) {
               const phrases=[...readNounPhrases(tokens,index,grammaticalCase,depth,budget,
                 {allowBare:frame.bareRoles?.includes(step) === true}),
-                ...readDeicticNounPhrases(tokens,index,deicticCase(grammaticalCase,step))];
+                ...readDeicticNounPhrases(tokens,index,deicticCase(grammaticalCase,step)),
+                ...(step===subjectRole && grammaticalCase===nounPhrase.subjectCase
+                  ?readStateSubjectPronouns(tokens,index):[])];
               for (const parsed of phrases) {
                 if (dictionary.language==='en' && parsed.bare && frame.bareRoleConcepts?.[step] &&
                     !bareRoleAllows(frame,step,parsed.noun.concept)) continue;
@@ -1808,7 +1820,7 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     const found=subjectPronouns.find(item=>
       item.text.toLocaleLowerCase(grammar.language)===
         match[1].toLocaleLowerCase(grammar.language));
-    return found?{text:found.text,concepts:[...found.concepts]}:null;
+    return found?{text:found.text,agreement:{...found.agreement}}:null;
   }
 
   function readDeicticPronoun(text) {
@@ -1821,12 +1833,11 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
     }));
   }
 
-  function expandSubjectPronoun(text,referent) {
+  function expandSubjectPronoun(text,referent,ontology=null) {
     const pronoun=readSubjectPronoun(text);
     if(!pronoun || !record(referent) ||
-       !pronoun.concepts.includes(referent.concept) ||
-       referent.features?.number!=='singular' ||
-       !nounIndex.has(referent.concept)){
+       subjectPronounFor(referent,ontology)!==pronoun.text ||
+       !referent.concept || !nounIndex.has(referent.concept)){
       throw new Error('Unresolved anaphora: no licensed singular subject antecedent.');
     }
     const noun=nounByConcept(referent.concept);
@@ -1839,10 +1850,21 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
   }
 
   /** Safe surface candidate only; semantic antecedent selection belongs to Engine. */
-  function subjectPronounFor(ref) {
-    if (!record(ref) || isDeicticReferent(ref) || ref.features?.number !== 'singular' ||
-        !nounIndex.has(ref.concept)) return null;
-    const matches = subjectPronouns.filter(item=>item.concepts.includes(ref.concept));
+  function subjectPronounFor(ref,ontology=null) {
+    if (!record(ref)) return null;
+    if(isDeicticReferent(ref)){
+      if(ref.referent?.kind!=='anaphoric' || ref.referent.resolution!=='unresolved')return null;
+      const matches=subjectPronouns.filter(item=>item.agreement.person===ref.agreement?.person &&
+        item.agreement.number===ref.agreement?.number &&
+        item.agreement.gender===ref.agreement?.gender);
+      return matches.length===1?matches[0].text:null;
+    }
+    if (ref.features?.number !== 'singular' || !nounIndex.has(ref.concept) ||
+        (ontology && !ontology.isA(ref.concept,'person'))) return null;
+    const genders=new Set(nounIndex.get(ref.concept).map(noun=>noun.gender).filter(Boolean));
+    if(genders.size!==1)return null;
+    const matches = subjectPronouns.filter(item=>item.agreement.person==='third' &&
+      item.agreement.number===ref.features.number && item.agreement.gender===[...genders][0]);
     return matches.length === 1 ? matches[0].text : null;
   }
 
@@ -1854,6 +1876,11 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
   }
 
   function deicticPronounSurface(ref,grammaticalCase=nounPhrase.subjectCase) {
+    if(ref.referent?.kind==='anaphoric'){
+      const text=subjectPronounFor(ref);
+      if(!text)throw new Error('Missing target third-person pronoun for typed referent.');
+      return text;
+    }
     const entry=deicticPronouns.find(item=>
       item.referent.anchor===ref.referent.anchor &&
       item.person===ref.agreement.person && item.number===ref.agreement.number &&
@@ -1972,7 +1999,8 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
         const noun=subjectNoun;
         const context={number:isDeicticReferent(subject)
           ?subject.agreement.number:subject.features.number,case:frame.predicateCase,
-          ...(noun?.gender?{gender:noun.gender}:{}),
+          ...(subject.agreement?.gender ?? noun?.gender
+            ?{gender:subject.agreement?.gender ?? noun?.gender}:{}),
           ...(noun?.pluralClass?{pluralClass:noun.pluralClass}:{}),
           ...(noun?.animacy?{animacy:noun.animacy}:{})};
         return nominal.realizeProperty(meaning.predicate,context);
@@ -2013,7 +2041,8 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
       if(step==='@negator')return [stateGrammar.negator];
       if(step.startsWith('@'))return [step.slice(1)];
       if(step===frame.subjectRole && frame.allowImplicitDeicticSubject &&
-          isDeicticReferent(meaning.roles[step]))return [];
+          isDeicticReferent(meaning.roles[step]) &&
+          !isAnaphoricReferent(meaning.roles[step]))return [];
       return [surface(step)];
     });
     return {text:sentenceText([parts.join(' ')],sentence.terminator),warnings:[],alternatives:[]};
@@ -2434,7 +2463,9 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
         if(role===frame.predicateRole) {
           const noun=isDeicticReferent(subject)?null:nounByConcept(subject.concept);
           const context={number:isDeicticReferent(subject)?subject.agreement.number:subject.features.number,
-            case:frame.predicateCase,...(noun?.gender?{gender:noun.gender}:{}),
+            case:frame.predicateCase,
+            ...(subject.agreement?.gender ?? noun?.gender
+              ?{gender:subject.agreement?.gender ?? noun?.gender}:{}),
             ...(noun?.pluralClass?{pluralClass:noun.pluralClass}:{}),
             ...(noun?.animacy?{animacy:noun.animacy}:{})};
           return nominal.realizeProperty(clause.predicate,context);
@@ -2518,14 +2549,6 @@ export function createRuleAdapter(sourceDictionary, rules, {morphology} = {}) {
       for(const caseName of Object.keys(questions.wh.theme.caseMarkers||{})){
         if(!domains.syntactic.case.includes(caseName)) {
           throw new Error('Unknown grammatical WH marker case.');
-        }
-      }
-    }
-    for(const entry of subjectPronouns){
-      for(const concept of entry.concepts){
-        if(ontology.get(concept)?.type!=='entity' ||
-           !ontology.isA(concept,'person') || !nounIndex.has(concept)){
-          throw new Error('Anaphora pronoun maps to an unavailable person concept: '+concept);
         }
       }
     }

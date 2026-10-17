@@ -380,7 +380,8 @@
         ],
         "roles": [
           "subject",
-          "antecedent?"
+          "owner",
+          "agent"
         ]
       },
       "tense": [
@@ -392,14 +393,26 @@
       "question": [
         "none"
       ],
-      "implementationStatus": "planned",
+      "implementationStatus": "implemented",
       "dependencies": [
         "A1-ENPL-07"
       ],
-      "evidence": [],
-      "knownGaps": [
-        "Third-person referent contract and reviewed gold fixture are pending batch 08."
-      ]
+      "evidence": [
+        {
+          "sourceId": "thirdperson",
+          "fixture": "tests/fixtures/gold-a1-third-person.json",
+          "suite": "tests/anaphora-e2a.test.js",
+          "positiveCases": {
+            "en->pl": ["A1-ENPL-08-EN-01", "A1-ENPL-08-EN-02", "A1-ENPL-08-EN-03"],
+            "pl->en": ["A1-ENPL-08-PL-01", "A1-ENPL-08-PL-02", "A1-ENPL-08-PL-03"]
+          },
+          "refusalCases": {
+            "en->pl": ["A1-ENPL-08-NEG-01", "A1-ENPL-08-NEG-02", "A1-ENPL-08-NEG-03", "A1-ENPL-08-NEG-04"],
+            "pl->en": []
+          }
+        }
+      ],
+      "knownGaps": []
     },
     {
       "id": "A1-ENPL-09",

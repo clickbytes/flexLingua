@@ -15,13 +15,13 @@ const status=kind=>Object.fromEntries(EVIDENCE_SOURCES.map(s=>
 const run=(changes={})=>buildA1EvidenceLedger({manifest,ontology,corpora,checks:status('pass'),constructionRegistry,...changes});
 const byId=(report,id)=>report.targets.find(x=>x.id===id);
 
-test('A1 VAL-03: all fifteen project-authored fixtures are inventoried',()=>{
+test('A1 VAL-03: all sixteen project-authored fixtures are inventoried',()=>{
  const report=run();
- assert.equal(report.totals.sources,15);
+ assert.equal(report.totals.sources,16);
  assert.deepEqual({p:report.totals.positive,n:report.totals.negative,
    f:report.totals.morphologyCells,productive:report.totals.productiveOnly},
-   {p:538,n:99,f:60,productive:2});
- assert.equal(report.verification.positiveVerified,538);
+   {p:544,n:103,f:60,productive:2});
+ assert.equal(report.verification.positiveVerified,544);
  const basic=report.sources.find(x=>x.id==='enplbasic');
  assert.equal(corpora.enplbasic.license,'project-authored');
  assert.equal(corpora.enplbasic.provenance.source,'project-authored');
@@ -38,9 +38,11 @@ test('A1 VAL-03: all fifteen project-authored fixtures are inventoried',()=>{
  assert.deepEqual(family01.executed.positive['en->pl'],{pass:1,fail:0,'not-run':0});
  assert.equal(report.release.inputs.constructionRegistrySha256,report.constructionCoverage.registrySha256);
  const family08=report.constructionCoverage.families.find(x=>x.id==='A1-ENPL-08');
- assert.equal(family08.implementationStatus,'planned');
- assert.equal(family08.evidenceStatus,'planned');
- assert.ok(family08.knownGaps.length>0);
+ assert.equal(family08.implementationStatus,'implemented');
+ assert.equal(family08.evidenceStatus,'verified');
+ assert.equal(family08.knownGaps.length,0);
+ assert.deepEqual(family08.declared.positive,{'en->pl':3,'pl->en':3});
+ assert.deepEqual(family08.declared.refusal,{'en->pl':4,'pl->en':0});
  const family02=report.constructionCoverage.families.find(x=>x.id==='A1-ENPL-02');
  assert.deepEqual(family02.evidence[0].caseResults.filter(x=>x.id.startsWith('STATE-EN-2')).map(x=>x.id),
    ['STATE-EN-21','STATE-EN-22','STATE-EN-23','STATE-EN-24']);
@@ -88,7 +90,7 @@ test('A1 VAL-03: all fifteen project-authored fixtures are inventoried',()=>{
      .reduce((sum,row)=>sum+row[kind],0),report.sampleQuality.declared[kind]);
  assert.equal(Object.values(report.sampleQuality.declared.morphologyByLanguage)
    .reduce((sum,count)=>sum+count,0),report.totals.morphologyCells);
- assert.equal(report.sampleQuality.verified.positive,538);
+ assert.equal(report.sampleQuality.verified.positive,544);
  assert.equal(report.targetSummary.total,23);
  assert.deepEqual({concepts:report.targets.filter(x=>x.unitType==='concept').length,
    constructions:report.targets.filter(x=>x.unitType==='construction').length},
@@ -143,7 +145,7 @@ test('A1 VAL-03: suite failures must not be reported as verified successes',()=>
  const unverifiedFamily=unverified.constructionCoverage.families.find(x=>x.id==='A1-ENPL-01');
  assert.equal(unverifiedFamily.evidenceStatus,'declared-unverified');
  assert.equal(unverifiedFamily.executed.positive['en->pl']['not-run'],1);
- assert.equal(unverified.constructionCoverage.families.find(x=>x.id==='A1-ENPL-08').evidenceStatus,'planned');
+ assert.equal(unverified.constructionCoverage.families.find(x=>x.id==='A1-ENPL-08').evidenceStatus,'declared-unverified');
  assert.equal(unverified.cefr.percentage,null);
 });
 
@@ -183,10 +185,10 @@ test('A1 VAL-03: catalog-only CLI does not claim any executed checks',()=>{
  assert.equal(proc.status,0,proc.stderr);
  const report=JSON.parse(proc.stdout);
  assert.equal(report.verification.status,'not-run');
- assert.equal(report.verification.suitesNotRun,15);
+ assert.equal(report.verification.suitesNotRun,16);
  assert.equal(report.cefr.percentage,null);
  assert.equal(report.constructionCoverage.families.find(x=>x.id==='A1-ENPL-01').evidenceStatus,'declared-unverified');
- assert.equal(report.constructionCoverage.families.find(x=>x.id==='A1-ENPL-08').evidenceStatus,'planned');
+ assert.equal(report.constructionCoverage.families.find(x=>x.id==='A1-ENPL-08').evidenceStatus,'declared-unverified');
  assert.equal(report.execution.runtime,'node');
  assert.ok(Number.isInteger(report.execution.pid));
  assert.ok(report.sources.every(x=>x.fixtureIntegrity==='verified'));

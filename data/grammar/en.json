@@ -994,15 +994,19 @@
     "subjectPronouns": [
       {
         "text": "she",
-        "concepts": [
-          "person.girl"
-        ]
+        "agreement": {
+          "person": "third",
+          "number": "singular",
+          "gender": "feminine"
+        }
       },
       {
         "text": "he",
-        "concepts": [
-          "person.boy"
-        ]
+        "agreement": {
+          "person": "third",
+          "number": "singular",
+          "gender": "masculine"
+        }
       }
     ]
   },
