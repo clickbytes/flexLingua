@@ -1,6 +1,12 @@
 import {safeName,createLanguageFeatureProfile} from './features.js';
 import {validateTextProfile} from './text.js';
 
+function capabilityMismatch(message) {
+  const error=new Error(message);
+  error.code='LANGUAGE_CAPABILITY_MISMATCH';
+  throw error;
+}
+
 export const LANGUAGE_ADAPTER_CONTRACT_VERSION='1.0';
 export const MORPHOLOGY_ADAPTER_CONTRACT_VERSION='1.0';
 
@@ -16,6 +22,15 @@ export function validateLanguageAdapter(adapter) {
       typeof description.grammarVersion!=='string' ||
       !description.grammarVersion)
     throw new Error('Language adapter description does not match its code or grammar version.');
+  if(description.support!==undefined) {
+    const hasQuestionMethods=typeof adapter.analyzeQuestionCandidates==='function' &&
+      typeof adapter.realizeQuestion==='function';
+    if(description.support===null || typeof description.support!=='object' ||
+        Array.isArray(description.support) || typeof description.support.questions!=='boolean' ||
+        description.support.questions!==hasQuestionMethods) {
+      capabilityMismatch('Language adapter question capability does not match its methods.');
+    }
+  }
   if(adapter.featureProfile!==undefined || description.featureProfile!==undefined){
     const profile=createLanguageFeatureProfile(adapter.featureProfile,{language:adapter.code});
     const described=createLanguageFeatureProfile(description.featureProfile,{language:adapter.code});

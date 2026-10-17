@@ -21,6 +21,11 @@ test('MULTI-01: one neutral CORE hosts three adapter languages without pairwise 
     .registerLanguage(language(tr,tg));
   assert.equal(engine.capabilities().languageAdapterContractVersion,'1.0');
   assert.deepEqual(engine.capabilities().languages.map(item=>item.code),['en','pl','tr']);
+  assert.deepEqual(engine.capabilities().languages.map(item=>item.runtimeCapabilities),[
+    {parsing:true,realization:true,questions:true,morphology:false},
+    {parsing:true,realization:true,questions:true,morphology:false},
+    {parsing:true,realization:true,questions:false,morphology:false}
+  ]);
   const core=engine.analyze({text:'The girl saw the dog.',from:'en'});
   assert.equal(engine.realize({interlingua:core,to:'tr'}).text,'Kız köpeği gördü.');
   assert.equal(engine.realize({interlingua:core,to:'pl'}).text,'Dziewczynka widziała psa.');
@@ -39,6 +44,14 @@ test('MULTI-01: invalid contract, mismatched grammar and unknown CORE data fail 
     language:'pl',grammarVersion:'1.0'})}),/description/);
   assert.throws(()=>language(en,pg),/mismatch/);
   assert.equal(engine.capabilities().languages.length,0);
+});
+
+test('language adapter rejects declared question support when question methods are absent',()=>{
+  const engine=new Engine(concepts,features);
+  const adapter=language(en,eg);
+  assert.throws(()=>engine.registerLanguage({...adapter,
+    analyzeQuestionCandidates:undefined,realizeQuestion:undefined}),
+  error=>error.code==='LANGUAGE_CAPABILITY_MISMATCH');
 });
 
 test('Language adapter registration checks opt-in zero, two, and ten case profiles against grammar',()=>{
@@ -90,12 +103,13 @@ test('Language adapter registration checks opt-in zero, two, and ten case profil
 });
 
 test('MULTI-01: morphology reports missing cells and unknown features without guessing',()=>{
-  const engine=new Engine(concepts,features);
+  const engine=new Engine(concepts,features).registerLanguage(language(en,eg));
   const morphology=createMorphology(enMorph,en,morphFeatures);
   assert.throws(()=>engine.registerMorphology({...morphology,contractVersion:'2.0'}),
     /adapter contract/);
   engine.registerMorphology(morphology);
   assert.equal(engine.capabilities().morphologyAdapterContractVersion,'1.0');
+  assert.equal(engine.capabilities().languages[0].runtimeCapabilities.morphology,true);
   assert.deepEqual(engine.morphologyAvailability({language:'en',lexemeId:'en.dog.1',
     features:{number:'plural'}}),{supported:true,reason:null});
   assert.deepEqual(engine.morphologyAvailability({language:'en',lexemeId:'en.dog.1',

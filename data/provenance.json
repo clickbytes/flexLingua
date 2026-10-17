@@ -694,6 +694,56 @@
           "scope": "Typed existence and ordinary location distinction with present questions, negation and explicit refusals."
         }
       ]
+    },
+    {
+      "path": "data/languages/ar.json",
+      "version": "1.0",
+      "status": "project-authored",
+      "author": "flexLingua project contributors",
+      "source": "Project-authored language package manifest describing the existing Arabic morphology package; no external data imported.",
+      "license": "Project-authored; no separate SPDX data license grant is declared in this repository.",
+      "reviewedAt": "2026-10-17",
+      "permittedUse": "Internal flexLingua package configuration only; external reuse requires rights-holder review."
+    },
+    {
+      "path": "data/languages/en.json",
+      "version": "1.0",
+      "status": "project-authored",
+      "author": "flexLingua project contributors",
+      "source": "Project-authored language package manifest describing the existing English lexicon, grammar, morphology and tokenizer profile; no external data imported.",
+      "license": "Project-authored; no separate SPDX data license grant is declared in this repository.",
+      "reviewedAt": "2026-10-17",
+      "permittedUse": "Internal flexLingua package configuration only; external reuse requires rights-holder review."
+    },
+    {
+      "path": "data/languages/it.json",
+      "version": "1.0",
+      "status": "project-authored",
+      "author": "flexLingua project contributors",
+      "source": "Project-authored language package manifest describing the existing limited Italian lexicon, grammar and tokenizer profile; no external data imported.",
+      "license": "Project-authored; no separate SPDX data license grant is declared in this repository.",
+      "reviewedAt": "2026-10-17",
+      "permittedUse": "Internal flexLingua package configuration only; external reuse requires rights-holder review."
+    },
+    {
+      "path": "data/languages/pl.json",
+      "version": "1.0",
+      "status": "project-authored",
+      "author": "flexLingua project contributors",
+      "source": "Project-authored language package manifest describing the existing Polish lexicon, grammar, morphology and tokenizer profile; no external data imported.",
+      "license": "Project-authored; no separate SPDX data license grant is declared in this repository.",
+      "reviewedAt": "2026-10-17",
+      "permittedUse": "Internal flexLingua package configuration only; external reuse requires rights-holder review."
+    },
+    {
+      "path": "data/languages/tr.json",
+      "version": "1.0",
+      "status": "project-authored",
+      "author": "flexLingua project contributors",
+      "source": "Project-authored language package manifest describing the existing limited Turkish lexicon, grammar and tokenizer profile; no external data imported.",
+      "license": "Project-authored; no separate SPDX data license grant is declared in this repository.",
+      "reviewedAt": "2026-10-17",
+      "permittedUse": "Internal flexLingua package configuration only; external reuse requires rights-holder review."
     }
   ]
 }

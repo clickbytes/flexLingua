@@ -910,8 +910,17 @@ export class Engine {
       modalityDocumentVersion: MODALITY_VERSION, stateDocumentVersion: STATE_VERSION,
       stateFrameVersion: this.ontology.stateFrameVersion,
       coreLanguage: {code:'core', version:this.core.version, format:'interlingua-json'},
-      languages: [...this.languages.values()].map(a =>
-      ({ code: a.code, ...a.describe?.() })),
+      languages: [...this.languages.values()].map(a => ({
+        code:a.code,
+        ...a.describe?.(),
+        runtimeCapabilities:{
+          parsing:typeof a.analyzeCandidates==='function',
+          realization:typeof a.realize==='function',
+          questions:typeof a.analyzeQuestionCandidates==='function' &&
+            typeof a.realizeQuestion==='function',
+          morphology:this.morphologies.has(a.code)
+        }
+      })),
       morphologies: [...this.morphologies.values()].map(a=>a.describe()) };
   }
 
