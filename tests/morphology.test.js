@@ -34,6 +34,24 @@ test('v1.02 feature schema accepts nested controller agreement and refuses malfo
  assert.throws(()=>createMorphFeatureRegistry(bad),/Invalid morphology dimension/);
 });
 
+test('v1.02 nested agreement rejects conflicts without broadening supported dimensions',()=>{
+ const r=createMorphFeatureRegistry(features);
+ for (const input of [
+  {subject_person:'first',subject:{person:'third'}},
+  {subject:{person:'third'},subject_person:'first'}
+ ]) assert.throws(()=>flattenMorphFeatures(input,r),/Conflicting morphology feature/);
+ assert.deepEqual(flattenMorphFeatures({subject_person:'third',subject:{person:'third'}},r),
+   {subject_person:'third'});
+ assert.deepEqual(flattenMorphFeatures({subject:{person:'third'},object:{number:'plural'}},r),
+   {subject_person:'third',object_number:'plural'});
+ assert.throws(()=>flattenMorphFeatures({possessor:{number:'singular'}},r),
+   /Unsupported morphology feature possessor_number/);
+ assert.throws(()=>flattenMorphFeatures({custom_dimension:'value'},r),
+   /Unsupported morphology feature custom_dimension/);
+ assert.throws(()=>flattenMorphFeatures(JSON.parse('{"__proto__":"unsafe"}'),r),
+   /Unsafe morphology feature path/);
+});
+
 test('v1.03 generated PL and EN paradigm forms agree with stored legacy cells',()=>{
  for(const [data,morph] of [[pl,plMorph],[en,enMorph]]){
   const derived=materializeInflections(data,morph,{assertLegacy:true});
