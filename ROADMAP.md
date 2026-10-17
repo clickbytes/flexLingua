@@ -1,4 +1,4 @@
-# flexLingua — product roadmap
+# flexLingua - product roadmap
 
 GitHub Issues and pull requests hold current priorities, dependencies, and task evidence. This document describes durable product direction, not task status.
 
@@ -6,7 +6,15 @@ GitHub Issues and pull requests hold current priorities, dependencies, and task 
 
 Build a controlled translation system in which language-specific plugins analyze and realize text through one language-neutral CORE representation. The runtime and data contract use JavaScript ESM and JSON.
 
-The current packages support bounded directions: Polish↔English, English↔Finnish, Turkish→English, and Italian→English. Arabic is morphology-only. Package status and capabilities describe implemented subsets; they do not imply complete language coverage.
+The current packages support bounded directions: Polish<->English, English<->Finnish, Turkish->English, and Italian->English. Arabic is morphology-only. Package status and capabilities describe implemented subsets; they do not imply complete language coverage.
+
+## Product surfaces
+
+The local application is a terminal UI with exactly three tabs: Translate, Chat, and Forms. It uses one Engine and PluginRegistry per process through the shared application runtime. The Node translation CLI remains a separate, non-interactive entry point and can be used without starting the TUI. Neither surface requires an HTTP server or browser build.
+
+The CLI is the acceptance path for sentence behavior. The TUI provides interactive access to the same bounded services and must show unsupported results and diagnostics explicitly.
+
+Chat state exists only in the process memory. Forms shows results supplied by a language's morphology provider; it does not infer new forms or capabilities.
 
 ## Product principles
 
@@ -21,8 +29,6 @@ The current packages support bounded directions: Polish↔English, English↔Fin
 
 Grow the shared meaning model and language packages only when their contracts and manual evidence support the change. Prefer compositional rules over stored phrase pairs. Keep packages independent and declare unavailable directions or constructions explicitly.
 
-The Node CLI is the current way to inspect package availability and review sentence behavior. Studio is outside the current CLI runtime and is documented as temporarily unavailable. Any future browser runtime requires its own explicit scope and plugin loading design.
-
 ## Quality direction
 
-For each language change, record actual CLI commands, independently stated expected meaning, returned text or refusal, CORE roles, diagnostics, exit code, and the reviewed commit SHA. Review both wording and semantics. Manual examples document only the constructions they contain; they are not a representative benchmark or a general quality percentage.
+For each language change, record actual CLI commands, independently stated expected meaning, returned text or refusal, CORE roles, diagnostics, exit code, and the reviewed commit SHA. Review both wording and semantics. Manually verify terminal behavior in supported environments and record any scenario that could not be run. Manual examples document only the constructions they contain; they are not a representative benchmark or a general quality percentage.

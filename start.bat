@@ -1,27 +1,22 @@
 @echo off
 setlocal
 cd /d "%~dp0"
-echo flexLingua - lokalny tryb uruchamiania
 where node >nul 2>nul
-if not errorlevel 1 (
-  echo Start serwera Node.js. Nacisnij Ctrl+C, aby zakonczyc.
-  node tools\serve.mjs --open
-  goto :end
+if errorlevel 1 goto :node_missing
+if not exist "node_modules\terminal-kit\package.json" (
+  goto :dependencies_missing
 )
-where py >nul 2>nul
-if not errorlevel 1 (
-  start "" "http://127.0.0.1:8000/"
-  py -3 -m http.server 8000 --bind 127.0.0.1
-  goto :end
-)
-where python >nul 2>nul
-if not errorlevel 1 (
-  start "" "http://127.0.0.1:8000/"
-  python -m http.server 8000 --bind 127.0.0.1
-  goto :end
-)
-echo.
-echo Brak Node.js i Python. Zainstaluj jedno z tych narzedzi, aby uruchomic serwer lokalny.
+node tools\tui.mjs
+set "TUI_EXIT=%errorlevel%"
+goto :end
+:node_missing
+echo Node.js 22.12.0 or newer is required to run flexLingua Terminal UI.
 pause
+set "TUI_EXIT=1"
+goto :end
+:dependencies_missing
+echo Dependencies are missing. Run npm ci from this directory, then try again.
+pause
+set "TUI_EXIT=1"
 :end
-endlocal
+endlocal & exit /b %TUI_EXIT%

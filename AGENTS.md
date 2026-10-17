@@ -39,6 +39,8 @@ node tools/translate.mjs --languages
 node tools/translate.mjs --from en --to pl --text "The girl sees the dog." --json
 ```
 
+The terminal application is started with `npm run tui` (or `start.bat` on Windows) and has exactly three tabs: Translate, Chat, and Forms. Manually verify terminal behavior in an interactive Windows or Linux terminal, including keyboard navigation, resize, Unicode, and restoring the terminal on exit. If an interactive TTY is unavailable, report those checks as NOT RUN. The CLI remains the acceptance path for language behavior.
+
 For each changed direction, review actual words and CORE roles, referents, tense, aspect, polarity, number, ambiguity, information loss, diagnostics, and exit code. Include positive examples and a refusal where relevant. State expected meaning independently before running the CLI; do not treat a matching string as semantic proof.
 
 For infrastructure or documentation work, run only the syntax, import, reference, or CLI checks needed by the issue. Automated test suites and Actions are not acceptance gates. Report exact commands and mark unrun checks as NOT RUN.

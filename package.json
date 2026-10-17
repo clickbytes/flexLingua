@@ -10,7 +10,6 @@
     "translate": "node tools/translate.mjs",
     "languages": "node tools/translate.mjs --languages",
     "tui": "node tools/tui.mjs",
-    "dev": "node tools/serve.mjs",
     "compile:pl": "node tools/compile-language.mjs pl",
     "compile:en": "node tools/compile-language.mjs en",
     "compile:ar": "node tools/compile-language.mjs ar"
