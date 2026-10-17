@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "1.0",
+  "cases": [
+    {
+      "id": "A1-EN-IT-REFUSAL-0001",
+      "schemaVersion": "1.0",
+      "level": "pilot",
+      "mode": "single-sentence",
+      "direction": "en-it",
+      "family": "capability_limit",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 4,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "definite",
+        "quantity": "none"
+      },
+      "purpose": "Declared capability limit witness: the it package analyzes sentences for en but declares realize unsupported, so en>it must fail before data loading with PLUGIN_CAPABILITY_UNAVAILABLE and null text/meaning rather than guessing a realization.",
+      "input": {"from": "en", "to": "it", "text": "The girl sees the dog."},
+      "expected": {
+        "status": "unsupported",
+        "text": null,
+        "meaning": null,
+        "diagnostics": {"required": [{"code": "PLUGIN_CAPABILITY_UNAVAILABLE"}], "allowUnexpected": false},
+        "alternatives": {"required": [], "allowUnexpected": false},
+        "informationLoss": {"required": [], "allowUnexpected": false}
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent expectation authored 2026-10-17 before any engine run (en>it is outside the declared it.realize capability, languages/it/manifest.json), corroborated by the manual CLI evidence in issue #297; reviewed and approved 2026-10-18; observed matching at main@caffbd52b5951cccc06708d055574d68486d1a62.",
+        "author": "opencode-agent (OpenCode/GLM)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#346"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "declared limit: en->it realize unsupported (PLUGIN_CAPABILITY_UNAVAILABLE)"
+      }
+    }
+  ]
+}

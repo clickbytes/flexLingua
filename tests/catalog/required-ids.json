@@ -12,11 +12,22 @@
     "construction.state.classification"
   ],
   "requiredCaseIds": [
+    "A1-AR-EN-REFUSAL-0001",
+    "A1-EN-AR-REFUSAL-0001",
+    "A1-EN-IT-REFUSAL-0001",
+    "A1-EN-PL-AMBIGUOUS-0001",
+    "A1-EN-PL-BOUNDARY-0001",
+    "A1-EN-PL-BOUNDARY-0002",
+    "A1-EN-PL-BOUNDARY-0003",
     "A1-EN-PL-READ-0001",
     "A1-EN-PL-STATE-0001",
     "A1-EN-PL-VISUAL-0001",
+    "A1-IT-EN-REFUSAL-0001",
+    "A1-IT-EN-VISUAL-0001",
     "A1-PL-EN-READ-0001",
     "A1-PL-EN-STATE-0001",
-    "A1-PL-EN-VISUAL-0001"
+    "A1-PL-EN-VISUAL-0001",
+    "A1-TR-EN-REFUSAL-0001",
+    "A1-TR-EN-VISUAL-0001"
   ]
 }

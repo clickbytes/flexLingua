@@ -1,0 +1,196 @@
+{
+  "schemaVersion": "1.0",
+  "cases": [
+    {
+      "id": "A1-EN-PL-BOUNDARY-0001",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "agreement_boundary",
+      "construction": "event.read",
+      "tier": "required",
+      "priority": 4,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "progressive",
+        "polarity": "positive",
+        "person": "first",
+        "number": "singular",
+        "reference": "deictic",
+        "quantity": "none"
+      },
+      "purpose": "Controlled refusal of an agreement-mismatched source (first-person subject with is): the bounded engine refuses instead of guessing a repair, with null text/meaning and the LANGUAGE_CONSTRUCTION_UNSUPPORTED diagnostic; this documents enforcement, not a semantic claim about an ungrammatical string.",
+      "input": {"from": "en", "to": "pl", "text": "I is reading a book."},
+      "expected": {
+        "status": "unsupported",
+        "text": null,
+        "meaning": null,
+        "diagnostics": {"required": [{"code": "LANGUAGE_CONSTRUCTION_UNSUPPORTED"}], "allowUnexpected": false},
+        "alternatives": {"required": [], "allowUnexpected": false},
+        "informationLoss": {"required": [], "allowUnexpected": false}
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent expectation authored 2026-10-17 before any engine run (agreement enforcement must refuse, not guess), corroborated by the manual CLI evidence in issue #297; reviewed and approved 2026-10-18; observed matching at main@caffbd52b5951cccc06708d055574d68486d1a62.",
+        "author": "opencode-agent (OpenCode/GLM)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#346"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.read",
+        "capability": "en.analyze controlled refusal: subject-verb agreement enforcement (no repair guesses)"
+      }
+    },
+    {
+      "id": "A1-EN-PL-BOUNDARY-0002",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "notation_boundary",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 4,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "definite",
+        "quantity": "none"
+      },
+      "purpose": "Controlled refusal of malformed notation (doubled comma inside the clause): characters outside the accepted sentence notation are refused before any meaning analysis, with SOURCE_CHARACTER_UNSUPPORTED and null text/meaning.",
+      "input": {"from": "en", "to": "pl", "text": "The girl sees,, the dog."},
+      "expected": {
+        "status": "unsupported",
+        "text": null,
+        "meaning": null,
+        "diagnostics": {"required": [{"code": "SOURCE_CHARACTER_UNSUPPORTED"}], "allowUnexpected": false},
+        "alternatives": {"required": [], "allowUnexpected": false},
+        "informationLoss": {"required": [], "allowUnexpected": false}
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent expectation authored 2026-10-17 before any engine run (character-level notation gate refuses before analysis), corroborated by the manual CLI evidence in issue #297; reviewed and approved 2026-10-18; observed matching at main@caffbd52b5951cccc06708d055574d68486d1a62.",
+        "author": "opencode-agent (OpenCode/GLM)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#346"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "en.analyze controlled refusal: notation/character gate"
+      }
+    },
+    {
+      "id": "A1-EN-PL-AMBIGUOUS-0001",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "reading",
+      "construction": "event.read",
+      "tier": "required",
+      "priority": 4,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present-or-past",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "third",
+        "number": "plural",
+        "reference": "definite",
+        "quantity": "none"
+      },
+      "purpose": "Explicit ambiguity: the identical surface form of read (present vs past for a plural subject) yields exactly two distinct semantic readings with agent plural and theme singular; the service must refuse to choose and return both readings with AMBIGUOUS_MEANING and null text/meaning.",
+      "input": {"from": "en", "to": "pl", "text": "The girls read the book."},
+      "expected": {
+        "status": "ambiguous",
+        "text": null,
+        "meaning": null,
+        "diagnostics": {"required": [{"code": "AMBIGUOUS_MEANING"}], "allowUnexpected": false},
+        "alternatives": {"required": [
+          {"meaning": {
+            "type": "event",
+            "concept": "event.read",
+            "roleSet": ["agent", "theme"],
+            "roles": {
+              "agent": {"concept": "person.girl", "features": {"number": "plural"}},
+              "theme": {"concept": "object.book", "features": {"number": "singular"}}
+            },
+            "features": {"tense": "past", "polarity": "positive"},
+            "assert": {}
+          }},
+          {"meaning": {
+            "type": "event",
+            "concept": "event.read",
+            "roleSet": ["agent", "theme"],
+            "roles": {
+              "agent": {"concept": "person.girl", "features": {"number": "plural"}},
+              "theme": {"concept": "object.book", "features": {"number": "singular"}}
+            },
+            "features": {"tense": "present", "polarity": "positive"},
+            "assert": {}
+          }}
+        ], "allowUnexpected": false},
+        "informationLoss": {"required": [], "allowUnexpected": false}
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent expectation authored 2026-10-17 before any engine run (plural subject + unmarked read produces a genuine present/past ambiguity that must not be silently resolved), corroborated by the manual CLI evidence in issue #297; reviewed and approved 2026-10-18; observed matching at main@caffbd52b5951cccc06708d055574d68486d1a62.",
+        "author": "opencode-agent (OpenCode/GLM)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#346"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.read",
+        "capability": "en.analyze explicit ambiguity: read present vs past kept undecided"
+      }
+    },
+    {
+      "id": "A1-EN-PL-BOUNDARY-0003",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "anaphora_boundary",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 4,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "pronoun-deictic",
+        "quantity": "none"
+      },
+      "purpose": "Controlled refusal of bare personal pronouns without a licensed antecedent (she/him): person deixis and anaphora require a discourse anchor the engine does not have yet, so the bounded result is an explicit unsupported refusal with LANGUAGE_CONSTRUCTION_UNSUPPORTED; person deixis with 1./2. person additionally stays a known gap.",
+      "input": {"from": "en", "to": "pl", "text": "She sees him."},
+      "expected": {
+        "status": "unsupported",
+        "text": null,
+        "meaning": null,
+        "diagnostics": {"required": [{"code": "LANGUAGE_CONSTRUCTION_UNSUPPORTED"}], "allowUnexpected": false},
+        "alternatives": {"required": [], "allowUnexpected": false},
+        "informationLoss": {"required": [], "allowUnexpected": false}
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent expectation authored 2026-10-17 before any engine run (third-person pronouns without antecedent are refused, not guessed), corroborated by the manual CLI evidence in issue #297; reviewed and approved 2026-10-18; observed matching at main@caffbd52b5951cccc06708d055574d68486d1a62.",
+        "author": "opencode-agent (OpenCode/GLM)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#346"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "en.analyze controlled refusal: unlicensed pronoun deixis/anaphora"
+      }
+    }
+  ]
+}

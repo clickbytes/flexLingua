@@ -1,0 +1,116 @@
+{
+  "schemaVersion": "1.0",
+  "statement": "Deliberately uncovered behaviors observed on the production service. A known gap is never an approved case and never counts as PASS: translation success, controlled refusal, ambiguity, known gaps, and infrastructure errors are always reported separately. Every observation here was produced by the CLI/the same service path at the recorded SHA and matched an independently authored expectation where one exists.",
+  "observationHorizon": "All observations recorded at this file's creation come from manual CLI runs on 2026-10-17 at main@caffbd52b5951cccc06708d055574d68486d1a62; re-observation is required before any gap state may move.",
+  "gaps": [
+    {
+      "id": "GAP-EN-PL-DEIXIS-0001",
+      "direction": "en-pl",
+      "family": "deixis",
+      "input": {"from": "en", "to": "pl", "text": "I see you."},
+      "expectedIndependent": {
+        "type": "event",
+        "concept": "event.visual_perception",
+        "roleSet": ["agent", "theme"],
+        "roles": {
+          "agent": {"target": {"kind": "deictic", "anchor": "speaker"},
+            "agreement": {"person": "first", "number": "singular"}},
+          "theme": {"target": {"kind": "deictic", "anchor": "addressee"},
+            "agreement": {"person": "second", "number": "singular"}}
+        },
+        "features": {"tense": "present", "polarity": "positive"}
+      },
+      "observedStatus": "error",
+      "observedDiagnosticsCodes": ["INFRASTRUCTURE_ERROR"],
+      "observedExitCode": 1,
+      "observedAtSha": "caffbd52b5951cccc06708d055574d68486d1a62",
+      "severity": "high",
+      "state": "open",
+      "owner": "epic #341 (TM) — follow-up issue required",
+      "issue": "#346",
+      "retestPolicy": "Re-run the CLI on every branch SHA that touches en analyze or pl realize for deictic roles. While the crash reproduces the gap stays open; no behavioral change here without a dedicated approved issue, at which point this entry is re-observed and either closed or rewritten as an approved case.",
+      "note": "First-person agent and second-person theme deixis has no accepted analysis path yet: the engine throws an infrastructure error (document status error, CLI exit 1). Deliberately NOT recorded as an approved case — an infrastructure error must never be turned into an expected refusal, and this A1-priority sentence stays honestly uncovered."
+    },
+    {
+      "id": "GAP-EN-PL-QUANTITY-0002",
+      "direction": "en-pl",
+      "family": "quantity",
+      "input": {"from": "en", "to": "pl", "text": "Three girls see the dog."},
+      "expectedIndependent": {
+        "type": "event",
+        "concept": "event.visual_perception",
+        "roleSet": ["agent", "theme"],
+        "roles": {
+          "agent": {"concept": "person.girl",
+            "quantity": {"kind": "exact", "value": 3},
+            "features": {"number": "plural"}},
+          "theme": {"concept": "animal.dog",
+            "features": {"number": "singular", "definiteness": "definite"}}
+        },
+        "features": {"tense": "present", "polarity": "positive"}
+      },
+      "observedStatus": "unsupported",
+      "observedDiagnosticsCodes": ["LANGUAGE_CONSTRUCTION_UNSUPPORTED"],
+      "observedExitCode": 2,
+      "observedAtSha": "caffbd52b5951cccc06708d055574d68486d1a62",
+      "severity": "medium",
+      "state": "open",
+      "owner": "epic #341 (TM) — follow-up issue required",
+      "issue": "#346",
+      "retestPolicy": "Re-run the CLI on every branch SHA that touches en quantity analysis or the pl realize path for plurals. The refusal remains acceptable only while the matching capability genuinely does not exist; if quantity analysis lands, re-observe and close by recording approved positive cases instead.",
+      "note": "The refusal is controlled and honest (explicit unsupported status, exit 2), but exact bare-numeral quantity is a plain A1 capability inside this project's stated A1 scope, so it is registered as a product gap rather than an approved boundary case."
+    },
+    {
+      "id": "GAP-EN-FI-VISUAL-0003",
+      "direction": "en-fi",
+      "family": "visual_attention",
+      "input": {"from": "en", "to": "fi", "text": "A girl looks at a house."},
+      "expectedIndependent": {
+        "type": "event",
+        "concept": "event.visual_attention",
+        "roleSet": ["agent", "theme"],
+        "roles": {
+          "agent": {"concept": "person.girl", "features": {"number": "singular"}},
+          "theme": {"concept": "structure.house", "features": {"number": "singular"}}
+        },
+        "features": {"tense": "present", "polarity": "positive"}
+      },
+      "observedStatus": "unsupported",
+      "observedDiagnosticsCodes": ["LANGUAGE_CONSTRUCTION_UNSUPPORTED"],
+      "observedExitCode": 2,
+      "observedAtSha": "caffbd52b5951cccc06708d055574d68486d1a62",
+      "severity": "high",
+      "state": "open",
+      "owner": "epic #341 (TM) — follow-up issue required",
+      "issue": "#346",
+      "retestPolicy": "Re-run the CLI whenever the fi plugin's morphology compile coverage changes or event.visual_attention declarations change on either side. If the refusal disappears, re-observe and replace this gap with approved positive cases for both en>fi and fi>en before closing.",
+      "note": "Declaration/implementation mismatch: manifests on both sides declare event.visual_attention implemented (en.analyze + fi.realize), yet the engine refuses with LANGUAGE_CONSTRUCTION_UNSUPPORTED before any analysis. Finnish morphology compile coverage is 1/6 at the observation SHA (missing girl/house lexemes per tools/compile-language.mjs fi). No automated case may assert a refusal here — that would freeze a declaration bug into an approved expectation."
+    },
+    {
+      "id": "GAP-FI-EN-VISUAL-0004",
+      "direction": "fi-en",
+      "family": "visual_attention",
+      "input": {"from": "fi", "to": "en", "text": "Tyttö katsoo taloa."},
+      "expectedIndependent": {
+        "type": "event",
+        "concept": "event.visual_attention",
+        "roleSet": ["agent", "theme"],
+        "roles": {
+          "agent": {"concept": "person.girl", "features": {"number": "singular"}},
+          "theme": {"concept": "structure.house", "features": {"number": "singular"}}
+        },
+        "features": {"tense": "present", "polarity": "positive"}
+      },
+      "observedStatus": "unsupported",
+      "observedDiagnosticsCodes": ["LANGUAGE_CONSTRUCTION_UNSUPPORTED"],
+      "observedExitCode": 2,
+      "observedAtSha": "caffbd52b5951cccc06708d055574d68486d1a62",
+      "severity": "high",
+      "state": "open",
+      "owner": "epic #341 (TM) — follow-up issue required",
+      "issue": "#346",
+      "retestPolicy": "Paired retest with GAP-EN-FI-VISUAL-0003: re-run the CLI on every SHA touching fi analyze declarations or morphology compile coverage; the gap may close only into approved positive witnesses for both directions.",
+      "note": "Same mismatch as GAP-EN-FI-VISUAL-0003 in the reverse direction: fi.analyze declares event.visual_attention implemented yet the service refuses it before any analysis. Recorded as one pair so neither direction silently regresses into a fake refusal-based pass."
+    }
+  ]
+}
