@@ -98,6 +98,7 @@ export function createSemanticBridge({plan, core} = {}) {
       if (!isRecord(meaning) || meaning.type !== 'state' ||
           meaning.kind !== transfer.stateKind || !supportedStateVersion ||
           !isRecord(meaning.roles) || !isRecord(meaning.features) ||
+          Object.keys(meaning.features).sort().join(',') !== 'polarity,tense' ||
           !stateFieldsMatch || !frame ||
           Object.keys(meaning.roles).length !== frame.roles.length ||
           frame.roles.some(role => !Object.hasOwn(meaning.roles, role)) ||
