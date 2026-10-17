@@ -10,6 +10,12 @@
     "schemaVersion": {"const": "1.0"},
     "graph": {"$ref": "#/$defs/packagePath"},
     "status": {"enum": ["controlled-subset", "limited-demo", "morphology-only"]},
+    "directions": {
+      "type": "array",
+      "maxItems": 512,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[a-z]{2,8}->[a-z]{2,8}$"}
+    },
     "capabilities": {
       "type": "array",
       "minItems": 1,
