@@ -31,6 +31,7 @@ export function createWorkspaceState({activeMode = 'translate'} = {}) {
     commandNotice: '',
     overlayScrollTop: 0,
     pendingConfirmation: null,
+    automaticDetails: false,
     busy: false,
     requestId: 0,
     pendingRequest: null,

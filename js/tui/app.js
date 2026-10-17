@@ -16,6 +16,9 @@ import {styleFor} from './theme.js';
 import {buildTranscript} from './transcript.js';
 import {buildDetailsLines, detailsSectionCount} from './details.js';
 import {buildHelpLines} from './help.js';
+import {createSettingsPanel, settingsFields, settingsLanguages, settingsLines,
+  settingsSnapshot, settingsValue, setSettingsValue, validateSettings} from './settings.js';
+import {createConfirmation, confirmationLines} from './confirmation.js';
 import {createTranslateView} from './views/translate.js';
 import {createChatView} from './views/chat.js';
 import {createFormsView} from './views/forms.js';
@@ -133,7 +136,7 @@ export function createTui({runtime, terminal, output = process.stdout, services 
 
   function commandContext() {
     return {activeMode: workspaceState.activeMode, runtime, modeStates: workspaceState.modes,
-      settingsAvailable: false};
+      settingsAvailable: true};
   }
 
   function commandEditorState() {
@@ -177,29 +180,10 @@ export function createTui({runtime, terminal, output = process.stdout, services 
   }
 
   function beginConfirmation(pendingConfirmation) {
-    workspaceState.pendingConfirmation = {...pendingConfirmation, selected: 1};
+    workspaceState.pendingConfirmation = createConfirmation(pendingConfirmation);
     workspaceState.overlay = {type: 'confirmation'};
     workspaceState.overlayScrollTop = 0;
     draw();
-  }
-
-  function confirmationLines() {
-    const pending = workspaceState.pendingConfirmation;
-    if (!pending) return [];
-    const clearHistory = pending.type === 'clear_history';
-    const [confirmLabel, cancelLabel, message] = clearHistory ?
-      ['Wyczyść historię tego trybu', 'Zachowaj historię',
-        'Usunięte zostaną tylko wpisy prezentacji. Draft i sesja Engine pozostaną bez zmian.'] :
-      ['Zresetuj i zmień kierunek', 'Anuluj zmianę',
-        `Sesja ${pending.previousFrom ?? '?'}→${pending.previousTo ?? '?'} zmieni się na ` +
-        `${pending.from}→${pending.to}; jej kontekst i historia zostaną usunięte.`];
-    return [
-      {text: clearHistory ? 'Wyczyścić historię prezentacji?' : 'Potwierdź zmianę kierunku Chat', tone: 'accent'},
-      {text: message, tone: 'warning'},
-      {text: `${pending.selected === 0 ? '›' : ' '} [${confirmLabel}]`, tone: pending.selected === 0 ? 'accent' : 'neutral'},
-      {text: `${pending.selected === 1 ? '›' : ' '} [${cancelLabel}]`, tone: pending.selected === 1 ? 'accent' : 'neutral'},
-      {text: '←/→ lub Tab wybór · Enter zatwierdź · Esc anuluj', tone: 'muted'}
-    ];
   }
 
   function setFocus(view, id) {
@@ -208,13 +192,6 @@ export function createTui({runtime, terminal, output = process.stdout, services 
       if (workspaceState.activeMode === view.id) workspaceState.focusRegion = {mode: view.id, id};
     }
   }
-
-  events.on('newSession', ({activeMode} = {}) => {
-    if (activeMode !== 'chat') return;
-    const view = views[WORKSPACE_MODES.indexOf('chat')];
-    view.onNewSession?.({setFocus: id => setFocus(view, id)});
-    draw();
-  });
 
   function dimensions() {
     return {
@@ -263,6 +240,7 @@ export function createTui({runtime, terminal, output = process.stdout, services 
       command_palette: '↑/↓ wybór · Tab uzupełnij · Enter wykonaj · Esc zamknij · ^C wyjście',
       help: 'PgUp/PgDn przewiń · Esc zamknij · F1–F3 tryby · ^C wyjście',
       confirmation: '←/→ wybór · Enter zatwierdź · Esc anuluj · ^C wyjście',
+      settings: '↑/↓ lub Tab fokus · Enter wybierz · Esc odrzuć · ^C wyjście',
       details: '←/→ lub Tab: sekcja · PgUp/PgDn: przewijaj · Esc: wróć'
     }[overlayType];
     if (overlayFooter) {
@@ -333,9 +311,7 @@ export function createTui({runtime, terminal, output = process.stdout, services 
     drawHeader(view, focus, width);
     let historyRows;
     const overlayType = workspaceState.overlay?.type;
-    const chatResetOverlay = overlayType === 'confirmation' &&
-      workspaceState.overlay.action === 'reset_chat';
-    const panelOverlayType = chatResetOverlay ? null : overlayType;
+    const panelOverlayType = overlayType;
     if (panelOverlayType === 'command_palette') {
       const suggestions = commandSuggestions(workspaceState.commandBuffer, commandContext());
       workspaceState.commandSelection = suggestions.length ?
@@ -355,7 +331,9 @@ export function createTui({runtime, terminal, output = process.stdout, services 
       const entry = modeState?.entries.find(item => item.id === overlay.entryId);
       historyRows = buildDetailsLines(entry, {mode: overlay.mode, sectionIndex: overlay.sectionIndex});
     } else if (panelOverlayType === 'confirmation') {
-      historyRows = confirmationLines();
+      historyRows = confirmationLines(workspaceState.pendingConfirmation);
+    } else if (panelOverlayType === 'settings') {
+      historyRows = settingsLines(workspaceState.overlay, runtime.capabilityCatalog);
     } else {
       historyRows = transcriptRowsFor(view, focus, width);
     }
@@ -372,9 +350,17 @@ export function createTui({runtime, terminal, output = process.stdout, services 
     }
     const modeState = view.state;
     const maxStart = Math.max(0, historyRows.length - layout.history.height);
-    let scrollTop = ['help', 'details'].includes(panelOverlayType) ?
+    let scrollTop = ['help', 'details', 'settings'].includes(panelOverlayType) ?
       Math.max(0, Math.min(workspaceState.overlayScrollTop, maxStart)) :
       panelOverlayType ? 0 : startIndexFor(modeState, historyRows, layout.history.height);
+    if (panelOverlayType === 'settings') {
+      const selectedRow = Math.max(0, historyRows.findIndex(row => row.text.startsWith('›')));
+      if (selectedRow < scrollTop) scrollTop = selectedRow;
+      if (selectedRow >= scrollTop + layout.history.height) {
+        scrollTop = selectedRow - layout.history.height + 1;
+      }
+      scrollTop = Math.min(scrollTop, maxStart);
+    }
     if (!panelOverlayType && view.id === 'forms' && focus.id === 'candidate') {
       const selectedCandidate = historyRows.findIndex(row =>
         row.entryId === modeState.searchEntryId && row.candidateIndex === modeState.selectedIndex);
@@ -387,7 +373,7 @@ export function createTui({runtime, terminal, output = process.stdout, services 
         setFollowLatest(workspaceState, 'forms', false);
       }
     }
-    if (['help', 'details'].includes(panelOverlayType)) workspaceState.overlayScrollTop = scrollTop;
+    if (['help', 'details', 'settings'].includes(panelOverlayType)) workspaceState.overlayScrollTop = scrollTop;
     if (!panelOverlayType) {
       modeState.scrollTop = scrollTop;
       const anchor = anchorAt(historyRows, scrollTop);
@@ -455,6 +441,7 @@ export function createTui({runtime, terminal, output = process.stdout, services 
       draw();
       return;
     }
+    if (workspaceState.overlay) return;
     const view = activeView();
     const focus = currentFocus(view, workspaceState);
     const {width, height} = dimensions();
@@ -503,6 +490,48 @@ export function createTui({runtime, terminal, output = process.stdout, services 
     }
   }
 
+  function commitSettings(draft) {
+    const translate = workspaceState.modes.translate;
+    const forms = workspaceState.modes.forms;
+    if (translate.from !== draft.translate.from || translate.to !== draft.translate.to) {
+      translate.from = draft.translate.from;
+      translate.to = draft.translate.to;
+      translate.settings.from = translate.from;
+      translate.settings.to = translate.to;
+      translate.result = null;
+      translate.status = '';
+    }
+    if (forms.language !== draft.forms.language) {
+      forms.language = draft.forms.language;
+      forms.settings.language = forms.language;
+      forms.result = null;
+      forms.matches = [];
+      forms.selectedIndex = 0;
+      forms.status = '';
+    }
+    workspaceState.automaticDetails = draft.automaticDetails;
+    updateChatDirectionState();
+  }
+
+  function applySettingsDraft(draft, {returnMode = workspaceState.activeMode} = {}) {
+    const error = validateSettings(draft, runtime.capabilityCatalog);
+    if (error) return {status: 'invalid', message: error};
+    const previous = chatService.snapshot();
+    const changed = chatService.setDirection(draft.chat);
+    if (changed.status === 'reset_required') {
+      beginConfirmation({type: 'settings_chat_direction', draft: structuredClone(draft),
+        previousFrom: previous.from, previousTo: previous.to, returnMode});
+      return {status: 'reset_required'};
+    }
+    if (changed.status !== 'ok') return {status: changed.status,
+      message: changed.diagnostics?.[0]?.message ?? 'Nie można ustawić kierunku Chat.'};
+    commitSettings(draft);
+    workspaceState.overlay = null;
+    workspaceState.commandNotice = 'Zastosowano ustawienia tylko dla tej sesji.';
+    selectMode(returnMode);
+    return {status: 'ok'};
+  }
+
   function clearModePresentation(mode) {
     clearModeEntries(workspaceState, mode);
     const state = workspaceState.modes[mode];
@@ -526,40 +555,21 @@ export function createTui({runtime, terminal, output = process.stdout, services 
       return false;
     }
     if (action.type === 'switch_mode') {
-      if (action.mode === 'translate' && action.from) {
-        const state = workspaceState.modes.translate;
-        state.from = action.from;
-        state.to = action.to;
-        state.settings.from = action.from;
-        state.settings.to = action.to;
-        state.result = null;
-        state.selectedEntryId = null;
-        state.status = '';
-      } else if (action.mode === 'forms' && action.language) {
-        const state = workspaceState.modes.forms;
-        state.language = action.language;
-        state.settings.language = action.language;
-        state.result = null;
-        state.matches = [];
-        state.selectedIndex = 0;
-        state.selectedEntryId = null;
-        state.status = '';
-      } else if (action.mode === 'chat' && action.from) {
-        const previousDirection = chatService.snapshot();
-        const result = chatService.setDirection({from: action.from, to: action.to});
-        if (result.status === 'reset_required') {
-          beginConfirmation({type: 'chat_direction', from: action.from, to: action.to,
-            previousFrom: previousDirection.from, previousTo: previousDirection.to,
-            returnMode: workspaceState.activeMode});
-          return true;
+      if (action.from || action.language) {
+        const draft = settingsSnapshot(workspaceState);
+        if (action.mode === 'forms') draft.forms.language = action.language;
+        else {
+          draft[action.mode].from = action.from;
+          draft[action.mode].to = action.to;
         }
+        const result = applySettingsDraft(draft, {returnMode: action.mode});
+        if (result.status === 'reset_required') return true;
         if (result.status !== 'ok') {
-          workspaceState.commandNotice = result.diagnostics?.[0]?.message ??
-            result.error?.message ?? 'Nie można ustawić kierunku Chat.';
+          workspaceState.commandNotice = result.message;
           draw();
           return false;
         }
-        updateChatDirectionState();
+        return true;
       }
       workspaceState.overlay = null;
       workspaceState.commandNotice = '';
@@ -586,6 +596,13 @@ export function createTui({runtime, terminal, output = process.stdout, services 
       draw();
       return true;
     }
+    if (action.type === 'open_panel' && action.panel === 'settings') {
+      workspaceState.overlay = createSettingsPanel(workspaceState);
+      workspaceState.overlayScrollTop = 0;
+      workspaceState.commandNotice = '';
+      draw();
+      return true;
+    }
     if (action.type === 'open_details') {
       const modeState = workspaceState.modes[action.mode];
       const entry = modeState?.entries.find(item => item.id === action.entryId);
@@ -606,9 +623,7 @@ export function createTui({runtime, terminal, output = process.stdout, services 
       return true;
     }
     if (action.type === 'new_session') {
-      workspaceState.overlay = null;
-      workspaceState.commandNotice = '';
-      events.emit('newSession', {activeMode: 'chat'});
+      beginConfirmation({type: 'reset_chat'});
       return true;
     }
     if (action.type === 'quit') {
@@ -649,7 +664,8 @@ export function createTui({runtime, terminal, output = process.stdout, services 
 
   async function confirmPendingAction() {
     const pending = workspaceState.pendingConfirmation;
-    if (!pending) return;
+    if (!pending || pending.running) return;
+    pending.running = true;
     if (pending.selected === 1) {
       workspaceState.pendingConfirmation = null;
       workspaceState.overlay = null;
@@ -667,10 +683,13 @@ export function createTui({runtime, terminal, output = process.stdout, services 
       draw();
       return;
     }
-    if (pending.type === 'chat_direction') {
+    if (pending.type === 'reset_chat' || pending.type === 'chat_direction' ||
+        pending.type === 'settings_chat_direction') {
       const previousDraft = workspaceState.modes.chat.draft;
       const previousCursor = workspaceState.modes.chat.cursor;
-      const reset = await chatService.reset();
+      let reset;
+      try { reset = await chatService.reset(); }
+      catch (error) { reset = {status: 'error', diagnostics: [{message: error?.message}]}; }
       if (reset.status !== 'ok') {
         workspaceState.pendingConfirmation = null;
         workspaceState.overlay = null;
@@ -678,7 +697,9 @@ export function createTui({runtime, terminal, output = process.stdout, services 
         draw();
         return;
       }
-      const changed = chatService.setDirection({from: pending.from, to: pending.to});
+      const direction = pending.type === 'chat_direction' ?
+        {from: pending.from, to: pending.to} : pending.draft?.chat;
+      const changed = direction ? chatService.setDirection(direction) : {status: 'ok'};
       if (changed.status !== 'ok') {
         workspaceState.pendingConfirmation = null;
         workspaceState.overlay = null;
@@ -689,22 +710,31 @@ export function createTui({runtime, terminal, output = process.stdout, services 
       clearModeEntries(workspaceState, 'chat');
       updateChatDirectionState();
       const state = workspaceState.modes.chat;
-      state.draft = previousDraft;
-      state.cursor = previousCursor;
+      state.draft = pending.type === 'reset_chat' ? '' : previousDraft;
+      state.cursor = pending.type === 'reset_chat' ? 0 : previousCursor;
       state.scrollTop = 0;
       state.lastStatus = '';
       state.status = '';
-      state.confirmReset = false;
+      if (pending.type === 'settings_chat_direction') commitSettings(pending.draft);
       workspaceState.pendingConfirmation = null;
       workspaceState.overlay = null;
-      workspaceState.commandNotice = 'Sesja Chat została zresetowana i ma nowy kierunek.';
-      selectMode('chat');
+      workspaceState.commandNotice = pending.type === 'reset_chat' ?
+        'Rozpoczęto nową lokalną sesję Chat.' :
+        'Sesja Chat została zresetowana; zastosowano nowy kierunek i ustawienia.';
+      selectMode(pending.returnMode ?? 'chat');
     }
   }
 
   function handleConfirmationAction(action) {
     const pending = workspaceState.pendingConfirmation;
     if (!pending) return false;
+    if (pending.running) return true;
+    if (action.type === 'select_tab') {
+      workspaceState.pendingConfirmation = null;
+      workspaceState.overlay = null;
+      selectMode(WORKSPACE_MODES[action.index]);
+      return true;
+    }
     if (action.type === 'escape') {
       pending.selected = 1;
       void confirmPendingAction();
@@ -754,6 +784,8 @@ export function createTui({runtime, terminal, output = process.stdout, services 
     }
     const context = {runtime, events, focus, requestToken: token, workspaceState,
       setFocus: id => setFocus(view, id)};
+    const previousEntryId = state.entries.at(-1)?.id;
+    const followedLatest = state.followLatest;
     draw();
     try {
       const handled = typeof view.handleAction === 'function' ?
@@ -766,6 +798,13 @@ export function createTui({runtime, terminal, output = process.stdout, services 
         }
       } else if (handled === false) {
         state.status = 'Draft saved for this mode.';
+      }
+      const latest = state.entries.at(-1);
+      if (workspaceState.automaticDetails && followedLatest && state.followLatest &&
+          !workspaceState.overlay && latest && latest.id !== previousEntryId) {
+        workspaceState.overlay = {type: 'details', mode: view.id, entryId: latest.id,
+          sectionIndex: 0, scrollTop: 0};
+        workspaceState.overlayScrollTop = 0;
       }
     } catch (error) {
       if (isCurrentRequest(workspaceState, token)) {
@@ -1002,6 +1041,60 @@ export function createTui({runtime, terminal, output = process.stdout, services 
     return true;
   }
 
+  function handleSettingsAction(action) {
+    const panel = workspaceState.overlay;
+    if (action.type === 'select_tab') {
+      workspaceState.overlay = null;
+      selectMode(WORKSPACE_MODES[action.index]);
+      return true;
+    }
+    if (action.type === 'escape') {
+      if (panel.list) panel.list = null;
+      else workspaceState.overlay = null;
+      draw();
+      return true;
+    }
+    if (panel.list) {
+      const field = settingsFields()[panel.selected];
+      const options = field.id === 'automaticDetails' ? [false, true] :
+        settingsLanguages(runtime.capabilityCatalog).map(item => item.code);
+      if (['cursor_up', 'cursor_down', 'focus_next', 'focus_previous'].includes(action.type)) {
+        const step = ['cursor_up', 'focus_previous'].includes(action.type) ? -1 : 1;
+        panel.listSelected = (panel.listSelected + step + options.length) % options.length;
+      } else if (action.type === 'submit') {
+        setSettingsValue(panel.draft, field.id, options[panel.listSelected]);
+        panel.list = null;
+        panel.notice = '';
+      }
+      draw();
+      return true;
+    }
+    const count = settingsFields().length + 3;
+    if (['cursor_up', 'cursor_down', 'focus_next', 'focus_previous'].includes(action.type)) {
+      const step = ['cursor_up', 'focus_previous'].includes(action.type) ? -1 : 1;
+      panel.selected = (panel.selected + step + count) % count;
+      draw();
+      return true;
+    }
+    if (action.type === 'submit') {
+      if (panel.selected < settingsFields().length) {
+        const field = settingsFields()[panel.selected];
+        const options = field.id === 'automaticDetails' ? [false, true] :
+          settingsLanguages(runtime.capabilityCatalog).map(item => item.code);
+        panel.listSelected = Math.max(0, options.indexOf(settingsValue(panel.draft, field.id)));
+        panel.list = field.id;
+      } else if (panel.selected === settingsFields().length) {
+        const result = applySettingsDraft(panel.draft);
+        if (!['ok', 'reset_required'].includes(result.status)) panel.notice = result.message;
+      } else {
+        workspaceState.overlay = null;
+      }
+      draw();
+      return true;
+    }
+    return true;
+  }
+
   function onKey(name, matches, data) {
     const action = actionForKey(name, data);
     const view = activeView();
@@ -1023,8 +1116,11 @@ export function createTui({runtime, terminal, output = process.stdout, services 
       handleDetailsAction(action);
       return;
     }
-    if (workspaceState.overlay?.type === 'confirmation' &&
-        workspaceState.overlay.action !== 'reset_chat') {
+    if (workspaceState.overlay?.type === 'settings') {
+      handleSettingsAction(action);
+      return;
+    }
+    if (workspaceState.overlay?.type === 'confirmation') {
       handleConfirmationAction(action);
       return;
     }

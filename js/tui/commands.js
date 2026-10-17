@@ -51,8 +51,6 @@ function validateDetails(args, context) {
     'Brak wpisu do pokazania w Details.';
 }
 
-const SETTINGS_UNAVAILABLE = 'Panel Settings będzie dostępny po UX-11.';
-
 export const COMMAND_DEFINITIONS = Object.freeze([
   defineCommand({name: 'translate', syntax: '/translate [from to]',
     argumentNames: ['from', 'to'], argumentCounts: [0, 2],
@@ -74,8 +72,7 @@ export const COMMAND_DEFINITIONS = Object.freeze([
       ...(args.length ? {language: args[0].toLowerCase()} : {})})}),
   defineCommand({name: 'settings', syntax: '/settings',
     description: 'Ustawienia tylko do zamknięcia aplikacji.',
-    available: unavailable(SETTINGS_UNAVAILABLE),
-    run: () => ({type: 'unavailable', message: SETTINGS_UNAVAILABLE})}),
+    run: () => ({type: 'open_panel', panel: 'settings'})}),
   defineCommand({name: 'help', syntax: '/help', description: 'Polecenia, skróty i ograniczenia Engine.',
     run: () => ({type: 'open_panel', panel: 'help'})}),
   defineCommand({name: 'details', syntax: '/details [id]',

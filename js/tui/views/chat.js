@@ -1,4 +1,4 @@
-import {appendOperation, clearModeEntries, invalidateRequests, isCurrentRequest} from '../state.js';
+import {appendOperation, isCurrentRequest} from '../state.js';
 
 export function createChatView({chatService, capabilityCatalog, state: modeState, workspaceState} = {}) {
   if (!chatService || typeof chatService.send !== 'function' ||
@@ -17,15 +17,10 @@ export function createChatView({chatService, capabilityCatalog, state: modeState
   state.eventCount ??= initial.eventCount;
   state.maxEvents ??= initial.maxEvents;
   state.lastStatus ??= '';
-  state.confirmReset ??= false;
   state.settings.from = state.from;
   state.settings.to = state.to;
 
   function focusTargets() {
-    if (state.confirmReset) return [
-      {id: 'confirm_reset', type: 'action', label: 'Reset session'},
-      {id: 'cancel_reset', type: 'action', label: 'Keep session'}
-    ];
     return [
       {id: 'draft', type: 'input', label: 'Message'},
       {id: 'send', type: 'action', label: 'Send'},
@@ -76,21 +71,6 @@ export function createChatView({chatService, capabilityCatalog, state: modeState
     return `akty ${turns}/${maxTurns} · zdarzenia ${events}/${maxEvents}`;
   }
 
-  function addServiceFailure(error, {input = state.draft, requestToken} = {}) {
-    const event = {type: 'diagnostic', code: error?.code ?? 'CHAT_SERVICE_ERROR',
-      message: error?.message ?? 'The chat service failed.', severity: 'error'};
-    if (workspaceState) {
-      appendOperation(workspaceState, 'chat', {input, from: state.from, to: state.to,
-        status: 'error', accepted: false, output: null, rawResult: error,
-        events: [event]}, requestToken);
-    } else {
-      state.history ??= [];
-      state.history.push(event);
-    }
-    state.scrollTop = Number.MAX_SAFE_INTEGER;
-    state.lastStatus = 'error';
-  }
-
   async function send({requestToken} = {}) {
     const text = state.draft;
     const from = state.from;
@@ -132,96 +112,16 @@ export function createChatView({chatService, capabilityCatalog, state: modeState
     return result;
   }
 
-  async function resetSession({requestToken, setFocus} = {}) {
-    try {
-      const result = await chatService.reset();
-      if (workspaceState && requestToken && !isCurrentRequest(workspaceState, requestToken)) return null;
-      if (result.status !== 'ok') {
-        addServiceFailure(result.error ?? new Error('The session could not be reset.'),
-          {input: 'reset', requestToken});
-        state.confirmReset = false;
-        if (workspaceState) {
-          workspaceState.overlay = null;
-          workspaceState.pendingConfirmation = null;
-        }
-        setFocus?.('draft');
-        return;
-      }
-      if (workspaceState) {
-        invalidateRequests(workspaceState);
-        clearModeEntries(workspaceState, 'chat');
-        workspaceState.overlay = null;
-        workspaceState.pendingConfirmation = null;
-      } else state.history = [];
-      state.scrollTop = 0;
-      updateCounters(result);
-      state.lastStatus = '';
-      state.status = '';
-      state.draft = '';
-      state.cursor = 0;
-      state.confirmReset = false;
-      setFocus?.('draft');
-    } catch (error) {
-      if (workspaceState && requestToken && !isCurrentRequest(workspaceState, requestToken)) return null;
-      addServiceFailure(error, {input: 'reset', requestToken});
-      state.confirmReset = false;
-      if (workspaceState) {
-        workspaceState.overlay = null;
-        workspaceState.pendingConfirmation = null;
-      }
-      setFocus?.('draft');
-    }
-  }
-
-  function handleAction(action, {focus, requestToken, setFocus} = {}) {
-    if (!state.confirmReset) {
-      if (focus?.id === 'history' && action.type === 'text' && ['j', 'k'].includes(action.value.toLowerCase())) {
-        state.scrollTop = Math.max(0, state.scrollTop + (action.value.toLowerCase() === 'j' ? 1 : -1));
-        return true;
-      }
-      if (focus?.id === 'history' && action.type === 'submit') return true;
-      return false;
-    }
-    if (action.type === 'escape') {
-      state.confirmReset = false;
-      if (workspaceState) workspaceState.overlay = null;
-      if (workspaceState) workspaceState.pendingConfirmation = null;
-      setFocus?.('draft');
+  function handleAction(action, {focus} = {}) {
+    if (focus?.id === 'history' && action.type === 'text' && ['j', 'k'].includes(action.value.toLowerCase())) {
+      state.scrollTop = Math.max(0, state.scrollTop + (action.value.toLowerCase() === 'j' ? 1 : -1));
       return true;
     }
-    if (action.type === 'cursor_left' || action.type === 'cursor_right') {
-      setFocus?.(action.type === 'cursor_left' ? 'confirm_reset' : 'cancel_reset');
-      return true;
-    }
-    if (action.type === 'submit') {
-      if (focus?.id === 'confirm_reset') return resetSession({requestToken, setFocus});
-      else {
-        state.confirmReset = false;
-        if (workspaceState) workspaceState.overlay = null;
-        if (workspaceState) workspaceState.pendingConfirmation = null;
-        setFocus?.('draft');
-      }
-      return true;
-    }
+    if (focus?.id === 'history' && action.type === 'submit') return true;
     return false;
   }
 
   function render({focus} = {}) {
-    if (state.confirmReset) {
-      const selected = focus?.id === 'cancel_reset' ? 'cancel_reset' : 'confirm_reset';
-      return {panels: [{title: 'Rozpocząć nową lokalną sesję?', lines: [
-        {text: 'Reset wyczyści kontekst Engine, historię i draft tej sesji.', tone: 'warning'},
-        {text: `Kierunek ${state.from ?? '?'}→${state.to ?? '?'} i ustawienia pozostaną.`,
-          tone: 'muted'},
-        {text: `${selected === 'confirm_reset' ? '›' : ' '} [Rozpocznij nową sesję]`,
-          tone: selected === 'confirm_reset' ? 'accent' : 'neutral'},
-        {text: `${selected === 'cancel_reset' ? '›' : ' '} [Zachowaj sesję]`,
-          tone: selected === 'cancel_reset' ? 'accent' : 'neutral'},
-        {text: 'Anuluj jest zaznaczone · Tab lub ←/→ wybór · Enter zatwierdź · Esc anuluj',
-          tone: 'muted'}
-      ]}]};
-    }
-
     const events = conversationEvents();
     const historyLines = events.length ? events.flatMap(event => [
       {text: event.text ?? event.message ?? event.type ?? 'Zdarzenie usługi', tone: 'neutral'},
@@ -252,15 +152,6 @@ export function createChatView({chatService, capabilityCatalog, state: modeState
     focusTargets,
     handleAction,
     onSubmit: send,
-    onNewSession({setFocus} = {}) {
-      if (state.confirmReset) return;
-      state.confirmReset = true;
-      if (workspaceState) {
-        workspaceState.overlay = {type: 'confirmation', action: 'reset_chat'};
-        workspaceState.pendingConfirmation = {action: 'reset_chat', mode: 'chat'};
-      }
-      setFocus?.('cancel_reset');
-    },
     render
   };
 }
