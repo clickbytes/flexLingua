@@ -197,12 +197,12 @@ export class Engine {
   }
 
   /** Plan a response in CORE, then realize its proposition with the selected language adapter. */
-  respond({question,facts,clarifyQuestion,to,profile}={}) {
+  respond({question,facts,clarifyQuestion,to,profile,referenceContext}={}) {
     const personality=createPersonalityProfile(profile);
     if (typeof to !== 'string' || (to !== 'core' && !this.languages.has(to))) {
       throw new Error(`Unsupported response language: ${to}`);
     }
-    const plan = this.planResponse({question,facts,clarifyQuestion});
+    const plan = this.planResponse({question,facts,clarifyQuestion,referenceContext});
     if (!plan.realization) {
       return {plan,text:null,warnings:[],alternatives:[]};
     }
