@@ -12,6 +12,8 @@ import {fileURLToPath} from 'node:url';
 import {createAppRuntime} from '../js/app/runtime.js';
 import {createTranslationService} from '../js/app/translation-service.js';
 import {compareCase} from './lib/assertions.mjs';
+import {ALLOWED_DIRECTIONS} from './lib/discover.mjs';
+import {buildCoverage} from './lib/coverage.mjs';
 import {loadMatrix} from './lib/validate.mjs';
 
 const RUNNER_DIR = dirname(fileURLToPath(import.meta.url));
@@ -22,8 +24,8 @@ const USAGE = `Usage: node tests/run.mjs [--validate|--matrix|--all] [--help]
   --validate   load and validate schemas, catalog, required-ids, gaps, cross rules
   --matrix     validate first, then execute every approved case through the
                production createTranslationService (never a second translator)
-  --all        validate + matrix (coverage accounting, CLI smoke and reports
-               land with later TM tasks; they are reported as NOT RUN until then)
+  --all        validate + matrix + coverage accounting (CLI smoke and report
+               files land with TM-07/TM-08 and stay explicitly NOT RUN until then)
 
 Exit codes: 0 all green gates; 1 required FAIL/INFRA, invalid or incomplete
 matrix; 2 usage error. Infrastructure errors are always failures and are never
@@ -187,7 +189,13 @@ async function main() {
     `INFRA ${counts.infra.required} required / ${counts.infra.exploratory} exploratory, ` +
     `NOT-RUN 0`);
   console.log(`Known gaps registered: ${gapCount} (reported separately, never counted as PASS)`);
-  console.log('Coverage accounting and CLI smoke: NOT RUN until TM-06/TM-07 land (explicit, not silent).');
+
+  let coverageFailed = false;
+  if (flags.all) {
+    coverageFailed = !printCoverage({runtime, matrix, outcomes, gapCount});
+  } else {
+    console.log('Coverage accounting, CLI smoke and reports: NOT RUN (run --all for the full gates).');
+  }
 
   const failedRequired = counts.fail.required + counts.infra.required;
   if (failedRequired > 0) {
@@ -195,9 +203,95 @@ async function main() {
     process.exitCode = 1;
     return;
   }
+  if (coverageFailed) {
+    console.log('GATE: RED — coverage: a required A1 target lacks a positive witness in the canonical pair directions. Merge to main stays blocked.');
+    process.exitCode = 1;
+    return;
+  }
   console.log(`GATE: GREEN — ${outcomes.length} executed case(s), required (${declaredRequiredCases.length}) all PASS.`);
   console.log(`Duration: ${Date.now() - started} ms.`);
   process.exitCode = 0;
+}
+
+/** Live declared sentence tuples: manifest direction limits ∩ (source analyze ∩ target realize). */
+function extractDeclaredTuples(runtime) {
+  const analyzeByCode = new Map();
+  const realizeByCode = new Map();
+  const directionsByCode = new Map();
+  for (const language of runtime.languages) {
+    const analyze = new Set();
+    const realize = new Set();
+    for (const item of language.capabilities ?? []) {
+      if (item.channel === 'sentence' && item.status === 'implemented') {
+        if (item.operation === 'analyze') analyze.add(item.construction);
+        else if (item.operation === 'realize') realize.add(item.construction);
+      }
+    }
+    analyzeByCode.set(language.code, analyze);
+    realizeByCode.set(language.code, realize);
+    directionsByCode.set(language.code, Array.isArray(language.directions) ? language.directions : null);
+  }
+  const tuples = [];
+  const seen = new Set();
+  const codes = runtime.languages.map(language => language.code).sort((a, b) => a.localeCompare(b, 'en'));
+  for (const from of codes) {
+    for (const to of codes) {
+      const direction = `${from}->${to}`;
+      const scopeDirection = direction.replace('->', '-');
+      // Only the canonical matrix scope counts as a declared translation tuple here.
+      if (!ALLOWED_DIRECTIONS.has(scopeDirection)) continue;
+      const limits = [from, to].map(code => directionsByCode.get(code)).filter(list => list !== null);
+      if (limits.some(list => !list.includes(direction))) continue;
+      for (const construction of [...analyzeByCode.get(from) ?? []].sort()) {
+        if ((realizeByCode.get(to) ?? []).has(construction) &&
+            !seen.has(`${direction}×${construction}`)) {
+          seen.add(`${direction}×${construction}`);
+          tuples.push({direction: scopeDirection, construction});
+        }
+      }
+    }
+  }
+  return tuples;
+}
+
+/** Print the coverage section; returns true when the required-target gate passes. */
+function printCoverage({runtime, matrix, outcomes, gapCount}) {
+  const coverage = buildCoverage({
+    declaredTuples: extractDeclaredTuples(runtime),
+    outcomes,
+    requiredTargetIds: matrix.requiredIds?.requiredTargetIds ?? [],
+    requiredDirections: ['en-pl', 'pl-en'],
+    catalogTargetIds: (Array.isArray(matrix.catalog?.targets) ? matrix.catalog.targets : [])
+      .map(target => target?.targetId).filter(id => typeof id === 'string'),
+    catalogTargetCount: Array.isArray(matrix.catalog?.targets) ? matrix.catalog.targets.length : 0,
+    gapsCount: gapCount
+  });
+  console.log('');
+  console.log('COVERAGE (A1 canonical subset; witnesses only from approved PASSING cases):');
+  console.log(`  translation_pass ${coverage.categories.translation_pass} ` +
+    `(${coverage.categories.required_translation}); refusal_pass ` +
+    `${coverage.categories.refusal_pass} (${coverage.categories.required_refusal}); ` +
+    `ambiguity_pass ${coverage.categories.ambiguity_pass} ` +
+    `(${coverage.categories.required_ambiguity}); infra_errors ` +
+    `${coverage.categories.infra_errors}; ` +
+    'not_run 2 (CLI smoke lands with TM-07; reports land with TM-08)');
+  console.log(`  declared_implemented ${coverage.categories.declared_implemented} live tuples; ` +
+    `implemented_with_positive_witness ${coverage.categories.implemented_with_positive_witness}`);
+  if (coverage.declaredWithoutWitness.length) {
+    console.log(`  declared without positive witness: ${coverage.declaredWithoutWitness.join(', ')} ` +
+      '(each must be covered by a registered known gap or remain an explicit open point)');
+  }
+  console.log(`  project_a1_verified ${coverage.categories.project_a1_verified}/` +
+    `${coverage.categories.project_a1_targets} catalog targets (authored subset — never full A1 coverage)`);
+  for (const warning of coverage.warnings) console.log(`  WARN ${warning}`);
+  console.log(`  required-target gate (positive witness in both ` +
+    `${coverage.gate.requiredDirections.join(' and ')}):`);
+  for (const target of coverage.gate.targets) {
+    console.log(`    ${target.missing.length ? 'FAIL' : 'ok  '} ${target.targetId} witnessed in ` +
+      `${target.witnessed.join(', ') || 'no direction'}` +
+      (target.missing.length ? ` — missing ${target.missing.join(', ')}` : ''));
+  }
+  return coverage.gate.passed;
 }
 
 function printFailures(failures) {
