@@ -54,8 +54,9 @@ function composerLineCountFor(view, focus, width, state = view.state) {
 
 function transcriptRowsFor(view, focus, width) {
   return buildTranscript(view, {focus}).flatMap(item =>
-    wrapText(item.text, width).map(text => ({text, tone: item.tone ?? 'neutral',
-      entryId: item.entryId ?? null})));
+    wrapText(item.text, width).map((text, index) => ({text, tone: item.tone ?? 'neutral',
+      entryId: item.entryId ?? null,
+      candidateIndex: index === 0 ? item.candidateIndex ?? null : null})));
 }
 
 function anchorAt(rows, requestedIndex) {
@@ -265,7 +266,8 @@ export function createTui({runtime, terminal, output = process.stdout, services 
       put(overlayFooter, 1, layout.footer.y, 'muted', layout.width);
       return;
     }
-    const action = focus.type === 'selector' ? '←/→ język' :
+    const action = focus.id === 'candidate' ? '↑/↓ wybór · Enter zatwierdź' :
+      focus.type === 'selector' ? '←/→ język' :
       focus.id === 'history' ? 'PgUp/PgDn historia' :
         focus.id === 'details' ? 'Enter szczegóły' :
           view.id === 'chat' ? 'Enter wyślij' :
@@ -350,8 +352,9 @@ export function createTui({runtime, terminal, output = process.stdout, services 
     } else {
       historyRows = transcriptRowsFor(view, focus, width);
     }
-    historyRows = historyRows.flatMap(item => wrapText(item.text, width).map(text =>
-      ({text, tone: item.tone ?? 'neutral', entryId: item.entryId ?? null})));
+    historyRows = historyRows.flatMap(item => wrapText(item.text, width).map((text, index) =>
+      ({text, tone: item.tone ?? 'neutral', entryId: item.entryId ?? null,
+        candidateIndex: index === 0 ? item.candidateIndex ?? null : null})));
     if (!commandPaletteOpen && view.state.editorNotice) {
       historyRows.push(...wrapText(view.state.editorNotice, width).map(text =>
         ({text, tone: 'warning', entryId: null})));
@@ -362,9 +365,21 @@ export function createTui({runtime, terminal, output = process.stdout, services 
     }
     const modeState = view.state;
     const maxStart = Math.max(0, historyRows.length - layout.history.height);
-    const scrollTop = ['help', 'details'].includes(panelOverlayType) ?
+    let scrollTop = ['help', 'details'].includes(panelOverlayType) ?
       Math.max(0, Math.min(workspaceState.overlayScrollTop, maxStart)) :
       panelOverlayType ? 0 : startIndexFor(modeState, historyRows, layout.history.height);
+    if (!panelOverlayType && view.id === 'forms' && focus.id === 'candidate') {
+      const selectedCandidate = historyRows.findIndex(row =>
+        row.entryId === modeState.searchEntryId && row.candidateIndex === modeState.selectedIndex);
+      if (selectedCandidate >= 0) {
+        if (selectedCandidate < scrollTop) scrollTop = selectedCandidate;
+        else if (selectedCandidate >= scrollTop + layout.history.height) {
+          scrollTop = selectedCandidate - layout.history.height + 1;
+        }
+        scrollTop = Math.min(scrollTop, maxStart);
+        setFollowLatest(workspaceState, 'forms', false);
+      }
+    }
     if (['help', 'details'].includes(panelOverlayType)) workspaceState.overlayScrollTop = scrollTop;
     if (!panelOverlayType) {
       modeState.scrollTop = scrollTop;

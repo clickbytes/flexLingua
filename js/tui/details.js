@@ -16,6 +16,35 @@ function jsonLines(value) {
 
 export function detailsSections(entry) {
   const result = entry.rawResult ?? {};
+  if (entry.mode === 'forms') {
+    return [
+      {id: 'operation', title: 'Zapytanie i język', value: {
+        id: entry.id,
+        mode: entry.mode,
+        query: entry.input,
+        language: entry.language,
+        status: entry.status,
+        accepted: entry.accepted,
+        output: entry.output
+      }},
+      {id: 'lexemes', title: 'Hasła, senses i analizy', value: {
+        lexeme: result.lexeme ?? null,
+        matches: result.matches ?? [],
+        analyses: result.analyses ?? []
+      }},
+      {id: 'provider', title: 'Stan providera', value: {
+        providerStatus: result.providerStatus ?? null,
+        hasProvider: result.hasProvider ?? null,
+        hasParadigm: result.hasParadigm ?? null,
+        paradigmStatus: result.paradigmStatus ?? null,
+        availability: result.availability ?? null,
+        description: result.description ?? null
+      }},
+      {id: 'forms', title: 'Formy zwrócone przez providera', value: result.forms ?? []},
+      {id: 'diagnostics', title: 'Diagnostyka', value: result.diagnostics ?? []},
+      {id: 'raw-result', title: 'Wynik surowy', value: result}
+    ];
+  }
   return [
     {id: 'operation', title: 'Wejście i kierunek', value: {
       id: entry.id,

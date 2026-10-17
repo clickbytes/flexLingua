@@ -1,4 +1,5 @@
-import {operationStatusLabel, semanticSummary, translatePresentationLines} from './presentation.js';
+import {formsPresentationLines, operationStatusLabel, semanticSummary,
+  translatePresentationLines} from './presentation.js';
 
 function entryNumber(entry) {
   return String(entry.id ?? '').replace(/^op-/u, '');
@@ -34,34 +35,6 @@ function chatEventLines(entry) {
   return lines.length ? lines : [line(`#${id} ${operationStatusLabel(entry.status)}`, 'warning', entry.id)];
 }
 
-function featureSummary(features) {
-  if (!features || typeof features !== 'object' || Array.isArray(features)) return '';
-  return Object.entries(features).map(([key, value]) => `${key}=${value}`).join(', ');
-}
-
-function formsLines(entry, selectedIndex = 0) {
-  const id = entryNumber(entry);
-  const result = entry.rawResult ?? {};
-  const lines = [line(`#${id} Szukano · ${entry.language ?? '?'}`, 'muted', entry.id),
-    line(entry.input ?? '(puste wejście)', 'neutral', entry.id),
-    line(`#${id} ${operationStatusLabel(entry.status)}`, entry.status === 'found' ? 'accent' : 'warning', entry.id)];
-  if (result.lexeme) lines.push(line(`${result.lexeme.lemma} · ${result.lexeme.id}`, 'accent', entry.id));
-  for (const [index, candidate] of (result.matches ?? []).entries()) {
-    lines.push(line(`${index === selectedIndex ? '› ' : '  '}${candidate.lexeme?.lemma ?? '?'} · ${
-      candidate.lexeme?.id ?? '?'}`, index === selectedIndex ? 'accent' : 'neutral', entry.id));
-  }
-  for (const form of result.forms ?? []) {
-    const features = featureSummary(form.features);
-    lines.push(line(`${features ? `${features}: ` : ''}${form.text ?? ''}`, 'neutral', entry.id));
-  }
-  if (!result.forms?.length && entry.output) lines.push(line(entry.output, 'neutral', entry.id));
-  if (result.message) lines.push(line(result.message, 'warning', entry.id));
-  for (const diagnostic of result.diagnostics ?? []) {
-    lines.push(line(diagnostic?.message ?? diagnostic?.code ?? diagnostic, 'warning', entry.id));
-  }
-  return lines;
-}
-
 function confirmationLines(view, focus) {
   const description = view.render({focus});
   return (description?.panels ?? []).flatMap(panel => [
@@ -79,14 +52,18 @@ export function buildTranscript(view, {focus} = {}) {
   }
   if (view.statusLine) lines.push(line(view.statusLine().text, 'muted'));
   if (!entries.length) {
-    lines.push(line('Brak operacji. Wpisz tekst lub /help.', 'muted'));
+    const emptyState = view.emptyStateLines?.() ?? ['Brak operacji. Wpisz tekst lub /help.'];
+    lines.push(...emptyState.map(item => typeof item === 'string' ? line(item, 'muted') :
+      line(item.text, item.tone ?? 'muted')));
     return lines;
   }
   for (const entry of entries) {
     if (view.id === 'translate') lines.push(...translatePresentationLines(entry));
     else if (view.id === 'chat') lines.push(...chatEventLines(entry));
-    else if (view.id === 'forms') lines.push(...formsLines(entry,
-      entry.id === view.state.selectedEntryId ? view.state.selectedIndex : 0));
+    else if (view.id === 'forms') lines.push(...formsPresentationLines(entry, {
+      selectedIndex: entry.id === view.state.searchEntryId ? view.state.selectedIndex : 0,
+      interactive: entry.id === view.state.searchEntryId && view.state.result?.status === 'ambiguous'
+    }));
     lines.push(line('', 'muted', entry.id));
   }
   return lines;
