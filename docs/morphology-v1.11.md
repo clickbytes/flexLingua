@@ -43,6 +43,8 @@ A **lexeme** represents a language-specific lexical unit, not a surface word. Ev
 
 Each paradigm contains a finite list of licensed *feature bundles* (`slots`). A slot specifies the transformation steps and an optional legacy adapter form path. This avoids generating meaningless cartesian products of all features. A subclass can override specific slots while inheriting the others. In a binding, an exception can replace the default output, add an alternative or block a cell. Contradictory overrides are rejected.
 
+Morphology requests may express supported agreement dimensions as flat keys or under the limited `subject`, `object` and `possessor` controllers. If both forms supply the same flattened key, equal values coalesce; conflicting values are rejected regardless of property order. Flattening does not add dimensions: the feature registry still decides which resulting keys are supported.
+
 The interpreter rejects unknown operations, unsafe identifiers, conflicting overrides, impossible feature values, cyclic paradigm inheritance, path injection and oversized inventories. It limits rule steps, slots, lexemes and precomputed forms. The inverse index is built once per package in browser memory. **This is a finite mapping compiler, not a genuine weighted or two-level FST;** replacing it with an optimized backend can be a later stage.
 
 ### Generation and reverse analysis

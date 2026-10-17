@@ -41,15 +41,22 @@ export function createMorphFeatureRegistry(data) {
 export function flattenMorphFeatures(input, registry) {
   if (!record(input)) throw new Error('Invalid morphology feature bundle.');
   const flat = {};
+  const assign = (key, value) => {
+    if (hasOwn(flat,key)) {
+      if (flat[key] !== value) throw new Error(`Conflicting morphology feature ${key}.`);
+      return;
+    }
+    flat[key] = value;
+  };
   for (const [key,value] of Object.entries(input)) {
     if (FORBIDDEN.has(key)) throw new Error('Unsafe morphology feature path.');
     if (['subject','object','possessor'].includes(key) && record(value)) {
       for (const [dimension,answer] of Object.entries(value)) {
         if (!safeName(dimension)) throw new Error('Unsafe agreement dimension.');
-        flat[`${key}_${dimension}`] = answer;
+        assign(`${key}_${dimension}`,answer);
       }
     } else if (record(value)) throw new Error('Unsupported nested morphology feature structure.');
-    else flat[key] = value;
+    else assign(key,value);
   }
   registry.supports(flat);
   return flat;
