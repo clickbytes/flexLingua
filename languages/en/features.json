@@ -1,0 +1,51 @@
+{
+  "version": "1.02",
+  "language": "en",
+  "dimensions": {
+    "number": [
+      "singular",
+      "plural"
+    ],
+    "tense": [
+      "past",
+      "present"
+    ],
+    "person": [
+      "first",
+      "second",
+      "third"
+    ],
+    "mood": [
+      "indicative"
+    ]
+  },
+  "featureProfile": {
+    "version": "1.0",
+    "language": "en",
+    "syntactic": {
+      "case": [
+        "nom",
+        "acc",
+        "loc"
+      ]
+    },
+    "morphology": {
+      "number": [
+        "singular",
+        "plural"
+      ],
+      "tense": [
+        "past",
+        "present"
+      ],
+      "person": [
+        "first",
+        "second",
+        "third"
+      ],
+      "mood": [
+        "indicative"
+      ]
+    }
+  }
+}

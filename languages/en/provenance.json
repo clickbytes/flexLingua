@@ -1,0 +1,290 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-10-17",
+  "packages": [
+    {
+      "path": "languages/en/lexicon.json",
+      "version": "1.0",
+      "status": "project-authored",
+      "author": "flexLingua project contributors; individual entry authors are not recorded",
+      "source": "Original project-maintained English lexical entries, including 28 project-authored LEX-01 senses curated in-repository rather than bulk-imported.",
+      "license": "Project-authored; no separate SPDX license grant is declared in this repository",
+      "reviewedAt": "2026-10-17",
+      "permittedUse": "Used in flexLingua. No third-party dictionary definitions or protected Oxford lists are included. External reuse requires rights-holder review because this repository declares no separate data license.",
+      "authoredBatches": [
+        {
+          "issue": "#43",
+          "author": "flexLingua project contributors",
+          "source": "Original project-authored concepts, English/Polish lexical senses and productive noun morphology; no third-party lexicon or protected list was copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "28 new bilingual noun concepts covering family, people, places and objects."
+        },
+        {
+          "issue": "#44",
+          "author": "flexLingua project contributors",
+          "source": "Original project-authored food and shopping object concepts, English/Polish lexical senses, and controlled inflection forms; no third-party lexicon or protected list was copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "28 bilingual food and everyday shopping noun concepts; English orange is separately mapped as fruit and color."
+        },
+        {
+          "issue": "#45",
+          "author": "flexLingua project contributors",
+          "source": "Original English predicate lexemes, sense mappings, and declared tense/aspect/role capabilities; no third-party lexicon was copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license."
+        },
+        {
+          "issue": "#47",
+          "author": "flexLingua project contributors",
+          "source": "Original English polysemous pilot and port lexemes with separate CORE references.",
+          "license": "Project-authored; the repository declares no separate SPDX data license."
+        },
+        {
+          "issue": "#48",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored deictic personal-pronoun case forms linked to the existing grammatical-function CORE sense; no external pronoun inventory was imported.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "Controlled nominative and object-case forms for first- and second-person pronouns. Language package: data/en.json."
+        },
+        {
+          "issue": "#65",
+          "author": "flexLingua project contributors",
+          "source": "Original project-authored English service and travel senses, bounded transaction verbs, and explicit surface forms; no external dictionary list imported.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "30 new English lexical senses and the buy/cost event predicates."
+        },
+        {
+          "issue": "#155",
+          "author": "flexLingua project contributors",
+          "source": "Original project-authored bounded English/Polish class-predication and proximal-demonstrative entries; no external lexicon or list copied.",
+          "license": "Project-authored; the repository declares no separate data license.",
+          "scope": "A1-ENPL-01: proximal demonstratives, a distinct directional class-membership state, and the bounded quality.simple sense."
+        },
+        {
+          "issue": "#171",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored lexical grammatical-gender annotations for English person lexemes used only to check third-person pronoun agreement; no external lexicon data copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "A1-ENPL-08: feminine/masculine agreement metadata for girl, boy, and woman."
+        },
+        {
+          "issue": "#175",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored typed existence state frame separating existential quantification from ordinary location; no external ontology imported.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "A1-ENPL-12: CORE existence(entity, location, relation), version 1.33 and state-frame registry 1.3."
+        }
+      ],
+      "migratedFrom": "data/en.json"
+    },
+    {
+      "path": "languages/en/grammar.json",
+      "version": "1.0",
+      "status": "legacy-review-required",
+      "author": "Historical rules are not attributed; SPACE-04 time-deixis mappings are project-authored",
+      "source": "Historical flexLingua English grammar rules and the bounded today/tomorrow/yesterday realization map added for SPACE-04",
+      "license": "Unconfirmed; no separate license statement is present in this package",
+      "reviewedAt": "2026-10-17",
+      "permittedUse": "Existing in-repository execution only. Do not redistribute or reuse externally until source and rights are reviewed.",
+      "migrationNote": "Historical rule authorship and rights remain unconfirmed. The SPACE-04 mappings are project-authored; external redistribution remains blocked pending review. The A2-03 additions are project-authored and remain bounded to the in-repository adapter; no historical data was copied.",
+      "authoredBatches": [
+        {
+          "issue": "#163",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored bounded English existential-locative syntax reusing the typed CORE location state; no external grammar inventory copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "A1-ENPL-04: present positive there is/are clauses with an explicit configured in/on/at location. Language package: data/grammar/en.json."
+        },
+        {
+          "issue": "#167",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored bounded English present-progressive event rules with explicit auxiliary agreement and imperfective CORE mapping; no external grammar inventory copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "A1-ENPL-06: positive am/is/are + V-ing clauses for six configured event verbs. Language package: data/grammar/en.json."
+        },
+        {
+          "issue": "#159",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored bounded English event grammar licensing bare mass-noun beverage themes only for event.drink; no external grammar inventory copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "A1-ENPL-03: water, milk, coffee, and tea as bare beverage themes. Language package: data/grammar/en.json."
+        },
+        {
+          "issue": "#45",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored bounded event frame declarations for eat, drink, work, learn, and sleep.",
+          "license": "Project-authored; the repository declares no separate SPDX data license."
+        },
+        {
+          "issue": "#48",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored deictic personal-pronoun case forms linked to the existing grammatical-function CORE sense; no external pronoun inventory was imported.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "Controlled nominative and object-case forms for first- and second-person pronouns. Language package: data/grammar/en.json."
+        },
+        {
+          "issue": "#48",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored case-governed personal pronoun and agreement-marked possessive grammar; no external inventory was imported.",
+          "license": "Project-authored; the repository declares no separate data license.",
+          "scope": "Nominative/object deictic pronouns and possessor realization for data/grammar/en.json."
+        },
+        {
+          "issue": "#65",
+          "author": "flexLingua project contributors",
+          "source": "Original bounded English grammar frames for purchase and explicit prices; no external rule inventory copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "Controlled present/past purchase and cost frames."
+        },
+        {
+          "issue": "#171",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored English third-person pronoun inventory declared by person, number, and grammatical gender, without mapping pronouns to person concepts.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "A1-ENPL-08: she/he agreement and unresolved third-person parsing."
+        },
+        {
+          "issue": "#172",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored English present-progressive negation and be-inversion rules for the existing six configured event verbs; no external grammar inventory copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "A1-ENPL-09: present negative and yes/no forms for read, write, eat, drink, help, and open. Language package: data/grammar/en.json."
+        },
+        {
+          "issue": "#173",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored present-tense classification negation and be-inversion rules; no external grammar inventory copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "A1-ENPL-10: present negative and yes/no classification with a separate CORE frame. Language package: data/grammar/en.json."
+        },
+        {
+          "issue": "#175",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored bounded English present existential question and contracted negation rules for in/on/at; no external grammar inventory copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "A1-ENPL-12: present there is/are, isn't/aren't and yes/no inversion over typed existence."
+        }
+      ],
+      "migratedFrom": "data/grammar/en.json"
+    },
+    {
+      "path": "languages/en/morphology.json",
+      "version": "1.11",
+      "status": "legacy-review-required",
+      "author": "Not attributed in the existing package metadata",
+      "source": "Historical flexLingua curated forms plus LEX-01 project-authored productive noun bindings. Historical entry attribution remains incomplete.",
+      "license": "Project-authored label exists in package; rights and reuse terms are not specified",
+      "reviewedAt": "2026-10-15",
+      "permittedUse": "Existing in-repository execution only. Verify source and rights before reuse or export.",
+      "migrationNote": "Add verified author, version date and permitted-use terms to the package provenance. The A2-03 additions are project-authored and remain bounded to the in-repository adapter; no historical data was copied. The upstream data/provenance.json record for data/morphology/en.json also lists #165, which describes Polish past być cells in data/morphology/pl.json; that unrelated batch is excluded from this English package record.",
+      "authoredBatches": [
+        {
+          "issue": "#43",
+          "author": "flexLingua project contributors",
+          "source": "Original project-authored concepts, English/Polish lexical senses and productive noun morphology; no third-party lexicon or protected list was copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "28 new bilingual noun concepts covering family, people, places and objects."
+        },
+        {
+          "issue": "#44",
+          "author": "flexLingua project contributors",
+          "source": "Original project-authored food and shopping object concepts, English/Polish lexical senses, and controlled inflection forms; no third-party lexicon or protected list was copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "28 bilingual food and everyday shopping noun concepts; English orange is separately mapped as fruit and color."
+        },
+        {
+          "issue": "#45",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored English regular verb bindings and irregular past overrides for the LEX-03 predicate set.",
+          "license": "Project-authored; the repository declares no separate SPDX data license."
+        },
+        {
+          "issue": "#46",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored English -f/-fe to -ves noun paradigms and lexeme-scoped exception fixtures.",
+          "license": "Project-authored; the repository declares no separate SPDX data license."
+        },
+        {
+          "issue": "#47",
+          "author": "flexLingua project contributors",
+          "source": "Productive regular noun bindings for the LEX-05 English ambiguity examples.",
+          "license": "Project-authored; the repository declares no separate SPDX data license."
+        },
+        {
+          "issue": "#65",
+          "author": "flexLingua project contributors",
+          "source": "Original inflection bindings for the project-authored service lexemes and buy/cost verbs.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "English plural and verb form mappings for the A2-03 additions."
+        },
+        {
+          "issue": "#155",
+          "author": "flexLingua project contributors",
+          "source": "Original bounded English invariant and Polish regular adjective bindings for the project-authored simple sense; no external paradigms copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "English simple and Polish prosty inflection bindings for A1-ENPL-01."
+        }
+      ],
+      "migratedFrom": "data/morphology/en.json"
+    },
+    {
+      "path": "languages/en/manifest.json",
+      "version": "1.0",
+      "status": "project-authored",
+      "author": "flexLingua project contributors",
+      "source": "Project-authored language plugin package metadata for the migrated English data.",
+      "license": "Project-authored; no separate SPDX data license grant is declared in this repository.",
+      "reviewedAt": "2026-10-17",
+      "permittedUse": "Internal flexLingua package configuration only; external reuse requires rights-holder review."
+    },
+    {
+      "path": "languages/en/graph.json",
+      "version": "1.0",
+      "status": "project-authored",
+      "author": "flexLingua project contributors",
+      "source": "Project-authored language plugin package metadata for the migrated English data.",
+      "license": "Project-authored; no separate SPDX data license grant is declared in this repository.",
+      "reviewedAt": "2026-10-17",
+      "permittedUse": "Internal flexLingua package configuration only; external reuse requires rights-holder review."
+    },
+    {
+      "path": "languages/en/features.json",
+      "version": "1.0",
+      "status": "project-authored",
+      "author": "flexLingua project contributors",
+      "source": "Derived from feature values used by the migrated English morphology and syntax packages.",
+      "license": "Project-authored; no separate SPDX data license grant is declared in this repository.",
+      "reviewedAt": "2026-10-17",
+      "permittedUse": "Internal flexLingua package configuration only; external reuse requires rights-holder review."
+    },
+    {
+      "path": "languages/en/signal.json",
+      "version": "1.0",
+      "status": "project-authored",
+      "author": "flexLingua project contributors",
+      "source": "Project-authored language plugin package metadata for the migrated English data.",
+      "license": "Project-authored; no separate SPDX data license grant is declared in this repository.",
+      "reviewedAt": "2026-10-17",
+      "permittedUse": "Internal flexLingua package configuration only; external reuse requires rights-holder review."
+    },
+    {
+      "path": "languages/en/bridge.json",
+      "version": "1.0",
+      "status": "project-authored",
+      "author": "flexLingua project contributors",
+      "source": "Project-authored bounded mapping of the migrated English visual-perception event frame to CORE roles.",
+      "license": "Project-authored; no separate SPDX data license grant is declared in this repository.",
+      "reviewedAt": "2026-10-17",
+      "permittedUse": "Internal flexLingua package configuration only; external reuse requires rights-holder review."
+    },
+    {
+      "path": "languages/en/provenance.json",
+      "version": "1.0",
+      "status": "project-authored",
+      "author": "flexLingua project contributors",
+      "source": "Project-authored language plugin package metadata for the migrated English data.",
+      "license": "Project-authored; no separate SPDX data license grant is declared in this repository.",
+      "reviewedAt": "2026-10-17",
+      "permittedUse": "Internal flexLingua package configuration only; external reuse requires rights-holder review."
+    }
+  ]
+}

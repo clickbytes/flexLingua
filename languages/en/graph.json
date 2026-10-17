@@ -1,0 +1,147 @@
+{
+  "schemaVersion": "1.0",
+  "language": "en",
+  "nodes": [
+    {
+      "id": "en.identity",
+      "type": "identity",
+      "module": "identity",
+      "path": "manifest.json"
+    },
+    {
+      "id": "en.signal",
+      "type": "signal",
+      "module": "signal",
+      "path": "signal.json",
+      "capability": "written"
+    },
+    {
+      "id": "en.lexicon",
+      "type": "lexicon",
+      "module": "lexicon",
+      "path": "lexicon.json",
+      "capability": "lexeme"
+    },
+    {
+      "id": "en.features",
+      "type": "morphology",
+      "module": "features",
+      "path": "features.json"
+    },
+    {
+      "id": "en.morphology",
+      "type": "morphology",
+      "module": "morphology",
+      "path": "morphology.json",
+      "capability": "word"
+    },
+    {
+      "id": "en.syntax.visual-perception",
+      "type": "syntax",
+      "module": "grammar",
+      "path": "grammar.json",
+      "capability": "event.visual_perception"
+    },
+    {
+      "id": "en.syntax.classification",
+      "type": "syntax",
+      "module": "grammar",
+      "path": "grammar.json",
+      "capability": "state.classification"
+    },
+    {
+      "id": "en.bridge",
+      "type": "bridge",
+      "module": "bridge",
+      "path": "bridge.json"
+    },
+    {
+      "id": "en.evidence",
+      "type": "evidence",
+      "module": "evidence",
+      "path": "provenance.json"
+    }
+  ],
+  "edges": [
+    {
+      "from": "en.bridge",
+      "to": "en.syntax.visual-perception",
+      "relation": "maps-to"
+    },
+    {
+      "from": "en.bridge",
+      "to": "en.syntax.classification",
+      "relation": "maps-to"
+    },
+    {
+      "from": "en.syntax.visual-perception",
+      "to": "en.lexicon",
+      "relation": "licenses"
+    },
+    {
+      "from": "en.syntax.visual-perception",
+      "to": "en.morphology",
+      "relation": "licenses"
+    },
+    {
+      "from": "en.syntax.classification",
+      "to": "en.lexicon",
+      "relation": "licenses"
+    },
+    {
+      "from": "en.syntax.classification",
+      "to": "en.morphology",
+      "relation": "licenses"
+    },
+    {
+      "from": "en.morphology",
+      "to": "en.signal",
+      "relation": "realizes"
+    },
+    {
+      "from": "en.morphology",
+      "to": "en.features",
+      "relation": "depends-on"
+    },
+    {
+      "from": "en.evidence",
+      "to": "en.identity",
+      "relation": "evidences"
+    },
+    {
+      "from": "en.evidence",
+      "to": "en.signal",
+      "relation": "evidences"
+    },
+    {
+      "from": "en.evidence",
+      "to": "en.lexicon",
+      "relation": "evidences"
+    },
+    {
+      "from": "en.evidence",
+      "to": "en.features",
+      "relation": "evidences"
+    },
+    {
+      "from": "en.evidence",
+      "to": "en.morphology",
+      "relation": "evidences"
+    },
+    {
+      "from": "en.evidence",
+      "to": "en.syntax.visual-perception",
+      "relation": "evidences"
+    },
+    {
+      "from": "en.evidence",
+      "to": "en.syntax.classification",
+      "relation": "evidences"
+    },
+    {
+      "from": "en.evidence",
+      "to": "en.bridge",
+      "relation": "evidences"
+    }
+  ]
+}

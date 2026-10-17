@@ -1,0 +1,20 @@
+{
+  "transfers": [
+    {
+      "construction": "event.visual_perception",
+      "conceptId": "event.visual_perception",
+      "arguments": [
+        {
+          "role": "agent",
+          "argument": "subject",
+      "syntacticFunction": "subject"
+        },
+        {
+          "role": "theme",
+          "argument": "object",
+      "syntacticFunction": "object"
+        }
+      ]
+    }
+  ]
+}
