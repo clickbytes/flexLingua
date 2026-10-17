@@ -89,6 +89,8 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms }) 
   const degrees = verifySurfaceInventory(dictionary.degrees || [], 'degree');
   const quantifiers = verifySurfaceInventory(dictionary.quantifiers || [], 'quantifier');
   const agreementFeatures = qualified.adjectiveAgreementFeatures || [...AGREEMENT_KEYS];
+  const adjectivePlacement=qualified.adjectivePlacement ?? qualified.adjectiveOrder ?? 'layout';
+  const degreePlacement=qualified.degreePlacement ?? qualified.degreeOrder ?? 'before';
   if (!Array.isArray(agreementFeatures) || new Set(agreementFeatures).size !== agreementFeatures.length ||
       agreementFeatures.some(feature => !AGREEMENT_KEYS.has(feature))) {
     throw new Error('Invalid adjective agreement features.');
@@ -120,8 +122,9 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms }) 
     quantifierFormIndex.get(first).push({lexeme,form});
   }
   if (!Array.isArray(layouts) || !layouts.length || layouts.length > 3 ||
-      layouts.some(layout => !Array.isArray(layout) || new Set(layout).size !== layout.length ||
-        layout.at(-1) !== 'noun' || !layout.includes('modifiers') || !layout.includes('quantifier') ||
+      layouts.some(layout => !Array.isArray(layout) || layout.length < 3 || layout.length > 4 ||
+        new Set(layout).size !== layout.length || layout.filter(slot=>slot==='noun').length!==1 ||
+        !layout.includes('modifiers') || !layout.includes('quantifier') ||
         (Object.keys(nounPhrase.determiners).length > 0 && !layout.includes('determiner')) ||
         layout.some(slot => !['quantifier', 'determiner', 'modifiers', 'noun'].includes(slot))) ||
       !record(layoutByQuantifier) ||
@@ -136,9 +139,19 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms }) 
         (!Array.isArray(qualified.adjectiveAgreementFeatures) ||
           new Set(qualified.adjectiveAgreementFeatures).size !== qualified.adjectiveAgreementFeatures.length ||
           qualified.adjectiveAgreementFeatures.some(feature => !AGREEMENT_KEYS.has(feature))) ||
-      ['adjectiveOrder', 'degreeOrder'].some(key => qualified[key] !== undefined && qualified[key] !== 'before') ||
+      !['before','after','layout'].includes(adjectivePlacement) ||
+      (qualified.adjectivePlacement!==undefined && qualified.adjectiveOrder!==undefined &&
+        qualified.adjectivePlacement!==qualified.adjectiveOrder) ||
+      (adjectivePlacement!=='layout' && layouts.some(layout=>
+        (layout.indexOf('modifiers')<layout.indexOf('noun')?'before':'after')!==adjectivePlacement)) ||
+      !['before','after'].includes(degreePlacement) ||
+      (qualified.degreePlacement!==undefined && qualified.degreeOrder!==undefined &&
+        qualified.degreePlacement!==qualified.degreeOrder) ||
       (qualified.articleFromFirstModifier !== undefined && typeof qualified.articleFromFirstModifier !== 'boolean')) {
     throw new Error('Invalid qualified noun-phrase layout or complexity limits.');
+  }
+  if(new Set(layouts.map(layout=>layout.join('\u0000'))).size!==layouts.length) {
+    throw new Error('Duplicate qualified noun-phrase layout.');
   }
   const maxAdjectives = qualified.maxAdjectives || MAX_ENTITY_MODIFIERS;
   const maxDegreeDepth = qualified.maxDegreeDepth || MAX_MODIFIER_DEPTH - 1;
@@ -150,35 +163,49 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms }) 
 
   function parseProperties(tokens, at, context, limit) {
     const results = [{ next: at, modifiers: [], lexemes: [] }];
-    function walk(index, nodes, lexical) {
-      if (nodes.length >= limit) return;
-      // Degree-prefix recursion is bounded independently of adjective count.
-      const prefixes = [{ next: index, degrees: [] }];
-      function prefix(pos, chain) {
-        if (chain.length >= maxDegreeDepth) return;
-        for (const lex of degrees) for (const form of matchingForms(lex, context)) {
-          const len = matchesTokens(tokens, pos, form.text);
-          if (!len) continue;
-          const next = { next: pos + len, degrees: [...chain, lex] };
-          prefixes.push(next);
-          prefix(next.next, next.degrees);
+    function degreeChains(start) {
+      const chains=[{next:start,degrees:[]}];
+      function walk(position,chain) {
+        if(chain.length>=maxDegreeDepth)return;
+        for(const lex of degrees)for(const form of matchingForms(lex,context)) {
+          const length=matchesTokens(tokens,position,form.text);
+          if(!length)continue;
+          const next={next:position+length,degrees:[...chain,lex]};
+          chains.push(next);
+          if(chains.length>128)throw new Error('Qualified noun phrase exceeded parsing limit.');
+          walk(next.next,next.degrees);
         }
       }
-      prefix(index, []);
-      for (const pre of prefixes) for (const lex of adjectives) for (const form of matchingForms(lex, context)) {
-        const len = matchesTokens(tokens, pre.next, form.text);
-        if (!len) continue;
-        let nested = [];
-        for (let i = pre.degrees.length - 1; i >= 0; i--) {
-          nested = [modifier(pre.degrees[i].concept, nested)];
+      walk(start,[]);
+      return chains;
+    }
+    function nodeWithDegrees(adjective,chain) {
+      let nested=[];
+      for(let i=chain.length-1;i>=0;i--)
+        nested=[modifier(chain[i].concept,nested)];
+      return modifier(adjective.concept,nested);
+    }
+    function walk(index, nodes, lexical) {
+      if (nodes.length >= limit) return;
+      const append=(lex,next,chain)=>{
+        const combined=[...nodes,nodeWithDegrees(lex,chain)];
+        const lexemes=[...lexical,lex];
+        results.push({next,modifiers:combined,lexemes});
+        walk(next,combined,lexemes);
+        if(results.length>128)throw new Error('Qualified noun phrase exceeded parsing limit.');
+      };
+      if(degreePlacement==='before') {
+        for(const prefix of degreeChains(index))for(const lex of adjectives)
+          for(const form of matchingForms(lex,context)) {
+            const length=matchesTokens(tokens,prefix.next,form.text);
+            if(length)append(lex,prefix.next+length,prefix.degrees);
+          }
+      } else {
+        for(const lex of adjectives)for(const form of matchingForms(lex,context)) {
+          const length=matchesTokens(tokens,index,form.text);
+          if(!length)continue;
+          for(const suffix of degreeChains(index+length))append(lex,suffix.next,suffix.degrees);
         }
-        const node = modifier(lex.concept, nested);
-        const combined = [...nodes, node];
-        const lexemes = [...lexical, lex];
-        const next = pre.next + len;
-        results.push({ next, modifiers: combined, lexemes });
-        walk(next, combined, lexemes);
-        if (results.length > 128) throw new Error('Qualified noun phrase exceeded parsing limit.');
       }
     }
     walk(at, [], []);
@@ -344,7 +371,8 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms }) 
       if (!lex) throw new Error(`Missing ${dictionary.language} modifier lexeme for ${node.concept}.`);
       const text = formFor(lex, context);
       if (!text) throw new Error(`Missing ${dictionary.language} modifier form for ${node.concept}.`);
-      return [...(node.modifiers || []).flatMap(child => renderNode(child, depth + 1)), text];
+      const nested=(node.modifiers || []).flatMap(child => renderNode(child, depth + 1));
+      return degreePlacement==='before'?[...nested,text]:[text,...nested];
     }
     for (const node of ref.modifiers || []) {
       firstAdjective ||= propertyIndex.get(node.concept)?.[0];

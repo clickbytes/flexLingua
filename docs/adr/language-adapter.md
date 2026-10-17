@@ -54,3 +54,12 @@ Rama może zadeklarować składniowy znacznik `@expletive` przez
 `formalSubject: {surface, agreement}`. Parser zużywa `surface`, a `agreement`
 steruje wyłącznie zgodą formy; żadne z tych pól nie tworzy encji ani referenta
 CORE. Nieoznaczony `@expletive` i formalny podmiot bez deklaracji są odrzucane.
+
+Kolejność wewnątrz kwalifikowanej frazy nominalnej jest deklarowana w
+`nounPhrase.qualified.layouts`. Każdy layout ma dokładnie jeden slot `noun`;
+`modifiers` może stać przed lub po nim. `adjectivePlacement: "layout"` pozwala
+poszczególnym layoutom deklarować oba szyki, a `before`/`after` ogranicza je do
+jednego. `degreePlacement` wybiera pozycję stopnia względem przymiotnika. Parsowanie
+próbuje tylko ograniczoną listę layoutów, a generacja używa domyślnego lub
+wybranego przez `layoutByQuantifier`. Starsze `adjectiveOrder` i `degreeOrder`
+pozostają zgodne dla istniejących pakietów.
