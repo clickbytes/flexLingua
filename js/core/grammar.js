@@ -7,7 +7,6 @@ import { createTextProfile, matchesTokens as matchTokenPhrase,
   sentenceText as formatSentence, tokenize as tokenizeText, validateTextProfile } from './text.js';
 import {EngineError} from './errors.js';
 import {RESOURCE_LIMITS} from './resource-limits.js';
-import {LANGUAGE_ADAPTER_CONTRACT_VERSION} from './adapter-contract.js';
 import {
   record, hasOwn, safeName, unifyFeatures, featureSource, GRAMMATICAL_PERSON,
   createFeatureRegistry, createLanguageFeatureProfile,
@@ -2969,7 +2968,7 @@ export function createRuleAdapter(sourceDictionary, rules,
   }
 
   return {
-    code: grammar.language, contractVersion:LANGUAGE_ADAPTER_CONTRACT_VERSION,
+    code: grammar.language,
     ...(featureProfile?{featureProfile}:{}),
     textProfile, informationLoss,
     analyze, analyzeCandidates, realize, realizeState, realizeComparison, realizeRequest, realizeModal, validateOntology, lexicon,
