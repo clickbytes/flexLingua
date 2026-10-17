@@ -2,6 +2,8 @@ import {EventEmitter} from 'node:events';
 import {createChatService} from '../app/chat-service.js';
 import {createFormsService} from '../app/forms-service.js';
 import {createTranslationService} from '../app/translation-service.js';
+import {beginRequest, createWorkspaceState, finishRequest, invalidateRequests, isCurrentRequest,
+  WORKSPACE_MODES} from './state.js';
 import {TABS, actionForKey} from './keymap.js';
 import {styleFor} from './theme.js';
 import {createTranslateView} from './views/translate.js';
@@ -86,11 +88,22 @@ function focusTargetsFor(view) {
   ];
 }
 
-function currentFocus(view) {
+function currentFocus(view, workspaceState) {
   const targets = focusTargetsFor(view);
-  if (view.state.focusIndex >= targets.length) view.state.focusIndex = targets.length - 1;
-  if (view.state.focusIndex < 0) view.state.focusIndex = 0;
-  return targets[view.state.focusIndex];
+  const savedId = workspaceState.focusRegion?.mode === view.id ?
+    workspaceState.focusRegion.id : workspaceState.modes[view.id].focusRegionId;
+  let index = targets.findIndex(item => item.id === savedId);
+  if (index < 0) {
+    index = 0;
+  }
+  workspaceState.modes[view.id].focusRegionId = targets[index].id;
+  workspaceState.focusRegion = {mode: view.id, id: targets[index].id};
+  return targets[index];
+}
+
+function focusIndexFor(view, workspaceState) {
+  const focus = currentFocus(view, workspaceState);
+  return focusTargetsFor(view).findIndex(item => item.id === focus.id);
 }
 
 function buildHeader(width, activeIndex) {
@@ -130,14 +143,15 @@ function asPanelLines(panel, view, focusIndex) {
   return lines;
 }
 
-function buildContentRows(view, width) {
+function buildContentRows(view, width, workspaceState) {
   const description = view.render({width, compact: width < 60, state: view.state,
-    focus: currentFocus(view), focusIndex: view.state.focusIndex});
+    focus: currentFocus(view, workspaceState), focusIndex: focusIndexFor(view, workspaceState)});
   const panels = description?.panels?.length ? description.panels : [{title: view.label, kind: 'input'}];
+  const focusIndex = focusIndexFor(view, workspaceState);
   const rows = [];
   const addPanel = (panel, panelWidth) => {
     rows.push({text: panel.title ?? view.label, tone: 'accent'});
-    for (const item of asPanelLines(panel, view, view.state.focusIndex)) {
+    for (const item of asPanelLines(panel, view, focusIndex)) {
       for (const text of wrapText(item.text, panelWidth)) {
         rows.push({text, tone: item.tone ?? 'neutral'});
       }
@@ -151,7 +165,7 @@ function buildContentRows(view, width) {
     const rightRows = [];
     const collect = (panel, target) => {
       target.push({text: panel.title ?? view.label, tone: 'accent'});
-      for (const item of asPanelLines(panel, view, view.state.focusIndex)) {
+      for (const item of asPanelLines(panel, view, focusIndex)) {
         for (const text of wrapText(item.text, paneWidth)) target.push({text, tone: item.tone ?? 'neutral'});
       }
     };
@@ -169,27 +183,46 @@ function buildContentRows(view, width) {
   return rows;
 }
 
-export function createTui({runtime, terminal, output = process.stdout} = {}) {
+export function createTui({runtime, terminal, output = process.stdout, services = {}} = {}) {
   if (!runtime?.engine) throw new Error('TUI requires an initialized application runtime.');
   if (!terminal || typeof terminal.grabInput !== 'function' || typeof terminal.put !== 'function') {
     throw new Error('TUI requires a Terminal Kit terminal instance.');
   }
 
-  const translationService = createTranslationService(runtime);
-  const chatService = createChatService(runtime);
-  const formsService = createFormsService(runtime);
-  const views = [createTranslateView({runtime, translationService}), createChatView({chatService}),
-    createFormsView({runtime, formsService})];
+  const translationService = services.translation ?? createTranslationService(runtime);
+  const chatService = services.chat ?? createChatService(runtime);
+  const formsService = services.forms ?? createFormsService(runtime);
+  const workspaceState = createWorkspaceState();
+  const views = [
+    createTranslateView({runtime, translationService, state: workspaceState.modes.translate, workspaceState}),
+    createChatView({chatService, state: workspaceState.modes.chat, workspaceState}),
+    createFormsView({runtime, formsService, state: workspaceState.modes.forms, workspaceState})
+  ];
   const events = new EventEmitter();
-  let activeIndex = 0;
   let started = false;
   let stopping = false;
   let stopPromise = null;
   let headerHitboxes = [];
 
-  events.on('newSession', ({activeTab} = {}) => {
-    if (activeTab !== 'chat') return;
-    views[1].onNewSession?.();
+  function activeIndex() {
+    return WORKSPACE_MODES.indexOf(workspaceState.activeMode);
+  }
+
+  function activeView() {
+    return views[activeIndex()];
+  }
+
+  function setFocus(view, id) {
+    if (focusTargetsFor(view).some(item => item.id === id)) {
+      workspaceState.modes[view.id].focusRegionId = id;
+      if (workspaceState.activeMode === view.id) workspaceState.focusRegion = {mode: view.id, id};
+    }
+  }
+
+  events.on('newSession', ({activeMode} = {}) => {
+    if (activeMode !== 'chat') return;
+    const view = views[WORKSPACE_MODES.indexOf('chat')];
+    view.onNewSession?.({setFocus: id => setFocus(view, id)});
     draw();
   });
 
@@ -206,20 +239,21 @@ export function createTui({runtime, terminal, output = process.stdout} = {}) {
   }
 
   function drawHeader(width) {
-    const header = buildHeader(width, activeIndex);
+    const header = buildHeader(width, activeIndex());
     headerHitboxes = header.hitboxes;
     for (const segment of header.segments) put(segment.text, segment.start, 1, segment.tone, width - segment.start + 1);
   }
 
   function drawFooter(width, height) {
-    const view = views[activeIndex];
-    const focus = currentFocus(view);
+    const view = activeView();
+    const focus = currentFocus(view, workspaceState);
     const focusLabel = focus.label;
     const scrollHint = (view.state.details && focus.id === 'details') || focus.id === 'history' ?
       ' · j/k scroll' : '';
     const newSessionHint = view.id === 'chat' ? ' · Ctrl+N new session' : '';
+    const busyHint = workspaceState.busy ? ' · working…' : '';
     const text = width < 60 ? `F1–F3 tabs · Tab focus: ${focusLabel}${scrollHint} · Enter · Esc · Ctrl+C exit` :
-      `F1/F2/F3 tabs · Tab/Shift+Tab focus: ${focusLabel}${scrollHint} · Enter · Esc${newSessionHint} · Ctrl+C exit`;
+      `F1/F2/F3 tabs · Tab/Shift+Tab focus: ${focusLabel}${scrollHint} · Enter · Esc${newSessionHint}${busyHint} · Ctrl+C exit`;
     put(text, 1, height, 'muted', width);
   }
 
@@ -247,11 +281,11 @@ export function createTui({runtime, terminal, output = process.stdout} = {}) {
     drawHeader(width);
     put('─'.repeat(Math.max(1, width)), 1, 2, 'muted', width);
 
-    const view = views[activeIndex];
+    const view = activeView();
     const statusLine = typeof view.statusLine === 'function' ? view.statusLine() : null;
     const contentStart = statusLine ? 4 : 3;
     if (statusLine) put(statusLine.text, 1, 3, statusLine.tone ?? 'muted', width);
-    const rows = buildContentRows(view, width);
+    const rows = buildContentRows(view, width, workspaceState);
     const contentHeight = Math.max(0, height - contentStart);
     const maxScroll = Math.max(0, rows.length - contentHeight);
     const scrollTop = Math.max(0, Math.min(Number(view.state.scrollTop) || 0, maxScroll));
@@ -272,16 +306,21 @@ export function createTui({runtime, terminal, output = process.stdout} = {}) {
     drawFooter(width, height);
   }
 
-  function selectTab(index) {
-    if (!Number.isInteger(index) || index < 0 || index >= views.length) return false;
-    activeIndex = index;
-    currentFocus(views[activeIndex]);
+  function selectMode(mode) {
+    if (!WORKSPACE_MODES.includes(mode)) return false;
+    const previousMode = workspaceState.activeMode;
+    if (workspaceState.focusRegion?.mode === previousMode) {
+      workspaceState.modes[previousMode].focusRegionId = workspaceState.focusRegion.id;
+    }
+    workspaceState.activeMode = mode;
+    currentFocus(activeView(), workspaceState);
     draw();
     return true;
   }
 
   function editDraft(action) {
-    const state = views[activeIndex].state;
+    const view = activeView();
+    const state = view.state;
     const previousDraft = state.draft;
     const chars = Array.from(state.draft);
     const cursor = Math.min(state.cursor, chars.length);
@@ -308,42 +347,68 @@ export function createTui({runtime, terminal, output = process.stdout} = {}) {
       state.cursor = chars.length;
     }
     state.draft = chars.join('');
-    if (state.draft !== previousDraft) views[activeIndex].onDraftChange?.({runtime, state});
+    if (state.draft !== previousDraft) view.onDraftChange?.({runtime, state});
+  }
+
+  async function dispatchSubmit(view, action, focus) {
+    const state = view.state;
+    const token = beginRequest(workspaceState, view.id, {draft: state.draft,
+      from: state.from, to: state.to, language: state.language});
+    if (!token) {
+      draw();
+      return;
+    }
+    const context = {runtime, events, focus, requestToken: token, workspaceState,
+      setFocus: id => setFocus(view, id)};
+    draw();
+    try {
+      const handled = typeof view.handleAction === 'function' ?
+        await view.handleAction(action, context) : false;
+      if (handled === false && typeof view.onSubmit === 'function') {
+        await view.onSubmit({...context, state});
+      } else if (handled === false) {
+        state.status = 'Draft saved for this mode.';
+      }
+    } catch (error) {
+      if (isCurrentRequest(workspaceState, token)) {
+        state.status = sanitizeText(error?.message || 'Action failed.');
+      }
+    } finally {
+      finishRequest(workspaceState, token);
+      draw();
+    }
   }
 
   function onKey(name) {
     const action = actionForKey(name);
-    const view = views[activeIndex];
+    const view = activeView();
     if (action.type === 'quit') {
       void stop(0);
     } else if (action.type === 'select_tab') {
-      selectTab(action.index);
+      selectMode(WORKSPACE_MODES[action.index]);
     } else if (action.type === 'focus_next' || action.type === 'focus_previous') {
-      const count = focusTargetsFor(view).length;
+      const targets = focusTargetsFor(view);
       const direction = action.type === 'focus_next' ? 1 : -1;
-      view.state.focusIndex = (view.state.focusIndex + direction + count) % count;
+      const focus = currentFocus(view, workspaceState);
+      const index = targets.findIndex(item => item.id === focus.id);
+      const next = targets[(index + direction + targets.length) % targets.length];
+      setFocus(view, next.id);
       draw();
     } else if (action.type === 'new_session') {
-      events.emit('newSession', {activeTab: view.id});
+      events.emit('newSession', {activeMode: view.id});
+    } else if (action.type === 'submit') {
+      void dispatchSubmit(view, action, currentFocus(view, workspaceState));
     } else if (typeof view.handleAction === 'function' &&
-        view.handleAction(action, {runtime, events, focus: currentFocus(view)})) {
-      currentFocus(view);
+        view.handleAction(action, {runtime, events, focus: currentFocus(view, workspaceState),
+          workspaceState, setFocus: id => setFocus(view, id)})) {
       draw();
     } else if (action.type === 'escape') {
-      if (view.state.focusIndex !== 0) view.state.focusIndex = 0;
+      const targets = focusTargetsFor(view);
+      const focus = currentFocus(view, workspaceState);
+      if (focus.id !== targets[0].id) setFocus(view, targets[0].id);
       else view.state.status = '';
       draw();
-    } else if (action.type === 'submit') {
-      if (typeof view.onSubmit === 'function') {
-        Promise.resolve(view.onSubmit({runtime, state: view.state, events})).catch(error => {
-          view.state.status = sanitizeText(error?.message || 'Action failed.');
-          draw();
-        });
-      } else {
-        view.state.status = 'Draft saved for this tab.';
-      }
-      draw();
-    } else if (currentFocus(view).type === 'input') {
+    } else if (currentFocus(view, workspaceState).type === 'input') {
       editDraft(action);
       draw();
     }
@@ -352,7 +417,7 @@ export function createTui({runtime, terminal, output = process.stdout} = {}) {
   function onMouse(name, data = {}) {
     if (!/LEFT.*(?:PRESSED|BUTTON)/u.test(name) || data.y !== 1) return;
     const hit = headerHitboxes.find(item => data.x >= item.start && data.x <= item.end);
-    if (hit) selectTab(hit.index);
+    if (hit) selectMode(WORKSPACE_MODES[hit.index]);
   }
 
   function onResize() {
@@ -366,6 +431,7 @@ export function createTui({runtime, terminal, output = process.stdout} = {}) {
   async function stop(code = 0) {
     if (stopPromise) return stopPromise;
     stopping = true;
+    invalidateRequests(workspaceState);
     stopPromise = (async () => {
       terminal.removeListener?.('key', onKey);
       terminal.removeListener?.('mouse', onMouse);
@@ -401,10 +467,9 @@ export function createTui({runtime, terminal, output = process.stdout} = {}) {
     start,
     stop,
     draw,
-    selectTab,
+    selectMode,
     on: events.on.bind(events),
     off: events.off.bind(events),
-    getState: () => ({activeTab: views[activeIndex].id,
-      tabs: views.map(view => ({id: view.id, ...structuredClone(view.state)}))})
+    getState: () => structuredClone(workspaceState)
   });
 }
