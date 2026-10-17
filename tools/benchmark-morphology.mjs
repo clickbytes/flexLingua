@@ -72,7 +72,7 @@ function checkExpectedRefusal(scenario,error,phase,startedAt,baseline) {
 
 async function runCase(scenario) {
   const [concepts,en,baseFeatures,morphologyFeatures]=await Promise.all([
-    load('data/concepts.json'),load('data/en.json'),load('data/features.json'),
+    load('data/core/concepts.json'),load('data/en.json'),load('data/core/features.json'),
     load('data/morphology/features.json')
   ]);
   const core=createCoreLanguage(concepts);

@@ -145,8 +145,8 @@ async function translate(options, languages) {
   }
 
   const [ontology, features] = await Promise.all([
-    readJson(join(ROOT, 'data', 'concepts.json')),
-    readJson(join(ROOT, 'data', 'features.json'))
+    readJson(join(ROOT, 'data', 'core', 'concepts.json')),
+    readJson(join(ROOT, 'data', 'core', 'features.json'))
   ]);
   const registry = await loadPluginRegistry(ROOT, {core: createCoreLanguage(ontology),
     codes: [...new Set([options.from, options.to])]});

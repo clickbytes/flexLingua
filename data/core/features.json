@@ -38,30 +38,6 @@
         "unknown"
       ]
     },
-    "lexical": {
-      "gender": [
-        "masculine",
-        "feminine",
-        "neuter"
-      ],
-      "pluralClass": [
-        "virile",
-        "nonvirile"
-      ],
-      "animacy": [
-        "animate",
-        "inanimate"
-      ]
-    },
-    "syntactic": {
-      "case": [
-        "nom",
-        "gen",
-        "dat",
-        "acc",
-        "loc"
-      ]
-    },
     "eventTimeReference": {
       "value": [
         "unspecified",

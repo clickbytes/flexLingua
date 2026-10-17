@@ -85,7 +85,7 @@ async function createPackageEngine() {
   const packages=await loadLanguagePackages();
   const coreSpec=packages[0]?.packages.core;
   if(!coreSpec)throw new Error('Language conformance requires a shared CORE package.');
-  const features=await readJson(resolve(DEFAULT_DATA_ROOT,'features.json'));
+  const features=await readJson(resolve(DEFAULT_DATA_ROOT,'core','features.json'));
   const engine=new Engine(coreSpec,features),morphologies=new Map();
   for(const {manifest,packages:parts} of packages) {
     if(!manifest.capabilities.morphology)continue;

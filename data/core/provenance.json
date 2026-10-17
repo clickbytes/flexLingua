@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-10-17",
+  "policy": "This manifest covers shared CORE packages only. Language plugin provenance is maintained in languages/<code>/provenance.json.",
+  "packages": [
+    {
+      "path": "data/core/concepts.json",
+      "version": "1.0",
+      "status": "project-authored",
+      "author": "flexLingua project contributors; individual concept authors are not recorded",
+      "source": "Original flexLingua CORE inventory, including the project-authored 28-concept LEX-01 batch; no external definition list was imported.",
+      "license": "Project-authored; no separate SPDX license grant is declared in this repository",
+      "reviewedAt": "2026-10-15",
+      "permittedUse": "Used in flexLingua. No third-party lists or definitions are included. External reuse requires rights-holder review because this repository declares no separate data license.",
+      "authoredBatches": [
+        {
+          "issue": "#43",
+          "author": "flexLingua project contributors",
+          "source": "Original project-authored concepts, English/Polish lexical senses and productive noun morphology; no third-party lexicon or protected list was copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "28 new bilingual noun concepts covering family, people, places and objects."
+        },
+        {
+          "issue": "#44",
+          "author": "flexLingua project contributors",
+          "source": "Original project-authored food and shopping object concepts, English/Polish lexical senses, and controlled inflection forms; no third-party lexicon or protected list was copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "28 bilingual food and everyday shopping noun concepts; English orange is separately mapped as fruit and color."
+        },
+        {
+          "issue": "#45",
+          "author": "flexLingua project contributors",
+          "source": "Original project-authored daily activity event frames, beverage and lesson concepts, and strict role type relations; no external list was imported.",
+          "license": "Project-authored; the repository declares no separate SPDX data license."
+        },
+        {
+          "issue": "#47",
+          "author": "flexLingua project contributors",
+          "source": "Original project-authored pilot/remote-control and harbor/port-wine CORE senses; no external lexical list imported.",
+          "license": "Project-authored; the repository declares no separate SPDX data license."
+        },
+        {
+          "issue": "#65",
+          "author": "flexLingua project contributors",
+          "source": "Original project-authored service-domain concepts and typed purchase/cost event frames; no external vocabulary or source list copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "30 bilingual service and travel entity concepts, currency and vehicle categories, and purchase/cost event concepts with explicit currency-typed roles."
+        },
+        {
+          "issue": "#155",
+          "author": "flexLingua project contributors",
+          "source": "Original project-authored bounded English/Polish class-predication and proximal-demonstrative entries; no external lexicon or list copied.",
+          "license": "Project-authored; the repository declares no separate data license.",
+          "scope": "A1-ENPL-01: proximal demonstratives, a distinct directional class-membership state, and the bounded quality.simple sense."
+        },
+        {
+          "issue": "#167",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored progressive forms for six configured English event verbs; no external lexicon or list copied.",
+          "license": "Project-authored; the repository declares no separate data license.",
+          "scope": "A1-ENPL-06: read, write, eat, drink, help, and open progressive forms."
+        }
+      ]
+    },
+    {
+      "path": "data/core/features.json",
+      "version": "0.4",
+      "status": "legacy-review-required",
+      "author": "Historical entries are not attributed; the temporal-reference extension is project-authored in SPACE-04",
+      "source": "Historical flexLingua semantic feature configuration plus the bounded event time-reference inventory added for today/tomorrow/yesterday",
+      "license": "Unconfirmed; no separate license statement is present in this package",
+      "reviewedAt": "2026-10-14",
+      "permittedUse": "Existing in-repository execution only. Do not redistribute or reuse externally until source and rights are reviewed.",
+      "migrationNote": "Historical domains still need verified package and entry attribution. The SPACE-04 additions are project-authored; external redistribution remains blocked until the legacy source and rights review is complete."
+    }
+  ]
+}

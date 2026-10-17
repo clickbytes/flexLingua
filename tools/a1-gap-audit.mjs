@@ -10,7 +10,7 @@ if(args.length && (args.length!==2||args[0]!=='--output'||!args[1]||args[1].star
 const load=async p=>JSON.parse(await readFile(new URL('../'+p,import.meta.url),'utf8'));
 const [ontology,features,pl,en,plMorph,enMorph,plGrammar,enGrammar,seed,corpus,manifest]=
   await Promise.all([
-    'data/concepts.json','data/features.json','data/pl.json','data/en.json',
+    'data/core/concepts.json','data/core/features.json','data/pl.json','data/en.json',
     'data/morphology/pl.json','data/morphology/en.json','data/grammar/pl.json',
     'data/grammar/en.json','data/coverage/a1-pilot.json',
     'data/coverage/a1-gold-g2.json','data/coverage/a1-targets.json'

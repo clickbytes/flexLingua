@@ -1,10 +1,10 @@
 # Data package provenance
 
-`data/provenance.json` is the canonical inventory for checked-in JSON data packages. It records the package version, source, authorship, license status, review date and permitted use without adding non-runtime metadata to the JSON consumed by the engine.
+`data/core/provenance.json` is the canonical inventory for shared CORE JSON packages only. It records each package version, source, authorship, license status, review date and permitted use without adding non-runtime metadata to the JSON consumed by the engine. Language plugin sources and rights are recorded in the corresponding `languages/<code>/provenance.json`.
 
-Run `npm run check:data-provenance` to verify that every JSON package under `data/` has exactly one inventory entry, the recorded version matches the package, all provenance fields are present, and packages without verified attribution carry a migration note. The check runs in lexical CI and `check:release`.
+Run `npm run check:data-provenance` to verify that every JSON package under `data/core/` has exactly one inventory entry, the recorded version matches the package, all provenance fields are present, and packages without verified attribution carry a migration note.
 
-The four A1/core packages `data/concepts.json`, `data/pl.json`, `data/en.json` and `data/coverage/a1-targets.json` are recorded as project-authored. The checked-in A1 pilot, G2 and VAL-02 H1 corpora are also recorded as manually specified project material, not copied from Oxford or generated from engine output. The target checklist is a deliberately small project subset, not an Oxford list or CEFR standard. Existing package documentation describes the lexical entries as independently curated, rather than copied from third-party dictionaries.
+The CORE concept inventory is project-authored, including its reviewed LEX-01 batches. The former whole-data inventory also recorded the A1 pilot, G2 and VAL-02 H1 corpora as manually specified project material, not copied from Oxford or generated from engine output. The A1 target checklist is a deliberately small project subset, not an Oxford list or CEFR standard; its current origin and use limits are stated in [A1 scope](a1-scope.md). Existing language package provenance describes lexical entries as independently curated, rather than copied from third-party dictionaries.
 
 VAL-02 H1 is recorded as project-authored with the implementation owner named and the unavailable independent author separation disclosed. It is a finite internal regression sample, not an independent CEFR benchmark; its expected text is not generated from parser output.
 
@@ -15,7 +15,7 @@ outside active `data/` packages. Each candidate retains the supplied source and
 license with `verified: false`; reviewers must confirm those rights and the
 language mapping profile before moving any form into a production package.
 
-Ten older packages do not record per-package or per-entry attribution and are marked `legacy-review-required`. Their conservative use terms and migration notes are explicit in the inventory. Review sources and rights before adding data to those packages or redistributing their contents. Any new JSON data package must be added to the inventory before the provenance gate passes.
+The CORE feature registry retains its `legacy-review-required` status because its historical attribution remains incomplete. Review its sources and rights before redistribution. Any new shared CORE JSON package must be added to the CORE inventory before the provenance check passes.
 
 This audit does not import external datasets or reproduce protected Oxford vocabulary lists or definitions.
 

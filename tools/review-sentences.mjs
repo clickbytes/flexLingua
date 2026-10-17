@@ -38,7 +38,7 @@ if(reportMode) {
   if(report.status==='fail')process.exitCode=1;
 } else {
 const [concepts,features,en,pl,enGrammar,plGrammar,enMorphSpec,plMorphSpec,morphFeatures,fixture]=
-  await Promise.all(['data/concepts.json','data/features.json','data/en.json','data/pl.json',
+  await Promise.all(['data/core/concepts.json','data/core/features.json','data/en.json','data/pl.json',
     'data/grammar/en.json','data/grammar/pl.json','data/morphology/en.json','data/morphology/pl.json',
     'data/morphology/features.json'].map(load).concat(
       JSON.parse(await readFile(fixturePath,'utf8'))));
