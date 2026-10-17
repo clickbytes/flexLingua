@@ -8,6 +8,8 @@ const STATUS_LABELS = Object.freeze({
   error: 'Błąd',
   not_found: 'Nie znaleziono',
   morphology_unsupported: 'Morfologia niedostępna',
+  dictionary_unsupported: 'Słownik niedostępny',
+  unknown_availability: 'Dostępność nieznana',
   no_paradigm: 'Brak paradygmatu',
   empty_paradigm: 'Pusty paradygmat'
 });
@@ -122,5 +124,105 @@ export function translatePresentationLines(entry) {
   for (const item of result.warnings ?? []) {
     lines.push({text: warningPresentation(item), tone: 'warning', entryId: entry.id});
   }
+  return lines;
+}
+
+function featureSummary(features) {
+  if (!features || typeof features !== 'object' || Array.isArray(features)) return '';
+  return Object.entries(features).sort(([left], [right]) => left.localeCompare(right))
+    .map(([key, value]) => `${key}=${value}`).join(', ');
+}
+
+function candidateSummary(candidate) {
+  const lexeme = candidate?.lexeme ?? {};
+  const partOfSpeech = lexeme.pos ?? lexeme.category ?? 'leksem';
+  const senses = (lexeme.senses ?? []).map(sense => sense?.coreRef?.id ?? sense?.id)
+    .filter(Boolean);
+  const analyses = [...new Set((candidate?.analyses ?? []).map(analysis =>
+    featureSummary(analysis?.features)).filter(Boolean))];
+  return `${lexeme.lemma ?? '?'} · ${lexeme.id ?? '?'} · ${partOfSpeech}${
+    analyses.length ? ` · ${analyses.join(' / ')}` : ''}${
+    senses.length ? ` · ${senses.join(', ')}` : ''}`;
+}
+
+function formsStatusMessage(result, entry) {
+  const statusMessages = {
+    ambiguous: 'Kilka haseł pasuje. Wybierz jedno ręcznie.',
+    not_found: 'Nie znaleziono w słowniku.',
+    dictionary_unsupported: 'Ten język nie udostępnia wyszukiwania słownikowego.',
+    morphology_unsupported: 'Ten język nie udostępnia morfologii.',
+    no_paradigm: 'Hasło znaleziono, ale provider nie udostępnia paradygmatu.',
+    empty_paradigm: 'Provider zwrócił pusty paradygmat; brak pozostaje niepotwierdzony.',
+    unknown_availability: 'Dostępność paradygmatu jest nieznana.'
+  };
+  if (statusMessages[entry.status]) return statusMessages[entry.status];
+  if (result.message) return result.message;
+  return '';
+}
+
+export function formsPresentationLines(entry, {selectedIndex = 0, interactive = false} = {}) {
+  const id = entryNumber(entry);
+  const result = entry.rawResult ?? {};
+  const lines = [
+    {text: `#${id} Szukano · ${entry.language ?? '?'}`, tone: 'muted', entryId: entry.id},
+    {text: entry.input || '(puste wejście)', tone: 'neutral', entryId: entry.id},
+    {text: `#${id} ${operationStatusLabel(entry.status)}`,
+      tone: entry.status === 'found' ? 'accent' : 'warning', entryId: entry.id}
+  ];
+
+  const statusMessage = formsStatusMessage(result, entry);
+  if (statusMessage) lines.push({text: statusMessage,
+    tone: ['error', 'unsupported', 'ambiguous', 'not_found', 'morphology_unsupported',
+      'dictionary_unsupported', 'no_paradigm', 'empty_paradigm',
+      'unknown_availability'].includes(entry.status) ? 'warning' : 'muted', entryId: entry.id});
+  if (entry.status === 'not_found') {
+    lines.push({text: 'Generowanie nieznanych form: niedostępne.',
+      tone: 'muted', entryId: entry.id});
+  }
+
+  if (result.lexeme) {
+    lines.push({text: `${result.lexeme.lemma ?? '?'} · ${result.lexeme.id ?? '?'}`,
+      tone: 'accent', entryId: entry.id});
+  }
+
+  const candidates = Array.isArray(result.matches) ? result.matches : [];
+  if (entry.status === 'ambiguous') {
+    if (!statusMessage) lines.push({text: 'Kilka haseł pasuje. Wybierz jedno ręcznie.',
+      tone: 'warning', entryId: entry.id});
+    for (const [index, candidate] of candidates.entries()) {
+      const active = interactive && index === selectedIndex;
+      lines.push({text: `${active ? '›' : ' '} ${candidateSummary(candidate)}`,
+        tone: active ? 'accent' : 'neutral', entryId: entry.id,
+        ...(interactive ? {candidateIndex: index} : {})});
+    }
+    if (interactive) {
+      lines.push({text: '↑/↓ wybór · Enter zatwierdź · Esc anuluj', tone: 'muted', entryId: entry.id});
+    }
+  }
+
+  const forms = Array.isArray(result.forms) ? result.forms : [];
+  if (entry.status === 'found') {
+    lines.push({text: `Formy zwrócone przez provider: ${forms.length}`,
+      tone: 'muted', entryId: entry.id});
+  }
+  for (const form of forms) {
+    const features = featureSummary(form.features);
+    lines.push({text: `${features ? `${features}: ` : ''}${form.text ?? ''}`,
+      tone: 'neutral', entryId: entry.id});
+  }
+  for (const analysis of result.analyses ?? []) {
+    const features = featureSummary(analysis.features);
+    lines.push({text: `Analiza${features ? ` · ${features}` : ''}`,
+      tone: 'muted', entryId: entry.id});
+  }
+
+  for (const item of result.diagnostics ?? []) {
+    lines.push({text: diagnosticPresentation(item), tone: 'warning', entryId: entry.id});
+  }
+  if (result.availability?.reason) {
+    lines.push({text: `Powód dostępności · ${result.availability.reason}`,
+      tone: 'muted', entryId: entry.id});
+  }
+  lines.push({text: `/details ${id}`, tone: 'muted', entryId: entry.id});
   return lines;
 }
