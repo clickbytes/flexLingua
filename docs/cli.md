@@ -1,5 +1,7 @@
 # CLI translacji
 
+Wymagany runtime to **Node.js 22.12.0 lub nowszy** (`engines.node: >=22.12.0`). Ten próg odpowiada stabilnej obsłudze używanych import attributes i modułów JSON. Do codziennego użytku wybieraj aktualnie wspieraną wersję LTS Node.js.
+
 `tools/translate.mjs` jest samodzielną komendą Node. Nie wymaga serwera ani GUI.
 
 ```sh
