@@ -1,15 +1,17 @@
-import lexicon from './lexicon.json' with {type: 'json'};
-import grammar from './grammar.json' with {type: 'json'};
-import morphology from './morphology.json' with {type: 'json'};
-import features from './features.json' with {type: 'json'};
-import signal from './signal.json' with {type: 'json'};
-import bridge from './bridge.json' with {type: 'json'};
+import {readFile} from 'node:fs/promises';
 import {defineDeclarativeLanguagePlugin} from '../../js/plugins/declarative.js';
 
-/** The trusted loader supplies the validated identity, graph, CORE and provenance. */
-export default function createEnglishPlugin({manifest, graph, core, provenance}) {
-  return defineDeclarativeLanguagePlugin({manifest, graph, core, modules: {
-    identity: manifest, signal, lexicon, features, morphology, grammar, bridge,
-    evidence: provenance
-  }});
+const load = async path => JSON.parse(await readFile(new URL(path, import.meta.url), 'utf8'));
+
+/** This entrypoint owns only English data; parsing and inflection stay in shared JS. */
+export default async function createEnglishPlugin({core, manifest, graph, provenance}) {
+  const [lexicon, grammar, morphology, features, signal, bridge] = await Promise.all([
+    './lexicon.json', './grammar.json', './morphology.json',
+    './features.json', './signal.json', './bridge.json'
+  ].map(load));
+  return defineDeclarativeLanguagePlugin({
+    core, manifest, graph,
+    modules: {identity: manifest, lexicon, grammar, morphology, features,
+      signal, bridge, evidence: provenance}
+  });
 }

@@ -1,4 +1,6 @@
 {
+  "schemaVersion": "1.0",
+  "language": "en",
   "transfers": [
     {
       "construction": "event.visual_perception",
@@ -6,13 +8,28 @@
       "arguments": [
         {
           "role": "agent",
-          "argument": "subject",
-      "syntacticFunction": "subject"
+          "argument": "agent",
+          "syntacticFunction": "subject",
+          "caseExponent": {
+            "kind": "case",
+            "value": "nom"
+          },
+          "agreementControllers": [
+            {
+              "argument": "agent",
+              "feature": "number"
+            }
+          ]
         },
         {
           "role": "theme",
-          "argument": "object",
-      "syntacticFunction": "object"
+          "argument": "theme",
+          "syntacticFunction": "object",
+          "caseExponent": {
+            "kind": "case",
+            "value": "acc"
+          },
+          "agreementControllers": []
         }
       ]
     }

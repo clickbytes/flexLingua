@@ -6,17 +6,21 @@
       "singular",
       "plural"
     ],
-    "tense": [
-      "past",
-      "present"
-    ],
     "person": [
       "first",
       "second",
       "third"
     ],
+    "tense": [
+      "past",
+      "present"
+    ],
     "mood": [
       "indicative"
+    ],
+    "case": [
+      "nom",
+      "acc"
     ]
   },
   "featureProfile": {
@@ -27,6 +31,20 @@
         "nom",
         "acc",
         "loc"
+      ],
+      "number": [
+        "singular",
+        "plural"
+      ],
+      "person": [
+        "first",
+        "second",
+        "third"
+      ],
+      "gender": [
+        "masculine",
+        "feminine",
+        "neuter"
       ]
     },
     "morphology": {
@@ -34,17 +52,21 @@
         "singular",
         "plural"
       ],
-      "tense": [
-        "past",
-        "present"
-      ],
       "person": [
         "first",
         "second",
         "third"
       ],
+      "tense": [
+        "past",
+        "present"
+      ],
       "mood": [
         "indicative"
+      ],
+      "case": [
+        "nom",
+        "acc"
       ]
     }
   }

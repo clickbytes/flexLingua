@@ -1,7 +1,13 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": "1.0",
+  "language": "en",
   "reviewedAt": "2026-10-17",
-  "packages": [
+  "rightsPolicy": "Every JSON data package is listed with its current version, source, authorship, license status and permitted use. New packages require a record. Legacy packages with incomplete attribution are explicitly blocked from redistribution pending review.",
+  "migration": {
+    "issue": 246,
+    "approach": "Copy unchanged source blobs during package cutover; old paths removed in PLUG-R20 (#256)."
+  },
+  "sources": [
     {
       "path": "languages/en/lexicon.json",
       "version": "1.0",
@@ -74,7 +80,7 @@
           "scope": "A1-ENPL-12: CORE existence(entity, location, relation), version 1.33 and state-frame registry 1.3."
         }
       ],
-      "migratedFrom": "data/en.json"
+      "originalPath": "data/en.json"
     },
     {
       "path": "languages/en/grammar.json",
@@ -164,7 +170,7 @@
           "scope": "A1-ENPL-12: present there is/are, isn't/aren't and yes/no inversion over typed existence."
         }
       ],
-      "migratedFrom": "data/grammar/en.json"
+      "originalPath": "data/grammar/en.json"
     },
     {
       "path": "languages/en/morphology.json",
@@ -175,8 +181,15 @@
       "license": "Project-authored label exists in package; rights and reuse terms are not specified",
       "reviewedAt": "2026-10-15",
       "permittedUse": "Existing in-repository execution only. Verify source and rights before reuse or export.",
-      "migrationNote": "Add verified author, version date and permitted-use terms to the package provenance. The A2-03 additions are project-authored and remain bounded to the in-repository adapter; no historical data was copied. The upstream data/provenance.json record for data/morphology/en.json also lists #165, which describes Polish past być cells in data/morphology/pl.json; that unrelated batch is excluded from this English package record.",
+      "migrationNote": "Add verified author, version date and permitted-use terms to the package provenance. The A2-03 additions are project-authored and remain bounded to the in-repository adapter; no historical data was copied.",
       "authoredBatches": [
+        {
+          "issue": "#165",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored Polish past copula cells and explicit irregular forms; no external morphology table copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "A1-ENPL-05: third-person past być cells for three singular genders and virile/nonvirile plural. Language package: data/morphology/pl.json."
+        },
         {
           "issue": "#43",
           "author": "flexLingua project contributors",
@@ -224,67 +237,30 @@
           "scope": "English simple and Polish prosty inflection bindings for A1-ENPL-01."
         }
       ],
-      "migratedFrom": "data/morphology/en.json"
+      "originalPath": "data/morphology/en.json"
+    },
+    {
+      "path": "languages/en/features.json",
+      "version": "1.02",
+      "status": "legacy-review-required",
+      "author": "Not attributed in the existing package metadata",
+      "source": "Historical flexLingua morphology feature schema; individual values are not separately sourced",
+      "license": "Unconfirmed; no separate license statement is present in this package",
+      "reviewedAt": "2026-10-14",
+      "permittedUse": "Existing in-repository execution only. Do not redistribute or reuse externally until source and rights are reviewed.",
+      "migrationNote": "Add verified authorship and license metadata before extending the schema.",
+      "originalPath": "data/morphology/features.json"
     },
     {
       "path": "languages/en/manifest.json",
       "version": "1.0",
       "status": "project-authored",
       "author": "flexLingua project contributors",
-      "source": "Project-authored language plugin package metadata for the migrated English data.",
+      "source": "Project-authored language package manifest describing the existing English lexicon, grammar, morphology and tokenizer profile; no external data imported.",
       "license": "Project-authored; no separate SPDX data license grant is declared in this repository.",
       "reviewedAt": "2026-10-17",
-      "permittedUse": "Internal flexLingua package configuration only; external reuse requires rights-holder review."
-    },
-    {
-      "path": "languages/en/graph.json",
-      "version": "1.0",
-      "status": "project-authored",
-      "author": "flexLingua project contributors",
-      "source": "Project-authored language plugin package metadata for the migrated English data.",
-      "license": "Project-authored; no separate SPDX data license grant is declared in this repository.",
-      "reviewedAt": "2026-10-17",
-      "permittedUse": "Internal flexLingua package configuration only; external reuse requires rights-holder review."
-    },
-    {
-      "path": "languages/en/features.json",
-      "version": "1.0",
-      "status": "project-authored",
-      "author": "flexLingua project contributors",
-      "source": "Derived from feature values used by the migrated English morphology and syntax packages.",
-      "license": "Project-authored; no separate SPDX data license grant is declared in this repository.",
-      "reviewedAt": "2026-10-17",
-      "permittedUse": "Internal flexLingua package configuration only; external reuse requires rights-holder review."
-    },
-    {
-      "path": "languages/en/signal.json",
-      "version": "1.0",
-      "status": "project-authored",
-      "author": "flexLingua project contributors",
-      "source": "Project-authored language plugin package metadata for the migrated English data.",
-      "license": "Project-authored; no separate SPDX data license grant is declared in this repository.",
-      "reviewedAt": "2026-10-17",
-      "permittedUse": "Internal flexLingua package configuration only; external reuse requires rights-holder review."
-    },
-    {
-      "path": "languages/en/bridge.json",
-      "version": "1.0",
-      "status": "project-authored",
-      "author": "flexLingua project contributors",
-      "source": "Project-authored bounded mapping of the migrated English visual-perception event frame to CORE roles.",
-      "license": "Project-authored; no separate SPDX data license grant is declared in this repository.",
-      "reviewedAt": "2026-10-17",
-      "permittedUse": "Internal flexLingua package configuration only; external reuse requires rights-holder review."
-    },
-    {
-      "path": "languages/en/provenance.json",
-      "version": "1.0",
-      "status": "project-authored",
-      "author": "flexLingua project contributors",
-      "source": "Project-authored language plugin package metadata for the migrated English data.",
-      "license": "Project-authored; no separate SPDX data license grant is declared in this repository.",
-      "reviewedAt": "2026-10-17",
-      "permittedUse": "Internal flexLingua package configuration only; external reuse requires rights-holder review."
+      "permittedUse": "Internal flexLingua package configuration only; external reuse requires rights-holder review.",
+      "originalPath": "data/languages/en.json"
     }
   ]
 }
