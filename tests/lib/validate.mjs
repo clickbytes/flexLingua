@@ -13,7 +13,7 @@ const GAPS_ID = /^GAP-[A-Z0-9-]{2,64}$/u;
 const CASE_ID_SHAPE = /^A1-[A-Z]{2}-[A-Z]{2}-[A-Z]+-[0-9]{4}$/u;
 const TARGET_ID_SHAPE = /^(?:concept|construction)\.[a-z][a-z0-9_]*(?:\.[a-z][a-z0-9_]*)*$/u;
 const SHA40 = /^[0-9a-f]{40}$/u;
-const ISSUE_KIND = /^[a-z][a-zA-Z0-9_]{0,63}$/u;
+const ISSUE_KIND = /^[a-z][a-zA-Z0-9_-]{0,63}$/u;
 
 const CONCEPT_UNITS = new Set(['entity', 'property']);
 const CONSTRUCTION_UNITS = new Set(['event', 'state']);
