@@ -9,9 +9,11 @@
       "author": "Not attributed in the existing package metadata",
       "source": "Historical flexLingua Turkish lexical adapter package; entry-level source is not recorded",
       "license": "Unconfirmed; no separate license statement is present in this package",
-      "reviewedAt": "2026-10-14",
+      "reviewedAt": "2026-10-17",
       "permittedUse": "Existing in-repository execution only. Do not redistribute or reuse externally until source and rights are reviewed.",
-      "migrationNote": "The existing concept mapping is represented as one explicit CORE-linked sense using the unchanged lexeme ID; no lexical entries or surface forms were added. Add verified entry-level source, author and license before adding or exporting lexical data."
+      "migrationNote": "The existing concept mapping is represented as one explicit CORE-linked sense using the unchanged lexeme ID; no lexical entries or surface forms were added. Add verified entry-level source, author and license before adding or exporting lexical data.",
+      "runtimeUse": "languages/tr/index.js loads this lexicon into the declarative sentence plugin. Its six nouns and two verbs supply lexical readings for the two declared Turkish sentence frames; stored noun case/number and verb tense/polarity forms are read by the grammar interpreter. No standalone morphology provider is declared, and the manifest exposes only tr->en.",
+      "reviewEvidence": "Compared the lexeme inventory with project import commit 17a9b255783027890cc56dcd8141782a40212f7b and Turkish migration PR https://github.com/clickbytes/flexLingua/pull/276. No entry-level author, source citation, or rights grant was found. The import message's source SHA 64e3795 is unavailable in this repository, and no repository-level license is declared. Keep the data within the existing package until source and reuse rights are verified."
     },
     {
       "path": "languages/tr/grammar.json",
@@ -20,9 +22,11 @@
       "author": "Not attributed in the existing package metadata",
       "source": "Historical flexLingua Turkish grammar rules; individual rule authorship is not recorded",
       "license": "Unconfirmed; no separate license statement is present in this package",
-      "reviewedAt": "2026-10-14",
+      "reviewedAt": "2026-10-17",
       "permittedUse": "Existing in-repository execution only. Do not redistribute or reuse externally until source and rights are reviewed.",
-      "migrationNote": "Add verified authorship and license metadata before expanding or exporting this legacy package."
+      "migrationNote": "Add verified authorship and license metadata before expanding or exporting this legacy package.",
+      "runtimeUse": "languages/tr/index.js loads this grammar into the declarative plugin. The runtime uses the event.visual_perception and event.transfer_possession frames, their case plans and linearizations, and the lexicon's stored past/present polarity forms for the limited tr->en direction.",
+      "reviewEvidence": "Compared the grammar with project import commit 17a9b255783027890cc56dcd8141782a40212f7b and Turkish migration PR https://github.com/clickbytes/flexLingua/pull/276, which documents its bounded frames. No rule-level author, source citation, or rights grant was found. The import message's source SHA 64e3795 is unavailable in this repository, and no repository-level license is declared. Keep this grammar within the existing package until source and reuse rights are verified."
     },
     {
       "path": "languages/tr/manifest.json",
