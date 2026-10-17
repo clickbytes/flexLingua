@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://flexlingua.dev/schemas/catalog.schema.json",
+  "title": "flexLingua planning catalog",
+  "description": "Project-authored planning targets (historical A1 baseline plus current constructions). This is a planning denominator, never a CEFR percentage; live capability claims come from language manifests at run time, not from this file.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "purpose", "historicalBasis", "scope", "targets"],
+  "properties": {
+    "schemaVersion": { "const": "1.0" },
+    "purpose": { "type": "string", "minLength": 20, "maxLength": 600 },
+    "historicalBasis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sourcePath", "sourceCommit"],
+      "properties": {
+        "sourcePath": { "type": "string", "minLength": 3, "maxLength": 200 },
+        "sourceCommit": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+        "removedInCommit": { "type": "string", "maxLength": 64 },
+        "note": { "type": "string", "maxLength": 400 }
+      }
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["level", "completeness", "statement", "denominator"],
+      "properties": {
+        "level": { "const": "A1" },
+        "completeness": { "const": "project-authored-subset" },
+        "statement": { "type": "string", "minLength": 20, "maxLength": 600 },
+        "denominator": { "const": "project_a1_targets" }
+      }
+    },
+    "targets": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 200,
+      "items": { "$ref": "#/$defs/target" }
+    }
+  },
+  "$defs": {
+    "direction": {
+      "type": "string",
+      "enum": ["en-pl", "pl-en", "en-fi", "fi-en", "tr-en", "it-en", "en-it", "en-ar", "ar-en"]
+    },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["targetId", "revision", "historicalId", "unitType", "domain", "kind", "concept", "tier", "witnessKind", "directions"],
+      "properties": {
+        "targetId": {
+          "type": "string",
+          "pattern": "^(?:concept|construction)\\.[a-z][a-z0-9_]*(?:\\.[a-z][a-z0-9_]*)*$",
+          "minLength": 6,
+          "maxLength": 120
+        },
+        "revision": { "enum": ["historical-planning-baseline", "current"] },
+        "historicalId": { "type": ["string", "null"], "maxLength": 120 },
+        "unitType": { "enum": ["concept", "construction"] },
+        "domain": { "type": "string", "pattern": "^[a-z][a-z0-9_]{1,63}$" },
+        "kind": { "enum": ["entity", "property", "event", "state"] },
+        "concept": { "type": "string", "pattern": "^[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*$" },
+        "tier": { "enum": ["required", "planned"] },
+        "witnessKind": { "enum": ["positive", "positive-or-refusal", "any"] },
+        "directions": {
+          "type": "array",
+          "uniqueItems": true,
+          "minItems": 1,
+          "maxItems": 9,
+          "items": { "$ref": "#/$defs/direction" }
+        },
+        "note": { "type": ["string", "null"], "maxLength": 400 }
+      }
+    }
+  }
+}

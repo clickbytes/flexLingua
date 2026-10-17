@@ -1,0 +1,15 @@
+{
+  "schemaVersion": "1.0",
+  "purpose": "Protected gate lists: planning targets that must currently hold, and the approved required case ids that prove them.",
+  "changePolicy": "Entries here are the required baseline. Removing an entry, downgrading a required target to planned, moving a case out of the list, or softening an approved expectation must be reviewed explicitly by a human and recorded in the linked GitHub issue or PR; validators and CI hard-fail on silent removal, missing, or emptying entries. requiredCaseIds starts empty only as the documented pre-TM-04 initial state and must be complete before any required gate can pass.",
+  "requiredTargetIds": [
+    "concept.person.girl",
+    "concept.animal.dog",
+    "concept.object.book",
+    "concept.quality.simple",
+    "construction.event.visual_perception",
+    "construction.event.read",
+    "construction.state.classification"
+  ],
+  "requiredCaseIds": []
+}
