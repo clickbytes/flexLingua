@@ -1,0 +1,1540 @@
+{
+  "schemaVersion": "1.0",
+  "cases": [
+    {
+      "id": "A1-PL-EN-TGW-0211",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "W3 positive witness; independently assert visual-perception roles, lexical sense, source features and typed CORE ancestry.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Dziewczynka widzi fartuch."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "A girl sees an apron."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            },
+            "theme": {
+              "concept": "clothing.apron",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "imperfective"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "The girl sees the apron."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "ambiguous"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "clothing"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "physical_object"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; W3 linguistic curation and independent expected review delegated by project owner (2026-10-18). #406 candidate ledger comment #6252277598 records the complete batch and oracle; no per-ID manual user review is claimed.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#406"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "pl.analyze(event.visual_perception) -> en.realize"
+      }
+    },
+    {
+      "id": "A1-PL-EN-TGW-0212",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "W3 positive witness; independently assert visual-perception roles, lexical sense, source features and typed CORE ancestry.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Dziewczynka widzi kurtkę."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "A girl sees a jacket."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            },
+            "theme": {
+              "concept": "clothing.jacket",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "imperfective"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "The girl sees the jacket."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "ambiguous"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "clothing"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "physical_object"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; W3 linguistic curation and independent expected review delegated by project owner (2026-10-18). #406 candidate ledger comment #6252277598 records the complete batch and oracle; no per-ID manual user review is claimed.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#406"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "pl.analyze(event.visual_perception) -> en.realize"
+      }
+    },
+    {
+      "id": "A1-PL-EN-TGW-0213",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "W3 positive witness; independently assert visual-perception roles, lexical sense, source features and typed CORE ancestry.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Dziewczynka widzi płaszcz."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "A girl sees a coat."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            },
+            "theme": {
+              "concept": "clothing.coat",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "imperfective"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "The girl sees the coat."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "ambiguous"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "clothing"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "physical_object"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; W3 linguistic curation and independent expected review delegated by project owner (2026-10-18). #406 candidate ledger comment #6252277598 records the complete batch and oracle; no per-ID manual user review is claimed.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#406"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "pl.analyze(event.visual_perception) -> en.realize"
+      }
+    },
+    {
+      "id": "A1-PL-EN-TGW-0214",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "W3 positive witness; independently assert visual-perception roles, lexical sense, source features and typed CORE ancestry.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Dziewczynka widzi spódnicę."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "A girl sees a skirt."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            },
+            "theme": {
+              "concept": "clothing.skirt",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "imperfective"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "The girl sees the skirt."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "ambiguous"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "clothing"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "physical_object"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; W3 linguistic curation and independent expected review delegated by project owner (2026-10-18). #406 candidate ledger comment #6252277598 records the complete batch and oracle; no per-ID manual user review is claimed.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#406"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "pl.analyze(event.visual_perception) -> en.realize"
+      }
+    },
+    {
+      "id": "A1-PL-EN-TGW-0215",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "W3 positive witness; independently assert visual-perception roles, lexical sense, source features and typed CORE ancestry.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Dziewczynka widzi sukienkę."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "A girl sees a dress."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            },
+            "theme": {
+              "concept": "clothing.dress",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "imperfective"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "The girl sees the dress."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "ambiguous"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "clothing"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "physical_object"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; W3 linguistic curation and independent expected review delegated by project owner (2026-10-18). #406 candidate ledger comment #6252277598 records the complete batch and oracle; no per-ID manual user review is claimed.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#406"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "pl.analyze(event.visual_perception) -> en.realize"
+      }
+    },
+    {
+      "id": "A1-PL-EN-TGW-0216",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "W3 positive witness; independently assert visual-perception roles, lexical sense, source features and typed CORE ancestry.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Dziewczynka widzi but."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "A girl sees a shoe."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            },
+            "theme": {
+              "concept": "clothing.shoe",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "imperfective"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "The girl sees the shoe."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "ambiguous"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "clothing"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "physical_object"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; W3 linguistic curation and independent expected review delegated by project owner (2026-10-18). #406 candidate ledger comment #6252277598 records the complete batch and oracle; no per-ID manual user review is claimed.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#406"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "pl.analyze(event.visual_perception) -> en.realize"
+      }
+    },
+    {
+      "id": "A1-PL-EN-TGW-0217",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "W3 positive witness; independently assert visual-perception roles, lexical sense, source features and typed CORE ancestry.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Dziewczynka widzi skarpetę."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "A girl sees a sock."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            },
+            "theme": {
+              "concept": "clothing.sock",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "imperfective"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "The girl sees the sock."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "ambiguous"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "clothing"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "physical_object"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; W3 linguistic curation and independent expected review delegated by project owner (2026-10-18). #406 candidate ledger comment #6252277598 records the complete batch and oracle; no per-ID manual user review is claimed.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#406"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "pl.analyze(event.visual_perception) -> en.realize"
+      }
+    },
+    {
+      "id": "A1-PL-EN-TGW-0218",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "W3 positive witness; independently assert visual-perception roles, lexical sense, source features and typed CORE ancestry.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Dziewczynka widzi kapelusz."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "A girl sees a hat."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            },
+            "theme": {
+              "concept": "clothing.hat",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "imperfective"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "The girl sees the hat."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "ambiguous"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "clothing"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "physical_object"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; W3 linguistic curation and independent expected review delegated by project owner (2026-10-18). #406 candidate ledger comment #6252277598 records the complete batch and oracle; no per-ID manual user review is claimed.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#406"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "pl.analyze(event.visual_perception) -> en.realize"
+      }
+    },
+    {
+      "id": "A1-PL-EN-TGW-0219",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "W3 positive witness; independently assert visual-perception roles, lexical sense, source features and typed CORE ancestry.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Dziewczynka widzi młotek."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "A girl sees a hammer."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            },
+            "theme": {
+              "concept": "tool.hammer",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "imperfective"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "The girl sees the hammer."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "ambiguous"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "tool"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "physical_object"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; W3 linguistic curation and independent expected review delegated by project owner (2026-10-18). #406 candidate ledger comment #6252277598 records the complete batch and oracle; no per-ID manual user review is claimed.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#406"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "pl.analyze(event.visual_perception) -> en.realize"
+      }
+    },
+    {
+      "id": "A1-PL-EN-TGW-0220",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "W3 positive witness; independently assert visual-perception roles, lexical sense, source features and typed CORE ancestry.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Dziewczynka widzi śrubokręt."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "A girl sees a screwdriver."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            },
+            "theme": {
+              "concept": "tool.screwdriver",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "imperfective"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "The girl sees the screwdriver."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "ambiguous"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "tool"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "physical_object"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "purpose",
+              "toConcept": "purpose.fastening"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": true
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; W3 linguistic curation and independent expected review delegated by project owner (2026-10-18). #406 candidate ledger comment #6252277598 records the complete batch and oracle; no per-ID manual user review is claimed.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#406"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "pl.analyze(event.visual_perception) -> en.realize"
+      }
+    }
+  ]
+}

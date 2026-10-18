@@ -3426,6 +3426,222 @@
         "base": "mole"
       },
       "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw3.food_peach.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "peach"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw3.food_plum.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "plum"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw3.food_pumpkin.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "pumpkin"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw3.food_apricot.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "apricot"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw3.food_bean.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "bean"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw3.food_olive.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "olive"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw3.food_sausage.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "sausage"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw3.food_berry.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "berry"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw3.food_pineapple.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "pineapple"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw3.food_grapefruit.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "grapefruit"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw3.clothing_apron.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "apron"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw3.clothing_jacket.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "jacket"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw3.clothing_coat.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "coat"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw3.clothing_skirt.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "skirt"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw3.clothing_dress.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "dress"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw3.clothing_shoe.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "shoe"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw3.clothing_sock.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "sock"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw3.clothing_hat.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "hat"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw3.tool_hammer.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "hammer"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw3.tool_screwdriver.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "screwdriver"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw3.tool_chisel.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "chisel"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw3.tool_saw.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "saw"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw3.tool_needle.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "needle"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw3.tool_drill.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "drill"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw3.tool_shovel.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "shovel"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw3.clothing_button.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "button"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw3.object_push_button.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "button"
+      },
+      "overrides": []
     }
   ]
 }

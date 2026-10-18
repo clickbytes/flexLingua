@@ -15404,6 +15404,222 @@
         "base": "kor"
       },
       "overrides": []
+    },
+    {
+      "lexemeId": "pl.tgw3.food_peach.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "brzoskwini"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.tgw3.food_plum.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "śliwk"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.tgw3.food_pumpkin.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "dyni"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.tgw3.food_apricot.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "morel"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.tgw3.food_bean.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "fasol"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.tgw3.food_olive.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "oliwk"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.tgw3.food_sausage.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "kiełbas"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.tgw3.food_berry.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "jagod"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.tgw3.food_pineapple.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "ananas"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.tgw3.food_grapefruit.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "grejpfrut"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.tgw3.clothing_apron.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "fartuch"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.tgw3.clothing_jacket.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "kurtk"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.tgw3.clothing_coat.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "płaszcz"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.tgw3.clothing_skirt.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "spódnic"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.tgw3.clothing_dress.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "sukienk"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.tgw3.clothing_shoe.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "but"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.tgw3.clothing_sock.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "skarpet"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.tgw3.clothing_hat.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "kapelusz"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.tgw3.tool_hammer.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "młotek"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.tgw3.tool_screwdriver.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "śrubokręt"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.tgw3.tool_chisel.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "dłuto"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.tgw3.tool_saw.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "pił"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.tgw3.tool_needle.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "igł"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.tgw3.tool_drill.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "wiertark"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.tgw3.tool_shovel.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "łopat"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.tgw3.clothing_zipper.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "zamek"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.tgw3.tool_lock.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "zamek"
+      },
+      "overrides": []
     }
   ]
 }

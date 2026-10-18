@@ -15,8 +15,8 @@ export const DISCOVERY_LIMITS = Object.freeze({
   maxDirectories: 32,
   maxFiles: 64,
   maxFileBytes: 131072,
-  maxTotalBytes: 786432,
-  maxCases: 200
+  maxTotalBytes: 2621440,
+  maxCases: 600
 });
 
 const DIRECTION_NAME = /^[a-z]{2,8}-[a-z]{2,8}$/u;

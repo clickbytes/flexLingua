@@ -5610,6 +5610,1619 @@
           }
         }
       ]
+    },
+    {
+      "id": "en.tgw3.food_peach.1",
+      "lemma": "peach",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.food_peach.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.peach"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.food_plum.1",
+      "lemma": "plum",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.food_plum.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.plum"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.food_pumpkin.1",
+      "lemma": "pumpkin",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.food_pumpkin.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.pumpkin"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.food_garlic.1",
+      "lemma": "garlic",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.food_garlic.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.garlic"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.food_rice.1",
+      "lemma": "rice",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.food_rice.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.rice"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.food_honey.1",
+      "lemma": "honey",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.food_honey.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.honey"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.food_apricot.1",
+      "lemma": "apricot",
+      "forms": {},
+      "indefiniteArticle": "an",
+      "senses": [
+        {
+          "id": "en.tgw3.food_apricot.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.apricot"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.food_corn.1",
+      "lemma": "corn",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.food_corn.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.corn"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.food_bean.1",
+      "lemma": "bean",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.food_bean.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.bean"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.food_olive.1",
+      "lemma": "olive",
+      "forms": {},
+      "indefiniteArticle": "an",
+      "senses": [
+        {
+          "id": "en.tgw3.food_olive.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.olive"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.food_vinegar.1",
+      "lemma": "vinegar",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.food_vinegar.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.vinegar"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.food_sugar.1",
+      "lemma": "sugar",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.food_sugar.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.sugar"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.food_salt.1",
+      "lemma": "salt",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.food_salt.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.salt"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.food_flour.1",
+      "lemma": "flour",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.food_flour.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.flour"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.food_yogurt.1",
+      "lemma": "yogurt",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.food_yogurt.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.yogurt"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.food_butter.1",
+      "lemma": "butter",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.food_butter.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.butter"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.food_pasta.1",
+      "lemma": "pasta",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.food_pasta.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.pasta"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.food_sausage.1",
+      "lemma": "sausage",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.food_sausage.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.sausage"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.food_ham.1",
+      "lemma": "ham",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.food_ham.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.ham"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.food_spice.1",
+      "lemma": "spice",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.food_spice.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.spice"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.food_cheese.1",
+      "lemma": "cheese",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.food_cheese.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.cheese"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.food_berry.1",
+      "lemma": "berry",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.food_berry.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.berry"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.food_pineapple.1",
+      "lemma": "pineapple",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.food_pineapple.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.pineapple"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.food_grapefruit.1",
+      "lemma": "grapefruit",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.food_grapefruit.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.grapefruit"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.food_melon.1",
+      "lemma": "melon",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.food_melon.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.melon"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.food_cinnamon.1",
+      "lemma": "cinnamon",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.food_cinnamon.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.cinnamon"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.food_cereal.1",
+      "lemma": "cereal",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.food_cereal.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.cereal"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.food_candy.1",
+      "lemma": "candy",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.food_candy.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.candy"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.food_mint.1",
+      "lemma": "mint",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.food_mint.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.mint"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.food_gherkin.1",
+      "lemma": "gherkin",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.food_gherkin.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.gherkin"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.clothing_apron.1",
+      "lemma": "apron",
+      "forms": {},
+      "indefiniteArticle": "an",
+      "senses": [
+        {
+          "id": "en.tgw3.clothing_apron.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.apron"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.clothing_jacket.1",
+      "lemma": "jacket",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.clothing_jacket.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.jacket"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.clothing_coat.1",
+      "lemma": "coat",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.clothing_coat.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.coat"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.clothing_skirt.1",
+      "lemma": "skirt",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.clothing_skirt.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.skirt"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.clothing_dress.1",
+      "lemma": "dress",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.clothing_dress.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.dress"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.clothing_shoe.1",
+      "lemma": "shoe",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.clothing_shoe.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.shoe"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.clothing_sock.1",
+      "lemma": "sock",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.clothing_sock.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.sock"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.clothing_hat.1",
+      "lemma": "hat",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.clothing_hat.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.hat"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.clothing_belt.1",
+      "lemma": "belt",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.clothing_belt.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.belt"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.clothing_button.1",
+      "lemma": "button",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.clothing_button.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.button"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.clothing_zipper.1",
+      "lemma": "zipper",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.clothing_zipper.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.zipper"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.clothing_scarf.1",
+      "lemma": "scarf",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.clothing_scarf.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.scarf"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.clothing_boot.1",
+      "lemma": "boot",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.clothing_boot.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.boot"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.clothing_pocket.1",
+      "lemma": "pocket",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.clothing_pocket.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.pocket"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.clothing_sleeve.1",
+      "lemma": "sleeve",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.clothing_sleeve.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.sleeve"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.clothing_collar.1",
+      "lemma": "collar",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.clothing_collar.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.collar"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.clothing_glove.1",
+      "lemma": "glove",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.clothing_glove.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.glove"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.clothing_uniform.1",
+      "lemma": "uniform",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.clothing_uniform.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.uniform"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.clothing_tie.1",
+      "lemma": "tie",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.clothing_tie.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.tie"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.clothing_raincoat.1",
+      "lemma": "raincoat",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.clothing_raincoat.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.raincoat"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.clothing_rubber_boot.1",
+      "lemma": "rubber boot",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.clothing_rubber_boot.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.rubber_boot"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.clothing_wool_sweater.1",
+      "lemma": "wool sweater",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.clothing_wool_sweater.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.wool_sweater"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.clothing_sandal.1",
+      "lemma": "sandal",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.clothing_sandal.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.sandal"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.clothing_slipper.1",
+      "lemma": "slipper",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.clothing_slipper.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.slipper"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.material_wool.1",
+      "lemma": "wool",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.material_wool.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "material.wool"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.material_copper.1",
+      "lemma": "copper",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.material_copper.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "material.copper"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.material_cotton.1",
+      "lemma": "cotton",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.material_cotton.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "material.cotton"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.material_rubber.1",
+      "lemma": "rubber",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.material_rubber.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "material.rubber"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.material_iron.1",
+      "lemma": "iron",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.material_iron.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "material.iron"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.material_steel.1",
+      "lemma": "steel",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.material_steel.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "material.steel"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.material_silk.1",
+      "lemma": "silk",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.material_silk.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "material.silk"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.material_paper.1",
+      "lemma": "paper",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.material_paper.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "material.paper"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.material_cardboard.1",
+      "lemma": "cardboard",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.material_cardboard.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "material.cardboard"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.material_clay.1",
+      "lemma": "clay",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.material_clay.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "material.clay"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.material_stone.1",
+      "lemma": "stone",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.material_stone.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "material.stone"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.material_sand.1",
+      "lemma": "sand",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.material_sand.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "material.sand"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.material_glass.1",
+      "lemma": "glass",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.material_glass.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "material.glass"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.material_gold.1",
+      "lemma": "gold",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.material_gold.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "material.gold"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.material_silver.1",
+      "lemma": "silver",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.material_silver.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "material.silver"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.material_plastic.1",
+      "lemma": "plastic",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.material_plastic.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "material.plastic"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.material_brick.1",
+      "lemma": "brick",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.material_brick.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "material.brick"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.material_concrete.1",
+      "lemma": "concrete",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.material_concrete.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "material.concrete"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.material_coating.1",
+      "lemma": "coating",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.material_coating.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "material.coating"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.material_ceramic.1",
+      "lemma": "ceramic",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.material_ceramic.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "material.ceramic"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.tool_hammer.1",
+      "lemma": "hammer",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.tool_hammer.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "tool.hammer"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.tool_screwdriver.1",
+      "lemma": "screwdriver",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.tool_screwdriver.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "tool.screwdriver"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.tool_chisel.1",
+      "lemma": "chisel",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.tool_chisel.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "tool.chisel"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.tool_pliers.1",
+      "lemma": "pliers",
+      "forms": {},
+      "senses": [
+        {
+          "id": "en.tgw3.tool_pliers.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "tool.pliers"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.tool_saw.1",
+      "lemma": "saw",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.tool_saw.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "tool.saw"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.tool_needle.1",
+      "lemma": "needle",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.tool_needle.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "tool.needle"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.tool_brush.1",
+      "lemma": "paintbrush",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.tool_brush.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "tool.brush"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.tool_ruler.1",
+      "lemma": "ruler",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.tool_ruler.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "tool.ruler"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.tool_drill.1",
+      "lemma": "drill",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.tool_drill.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "tool.drill"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.tool_shovel.1",
+      "lemma": "shovel",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.tool_shovel.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "tool.shovel"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.tool_rake.1",
+      "lemma": "rake",
+      "forms": {},
+      "senses": [
+        {
+          "id": "en.tgw3.tool_rake.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "tool.rake"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.tool_hoe.1",
+      "lemma": "hoe",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.tool_hoe.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "tool.hoe"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.tool_axe.1",
+      "lemma": "axe",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.tool_axe.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "tool.axe"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.tool_ladder.1",
+      "lemma": "ladder",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.tool_ladder.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "tool.ladder"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.tool_clamp.1",
+      "lemma": "clamp",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.tool_clamp.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "tool.clamp"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.tool_file.1",
+      "lemma": "file",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.tool_file.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "tool.file"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.tool_tape_measure.1",
+      "lemma": "tape measure",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.tool_tape_measure.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "tool.tape_measure"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.object_nail.1",
+      "lemma": "nail",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.object_nail.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.nail"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.tool_stapler.1",
+      "lemma": "stapler",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.tool_stapler.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "tool.stapler"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.tool_tongs.1",
+      "lemma": "tongs",
+      "forms": {},
+      "senses": [
+        {
+          "id": "en.tgw3.tool_tongs.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "tool.tongs"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.tool_trowel.1",
+      "lemma": "trowel",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.tool_trowel.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "tool.trowel"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.tool_lock.1",
+      "lemma": "lock",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.tool_lock.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "tool.lock"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw3.object_push_button.1",
+      "lemma": "button",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw3.object_push_button.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.push_button"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.garment_button.1",
+      "lemma": "garment button",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.garment_button.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.button"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.house_slipper.1",
+      "lemma": "house slipper",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.house_slipper.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.slipper"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.sewing_needle.1",
+      "lemma": "sewing needle",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.sewing_needle.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "tool.needle"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.gherkin_pickle.1",
+      "lemma": "gherkin pickle",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.gherkin_pickle.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.gherkin"
+          },
+          "countability": "count"
+        }
+      ]
     }
   ],
   "verbs": [

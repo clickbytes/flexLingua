@@ -1996,6 +1996,381 @@
         "pl-en"
       ],
       "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.food.peach",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "food",
+      "kind": "entity",
+      "concept": "food.peach",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.food.plum",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "food",
+      "kind": "entity",
+      "concept": "food.plum",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.food.pumpkin",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "food",
+      "kind": "entity",
+      "concept": "food.pumpkin",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.food.apricot",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "food",
+      "kind": "entity",
+      "concept": "food.apricot",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.food.bean",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "food",
+      "kind": "entity",
+      "concept": "food.bean",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.food.olive",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "food",
+      "kind": "entity",
+      "concept": "food.olive",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.food.sausage",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "food",
+      "kind": "entity",
+      "concept": "food.sausage",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.food.berry",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "food",
+      "kind": "entity",
+      "concept": "food.berry",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.food.pineapple",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "food",
+      "kind": "entity",
+      "concept": "food.pineapple",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.food.grapefruit",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "food",
+      "kind": "entity",
+      "concept": "food.grapefruit",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.clothing.apron",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "clothing",
+      "kind": "entity",
+      "concept": "clothing.apron",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.clothing.jacket",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "clothing",
+      "kind": "entity",
+      "concept": "clothing.jacket",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.clothing.coat",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "clothing",
+      "kind": "entity",
+      "concept": "clothing.coat",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.clothing.skirt",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "clothing",
+      "kind": "entity",
+      "concept": "clothing.skirt",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.clothing.dress",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "clothing",
+      "kind": "entity",
+      "concept": "clothing.dress",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.clothing.shoe",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "clothing",
+      "kind": "entity",
+      "concept": "clothing.shoe",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.clothing.sock",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "clothing",
+      "kind": "entity",
+      "concept": "clothing.sock",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.clothing.hat",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "clothing",
+      "kind": "entity",
+      "concept": "clothing.hat",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.tool.hammer",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "tools",
+      "kind": "entity",
+      "concept": "tool.hammer",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.tool.screwdriver",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "tools",
+      "kind": "entity",
+      "concept": "tool.screwdriver",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.tool.chisel",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "tools",
+      "kind": "entity",
+      "concept": "tool.chisel",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.tool.saw",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "tools",
+      "kind": "entity",
+      "concept": "tool.saw",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.tool.needle",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "tools",
+      "kind": "entity",
+      "concept": "tool.needle",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.tool.drill",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "tools",
+      "kind": "entity",
+      "concept": "tool.drill",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.tool.shovel",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "tools",
+      "kind": "entity",
+      "concept": "tool.shovel",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
     }
   ]
 }

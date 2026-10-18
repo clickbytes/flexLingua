@@ -2405,6 +2405,551 @@
       "type": "entity",
       "parent": "entity",
       "label": "cortex"
+    },
+    "food.peach": {
+      "type": "entity",
+      "parent": "food",
+      "label": "peach"
+    },
+    "food.plum": {
+      "type": "entity",
+      "parent": "food",
+      "label": "plum"
+    },
+    "food.pumpkin": {
+      "type": "entity",
+      "parent": "food",
+      "label": "pumpkin"
+    },
+    "food.garlic": {
+      "type": "entity",
+      "parent": "food",
+      "label": "garlic"
+    },
+    "food.rice": {
+      "type": "entity",
+      "parent": "food",
+      "label": "rice"
+    },
+    "food.honey": {
+      "type": "entity",
+      "parent": "food",
+      "label": "honey"
+    },
+    "food.apricot": {
+      "type": "entity",
+      "parent": "food",
+      "label": "apricot"
+    },
+    "food.corn": {
+      "type": "entity",
+      "parent": "food",
+      "label": "corn"
+    },
+    "food.bean": {
+      "type": "entity",
+      "parent": "food",
+      "label": "bean"
+    },
+    "food.olive": {
+      "type": "entity",
+      "parent": "food",
+      "label": "olive"
+    },
+    "food.vinegar": {
+      "type": "entity",
+      "parent": "food",
+      "label": "vinegar"
+    },
+    "food.sugar": {
+      "type": "entity",
+      "parent": "food",
+      "label": "sugar"
+    },
+    "food.salt": {
+      "type": "entity",
+      "parent": "food",
+      "label": "salt"
+    },
+    "food.flour": {
+      "type": "entity",
+      "parent": "food",
+      "label": "flour"
+    },
+    "food.yogurt": {
+      "type": "entity",
+      "parent": "food",
+      "label": "yogurt"
+    },
+    "food.butter": {
+      "type": "entity",
+      "parent": "food",
+      "label": "butter"
+    },
+    "food.pasta": {
+      "type": "entity",
+      "parent": "food",
+      "label": "pasta"
+    },
+    "food.sausage": {
+      "type": "entity",
+      "parent": "food",
+      "label": "sausage"
+    },
+    "food.ham": {
+      "type": "entity",
+      "parent": "food",
+      "label": "ham"
+    },
+    "food.spice": {
+      "type": "entity",
+      "parent": "food",
+      "label": "spice"
+    },
+    "food.cheese": {
+      "type": "entity",
+      "parent": "food",
+      "label": "cheese"
+    },
+    "food.berry": {
+      "type": "entity",
+      "parent": "food",
+      "label": "berry"
+    },
+    "food.pineapple": {
+      "type": "entity",
+      "parent": "food",
+      "label": "pineapple"
+    },
+    "food.grapefruit": {
+      "type": "entity",
+      "parent": "food",
+      "label": "grapefruit"
+    },
+    "food.melon": {
+      "type": "entity",
+      "parent": "food",
+      "label": "melon"
+    },
+    "food.cinnamon": {
+      "type": "entity",
+      "parent": "food",
+      "label": "cinnamon"
+    },
+    "food.cereal": {
+      "type": "entity",
+      "parent": "food",
+      "label": "cereal"
+    },
+    "food.candy": {
+      "type": "entity",
+      "parent": "food",
+      "label": "candy"
+    },
+    "food.mint": {
+      "type": "entity",
+      "parent": "food",
+      "label": "mint"
+    },
+    "food.gherkin": {
+      "type": "entity",
+      "parent": "food",
+      "label": "gherkin"
+    },
+    "clothing": {
+      "type": "category",
+      "parent": "physical_object",
+      "label": "clothing"
+    },
+    "clothing.apron": {
+      "type": "entity",
+      "parent": "clothing",
+      "label": "apron"
+    },
+    "clothing.jacket": {
+      "type": "entity",
+      "parent": "clothing",
+      "label": "jacket"
+    },
+    "clothing.coat": {
+      "type": "entity",
+      "parent": "clothing",
+      "label": "coat"
+    },
+    "clothing.skirt": {
+      "type": "entity",
+      "parent": "clothing",
+      "label": "skirt"
+    },
+    "clothing.dress": {
+      "type": "entity",
+      "parent": "clothing",
+      "label": "dress"
+    },
+    "clothing.shoe": {
+      "type": "entity",
+      "parent": "clothing",
+      "label": "shoe"
+    },
+    "clothing.sock": {
+      "type": "entity",
+      "parent": "clothing",
+      "label": "sock"
+    },
+    "clothing.hat": {
+      "type": "entity",
+      "parent": "clothing",
+      "label": "hat"
+    },
+    "clothing.belt": {
+      "type": "entity",
+      "parent": "clothing",
+      "label": "belt"
+    },
+    "clothing.button": {
+      "type": "entity",
+      "parent": "clothing",
+      "label": "button"
+    },
+    "clothing.zipper": {
+      "type": "entity",
+      "parent": "clothing",
+      "label": "zipper"
+    },
+    "clothing.scarf": {
+      "type": "entity",
+      "parent": "clothing",
+      "label": "scarf"
+    },
+    "clothing.boot": {
+      "type": "entity",
+      "parent": "clothing",
+      "label": "boot"
+    },
+    "clothing.pocket": {
+      "type": "entity",
+      "parent": "clothing",
+      "label": "pocket"
+    },
+    "clothing.sleeve": {
+      "type": "entity",
+      "parent": "clothing",
+      "label": "sleeve"
+    },
+    "clothing.collar": {
+      "type": "entity",
+      "parent": "clothing",
+      "label": "collar"
+    },
+    "clothing.glove": {
+      "type": "entity",
+      "parent": "clothing",
+      "label": "glove"
+    },
+    "clothing.uniform": {
+      "type": "entity",
+      "parent": "clothing",
+      "label": "uniform"
+    },
+    "clothing.tie": {
+      "type": "entity",
+      "parent": "clothing",
+      "label": "tie"
+    },
+    "clothing.raincoat": {
+      "type": "entity",
+      "parent": "clothing",
+      "label": "raincoat"
+    },
+    "clothing.rubber_boot": {
+      "type": "entity",
+      "parent": "clothing",
+      "label": "rubber boot",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "material",
+            "target": "material.rubber",
+            "constraint": "required"
+          }
+        ]
+      }
+    },
+    "clothing.wool_sweater": {
+      "type": "entity",
+      "parent": "clothing",
+      "label": "wool sweater",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "material",
+            "target": "material.wool",
+            "constraint": "required"
+          }
+        ]
+      }
+    },
+    "clothing.sandal": {
+      "type": "entity",
+      "parent": "clothing",
+      "label": "sandal"
+    },
+    "clothing.slipper": {
+      "type": "entity",
+      "parent": "clothing",
+      "label": "slipper"
+    },
+    "material.wool": {
+      "type": "entity",
+      "parent": "material",
+      "label": "wool"
+    },
+    "material.copper": {
+      "type": "entity",
+      "parent": "material",
+      "label": "copper"
+    },
+    "material.cotton": {
+      "type": "entity",
+      "parent": "material",
+      "label": "cotton"
+    },
+    "material.rubber": {
+      "type": "entity",
+      "parent": "material",
+      "label": "rubber"
+    },
+    "material.iron": {
+      "type": "entity",
+      "parent": "material",
+      "label": "iron"
+    },
+    "material.steel": {
+      "type": "entity",
+      "parent": "material",
+      "label": "steel"
+    },
+    "material.silk": {
+      "type": "entity",
+      "parent": "material",
+      "label": "silk"
+    },
+    "material.paper": {
+      "type": "entity",
+      "parent": "material",
+      "label": "paper"
+    },
+    "material.cardboard": {
+      "type": "entity",
+      "parent": "material",
+      "label": "cardboard"
+    },
+    "material.clay": {
+      "type": "entity",
+      "parent": "material",
+      "label": "clay"
+    },
+    "material.stone": {
+      "type": "entity",
+      "parent": "material",
+      "label": "stone"
+    },
+    "material.sand": {
+      "type": "entity",
+      "parent": "material",
+      "label": "sand"
+    },
+    "material.glass": {
+      "type": "entity",
+      "parent": "material",
+      "label": "glass"
+    },
+    "material.gold": {
+      "type": "entity",
+      "parent": "material",
+      "label": "gold"
+    },
+    "material.silver": {
+      "type": "entity",
+      "parent": "material",
+      "label": "silver"
+    },
+    "material.plastic": {
+      "type": "entity",
+      "parent": "material",
+      "label": "plastic"
+    },
+    "material.brick": {
+      "type": "entity",
+      "parent": "material",
+      "label": "brick"
+    },
+    "material.concrete": {
+      "type": "entity",
+      "parent": "material",
+      "label": "concrete"
+    },
+    "material.coating": {
+      "type": "entity",
+      "parent": "material",
+      "label": "coating"
+    },
+    "material.ceramic": {
+      "type": "entity",
+      "parent": "material",
+      "label": "ceramic"
+    },
+    "tool": {
+      "type": "category",
+      "parent": "physical_object",
+      "label": "tool"
+    },
+    "purpose.fastening": {
+      "type": "category",
+      "parent": "purpose",
+      "label": "fastening"
+    },
+    "tool.hammer": {
+      "type": "entity",
+      "parent": "tool",
+      "label": "hammer"
+    },
+    "tool.screwdriver": {
+      "type": "entity",
+      "parent": "tool",
+      "label": "screwdriver",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "purpose",
+            "target": "purpose.fastening",
+            "constraint": "required"
+          }
+        ]
+      }
+    },
+    "tool.chisel": {
+      "type": "entity",
+      "parent": "tool",
+      "label": "chisel"
+    },
+    "tool.pliers": {
+      "type": "entity",
+      "parent": "tool",
+      "label": "pliers"
+    },
+    "tool.saw": {
+      "type": "entity",
+      "parent": "tool",
+      "label": "saw"
+    },
+    "tool.needle": {
+      "type": "entity",
+      "parent": "tool",
+      "label": "needle"
+    },
+    "tool.brush": {
+      "type": "entity",
+      "parent": "tool",
+      "label": "paintbrush"
+    },
+    "tool.ruler": {
+      "type": "entity",
+      "parent": "tool",
+      "label": "ruler"
+    },
+    "tool.drill": {
+      "type": "entity",
+      "parent": "tool",
+      "label": "drill"
+    },
+    "tool.shovel": {
+      "type": "entity",
+      "parent": "tool",
+      "label": "shovel"
+    },
+    "tool.rake": {
+      "type": "entity",
+      "parent": "tool",
+      "label": "rake"
+    },
+    "tool.hoe": {
+      "type": "entity",
+      "parent": "tool",
+      "label": "hoe"
+    },
+    "tool.axe": {
+      "type": "entity",
+      "parent": "tool",
+      "label": "axe"
+    },
+    "tool.ladder": {
+      "type": "entity",
+      "parent": "tool",
+      "label": "ladder"
+    },
+    "tool.clamp": {
+      "type": "entity",
+      "parent": "tool",
+      "label": "clamp"
+    },
+    "tool.file": {
+      "type": "entity",
+      "parent": "tool",
+      "label": "file"
+    },
+    "tool.tape_measure": {
+      "type": "entity",
+      "parent": "tool",
+      "label": "tape measure"
+    },
+    "object.nail": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "nail",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "purpose",
+            "target": "purpose.fastening",
+            "constraint": "required"
+          }
+        ]
+      }
+    },
+    "tool.stapler": {
+      "type": "entity",
+      "parent": "tool",
+      "label": "stapler",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "purpose",
+            "target": "purpose.fastening",
+            "constraint": "required"
+          }
+        ]
+      }
+    },
+    "tool.tongs": {
+      "type": "entity",
+      "parent": "tool",
+      "label": "tongs"
+    },
+    "tool.trowel": {
+      "type": "entity",
+      "parent": "tool",
+      "label": "trowel"
+    },
+    "tool.lock": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "lock"
+    },
+    "object.push_button": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "button"
     }
   },
   "relationTypes": {
