@@ -62,7 +62,7 @@
         "mode": { "const": "single-sentence" },
         "direction": { "$ref": "#/$defs/direction" },
         "family": { "type": "string", "pattern": "^[a-z][a-z0-9_]{1,63}$" },
-        "construction": { "type": "string", "pattern": "^[a-z][a-z0-9_]+\\.[a-z][a-z0-9_]+$" },
+        "construction": { "type": "string", "pattern": "^(?:question\\.yes-no|[a-z][a-z0-9_]+\\.[a-z][a-z0-9_]+)$" },
         "tier": { "enum": ["required", "exploratory"] },
         "priority": { "type": "integer", "minimum": 1, "maximum": 5 },
         "cliSmoke": { "type": "boolean" },
@@ -170,12 +170,18 @@
       }
     },
     "meaning": {
+      "oneOf": [
+        { "$ref": "#/$defs/clauseMeaning" },
+        { "$ref": "#/$defs/questionMeaning" }
+      ]
+    },
+    "clauseMeaning": {
       "type": "object",
       "additionalProperties": false,
       "required": ["type", "roleSet", "roles", "features", "assert"],
       "properties": {
         "type": {
-          "enum": ["event", "state", "question", "discourse", "dialogue_act", "comparison", "coordination", "scope", "complement", "modality", "conditional"]
+          "enum": ["event", "state", "discourse", "dialogue_act", "comparison", "coordination", "scope", "complement", "modality", "conditional"]
         },
         "concept": { "type": "string", "pattern": "^[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*$" },
         "kind": { "type": "string", "pattern": "^[a-z][a-z0-9_]{1,63}$" },
@@ -202,6 +208,27 @@
           "additionalProperties": { "type": "string" }
         },
         "featuresAllowExtra": { "type": "boolean" },
+        "assert": {
+          "type": "object",
+          "maxProperties": 40,
+          "propertyNames": { "$ref": "#/$defs/pointer" },
+          "additionalProperties": { "type": ["string", "number", "boolean", "null"] }
+        }
+      }
+    },
+    "questionMeaning": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "questionType", "proposition", "assert"],
+      "properties": {
+        "type": { "const": "question" },
+        "questionType": { "const": "yes_no" },
+        "proposition": {
+          "allOf": [
+            { "$ref": "#/$defs/clauseMeaning" },
+            { "properties": { "type": { "const": "event" } }, "required": ["type"] }
+          ]
+        },
         "assert": {
           "type": "object",
           "maxProperties": 40,

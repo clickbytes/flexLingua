@@ -11,6 +11,11 @@ function collectMeaningConcepts(meaning) {
   const push = value => {
     if (typeof value === 'string' && !found.includes(value)) found.push(value);
   };
+  if (meaning?.type === 'question') {
+    // A question can witness its wrapper construction and proposition concepts,
+    // but must not be counted as a separate event-construction case.
+    return collectMeaningConcepts(meaning.proposition);
+  }
   if (meaning?.type === 'event') {
     for (const participant of Object.values(meaning.roles ?? {})) {
       push(participant?.concept);

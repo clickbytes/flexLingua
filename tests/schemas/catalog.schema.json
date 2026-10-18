@@ -50,7 +50,7 @@
       "properties": {
         "targetId": {
           "type": "string",
-          "pattern": "^(?:concept|construction)\\.[a-z][a-z0-9_]*(?:\\.[a-z][a-z0-9_]*)*$",
+          "pattern": "^(?:concept\\.[a-z][a-z0-9_]*(?:\\.[a-z][a-z0-9_]*)*|construction\\.(?:question\\.yes-no|[a-z][a-z0-9_]*(?:\\.[a-z][a-z0-9_]*)*))$",
           "minLength": 6,
           "maxLength": 120
         },
@@ -58,8 +58,8 @@
         "historicalId": { "type": ["string", "null"], "maxLength": 120 },
         "unitType": { "enum": ["concept", "construction"] },
         "domain": { "type": "string", "pattern": "^[a-z][a-z0-9_]{1,63}$" },
-        "kind": { "enum": ["entity", "property", "event", "state"] },
-        "concept": { "type": "string", "pattern": "^[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*$" },
+        "kind": { "enum": ["entity", "property", "event", "state", "question"] },
+        "concept": { "type": ["string", "null"], "pattern": "^[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*$" },
         "tier": { "enum": ["required", "planned"] },
         "witnessKind": { "enum": ["positive", "positive-or-refusal", "any"] },
         "directions": {
@@ -70,7 +70,23 @@
           "items": { "$ref": "#/$defs/direction" }
         },
         "note": { "type": ["string", "null"], "maxLength": 400 }
-      }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "kind": { "const": "question" } }, "required": ["kind"] },
+          "then": {
+            "properties": {
+              "unitType": { "const": "construction" },
+              "targetId": { "const": "construction.question.yes-no" },
+              "concept": { "const": null }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "kind": { "not": { "const": "question" } } }, "required": ["kind"] },
+          "then": { "properties": { "concept": { "type": "string" } } }
+        }
+      ]
     }
   }
 }
