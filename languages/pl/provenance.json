@@ -107,6 +107,13 @@
           "source": "Project-authored Polish-English concept labels, lexical senses and reviewed singular forms from bounded LLM linguistic review; no external dictionary, vocabulary list, protected list, or imported dataset was copied.",
           "license": "Project-authored for internal flexLingua use; this repository declares no separate SPDX data license.",
           "scope": "Adds 101 noun entries for 97 entity concepts and four aliases, giving 100 distinct Polish lemmas; category labels are not counted as nouns."
+        },
+        {
+          "issue": "#407",
+          "author": "Codex agent (linguistic curation delegated by project owner)",
+          "source": "Project-authored English-Polish noun senses and checked candidate translations from bounded LLM linguistic review; no external dictionary, vocabulary list or imported dataset was copied.",
+          "license": "Project-authored for internal flexLingua use; this repository declares no separate SPDX data license.",
+          "scope": "Adds 100 unique travel/geography/transport noun lemmas for the 100 new CORE entities and a second coast sense on existing lemma brzeg (not counted as a new lemma)."
         }
       ],
       "migratedFrom": "data/pl.json"
@@ -292,6 +299,13 @@
           "source": "Project-authored Polish-English concept labels, lexical senses and reviewed singular forms from bounded LLM linguistic review; no external dictionary, vocabulary list, protected list, or imported dataset was copied.",
           "license": "Project-authored for internal flexLingua use; this repository declares no separate SPDX data license.",
           "scope": "Adds 27 singular accusative bindings: 25 positive witnesses and both zamek homonym senses; no plural forms are claimed."
+        },
+        {
+          "issue": "#407",
+          "author": "Codex agent (linguistic curation delegated by project owner)",
+          "source": "Project-authored English-Polish noun senses and checked candidate translations from bounded LLM linguistic review; no external dictionary, vocabulary list or imported dataset was copied.",
+          "license": "Project-authored for internal flexLingua use; this repository declares no separate SPDX data license.",
+          "scope": "Adds 25 singular accusative bindings using existing feminine-a and inanimate paradigms; no plural forms are claimed."
         }
       ],
       "migratedFrom": "data/morphology/pl.json"

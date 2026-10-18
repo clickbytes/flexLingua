@@ -2371,6 +2371,381 @@
         "en-pl",
         "pl-en"
       ]
+    },
+    {
+      "targetId": "concept.geography.island",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "places",
+      "kind": "entity",
+      "concept": "geography.island",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.geography.beach",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "places",
+      "kind": "entity",
+      "concept": "geography.beach",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.geography.cave",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "places",
+      "kind": "entity",
+      "concept": "geography.cave",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.geography.valley",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "places",
+      "kind": "entity",
+      "concept": "geography.valley",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.geography.hill",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "places",
+      "kind": "entity",
+      "concept": "geography.hill",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.geography.waterfall",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "places",
+      "kind": "entity",
+      "concept": "geography.waterfall",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.geography.stream",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "places",
+      "kind": "entity",
+      "concept": "geography.stream",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.geography.pond",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "places",
+      "kind": "entity",
+      "concept": "geography.pond",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.geography.volcano",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "places",
+      "kind": "entity",
+      "concept": "geography.volcano",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.geography.dune",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "places",
+      "kind": "entity",
+      "concept": "geography.dune",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.geography.bay",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "places",
+      "kind": "entity",
+      "concept": "geography.bay",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.place.town",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "places",
+      "kind": "entity",
+      "concept": "place.town",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.place.neighborhood",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "places",
+      "kind": "entity",
+      "concept": "place.neighborhood",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.place.square",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "places",
+      "kind": "entity",
+      "concept": "place.square",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.place.tunnel",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "places",
+      "kind": "entity",
+      "concept": "place.tunnel",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.place.roundabout",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "places",
+      "kind": "entity",
+      "concept": "place.roundabout",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.place.sidewalk",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "places",
+      "kind": "entity",
+      "concept": "place.sidewalk",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.place.highway",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "places",
+      "kind": "entity",
+      "concept": "place.highway",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.place.path",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "places",
+      "kind": "entity",
+      "concept": "place.path",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.place.trail",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "places",
+      "kind": "entity",
+      "concept": "place.trail",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.place.monument",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "places",
+      "kind": "entity",
+      "concept": "place.monument",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.place.fountain",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "places",
+      "kind": "entity",
+      "concept": "place.fountain",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.place.hostel",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "places",
+      "kind": "entity",
+      "concept": "place.hostel",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.place.hut",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "places",
+      "kind": "entity",
+      "concept": "place.hut",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.place.campsite",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "places",
+      "kind": "entity",
+      "concept": "place.campsite",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
     }
   ]
 }

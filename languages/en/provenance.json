@@ -100,6 +100,13 @@
           "source": "Project-authored Polish-English concept labels, lexical senses and reviewed singular forms from bounded LLM linguistic review; no external dictionary, vocabulary list, protected list, or imported dataset was copied.",
           "license": "Project-authored for internal flexLingua use; this repository declares no separate SPDX data license.",
           "scope": "Adds 101 noun entries for 97 entity concepts and four aliases, giving 100 distinct English lemmas; category labels are not counted as nouns."
+        },
+        {
+          "issue": "#407",
+          "author": "Codex agent (linguistic curation delegated by project owner)",
+          "source": "Project-authored English-Polish noun senses and checked candidate translations from bounded LLM linguistic review; no external dictionary, vocabulary list or imported dataset was copied.",
+          "license": "Project-authored for internal flexLingua use; this repository declares no separate SPDX data license.",
+          "scope": "Adds 100 unique travel/geography/transport noun lemmas for the 100 new CORE entities; only the 25 positive witnesses receive morphology in this wave."
         }
       ],
       "migratedFrom": "data/en.json"
@@ -299,6 +306,13 @@
           "source": "Project-authored Polish-English concept labels, lexical senses and reviewed singular forms from bounded LLM linguistic review; no external dictionary, vocabulary list, protected list, or imported dataset was copied.",
           "license": "Project-authored for internal flexLingua use; this repository declares no separate SPDX data license.",
           "scope": "Adds 27 singular-only bindings: 25 positive witnesses and both button homonym senses; no plural forms are claimed."
+        },
+        {
+          "issue": "#407",
+          "author": "Codex agent (linguistic curation delegated by project owner)",
+          "source": "Project-authored English-Polish noun senses and checked candidate translations from bounded LLM linguistic review; no external dictionary, vocabulary list or imported dataset was copied.",
+          "license": "Project-authored for internal flexLingua use; this repository declares no separate SPDX data license.",
+          "scope": "Adds 25 singular-only bindings for positive witnesses; no English plural forms are claimed."
         }
       ],
       "migratedFrom": "data/morphology/en.json"

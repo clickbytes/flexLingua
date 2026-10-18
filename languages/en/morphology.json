@@ -3642,6 +3642,206 @@
         "base": "button"
       },
       "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw4.geography_island.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "island"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw4.geography_beach.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "beach"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw4.geography_cave.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "cave"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw4.geography_valley.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "valley"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw4.geography_hill.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "hill"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw4.geography_waterfall.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "waterfall"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw4.geography_stream.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "stream"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw4.geography_pond.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "pond"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw4.geography_volcano.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "volcano"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw4.geography_dune.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "dune"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw4.geography_bay.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "bay"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw4.place_town.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "town"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw4.place_neighborhood.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "neighborhood"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw4.place_square.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "square"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw4.place_tunnel.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "tunnel"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw4.place_roundabout.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "roundabout"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw4.place_sidewalk.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "sidewalk"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw4.place_highway.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "highway"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw4.place_path.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "path"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw4.place_trail.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "trail"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw4.place_monument.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "monument"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw4.place_fountain.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "fountain"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw4.place_hostel.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "hostel"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw4.place_campsite.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "campsite"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tgw4.place_hut.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "hut"
+      },
+      "overrides": []
     }
   ]
 }

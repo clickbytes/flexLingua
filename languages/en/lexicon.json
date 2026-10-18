@@ -7223,6 +7223,1606 @@
           "countability": "count"
         }
       ]
+    },
+    {
+      "id": "en.tgw4.geography_island.1",
+      "lemma": "island",
+      "forms": {},
+      "indefiniteArticle": "an",
+      "senses": [
+        {
+          "id": "en.tgw4.geography_island.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "geography.island"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.geography_peninsula.1",
+      "lemma": "peninsula",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.geography_peninsula.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "geography.peninsula"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.geography_coast.1",
+      "lemma": "coast",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.geography_coast.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "geography.coast"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.geography_beach.1",
+      "lemma": "beach",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.geography_beach.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "geography.beach"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.geography_cliff.1",
+      "lemma": "cliff",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.geography_cliff.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "geography.cliff"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.geography_cave.1",
+      "lemma": "cave",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.geography_cave.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "geography.cave"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.geography_valley.1",
+      "lemma": "valley",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.geography_valley.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "geography.valley"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.geography_hill.1",
+      "lemma": "hill",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.geography_hill.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "geography.hill"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.geography_slope.1",
+      "lemma": "slope",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.geography_slope.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "geography.slope"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.geography_waterfall.1",
+      "lemma": "waterfall",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.geography_waterfall.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "geography.waterfall"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.geography_stream.1",
+      "lemma": "stream",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.geography_stream.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "geography.stream"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.geography_pond.1",
+      "lemma": "pond",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.geography_pond.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "geography.pond"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.geography_swamp.1",
+      "lemma": "swamp",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.geography_swamp.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "geography.swamp"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.geography_glacier.1",
+      "lemma": "glacier",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.geography_glacier.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "geography.glacier"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.geography_volcano.1",
+      "lemma": "volcano",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.geography_volcano.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "geography.volcano"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.geography_crater.1",
+      "lemma": "crater",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.geography_crater.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "geography.crater"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.geography_dune.1",
+      "lemma": "dune",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.geography_dune.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "geography.dune"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.geography_bay.1",
+      "lemma": "bay",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.geography_bay.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "geography.bay"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.geography_strait.1",
+      "lemma": "strait",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.geography_strait.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "geography.strait"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.geography_estuary.1",
+      "lemma": "estuary",
+      "forms": {},
+      "indefiniteArticle": "an",
+      "senses": [
+        {
+          "id": "en.tgw4.geography_estuary.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "geography.estuary"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.geography_plain.1",
+      "lemma": "plain",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.geography_plain.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "geography.plain"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.geography_desert.1",
+      "lemma": "desert",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.geography_desert.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "geography.desert"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.geography_oasis.1",
+      "lemma": "oasis",
+      "forms": {},
+      "indefiniteArticle": "an",
+      "senses": [
+        {
+          "id": "en.tgw4.geography_oasis.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "geography.oasis"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.geography_meadow.1",
+      "lemma": "meadow",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.geography_meadow.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "geography.meadow"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.geography_orchard.1",
+      "lemma": "orchard",
+      "forms": {},
+      "indefiniteArticle": "an",
+      "senses": [
+        {
+          "id": "en.tgw4.geography_orchard.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "geography.orchard"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.geography_grove.1",
+      "lemma": "grove",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.geography_grove.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "geography.grove"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.geography_reef.1",
+      "lemma": "reef",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.geography_reef.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "geography.reef"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.place_village.1",
+      "lemma": "village",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.place_village.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.village"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.place_town.1",
+      "lemma": "town",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.place_town.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.town"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.place_neighborhood.1",
+      "lemma": "neighborhood",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.place_neighborhood.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.neighborhood"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.place_avenue.1",
+      "lemma": "avenue",
+      "forms": {},
+      "indefiniteArticle": "an",
+      "senses": [
+        {
+          "id": "en.tgw4.place_avenue.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.avenue"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.place_alley.1",
+      "lemma": "alley",
+      "forms": {},
+      "indefiniteArticle": "an",
+      "senses": [
+        {
+          "id": "en.tgw4.place_alley.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.alley"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.place_crossroads.1",
+      "lemma": "crossroads",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.place_crossroads.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.crossroads"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.place_square.1",
+      "lemma": "square",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.place_square.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.square"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.place_tunnel.1",
+      "lemma": "tunnel",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.place_tunnel.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.tunnel"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.place_viaduct.1",
+      "lemma": "viaduct",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.place_viaduct.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.viaduct"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.place_roundabout.1",
+      "lemma": "roundabout",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.place_roundabout.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.roundabout"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.place_sidewalk.1",
+      "lemma": "sidewalk",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.place_sidewalk.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.sidewalk"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.place_highway.1",
+      "lemma": "highway",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.place_highway.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.highway"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.place_path.1",
+      "lemma": "path",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.place_path.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.path"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.place_trail.1",
+      "lemma": "trail",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.place_trail.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.trail"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.place_border.1",
+      "lemma": "border",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.place_border.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.border"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.place_checkpoint.1",
+      "lemma": "checkpoint",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.place_checkpoint.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.checkpoint"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.place_landmark.1",
+      "lemma": "landmark",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.place_landmark.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.landmark"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.place_monument.1",
+      "lemma": "monument",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.place_monument.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.monument"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.place_fountain.1",
+      "lemma": "fountain",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.place_fountain.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.fountain"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.place_lighthouse.1",
+      "lemma": "lighthouse",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.place_lighthouse.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.lighthouse"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.place_dock.1",
+      "lemma": "dock",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.place_dock.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.dock"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.place_marina.1",
+      "lemma": "marina",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.place_marina.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.marina"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.place_quarry.1",
+      "lemma": "quarry",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.place_quarry.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.quarry"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.place_railway.1",
+      "lemma": "railway",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.place_railway.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.railway"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.place_crossing.1",
+      "lemma": "crossing",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.place_crossing.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.crossing"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.place_runway.1",
+      "lemma": "runway",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.place_runway.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.runway"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.place_depot.1",
+      "lemma": "depot",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.place_depot.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.depot"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.place_parking_garage.1",
+      "lemma": "parking garage",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.place_parking_garage.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.parking_garage"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.place_garage.1",
+      "lemma": "garage",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.place_garage.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.garage"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.place_gas_station.1",
+      "lemma": "gas station",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.place_gas_station.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.gas_station"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.place_rest_area.1",
+      "lemma": "rest area",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.place_rest_area.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.rest_area"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.place_hostel.1",
+      "lemma": "hostel",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.place_hostel.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.hostel"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.place_motel.1",
+      "lemma": "motel",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.place_motel.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.motel"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.place_campsite.1",
+      "lemma": "campsite",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.place_campsite.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.campsite"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.place_hut.1",
+      "lemma": "hut",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.place_hut.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.hut"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.place_cabin.1",
+      "lemma": "cabin",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.place_cabin.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.cabin"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.place_inn.1",
+      "lemma": "inn",
+      "forms": {},
+      "indefiniteArticle": "an",
+      "senses": [
+        {
+          "id": "en.tgw4.place_inn.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.inn"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.place_bus_station.1",
+      "lemma": "bus station",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.place_bus_station.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.bus_station"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.place_cable_car_station.1",
+      "lemma": "cable car station",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.place_cable_car_station.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.cable_car_station"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.vehicle_tram.1",
+      "lemma": "tram",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.vehicle_tram.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "vehicle.tram"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.vehicle_ferry.1",
+      "lemma": "ferry",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.vehicle_ferry.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "vehicle.ferry"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.vehicle_ship.1",
+      "lemma": "ship",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.vehicle_ship.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "vehicle.ship"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.vehicle_boat.1",
+      "lemma": "boat",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.vehicle_boat.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "vehicle.boat"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.vehicle_sailboat.1",
+      "lemma": "sailboat",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.vehicle_sailboat.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "vehicle.sailboat"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.vehicle_kayak.1",
+      "lemma": "kayak",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.vehicle_kayak.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "vehicle.kayak"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.vehicle_canoe.1",
+      "lemma": "canoe",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.vehicle_canoe.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "vehicle.canoe"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.vehicle_van.1",
+      "lemma": "van",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.vehicle_van.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "vehicle.van"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.vehicle_truck.1",
+      "lemma": "truck",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.vehicle_truck.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "vehicle.truck"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.vehicle_tractor.1",
+      "lemma": "tractor",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.vehicle_tractor.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "vehicle.tractor"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.vehicle_motorcycle.1",
+      "lemma": "motorcycle",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.vehicle_motorcycle.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "vehicle.motorcycle"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.vehicle_scooter.1",
+      "lemma": "scooter",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.vehicle_scooter.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "vehicle.scooter"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.vehicle_skateboard.1",
+      "lemma": "skateboard",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.vehicle_skateboard.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "vehicle.skateboard"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.vehicle_sled.1",
+      "lemma": "sled",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.vehicle_sled.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "vehicle.sled"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.vehicle_carriage.1",
+      "lemma": "carriage",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.vehicle_carriage.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "vehicle.carriage"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.vehicle_helicopter.1",
+      "lemma": "helicopter",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.vehicle_helicopter.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "vehicle.helicopter"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.vehicle_airship.1",
+      "lemma": "airship",
+      "forms": {},
+      "indefiniteArticle": "an",
+      "senses": [
+        {
+          "id": "en.tgw4.vehicle_airship.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "vehicle.airship"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.vehicle_fire_engine.1",
+      "lemma": "fire engine",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.vehicle_fire_engine.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "vehicle.fire_engine"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.vehicle_police_car.1",
+      "lemma": "police car",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.vehicle_police_car.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "vehicle.police_car"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.vehicle_trolleybus.1",
+      "lemma": "trolleybus",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.vehicle_trolleybus.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "vehicle.trolleybus"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.vehicle_wagon.1",
+      "lemma": "wagon",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.vehicle_wagon.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "vehicle.wagon"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.object_backpack.1",
+      "lemma": "backpack",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.object_backpack.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.backpack"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.object_compass.1",
+      "lemma": "compass",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.object_compass.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.compass"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.object_timetable.1",
+      "lemma": "timetable",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.object_timetable.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.timetable"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.geography_fjord.1",
+      "lemma": "fjord",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.geography_fjord.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "geography.fjord"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.geography_archipelago.1",
+      "lemma": "archipelago",
+      "forms": {},
+      "indefiniteArticle": "an",
+      "senses": [
+        {
+          "id": "en.tgw4.geography_archipelago.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "geography.archipelago"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.geography_cove.1",
+      "lemma": "cove",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.geography_cove.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "geography.cove"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.geography_lagoon.1",
+      "lemma": "lagoon",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.geography_lagoon.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "geography.lagoon"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.geography_geyser.1",
+      "lemma": "geyser",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.geography_geyser.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "geography.geyser"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.geography_ravine.1",
+      "lemma": "ravine",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.geography_ravine.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "geography.ravine"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.geography_canyon.1",
+      "lemma": "canyon",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.geography_canyon.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "geography.canyon"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.geography_ridge.1",
+      "lemma": "ridge",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.geography_ridge.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "geography.ridge"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.geography_mountain_pass.1",
+      "lemma": "mountain pass",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.geography_mountain_pass.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "geography.mountain_pass"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "en.tgw4.place_pier.1",
+      "lemma": "pier",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tgw4.place_pier.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.pier"
+          },
+          "countability": "count"
+        }
+      ]
     }
   ],
   "verbs": [

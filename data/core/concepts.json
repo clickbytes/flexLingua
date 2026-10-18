@@ -2950,6 +2950,506 @@
       "type": "entity",
       "parent": "physical_object",
       "label": "button"
+    },
+    "geography.island": {
+      "type": "entity",
+      "parent": "geographical_feature",
+      "label": "island"
+    },
+    "geography.peninsula": {
+      "type": "entity",
+      "parent": "geographical_feature",
+      "label": "peninsula"
+    },
+    "geography.coast": {
+      "type": "entity",
+      "parent": "geographical_feature",
+      "label": "coast"
+    },
+    "geography.beach": {
+      "type": "entity",
+      "parent": "geographical_feature",
+      "label": "beach"
+    },
+    "geography.cliff": {
+      "type": "entity",
+      "parent": "geographical_feature",
+      "label": "cliff"
+    },
+    "geography.cave": {
+      "type": "entity",
+      "parent": "geographical_feature",
+      "label": "cave"
+    },
+    "geography.valley": {
+      "type": "entity",
+      "parent": "geographical_feature",
+      "label": "valley"
+    },
+    "geography.hill": {
+      "type": "entity",
+      "parent": "geographical_feature",
+      "label": "hill"
+    },
+    "geography.slope": {
+      "type": "entity",
+      "parent": "geographical_feature",
+      "label": "slope"
+    },
+    "geography.waterfall": {
+      "type": "entity",
+      "parent": "geographical_feature",
+      "label": "waterfall"
+    },
+    "geography.stream": {
+      "type": "entity",
+      "parent": "geographical_feature",
+      "label": "stream"
+    },
+    "geography.pond": {
+      "type": "entity",
+      "parent": "geographical_feature",
+      "label": "pond"
+    },
+    "geography.swamp": {
+      "type": "entity",
+      "parent": "geographical_feature",
+      "label": "swamp"
+    },
+    "geography.glacier": {
+      "type": "entity",
+      "parent": "geographical_feature",
+      "label": "glacier"
+    },
+    "geography.volcano": {
+      "type": "entity",
+      "parent": "geographical_feature",
+      "label": "volcano"
+    },
+    "geography.crater": {
+      "type": "entity",
+      "parent": "geographical_feature",
+      "label": "crater"
+    },
+    "geography.dune": {
+      "type": "entity",
+      "parent": "geographical_feature",
+      "label": "dune"
+    },
+    "geography.bay": {
+      "type": "entity",
+      "parent": "geographical_feature",
+      "label": "bay"
+    },
+    "geography.strait": {
+      "type": "entity",
+      "parent": "geographical_feature",
+      "label": "strait"
+    },
+    "geography.estuary": {
+      "type": "entity",
+      "parent": "geographical_feature",
+      "label": "estuary"
+    },
+    "geography.plain": {
+      "type": "entity",
+      "parent": "geographical_feature",
+      "label": "plain"
+    },
+    "geography.desert": {
+      "type": "entity",
+      "parent": "geographical_feature",
+      "label": "desert"
+    },
+    "geography.oasis": {
+      "type": "entity",
+      "parent": "geographical_feature",
+      "label": "oasis"
+    },
+    "geography.meadow": {
+      "type": "entity",
+      "parent": "geographical_feature",
+      "label": "meadow"
+    },
+    "geography.orchard": {
+      "type": "entity",
+      "parent": "geographical_feature",
+      "label": "orchard"
+    },
+    "geography.grove": {
+      "type": "entity",
+      "parent": "geographical_feature",
+      "label": "grove"
+    },
+    "geography.reef": {
+      "type": "entity",
+      "parent": "geographical_feature",
+      "label": "reef"
+    },
+    "place.village": {
+      "type": "entity",
+      "parent": "place",
+      "label": "village"
+    },
+    "place.town": {
+      "type": "entity",
+      "parent": "place",
+      "label": "town"
+    },
+    "place.neighborhood": {
+      "type": "entity",
+      "parent": "place",
+      "label": "neighborhood"
+    },
+    "place.avenue": {
+      "type": "entity",
+      "parent": "place",
+      "label": "avenue"
+    },
+    "place.alley": {
+      "type": "entity",
+      "parent": "place",
+      "label": "alley"
+    },
+    "place.crossroads": {
+      "type": "entity",
+      "parent": "place",
+      "label": "crossroads"
+    },
+    "place.square": {
+      "type": "entity",
+      "parent": "place",
+      "label": "square"
+    },
+    "place.tunnel": {
+      "type": "entity",
+      "parent": "place",
+      "label": "tunnel"
+    },
+    "place.viaduct": {
+      "type": "entity",
+      "parent": "place",
+      "label": "viaduct"
+    },
+    "place.roundabout": {
+      "type": "entity",
+      "parent": "place",
+      "label": "roundabout"
+    },
+    "place.sidewalk": {
+      "type": "entity",
+      "parent": "place",
+      "label": "sidewalk"
+    },
+    "place.highway": {
+      "type": "entity",
+      "parent": "place",
+      "label": "highway"
+    },
+    "place.path": {
+      "type": "entity",
+      "parent": "place",
+      "label": "path"
+    },
+    "place.trail": {
+      "type": "entity",
+      "parent": "place",
+      "label": "trail"
+    },
+    "place.border": {
+      "type": "entity",
+      "parent": "place",
+      "label": "border"
+    },
+    "place.checkpoint": {
+      "type": "entity",
+      "parent": "place",
+      "label": "checkpoint"
+    },
+    "place.landmark": {
+      "type": "entity",
+      "parent": "place",
+      "label": "landmark"
+    },
+    "place.monument": {
+      "type": "entity",
+      "parent": "place",
+      "label": "monument"
+    },
+    "place.fountain": {
+      "type": "entity",
+      "parent": "place",
+      "label": "fountain"
+    },
+    "place.lighthouse": {
+      "type": "entity",
+      "parent": "place",
+      "label": "lighthouse"
+    },
+    "place.dock": {
+      "type": "entity",
+      "parent": "place",
+      "label": "dock"
+    },
+    "place.marina": {
+      "type": "entity",
+      "parent": "place",
+      "label": "marina"
+    },
+    "place.quarry": {
+      "type": "entity",
+      "parent": "place",
+      "label": "quarry"
+    },
+    "place.railway": {
+      "type": "entity",
+      "parent": "place",
+      "label": "railway"
+    },
+    "place.crossing": {
+      "type": "entity",
+      "parent": "place",
+      "label": "crossing"
+    },
+    "place.runway": {
+      "type": "entity",
+      "parent": "place",
+      "label": "runway"
+    },
+    "place.depot": {
+      "type": "entity",
+      "parent": "place",
+      "label": "depot"
+    },
+    "place.parking_garage": {
+      "type": "entity",
+      "parent": "place",
+      "label": "parking garage"
+    },
+    "place.garage": {
+      "type": "entity",
+      "parent": "place",
+      "label": "garage"
+    },
+    "place.gas_station": {
+      "type": "entity",
+      "parent": "place",
+      "label": "gas station"
+    },
+    "place.rest_area": {
+      "type": "entity",
+      "parent": "place",
+      "label": "rest area"
+    },
+    "place.hostel": {
+      "type": "entity",
+      "parent": "place",
+      "label": "hostel"
+    },
+    "place.motel": {
+      "type": "entity",
+      "parent": "place",
+      "label": "motel"
+    },
+    "place.campsite": {
+      "type": "entity",
+      "parent": "place",
+      "label": "campsite"
+    },
+    "place.hut": {
+      "type": "entity",
+      "parent": "place",
+      "label": "hut"
+    },
+    "place.cabin": {
+      "type": "entity",
+      "parent": "place",
+      "label": "cabin"
+    },
+    "place.inn": {
+      "type": "entity",
+      "parent": "place",
+      "label": "inn"
+    },
+    "place.bus_station": {
+      "type": "entity",
+      "parent": "place",
+      "label": "bus station"
+    },
+    "place.cable_car_station": {
+      "type": "entity",
+      "parent": "place",
+      "label": "cable car station"
+    },
+    "vehicle.tram": {
+      "type": "entity",
+      "parent": "vehicle",
+      "label": "tram"
+    },
+    "vehicle.ferry": {
+      "type": "entity",
+      "parent": "vehicle",
+      "label": "ferry"
+    },
+    "vehicle.ship": {
+      "type": "entity",
+      "parent": "vehicle",
+      "label": "ship"
+    },
+    "vehicle.boat": {
+      "type": "entity",
+      "parent": "vehicle",
+      "label": "boat"
+    },
+    "vehicle.sailboat": {
+      "type": "entity",
+      "parent": "vehicle",
+      "label": "sailboat"
+    },
+    "vehicle.kayak": {
+      "type": "entity",
+      "parent": "vehicle",
+      "label": "kayak"
+    },
+    "vehicle.canoe": {
+      "type": "entity",
+      "parent": "vehicle",
+      "label": "canoe"
+    },
+    "vehicle.van": {
+      "type": "entity",
+      "parent": "vehicle",
+      "label": "van"
+    },
+    "vehicle.truck": {
+      "type": "entity",
+      "parent": "vehicle",
+      "label": "truck"
+    },
+    "vehicle.tractor": {
+      "type": "entity",
+      "parent": "vehicle",
+      "label": "tractor"
+    },
+    "vehicle.motorcycle": {
+      "type": "entity",
+      "parent": "vehicle",
+      "label": "motorcycle"
+    },
+    "vehicle.scooter": {
+      "type": "entity",
+      "parent": "vehicle",
+      "label": "scooter"
+    },
+    "vehicle.skateboard": {
+      "type": "entity",
+      "parent": "vehicle",
+      "label": "skateboard"
+    },
+    "vehicle.sled": {
+      "type": "entity",
+      "parent": "vehicle",
+      "label": "sled"
+    },
+    "vehicle.carriage": {
+      "type": "entity",
+      "parent": "vehicle",
+      "label": "carriage"
+    },
+    "vehicle.helicopter": {
+      "type": "entity",
+      "parent": "vehicle",
+      "label": "helicopter"
+    },
+    "vehicle.airship": {
+      "type": "entity",
+      "parent": "vehicle",
+      "label": "airship"
+    },
+    "vehicle.fire_engine": {
+      "type": "entity",
+      "parent": "vehicle",
+      "label": "fire engine"
+    },
+    "vehicle.police_car": {
+      "type": "entity",
+      "parent": "vehicle",
+      "label": "police car"
+    },
+    "vehicle.trolleybus": {
+      "type": "entity",
+      "parent": "vehicle",
+      "label": "trolleybus"
+    },
+    "vehicle.wagon": {
+      "type": "entity",
+      "parent": "vehicle",
+      "label": "wagon"
+    },
+    "object.backpack": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "backpack"
+    },
+    "object.compass": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "compass"
+    },
+    "object.timetable": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "timetable"
+    },
+    "geography.fjord": {
+      "type": "entity",
+      "parent": "geographical_feature",
+      "label": "fjord"
+    },
+    "geography.archipelago": {
+      "type": "entity",
+      "parent": "geographical_feature",
+      "label": "archipelago"
+    },
+    "geography.cove": {
+      "type": "entity",
+      "parent": "geographical_feature",
+      "label": "cove"
+    },
+    "geography.lagoon": {
+      "type": "entity",
+      "parent": "geographical_feature",
+      "label": "lagoon"
+    },
+    "geography.geyser": {
+      "type": "entity",
+      "parent": "geographical_feature",
+      "label": "geyser"
+    },
+    "geography.ravine": {
+      "type": "entity",
+      "parent": "geographical_feature",
+      "label": "ravine"
+    },
+    "geography.canyon": {
+      "type": "entity",
+      "parent": "geographical_feature",
+      "label": "canyon"
+    },
+    "geography.ridge": {
+      "type": "entity",
+      "parent": "geographical_feature",
+      "label": "ridge"
+    },
+    "geography.mountain_pass": {
+      "type": "entity",
+      "parent": "geographical_feature",
+      "label": "mountain pass"
+    },
+    "place.pier": {
+      "type": "entity",
+      "parent": "place",
+      "label": "pier"
     }
   },
   "relationTypes": {
