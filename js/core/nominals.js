@@ -337,7 +337,7 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms, fe
             noun, grammaticalNumber:number, senseId: noun.senseId, next: at,
             bare: !state.determinerChosen && !state.demonstrative && !state.quantifier,
             modifierSenses: state.lexemes.map(lex => lex.id),
-            quantifierSense: state.quantifier?.id });
+            quantifierSense: state.quantifier?.senses?.[0]?.id });
           return;
         }
         const step = layout[slotIndex];
@@ -364,6 +364,13 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms, fe
           }
         } else if (step === 'determiner') {
           const maps = nounPhrase.determiners[number] || {};
+          // A mapping whose marker is null (indefiniteness expressed by marker
+          // omission, e.g. unmarked English plurals) already licenses a
+          // determiner-marked reading of the unmarked surface string. The
+          // separate unknown-definiteness bare advance would realize the same
+          // string, so it is suppressed for such nouns.
+          const zeroWidthMarker = Object.values(maps).some(mapping =>
+            markerFor(noun, mapping) === null);
           for (const [definiteness, mapping] of Object.entries(maps)) {
             const marker = markerFor(noun, mapping);
             if (marker === undefined) continue;
@@ -377,8 +384,8 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms, fe
             }
           }
           const lexicalBare=['mass','both'].includes(noun.countability);
-          if (nounPhrase.allowBare || allowBare || lexicalBare || state.quantifier ||
-              layout.slice(slotIndex + 1).includes('quantifier')) {
+          if ((nounPhrase.allowBare || allowBare || lexicalBare || state.quantifier ||
+              layout.slice(slotIndex + 1).includes('quantifier')) && !zeroWidthMarker) {
             advance(at, { definiteness: 'unknown', marker: null, determinerChosen: false });
           }
         } else if (step === 'modifiers') {

@@ -47,6 +47,14 @@
       "agent": "nom",
       "theme": "acc"
     },
+    "quantity": {
+      "version": "1.0",
+      "defaultNumber": "plural",
+      "exactNumber": {
+        "1": "singular"
+      },
+      "classifiers": []
+    },
     "allowBare": false,
     "determiners": {
       "singular": {

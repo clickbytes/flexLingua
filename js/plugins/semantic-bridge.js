@@ -31,6 +31,39 @@ function holdsDeicticParticipantContract(participant) {
     participant.agreement.number === 'singular';
 }
 
+/**
+ * Resolves the verb-agreement number for an exact-quantity participant from the
+ * language quantity profile (`nounPhrase.quantity`), mirroring the CORE
+ * `numberForQuantity`/`agreementNumberForQuantity` chain: an agreement override
+ * for the value wins, otherwise the profile maps the value (or the default
+ * number) to a grammatical number. Quantity participants carry no number
+ * feature in CORE meanings, so controllers for them resolve from the profile.
+ */
+function quantityAgreementNumber(participant, quantityModel) {
+  const quantity = participant?.quantity;
+  if (!isRecord(quantity) || quantity.kind !== 'exact' ||
+      !Number.isInteger(quantity.value) || quantity.value < 0 || quantity.value > 20 ||
+      !isRecord(quantityModel)) {
+    return null;
+  }
+  const mapped = isRecord(quantityModel.exactNumber) &&
+      typeof quantityModel.exactNumber[String(quantity.value)] === 'string'
+    ? quantityModel.exactNumber[String(quantity.value)]
+    : quantityModel.defaultNumber;
+  if (typeof mapped !== 'string' || !mapped) return null;
+  const override = Array.isArray(quantityModel.agreementOverrides)
+    ? quantityModel.agreementOverrides.find(rule => isRecord(rule) && Array.isArray(rule.values) &&
+        rule.values.includes(quantity.value))
+    : null;
+  return typeof override?.number === 'string' && override.number ? override.number : mapped;
+}
+
+function agreementControllerValue(participant, feature, quantityModel) {
+  const direct = participant?.features?.[feature] ?? participant?.agreement?.[feature] ?? null;
+  if (direct !== null && direct !== undefined) return direct;
+  return feature === 'number' ? quantityAgreementNumber(participant, quantityModel) : null;
+}
+
 
 function fail(code, message, cause) {
   throw new PluginError(code, message, cause === undefined ? undefined : {cause});
@@ -86,6 +119,9 @@ export function createSemanticBridge({plan, core} = {}) {
     collectSenseReferences(module, core, senseReferences);
   }
   const transferPlans = plan.transferPlans.map(item => structuredClone(item));
+  const quantityModel = Object.values(plan.modules)
+    .map(module => isRecord(module) ? module?.nounPhrase?.quantity : null)
+    .find(isRecord) ?? null;
 
   function transferFor(meaning, construction) {
     const candidates = transferPlans.filter(item =>
@@ -261,8 +297,7 @@ export function createSemanticBridge({plan, core} = {}) {
         return {
           argument: controller.argument,
           feature: controller.feature,
-          value: controlledParticipant?.features?.[controller.feature] ??
-            controlledParticipant?.agreement?.[controller.feature] ?? null
+          value: agreementControllerValue(controlledParticipant, controller.feature, quantityModel)
         };
       });
       return {

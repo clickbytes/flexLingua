@@ -80,6 +80,47 @@
         "case"
       ]
     },
+    "quantity": {
+      "version": "1.0",
+      "defaultNumber": "plural",
+      "exactNumber": {
+        "0": "plural",
+        "1": "singular",
+        "2": "plural",
+        "3": "plural",
+        "4": "plural",
+        "5": "plural",
+        "6": "plural",
+        "7": "plural",
+        "8": "plural",
+        "9": "plural",
+        "10": "plural",
+        "11": "plural",
+        "12": "plural",
+        "13": "plural",
+        "14": "plural",
+        "15": "plural",
+        "16": "plural",
+        "17": "plural",
+        "18": "plural",
+        "19": "plural",
+        "20": "plural"
+      },
+      "classifiers": [],
+      "caseOverrides": [
+        {
+          "values": [0, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+          "from": ["nom", "acc"],
+          "to": "gen"
+        }
+      ],
+      "agreementOverrides": [
+        {
+          "values": [0, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+          "number": "singular"
+        }
+      ]
+    },
     "relatives": {
       "maxDepth": 2,
       "punctuation": "commas",
