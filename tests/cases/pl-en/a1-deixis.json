@@ -114,6 +114,76 @@
         "coverageTargetId": "construction.event.visual_perception",
         "capability": "pl.analyze + en.realize positive witness: deictic addressee/second/singular agent and speaker/first/singular theme realized as `You see me.`"
       }
+    },
+    {
+      "id": "A1-PL-EN-DEIXIS-0003",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "deixis",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 4,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "mixed",
+        "number": "singular",
+        "reference": "deictic",
+        "quantity": "none"
+      },
+      "purpose": "Positive PL-to-EN witness for the short accusative clitic cię. The clitic resolves to the existing deictic addressee/second/singular theme sense, matching the full form ciebie without adding a meaning or pragmatic distinction; only Polish imperfective aspect is lost in English.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Ja widzę cię."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": ["I see you."]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": ["agent", "theme"],
+          "roles": {
+            "agent": {
+              "target": {"kind": "deictic", "anchor": "speaker"},
+              "agreement": {"person": "first", "number": "singular"}
+            },
+            "theme": {
+              "target": {"kind": "deictic", "anchor": "addressee"},
+              "agreement": {"person": "second", "number": "singular"}
+            }
+          },
+          "features": {"tense": "present", "polarity": "positive", "aspect": "imperfective"},
+          "assert": {"#/version": "1.22"}
+        },
+        "diagnostics": {"required": [], "allowUnexpected": false},
+        "alternatives": {"required": [], "allowUnexpected": false},
+        "informationLoss": {
+          "required": [
+            {"cause": "target-grammar-does-not-encode-aspect", "feature": "aspect",
+              "path": "#/features/aspect", "status": "unavoidable"}
+          ],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent expected authored from ADR person-deixis.md before running the changed case: cię is the short accusative surface form of the same addressee second/singular referent as ciebie; explicit Ja fixes the speaker agent. The target English clause preserves both referents and drops only aspect.",
+        "author": "clickbytes",
+        "reviewedAt": "2026-10-18",
+        "issue": "#372"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "pl.analyze + en.realize positive witness: short accusative cię retains the existing deictic addressee second/singular theme reading and realizes as `I see you.`"
+      }
     }
   ]
 }

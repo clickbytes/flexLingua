@@ -46,6 +46,13 @@
           "scope": "Controlled nominative and object-case forms for first- and second-person pronouns. Language package: data/pl.json."
         },
         {
+          "issue": "#372",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored short accusative surface variant cię for the existing second-person singular deictic pronoun sense; no external pronoun inventory was imported.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "Adds the unmarked accusative variant cię to pl.pronoun.ciebie without introducing a separate CORE meaning."
+        },
+        {
           "issue": "#65",
           "author": "flexLingua project contributors",
           "source": "Original project-authored Polish service and travel senses, inflected forms, and transaction verb paradigms; no external dictionary list imported.",
