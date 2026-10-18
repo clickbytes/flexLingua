@@ -810,20 +810,21 @@ function validateGrammar(dictionary, grammar, featureProfile) {
 }
 
 /** A lemma may have multiple senses; many lemmas may express the same concept. */
-function expandLexemes(lexemes, language, partOfSpeech) {
+function expandLexemes(lexemes, language, partOfSpeech, hasMorphologyForms = () => false) {
   const expanded = [];
   const lexemeIds = new Set();
   const senseIds = new Set();
   for (const lexeme of lexemes) {
     // Canonical dictionaries may include productive lexemes without a stored
-    // forms table. They become active only after morphology materialization.
-    // Keep older adapters (constructed without morphology) usable for their
-    // original vocabulary; never guess forms from the lemma.
-    if (lexeme?.forms === undefined) continue;
+    // forms table. They become active only when a bound morphology provider can
+    // actually generate forms. Older adapters without morphology keep their
+    // original vocabulary; forms are never guessed from the lemma.
+    const hasStoredForms = lexeme?.forms !== undefined;
+    if (!hasStoredForms && !hasMorphologyForms(lexeme)) continue;
     if (!record(lexeme) || !LEXEME_ID.test(lexeme.id || '') ||
         lexemeIds.has(lexeme.id) ||
         typeof lexeme.lemma !== 'string' || !lexeme.lemma.trim() ||
-        !record(lexeme.forms)) {
+        (hasStoredForms && !record(lexeme.forms))) {
       throw new Error(`Invalid or duplicate ${partOfSpeech} lexeme: ${lexeme?.id}`);
     }
     lexemeIds.add(lexeme.id);
@@ -1004,20 +1005,32 @@ function createGrammarInterpreter(sourceDictionary, rules,
   const sentenceText=(parts,terminator='.')=>formatSentence(parts,terminator,textProfile.locale);
   const possessives=nounPhrase.possessives || [];
   const subjectRole = sentence.subjectRole;
-  const nouns = expandLexemes(dictionary.nouns, dictionary.language, 'noun');
-  const expandedVerbs = expandLexemes(dictionary.verbs, dictionary.language, 'verb');
   const morphologyBridge=new Map(),morphologyBridgeCache=new Map();
+  const canonicalBySense=new Map(morphology?.lexicon?.entries?.flatMap(entry=>
+    entry.senses.map(sense=>[sense.id,entry.id])) ?? []);
+  function morphologyForLexeme(lexeme) {
+    if(!morphology||!record(lexeme))return null;
+    const senseIds=[lexeme.senseId,...(lexeme.senses||[]).map(sense=>sense?.id)].filter(Boolean);
+    const lexemeId=morphology.has(lexeme.id)?lexeme.id:
+      senseIds.map(senseId=>canonicalBySense.get(senseId)).find(id=>id&&morphology.has(id));
+    if(!lexemeId)return null;
+    if(!morphologyBridgeCache.has(lexemeId)){
+      const availability=morphology.availability({lexemeId,features:{},exact:false});
+      const candidates=availability?.supported===true?morphology.paradigm({lexemeId}):[];
+      morphologyBridgeCache.set(lexemeId,Array.isArray(candidates)&&candidates.length?{
+        candidates,cells:morphology.cells?.({lexemeId})||[]
+      }:null);
+    }
+    const bridge=morphologyBridgeCache.get(lexemeId);
+    return bridge?{lexemeId,bridge}:null;
+  }
+  const hasMorphologyForms=lexeme=>!!morphologyForLexeme(lexeme);
+  const nouns = expandLexemes(dictionary.nouns, dictionary.language, 'noun', hasMorphologyForms);
+  const expandedVerbs = expandLexemes(dictionary.verbs, dictionary.language, 'verb', hasMorphologyForms);
   if(morphology){
-    const canonicalBySense=new Map(morphology.lexicon.entries.flatMap(entry=>
-      entry.senses.map(sense=>[sense.id,entry.id])));
     for(const lexeme of [...nouns,...expandedVerbs]){
-      const lexemeId=morphology.has(lexeme.id)?lexeme.id:canonicalBySense.get(lexeme.senseId);
-      if(!lexemeId||!morphology.has(lexemeId))continue;
-      if(!morphologyBridgeCache.has(lexemeId))morphologyBridgeCache.set(lexemeId,{
-        candidates:morphology.paradigm({lexemeId}),
-        cells:morphology.cells?.({lexemeId})||[]
-      });
-      morphologyBridge.set(lexeme,morphologyBridgeCache.get(lexemeId));
+      const generated=morphologyForLexeme(lexeme);
+      if(generated)morphologyBridge.set(lexeme,generated.bridge);
     }
   }
   const formsAtLexeme=(lexeme,path)=>formsAt(lexeme,path,morphologyBridge.get(lexeme));

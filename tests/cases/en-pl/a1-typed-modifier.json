@@ -1,0 +1,95 @@
+{
+  "schemaVersion": "1.0",
+  "cases": [
+    {
+      "id": "A1-EN-PL-MODIFIER-0001",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "typed_modifier",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 2,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "definite",
+        "quantity": "none"
+      },
+      "purpose": "English to Polish adjective witness: a definite red dog remains the theme, Polish agrees in animate masculine accusative, and the typed color effect stays on the dog.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "The girl sees the red dog."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {"accepted": ["Dziewczynka widzi czerwonego psa."]},
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": ["agent", "theme"],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {"number": "singular", "definiteness": "definite"},
+              "modifiers": []
+            },
+            "theme": {
+              "concept": "animal.dog",
+              "features": {"number": "singular", "definiteness": "definite"},
+              "modifiers": [{"concept": "quality.red"}]
+            }
+          },
+          "roleFeaturesExact": true,
+          "modifiersExact": true,
+          "features": {"tense": "present", "polarity": "positive", "aspect": "unknown"},
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/theme/modifiers/0/concept": "quality.red",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "unknown"
+          }
+        },
+        "diagnostics": {"required": [], "allowUnexpected": false},
+        "alternatives": {"required": [], "allowUnexpected": false},
+        "informationLoss": {
+          "required": [
+            {"cause": "target-grammar-does-not-mark-definiteness", "feature": "definiteness", "path": "#/roles/agent/features/definiteness", "status": "unavoidable"},
+            {"cause": "target-grammar-does-not-mark-definiteness", "feature": "definiteness", "path": "#/roles/theme/features/definiteness", "status": "unavoidable"}
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {"fromPath": "#/concept", "relation": "is_a", "toConcept": "event.perception"},
+            {"fromPath": "#/roles/agent", "relation": "is_a", "toConcept": "person"},
+            {"fromPath": "#/roles/theme", "relation": "is_a", "toConcept": "animal"},
+            {"fromPath": "#/roles/theme/modifiers/0", "relation": "color", "toConcept": "color.red"}
+          ],
+          "forbiddenEdges": [
+            {"fromPath": "#/roles/agent", "relation": "color", "toConcept": "color.red"}
+          ],
+          "allowUnexpected": true
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent definite English meaning, Polish agreement and information-loss expectation recorded in #400 before execution; delegated linguistic approval in #400 issuecomment-6250503432.",
+        "author": "Codex agent, language review delegated by the project owner",
+        "reviewedAt": "2026-10-18",
+        "issue": "#400"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "sentence en.analyze(event.visual_perception) -> pl.realize"
+      }
+    }
+  ]
+}

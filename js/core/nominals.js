@@ -1,4 +1,5 @@
 import { participant, modifier, MAX_ENTITY_MODIFIERS, MAX_MODIFIER_DEPTH } from './meaning-graph.js';
+import { EngineError } from './errors.js';
 import { record, safeName, hasOwn } from './features.js';
 import { matchesTokens } from './text.js';
 
@@ -88,12 +89,44 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms, fe
   }
   const layouts = qualified.layouts || [qualified.layout || DEFAULT_LAYOUT];
   const layoutByQuantifier = qualified.layoutByQuantifier || {};
-  const adjectives = verifySurfaceInventory(dictionary.adjectives || [], 'adjective');
+  const adjectiveMorphologyIds=new Map();
   const adjectiveParadigms=new Map();
+  const morphologyLexemeBySense=new Map(morphology?.lexicon?.entries?.flatMap(entry=>
+    entry.senses.map(sense=>[sense.id,entry.id])) ?? []);
+  function morphologyIdForAdjective(lexeme) {
+    if(!morphology)return null;
+    if(morphology.has(lexeme.id))return lexeme.id;
+    const senseId=lexeme.senseId||lexeme.senses?.[0]?.id;
+    const canonicalId=morphologyLexemeBySense.get(senseId);
+    return canonicalId&&morphology.has(canonicalId)?canonicalId:null;
+  }
+  const adjectiveEntries=[];
+  for(const entry of dictionary.adjectives||[]) {
+    if(!record(entry))throw new Error(`Invalid adjective lexeme: ${entry?.id}`);
+    const hasStoredForms=entry.forms!==undefined;
+    if(!hasStoredForms) {
+      const lexemeId=morphologyIdForAdjective(entry);
+      if(!lexemeId)continue;
+      const availability=morphology.availability({lexemeId,features:{},exact:false});
+      if(availability?.supported!==true)continue;
+      const forms=morphology.paradigm({lexemeId});
+      if(!Array.isArray(forms)||!forms.length)continue;
+      adjectiveMorphologyIds.set(entry.id,lexemeId);
+      adjectiveParadigms.set(entry.id,forms);
+      adjectiveEntries.push({...entry,forms});
+      continue;
+    }
+    const lexemeId=morphologyIdForAdjective(entry);
+    if(lexemeId)adjectiveMorphologyIds.set(entry.id,lexemeId);
+    adjectiveEntries.push(entry);
+  }
+  const adjectives = verifySurfaceInventory(adjectiveEntries, 'adjective');
   function adjectiveForms(lexeme) {
-    if(!morphology?.has(lexeme.id))return lexeme.forms;
+    const lexemeId=adjectiveMorphologyIds.get(lexeme.id)||
+      (morphology?.has(lexeme.id)?lexeme.id:null);
+    if(!lexemeId)return lexeme.forms;
     if(!adjectiveParadigms.has(lexeme.id))
-      adjectiveParadigms.set(lexeme.id,morphology.paradigm({lexemeId:lexeme.id}));
+      adjectiveParadigms.set(lexeme.id,morphology.paradigm({lexemeId}));
     return adjectiveParadigms.get(lexeme.id);
   }
   const degrees = verifySurfaceInventory(dictionary.degrees || [], 'degree');
@@ -336,7 +369,7 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms, fe
           found.push({ value: participant(noun.concept, state.demonstrative?'definite':state.definiteness, number, options),
             noun, grammaticalNumber:number, senseId: noun.senseId, next: at,
             bare: !state.determinerChosen && !state.demonstrative && !state.quantifier,
-            modifierSenses: state.lexemes.map(lex => lex.id),
+            modifierSenses: state.lexemes.map(lex => lex.senseId || lex.id),
             quantifierSense: state.quantifier?.senses?.[0]?.id });
           return;
         }
@@ -425,9 +458,12 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms, fe
       if (depth > MAX_MODIFIER_DEPTH) throw new Error('Modifier depth exceeded.');
       const index = depth === 1 ? propertyIndex : degreeIndex;
       const lex = index.get(node.concept)?.[0];
-      if (!lex) throw new Error(`Missing ${dictionary.language} modifier lexeme for ${node.concept}.`);
-      const text = formFor(lex, context);
-      if (!text) throw new Error(`Missing ${dictionary.language} modifier form for ${node.concept}.`);
+      if (!lex) throw new EngineError('LANGUAGE_CONSTRUCTION_UNSUPPORTED',
+        `No ${dictionary.language} adjective realizes ${node.concept}.`, {status:'unsupported'});
+      const text = formFor(lex, context, depth === 1 ? adjectiveForms(lex) : undefined);
+      if (!text) throw new EngineError('LANGUAGE_CONSTRUCTION_UNSUPPORTED',
+        `No ${dictionary.language} adjective form realizes ${node.concept} with these features.`,
+        {status:'unsupported'});
       const nested=(node.modifiers || []).flatMap(child => renderNode(child, depth + 1));
       return degreePlacement==='before'?[...nested,text]:[text,...nested];
     }

@@ -233,7 +233,12 @@
       "label": "red in color",
       "appliesTo": [
         "entity"
-      ]
+      ],
+      "semanticEffect": {
+        "operation": "add_relation",
+        "relation": "color",
+        "target": "color.red"
+      }
     },
     "degree.very": {
       "type": "degree",
@@ -1343,6 +1348,16 @@
         "relation": "material",
         "target": "material.wood"
       }
+    },
+    "color": {
+      "type": "category",
+      "parent": "entity",
+      "label": "color"
+    },
+    "color.red": {
+      "type": "category",
+      "parent": "color",
+      "label": "red"
     }
   },
   "relationTypes": {
@@ -1364,6 +1379,11 @@
     "material": {
       "subject": "entity",
       "object": "material",
+      "symmetric": false
+    },
+    "color": {
+      "subject": "entity",
+      "object": "color",
       "symmetric": false
     }
   },

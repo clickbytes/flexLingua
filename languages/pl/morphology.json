@@ -14243,6 +14243,24 @@
         "virile": "prośc"
       },
       "overrides": []
+    },
+    {
+      "lexemeId": "pl.finansowy.adj.1",
+      "paradigmId": "pl.adj.regular",
+      "stems": {
+        "base": "finansow",
+        "virile": "finansow"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.drewniany.adj.1",
+      "paradigmId": "pl.adj.regular",
+      "stems": {
+        "base": "drewnian",
+        "virile": "drewnian"
+      },
+      "overrides": []
     }
   ]
 }

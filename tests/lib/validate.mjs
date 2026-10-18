@@ -72,6 +72,12 @@ function meaningConceptAtPath(meaning, path) {
   return isRecord(value) && typeof value.concept === 'string' ? value.concept : null;
 }
 
+function effectOwnerPath(path) {
+  const modifier = path.match(/^(.*)\/modifiers\/[0-9]+$/u);
+  if (modifier) return modifier[1];
+  return path.endsWith('/predicate') ? `${path.slice(0, -'/predicate'.length)}/roles/subject` : null;
+}
+
 function checkGraphExpected(item, issues, ontology) {
   const policy = item.expected?.graph;
   if (!policy) return;
@@ -88,15 +94,34 @@ function checkGraphExpected(item, issues, ontology) {
   for (const [listName, assertions] of [['requiredEdges', policy.requiredEdges],
     ['forbiddenEdges', policy.forbiddenEdges]]) {
     for (const assertion of assertions ?? []) {
-      const fromConcept = meaningConceptAtPath(item.expected.meaning, assertion.fromPath);
+      const sourceConcept = meaningConceptAtPath(item.expected.meaning, assertion.fromPath);
       const toConcept = assertion.toConcept;
-      if (!fromConcept || !ontology.get(fromConcept)) {
+      if (!sourceConcept || !ontology.get(sourceConcept)) {
         issue(`${listName} source path '${assertion.fromPath}' does not resolve to a known CORE concept.`);
         continue;
       }
       if (!ontology.get(toConcept)) {
         issue(`${listName} target '${toConcept}' is not a CORE concept.`);
         continue;
+      }
+      let fromConcept = sourceConcept;
+      const property = ontology.get(sourceConcept);
+      const ownerPath = effectOwnerPath(assertion.fromPath);
+      if (property.type === 'property' && ownerPath && assertion.relation !== 'is_a') {
+        const ownerConcept = meaningConceptAtPath(item.expected.meaning, ownerPath);
+        if (!ownerConcept || !ontology.get(ownerConcept) ||
+            !property.appliesTo?.some(type => ontology.isA(ownerConcept, type))) {
+          issue(`${listName} property at '${assertion.fromPath}' has no compatible participant.`);
+          continue;
+        }
+        if (listName === 'requiredEdges' &&
+            (property.semanticEffect?.operation !== 'add_relation' ||
+              property.semanticEffect.relation !== assertion.relation ||
+              property.semanticEffect.target !== toConcept)) {
+          issue(`${listName} edge at '${assertion.fromPath}' is not declared by the property effect.`);
+          continue;
+        }
+        fromConcept = ownerConcept;
       }
       if (assertion.relation === 'is_a') {
         if (fromConcept === toConcept || !ontology.isA(fromConcept, toConcept)) {

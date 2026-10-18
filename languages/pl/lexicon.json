@@ -5937,6 +5937,32 @@
           }
         }
       ]
+    },
+    {
+      "id": "pl.finansowy.adj.1",
+      "lemma": "finansowy",
+      "senses": [
+        {
+          "id": "pl.finansowy.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.financial"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.drewniany.adj.1",
+      "lemma": "drewniany",
+      "senses": [
+        {
+          "id": "pl.drewniany.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.wooden"
+          }
+        }
+      ]
     }
   ],
   "degrees": [

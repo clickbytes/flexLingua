@@ -238,17 +238,27 @@ function graphAssertionKey(assertion) {
   return JSON.stringify([assertion.fromPath, assertion.relation, assertion.toConcept]);
 }
 
-function resolvesMeaningPath(meaning, path) {
-  if (typeof path !== 'string' || !path.startsWith('#/')) return false;
+function meaningValueAtPath(meaning, path) {
+  if (typeof path !== 'string' || !path.startsWith('#/')) return undefined;
   let value = meaning;
   for (const rawSegment of path.slice(2).split('/')) {
-    if (/~(?![01])/u.test(rawSegment)) return false;
+    if (/~(?![01])/u.test(rawSegment)) return undefined;
     const segment = rawSegment.replace(/~1/gu, '/').replace(/~0/gu, '~');
-    if (!isRecord(value) && !Array.isArray(value)) return false;
-    if (!Object.hasOwn(value, segment)) return false;
+    if (!isRecord(value) && !Array.isArray(value)) return undefined;
+    if (!Object.hasOwn(value, segment)) return undefined;
     value = value[segment];
   }
-  return true;
+  return value;
+}
+
+function resolvesMeaningPath(meaning, path) {
+  return meaningValueAtPath(meaning, path) !== undefined;
+}
+
+function effectOwnerPath(path) {
+  const modifier = path.match(/^(.*)\/modifiers\/[0-9]+$/u);
+  if (modifier) return modifier[1];
+  return path.endsWith('/predicate') ? `${path.slice(0, -'/predicate'.length)}/roles/subject` : null;
 }
 
 function compareTypedGraph(policy, document, engine, fail, observed) {
@@ -313,6 +323,14 @@ function compareTypedGraph(policy, document, engine, fail, observed) {
       continue;
     }
     for (const fromPath of paths) {
+      const ownerPath = effectOwnerPath(fromPath);
+      const property = meaningValueAtPath(document.meaning, fromPath);
+      const effect = engine.ontology?.get?.(property?.concept)?.semanticEffect;
+      if (ownerPath && effect?.operation === 'add_relation' &&
+          effect.relation === edge.relation && effect.target === target.conceptId &&
+          edge.from !== ownerPath) {
+        fail('/graph/scope', ownerPath, edge.from);
+      }
       actual.add(JSON.stringify([fromPath, edge.relation, target.conceptId]));
     }
   }
