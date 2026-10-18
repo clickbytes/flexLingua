@@ -5,6 +5,12 @@ const UNSUPPORTED_CODES = new Set([
   'UNSUPPORTED_CONSTRUCTION', 'UNRESOLVED_DEIXIS', 'UNRESOLVED_ANAPHORA'
 ]);
 const AMBIGUOUS_CODES = new Set(['AMBIGUOUS_ANAPHORA', 'AMBIGUOUS_CONVERSATION_READING']);
+const UNKNOWN_RESPONSE_REASONS = new Set(['insufficient_context', 'ambiguous', 'unsupported']);
+const UNKNOWN_RESPONSE_MESSAGES = Object.freeze({
+  insufficient_context: 'No matching fact in this conversation supports an answer to the question.',
+  ambiguous: 'Conflicting facts in this conversation support different answers.',
+  unsupported: 'The response planner cannot answer this question under the supported policy.'
+});
 
 function diagnosticEvents(diagnostics = []) {
   return diagnostics.map(item => ({type: 'diagnostic', ...item,
@@ -45,6 +51,46 @@ function statusFor(error) {
   if (error?.code === 'INVALID_INPUT') return 'invalid';
   if (error?.code === 'CONTEXT_LIMIT') return 'resource_limit';
   return 'error';
+}
+
+function isRecord(value) {
+  return value !== null && typeof value === 'object' && !Array.isArray(value);
+}
+
+function responsePlanEnvelope(plan) {
+  return isRecord(plan) && plan.type === 'response_plan' &&
+    isRecord(plan.act) && plan.act.type === 'dialogue_act' &&
+    typeof plan.act.act === 'string' && Array.isArray(plan.evidence) &&
+    isRecord(plan.confidence) && typeof plan.confidence.level === 'string' &&
+    Number.isSafeInteger(plan.confidence.evidenceCount) &&
+    plan.confidence.evidenceCount === plan.evidence.length;
+}
+
+function hasRealizedResponse(result) {
+  const plan = result?.plan;
+  return responsePlanEnvelope(plan) && ['answer', 'clarify'].includes(plan.outcome) &&
+    isRecord(plan.realization) && typeof result.text === 'string' && result.text.trim().length > 0 &&
+    isRecord(result.dialogueAct) && result.dialogueAct.type === 'dialogue_act' &&
+    result.dialogueAct.act === plan.act.act && isRecord(result.interlingua) &&
+    JSON.stringify(result.interlingua) === JSON.stringify(plan.realization);
+}
+
+function isUnknownResponse(result) {
+  const plan = result?.plan;
+  if (!responsePlanEnvelope(plan) || plan.outcome !== 'unknown' ||
+      !UNKNOWN_RESPONSE_REASONS.has(plan.reason) || plan.realization !== null ||
+      plan.act.act !== 'refuse' || plan.act.payload?.reason !== plan.reason ||
+      result.text !== null || result.interlingua !== null ||
+      result.dialogueAct?.type !== 'dialogue_act' || result.dialogueAct.act !== 'refuse') {
+    return false;
+  }
+  return plan.confidence.level === (plan.reason === 'ambiguous' ? 'ambiguous' : 'none');
+}
+
+function responseContractDiagnostic() {
+  return {code: 'CHAT_RESPONSE_CONTRACT_INVALID',
+    message: 'The dialogue engine returned a missing or inconsistent response plan.',
+    severity: 'error'};
 }
 
 function errorDetails(error, diagnostics) {
@@ -201,7 +247,7 @@ export function createChatService(runtime, {from: requestedFrom, to: requestedTo
         const result = attempt.value;
         const plan = result.plan;
         responseDiagnostics = uniqueDiagnostics(result.diagnostics);
-        if (plan?.realization && typeof result.text === 'string' && result.text.length > 0) {
+        if (hasRealizedResponse(result)) {
           responseStatus = 'ok';
           response = {status: responseStatus, text: result.text, meaning: result.interlingua,
             dialogueAct: result.dialogueAct, plan, informationLoss: result.informationLoss,
@@ -210,14 +256,23 @@ export function createChatService(runtime, {from: requestedFrom, to: requestedTo
             dialogueAct: result.dialogueAct, plan, turnCount: result.turnCount,
             informationLoss: result.informationLoss, warnings: result.warnings});
           events.push(...diagnosticEvents(responseDiagnostics));
-        } else {
-          responseStatus = statusFor({status: plan?.status, code: plan?.code ?? 'UNSUPPORTED_CONSTRUCTION'});
-          response = {status: responseStatus, plan: plan ?? null};
-          const refusal = {code: plan?.code ?? 'RESPONSE_NOT_REALIZABLE',
-            message: plan?.reason ?? 'The response planner did not provide a supported realization.',
-            severity: 'warning', reason: plan?.reason ?? null, outcome: plan?.outcome ?? null};
+        } else if (isUnknownResponse(result)) {
+          responseStatus = plan.reason === 'ambiguous' ? 'ambiguous' : 'unsupported';
+          response = {status: responseStatus, text: null, plan};
+          const refusal = {code: 'RESPONSE_NOT_REALIZABLE',
+            message: UNKNOWN_RESPONSE_MESSAGES[plan.reason], severity: 'warning',
+            reason: plan.reason, outcome: plan.outcome,
+            evidence: structuredClone(plan.evidence), confidence: structuredClone(plan.confidence)};
           responseDiagnostics = uniqueDiagnostics(responseDiagnostics, [refusal]);
           response.diagnostics = responseDiagnostics;
+          events.push(...diagnosticEvents(responseDiagnostics));
+        } else {
+          responseStatus = 'error';
+          const contractError = responseContractDiagnostic();
+          responseDiagnostics = uniqueDiagnostics(responseDiagnostics, [contractError]);
+          response = {status: responseStatus, plan: plan ?? null,
+            error: errorDetails(contractError, responseDiagnostics),
+            diagnostics: responseDiagnostics};
           events.push(...diagnosticEvents(responseDiagnostics));
         }
       }

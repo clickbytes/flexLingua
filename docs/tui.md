@@ -30,9 +30,9 @@ Choose a declared source and target direction, enter a sentence, and press Enter
 
 ### Chat
 
-Enter one utterance and press Enter. The conversation labels the user utterance, semantic reading, any Engine response, and diagnostics separately. The Engine only attempts a generated response after a successfully parsed `ask` act, and a response is shown only when the planner provides a supported realization. Unsupported input remains a diagnostic.
+Enter one utterance and press Enter. The conversation labels the user utterance, semantic reading, any Engine response, and diagnostics separately. A successfully parsed `ask` triggers exactly one response attempt. A grounded planner result is shown only when the Engine supplies a realization. If no matching fact supports an answer, the accepted question stays in the conversation and Chat reports `insufficient_context` without an Engine response. Conflicting facts report `ambiguous` and keep the planner's evidence and confidence. A planner refusal remains `unsupported`; a missing or inconsistent plan reports `CHAT_RESPONSE_CONTRACT_INVALID`, not missing user context.
 
-The session language, local status, and `turnCount/maxTurns` are shown above the scrollable conversation. The session and visible history exist only in process memory; they are not written to disk.
+The session language, local status, and `turnCount/maxTurns` are shown above the scrollable conversation. The counter measures dialogue acts, not tokens. It is read after the response attempt; an accepted question can use the last available act and leave its response as a visible resource-limit diagnostic. The session and visible history exist only in process memory; they are not written to disk.
 
 ### Forms
 
