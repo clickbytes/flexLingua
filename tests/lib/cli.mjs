@@ -135,6 +135,6 @@ export async function runCliSmoke({cases, serviceDocuments, engine, repoRoot, on
       onProgress?.(completed, cases.length);
     }
   }
-  await Promise.all(Array.from({length: Math.min(2, availableParallelism(), cases.length)}, worker));
+  await Promise.all(Array.from({length: Math.min(8, availableParallelism(), cases.length)}, worker));
   return results;
 }

@@ -6,6 +6,8 @@ export const TEXT_PROFILE_VERSION = '1.0';
 const TEXT_SEGMENTATION = 'unicode-whitespace-v1';
 const TOKEN_PATTERN = /[\p{L}\d][\p{L}\p{M}\d]*(?:['’ʼ\-:][\p{L}\d][\p{L}\p{M}\d]*)*|,/uy;
 const VALIDATED_TEXT_PROFILES = new WeakSet();
+const PHRASE_TOKENS_BY_PROFILE = new WeakMap();
+const MAX_CACHED_PHRASES = 4096;
 
 function record(value) {
   return value !== null && typeof value === 'object' && !Array.isArray(value);
@@ -150,8 +152,23 @@ export function tokenize(text, profile = DEFAULT_TEXT_PROFILE) {
 
 export function matchesTokens(tokens, index, phrase, rawProfile = tokens?.textProfile || DEFAULT_TEXT_PROFILE) {
   const profile = validateTextProfile(rawProfile);
-  const expected = phrase.normalize('NFC').toLocaleLowerCase(profile.locale)
-    .normalize('NFC').split(/\s+/u);
+  // Cache lexical normalization, never a match against a mutable token array.
+  // Validated profiles are immutable; weak keys isolate locales/package lifetimes.
+  const cacheable = typeof phrase === 'string' && phrase.length <= MAX_SOURCE_TEXT_LENGTH;
+  let phrases = cacheable ? PHRASE_TOKENS_BY_PROFILE.get(profile) : undefined;
+  let expected = phrases?.get(phrase);
+  if (!expected) {
+    expected = phrase.normalize('NFC').toLocaleLowerCase(profile.locale)
+      .normalize('NFC').split(/\s+/u);
+    if (cacheable) {
+      if (!phrases) {
+        phrases = new Map();
+        PHRASE_TOKENS_BY_PROFILE.set(profile, phrases);
+      }
+      if (phrases.size >= MAX_CACHED_PHRASES) phrases.delete(phrases.keys().next().value);
+      phrases.set(phrase, expected);
+    }
+  }
   return expected.every((word, i) => tokens[index + i] === word) ? expected.length : 0;
 }
 
