@@ -11,12 +11,12 @@ export const TESTS_ROOT = join(LIB_DIR, '..');
 
 const GAPS_ID = /^GAP-[A-Z0-9-]{2,64}$/u;
 const CASE_ID_SHAPE = /^A1-[A-Z]{2}-[A-Z]{2}-[A-Z]+-[0-9]{4}$/u;
-const TARGET_ID_SHAPE = /^(?:concept|construction)\.[a-z][a-z0-9_]*(?:\.[a-z][a-z0-9_]*)*$/u;
+const TARGET_ID_SHAPE = /^(?:concept\.[a-z][a-z0-9_]*(?:\.[a-z][a-z0-9_]*)*|construction\.(?:question\.yes-no|[a-z][a-z0-9_]*(?:\.[a-z][a-z0-9_]*)*))$/u;
 const SHA40 = /^[0-9a-f]{40}$/u;
 const ISSUE_KIND = /^[a-z][a-zA-Z0-9_-]{0,63}$/u;
 
 const CONCEPT_UNITS = new Set(['entity', 'property']);
-const CONSTRUCTION_UNITS = new Set(['event', 'state']);
+const CONSTRUCTION_UNITS = new Set(['event', 'state', 'question']);
 const REFUSAL_STATUSES = new Set(['unsupported', 'invalid', 'ambiguous', 'resource_limit']);
 
 function isRecord(value) {
@@ -107,16 +107,23 @@ function checkCaseRules(item, issues) {
       issues.push({kind: 'meaning', file: item.file, id, severity: 'error',
         message: 'Meaning type event requires an explicit concept.'});
     }
-    if (meaning.type === 'question' && !meaning.concept) {
-      issues.push({kind: 'meaning', file: item.file, id, severity: 'error',
-        message: 'Meaning type question requires an explicit concept.'});
-    }
     if (meaning.type === 'state' && !meaning.kind) {
       issues.push({kind: 'meaning', file: item.file, id, severity: 'error',
         message: 'Meaning type state requires an explicit kind (e.g. classification).'});
     }
-    const roleKeys = Object.keys(meaning.roles ?? {}).sort().join(',');
-    const declared = (meaning.roleSet ?? []).slice().sort().join(',');
+    const proposition = meaning.type === 'question' ? meaning.proposition : meaning;
+    if (item.construction === 'question.yes-no' && meaning.type !== 'question') {
+      issues.push({kind: 'meaning', file: item.file, id, severity: 'error',
+        message: 'Construction question.yes-no requires a question MeaningGraph wrapper.'});
+    }
+    if (meaning.type === 'question' &&
+        (item.construction !== 'question.yes-no' || meaning.questionType !== 'yes_no' ||
+         proposition?.type !== 'event' || !proposition.concept)) {
+      issues.push({kind: 'meaning', file: item.file, id, severity: 'error',
+        message: 'A question case must use construction question.yes-no with one yes_no question over an event proposition with a concept.'});
+    }
+    const roleKeys = Object.keys(proposition?.roles ?? {}).sort().join(',');
+    const declared = (proposition?.roleSet ?? []).slice().sort().join(',');
     if (roleKeys !== declared) {
       issues.push({kind: 'meaning', file: item.file, id, severity: 'error',
         message: `roleSet (${declared}) does not match role keys (${roleKeys}).`});
@@ -151,7 +158,15 @@ function checkCatalogRules(catalog, issues) {
     }
     if (target.unitType === 'construction' && !CONSTRUCTION_UNITS.has(target.kind)) {
       issues.push({kind: 'catalog', file: 'tests/catalog/a1-single.json', id: target.targetId,
-        severity: 'error', message: `Construction target '${target.targetId}' must be kind event|state.`});
+        severity: 'error', message: `Construction target '${target.targetId}' must be kind event|state|question.`});
+    }
+    if (target.kind === 'question' && (target.unitType !== 'construction' ||
+        target.targetId !== 'construction.question.yes-no' || target.concept !== null)) {
+      issues.push({kind: 'catalog', file: 'tests/catalog/a1-single.json', id: target.targetId,
+        severity: 'error', message: 'A question target must be construction.question.yes-no with concept:null; question is not a CORE concept.'});
+    } else if (target.kind !== 'question' && typeof target.concept !== 'string') {
+      issues.push({kind: 'catalog', file: 'tests/catalog/a1-single.json', id: target.targetId,
+        severity: 'error', message: `Non-question target '${target.targetId}' must reference a CORE concept.`});
     }
     if (target.revision === 'historical-planning-baseline' && !target.historicalId) {
       issues.push({kind: 'catalog', file: 'tests/catalog/a1-single.json', id: target.targetId,

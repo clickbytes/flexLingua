@@ -131,6 +131,40 @@ function compareMeaning(want, actual, fail, {partial = false} = {}) {
   if (want.type !== undefined && actual.type !== want.type) {
     fail('#/type', want.type, actual.type ?? 'none');
   }
+  if (want.type === 'question') {
+    if (actual.type !== 'question') return;
+    if (want.questionType !== undefined && actual.questionType !== want.questionType) {
+      fail('#/questionType', want.questionType, actual.questionType ?? 'none');
+    }
+    const allowedFields = new Set(['version', 'type', 'questionType', 'proposition']);
+    for (const key of Object.keys(actual)) {
+      if (!allowedFields.has(key)) {
+        fail(`#/unexpected/${key}`, 'no additional question field', actual[key]);
+      }
+    }
+    const nestedFail = (path, expected, observed) => {
+      if (path.startsWith('assert #/')) {
+        fail(`assert #/proposition/${path.slice('assert #/'.length)}`, expected, observed);
+      } else if (path.startsWith('#/')) {
+        fail(`#/proposition${path.slice(1)}`, expected, observed);
+      } else {
+        fail(`#/proposition/${path}`, expected, observed);
+      }
+    };
+    if (!isRecord(want.proposition)) {
+      fail('#/proposition', 'an expected event proposition', 'none');
+    } else {
+      compareMeaning(want.proposition, actual.proposition, nestedFail, {partial});
+    }
+    if (!partial) {
+      for (const [pointer, value] of Object.entries(want.assert ?? {})) {
+        const resolved = resolvePointer(actual, pointer);
+        if (resolved.missing) fail(`assert ${pointer}`, value, `missing at ${resolved.at}`);
+        else if (!deepScalarEqual(resolved.value, value)) fail(`assert ${pointer}`, value, resolved.value);
+      }
+    }
+    return;
+  }
   if (want.concept !== undefined && nfc(actual.concept) !== nfc(want.concept)) {
     fail('#/concept', want.concept, actual.concept ?? 'none');
   }
