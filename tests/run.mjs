@@ -181,6 +181,9 @@ async function main() {
       }
     }
     outcomes.push({item, outcome, document, durationMs: Date.now() - startedAt});
+    if (outcomes.length % 25 === 0 || outcomes.length === matrix.cases.length) {
+      console.log(`MATRIX progress: ${outcomes.length}/${matrix.cases.length}`);
+    }
   }
 
   const counts = {translation: {pass: 0, run: 0}, refusal: {pass: 0, run: 0},
@@ -243,7 +246,14 @@ async function main() {
     } else {
       console.log(`CLI SMOKE (${smokeCases.length} tagged cases): exit-code policy ` +
         '(ok→0; unsupported/invalid/ambiguous/resource_limit→2), single JSON document, no node:internal stacks');
-      cliResults = runCliSmoke({cases: smokeCases, service, engine: runtime.engine, repoRoot: REPO_ROOT});
+      const serviceDocuments = new Map(outcomes.map(({item, document}) => [item.id, document]));
+      cliResults = await runCliSmoke({cases: smokeCases, serviceDocuments,
+        engine: runtime.engine, repoRoot: REPO_ROOT,
+        onProgress(completed, total) {
+          if (completed % 25 === 0 || completed === total) {
+            console.log(`CLI progress: ${completed}/${total}`);
+          }
+        }});
       let smokePassed = 0;
       for (const result of cliResults) {
         if (result.pass) {

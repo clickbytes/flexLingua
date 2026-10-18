@@ -9,7 +9,8 @@
  * are reported as INFRA and never reinterpreted as expected refusals.
  */
 
-import {spawnSync} from 'node:child_process';
+import {execFile} from 'node:child_process';
+import {availableParallelism} from 'node:os';
 import {join} from 'node:path';
 import {compareCase} from './assertions.mjs';
 
@@ -37,9 +38,11 @@ function clip(value, limit = 240) {
  * Run the CLI for each tagged case through the documented acceptance command.
  * Returns [{id, tier, pass, kind, lines[], durationMs}] — the runner prints and gates.
  */
-export function runCliSmoke({cases, service, engine, repoRoot}) {
-  const results = [];
-  for (const item of cases) {
+export async function runCliSmoke({cases, serviceDocuments, engine, repoRoot, onProgress}) {
+  const results = new Array(cases.length);
+  let nextIndex = 0;
+  let completed = 0;
+  async function runCase(item) {
     const started = Date.now();
     const result = {
       id: item.id,
@@ -50,19 +53,28 @@ export function runCliSmoke({cases, service, engine, repoRoot}) {
       durationMs: 0
     };
     try {
-      const run = spawnSync(process.execPath,
-        [join(repoRoot, 'tools', 'translate.mjs'), '--from', item.input.from,
-          '--to', item.input.to, '--text', item.input.text, '--json'],
-        {cwd: repoRoot, encoding: 'utf8', timeout: CLI_TIMEOUT_MS,
-          maxBuffer: CLI_MAX_BUFFER, shell: false});
+      if (!serviceDocuments.has(item.id) || serviceDocuments.get(item.id) == null) {
+        throw new Error(`Missing matrix service document for ${item.id}`);
+      }
+      const run = await new Promise(resolve => {
+        execFile(process.execPath,
+          [join(repoRoot, 'tools', 'translate.mjs'), '--from', item.input.from,
+            '--to', item.input.to, '--text', item.input.text, '--json'],
+          {cwd: repoRoot, encoding: 'utf8', timeout: CLI_TIMEOUT_MS,
+            maxBuffer: CLI_MAX_BUFFER, shell: false},
+          (error, stdout, stderr) => resolve({stdout, stderr,
+            status: error ? (Number.isInteger(error.code) ? error.code : null) : 0,
+            signal: error?.signal,
+            error: error && (error.killed || error.signal || !Number.isInteger(error.code))
+              ? error : null}));
+      });
       result.durationMs = Date.now() - started;
 
       if (run.error || run.signal) {
         result.kind = 'infra';
         result.lines.push(`CLI INFRA: subprocess failed (${clip(run.error?.code) ??
           `signal ${run.signal}`}: ${clip(run.error?.message ?? 'no message')})`);
-        results.push(result);
-        continue;
+        return result;
       }
 
       const expectedExit = EXPECTED_EXIT[item.expected?.status];
@@ -82,8 +94,7 @@ export function runCliSmoke({cases, service, engine, repoRoot}) {
         result.kind = 'infra';
         result.lines.push('CLI INFRA: stdout is not a single parseable JSON document ' +
           `("${clip(run.stdout ?? '', 160)}")`);
-        results.push(result);
-        continue;
+        return result;
       }
 
       const comparison = compareCase(item, document, {engine});
@@ -100,9 +111,8 @@ export function runCliSmoke({cases, service, engine, repoRoot}) {
           `observed ${clip(failure.actual)}`);
       }
 
-      /* Same input through the in-process service must produce the same document. */
-      const serviceDocument = service.translate({
-        from: item.input.from, to: item.input.to, text: item.input.text});
+      /* Compare with the same input already executed by the matrix service. */
+      const serviceDocument = serviceDocuments.get(item.id);
       if (JSON.stringify(stable(serviceDocument)) !== JSON.stringify(stable(document))) {
         result.lines.push('document differs between CLI and the in-process service');
       }
@@ -114,7 +124,17 @@ export function runCliSmoke({cases, service, engine, repoRoot}) {
       result.durationMs = Date.now() - started;
       result.lines.push(`CLI INFRA: ${clip(error?.message ?? String(error))}`);
     }
-    results.push(result);
+    result.durationMs = Date.now() - started;
+    return result;
   }
+  async function worker() {
+    while (nextIndex < cases.length) {
+      const index = nextIndex++;
+      results[index] = await runCase(cases[index]);
+      completed += 1;
+      onProgress?.(completed, cases.length);
+    }
+  }
+  await Promise.all(Array.from({length: Math.min(2, availableParallelism(), cases.length)}, worker));
   return results;
 }
