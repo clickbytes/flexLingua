@@ -11,6 +11,7 @@ import {applyPersonalityProfile, createPersonalityProfile, PERSONALITY_PROFILE_V
   from './personality.js';
 import {LANGUAGE_PLUGIN_CONTRACT_VERSION, normalizeAnalysisResult, normalizeRealizationResult}
   from '../plugins/contract.js';
+import {matchConceptGraphs} from './typed-graph-match.js';
 
 const MAX_CANDIDATES = 16;
 
@@ -162,7 +163,7 @@ export class Engine {
       throw new EngineError('PLUGIN_CAPABILITY_UNAVAILABLE',
         `Lexical lookup is unsupported for language ${language}.`, {status: 'unsupported'});
     }
-    return this.analyzeForm({language,text}).flatMap(analysis=>{
+    let readings=this.analyzeForm({language,text}).flatMap(analysis=>{
       const lex=lexicon.get(analysis.lexemeId);
       if(!lex)return [];
       return lex.senses.map(sense=>({
@@ -171,7 +172,45 @@ export class Engine {
           n+(sense.coreRef.kind==='concept' && this.ontology.relatedToTopic(sense.coreRef.id,topic)?10:0),0)
       }));
     }).filter(reading=>!settings.senses?.lexeme ||
-      reading.coreRef.id===settings.senses.lexeme).sort((a,b)=>b.score-a.score);
+      reading.coreRef.id===settings.senses.lexeme);
+    if(settings.typedGraph===undefined) return readings.sort((a,b)=>b.score-a.score);
+    if(!readings.length) return readings;
+
+    const conceptIds=[...new Set(readings.filter(reading=>reading.coreRef.kind==='concept')
+      .map(reading=>reading.coreRef.id))];
+    const nonConceptReadings=readings.filter(reading=>reading.coreRef.kind!=='concept');
+    if(!conceptIds.length) {
+      throw new EngineError('TYPED_GRAPH_UNSUPPORTED',
+        'Typed graph context cannot adjudicate this non-concept lexical reference.',
+        {status:'unsupported',diagnostics:[{code:'TYPED_GRAPH_UNSUPPORTED',
+          message:'Typed graph context requires concept-based lexical senses.'}]});
+    }
+    const match=matchConceptGraphs({observed:settings.typedGraph,candidates:conceptIds,
+      ontology:this.ontology});
+    const matchedById=new Map(match.candidates.map(item=>[item.conceptId,item]));
+    const readingStatus=nonConceptReadings.length ? 'ambiguous' : match.status;
+    readings=readings.filter(reading=>reading.coreRef.kind!=='concept' ||
+      matchedById.get(reading.coreRef.id)?.compatible).map(reading=>{
+        if(reading.coreRef.kind!=='concept') {
+          return {...reading,graphMatch:{status:'unresolved',compatible:true,score:0,
+            matchedRelations:[],unresolved:['non-concept core reference']}};
+        }
+        const candidate=matchedById.get(reading.coreRef.id);
+        return {...reading,graphMatch:{status:readingStatus,compatible:candidate.compatible,
+          score:candidate.score,matchedRelations:candidate.matchedRelations,
+          hardViolations:candidate.hardViolations,unresolved:candidate.unresolved}};
+      });
+    if(match.status==='unsupported' && nonConceptReadings.length===0) {
+      throw new EngineError('TYPED_GRAPH_NO_MATCH',match.diagnostics[0].message,
+        {status:'unsupported',diagnostics:match.diagnostics});
+    }
+    const matchedRequiredCount=reading=>(reading.graphMatch?.matchedRelations||[])
+      .filter(edge=>edge.constraint==='required').length;
+    return readings.sort((left,right)=>matchedRequiredCount(right)-matchedRequiredCount(left) ||
+      (right.graphMatch?.score||0)-(left.graphMatch?.score||0) ||
+      (right.score||0)-(left.score||0) ||
+      (left.coreRef.id < right.coreRef.id ? -1 : left.coreRef.id > right.coreRef.id ? 1 : 0) ||
+      (left.senseId < right.senseId ? -1 : left.senseId > right.senseId ? 1 : 0));
   }
 
   /** Query a validated language lexicon without bypassing CORE references. */
