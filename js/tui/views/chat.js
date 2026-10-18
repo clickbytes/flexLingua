@@ -47,13 +47,28 @@ export function createChatView({chatService, capabilityCatalog, state: modeState
   }
 
   function capabilityAvailability(language, channel, operation) {
-    const capabilities = capabilityCatalog?.chat({language});
+    const capabilities = capabilityCatalog?.chat?.({language});
     if (!capabilities || capabilities.status !== 'capabilities_only') return 'nieznana';
     return capabilityText(capabilities[channel]?.[operation]?.status);
   }
 
+  function questionCapability(language, operation) {
+    const capabilities = capabilityCatalog?.chat?.({language});
+    return capabilities?.status === 'capabilities_only' ? capabilities.questions?.[operation] : null;
+  }
+
+  function questionEvidenceId(summary) {
+    return (summary?.declarations ?? []).filter(declaration => declaration.status === 'implemented' &&
+      declaration.construction === 'question.yes-no').flatMap(declaration =>
+      (declaration.evidence ?? []).map(item => item?.id).filter(id => typeof id === 'string'));
+  }
+
   function scopeLines() {
-    return [
+    const analyze = questionCapability(state.from, 'analyze');
+    const realize = questionCapability(state.to, 'realize');
+    const sourceHasQuestion = analyze?.constructions?.includes('question.yes-no') === true;
+    const targetHasQuestion = realize?.constructions?.includes('question.yes-no') === true;
+    const lines = [
       {text: `Zdania · ${state.from ?? '?'} analiza ${capabilityAvailability(state.from,
         'sentence', 'analyze')} · ${state.to ?? '?'} realizacja ${capabilityAvailability(state.to,
         'sentence', 'realize')}.`, tone: 'muted'},
@@ -61,6 +76,17 @@ export function createChatView({chatService, capabilityCatalog, state: modeState
         'questions', 'analyze')} · ${state.to ?? '?'} realizacja ${capabilityAvailability(state.to,
         'questions', 'realize')}.`, tone: 'muted'}
     ];
+    if (sourceHasQuestion && targetHasQuestion) {
+      const evidence = [...new Set([...questionEvidenceId(analyze), ...questionEvidenceId(realize)])];
+      lines.push({text: 'Zakres · question.yes-no: pytanie tak/nie o widzeniu w czasie teraźniejszym. ' +
+        'Odpowiedź zależy od faktów sesji i rozstrzygniętych referentów.', tone: 'muted'});
+      lines.push({text: `Dowody · ${evidence.length ? evidence.join(' · ') :
+        'identyfikatory dowodu niezadeklarowane'}.`, tone: 'muted'});
+    } else {
+      lines.push({text: `Zakres · brak wspólnej deklaracji question.yes-no dla ${state.from ?? '?'}→${
+        state.to ?? '?'}.`, tone: 'warning'});
+    }
+    return lines;
   }
 
   function countersText(result = state) {
@@ -145,7 +171,8 @@ export function createChatView({chatService, capabilityCatalog, state: modeState
       return [
         {text: 'Sesja jest lokalna i ograniczona do danych oraz reguł Engine.', tone: 'muted'},
         ...scopeLines(),
-        {text: 'Odpowiedź pojawi się tylko po obsługiwanej realizacji planera.', tone: 'muted'}
+        {text: 'Engine odpowiada tylko na podstawie dopasowanych faktów i rozstrzygniętych referentów.',
+          tone: 'muted'}
       ];
     },
     countersText,
