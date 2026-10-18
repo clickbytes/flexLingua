@@ -3920,6 +3920,23 @@
           }
         }
       ]
+    },
+    {
+      "id": "pl.instytucja.1",
+      "lemma": "instytucja",
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "paradigmId": "pl.noun.feminine_cja",
+      "senses": [
+        {
+          "id": "pl.instytucja.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "organization.institution"
+          }
+        }
+      ]
     }
   ],
   "verbs": [

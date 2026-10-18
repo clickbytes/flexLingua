@@ -7,7 +7,7 @@
       "path": "data/core/concepts.json",
       "version": "1.0",
       "status": "project-authored",
-      "author": "flexLingua project contributors; historical concept authors are not individually attributed, and the TG-02 pilot author is recorded in authoredBatches.",
+      "author": "flexLingua project contributors; historical concept authors are not individually attributed, and TG-02/TG-06 pilot authors are recorded in authoredBatches.",
       "source": "Original flexLingua CORE inventory plus the project-authored typed graph pilot in TG-02; no external definition list or lexical data was imported.",
       "license": "Project-authored; no separate SPDX license grant is declared in this repository",
       "reviewedAt": "2026-10-18",
@@ -73,7 +73,13 @@
           "source": "Project-authored color relation, color category, red target concept and semantic effect for the existing quality.red concept; no external color taxonomy was imported.",
           "license": "Project-authored for internal flexLingua use; the repository declares no separate SPDX data license.",
           "scope": "Adds color and color.red CORE concepts, relationTypes.color, and quality.red → color/color.red."
-        }
+        },
+        {
+          "issue": "#401",
+          "author": "Codex agent working on flexLingua",
+          "source": "Project-authored organization category and institutional entity distinction needed to represent an institution as an organization rather than a place; no external ontology or definition was imported.",
+          "license": "Project-authored for internal flexLingua use; the repository declares no separate SPDX data license.",
+          "scope": "Adds category organization and entity organization.institution for the bidirectional financial-institution pilot."
         }
       ]
     },

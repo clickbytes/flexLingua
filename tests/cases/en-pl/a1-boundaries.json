@@ -191,6 +191,130 @@
         "coverageTargetId": "construction.event.visual_perception",
         "capability": "en.analyze controlled refusal: unlicensed pronoun deixis/anaphora"
       }
+    },
+    {
+      "id": "A1-EN-PL-AMBIGUOUS-0002",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "reading",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 3,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "mixed",
+        "quantity": "none"
+      },
+      "purpose": "The surface lemma bank has two equally possible lexical readings without context. Preserve both place concepts, return AMBIGUOUS_MEANING and do not translate by guessing.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "The girl sees a bank."
+      },
+      "expected": {
+        "status": "ambiguous",
+        "text": null,
+        "meaning": null,
+        "diagnostics": {
+          "required": [
+            {
+              "code": "AMBIGUOUS_MEANING"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            {
+              "meaning": {
+                "type": "event",
+                "concept": "event.visual_perception",
+                "roleSet": [
+                  "agent",
+                  "theme"
+                ],
+                "roles": {
+                  "agent": {
+                    "concept": "person.girl",
+                    "features": {
+                      "number": "singular",
+                      "definiteness": "definite"
+                    }
+                  },
+                  "theme": {
+                    "concept": "place.financial_institution",
+                    "features": {
+                      "number": "singular",
+                      "definiteness": "indefinite"
+                    }
+                  }
+                },
+                "features": {
+                  "tense": "present",
+                  "polarity": "positive",
+                  "aspect": "unknown"
+                },
+                "assert": {}
+              }
+            },
+            {
+              "meaning": {
+                "type": "event",
+                "concept": "event.visual_perception",
+                "roleSet": [
+                  "agent",
+                  "theme"
+                ],
+                "roles": {
+                  "agent": {
+                    "concept": "person.girl",
+                    "features": {
+                      "number": "singular",
+                      "definiteness": "definite"
+                    }
+                  },
+                  "theme": {
+                    "concept": "place.riverbank",
+                    "features": {
+                      "number": "singular",
+                      "definiteness": "indefinite"
+                    }
+                  }
+                },
+                "features": {
+                  "tense": "present",
+                  "polarity": "positive",
+                  "aspect": "unknown"
+                },
+                "assert": {}
+              }
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent expected meaning recorded before execution in #401 comment issuecomment-6250761291; delegated linguistic review and approval for this exact ID and meaning recorded at https://github.com/clickbytes/flexLingua/issues/401#issuecomment-6250868824.",
+        "author": "Codex agent (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#401"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "en.analyze keeps bank financial-institution and riverbank senses ambiguous without context"
+      }
     }
   ]
 }

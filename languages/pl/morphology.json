@@ -14261,6 +14261,15 @@
         "virile": "drewnian"
       },
       "overrides": []
+    },
+    {
+      "lexemeId": "pl.instytucja.1",
+      "paradigmId": "pl.noun.feminine_cja",
+      "stems": {
+        "base": "instytucj",
+        "lemma": "instytucja"
+      },
+      "overrides": []
     }
   ]
 }

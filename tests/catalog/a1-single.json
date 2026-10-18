@@ -178,6 +178,18 @@
       "directions": ["en-pl", "pl-en"]
     },
     {
+      "targetId": "concept.object.table",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.table",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": ["en-pl", "pl-en"]
+    },
+    {
       "targetId": "concept.object.apple",
       "revision": "historical-planning-baseline",
       "historicalId": "object.apple",
@@ -211,6 +223,18 @@
       "domain": "places",
       "kind": "entity",
       "concept": "institution.school",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": ["en-pl", "pl-en"]
+    },
+    {
+      "targetId": "concept.organization.institution",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "institutions",
+      "kind": "entity",
+      "concept": "organization.institution",
       "tier": "required",
       "witnessKind": "positive",
       "directions": ["en-pl", "pl-en"]

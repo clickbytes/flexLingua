@@ -63,15 +63,23 @@
     "qualified": {
       "maxAdjectives": 3,
       "maxDegreeDepth": 2,
-      "adjectiveOrder": "before",
       "degreeOrder": "before",
+      "adjectivePlacement": "layout",
       "layouts": [
         [
           "quantifier",
           "modifiers",
           "noun"
+        ],
+        [
+          "quantifier",
+          "noun",
+          "modifiers"
         ]
       ],
+      "layoutByModifier": {
+        "quality.financial": 1
+      },
       "adjectiveAgreementFeatures": [
         "number",
         "gender",

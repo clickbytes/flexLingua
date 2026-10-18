@@ -13,8 +13,10 @@
     "construction.state.classification",
     "concept.object.bicycle",
     "concept.object.phone",
+    "concept.object.table",
     "concept.person.mother",
-    "concept.institution.school"
+    "concept.institution.school",
+    "concept.organization.institution"
   ],
   "requiredCaseIds": [
     "A1-AR-EN-REFUSAL-0001",
@@ -23,6 +25,7 @@
     "A1-EN-FI-VISUAL-0002",
     "A1-EN-IT-REFUSAL-0001",
     "A1-EN-PL-AMBIGUOUS-0001",
+    "A1-EN-PL-AMBIGUOUS-0002",
     "A1-EN-PL-BOUNDARY-0001",
     "A1-EN-PL-BOUNDARY-0002",
     "A1-EN-PL-BOUNDARY-0003",
@@ -36,6 +39,8 @@
     "A1-EN-PL-LEXICON-0005",
     "A1-EN-PL-LEXICON-0006",
     "A1-EN-PL-MODIFIER-0001",
+    "A1-EN-PL-MODIFIER-0002",
+    "A1-EN-PL-MODIFIER-0003",
     "A1-EN-PL-QUANTITY-0001",
     "A1-EN-PL-QUANTITY-0002",
     "A1-EN-PL-QUESTION-0001",
@@ -67,6 +72,8 @@
     "A1-PL-EN-LEXICON-0005",
     "A1-PL-EN-MODIFIER-0001",
     "A1-PL-EN-MODIFIER-0002",
+    "A1-PL-EN-MODIFIER-0003",
+    "A1-PL-EN-MODIFIER-0004",
     "A1-PL-EN-QUANTITY-0001",
     "A1-PL-EN-QUANTITY-0002",
     "A1-PL-EN-QUESTION-0001",

@@ -2588,6 +2588,21 @@
           }
         }
       ]
+    },
+    {
+      "id": "en.institution.1",
+      "lemma": "institution",
+      "forms": {},
+      "indefiniteArticle": "an",
+      "senses": [
+        {
+          "id": "en.institution.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "organization.institution"
+          }
+        }
+      ]
     }
   ],
   "verbs": [
@@ -3340,6 +3355,44 @@
           "coreRef": {
             "kind": "concept",
             "id": "quality.simple"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.financial.adj.1",
+      "lemma": "financial",
+      "indefiniteArticle": "a",
+      "forms": [
+        {
+          "text": "financial"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.financial.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.financial"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.wooden.adj.1",
+      "lemma": "wooden",
+      "indefiniteArticle": "a",
+      "forms": [
+        {
+          "text": "wooden"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.wooden.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.wooden"
           }
         }
       ]
