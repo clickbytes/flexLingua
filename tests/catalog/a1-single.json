@@ -73,10 +73,9 @@
       "domain": "family",
       "kind": "entity",
       "concept": "person.mother",
-      "tier": "planned",
+      "tier": "required",
       "witnessKind": "positive",
-      "directions": ["en-pl", "pl-en"],
-      "note": "Planned: no approved positive sentence witnesses this concept yet."
+      "directions": ["en-pl", "pl-en"]
     },
     {
       "targetId": "concept.person.sister",
@@ -155,6 +154,30 @@
       "directions": ["en-pl", "pl-en"]
     },
     {
+      "targetId": "concept.object.bicycle",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.bicycle",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": ["en-pl", "pl-en"]
+    },
+    {
+      "targetId": "concept.object.phone",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.phone",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": ["en-pl", "pl-en"]
+    },
+    {
       "targetId": "concept.object.apple",
       "revision": "historical-planning-baseline",
       "historicalId": "object.apple",
@@ -188,10 +211,9 @@
       "domain": "places",
       "kind": "entity",
       "concept": "institution.school",
-      "tier": "planned",
+      "tier": "required",
       "witnessKind": "positive",
-      "directions": ["en-pl", "pl-en"],
-      "note": "Planned: no approved positive sentence witnesses this concept yet."
+      "directions": ["en-pl", "pl-en"]
     },
     {
       "targetId": "concept.quality.big",
