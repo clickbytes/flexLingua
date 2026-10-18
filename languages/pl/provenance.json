@@ -108,6 +108,13 @@
           "scope": "Nominative/object deictic pronouns and possessor realization for data/grammar/pl.json."
         },
         {
+          "issue": "#363",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored exact-quantity noun-phrase profile encoding Polish numeral grammar (1 singular, 0 and 5-20 genitive-noun phrases with singular verb agreement) against the existing project-authored numeral inventory; no external rule inventory copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "nounPhrase.quantity version 1.0 with exactNumber, caseOverrides (nom/acc to gen for 0 and 5-20), and agreementOverrides for Polish numeral noun phrases in data/grammar/pl.json."
+        },
+        {
           "issue": "#65",
           "author": "flexLingua project contributors",
           "source": "Original bounded Polish grammar frames for purchase and explicit prices; no external rule inventory copied.",

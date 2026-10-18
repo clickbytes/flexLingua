@@ -1,0 +1,119 @@
+{
+  "schemaVersion": "1.0",
+  "cases": [
+    {
+      "id": "A1-EN-PL-QUANTITY-0001",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "visual_perception",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "unknown",
+        "polarity": "positive",
+        "person": "third",
+        "number": "plural",
+        "reference": "indefinite",
+        "quantity": "exact"
+      },
+      "purpose": "Positive A1 exact-quantity event en>pl: 'three' fixes the agent count to exactly 3 on the Polish noun phrase (Trzy dziewczynki, plural nominative with plural verb agreement), number and quantity survive translation without any loss record, the theme stays singular definite, and both definiteness claims are recorded as unavoidable target-side loss because Polish does not mark definiteness.",
+      "input": {"from": "en", "to": "pl", "text": "Three girls see the dog."},
+      "expected": {
+        "status": "ok",
+        "text": {"accepted": ["Trzy dziewczynki widz\u0105 psa."]},
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": ["agent", "theme"],
+          "roles": {
+            "agent": {"concept": "person.girl",
+              "features": {"definiteness": "indefinite"},
+              "quantity": {"kind": "exact", "value": 3}},
+            "theme": {"concept": "animal.dog",
+              "features": {"number": "singular", "definiteness": "definite"}}
+          },
+          "roleFeaturesExact": true,
+          "features": {"tense": "present", "polarity": "positive"},
+          "featuresAllowExtra": true,
+          "assert": {
+            "#/version": "1.34",
+            "#/roles/agent/concept": "person.girl",
+            "#/roles/agent/quantity/kind": "exact",
+            "#/roles/agent/quantity/value": 3,
+            "#/roles/theme/concept": "animal.dog",
+            "#/roles/theme/features/definiteness": "definite",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive"
+          }
+        },
+        "diagnostics": {"required": [], "allowUnexpected": true},
+        "alternatives": {"required": [], "allowUnexpected": false},
+        "informationLoss": {"required": [
+          {"cause": "target-grammar-does-not-mark-definiteness", "feature": "definiteness",
+            "path": "#/roles/agent/features/definiteness", "status": "unavoidable"},
+          {"cause": "target-grammar-does-not-mark-definiteness", "feature": "definiteness",
+            "path": "#/roles/theme/features/definiteness", "status": "unavoidable"}
+        ], "allowUnexpected": false}
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent expectation authored 2026-10-18 before any CLI run: exactly three girls as agent, no number/quantity loss, theme singular definite; English plural indefiniteness is zero-article per the determiner contract (agent value 'indefinite'; the #363 pre-edit comment provisionally said unknown). CLI-matched on tm/p363-quantity over base f4c7f42, uncommitted at run time.",
+        "author": "opencode-agent (OpenCode/GLM)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#363"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "sentence en.analyze(event.visual_perception, exact quantity 3) -> pl.realize"
+      }
+    },
+    {
+      "id": "A1-EN-PL-QUANTITY-0002",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "quantity_boundary",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 2,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "unknown",
+        "polarity": "positive",
+        "person": "third",
+        "number": "mismatch",
+        "reference": "none",
+        "quantity": "exact"
+      },
+      "purpose": "Controlled refusal of a number disagreement between an exact quantifier and its noun (three + singular girl): the exact-quantity reading requires the noun form number demanded by the language quantity profile, so the sentence has no grammatical reading and the bounded result is an explicit unsupported refusal with LANGUAGE_CONSTRUCTION_UNSUPPORTED; it is never counted as evidence that exact quantity is handled.",
+      "input": {"from": "en", "to": "pl", "text": "Three girl see the dog."},
+      "expected": {
+        "status": "unsupported",
+        "text": null,
+        "meaning": null,
+        "diagnostics": {"required": [{"code": "LANGUAGE_CONSTRUCTION_UNSUPPORTED"}], "allowUnexpected": false},
+        "alternatives": {"required": [], "allowUnexpected": false},
+        "informationLoss": {"required": [], "allowUnexpected": false}
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent expectation authored 2026-10-18 before any CLI run: an exact quantifier demands the profiled noun number (three girls, not three girl), so the sentence is ungrammatical and must refuse rather than guess; never counted as evidence that exact quantity is handled. CLI-matched on tm/p363-quantity over base f4c7f42, uncommitted at run time.",
+        "author": "opencode-agent (OpenCode/GLM)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#363"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "en.analyze controlled refusal: exact quantifier without matching noun number"
+      }
+    }
+  ]
+}

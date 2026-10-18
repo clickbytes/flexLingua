@@ -136,6 +136,13 @@
           "scope": "nounPhrase.deicticCases for object deictic pronouns (me/us) in data/grammar/en.json."
         },
         {
+          "issue": "#363",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored exact-quantity noun-phrase profile mapping cardinal values to English grammatical number (only 1 is singular); no external rule inventory copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "nounPhrase.quantity version 1.0 for exact numeric quantity on counted English noun phrases in data/grammar/en.json."
+        },
+        {
           "issue": "#65",
           "author": "flexLingua project contributors",
           "source": "Original bounded English grammar frames for purchase and explicit prices; no external rule inventory copied.",

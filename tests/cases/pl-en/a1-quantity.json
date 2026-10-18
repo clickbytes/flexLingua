@@ -1,0 +1,121 @@
+{
+  "schemaVersion": "1.0",
+  "cases": [
+    {
+      "id": "A1-PL-EN-QUANTITY-0001",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "visual_perception",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "plural",
+        "reference": "unknown",
+        "quantity": "exact"
+      },
+      "purpose": "Positive A1 exact-quantity event pl>en: the Polish numeral phrase (trzy dziewczynki, plural nominative with plural verb widz\u0105) fixes the agent count to exactly 3, number and quantity survive translation without any loss record, Polish bare nouns leave definiteness unspecified (unknown, not definite), the English realization selects determiners by explicit display policy while the definite variant stays an endorsed alternative, and imperfective aspect is recorded only as unavoidable target loss.",
+      "input": {"from": "pl", "to": "en", "text": "Trzy dziewczynki widz\u0105 psa."},
+      "expected": {
+        "status": "ok",
+        "text": {"accepted": ["Three girls see a dog."]},
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": ["agent", "theme"],
+          "roles": {
+            "agent": {"concept": "person.girl",
+              "features": {"definiteness": "unknown"},
+              "quantity": {"kind": "exact", "value": 3}},
+            "theme": {"concept": "animal.dog",
+              "features": {"number": "singular", "definiteness": "unknown"}}
+          },
+          "roleFeaturesExact": true,
+          "features": {"tense": "present", "polarity": "positive", "aspect": "imperfective"},
+          "featuresAllowExtra": true,
+          "assert": {
+            "#/version": "1.34",
+            "#/roles/agent/concept": "person.girl",
+            "#/roles/agent/quantity/kind": "exact",
+            "#/roles/agent/quantity/value": 3,
+            "#/roles/theme/concept": "animal.dog",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "imperfective"
+          }
+        },
+        "diagnostics": {"required": [], "allowUnexpected": true},
+        "alternatives": {"required": ["Three girls see the dog."], "allowUnexpected": true},
+        "informationLoss": {"required": [
+          {"cause": "target-grammar-does-not-encode-aspect", "feature": "aspect",
+            "path": "#/features/aspect", "status": "unavoidable"},
+          {"cause": "source-definiteness-unspecified-target-default", "feature": "definiteness",
+            "path": "#/roles/agent/features/definiteness", "status": "ambiguous"},
+          {"cause": "source-definiteness-unspecified-target-default", "feature": "definiteness",
+            "path": "#/roles/theme/features/definiteness", "status": "ambiguous"}
+        ], "allowUnexpected": false}
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent expectation authored 2026-10-18 before any CLI run: trzy dziewczynki is exactly three girls with plural verb agreement, no number/quantity loss; psa is a bare accusative noun with unknown definiteness and widz\u0105 is imperfective present; English records determiner-default ambiguity rather than marking definiteness. CLI-matched on tm/p363-quantity over base f4c7f42 (uncommitted).",
+        "author": "opencode-agent (OpenCode/GLM)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#363"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "sentence pl.analyze(event.visual_perception, exact quantity 3) -> en.realize"
+      }
+    },
+    {
+      "id": "A1-PL-EN-QUANTITY-0002",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "quantity_boundary",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 2,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "mismatch",
+        "reference": "none",
+        "quantity": "exact"
+      },
+      "purpose": "Controlled refusal of a broken Polish numeral phrase (trzy + genitive dziewczynki): the exact-quantity reading requires the noun case demanded by the language quantity profile (nominative plural for three), the violated numeral phrase has no grammatical reading, and the bounded result is an explicit unsupported refusal with LANGUAGE_CONSTRUCTION_UNSUPPORTED; it is never counted as evidence that exact quantity is handled.",
+      "input": {"from": "pl", "to": "en", "text": "Trzy dziewczynek widzi psa."},
+      "expected": {
+        "status": "unsupported",
+        "text": null,
+        "meaning": null,
+        "diagnostics": {"required": [{"code": "LANGUAGE_CONSTRUCTION_UNSUPPORTED"}], "allowUnexpected": false},
+        "alternatives": {"required": [], "allowUnexpected": false},
+        "informationLoss": {"required": [], "allowUnexpected": false}
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent expectation authored 2026-10-18 before any CLI run: trzy demands nominative plural dziewczynki; the broken numeral-noun case agreement must refuse rather than guess, even though dziewczynek exists as the genitive plural; never counted as evidence that exact quantity is handled. CLI-matched on tm/p363-quantity over base f4c7f42, uncommitted at run time.",
+        "author": "opencode-agent (OpenCode/GLM)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#363"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "pl.analyze controlled refusal: broken numeral-noun case agreement"
+      }
+    }
+  ]
+}
