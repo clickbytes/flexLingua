@@ -66,6 +66,14 @@
           "source": "Original project-authored category roots, property meanings, and typed relation definitions; no third-party list, dictionary, or external definition was copied.",
           "license": "Project-authored; the repository declares no separate SPDX data license.",
           "scope": "Six CORE concepts (domain, domain.finance, material, material.wood, quality.financial, quality.wooden), domain/material relation signatures, semantic effects, and a required domain edge on place.financial_institution."
+        },
+        {
+          "issue": "#400",
+          "author": "Codex agent working on flexLingua",
+          "source": "Project-authored color relation, color category, red target concept and semantic effect for the existing quality.red concept; no external color taxonomy was imported.",
+          "license": "Project-authored for internal flexLingua use; the repository declares no separate SPDX data license.",
+          "scope": "Adds color and color.red CORE concepts, relationTypes.color, and quality.red → color/color.red."
+        }
         }
       ]
     },
