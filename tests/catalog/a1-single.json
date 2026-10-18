@@ -244,6 +244,19 @@
       "directions": ["en-pl", "pl-en"]
     },
     {
+      "targetId": "construction.question.yes-no",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "construction",
+      "domain": "activities",
+      "kind": "question",
+      "concept": null,
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": ["en-pl", "pl-en"],
+      "note": "Bounded yes/no visual-perception questions only: present positive event.visual_perception with explicit singular nominal agent and theme. Project-authored target, not a CEFR coverage claim."
+    },
+    {
       "targetId": "construction.event.visual_attention",
       "revision": "current",
       "historicalId": null,

@@ -31,6 +31,12 @@
       ]
     },
     {
+      "construction": "question.yes-no",
+      "questionType": "yes_no",
+      "propositionConstruction": "event.visual_perception",
+      "policyId": "question.yes-no.visual-perception.present-positive.nominal-singular"
+    },
+    {
       "construction": "event.read",
       "conceptId": "event.read",
       "arguments": [

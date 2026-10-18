@@ -968,24 +968,33 @@ function createGrammarInterpreter(sourceDictionary, rules,
     return context;
   }
   function informationLoss(meaning) {
+    if (meaning?.type === 'question') {
+      if (meaning.questionType !== 'yes_no' ||
+          meaning.proposition?.type !== 'event' ||
+          meaning.proposition.concept !== 'event.visual_perception') return [];
+      return eventInformationLoss(meaning.proposition, '#/proposition');
+    }
+    return eventInformationLoss(meaning, '#');
+  }
+  function eventInformationLoss(meaning, prefix) {
     if (!record(meaning) || !record(meaning.roles)) return [];
     const hasDeterminers=Object.keys(nounPhrase.determiners).length>0;
     const diagnostics=[];
     for(const [role,ref] of Object.entries(meaning.roles)) {
       const definiteness=ref?.features?.definiteness;
       if(hasDeterminers && definiteness==='unknown') {
-        diagnostics.push({path:`#/roles/${role}/features/definiteness`,
+        diagnostics.push({path:`${prefix}/roles/${role}/features/definiteness`,
           feature:'definiteness',cause:'source-definiteness-unspecified-target-default',
           status:'ambiguous'});
       } else if(!hasDeterminers && ['definite','indefinite'].includes(definiteness)) {
-        diagnostics.push({path:`#/roles/${role}/features/definiteness`,
+        diagnostics.push({path:`${prefix}/roles/${role}/features/definiteness`,
           feature:'definiteness',cause:'target-grammar-does-not-mark-definiteness',
           status:'unavoidable'});
       }
     }
     if(meaning.type==='event' && meaning.features?.aspect!=='unknown' &&
         verbGrammar.aspectSource==='unknown') {
-      diagnostics.push({path:'#/features/aspect',feature:'aspect',
+      diagnostics.push({path:`${prefix}/features/aspect`,feature:'aspect',
         cause:'target-grammar-does-not-encode-aspect',status:'unavoidable'});
     }
     return diagnostics;
@@ -2660,7 +2669,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
         subjectPronoun!==subjectPronounFor(meaning.roles?.[subjectRole]))) {
       unsupported('Unsupported subject pronoun realization.');
     }
-    if(meaning?.type==='question')return realizeQuestion(meaning);
+    if(meaning?.type==='question')return realizeQuestion(meaning,{semanticTransfer});
     if(meaning?.type==='comparison')return realizeComparison(meaning);
     if(meaning?.type==='state')return realizeState(meaning);
     if(meaning?.voice==='passive')return realizePassive(meaning);
@@ -2727,9 +2736,11 @@ function createGrammarInterpreter(sourceDictionary, rules,
 
   /** Reuse existing inflection and nominal rules; interrogative strategies
    * remain in each language's declarative grammar configuration. */
-  function realizeQuestion(question) {
+  function realizeQuestion(question, {semanticTransfer} = {}) {
     if(!questions)unsupported('Unsupported question construction in this language.');
     const q=questions,clause=question.proposition;
+    const propositionTransfer=semanticTransfer?.kind==='question'
+      ? semanticTransfer.propositionTransfer : undefined;
     if(modalParts(clause))return realizeModal(clause,question);
     if(clause?.type==='state')return realizeStateQuestion(clause,question);
     if(clause?.type!=='event') {
@@ -2745,7 +2756,12 @@ function createGrammarInterpreter(sourceDictionary, rules,
     const alternate=hasArticles&&unspecified.length?nounPhrase.alternativeDefiniteness:undefined;
     const wrap=value=>sentenceText([value],'?');
     const withoutPeriod=value=>value.replace(/\.\s*$/u,'');
-    const lowerFirst=value=>value.charAt(0).toLocaleLowerCase(grammar.language)+value.slice(1);
+    const lowerFirst=value=>{
+      const characters=Array.from(value);
+      return characters.length
+        ? characters[0].toLocaleLowerCase(grammar.language)+characters.slice(1).join('')
+        : value;
+    };
     if(question.questionType==='wh' && question.targetRole==='destination') {
       const frame=frames[clause.concept];
       const sequence=frame?.linearizations.find(item=>item.includes('destination'));
@@ -2780,7 +2796,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
       return {text:wrap(text),warnings:[],alternatives:[]};
     }
     if(question.questionType==='yes_no'&&q.yesNo.mode==='prefix'){
-      const rendered=realize(clause);
+      const rendered=realize(clause,{semanticTransfer:propositionTransfer});
       const prefix=text=>wrap(q.yesNo.marker+' '+lowerFirst(withoutPeriod(text)));
       return {...rendered,text:prefix(rendered.text),
         alternatives:rendered.alternatives.map(prefix)};
@@ -2798,7 +2814,8 @@ function createGrammarInterpreter(sourceDictionary, rules,
       q.wh.theme.order==='verb_first'
       ? {sequence:themeOrder(frame)[0],returnBuilder:true}
       : {returnBuilder:true};
-    const built=renderEvent(clause,undefined,0,relative,options);
+    const agreementControllers=agreementContextForTransfer(clause,propositionTransfer);
+    const built=renderEvent(clause,undefined,0,relative,{...options,agreementControllers});
     const whEntry=question.questionType==='wh'&&question.targetRole==='theme' &&
       frame.whTheme?.frontPreposition
       ? {...built.preferred,text:withoutGovernedPreposition(built.preferred.text,frame)}

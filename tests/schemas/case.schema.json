@@ -310,7 +310,7 @@
       "properties": {
         "coverageTargetId": {
           "type": "string",
-          "pattern": "^(?:concept|construction)\\.[a-z][a-z0-9_]*(?:\\.[a-z][a-z0-9_]*)*$",
+          "pattern": "^(?:(?:concept|construction)\\.[a-z][a-z0-9_]*(?:\\.[a-z][a-z0-9_]*)*|construction\\.question\\.yes-no)$",
           "maxLength": 120
         },
         "capability": { "type": "string", "minLength": 3, "maxLength": 200 }

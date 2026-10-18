@@ -1,6 +1,11 @@
 import {PluginError} from './errors.js';
 
 const isRecord = value => value !== null && typeof value === 'object' && !Array.isArray(value);
+const QUESTION_POLICY_ID = 'question.yes-no.visual-perception.present-positive.nominal-singular';
+const QUESTION_EVENT_VERSION = '0.2';
+const hasExactKeys = (value, keys) =>
+  isRecord(value) && Object.keys(value).length === keys.length &&
+  keys.every(key => Object.hasOwn(value, key));
 
 /**
  * ADR person-deixis deictic participant contract, identical to the state-role
@@ -124,11 +129,16 @@ export function createSemanticBridge({plan, core} = {}) {
     .find(isRecord) ?? null;
 
   function transferFor(meaning, construction) {
-    const candidates = transferPlans.filter(item =>
-      (item.stateKind !== undefined
-        ? meaning?.type === 'state' && meaning.kind === item.stateKind
-        : meaning?.concept === item.conceptId) &&
-      (construction === undefined || construction === item.construction));
+    const candidates = transferPlans.filter(item => {
+      const matchesMeaning = item.kind === 'question'
+        ? meaning?.type === 'question' && meaning.questionType === item.questionType &&
+          meaning.proposition?.type === 'event' &&
+          meaning.proposition.concept === item.propositionTransfer?.conceptId
+        : item.stateKind !== undefined
+          ? meaning?.type === 'state' && meaning.kind === item.stateKind
+          : meaning?.type === 'event' && meaning?.concept === item.conceptId;
+      return matchesMeaning && (construction === undefined || construction === item.construction);
+    });
     if (candidates.length !== 1) {
       const identity = meaning?.type === 'state' ? `state.${String(meaning.kind)}` :
         String(meaning?.concept);
@@ -140,6 +150,52 @@ export function createSemanticBridge({plan, core} = {}) {
   }
 
   function validateMeaning(meaning, transfer) {
+    if (transfer?.kind === 'question') {
+      if (transfer.policyId !== QUESTION_POLICY_ID ||
+          transfer.construction !== 'question.yes-no' || transfer.questionType !== 'yes_no' ||
+          transfer.propositionConstruction !== 'event.visual_perception' ||
+          transfer.propositionTransfer?.construction !== transfer.propositionConstruction ||
+          transfer.propositionTransfer?.conceptId !== 'event.visual_perception' ||
+          transfer.propositionTransfer?.kind === 'question') {
+        fail('PLUGIN_GRAPH_INVALID', 'Compiled question transfer violates its declared policy.');
+      }
+      const proposition = meaning?.proposition;
+      if (!hasExactKeys(meaning, ['proposition', 'questionType', 'type', 'version']) ||
+          meaning.version !== '1.19' || meaning.type !== 'question' ||
+          meaning.questionType !== 'yes_no' ||
+          !hasExactKeys(proposition, ['concept', 'features', 'roles', 'type', 'version']) ||
+          proposition.version !== QUESTION_EVENT_VERSION || proposition.type !== 'event' ||
+          proposition.concept !== 'event.visual_perception' ||
+          !hasExactKeys(proposition.features, ['aspect', 'polarity', 'tense']) ||
+          proposition.features.tense !== 'present' || proposition.features.polarity !== 'positive' ||
+          !['unknown', 'imperfective'].includes(proposition.features.aspect) ||
+          !hasExactKeys(proposition.roles, ['agent', 'theme'])) {
+        fail('PLUGIN_CAPABILITY_UNAVAILABLE', 'Question is outside the bounded visual-perception policy.');
+      }
+      for (const role of ['agent', 'theme']) {
+        const participant = proposition.roles[role];
+        if (!hasExactKeys(participant, ['concept', 'features']) ||
+            typeof participant.concept !== 'string' ||
+            !hasExactKeys(participant.features, ['definiteness', 'number']) ||
+            participant.features.number !== 'singular' ||
+            !['definite', 'indefinite', 'unknown'].includes(participant.features.definiteness)) {
+          fail('PLUGIN_CAPABILITY_UNAVAILABLE',
+            `Question participant is outside the bounded nominal policy for ${role}.`);
+        }
+        let participantConcept;
+        try {
+          participantConcept = core.resolve({kind: 'concept', id: participant.concept});
+        } catch (error) {
+          fail('PLUGIN_CORE_REFERENCE_INVALID', `Unknown CORE reference for ${role}.`, error);
+        }
+        if (participantConcept.type !== 'entity' || !core.ontology.isA(participant.concept, 'entity')) {
+          fail('PLUGIN_CAPABILITY_UNAVAILABLE',
+            `Question participant is not a nominal CORE entity for ${role}.`);
+        }
+      }
+      validateMeaning(proposition, transfer.propositionTransfer);
+      return true;
+    }
     if (transfer?.stateKind !== undefined) {
       const frame = core.ontology?.stateFrames?.[transfer.stateKind];
       const stateFields = new Set(['features', 'kind', 'roles', 'type', 'version']);
@@ -282,6 +338,18 @@ export function createSemanticBridge({plan, core} = {}) {
   function projectMeaning(meaning, transfer, lexicalSenses = {}) {
     validateMeaning(meaning, transfer);
     const senses = cloneLexicalSenses(lexicalSenses, senseReferences);
+    if (transfer.kind === 'question') {
+      return {
+        kind: 'question',
+        construction: transfer.construction,
+        questionType: transfer.questionType,
+        propositionConstruction: transfer.propositionConstruction,
+        policyId: transfer.policyId,
+        meaning: structuredClone(meaning),
+        propositionTransfer: projectMeaning(meaning.proposition,
+          transfer.propositionTransfer, senses)
+      };
+    }
     const runtimeArguments = transfer.arguments.map(item => {
       const participant = meaning.roles[item.semanticRole] ?? null;
       const senseId = senses?.[item.semanticRole] ?? null;
@@ -336,16 +404,18 @@ export function createSemanticBridge({plan, core} = {}) {
         else semanticFeatures.push({path: itemPath, feature: key});
       }
     };
-    collect(meaning.features, '#/features');
-    for (const [role, participant] of Object.entries(meaning.roles || {})) {
+    const semanticMeaning = transfer.kind === 'question' ? meaning.proposition : meaning;
+    const prefix = transfer.kind === 'question' ? '#/proposition' : '#';
+    collect(semanticMeaning.features, `${prefix}/features`);
+    for (const [role, participant] of Object.entries(semanticMeaning.roles || {})) {
       const rolePath = role.replace(/~/gu, '~0').replace(/\//gu, '~1');
-      collect(participant?.features, `#/roles/${rolePath}/features`);
+      collect(participant?.features, `${prefix}/roles/${rolePath}/features`);
       if (participant?.quantity !== undefined) {
-        semanticFeatures.push({path: `#/roles/${rolePath}/quantity`, feature: 'quantity'});
+        semanticFeatures.push({path: `${prefix}/roles/${rolePath}/quantity`, feature: 'quantity'});
       }
     }
-    if (meaning.quantity !== undefined) {
-      semanticFeatures.push({path: '#/quantity', feature: 'quantity'});
+    if (semanticMeaning.quantity !== undefined) {
+      semanticFeatures.push({path: `${prefix}/quantity`, feature: 'quantity'});
     }
 
     const losses = new Map();

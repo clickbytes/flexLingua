@@ -81,11 +81,15 @@
       "operation": "analyze",
       "channel": "sentence",
       "construction": "question.yes-no",
-      "status": "unsupported",
+      "status": "implemented",
       "evidence": [
         {
           "kind": "manual-refusal",
           "id": "pl.question-bridge-refusal.01"
+        },
+        {
+          "kind": "manual-sentence",
+          "id": "pl.question-visual-perception.01"
         }
       ]
     },
@@ -93,11 +97,15 @@
       "operation": "realize",
       "channel": "sentence",
       "construction": "question.yes-no",
-      "status": "unsupported",
+      "status": "implemented",
       "evidence": [
         {
           "kind": "manual-refusal",
           "id": "pl.question-bridge-refusal.01"
+        },
+        {
+          "kind": "manual-sentence",
+          "id": "pl.question-visual-perception.01"
         }
       ]
     },

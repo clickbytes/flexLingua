@@ -4,6 +4,7 @@ import {safeName} from '../core/features.js';
 
 const IDENTIFIER = /^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*$/u;
 const REFERENCE_ID = /^[A-Za-z][A-Za-z0-9_]*(?:\.[A-Za-z0-9_]+)*$/u;
+const QUESTION_POLICY_ID = 'question.yes-no.visual-perception.present-positive.nominal-singular';
 const LAYERS = Object.freeze([
   'identity', 'signal', 'lexicon', 'morphology', 'syntax', 'bridge', 'pragmatics', 'evidence'
 ]);
@@ -147,6 +148,7 @@ function collectFeatureDimensions(modules) {
 
 function compileTransfers(graph, modules, core, senseIds, capabilities, featureDimensions) {
   const transferPlans = [];
+  const questionDeclarations = [];
   const seen = new Set();
   const bridgeNodes = graph.nodes.filter(node => node.type === 'bridge');
   const compiledBridgeModules = new Set();
@@ -163,6 +165,40 @@ function compileTransfers(graph, modules, core, senseIds, capabilities, featureD
     }
     for (const [index, transfer] of data.transfers.entries()) {
       const label = `${node.module}.transfers[${index}]`;
+      if (isRecord(transfer) && hasOwn(transfer, 'questionType')) {
+        const fields = ['construction', 'policyId', 'propositionConstruction', 'questionType'];
+        if (Object.keys(transfer).length !== fields.length ||
+            fields.some(key => !hasOwn(transfer, key)) ||
+            !safeId(transfer.construction) || transfer.construction !== 'question.yes-no' ||
+            transfer.questionType !== 'yes_no' ||
+            transfer.propositionConstruction !== 'event.visual_perception' ||
+            transfer.policyId !== QUESTION_POLICY_ID) {
+          fail('PLUGIN_GRAPH_INVALID', `Invalid bounded question transfer at ${label}.`);
+        }
+        const duplicateKey = `${transfer.construction}\u0000question:${transfer.questionType}`;
+        if (seen.has(duplicateKey)) fail('PLUGIN_GRAPH_INVALID', `Duplicate transfer plan at ${label}.`);
+        seen.add(duplicateKey);
+        for (const operation of ['analyze', 'realize']) {
+          if (!capabilities.some(item => item.channel === 'sentence' && item.operation === operation &&
+              item.status === 'implemented' && item.construction === transfer.construction)) {
+            fail('PLUGIN_GRAPH_INVALID',
+              `Question transfer lacks an implemented ${operation} capability at ${label}.`);
+          }
+          if (!capabilities.some(item => item.channel === 'sentence' && item.operation === operation &&
+              item.status === 'implemented' && item.construction === transfer.propositionConstruction)) {
+            fail('PLUGIN_GRAPH_INVALID',
+              `Question proposition lacks an implemented ${operation} capability at ${label}.`);
+          }
+        }
+        questionDeclarations.push({
+          construction: transfer.construction,
+          questionType: transfer.questionType,
+          propositionConstruction: transfer.propositionConstruction,
+          policyId: transfer.policyId,
+          label
+        });
+        continue;
+      }
       const required = ['construction', 'arguments'];
       const optional = ['conceptId', 'stateKind', 'senseId'];
       const hasConcept = isRecord(transfer) && hasOwn(transfer, 'conceptId');
@@ -255,6 +291,29 @@ function compileTransfers(graph, modules, core, senseIds, capabilities, featureD
     }
   }
 
+  for (const declaration of questionDeclarations) {
+    const candidates = transferPlans.filter(item =>
+      item.construction === declaration.propositionConstruction &&
+      item.conceptId === 'event.visual_perception' && item.kind !== 'question');
+    if (candidates.length !== 1) {
+      fail('PLUGIN_GRAPH_INVALID',
+        `Question proposition transfer is missing or ambiguous at ${declaration.label}.`);
+    }
+    const propositionTransfer = candidates[0];
+    if (propositionTransfer.construction === declaration.construction ||
+        propositionTransfer.kind === 'question') {
+      fail('PLUGIN_GRAPH_INVALID', `Cyclic or nested question transfer at ${declaration.label}.`);
+    }
+    transferPlans.push({
+      kind: 'question',
+      construction: declaration.construction,
+      questionType: declaration.questionType,
+      propositionConstruction: declaration.propositionConstruction,
+      policyId: declaration.policyId,
+      propositionTransfer: structuredClone(propositionTransfer)
+    });
+  }
+
   const expected = new Set(capabilities.filter(item => item.channel === 'sentence' &&
     item.status === 'implemented').map(item => item.construction));
   const compiled = new Set(transferPlans.map(item => item.construction));
@@ -264,8 +323,8 @@ function compileTransfers(graph, modules, core, senseIds, capabilities, featureD
     }
   }
   return transferPlans.sort((a, b) => {
-    const left = a.conceptId ?? a.stateKind;
-    const right = b.conceptId ?? b.stateKind;
+    const left = a.policyId ?? a.conceptId ?? a.stateKind;
+    const right = b.policyId ?? b.conceptId ?? b.stateKind;
     return a.construction < b.construction ? -1 : a.construction > b.construction ? 1 :
       left < right ? -1 : left > right ? 1 : 0;
   });

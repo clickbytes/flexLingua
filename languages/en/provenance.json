@@ -255,7 +255,14 @@
       "source": "Project-authored language plugin package metadata for the migrated English data.",
       "license": "Project-authored; no separate SPDX data license grant is declared in this repository.",
       "reviewedAt": "2026-10-17",
-      "permittedUse": "Internal flexLingua package configuration only; external reuse requires rights-holder review."
+      "permittedUse": "Internal flexLingua package configuration only; external reuse requires rights-holder review.",
+      "authoredBatches": [{
+        "issue": "#381",
+        "author": "flexLingua project contributors",
+        "source": "Project-authored bounded English yes/no visual-perception capability; the prior refusal evidence remains as pre-activation history and a positive witness is added.",
+        "license": "Project-authored; no separate SPDX data license grant is declared in this repository.",
+        "scope": "Implements analyze and realize for question.yes-no under the R1 visual-perception, present-positive, explicit singular nominal policy. Historical evidence ID: en.question-bridge-refusal.01. Positive witness: en.question-visual-perception.01."
+      }]
     },
     {
       "path": "languages/en/graph.json",
@@ -265,7 +272,14 @@
       "source": "Project-authored language plugin package metadata for the migrated English data.",
       "license": "Project-authored; no separate SPDX data license grant is declared in this repository.",
       "reviewedAt": "2026-10-17",
-      "permittedUse": "Internal flexLingua package configuration only; external reuse requires rights-holder review."
+      "permittedUse": "Internal flexLingua package configuration only; external reuse requires rights-holder review.",
+      "authoredBatches": [{
+        "issue": "#381",
+        "author": "flexLingua project contributors",
+        "source": "Project-authored English LanguageGraph declaration for the bounded yes/no visual-perception question, linked to the existing syntax, lexicon, morphology and evidence modules.",
+        "license": "Project-authored; no separate SPDX data license grant is declared in this repository.",
+        "scope": "Adds en.syntax.question.yes-no and its declared maps-to, licenses and evidences edges."
+      }]
     },
     {
       "path": "languages/en/features.json",
@@ -292,10 +306,17 @@
       "version": "1.0",
       "status": "project-authored",
       "author": "flexLingua project contributors",
-      "source": "Project-authored bounded mapping of the migrated English visual-perception event frame to CORE roles.",
+      "source": "Project-authored bounded mappings of the migrated English visual-perception event frame and its approved yes/no question wrapper to CORE roles.",
       "license": "Project-authored; no separate SPDX data license grant is declared in this repository.",
       "reviewedAt": "2026-10-17",
-      "permittedUse": "Internal flexLingua package configuration only; external reuse requires rights-holder review."
+      "permittedUse": "Internal flexLingua package configuration only; external reuse requires rights-holder review.",
+      "authoredBatches": [{
+        "issue": "#381",
+        "author": "flexLingua project contributors",
+        "source": "Project-authored closed transfer declaration referencing the existing event.visual_perception transfer; it adds no CORE concept, argument mapping, or language rule.",
+        "license": "Project-authored; no separate SPDX data license grant is declared in this repository.",
+        "scope": "Declares question.yes-no.visual-perception.present-positive.nominal-singular."
+      }]
     },
     {
       "path": "languages/en/provenance.json",

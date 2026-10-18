@@ -43,6 +43,13 @@
       "capability": "event.visual_perception"
     },
     {
+      "id": "pl.syntax.question.yes-no",
+      "type": "syntax",
+      "module": "grammar",
+      "path": "grammar.json",
+      "capability": "question.yes-no"
+    },
+    {
       "id": "pl.syntax.read",
       "type": "syntax",
       "module": "grammar",
@@ -77,12 +84,27 @@
     },
     {
       "from": "pl.bridge",
+      "to": "pl.syntax.question.yes-no",
+      "relation": "maps-to"
+    },
+    {
+      "from": "pl.bridge",
       "to": "pl.syntax.classification",
       "relation": "maps-to"
     },
     {
       "from": "pl.syntax.visual-perception",
       "to": "pl.lexicon",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.syntax.question.yes-no",
+      "to": "pl.lexicon",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.syntax.question.yes-no",
+      "to": "pl.morphology",
       "relation": "licenses"
     },
     {
@@ -138,6 +160,11 @@
     {
       "from": "pl.evidence",
       "to": "pl.syntax.visual-perception",
+      "relation": "evidences"
+    },
+    {
+      "from": "pl.evidence",
+      "to": "pl.syntax.question.yes-no",
       "relation": "evidences"
     },
     {
