@@ -127,18 +127,27 @@
           "theme": {"target": {"kind": "deictic", "anchor": "addressee"},
             "agreement": {"person": "second", "number": "singular"}}
         },
-        "features": {"tense": "present", "polarity": "positive"}
+        "features": {"tense": "present", "polarity": "positive", "aspect": "imperfective"}
       },
-      "observedStatus": "unsupported",
-      "observedDiagnosticsCodes": ["LANGUAGE_CONSTRUCTION_UNSUPPORTED"],
-      "observedExitCode": 2,
-      "observedAtSha": "2873a8f08d47a87a94eab49300ec1647a1270bd5",
+      "history": [
+        {
+          "observedStatus": "unsupported",
+          "observedDiagnosticsCodes": ["LANGUAGE_CONSTRUCTION_UNSUPPORTED"],
+          "observedExitCode": 2,
+          "observedAtSha": "2873a8f08d47a87a94eab49300ec1647a1270bd5",
+          "note": "Original refusal before the cię clitic and controlled first-person pro-drop repairs."
+        }
+      ],
+      "observedStatus": "ok",
+      "observedDiagnosticsCodes": [],
+      "observedExitCode": 0,
+      "observedAtSha": "cfa9891ee0a5e9516b52d855789364adf6f6c808",
       "severity": "medium",
-      "state": "open",
-      "owner": "#362 — clitic deictic analysis follow-up required",
-      "issue": "#362",
-      "retestPolicy": "Re-run the CLI on every SHA that touches the pl deictic analysis inventory (languages/pl function forms or grammar deictic reading). This gap may close only by implementing the short accusative clitic analysis and recording approved positive witnesses — never by turning the current bounded refusal into an approved boundary case.",
-      "note": "The short accusative clitic `cię` is the unmarked Polish object form at A1, while the pl analysis inventory currently covers only full forms (`mnie`, `ciebie`; explicit subjects `ja`/`ty`). The refusal is bounded and honest (explicit unsupported status, exit 2, no invented meaning), but the sentence is inside the project's stated A1 scope, so it is registered as a product gap rather than an approved case. Discovered while re-observing GAP-EN-PL-DEIXIS-0001 during the #362 repair."
+      "state": "closed",
+      "owner": "#374 - combined clitic and pro-drop re-observation",
+      "issue": "#374",
+      "retestPolicy": "Closed after the #374 combined witness passed at main@cfa9891ee0a5e9516b52d855789364adf6f6c808 and was added as A1-PL-EN-DEIXIS-0007. Re-open if that required case or the related #372/#373 positive witnesses fail or regress to refusal or infrastructure error.",
+      "note": "Re-observation of the original A1 sentence after the short accusative cię form and controlled first-person singular pro-drop were independently repaired. At observedAtSha, `Widzę cię.` returns `I see you.` with agent speaker/first/singular, theme addressee/second/singular, present/positive/imperfective, no alternatives or diagnostics, and one unavoidable aspect loss. The original unsupported observation is preserved in history."
     }
   ]
 }

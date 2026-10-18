@@ -369,6 +369,70 @@
         "coverageTargetId": "construction.event.visual_perception",
         "capability": "pl.analyze refuses unresolved third-person pro-drop instead of inventing a participant"
       }
+    },
+    {
+      "id": "A1-PL-EN-DEIXIS-0007",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "deixis",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 4,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "first",
+        "number": "singular",
+        "reference": "deictic",
+        "quantity": "none"
+      },
+      "purpose": "Combined positive witness for the short accusative clitic cię and controlled first-person pro-drop: the finite form identifies the speaker as agent, while cię identifies the addressee as theme; English realizes `I see you.` and only the aspect marking is lost.",
+      "input": {"from": "pl", "to": "en", "text": "Widzę cię."},
+      "expected": {
+        "status": "ok",
+        "text": {"accepted": ["I see you."]},
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": ["agent", "theme"],
+          "roles": {
+            "agent": {
+              "target": {"kind": "deictic", "anchor": "speaker"},
+              "agreement": {"person": "first", "number": "singular"}
+            },
+            "theme": {
+              "target": {"kind": "deictic", "anchor": "addressee"},
+              "agreement": {"person": "second", "number": "singular"}
+            }
+          },
+          "features": {"tense": "present", "polarity": "positive", "aspect": "imperfective"},
+          "assert": {"#/version": "1.22"}
+        },
+        "diagnostics": {"required": [], "allowUnexpected": false},
+        "alternatives": {"required": [], "allowUnexpected": false},
+        "informationLoss": {
+          "required": [
+            {"cause": "target-grammar-does-not-encode-aspect", "feature": "aspect",
+              "path": "#/features/aspect", "status": "unavoidable"}
+          ],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent expected authored from Polish finite first-singular agreement, the existing cię accusative sense, and ADR person-deixis.md before running this combined case on main@cfa9891ee0a5e9516b52d855789364adf6f6c808.",
+        "author": "clickbytes",
+        "reviewedAt": "2026-10-18",
+        "issue": "#374"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "pl.analyze + en.realize preserves the combined short cię theme and omitted first-singular speaker agent as `I see you.`"
+      }
     }
   ]
 }
