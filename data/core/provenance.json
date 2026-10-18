@@ -101,6 +101,13 @@
           "source": "Project-authored Polish-English concept labels, lexical senses and reviewed singular forms from bounded LLM linguistic review; no external dictionary, vocabulary list, protected list, or imported dataset was copied.",
           "license": "Project-authored for internal flexLingua use; this repository declares no separate SPDX data license.",
           "scope": "Adds 100 typed CORE concepts: food, clothing, materials, tools and fastening purpose; 97 entities, 3 categories and five required material/purpose edges."
+        },
+        {
+          "issue": "#407",
+          "author": "Codex agent (linguistic curation delegated by project owner)",
+          "source": "Project-authored English-Polish travel, place, landform and vehicle concepts; no external dictionary, vocabulary list, protected list, or imported dataset was copied.",
+          "license": "Project-authored for internal flexLingua use; this repository declares no separate SPDX data license.",
+          "scope": "Adds 100 typed entity concepts across geography, travel infrastructure, vehicles and travel objects. Parent chains emit is_a; no unsupported destination/origin relation types are introduced."
         }
       ]
     },
