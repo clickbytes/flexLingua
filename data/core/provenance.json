@@ -87,6 +87,13 @@
           "source": "Project-authored CORE senses and typed category inventory based on bounded linguistic review; no external dictionary, vocabulary list, ontology or imported definition was used.",
           "license": "Project-authored for internal flexLingua use; this repository declares no separate SPDX data license.",
           "scope": "Adds 99 entity concepts for people and household objects, the typed purpose category, and typed purpose/has_part/contains/located_in relation signatures; purpose has no lexical entry in W1."
+        },
+        {
+          "issue": "#405",
+          "author": "Codex agent (linguistic curation delegated by project owner)",
+          "source": "Project-authored bilingual lexical and CORE senses based on bounded linguistic review; no external dictionary, vocabulary list, definition text or imported dataset was used.",
+          "license": "Project-authored for internal flexLingua use; this repository declares no separate SPDX data license.",
+          "scope": "Adds 100 typed entity concepts: 44 animals, 30 plants and 26 body concepts. parent emits is_a; required has_part edges cover bird→wing, oak→root/trunk and hand→finger/thumb."
         }
       ]
     },

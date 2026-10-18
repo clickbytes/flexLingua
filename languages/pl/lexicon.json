@@ -5637,6 +5637,1720 @@
           }
         }
       ]
+    },
+    {
+      "id": "pl.wydra.1",
+      "lemma": "wydra",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.wydra.1.sense.animal_otter",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.otter"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.bobr.1",
+      "lemma": "bóbr",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.bobr.1.sense.animal_beaver",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.beaver"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.wiewiorka.1",
+      "lemma": "wiewiórka",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.wiewiorka.1.sense.animal_squirrel",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.squirrel"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.jez.1",
+      "lemma": "jeż",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.jez.1.sense.animal_hedgehog",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.hedgehog"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.borsuk.1",
+      "lemma": "borsuk",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.borsuk.1.sense.animal_badger",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.badger"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.kret.1",
+      "lemma": "kret",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.kret.1.sense.animal_mole",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.mole"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.wilk.1",
+      "lemma": "wilk",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.wilk.1.sense.animal_wolf",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.wolf"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.niedzwiedz.1",
+      "lemma": "niedźwiedź",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.niedzwiedz.1.sense.animal_bear",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.bear"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.los.1",
+      "lemma": "łoś",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.los.1.sense.animal_moose",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.moose"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.dzik.1",
+      "lemma": "dzik",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.dzik.1.sense.animal_boar",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.boar"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.rys.1",
+      "lemma": "ryś",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.rys.1.sense.animal_lynx",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.lynx"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.zubr.1",
+      "lemma": "żubr",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.zubr.1.sense.animal_european_bison",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.european_bison"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.renifer.1",
+      "lemma": "renifer",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.renifer.1.sense.animal_reindeer",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.reindeer"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.slon.1",
+      "lemma": "słoń",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.slon.1.sense.animal_elephant",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.elephant"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.zyrafa.1",
+      "lemma": "żyrafa",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.zyrafa.1.sense.animal_giraffe",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.giraffe"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.zebra.1",
+      "lemma": "zebra",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.zebra.1.sense.animal_zebra",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.zebra"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.malpa.1",
+      "lemma": "małpa",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.malpa.1.sense.animal_monkey",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.monkey"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.kangur.1",
+      "lemma": "kangur",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.kangur.1.sense.animal_kangaroo",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.kangaroo"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.jezozwierz.1",
+      "lemma": "jeżozwierz",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.jezozwierz.1.sense.animal_porcupine",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.porcupine"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.ptak.1",
+      "lemma": "ptak",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.ptak.1.sense.animal_bird",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.bird"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.orzel.1",
+      "lemma": "orzeł",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.orzel.1.sense.animal_eagle",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.eagle"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.sowa.1",
+      "lemma": "sowa",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.sowa.1.sense.animal_owl",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.owl"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.wrona.1",
+      "lemma": "wrona",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.wrona.1.sense.animal_crow",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.crow"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.kaczka.1",
+      "lemma": "kaczka",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.kaczka.1.sense.animal_duck",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.duck"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.ges.1",
+      "lemma": "gęś",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.ges.1.sense.animal_goose",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.goose"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.labedz.1",
+      "lemma": "łabędź",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.labedz.1.sense.animal_swan",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.swan"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.bocian.1",
+      "lemma": "bocian",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.bocian.1.sense.animal_stork",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.stork"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.papuga.1",
+      "lemma": "papuga",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.papuga.1.sense.animal_parrot",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.parrot"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.wrobel.1",
+      "lemma": "wróbel",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.wrobel.1.sense.animal_sparrow",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.sparrow"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.golab.1",
+      "lemma": "gołąb",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.golab.1.sense.animal_pigeon",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.pigeon"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.paw.1",
+      "lemma": "paw",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.paw.1.sense.animal_peacock",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.peacock"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.dzieciol.1",
+      "lemma": "dzięcioł",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.dzieciol.1.sense.animal_woodpecker",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.woodpecker"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.pingwin.1",
+      "lemma": "pingwin",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.pingwin.1.sense.animal_penguin",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.penguin"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.pelikan.1",
+      "lemma": "pelikan",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.pelikan.1.sense.animal_pelican",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.pelican"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.jaszczurka.1",
+      "lemma": "jaszczurka",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.jaszczurka.1.sense.animal_lizard",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.lizard"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.waz.1",
+      "lemma": "wąż",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.waz.1.sense.animal_snake",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.snake"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.zaba.1",
+      "lemma": "żaba",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.zaba.1.sense.animal_frog",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.frog"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.ropucha.1",
+      "lemma": "ropucha",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.ropucha.1.sense.animal_toad",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.toad"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.krokodyl.1",
+      "lemma": "krokodyl",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.krokodyl.1.sense.animal_crocodile",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.crocodile"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.aligator.1",
+      "lemma": "aligator",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.aligator.1.sense.animal_alligator",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.alligator"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.zolw.1",
+      "lemma": "żółw",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.zolw.1.sense.animal_turtle",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.turtle"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.salamandra.1",
+      "lemma": "salamandra",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.salamandra.1.sense.animal_salamander",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.salamander"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.losos.1",
+      "lemma": "łosoś",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.losos.1.sense.animal_salmon",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.salmon"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.pstrag.1",
+      "lemma": "pstrąg",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.pstrag.1.sense.animal_trout",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.trout"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.galaz.1",
+      "lemma": "gałąź",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.galaz.1.sense.plant_branch",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.branch"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.korzen.1",
+      "lemma": "korzeń",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.korzen.1.sense.plant_root",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.root"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.lisc.1",
+      "lemma": "liść",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.lisc.1.sense.plant_leaf",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.leaf"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.lodyga.1",
+      "lemma": "łodyga",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.lodyga.1.sense.plant_stem",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.stem"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.kwiat.1",
+      "lemma": "kwiat",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.kwiat.1.sense.plant_flower",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.flower"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.trawa.1",
+      "lemma": "trawa",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.trawa.1.sense.plant_grass",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.grass"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.krzew.1",
+      "lemma": "krzew",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.krzew.1.sense.plant_shrub",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.shrub"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.paproc.1",
+      "lemma": "paproć",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.paproc.1.sense.plant_fern",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.fern"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.mech.1",
+      "lemma": "mech",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.mech.1.sense.plant_moss",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.moss"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.kora.1",
+      "lemma": "kora",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.kora.1.sense.plant_bark",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.bark"
+          }
+        },
+        {
+          "id": "pl.kora.1.sense.body_cortex",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.cortex"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.nasiono.1",
+      "lemma": "nasiono",
+      "forms": {},
+      "gender": "neuter",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.nasiono.1.sense.plant_seed",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.seed"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.pak.1",
+      "lemma": "pąk",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.pak.1.sense.plant_bud",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.bud"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.owoc.1",
+      "lemma": "owoc",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.owoc.1.sense.plant_fruit",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.fruit"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.pien.1",
+      "lemma": "pień",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.pien.1.sense.plant_trunk",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.trunk"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.chwast.1",
+      "lemma": "chwast",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.chwast.1.sense.plant_weed",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.weed"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.stokrotka.1",
+      "lemma": "stokrotka",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.stokrotka.1.sense.plant_daisy",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.daisy"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.roza.1",
+      "lemma": "róża",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.roza.1.sense.plant_rose",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.rose"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.tulipan.1",
+      "lemma": "tulipan",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tulipan.1.sense.plant_tulip",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.tulip"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.slonecznik.1",
+      "lemma": "słonecznik",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.slonecznik.1.sense.plant_sunflower",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.sunflower"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.dab.1",
+      "lemma": "dąb",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.dab.1.sense.plant_oak",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.oak"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.sosna.1",
+      "lemma": "sosna",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.sosna.1.sense.plant_pine",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.pine"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.brzoza.1",
+      "lemma": "brzoza",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.brzoza.1.sense.plant_birch",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.birch"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.klon.1",
+      "lemma": "klon",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.klon.1.sense.plant_maple",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.maple"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.swierk.1",
+      "lemma": "świerk",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.swierk.1.sense.plant_spruce",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.spruce"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.wierzba.1",
+      "lemma": "wierzba",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.wierzba.1.sense.plant_willow",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.willow"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.palma.1",
+      "lemma": "palma",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.palma.1.sense.plant_palm",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.palm"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.kaktus.1",
+      "lemma": "kaktus",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.kaktus.1.sense.plant_cactus",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.cactus"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.bluszcz.1",
+      "lemma": "bluszcz",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.bluszcz.1.sense.plant_ivy",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.ivy"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.winorosl.1",
+      "lemma": "winorośl",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.winorosl.1.sense.plant_grapevine",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.grapevine"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.lilia.1",
+      "lemma": "lilia",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.lilia.1.sense.plant_lily",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.lily"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.skrzydlo.1",
+      "lemma": "skrzydło",
+      "forms": {},
+      "gender": "neuter",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.skrzydlo.1.sense.body_wing",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.wing"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.glowa.1",
+      "lemma": "głowa",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.glowa.1.sense.body_head",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.head"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.twarz.1",
+      "lemma": "twarz",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.twarz.1.sense.body_face",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.face"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.oko.1",
+      "lemma": "oko",
+      "forms": {},
+      "gender": "neuter",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.oko.1.sense.body_eye",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.eye"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.ucho.1",
+      "lemma": "ucho",
+      "forms": {},
+      "gender": "neuter",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.ucho.1.sense.body_ear",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.ear"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.nos.1",
+      "lemma": "nos",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.nos.1.sense.body_nose",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.nose"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.usta.1",
+      "lemma": "usta",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.usta.1.sense.body_mouth",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.mouth"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.zab.1",
+      "lemma": "ząb",
+      "forms": {},
+      "gender": "neuter",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.zab.1.sense.body_tooth",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.tooth"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.jezyk.1",
+      "lemma": "język",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.jezyk.1.sense.body_tongue",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.tongue"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.szyja.1",
+      "lemma": "szyja",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.szyja.1.sense.body_neck",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.neck"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.bark.1",
+      "lemma": "bark",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.bark.1.sense.body_shoulder",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.shoulder"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.ramie.1",
+      "lemma": "ramię",
+      "forms": {},
+      "gender": "neuter",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.ramie.1.sense.body_arm",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.arm"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.reka.1",
+      "lemma": "ręka",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.reka.1.sense.body_hand",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.hand"
+          }
+        },
+        {
+          "id": "pl.reka.1.sense.body_arm",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.arm"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.palec.1",
+      "lemma": "palec",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.palec.1.sense.body_finger",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.finger"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.kciuk.1",
+      "lemma": "kciuk",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.kciuk.1.sense.body_thumb",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.thumb"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.nadgarstek.1",
+      "lemma": "nadgarstek",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.nadgarstek.1.sense.body_wrist",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.wrist"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.lokiec.1",
+      "lemma": "łokieć",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.lokiec.1.sense.body_elbow",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.elbow"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.kolano.1",
+      "lemma": "kolano",
+      "forms": {},
+      "gender": "neuter",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.kolano.1.sense.body_knee",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.knee"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.kostka.1",
+      "lemma": "kostka",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.kostka.1.sense.body_ankle",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.ankle"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.stopa.1",
+      "lemma": "stopa",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.stopa.1.sense.body_foot",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.foot"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.skora.1",
+      "lemma": "skóra",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.skora.1.sense.body_skin",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.skin"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.wlos.1",
+      "lemma": "włos",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.wlos.1.sense.body_hair",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.hair"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.serce.1",
+      "lemma": "serce",
+      "forms": {},
+      "gender": "neuter",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.serce.1.sense.body_heart",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.heart"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.pluco.1",
+      "lemma": "płuco",
+      "forms": {},
+      "gender": "neuter",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.pluco.1.sense.body_lung",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.lung"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.pieprzyk.1",
+      "lemma": "pieprzyk",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.pieprzyk.1.sense.body_mole",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.mole"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.dlon.1",
+      "lemma": "dłoń",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.dlon.1.sense.body_hand",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.hand"
+          }
+        }
+      ]
     }
   ],
   "verbs": [

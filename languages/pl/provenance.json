@@ -93,6 +93,13 @@
           "source": "Project-authored bilingual lexical senses based on bounded linguistic review; no external dictionary, vocabulary list or protected list was copied.",
           "license": "Project-authored for internal flexLingua use; this repository declares no separate SPDX data license.",
           "scope": "Adds 99 bilingual new entity concept lemma pairs plus a project-authored PL sofa / EN couch synonym pair for object.sofa; purpose remains a nonlexicalized typed category."
+        },
+        {
+          "issue": "#405",
+          "author": "Codex agent (linguistic curation delegated by project owner)",
+          "source": "Project-authored bilingual lexical and CORE senses based on bounded linguistic review; no external dictionary, vocabulary list, definition text or imported dataset was used.",
+          "license": "Project-authored for internal flexLingua use; this repository declares no separate SPDX data license.",
+          "scope": "Adds 100 distinct Polish lemmas for 100 selected concepts, with shared kora and ręka senses plus project-authored dłoń synonym; only reviewed sentences and ambiguity are morphology-ready."
         }
       ],
       "migratedFrom": "data/pl.json"
@@ -264,6 +271,13 @@
           "source": "Project-authored, restricted forms only for the W1 licensed singular constructions; no bulk inflection table or external morphology resource was copied.",
           "license": "Project-authored for internal flexLingua use; this repository declares no separate SPDX data license.",
           "scope": "Adds singular nominative for 50 person agents and singular accusative for 49 household object concepts, including PL sofa/sofę as an extra lexical access; other Polish cells remain unavailable."
+        },
+        {
+          "issue": "#405",
+          "author": "Codex agent (linguistic curation delegated by project owner)",
+          "source": "Project-authored bilingual lexical and CORE senses based on bounded linguistic review; no external dictionary, vocabulary list, definition text or imported dataset was used.",
+          "license": "Project-authored for internal flexLingua use; this repository declares no separate SPDX data license.",
+          "scope": "Adds three bounded singular accusative suffix paradigms and 26 reviewed bindings, including korę for bark/cortex ambiguity; no plural or unrelated slots are claimed."
         }
       ],
       "migratedFrom": "data/morphology/pl.json"

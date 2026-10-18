@@ -1868,6 +1868,543 @@
       "type": "category",
       "parent": "entity",
       "label": "purpose"
+    },
+    "animal.otter": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "otter"
+    },
+    "animal.beaver": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "beaver"
+    },
+    "animal.squirrel": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "squirrel"
+    },
+    "animal.hedgehog": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "hedgehog"
+    },
+    "animal.badger": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "badger"
+    },
+    "animal.mole": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "mole"
+    },
+    "animal.wolf": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "wolf"
+    },
+    "animal.bear": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "bear"
+    },
+    "animal.moose": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "moose"
+    },
+    "animal.boar": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "boar"
+    },
+    "animal.lynx": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "lynx"
+    },
+    "animal.european_bison": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "European bison"
+    },
+    "animal.reindeer": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "reindeer"
+    },
+    "animal.elephant": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "elephant"
+    },
+    "animal.giraffe": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "giraffe"
+    },
+    "animal.zebra": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "zebra"
+    },
+    "animal.monkey": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "monkey"
+    },
+    "animal.kangaroo": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "kangaroo"
+    },
+    "animal.porcupine": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "porcupine"
+    },
+    "animal.bird": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "bird",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "has_part",
+            "target": "body.wing",
+            "constraint": "required"
+          }
+        ]
+      }
+    },
+    "animal.eagle": {
+      "type": "entity",
+      "parent": "animal.bird",
+      "label": "eagle"
+    },
+    "animal.owl": {
+      "type": "entity",
+      "parent": "animal.bird",
+      "label": "owl"
+    },
+    "animal.crow": {
+      "type": "entity",
+      "parent": "animal.bird",
+      "label": "crow"
+    },
+    "animal.duck": {
+      "type": "entity",
+      "parent": "animal.bird",
+      "label": "duck"
+    },
+    "animal.goose": {
+      "type": "entity",
+      "parent": "animal.bird",
+      "label": "goose"
+    },
+    "animal.swan": {
+      "type": "entity",
+      "parent": "animal.bird",
+      "label": "swan"
+    },
+    "animal.stork": {
+      "type": "entity",
+      "parent": "animal.bird",
+      "label": "stork"
+    },
+    "animal.parrot": {
+      "type": "entity",
+      "parent": "animal.bird",
+      "label": "parrot"
+    },
+    "animal.sparrow": {
+      "type": "entity",
+      "parent": "animal.bird",
+      "label": "sparrow"
+    },
+    "animal.pigeon": {
+      "type": "entity",
+      "parent": "animal.bird",
+      "label": "pigeon"
+    },
+    "animal.peacock": {
+      "type": "entity",
+      "parent": "animal.bird",
+      "label": "peacock"
+    },
+    "animal.woodpecker": {
+      "type": "entity",
+      "parent": "animal.bird",
+      "label": "woodpecker"
+    },
+    "animal.penguin": {
+      "type": "entity",
+      "parent": "animal.bird",
+      "label": "penguin"
+    },
+    "animal.pelican": {
+      "type": "entity",
+      "parent": "animal.bird",
+      "label": "pelican"
+    },
+    "animal.lizard": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "lizard"
+    },
+    "animal.snake": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "snake"
+    },
+    "animal.frog": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "frog"
+    },
+    "animal.toad": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "toad"
+    },
+    "animal.crocodile": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "crocodile"
+    },
+    "animal.alligator": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "alligator"
+    },
+    "animal.turtle": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "turtle"
+    },
+    "animal.salamander": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "salamander"
+    },
+    "animal.salmon": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "salmon"
+    },
+    "animal.trout": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "trout"
+    },
+    "plant.branch": {
+      "type": "entity",
+      "parent": "entity",
+      "label": "branch"
+    },
+    "plant.root": {
+      "type": "entity",
+      "parent": "entity",
+      "label": "root"
+    },
+    "plant.leaf": {
+      "type": "entity",
+      "parent": "entity",
+      "label": "leaf"
+    },
+    "plant.stem": {
+      "type": "entity",
+      "parent": "entity",
+      "label": "stem"
+    },
+    "plant.flower": {
+      "type": "entity",
+      "parent": "entity",
+      "label": "flower"
+    },
+    "plant.grass": {
+      "type": "entity",
+      "parent": "plant",
+      "label": "grass"
+    },
+    "plant.shrub": {
+      "type": "entity",
+      "parent": "plant",
+      "label": "shrub"
+    },
+    "plant.fern": {
+      "type": "entity",
+      "parent": "plant",
+      "label": "fern"
+    },
+    "plant.moss": {
+      "type": "entity",
+      "parent": "plant",
+      "label": "moss"
+    },
+    "plant.bark": {
+      "type": "entity",
+      "parent": "entity",
+      "label": "bark"
+    },
+    "plant.seed": {
+      "type": "entity",
+      "parent": "entity",
+      "label": "seed"
+    },
+    "plant.bud": {
+      "type": "entity",
+      "parent": "entity",
+      "label": "bud"
+    },
+    "plant.fruit": {
+      "type": "entity",
+      "parent": "entity",
+      "label": "fruit"
+    },
+    "plant.trunk": {
+      "type": "entity",
+      "parent": "entity",
+      "label": "trunk"
+    },
+    "plant.weed": {
+      "type": "entity",
+      "parent": "plant",
+      "label": "weed"
+    },
+    "plant.daisy": {
+      "type": "entity",
+      "parent": "plant",
+      "label": "daisy"
+    },
+    "plant.rose": {
+      "type": "entity",
+      "parent": "plant",
+      "label": "rose"
+    },
+    "plant.tulip": {
+      "type": "entity",
+      "parent": "plant",
+      "label": "tulip"
+    },
+    "plant.sunflower": {
+      "type": "entity",
+      "parent": "plant",
+      "label": "sunflower"
+    },
+    "plant.oak": {
+      "type": "entity",
+      "parent": "plant",
+      "label": "oak",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "has_part",
+            "target": "plant.root",
+            "constraint": "required"
+          },
+          {
+            "relation": "has_part",
+            "target": "plant.trunk",
+            "constraint": "required"
+          }
+        ]
+      }
+    },
+    "plant.pine": {
+      "type": "entity",
+      "parent": "plant",
+      "label": "pine"
+    },
+    "plant.birch": {
+      "type": "entity",
+      "parent": "plant",
+      "label": "birch"
+    },
+    "plant.maple": {
+      "type": "entity",
+      "parent": "plant",
+      "label": "maple"
+    },
+    "plant.spruce": {
+      "type": "entity",
+      "parent": "plant",
+      "label": "spruce"
+    },
+    "plant.willow": {
+      "type": "entity",
+      "parent": "plant",
+      "label": "willow"
+    },
+    "plant.palm": {
+      "type": "entity",
+      "parent": "plant",
+      "label": "palm"
+    },
+    "plant.cactus": {
+      "type": "entity",
+      "parent": "plant",
+      "label": "cactus"
+    },
+    "plant.ivy": {
+      "type": "entity",
+      "parent": "plant",
+      "label": "ivy"
+    },
+    "plant.grapevine": {
+      "type": "entity",
+      "parent": "plant",
+      "label": "grapevine"
+    },
+    "plant.lily": {
+      "type": "entity",
+      "parent": "plant",
+      "label": "lily"
+    },
+    "body.wing": {
+      "type": "entity",
+      "parent": "entity",
+      "label": "wing"
+    },
+    "body.head": {
+      "type": "entity",
+      "parent": "entity",
+      "label": "head"
+    },
+    "body.face": {
+      "type": "entity",
+      "parent": "entity",
+      "label": "face"
+    },
+    "body.eye": {
+      "type": "entity",
+      "parent": "entity",
+      "label": "eye"
+    },
+    "body.ear": {
+      "type": "entity",
+      "parent": "entity",
+      "label": "ear"
+    },
+    "body.nose": {
+      "type": "entity",
+      "parent": "entity",
+      "label": "nose"
+    },
+    "body.mouth": {
+      "type": "entity",
+      "parent": "entity",
+      "label": "mouth"
+    },
+    "body.tooth": {
+      "type": "entity",
+      "parent": "entity",
+      "label": "tooth"
+    },
+    "body.tongue": {
+      "type": "entity",
+      "parent": "entity",
+      "label": "tongue"
+    },
+    "body.neck": {
+      "type": "entity",
+      "parent": "entity",
+      "label": "neck"
+    },
+    "body.shoulder": {
+      "type": "entity",
+      "parent": "entity",
+      "label": "shoulder"
+    },
+    "body.arm": {
+      "type": "entity",
+      "parent": "entity",
+      "label": "arm"
+    },
+    "body.hand": {
+      "type": "entity",
+      "parent": "entity",
+      "label": "hand",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "has_part",
+            "target": "body.finger",
+            "constraint": "required"
+          },
+          {
+            "relation": "has_part",
+            "target": "body.thumb",
+            "constraint": "required"
+          }
+        ]
+      }
+    },
+    "body.finger": {
+      "type": "entity",
+      "parent": "entity",
+      "label": "finger"
+    },
+    "body.thumb": {
+      "type": "entity",
+      "parent": "entity",
+      "label": "thumb"
+    },
+    "body.wrist": {
+      "type": "entity",
+      "parent": "entity",
+      "label": "wrist"
+    },
+    "body.elbow": {
+      "type": "entity",
+      "parent": "entity",
+      "label": "elbow"
+    },
+    "body.knee": {
+      "type": "entity",
+      "parent": "entity",
+      "label": "knee"
+    },
+    "body.ankle": {
+      "type": "entity",
+      "parent": "entity",
+      "label": "ankle"
+    },
+    "body.foot": {
+      "type": "entity",
+      "parent": "entity",
+      "label": "foot"
+    },
+    "body.skin": {
+      "type": "entity",
+      "parent": "entity",
+      "label": "skin"
+    },
+    "body.hair": {
+      "type": "entity",
+      "parent": "entity",
+      "label": "hair"
+    },
+    "body.heart": {
+      "type": "entity",
+      "parent": "entity",
+      "label": "heart"
+    },
+    "body.lung": {
+      "type": "entity",
+      "parent": "entity",
+      "label": "lung"
+    },
+    "body.mole": {
+      "type": "entity",
+      "parent": "entity",
+      "label": "mole"
+    },
+    "body.cortex": {
+      "type": "entity",
+      "parent": "entity",
+      "label": "cortex"
     }
   },
   "relationTypes": {
