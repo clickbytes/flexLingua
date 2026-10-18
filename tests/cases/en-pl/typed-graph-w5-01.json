@@ -1,0 +1,1165 @@
+{
+  "schemaVersion": "1.0",
+  "cases": [
+    {
+      "id": "A1-EN-PL-TGW-0401",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "typed_graph",
+      "construction": "event.running",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "unknown",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "definite",
+        "quantity": "none"
+      },
+      "purpose": "W5 positive witness 01: bounded third-person singular present; source meaning and typed graph independently specified.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "The girl runs."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "Dziewczynka biega."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.running",
+          "roleSet": [
+            "agent"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "definite"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "unknown"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/agent/features/definiteness": "definite",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "unknown"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "unavoidable"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.movement"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "W5 event.running lexical, morphological, and event expectation. Expected authored before CLI from project-owner-delegated W5 linguistic review; candidate and expected ledger in #408.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#408"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.running",
+        "capability": "en.analyze(event.running) -> pl.realize"
+      }
+    },
+    {
+      "id": "A1-EN-PL-TGW-0402",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "typed_graph",
+      "construction": "event.walking",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "unknown",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "definite",
+        "quantity": "none"
+      },
+      "purpose": "W5 positive witness 02: bounded third-person singular present; source meaning and typed graph independently specified.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "The girl walks."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "Dziewczynka spaceruje."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.walking",
+          "roleSet": [
+            "agent"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "definite"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "unknown"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/agent/features/definiteness": "definite",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "unknown"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "unavoidable"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.movement"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "W5 event.walking lexical, morphological, and event expectation. Expected authored before CLI from project-owner-delegated W5 linguistic review; candidate and expected ledger in #408.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#408"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.walking",
+        "capability": "en.analyze(event.walking) -> pl.realize"
+      }
+    },
+    {
+      "id": "A1-EN-PL-TGW-0403",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "typed_graph",
+      "construction": "event.jumping",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "unknown",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "definite",
+        "quantity": "none"
+      },
+      "purpose": "W5 positive witness 03: bounded third-person singular present; source meaning and typed graph independently specified.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "The girl jumps."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "Dziewczynka skacze."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.jumping",
+          "roleSet": [
+            "agent"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "definite"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "unknown"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/agent/features/definiteness": "definite",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "unknown"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "unavoidable"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.movement"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "W5 event.jumping lexical, morphological, and event expectation. Expected authored before CLI from project-owner-delegated W5 linguistic review; candidate and expected ledger in #408.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#408"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.jumping",
+        "capability": "en.analyze(event.jumping) -> pl.realize"
+      }
+    },
+    {
+      "id": "A1-EN-PL-TGW-0404",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "typed_graph",
+      "construction": "event.dancing",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "unknown",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "definite",
+        "quantity": "none"
+      },
+      "purpose": "W5 positive witness 04: bounded third-person singular present; source meaning and typed graph independently specified.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "The girl dances."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "Dziewczynka tańczy."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.dancing",
+          "roleSet": [
+            "agent"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "definite"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "unknown"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/agent/features/definiteness": "definite",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "unknown"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "unavoidable"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.daily_activity"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "W5 event.dancing lexical, morphological, and event expectation. Expected authored before CLI from project-owner-delegated W5 linguistic review; candidate and expected ledger in #408.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#408"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.dancing",
+        "capability": "en.analyze(event.dancing) -> pl.realize"
+      }
+    },
+    {
+      "id": "A1-EN-PL-TGW-0405",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "typed_graph",
+      "construction": "event.sitting",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "unknown",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "definite",
+        "quantity": "none"
+      },
+      "purpose": "W5 positive witness 05: bounded third-person singular present; source meaning and typed graph independently specified.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "The girl sits."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "Dziewczynka siedzi."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.sitting",
+          "roleSet": [
+            "agent"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "definite"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "unknown"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/agent/features/definiteness": "definite",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "unknown"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "unavoidable"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.daily_activity"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "W5 event.sitting lexical, morphological, and event expectation. Expected authored before CLI from project-owner-delegated W5 linguistic review; candidate and expected ledger in #408.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#408"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.sitting",
+        "capability": "en.analyze(event.sitting) -> pl.realize"
+      }
+    },
+    {
+      "id": "A1-EN-PL-TGW-0406",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "typed_graph",
+      "construction": "event.standing",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "unknown",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "definite",
+        "quantity": "none"
+      },
+      "purpose": "W5 positive witness 06: bounded third-person singular present; source meaning and typed graph independently specified.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "The girl stands."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "Dziewczynka stoi."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.standing",
+          "roleSet": [
+            "agent"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "definite"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "unknown"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/agent/features/definiteness": "definite",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "unknown"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "unavoidable"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.daily_activity"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "W5 event.standing lexical, morphological, and event expectation. Expected authored before CLI from project-owner-delegated W5 linguistic review; candidate and expected ledger in #408.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#408"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.standing",
+        "capability": "en.analyze(event.standing) -> pl.realize"
+      }
+    },
+    {
+      "id": "A1-EN-PL-TGW-0407",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "typed_graph",
+      "construction": "event.singing",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "unknown",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "definite",
+        "quantity": "none"
+      },
+      "purpose": "W5 positive witness 07: bounded third-person singular present; source meaning and typed graph independently specified.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "The girl sings."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "Dziewczynka śpiewa."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.singing",
+          "roleSet": [
+            "agent"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "definite"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "unknown"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/agent/features/definiteness": "definite",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "unknown"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "unavoidable"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.daily_activity"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "W5 event.singing lexical, morphological, and event expectation. Expected authored before CLI from project-owner-delegated W5 linguistic review; candidate and expected ledger in #408.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#408"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.singing",
+        "capability": "en.analyze(event.singing) -> pl.realize"
+      }
+    },
+    {
+      "id": "A1-EN-PL-TGW-0408",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "typed_graph",
+      "construction": "event.crying",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "unknown",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "definite",
+        "quantity": "none"
+      },
+      "purpose": "W5 positive witness 08: bounded third-person singular present; source meaning and typed graph independently specified.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "The girl cries."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "Dziewczynka płacze."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.crying",
+          "roleSet": [
+            "agent"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "definite"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "unknown"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/agent/features/definiteness": "definite",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "unknown"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "unavoidable"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.daily_activity"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "W5 event.crying lexical, morphological, and event expectation. Expected authored before CLI from project-owner-delegated W5 linguistic review; candidate and expected ledger in #408.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#408"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.crying",
+        "capability": "en.analyze(event.crying) -> pl.realize"
+      }
+    },
+    {
+      "id": "A1-EN-PL-TGW-0409",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "typed_graph",
+      "construction": "event.resting",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "unknown",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "definite",
+        "quantity": "none"
+      },
+      "purpose": "W5 positive witness 09: bounded third-person singular present; source meaning and typed graph independently specified.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "The girl rests."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "Dziewczynka odpoczywa."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.resting",
+          "roleSet": [
+            "agent"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "definite"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "unknown"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/agent/features/definiteness": "definite",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "unknown"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "unavoidable"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.daily_activity"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "W5 event.resting lexical, morphological, and event expectation. Expected authored before CLI from project-owner-delegated W5 linguistic review; candidate and expected ledger in #408.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#408"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.resting",
+        "capability": "en.analyze(event.resting) -> pl.realize"
+      }
+    },
+    {
+      "id": "A1-EN-PL-TGW-0410",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "typed_graph",
+      "construction": "event.roaming",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "unknown",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "definite",
+        "quantity": "none"
+      },
+      "purpose": "W5 positive witness 10: bounded third-person singular present; source meaning and typed graph independently specified.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "The girl roams."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "Dziewczynka wędruje."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.roaming",
+          "roleSet": [
+            "agent"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "definite"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "unknown"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/agent/features/definiteness": "definite",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "unknown"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "unavoidable"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.movement"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "W5 event.roaming lexical, morphological, and event expectation. Expected authored before CLI from project-owner-delegated W5 linguistic review; candidate and expected ledger in #408.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#408"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.roaming",
+        "capability": "en.analyze(event.roaming) -> pl.realize"
+      }
+    }
+  ]
+}

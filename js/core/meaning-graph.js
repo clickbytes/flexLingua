@@ -561,7 +561,9 @@ function validateEventShape(node, ontology, registry, qualifiedAllowed = true, c
     const constraint = event.roleTypes?.[role];
     if (constraint && !(hasOwn(ref, 'referent') ? ontology.isA('person', constraint) :
       ontology.isA(ref.concept, constraint))) {
-      throw new Error(`Participant for ${role} violates role type ${constraint}.`);
+      throw Object.assign(new Error(`Participant for ${role} violates role type ${constraint}.`), {
+        code:'SEMANTIC_ROLE_TYPE_UNSUPPORTED', status:'unsupported'
+      });
     }
   }
   for (const role of Object.keys(node.roles)) {
@@ -1073,6 +1075,9 @@ export function validateMeaningGraph(node, ontology, registry) {
     return validateMeaningGraphDocument(node, ontology, registry);
   } catch (error) {
     if (error instanceof EngineError) throw error;
+    if (error?.status === 'unsupported') {
+      throw new EngineError('UNSUPPORTED_CONSTRUCTION', error.message, {cause:error,status:'unsupported'});
+    }
     throw new EngineError('INTERLINGUA_INVALID', error?.message || 'Invalid Interlingua document.',
       {cause:error});
   }

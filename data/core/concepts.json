@@ -3450,6 +3450,866 @@
       "type": "entity",
       "parent": "place",
       "label": "pier"
+    },
+    "event.running": {
+      "type": "event",
+      "parent": "event.movement",
+      "label": "run",
+      "roles": [
+        "agent"
+      ],
+      "roleTypes": {
+        "agent": "person"
+      }
+    },
+    "event.walking": {
+      "type": "event",
+      "parent": "event.movement",
+      "label": "walk",
+      "roles": [
+        "agent"
+      ],
+      "roleTypes": {
+        "agent": "person"
+      }
+    },
+    "event.jumping": {
+      "type": "event",
+      "parent": "event.movement",
+      "label": "jump",
+      "roles": [
+        "agent"
+      ],
+      "roleTypes": {
+        "agent": "person"
+      }
+    },
+    "event.dancing": {
+      "type": "event",
+      "parent": "event.daily_activity",
+      "label": "dance",
+      "roles": [
+        "agent"
+      ],
+      "roleTypes": {
+        "agent": "person"
+      }
+    },
+    "event.sitting": {
+      "type": "event",
+      "parent": "event.daily_activity",
+      "label": "sit",
+      "roles": [
+        "agent"
+      ],
+      "roleTypes": {
+        "agent": "person"
+      }
+    },
+    "event.standing": {
+      "type": "event",
+      "parent": "event.daily_activity",
+      "label": "stand",
+      "roles": [
+        "agent"
+      ],
+      "roleTypes": {
+        "agent": "person"
+      }
+    },
+    "event.singing": {
+      "type": "event",
+      "parent": "event.daily_activity",
+      "label": "sing",
+      "roles": [
+        "agent"
+      ],
+      "roleTypes": {
+        "agent": "person"
+      }
+    },
+    "event.crying": {
+      "type": "event",
+      "parent": "event.daily_activity",
+      "label": "cry",
+      "roles": [
+        "agent"
+      ],
+      "roleTypes": {
+        "agent": "person"
+      }
+    },
+    "event.resting": {
+      "type": "event",
+      "parent": "event.daily_activity",
+      "label": "rest",
+      "roles": [
+        "agent"
+      ],
+      "roleTypes": {
+        "agent": "person"
+      }
+    },
+    "event.roaming": {
+      "type": "event",
+      "parent": "event.movement",
+      "label": "roam",
+      "roles": [
+        "agent"
+      ],
+      "roleTypes": {
+        "agent": "person"
+      }
+    },
+    "event.exercising": {
+      "type": "event",
+      "parent": "event.daily_activity",
+      "label": "exercise",
+      "roles": [
+        "agent"
+      ],
+      "roleTypes": {
+        "agent": "person"
+      }
+    },
+    "event.staying": {
+      "type": "event",
+      "parent": "event.daily_activity",
+      "label": "stay",
+      "roles": [
+        "agent"
+      ],
+      "roleTypes": {
+        "agent": "person"
+      }
+    },
+    "event.leaving": {
+      "type": "event",
+      "parent": "event.movement",
+      "label": "leave",
+      "roles": [
+        "agent"
+      ],
+      "roleTypes": {
+        "agent": "person"
+      }
+    },
+    "event.falling": {
+      "type": "event",
+      "parent": "event.movement",
+      "label": "fall",
+      "roles": [
+        "agent"
+      ],
+      "roleTypes": {
+        "agent": "person"
+      }
+    },
+    "event.breathing": {
+      "type": "event",
+      "parent": "event.daily_activity",
+      "label": "breathe",
+      "roles": [
+        "agent"
+      ],
+      "roleTypes": {
+        "agent": "person"
+      }
+    },
+    "event.sneezing": {
+      "type": "event",
+      "parent": "event.daily_activity",
+      "label": "sneeze",
+      "roles": [
+        "agent"
+      ],
+      "roleTypes": {
+        "agent": "person"
+      }
+    },
+    "event.coughing": {
+      "type": "event",
+      "parent": "event.daily_activity",
+      "label": "cough",
+      "roles": [
+        "agent"
+      ],
+      "roleTypes": {
+        "agent": "person"
+      }
+    },
+    "event.yawning": {
+      "type": "event",
+      "parent": "event.daily_activity",
+      "label": "yawn",
+      "roles": [
+        "agent"
+      ],
+      "roleTypes": {
+        "agent": "person"
+      }
+    },
+    "event.kneeling": {
+      "type": "event",
+      "parent": "event.daily_activity",
+      "label": "kneel",
+      "roles": [
+        "agent"
+      ],
+      "roleTypes": {
+        "agent": "person"
+      }
+    },
+    "event.marching": {
+      "type": "event",
+      "parent": "event.movement",
+      "label": "march",
+      "roles": [
+        "agent"
+      ],
+      "roleTypes": {
+        "agent": "person"
+      }
+    },
+    "event.jogging": {
+      "type": "event",
+      "parent": "event.movement",
+      "label": "jog",
+      "roles": [
+        "agent"
+      ],
+      "roleTypes": {
+        "agent": "person"
+      }
+    },
+    "event.sailing": {
+      "type": "event",
+      "parent": "event.movement",
+      "label": "sail",
+      "roles": [
+        "agent"
+      ],
+      "roleTypes": {
+        "agent": "person"
+      }
+    },
+    "event.answering": {
+      "type": "event",
+      "parent": "event.daily_activity",
+      "label": "answer",
+      "roles": [
+        "agent"
+      ],
+      "roleTypes": {
+        "agent": "person"
+      }
+    },
+    "event.clapping": {
+      "type": "event",
+      "parent": "event.daily_activity",
+      "label": "clap",
+      "roles": [
+        "agent"
+      ],
+      "roleTypes": {
+        "agent": "person"
+      }
+    },
+    "event.waving": {
+      "type": "event",
+      "parent": "event.daily_activity",
+      "label": "wave",
+      "roles": [
+        "agent"
+      ],
+      "roleTypes": {
+        "agent": "person"
+      }
+    },
+    "event.carrying": {
+      "type": "event",
+      "parent": "event.daily_activity",
+      "label": "carry",
+      "roles": [
+        "agent",
+        "theme"
+      ],
+      "roleTypes": {
+        "agent": "person",
+        "theme": "physical_object"
+      }
+    },
+    "event.bringing": {
+      "type": "event",
+      "parent": "event.daily_activity",
+      "label": "bring",
+      "roles": [
+        "agent",
+        "theme",
+        "destination"
+      ],
+      "roleTypes": {
+        "agent": "person",
+        "theme": "physical_object",
+        "destination": "place"
+      }
+    },
+    "event.closing": {
+      "type": "event",
+      "parent": "event.daily_activity",
+      "label": "close",
+      "roles": [
+        "agent",
+        "theme"
+      ],
+      "roleTypes": {
+        "agent": "person",
+        "theme": "physical_object"
+      }
+    },
+    "event.baking": {
+      "type": "event",
+      "parent": "event.daily_activity",
+      "label": "bake",
+      "roles": [
+        "agent",
+        "theme"
+      ],
+      "roleTypes": {
+        "agent": "person",
+        "theme": "entity"
+      }
+    },
+    "event.drawing": {
+      "type": "event",
+      "parent": "event.daily_activity",
+      "label": "draw",
+      "roles": [
+        "agent",
+        "theme"
+      ],
+      "roleTypes": {
+        "agent": "person",
+        "theme": "entity"
+      }
+    },
+    "event.asking": {
+      "type": "event",
+      "parent": "event.daily_activity",
+      "label": "ask",
+      "roles": [
+        "agent",
+        "recipient",
+        "theme"
+      ],
+      "roleTypes": {
+        "agent": "person",
+        "recipient": "person",
+        "theme": "entity"
+      }
+    },
+    "event.washing": {
+      "type": "event",
+      "parent": "event.daily_activity",
+      "label": "wash",
+      "roles": [
+        "agent",
+        "theme"
+      ],
+      "roleTypes": {
+        "agent": "person",
+        "theme": "entity"
+      }
+    },
+    "event.cleaning": {
+      "type": "event",
+      "parent": "event.daily_activity",
+      "label": "clean",
+      "roles": [
+        "agent",
+        "theme"
+      ],
+      "roleTypes": {
+        "agent": "person",
+        "theme": "entity"
+      }
+    },
+    "event.building": {
+      "type": "event",
+      "parent": "event.daily_activity",
+      "label": "build",
+      "roles": [
+        "agent",
+        "theme"
+      ],
+      "roleTypes": {
+        "agent": "person",
+        "theme": "physical_object"
+      }
+    },
+    "event.cutting": {
+      "type": "event",
+      "parent": "event.daily_activity",
+      "label": "cut",
+      "roles": [
+        "agent",
+        "theme"
+      ],
+      "roleTypes": {
+        "agent": "person",
+        "theme": "physical_object"
+      }
+    },
+    "event.repairing": {
+      "type": "event",
+      "parent": "event.daily_activity",
+      "label": "repair",
+      "roles": [
+        "agent",
+        "theme"
+      ],
+      "roleTypes": {
+        "agent": "person",
+        "theme": "physical_object"
+      }
+    },
+    "event.planting": {
+      "type": "event",
+      "parent": "event.daily_activity",
+      "label": "plant",
+      "roles": [
+        "agent",
+        "theme"
+      ],
+      "roleTypes": {
+        "agent": "person",
+        "theme": "entity"
+      }
+    },
+    "event.choosing": {
+      "type": "event",
+      "parent": "event.daily_activity",
+      "label": "choose",
+      "roles": [
+        "agent",
+        "theme"
+      ],
+      "roleTypes": {
+        "agent": "person",
+        "theme": "entity"
+      }
+    },
+    "event.throwing": {
+      "type": "event",
+      "parent": "event.daily_activity",
+      "label": "throw",
+      "roles": [
+        "agent",
+        "theme"
+      ],
+      "roleTypes": {
+        "agent": "person",
+        "theme": "physical_object"
+      }
+    },
+    "event.catching": {
+      "type": "event",
+      "parent": "event.daily_activity",
+      "label": "catch",
+      "roles": [
+        "agent",
+        "theme"
+      ],
+      "roleTypes": {
+        "agent": "person",
+        "theme": "physical_object"
+      }
+    },
+    "event.swimming": {
+      "type": "event",
+      "parent": "event.movement",
+      "label": "swim",
+      "roles": [
+        "agent"
+      ],
+      "roleTypes": {
+        "agent": "entity"
+      }
+    },
+    "event.pushing": {
+      "type": "event",
+      "parent": "event.daily_activity",
+      "label": "push",
+      "roles": [
+        "agent",
+        "theme"
+      ],
+      "roleTypes": {
+        "agent": "person",
+        "theme": "physical_object"
+      }
+    },
+    "event.pulling": {
+      "type": "event",
+      "parent": "event.daily_activity",
+      "label": "pull",
+      "roles": [
+        "agent",
+        "theme"
+      ],
+      "roleTypes": {
+        "agent": "person",
+        "theme": "physical_object"
+      }
+    },
+    "event.dropping": {
+      "type": "event",
+      "parent": "event.daily_activity",
+      "label": "drop",
+      "roles": [
+        "agent",
+        "theme"
+      ],
+      "roleTypes": {
+        "agent": "person",
+        "theme": "physical_object"
+      }
+    },
+    "event.holding": {
+      "type": "event",
+      "parent": "event.daily_activity",
+      "label": "hold",
+      "roles": [
+        "agent",
+        "theme"
+      ],
+      "roleTypes": {
+        "agent": "person",
+        "theme": "physical_object"
+      }
+    },
+    "event.touching": {
+      "type": "event",
+      "parent": "event.daily_activity",
+      "label": "touch",
+      "roles": [
+        "agent",
+        "theme"
+      ],
+      "roleTypes": {
+        "agent": "person",
+        "theme": "entity"
+      }
+    },
+    "event.pointing": {
+      "type": "event",
+      "parent": "event.daily_activity",
+      "label": "point",
+      "roles": [
+        "agent",
+        "theme"
+      ],
+      "roleTypes": {
+        "agent": "person",
+        "theme": "entity"
+      }
+    },
+    "event.kicking": {
+      "type": "event",
+      "parent": "event.daily_activity",
+      "label": "kick",
+      "roles": [
+        "agent",
+        "theme"
+      ],
+      "roleTypes": {
+        "agent": "person",
+        "theme": "entity"
+      }
+    },
+    "event.hitting": {
+      "type": "event",
+      "parent": "event.daily_activity",
+      "label": "hit",
+      "roles": [
+        "agent",
+        "theme"
+      ],
+      "roleTypes": {
+        "agent": "person",
+        "theme": "entity"
+      }
+    },
+    "event.sweeping": {
+      "type": "event",
+      "parent": "event.daily_activity",
+      "label": "sweep",
+      "roles": [
+        "agent",
+        "theme"
+      ],
+      "roleTypes": {
+        "agent": "person",
+        "theme": "physical_object"
+      }
+    },
+    "event.arriving": {
+      "type": "event",
+      "parent": "event.movement",
+      "label": "arrive",
+      "roles": [
+        "agent",
+        "destination"
+      ],
+      "roleTypes": {
+        "agent": "person",
+        "destination": "place"
+      }
+    },
+    "time.morning": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "morning"
+    },
+    "time.noon": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "noon"
+    },
+    "time.afternoon": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "afternoon"
+    },
+    "time.evening": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "evening"
+    },
+    "time.night": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "night"
+    },
+    "time.midnight": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "midnight"
+    },
+    "time.dawn": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "dawn"
+    },
+    "time.dusk": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "dusk"
+    },
+    "time.weekday": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "weekday"
+    },
+    "time.weekend": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "weekend"
+    },
+    "time.week": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "week"
+    },
+    "time.month": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "month"
+    },
+    "time.season": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "season"
+    },
+    "time.year": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "year"
+    },
+    "time.decade": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "decade"
+    },
+    "time.century": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "century"
+    },
+    "time.hour": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "hour"
+    },
+    "time.minute": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "minute"
+    },
+    "time.second": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "second"
+    },
+    "time.moment": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "moment"
+    },
+    "time.duration": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "duration"
+    },
+    "time.interval": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "interval"
+    },
+    "time.deadline": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "deadline"
+    },
+    "time.recess": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "recess"
+    },
+    "time.holiday": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "holiday"
+    },
+    "time.vacation": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "vacation"
+    },
+    "time.period": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "period"
+    },
+    "time.date": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "date"
+    },
+    "time.clock_time": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "clock time"
+    },
+    "time.time_zone": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "time zone"
+    },
+    "time.sunrise": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "sunrise"
+    },
+    "time.sunset": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "sunset"
+    },
+    "time.bedtime": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "bedtime"
+    },
+    "time.rush_hour": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "rush hour"
+    },
+    "time.workday": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "workday"
+    },
+    "time.school_day": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "school day"
+    },
+    "time.day_off": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "day off"
+    },
+    "time.payday": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "payday"
+    },
+    "time.spring": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "spring"
+    },
+    "time.summer": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "summer"
+    },
+    "time.autumn": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "autumn"
+    },
+    "time.winter": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "winter"
+    },
+    "time.quarter": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "quarter"
+    },
+    "time.semester": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "semester"
+    },
+    "time.trimester": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "trimester"
+    },
+    "time.fortnight": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "fortnight"
+    },
+    "time.millennium": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "millennium"
+    },
+    "time.workweek": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "workweek"
+    },
+    "time.school_year": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "school year"
     }
   },
   "relationTypes": {

@@ -81,6 +81,431 @@
           "syntacticFunction": "object"
         }
       ]
+    },
+    {
+      "construction": "event.running",
+      "conceptId": "event.running",
+      "arguments": [
+        {
+          "role": "agent",
+          "argument": "subject",
+          "syntacticFunction": "subject",
+          "agreementControllers": [
+            {
+              "argument": "subject",
+              "feature": "number"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "construction": "event.walking",
+      "conceptId": "event.walking",
+      "arguments": [
+        {
+          "role": "agent",
+          "argument": "subject",
+          "syntacticFunction": "subject",
+          "agreementControllers": [
+            {
+              "argument": "subject",
+              "feature": "number"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "construction": "event.jumping",
+      "conceptId": "event.jumping",
+      "arguments": [
+        {
+          "role": "agent",
+          "argument": "subject",
+          "syntacticFunction": "subject",
+          "agreementControllers": [
+            {
+              "argument": "subject",
+              "feature": "number"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "construction": "event.dancing",
+      "conceptId": "event.dancing",
+      "arguments": [
+        {
+          "role": "agent",
+          "argument": "subject",
+          "syntacticFunction": "subject",
+          "agreementControllers": [
+            {
+              "argument": "subject",
+              "feature": "number"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "construction": "event.sitting",
+      "conceptId": "event.sitting",
+      "arguments": [
+        {
+          "role": "agent",
+          "argument": "subject",
+          "syntacticFunction": "subject",
+          "agreementControllers": [
+            {
+              "argument": "subject",
+              "feature": "number"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "construction": "event.standing",
+      "conceptId": "event.standing",
+      "arguments": [
+        {
+          "role": "agent",
+          "argument": "subject",
+          "syntacticFunction": "subject",
+          "agreementControllers": [
+            {
+              "argument": "subject",
+              "feature": "number"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "construction": "event.singing",
+      "conceptId": "event.singing",
+      "arguments": [
+        {
+          "role": "agent",
+          "argument": "subject",
+          "syntacticFunction": "subject",
+          "agreementControllers": [
+            {
+              "argument": "subject",
+              "feature": "number"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "construction": "event.crying",
+      "conceptId": "event.crying",
+      "arguments": [
+        {
+          "role": "agent",
+          "argument": "subject",
+          "syntacticFunction": "subject",
+          "agreementControllers": [
+            {
+              "argument": "subject",
+              "feature": "number"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "construction": "event.resting",
+      "conceptId": "event.resting",
+      "arguments": [
+        {
+          "role": "agent",
+          "argument": "subject",
+          "syntacticFunction": "subject",
+          "agreementControllers": [
+            {
+              "argument": "subject",
+              "feature": "number"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "construction": "event.roaming",
+      "conceptId": "event.roaming",
+      "arguments": [
+        {
+          "role": "agent",
+          "argument": "subject",
+          "syntacticFunction": "subject",
+          "agreementControllers": [
+            {
+              "argument": "subject",
+              "feature": "number"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "construction": "event.exercising",
+      "conceptId": "event.exercising",
+      "arguments": [
+        {
+          "role": "agent",
+          "argument": "subject",
+          "syntacticFunction": "subject",
+          "agreementControllers": [
+            {
+              "argument": "subject",
+              "feature": "number"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "construction": "event.staying",
+      "conceptId": "event.staying",
+      "arguments": [
+        {
+          "role": "agent",
+          "argument": "subject",
+          "syntacticFunction": "subject",
+          "agreementControllers": [
+            {
+              "argument": "subject",
+              "feature": "number"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "construction": "event.leaving",
+      "conceptId": "event.leaving",
+      "arguments": [
+        {
+          "role": "agent",
+          "argument": "subject",
+          "syntacticFunction": "subject",
+          "agreementControllers": [
+            {
+              "argument": "subject",
+              "feature": "number"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "construction": "event.falling",
+      "conceptId": "event.falling",
+      "arguments": [
+        {
+          "role": "agent",
+          "argument": "subject",
+          "syntacticFunction": "subject",
+          "agreementControllers": [
+            {
+              "argument": "subject",
+              "feature": "number"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "construction": "event.breathing",
+      "conceptId": "event.breathing",
+      "arguments": [
+        {
+          "role": "agent",
+          "argument": "subject",
+          "syntacticFunction": "subject",
+          "agreementControllers": [
+            {
+              "argument": "subject",
+              "feature": "number"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "construction": "event.sneezing",
+      "conceptId": "event.sneezing",
+      "arguments": [
+        {
+          "role": "agent",
+          "argument": "subject",
+          "syntacticFunction": "subject",
+          "agreementControllers": [
+            {
+              "argument": "subject",
+              "feature": "number"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "construction": "event.coughing",
+      "conceptId": "event.coughing",
+      "arguments": [
+        {
+          "role": "agent",
+          "argument": "subject",
+          "syntacticFunction": "subject",
+          "agreementControllers": [
+            {
+              "argument": "subject",
+              "feature": "number"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "construction": "event.yawning",
+      "conceptId": "event.yawning",
+      "arguments": [
+        {
+          "role": "agent",
+          "argument": "subject",
+          "syntacticFunction": "subject",
+          "agreementControllers": [
+            {
+              "argument": "subject",
+              "feature": "number"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "construction": "event.kneeling",
+      "conceptId": "event.kneeling",
+      "arguments": [
+        {
+          "role": "agent",
+          "argument": "subject",
+          "syntacticFunction": "subject",
+          "agreementControllers": [
+            {
+              "argument": "subject",
+              "feature": "number"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "construction": "event.marching",
+      "conceptId": "event.marching",
+      "arguments": [
+        {
+          "role": "agent",
+          "argument": "subject",
+          "syntacticFunction": "subject",
+          "agreementControllers": [
+            {
+              "argument": "subject",
+              "feature": "number"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "construction": "event.jogging",
+      "conceptId": "event.jogging",
+      "arguments": [
+        {
+          "role": "agent",
+          "argument": "subject",
+          "syntacticFunction": "subject",
+          "agreementControllers": [
+            {
+              "argument": "subject",
+              "feature": "number"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "construction": "event.sailing",
+      "conceptId": "event.sailing",
+      "arguments": [
+        {
+          "role": "agent",
+          "argument": "subject",
+          "syntacticFunction": "subject",
+          "agreementControllers": [
+            {
+              "argument": "subject",
+              "feature": "number"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "construction": "event.answering",
+      "conceptId": "event.answering",
+      "arguments": [
+        {
+          "role": "agent",
+          "argument": "subject",
+          "syntacticFunction": "subject",
+          "agreementControllers": [
+            {
+              "argument": "subject",
+              "feature": "number"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "construction": "event.clapping",
+      "conceptId": "event.clapping",
+      "arguments": [
+        {
+          "role": "agent",
+          "argument": "subject",
+          "syntacticFunction": "subject",
+          "agreementControllers": [
+            {
+              "argument": "subject",
+              "feature": "number"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "construction": "event.waving",
+      "conceptId": "event.waving",
+      "arguments": [
+        {
+          "role": "agent",
+          "argument": "subject",
+          "syntacticFunction": "subject",
+          "agreementControllers": [
+            {
+              "argument": "subject",
+              "feature": "number"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

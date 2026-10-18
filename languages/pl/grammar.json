@@ -117,14 +117,53 @@
       "classifiers": [],
       "caseOverrides": [
         {
-          "values": [0, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
-          "from": ["nom", "acc"],
+          "values": [
+            0,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20
+          ],
+          "from": [
+            "nom",
+            "acc"
+          ],
           "to": "gen"
         }
       ],
       "agreementOverrides": [
         {
-          "values": [0, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+          "values": [
+            0,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20
+          ],
           "number": "singular"
         }
       ]
@@ -1429,6 +1468,581 @@
           "@verb"
         ]
       ]
+    },
+    "event.running": {
+      "cases": {
+        "agent": "nom"
+      },
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "imperfective"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.walking": {
+      "cases": {
+        "agent": "nom"
+      },
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "imperfective"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.jumping": {
+      "cases": {
+        "agent": "nom"
+      },
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "imperfective"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.dancing": {
+      "cases": {
+        "agent": "nom"
+      },
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "imperfective"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.sitting": {
+      "cases": {
+        "agent": "nom"
+      },
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "imperfective"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.standing": {
+      "cases": {
+        "agent": "nom"
+      },
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "imperfective"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.singing": {
+      "cases": {
+        "agent": "nom"
+      },
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "imperfective"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.crying": {
+      "cases": {
+        "agent": "nom"
+      },
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "imperfective"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.resting": {
+      "cases": {
+        "agent": "nom"
+      },
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "imperfective"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.roaming": {
+      "cases": {
+        "agent": "nom"
+      },
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "imperfective"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.exercising": {
+      "cases": {
+        "agent": "nom"
+      },
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "imperfective"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.staying": {
+      "cases": {
+        "agent": "nom"
+      },
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "imperfective"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.leaving": {
+      "cases": {
+        "agent": "nom"
+      },
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "imperfective"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.falling": {
+      "cases": {
+        "agent": "nom"
+      },
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "imperfective"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.breathing": {
+      "cases": {
+        "agent": "nom"
+      },
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "imperfective"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.sneezing": {
+      "cases": {
+        "agent": "nom"
+      },
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "imperfective"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.coughing": {
+      "cases": {
+        "agent": "nom"
+      },
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "imperfective"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.yawning": {
+      "cases": {
+        "agent": "nom"
+      },
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "imperfective"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.kneeling": {
+      "cases": {
+        "agent": "nom"
+      },
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "imperfective"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.marching": {
+      "cases": {
+        "agent": "nom"
+      },
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "imperfective"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.jogging": {
+      "cases": {
+        "agent": "nom"
+      },
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "imperfective"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.sailing": {
+      "cases": {
+        "agent": "nom"
+      },
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "imperfective"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.answering": {
+      "cases": {
+        "agent": "nom"
+      },
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "imperfective"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.clapping": {
+      "cases": {
+        "agent": "nom"
+      },
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "imperfective"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.waving": {
+      "cases": {
+        "agent": "nom"
+      },
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "imperfective"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
     }
   },
   "states": {
@@ -1558,7 +2172,9 @@
         ]
       },
       "classification": {
-        "supportedTenses": ["present"],
+        "supportedTenses": [
+          "present"
+        ],
         "subjectRole": "subject",
         "cases": {
           "subject": "nom",

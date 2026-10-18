@@ -204,6 +204,606 @@
           "id": "en.written.01"
         }
       ]
+    },
+    {
+      "operation": "analyze",
+      "channel": "sentence",
+      "construction": "event.running",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-en-pl-tgw-0401"
+        }
+      ]
+    },
+    {
+      "operation": "realize",
+      "channel": "sentence",
+      "construction": "event.running",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-pl-en-tgw-0401"
+        }
+      ]
+    },
+    {
+      "operation": "analyze",
+      "channel": "sentence",
+      "construction": "event.walking",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-en-pl-tgw-0402"
+        }
+      ]
+    },
+    {
+      "operation": "realize",
+      "channel": "sentence",
+      "construction": "event.walking",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-pl-en-tgw-0402"
+        }
+      ]
+    },
+    {
+      "operation": "analyze",
+      "channel": "sentence",
+      "construction": "event.jumping",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-en-pl-tgw-0403"
+        }
+      ]
+    },
+    {
+      "operation": "realize",
+      "channel": "sentence",
+      "construction": "event.jumping",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-pl-en-tgw-0403"
+        }
+      ]
+    },
+    {
+      "operation": "analyze",
+      "channel": "sentence",
+      "construction": "event.dancing",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-en-pl-tgw-0404"
+        }
+      ]
+    },
+    {
+      "operation": "realize",
+      "channel": "sentence",
+      "construction": "event.dancing",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-pl-en-tgw-0404"
+        }
+      ]
+    },
+    {
+      "operation": "analyze",
+      "channel": "sentence",
+      "construction": "event.sitting",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-en-pl-tgw-0405"
+        }
+      ]
+    },
+    {
+      "operation": "realize",
+      "channel": "sentence",
+      "construction": "event.sitting",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-pl-en-tgw-0405"
+        }
+      ]
+    },
+    {
+      "operation": "analyze",
+      "channel": "sentence",
+      "construction": "event.standing",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-en-pl-tgw-0406"
+        }
+      ]
+    },
+    {
+      "operation": "realize",
+      "channel": "sentence",
+      "construction": "event.standing",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-pl-en-tgw-0406"
+        }
+      ]
+    },
+    {
+      "operation": "analyze",
+      "channel": "sentence",
+      "construction": "event.singing",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-en-pl-tgw-0407"
+        }
+      ]
+    },
+    {
+      "operation": "realize",
+      "channel": "sentence",
+      "construction": "event.singing",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-pl-en-tgw-0407"
+        }
+      ]
+    },
+    {
+      "operation": "analyze",
+      "channel": "sentence",
+      "construction": "event.crying",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-en-pl-tgw-0408"
+        }
+      ]
+    },
+    {
+      "operation": "realize",
+      "channel": "sentence",
+      "construction": "event.crying",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-pl-en-tgw-0408"
+        }
+      ]
+    },
+    {
+      "operation": "analyze",
+      "channel": "sentence",
+      "construction": "event.resting",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-en-pl-tgw-0409"
+        }
+      ]
+    },
+    {
+      "operation": "realize",
+      "channel": "sentence",
+      "construction": "event.resting",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-pl-en-tgw-0409"
+        }
+      ]
+    },
+    {
+      "operation": "analyze",
+      "channel": "sentence",
+      "construction": "event.roaming",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-en-pl-tgw-0410"
+        }
+      ]
+    },
+    {
+      "operation": "realize",
+      "channel": "sentence",
+      "construction": "event.roaming",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-pl-en-tgw-0410"
+        }
+      ]
+    },
+    {
+      "operation": "analyze",
+      "channel": "sentence",
+      "construction": "event.exercising",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-en-pl-tgw-0411"
+        }
+      ]
+    },
+    {
+      "operation": "realize",
+      "channel": "sentence",
+      "construction": "event.exercising",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-pl-en-tgw-0411"
+        }
+      ]
+    },
+    {
+      "operation": "analyze",
+      "channel": "sentence",
+      "construction": "event.staying",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-en-pl-tgw-0412"
+        }
+      ]
+    },
+    {
+      "operation": "realize",
+      "channel": "sentence",
+      "construction": "event.staying",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-pl-en-tgw-0412"
+        }
+      ]
+    },
+    {
+      "operation": "analyze",
+      "channel": "sentence",
+      "construction": "event.leaving",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-en-pl-tgw-0413"
+        }
+      ]
+    },
+    {
+      "operation": "realize",
+      "channel": "sentence",
+      "construction": "event.leaving",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-pl-en-tgw-0413"
+        }
+      ]
+    },
+    {
+      "operation": "analyze",
+      "channel": "sentence",
+      "construction": "event.falling",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-en-pl-tgw-0414"
+        }
+      ]
+    },
+    {
+      "operation": "realize",
+      "channel": "sentence",
+      "construction": "event.falling",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-pl-en-tgw-0414"
+        }
+      ]
+    },
+    {
+      "operation": "analyze",
+      "channel": "sentence",
+      "construction": "event.breathing",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-en-pl-tgw-0415"
+        }
+      ]
+    },
+    {
+      "operation": "realize",
+      "channel": "sentence",
+      "construction": "event.breathing",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-pl-en-tgw-0415"
+        }
+      ]
+    },
+    {
+      "operation": "analyze",
+      "channel": "sentence",
+      "construction": "event.sneezing",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-en-pl-tgw-0416"
+        }
+      ]
+    },
+    {
+      "operation": "realize",
+      "channel": "sentence",
+      "construction": "event.sneezing",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-pl-en-tgw-0416"
+        }
+      ]
+    },
+    {
+      "operation": "analyze",
+      "channel": "sentence",
+      "construction": "event.coughing",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-en-pl-tgw-0417"
+        }
+      ]
+    },
+    {
+      "operation": "realize",
+      "channel": "sentence",
+      "construction": "event.coughing",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-pl-en-tgw-0417"
+        }
+      ]
+    },
+    {
+      "operation": "analyze",
+      "channel": "sentence",
+      "construction": "event.yawning",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-en-pl-tgw-0418"
+        }
+      ]
+    },
+    {
+      "operation": "realize",
+      "channel": "sentence",
+      "construction": "event.yawning",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-pl-en-tgw-0418"
+        }
+      ]
+    },
+    {
+      "operation": "analyze",
+      "channel": "sentence",
+      "construction": "event.kneeling",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-en-pl-tgw-0419"
+        }
+      ]
+    },
+    {
+      "operation": "realize",
+      "channel": "sentence",
+      "construction": "event.kneeling",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-pl-en-tgw-0419"
+        }
+      ]
+    },
+    {
+      "operation": "analyze",
+      "channel": "sentence",
+      "construction": "event.marching",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-en-pl-tgw-0420"
+        }
+      ]
+    },
+    {
+      "operation": "realize",
+      "channel": "sentence",
+      "construction": "event.marching",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-pl-en-tgw-0420"
+        }
+      ]
+    },
+    {
+      "operation": "analyze",
+      "channel": "sentence",
+      "construction": "event.jogging",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-en-pl-tgw-0421"
+        }
+      ]
+    },
+    {
+      "operation": "realize",
+      "channel": "sentence",
+      "construction": "event.jogging",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-pl-en-tgw-0421"
+        }
+      ]
+    },
+    {
+      "operation": "analyze",
+      "channel": "sentence",
+      "construction": "event.sailing",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-en-pl-tgw-0422"
+        }
+      ]
+    },
+    {
+      "operation": "realize",
+      "channel": "sentence",
+      "construction": "event.sailing",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-pl-en-tgw-0422"
+        }
+      ]
+    },
+    {
+      "operation": "analyze",
+      "channel": "sentence",
+      "construction": "event.answering",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-en-pl-tgw-0423"
+        }
+      ]
+    },
+    {
+      "operation": "realize",
+      "channel": "sentence",
+      "construction": "event.answering",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-pl-en-tgw-0423"
+        }
+      ]
+    },
+    {
+      "operation": "analyze",
+      "channel": "sentence",
+      "construction": "event.clapping",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-en-pl-tgw-0424"
+        }
+      ]
+    },
+    {
+      "operation": "realize",
+      "channel": "sentence",
+      "construction": "event.clapping",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-pl-en-tgw-0424"
+        }
+      ]
+    },
+    {
+      "operation": "analyze",
+      "channel": "sentence",
+      "construction": "event.waving",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-en-pl-tgw-0425"
+        }
+      ]
+    },
+    {
+      "operation": "realize",
+      "channel": "sentence",
+      "construction": "event.waving",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-pl-en-tgw-0425"
+        }
+      ]
     }
   ],
   "provenance": "provenance.json"
