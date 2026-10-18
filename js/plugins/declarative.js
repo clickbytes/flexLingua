@@ -51,6 +51,23 @@ function availableFor(capabilities, operation, construction) {
     item.status === 'implemented');
 }
 
+function availableForTransfer(capabilities, operation, transfer) {
+  if (!availableFor(capabilities, operation, transfer.construction)) return false;
+  return transfer.kind !== 'question' ||
+    availableFor(capabilities, operation, transfer.propositionConstruction);
+}
+
+function normalizeUnsupportedQuestion(error, text, capabilities) {
+  if (typeof text !== 'string' || !text.trim().endsWith('?') ||
+      error?.status !== 'unsupported' || INTERNAL_PLUGIN_FAILURE_CODES.has(error?.code) ||
+      !availableFor(capabilities, 'analyze', 'question.yes-no')) {
+    return error;
+  }
+  return Object.assign(new Error(error.message || 'Unsupported question construction.'), {
+    code: 'PLUGIN_CAPABILITY_UNAVAILABLE', status: 'unsupported'
+  });
+}
+
 function validateInput(input, operation) {
   if (!isRecord(input) || Object.keys(input).some(key =>
       !['text', 'meaning', 'context'].includes(key)) || !isRecord(input.context ?? {})) {
@@ -221,9 +238,9 @@ export function defineDeclarativeLanguagePlugin({manifest, graph, modules, core}
         if (candidates.length > 32) fail('PLUGIN_RESOURCE_LIMIT', 'Sentence analysis exceeded its reading limit.');
         const readings = candidates.map(candidate => {
           const transfer = semanticBridge.transferFor(candidate.interlingua, context.construction);
-          if (!availableFor(capabilities, 'analyze', transfer.construction)) {
+          if (!availableForTransfer(capabilities, 'analyze', transfer)) {
             fail('PLUGIN_CAPABILITY_UNAVAILABLE',
-              `Analysis is unsupported for construction ${transfer.construction}.`);
+              `Analysis is unsupported for construction ${transfer.construction} or its proposition.`);
           }
           const reading = semanticBridge.validateReading(candidate, transfer);
           const runtimeTransfer = semanticBridge.projectMeaning(
@@ -238,7 +255,7 @@ export function defineDeclarativeLanguagePlugin({manifest, graph, modules, core}
           diagnostics: ambiguous ? [{code: 'PLUGIN_ANALYSIS_AMBIGUOUS',
             message: 'More than one meaning fits the input.'}] : []});
       } catch (error) {
-        return refusalAnalysis(error);
+        return refusalAnalysis(normalizeUnsupportedQuestion(error, input?.text, capabilities));
       }
     };
   }
@@ -249,9 +266,9 @@ export function defineDeclarativeLanguagePlugin({manifest, graph, modules, core}
       try {
         const context = validateInput(input, 'realize');
         const transfer = semanticBridge.transferFor(input.meaning, context.construction);
-        if (!availableFor(capabilities, 'realize', transfer.construction)) {
+        if (!availableForTransfer(capabilities, 'realize', transfer)) {
           fail('PLUGIN_CAPABILITY_UNAVAILABLE',
-            `Realization is unsupported for construction ${transfer.construction}.`);
+            `Realization is unsupported for construction ${transfer.construction} or its proposition.`);
         }
         if (!adapter) fail('PLUGIN_CAPABILITY_UNAVAILABLE', 'Sentence realization is unsupported.');
         const runtimeTransfer = semanticBridge.projectMeaning(input.meaning, transfer);

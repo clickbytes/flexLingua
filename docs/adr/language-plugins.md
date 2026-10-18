@@ -101,6 +101,28 @@ ręcznie sprawdzonego zdania albo ręcznej odmowy; ogólne `all` jest niedozwolo
 
 ## LanguageGraph
 
+### Ograniczony transfer pytania yes/no
+
+Transfer pytania jest zamkniętym wrapperem nad istniejącym transferem zdarzenia,
+a nie osobnym konceptem CORE. Dla `question.yes-no` compiler dopuszcza wyłącznie
+zatwierdzony policy ID i rozwiązuje `propositionConstruction` do jednego,
+zaimplementowanego transferu propozycji. Skompilowany plan jest niemutowalny i
+zawiera pełny transfer zdarzenia jako `propositionTransfer`; brak, niejednoznaczny
+cel, cykl lub zagnieżdżone pytanie oznaczają błąd pakietu.
+
+Analiza i realizacja wymagają capability obu konstrukcji: wrappera pytania i
+propozycji. Bridge zachowuje pełny `MeaningGraph` question, a grammar dostaje
+transfer propozycji do odmiany i uzgodnienia. Bieżąca polityka obejmuje tylko
+yes/no `event.visual_perception`, czas teraźniejszy, stronę pozytywną i jawnych
+pojedynczych nominalnych uczestników `agent` oraz `theme`; pozostałe pytania są
+jawnym `unsupported`.
+
+Straty semantyczne zdarzenia wewnątrz pytania zachowują swoje dokładne przyczyny,
+ale ich ścieżki mają prefiks `#/proposition/`, np.
+`#/proposition/roles/agent/features/definiteness`. Wrapper pytania pozostaje
+publicznym znaczeniem, a polski brak rodzajnika nie zmienia `definiteness` na
+wartość domyślną angielskiej realizacji.
+
 LanguageGraph jest wersjonowanym, serializowalnym grafem deklaracji jednego
 pakietu. Dokument ma `schemaVersion`, `language`, `nodes[]` i `edges[]`.
 Każdy węzeł ma stabilne ID, typ i walidowane dane tego typu; każda krawędź ma

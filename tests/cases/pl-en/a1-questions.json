@@ -1,0 +1,141 @@
+{
+  "schemaVersion": "1.0",
+  "cases": [
+    {
+      "id": "A1-PL-EN-QUESTION-0001",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "yes_no_question",
+      "construction": "question.yes-no",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": true,
+      "tags": {"tense": "present", "aspect": "imperfective", "polarity": "positive", "person": "third", "number": "singular", "reference": "unknown", "quantity": "none"},
+      "purpose": "Positive bounded PL→EN yes/no visual-perception question; preserve unknown source definiteness and imperfective aspect, use the configured indefinite article display default, expose the definite alternative, and report nested information loss.",
+      "input": {"from": "pl", "to": "en", "text": "Czy dziewczynka widzi psa?"},
+      "expected": {
+        "status": "ok",
+        "text": {"accepted": ["Does a girl see a dog?"]},
+        "meaning": {
+          "type": "question",
+          "questionType": "yes_no",
+          "proposition": {
+            "type": "event",
+            "concept": "event.visual_perception",
+            "roleSet": ["agent", "theme"],
+            "roles": {
+              "agent": {"concept": "person.girl", "features": {"number": "singular", "definiteness": "unknown"}},
+              "theme": {"concept": "animal.dog", "features": {"number": "singular", "definiteness": "unknown"}}
+            },
+            "roleFeaturesExact": true,
+            "features": {"tense": "present", "polarity": "positive", "aspect": "imperfective"},
+            "featuresAllowExtra": false,
+            "assert": {"#/version": "0.2", "#/type": "event", "#/features/tense": "present", "#/features/aspect": "imperfective"}
+          },
+          "assert": {"#/version": "1.19", "#/type": "question", "#/questionType": "yes_no", "#/proposition/type": "event"}
+        },
+        "diagnostics": {"required": [], "allowUnexpected": false},
+        "alternatives": {"required": ["Does the girl see the dog?"], "allowUnexpected": false},
+        "informationLoss": {"required": [
+          {"path": "#/proposition/features/aspect", "feature": "aspect", "cause": "target-grammar-does-not-encode-aspect", "status": "unavoidable"},
+          {"path": "#/proposition/roles/agent/features/definiteness", "feature": "definiteness", "cause": "source-definiteness-unspecified-target-default", "status": "ambiguous"},
+          {"path": "#/proposition/roles/theme/features/definiteness", "feature": "definiteness", "cause": "source-definiteness-unspecified-target-default", "status": "ambiguous"}
+        ], "allowUnexpected": false}
+      },
+      "review": {"status": "approved", "source": "Human approval under #379 R1 covers semantics. Version .2 is derived from createEvent/INTERLINGUA_VERSION; the earlier .5 reference is corrected in #381. Expected was recorded before QN-03 runtime checks: https://github.com/clickbytes/flexLingua/issues/379#issuecomment-6246930782", "author": "clickbytes", "reviewedAt": "2026-10-18", "issue": "#379"},
+      "requirements": {"coverageTargetId": "construction.question.yes-no", "capability": "sentence pl.analyze(question.yes-no visual_perception) -> en.realize; preserve unknown definiteness and warn about the display default"}
+    },
+    {
+      "id": "A1-PL-EN-QUESTION-0002",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "yes_no_question",
+      "construction": "question.yes-no",
+      "tier": "required",
+      "priority": 2,
+      "cliSmoke": false,
+      "tags": {"tense": "present", "aspect": "imperfective", "polarity": "negative", "person": "third", "number": "singular", "reference": "unknown", "quantity": "none"},
+      "purpose": "Controlled refusal: negative yes/no questions are outside the approved positive-only transfer policy.",
+      "input": {"from": "pl", "to": "en", "text": "Czy dziewczynka nie widzi psa?"},
+      "expected": {"status": "unsupported", "text": null, "meaning": null, "diagnostics": {"required": [{"code": "PLUGIN_CAPABILITY_UNAVAILABLE"}], "allowUnexpected": false}, "alternatives": {"required": [], "allowUnexpected": false}, "informationLoss": {"required": [], "allowUnexpected": false}},
+      "review": {"status": "approved", "source": "The supported/refused boundary was approved by clickbytes under QN-01 R1 before QN-03 execution: https://github.com/clickbytes/flexLingua/issues/379#issuecomment-6246930782", "author": "clickbytes", "reviewedAt": "2026-10-18", "issue": "#379"},
+      "requirements": {"coverageTargetId": "construction.question.yes-no", "capability": "pl.analyze controlled refusal: negative question"}
+    },
+    {
+      "id": "A1-PL-EN-QUESTION-0003",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "yes_no_question",
+      "construction": "question.yes-no",
+      "tier": "required",
+      "priority": 2,
+      "cliSmoke": false,
+      "tags": {"tense": "present", "aspect": "imperfective", "polarity": "positive", "person": "first", "number": "singular", "reference": "deictic", "quantity": "none"},
+      "purpose": "Controlled refusal: omitted first-person subjects and deictic participants are outside the explicit nominal participant policy.",
+      "input": {"from": "pl", "to": "en", "text": "Czy widzę psa?"},
+      "expected": {"status": "unsupported", "text": null, "meaning": null, "diagnostics": {"required": [{"code": "PLUGIN_CAPABILITY_UNAVAILABLE"}], "allowUnexpected": false}, "alternatives": {"required": [], "allowUnexpected": false}, "informationLoss": {"required": [], "allowUnexpected": false}},
+      "review": {"status": "approved", "source": "The supported/refused boundary was approved by clickbytes under QN-01 R1 before QN-03 execution: https://github.com/clickbytes/flexLingua/issues/379#issuecomment-6246930782", "author": "clickbytes", "reviewedAt": "2026-10-18", "issue": "#379"},
+      "requirements": {"coverageTargetId": "construction.question.yes-no", "capability": "pl.analyze controlled refusal: pro-drop and deictic agent"}
+    },
+    {
+      "id": "A1-PL-EN-QUESTION-0004",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "yes_no_question",
+      "construction": "question.yes-no",
+      "tier": "required",
+      "priority": 2,
+      "cliSmoke": false,
+      "tags": {"tense": "present", "aspect": "imperfective", "polarity": "positive", "person": "third", "number": "plural", "reference": "unknown", "quantity": "none"},
+      "purpose": "Controlled refusal: plural participants are outside the approved singular-only transfer policy.",
+      "input": {"from": "pl", "to": "en", "text": "Czy dziewczynki widzą psy?"},
+      "expected": {"status": "unsupported", "text": null, "meaning": null, "diagnostics": {"required": [{"code": "PLUGIN_CAPABILITY_UNAVAILABLE"}], "allowUnexpected": false}, "alternatives": {"required": [], "allowUnexpected": false}, "informationLoss": {"required": [], "allowUnexpected": false}},
+      "review": {"status": "approved", "source": "The supported/refused boundary was approved by clickbytes under QN-01 R1 before QN-03 CLI or matrix execution: https://github.com/clickbytes/flexLingua/issues/379#issuecomment-6246930782", "author": "clickbytes", "reviewedAt": "2026-10-18", "issue": "#379"},
+      "requirements": {"coverageTargetId": "construction.question.yes-no", "capability": "pl.analyze controlled refusal: plural question"}
+    },
+    {
+      "id": "A1-PL-EN-QUESTION-0005",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "yes_no_question",
+      "construction": "question.yes-no",
+      "tier": "required",
+      "priority": 2,
+      "cliSmoke": false,
+      "tags": {"tense": "present", "aspect": "imperfective", "polarity": "positive", "person": "third", "number": "singular", "reference": "definite", "quantity": "none"},
+      "purpose": "Controlled refusal: reading questions are outside the approved visual-perception proposition policy.",
+      "input": {"from": "pl", "to": "en", "text": "Czy dziewczynka czyta książkę?"},
+      "expected": {"status": "unsupported", "text": null, "meaning": null, "diagnostics": {"required": [{"code": "PLUGIN_CAPABILITY_UNAVAILABLE"}], "allowUnexpected": false}, "alternatives": {"required": [], "allowUnexpected": false}, "informationLoss": {"required": [], "allowUnexpected": false}},
+      "review": {"status": "approved", "source": "The supported/refused boundary was approved by clickbytes under QN-01 R1 before QN-03 execution: https://github.com/clickbytes/flexLingua/issues/379#issuecomment-6246930782", "author": "clickbytes", "reviewedAt": "2026-10-18", "issue": "#379"},
+      "requirements": {"coverageTargetId": "construction.question.yes-no", "capability": "pl.analyze controlled refusal: unsupported read proposition"}
+    },
+    {
+      "id": "A1-PL-EN-QUESTION-0006",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "yes_no_question",
+      "construction": "question.yes-no",
+      "tier": "required",
+      "priority": 2,
+      "cliSmoke": false,
+      "tags": {"tense": "present", "aspect": "imperfective", "polarity": "positive", "person": "third", "number": "singular", "reference": "definite", "quantity": "none"},
+      "purpose": "Controlled refusal: WH questions are outside the yes/no question transfer policy.",
+      "input": {"from": "pl", "to": "en", "text": "Kto widzi psa?"},
+      "expected": {"status": "unsupported", "text": null, "meaning": null, "diagnostics": {"required": [{"code": "PLUGIN_CAPABILITY_UNAVAILABLE"}], "allowUnexpected": false}, "alternatives": {"required": [], "allowUnexpected": false}, "informationLoss": {"required": [], "allowUnexpected": false}},
+      "review": {"status": "approved", "source": "The supported/refused boundary was approved by clickbytes under QN-01 R1 before QN-03 CLI or matrix execution: https://github.com/clickbytes/flexLingua/issues/379#issuecomment-6246930782", "author": "clickbytes", "reviewedAt": "2026-10-18", "issue": "#379"},
+      "requirements": {"coverageTargetId": "construction.question.yes-no", "capability": "pl.analyze controlled refusal: WH question"}
+    }
+  ]
+}
