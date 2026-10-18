@@ -12,6 +12,7 @@ import {applyPersonalityProfile, createPersonalityProfile, PERSONALITY_PROFILE_V
 import {LANGUAGE_PLUGIN_CONTRACT_VERSION, normalizeAnalysisResult, normalizeRealizationResult}
   from '../plugins/contract.js';
 import {matchConceptGraphs} from './typed-graph-match.js';
+import {composeMeaningGraph} from './semantic-composition.js';
 
 const MAX_CANDIDATES = 16;
 
@@ -237,6 +238,12 @@ export class Engine {
   }
 
   resolveCoreRef(ref) { return this.core.resolve(ref); }
+
+  /** Return a read-only typed graph view while preserving the MeaningGraph wire contract. */
+  projectMeaningGraph(meaning, {limits} = {}) {
+    validateMeaningGraph(meaning,this.ontology,this.features);
+    return composeMeaningGraph({meaning,core:this.core,limits});
+  }
 
   /** Build a deterministic response plan using only explicitly supplied CORE facts. */
   planResponse(request) {
