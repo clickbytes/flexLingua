@@ -32,6 +32,8 @@ Choose a declared source and target direction, enter a sentence, and press Enter
 
 Enter one utterance and press Enter. The conversation labels the user utterance, semantic reading, any Engine response, and diagnostics separately. A successfully parsed `ask` triggers exactly one response attempt. A grounded planner result is shown only when the Engine supplies a realization. If no matching fact supports an answer, the accepted question stays in the conversation and Chat reports `insufficient_context` without an Engine response. Conflicting facts report `ambiguous` and keep the planner's evidence and confidence. A planner refusal remains `unsupported`; a missing or inconsistent plan reports `CHAT_RESPONSE_CONTRACT_INVALID`, not missing user context.
 
+For a declared `en → pl` direction, try `/chat en pl`, then enter `A girl sees a dog.` and `Does a girl see a dog?`. The translation of the second utterance is labeled separately from an Engine answer. The currently shared question construction is bounded to present yes/no questions about visual perception; the language capability declaration does not guarantee that a session fact or referent is sufficient to answer. An unresolved or unmatched fact can leave the answer unknown. Use `/details` to inspect the nested question meaning, response plan, evidence, confidence, and diagnostics.
+
 The session language, local status, and `turnCount/maxTurns` are shown above the scrollable conversation. The counter measures dialogue acts, not tokens. It is read after the response attempt; an accepted question can use the last available act and leave its response as a visible resource-limit diagnostic. The session and visible history exist only in process memory; they are not written to disk.
 
 ### Forms

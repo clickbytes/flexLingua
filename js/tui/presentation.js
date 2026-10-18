@@ -63,11 +63,22 @@ export function operationStatusLabel(status) {
 
 export function semanticSummary(meaning) {
   if (!meaning || typeof meaning !== 'object') return '';
+  if (meaning.type === 'question') {
+    const questionType = meaning.questionType === 'yes_no' ? 'pytanie tak/nie' : 'pytanie';
+    const proposition = meaning.proposition;
+    if (proposition?.type !== 'event') return `MeaningGraph: ${questionType}`;
+    const concept = typeof proposition.concept === 'string' ? proposition.concept : null;
+    const roles = Object.entries(proposition.roles ?? {}).sort(([left], [right]) =>
+      left.localeCompare(right)).map(([role, value]) =>
+      `${role}=${typeof value?.concept === 'string' ? value.concept : 'unspecified'}`);
+    return `MeaningGraph: ${questionType}${concept ? ` · ${concept}` : ''}${
+      roles.length ? ` · ${roles.join(', ')}` : ''}`;
+  }
   const events = Array.isArray(meaning.events) ? meaning.events : [];
   const eventTypes = [...new Set(events.map(event => event?.type ?? event?.predicate).filter(Boolean))];
   const concept = meaning.concept ?? (eventTypes.length ? eventTypes.join(', ') : meaning.type);
   const roles = Object.entries(meaning.roles ?? {}).map(([role, value]) =>
-    `${role}=${value?.concept ?? 'unspecified'}`);
+    `${role}=${typeof value?.concept === 'string' ? value.concept : 'unspecified'}`);
   if (!concept && !roles.length) return '';
   return `MeaningGraph: ${concept ?? 'graph'}${roles.length ? ` · ${roles.join(', ')}` : ''}`;
 }
@@ -79,6 +90,17 @@ function itemMessage(item) {
 
 export function diagnosticPresentation(item) {
   const code = typeof item === 'object' && item ? item.code : null;
+  if (code === 'RESPONSE_NOT_REALIZABLE') {
+    const summary = ({
+      insufficient_context: 'Brak dopasowanego faktu w tej sesji.',
+      ambiguous: 'Sprzeczne lub niejednoznaczne dowody.',
+      unsupported: 'Ten rodzaj odpowiedzi jest poza zakresem.'
+    })[item.reason] ?? 'Engine nie utworzył odpowiedzi.';
+    return `${summary} (${code})`;
+  }
+  if (code === 'CHAT_RESPONSE_CONTRACT_INVALID') {
+    return `Plan odpowiedzi Engine jest nieprawidłowy; sprawdź Details. (${code})`;
+  }
   const known = code ? DIAGNOSTIC_LABELS[code] : null;
   if (known) return `${known.summary} ${known.nextStep} (${code})`;
   const message = itemMessage(item);

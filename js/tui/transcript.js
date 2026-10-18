@@ -14,9 +14,11 @@ function chatEventLines(entry, {compact = false} = {}) {
   const events = entry.events ?? [];
   const result = entry.rawResult ?? {};
   const accepted = entry.accepted === true;
-  const lines = [line(`#${id} ${accepted ? 'Przyjęto' : 'Nie przyjęto'} wypowiedź · ${
+  const isQuestion = events.some(event => event.type === 'semantic_reading' &&
+    event.dialogueAct?.act === 'ask');
+  const acceptedLabel = isQuestion ? 'Przyjęto pytanie' : 'Przyjęto wypowiedź';
+  const lines = [line(`#${id} ${accepted ? acceptedLabel : 'Nie przyjęto wypowiedzi'} · ${
     operationStatusLabel(entry.status)}`, accepted ? 'accent' : 'warning', entry.id)];
-  const outputLines = [];
   for (const event of events) {
     if (event.type === 'user_utterance') {
       lines.push(line(`Ty · ${event.language ?? entry.from ?? '?'}`, 'muted', entry.id));
@@ -26,43 +28,48 @@ function chatEventLines(entry, {compact = false} = {}) {
         (compact ? 'Realizacja' : 'Realizacja wypowiedzi') :
           (compact ? 'Tłumaczenie' : 'Tłumaczenie wypowiedzi');
       const target = event.to ?? entry.to ?? '?';
-      const output = [line(`${kind} · ${target}`, 'accent', entry.id),
-        line(event.text, 'neutral', entry.id)];
-      if (compact) outputLines.push(...output);
-      else lines.push(...output);
+      lines.push(line(`${kind} · ${target}`, 'accent', entry.id),
+        line(event.text, 'neutral', entry.id));
     } else if (event.type === 'semantic_reading') {
       const act = event.dialogueAct?.act;
       const meaning = semanticSummary(event.meaning);
+      const meaningText = meaning.replace(/^MeaningGraph:\s*/u, '');
       if (compact) {
-        const concept = event.meaning?.concept ?? event.meaning?.kind ?? event.meaning?.type;
-        const summary = [act, concept].filter(Boolean).join(' · ');
+        const summary = [act, meaningText].filter(Boolean).join(' · ');
         if (summary) lines.push(line(`Odczyt · ${summary}`, 'muted', entry.id));
-      } else if (meaning) {
-        lines.push(line(`Odczyt${act ? ` · ${act}` : ''}: ${meaning}`, 'muted', entry.id));
+      } else if (meaningText) {
+        lines.push(line(`Odczyt${act ? ` · ${act}` : ''} · ${meaningText}`, 'muted', entry.id));
       }
       if (event.alternatives?.length) lines.push(line(`Alternatywy: ${event.alternatives.length}`,
         'muted', entry.id));
       if (event.informationLoss?.length) lines.push(line(`Utrata informacji: ${event.informationLoss.length}`,
         'warning', entry.id));
     } else if (event.type === 'engine_response') {
-      const output = [line(`Odpowiedź Engine · ${entry.to ?? '?'}`, 'accent', entry.id),
-        line(event.text, 'neutral', entry.id)];
-      if (compact) outputLines.push(...output);
-      else lines.push(...output);
+      if (accepted && result.responseStatus === 'ok' && typeof event.text === 'string' &&
+          event.text.length) {
+        lines.push(line(`Odpowiedź Engine · ${entry.to ?? '?'}`, 'accent', entry.id),
+          line(event.text, 'neutral', entry.id));
+      }
     } else if (event.type === 'diagnostic') {
       lines.push(line(diagnosticPresentation(event), 'warning', entry.id));
     }
   }
   const responseStatus = result.responseStatus;
   if (accepted && responseStatus && !['ok', 'not_requested', 'not_attempted'].includes(responseStatus)) {
-    lines.push(line(`Odpowiedź Engine niedostępna · ${operationStatusLabel(responseStatus)}`,
-      'warning', entry.id));
+    const hasResponseDiagnostic = events.some(event => event.type === 'diagnostic' &&
+      ['RESPONSE_NOT_REALIZABLE', 'CHAT_RESPONSE_CONTRACT_INVALID', 'CHAT_RESPONSE_ERROR']
+        .includes(event.code));
+    if (!hasResponseDiagnostic) {
+      lines.push(line(`Odpowiedź Engine niedostępna · ${operationStatusLabel(responseStatus)}`,
+        'warning', entry.id));
+    }
   }
-  if (compact) return [...lines, ...outputLines];
   if (Number.isSafeInteger(result.eventCount) && Number.isSafeInteger(result.maxEvents) &&
       Number.isSafeInteger(result.turnCount) && Number.isSafeInteger(result.maxTurns)) {
-    lines.push(line(`Sesja · akty ${result.turnCount}/${result.maxTurns} · zdarzenia ${
-      result.eventCount}/${result.maxEvents} · /details ${id}`, 'muted', entry.id));
+    const counters = compact ? `Akty ${result.turnCount}/${result.maxTurns} · zdarzenia ${
+      result.eventCount}/${result.maxEvents} · /details ${id}` : `Sesja · akty ${
+      result.turnCount}/${result.maxTurns} · zdarzenia ${result.eventCount}/${result.maxEvents} · /details ${id}`;
+    lines.push(line(counters, 'muted', entry.id));
   } else {
     lines.push(line(`/details ${id}`, 'muted', entry.id));
   }
