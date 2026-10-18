@@ -75,16 +75,16 @@
         },
         "features": {"tense": "present", "polarity": "positive"}
       },
-      "observedStatus": "unsupported",
-      "observedDiagnosticsCodes": ["LANGUAGE_CONSTRUCTION_UNSUPPORTED"],
-      "observedExitCode": 2,
-      "observedAtSha": "caffbd52b5951cccc06708d055574d68486d1a62",
+      "observedStatus": "ok",
+      "observedDiagnosticsCodes": [],
+      "observedExitCode": 0,
+      "observedAtSha": "485ee7cfab51f5d431dd35313df49872dc1abf58",
       "severity": "high",
-      "state": "open",
-      "owner": "epic #341 (TM) — follow-up issue required",
-      "issue": "#346",
-      "retestPolicy": "Re-run the CLI whenever the fi plugin's morphology compile coverage changes or event.visual_attention declarations change on either side. If the refusal disappears, re-observe and replace this gap with approved positive cases for both en>fi and fi>en before closing.",
-      "note": "Declaration/implementation mismatch: manifests on both sides declare event.visual_attention implemented (en.analyze + fi.realize), yet the engine refuses with LANGUAGE_CONSTRUCTION_UNSUPPORTED before any analysis. Finnish morphology compile coverage is 1/6 at the observation SHA (missing girl/house lexemes per tools/compile-language.mjs fi). No automated case may assert a refusal here — that would freeze a declaration bug into an approved expectation."
+      "state": "closed",
+      "owner": "#364 — en.house.1 activation + approved en-fi/fi-en cases (Drugi agent, opencode/GLM)",
+      "issue": "#364",
+      "retestPolicy": "Closed by the #364 repair: the en house lexeme is activated through its empty forms table plus the already-tracked en.noun.regular morphology binding, and both directions are guarded by approved cases. If A1-EN-FI-VISUAL-0001/0002 or A1-FI-EN-VISUAL-0001/0002 ever fail, or the event.visual_attention capability regresses to a refusal or an infrastructure error, re-open this family.",
+      "note": "History: manifests on both sides declared event.visual_attention implemented, yet at main@caffbd52b5951cccc06708d055574d68486d1a62 both directions refused with LANGUAGE_CONSTRUCTION_UNSUPPORTED exit 2. The earlier '1/6 fi morphology compile coverage' reading was a red herring: fi analysis succeeded once probed directly (fi.noun.talo.type1 already decodes taloa). Root cause was the English data: en.house.1 had no forms key at all, so expandLexemes (js/core/grammar.js:808) dropped the lexeme from both en analysis and en realization; the en.noun.regular morphology binding alone could not activate it. Fixed in PR #370 (merged as main@485ee7cfab51f5d431dd35313df49872dc1abf58). Re-observed 2026-10-18 at that merge SHA: en->fi status ok, text 'Tyttö katsoo taloa.', exit 0, agent/theme indefinite with two unavoidable target-grammar-does-not-mark-definiteness entries. Closed as approved cases: A1-EN-FI-VISUAL-0001 (positive en->fi), A1-EN-FI-VISUAL-0002 (controlled refusal), A1-FI-EN-VISUAL-0001 (positive fi->en), A1-FI-EN-VISUAL-0002 (controlled refusal). Required check translation-matrix SUCCESS on PR #370 and on main; the refusal diagnostics were never rewritten as capability proof. Side observations recorded on #364: the en no-forms lexeme family with morphology bindings (en.bicycle.1, en.phone.1 and neighbors) stays latent and outside declared capabilities; 'Tytöt katsovat taloja.' parses as plural; 'A girl sees a house.' en->fi refuses with PLUGIN_CAPABILITY_UNAVAILABLE because fi declares only its bounded constructions."
     },
     {
       "id": "GAP-FI-EN-VISUAL-0004",
@@ -101,16 +101,16 @@
         },
         "features": {"tense": "present", "polarity": "positive"}
       },
-      "observedStatus": "unsupported",
-      "observedDiagnosticsCodes": ["LANGUAGE_CONSTRUCTION_UNSUPPORTED"],
-      "observedExitCode": 2,
-      "observedAtSha": "caffbd52b5951cccc06708d055574d68486d1a62",
+      "observedStatus": "ok",
+      "observedDiagnosticsCodes": [],
+      "observedExitCode": 0,
+      "observedAtSha": "485ee7cfab51f5d431dd35313df49872dc1abf58",
       "severity": "high",
-      "state": "open",
-      "owner": "epic #341 (TM) — follow-up issue required",
-      "issue": "#346",
-      "retestPolicy": "Paired retest with GAP-EN-FI-VISUAL-0003: re-run the CLI on every SHA touching fi analyze declarations or morphology compile coverage; the gap may close only into approved positive witnesses for both directions.",
-      "note": "Same mismatch as GAP-EN-FI-VISUAL-0003 in the reverse direction: fi.analyze declares event.visual_attention implemented yet the service refuses it before any analysis. Recorded as one pair so neither direction silently regresses into a fake refusal-based pass."
+      "state": "closed",
+      "owner": "#364 — en.house.1 activation + approved en-fi/fi-en cases (Drugi agent, opencode/GLM)",
+      "issue": "#364",
+      "retestPolicy": "Closed by the #364 repair: paired with GAP-EN-FI-VISUAL-0003, the fi analysis never needed a change and the end realization is repaired by activating the en house lexeme; the direction is guarded by approved cases. If A1-FI-EN-VISUAL-0001/0002 ever fail, or the fi->en capability regresses to a refusal or an infrastructure error, re-open this family.",
+      "note": "History: same mismatch as GAP-EN-FI-VISUAL-0003, reverse direction: fi.analyze declared event.visual_attention implemented yet the service refused. Direct probing showed fi analysis produced one clean partitive reading ('Tyttö katsoo taloa.' -> event.visual_attention, agent/theme number singular definiteness unknown); the refusal came from the en realization whose house lexeme was dead (en.house.1 lacked its forms key, so expandLexemes dropped it). Fixed in PR #370 (merged as main@485ee7cfab51f5d431dd35313df49872dc1abf58). Re-observed 2026-10-18 at that merge SHA: fi->en status ok, text 'A girl looks at a house.', exit 0, agent/theme definiteness unknown with two ambiguous source-definiteness-unspecified-target-default entries and the endorsed alternative 'The girl looks at the house.'. Closed as approved cases: A1-FI-EN-VISUAL-0001 (positive fi->en), A1-FI-EN-VISUAL-0002 (controlled refusal), A1-EN-FI-VISUAL-0001/0002 (paired en->fi). Required check translation-matrix SUCCESS on PR #370 and on main; neither direction regressed into a fake refusal-based pass."
     },
     {
       "id": "GAP-PL-EN-CLITIC-0005",
