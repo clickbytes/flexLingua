@@ -1,0 +1,390 @@
+{
+  "schemaVersion": "1.0",
+  "cases": [
+    {
+      "id": "A1-PL-EN-TGW-0125",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "W2 positive bilingual witness; preserve visual-perception roles and typed event, agent and theme ancestry.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Lekarz widzi serce."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "A doctor sees a heart."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.doctor",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            },
+            "theme": {
+              "concept": "body.heart",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "imperfective"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "The doctor sees the heart."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "ambiguous"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; W2 linguistic curation and independent expected review delegated by the project owner (2026-10-18). #405 candidate ledger comment #6251909714 records the complete proposal and oracle. Codex checked senses, polysemy, exact forms, roles, typed ancestry, ambiguity and refusal behavior; this does not claim per-ID manual user review.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#405"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "pl.analyze(event.visual_perception) -> en.realize"
+      }
+    },
+    {
+      "id": "A1-PL-EN-TGW-0126",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "lexical_ambiguity",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 4,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "Polish kora has tree-bark and brain-cortex readings; preserve both without context.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Dziewczynka widzi korę."
+      },
+      "expected": {
+        "status": "ambiguous",
+        "text": null,
+        "meaning": null,
+        "diagnostics": {
+          "required": [
+            {
+              "code": "AMBIGUOUS_MEANING"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            {
+              "meaning": {
+                "type": "event",
+                "concept": "event.visual_perception",
+                "roleSet": [
+                  "agent",
+                  "theme"
+                ],
+                "roles": {
+                  "agent": {
+                    "concept": "person.girl",
+                    "features": {
+                      "number": "singular",
+                      "definiteness": "unknown"
+                    }
+                  },
+                  "theme": {
+                    "concept": "plant.bark",
+                    "features": {
+                      "number": "singular",
+                      "definiteness": "unknown"
+                    }
+                  }
+                },
+                "features": {
+                  "tense": "present",
+                  "polarity": "positive",
+                  "aspect": "imperfective"
+                },
+                "assert": {}
+              }
+            },
+            {
+              "meaning": {
+                "type": "event",
+                "concept": "event.visual_perception",
+                "roleSet": [
+                  "agent",
+                  "theme"
+                ],
+                "roles": {
+                  "agent": {
+                    "concept": "person.girl",
+                    "features": {
+                      "number": "singular",
+                      "definiteness": "unknown"
+                    }
+                  },
+                  "theme": {
+                    "concept": "body.cortex",
+                    "features": {
+                      "number": "singular",
+                      "definiteness": "unknown"
+                    }
+                  }
+                },
+                "features": {
+                  "tense": "present",
+                  "polarity": "positive",
+                  "aspect": "imperfective"
+                },
+                "assert": {}
+              }
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; W2 linguistic curation and independent expected review delegated by the project owner (2026-10-18). #405 candidate ledger comment #6251909714 records the complete proposal and oracle. Codex checked senses, polysemy, exact forms, roles, typed ancestry, ambiguity and refusal behavior; this does not claim per-ID manual user review.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#405"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "pl.analyze lexical ambiguity; preserve both readings"
+      }
+    },
+    {
+      "id": "A1-PL-EN-TGW-0127",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "construction_boundary",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 4,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "past",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "Controlled refusal: passive visual-perception voice is not licensed.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Wydra była widziana przez dziewczynkę."
+      },
+      "expected": {
+        "status": "unsupported",
+        "text": null,
+        "meaning": null,
+        "diagnostics": {
+          "required": [
+            {
+              "code": "LANGUAGE_CONSTRUCTION_UNSUPPORTED"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; W2 linguistic curation and independent expected review delegated by the project owner (2026-10-18). #405 candidate ledger comment #6251909714 records the complete proposal and oracle. Codex checked senses, polysemy, exact forms, roles, typed ancestry, ambiguity and refusal behavior; this does not claim per-ID manual user review.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#405"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "pl.analyze unsupported construction refusal"
+      }
+    },
+    {
+      "id": "A1-PL-EN-TGW-0128",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "construction_boundary",
+      "construction": "event.movement",
+      "tier": "required",
+      "priority": 4,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "Controlled refusal: swimming has no activated lexical event or realization; do not infer meaning from the animal noun.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Wydra pływa."
+      },
+      "expected": {
+        "status": "unsupported",
+        "text": null,
+        "meaning": null,
+        "diagnostics": {
+          "required": [
+            {
+              "code": "LANGUAGE_CONSTRUCTION_UNSUPPORTED"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; W2 linguistic curation and independent expected review delegated by the project owner (2026-10-18). #405 candidate ledger comment #6251909714 records the complete proposal and oracle. Codex checked senses, polysemy, exact forms, roles, typed ancestry, ambiguity and refusal behavior; this does not claim per-ID manual user review.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#405"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "pl.analyze unsupported construction refusal"
+      }
+    }
+  ]
+}

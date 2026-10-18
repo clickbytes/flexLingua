@@ -15,7 +15,7 @@ export const DISCOVERY_LIMITS = Object.freeze({
   maxDirectories: 32,
   maxFiles: 64,
   maxFileBytes: 131072,
-  maxTotalBytes: 524288,
+  maxTotalBytes: 786432,
   maxCases: 200
 });
 

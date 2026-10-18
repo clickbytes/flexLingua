@@ -86,6 +86,13 @@
           "source": "Project-authored bilingual lexical senses based on bounded linguistic review; no external dictionary, vocabulary list or protected list was copied.",
           "license": "Project-authored for internal flexLingua use; this repository declares no separate SPDX data license.",
           "scope": "Adds 99 bilingual new entity concept lemma pairs plus a project-authored PL sofa / EN couch synonym pair for object.sofa; purpose remains a nonlexicalized typed category."
+        },
+        {
+          "issue": "#405",
+          "author": "Codex agent (linguistic curation delegated by project owner)",
+          "source": "Project-authored bilingual lexical and CORE senses based on bounded linguistic review; no external dictionary, vocabulary list, definition text or imported dataset was used.",
+          "license": "Project-authored for internal flexLingua use; this repository declares no separate SPDX data license.",
+          "scope": "Adds 100 distinct English lemmas for 100 selected concepts, with shared mole senses plus project-authored nevus synonym; only reviewed sentences and ambiguity are morphology-ready."
         }
       ],
       "migratedFrom": "data/en.json"
@@ -271,6 +278,13 @@
           "source": "Project-authored, restricted forms only for the W1 licensed singular constructions; no bulk inflection table or external morphology resource was copied.",
           "license": "Project-authored for internal flexLingua use; this repository declares no separate SPDX data license.",
           "scope": "Adds reviewed regular, sibilant and consonant-y noun paradigms for 99 new entity lemmas plus the additional English couch/couches synonym forms."
+        },
+        {
+          "issue": "#405",
+          "author": "Codex agent (linguistic curation delegated by project owner)",
+          "source": "Project-authored bilingual lexical and CORE senses based on bounded linguistic review; no external dictionary, vocabulary list, definition text or imported dataset was used.",
+          "license": "Project-authored for internal flexLingua use; this repository declares no separate SPDX data license.",
+          "scope": "Adds one bounded singular-only paradigm and 26 reviewed bindings for positive witnesses and mole ambiguity; no plural forms are claimed."
         }
       ],
       "migratedFrom": "data/morphology/en.json"

@@ -4103,6 +4103,1513 @@
           }
         }
       ]
+    },
+    {
+      "id": "en.otter.1",
+      "lemma": "otter",
+      "forms": {},
+      "indefiniteArticle": "an",
+      "senses": [
+        {
+          "id": "en.otter.1.sense.animal_otter",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.otter"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.beaver.1",
+      "lemma": "beaver",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.beaver.1.sense.animal_beaver",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.beaver"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.squirrel.1",
+      "lemma": "squirrel",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.squirrel.1.sense.animal_squirrel",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.squirrel"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.hedgehog.1",
+      "lemma": "hedgehog",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.hedgehog.1.sense.animal_hedgehog",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.hedgehog"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.badger.1",
+      "lemma": "badger",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.badger.1.sense.animal_badger",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.badger"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.mole.1",
+      "lemma": "mole",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.mole.1.sense.animal_mole",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.mole"
+          }
+        },
+        {
+          "id": "en.mole.1.sense.body_mole",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.mole"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.wolf.1",
+      "lemma": "wolf",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.wolf.1.sense.animal_wolf",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.wolf"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.bear.1",
+      "lemma": "bear",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.bear.1.sense.animal_bear",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.bear"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.moose.1",
+      "lemma": "moose",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.moose.1.sense.animal_moose",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.moose"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.boar.1",
+      "lemma": "boar",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.boar.1.sense.animal_boar",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.boar"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.lynx.1",
+      "lemma": "lynx",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.lynx.1.sense.animal_lynx",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.lynx"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.european_bison.1",
+      "lemma": "European bison",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.european_bison.1.sense.animal_european_bison",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.european_bison"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.reindeer.1",
+      "lemma": "reindeer",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.reindeer.1.sense.animal_reindeer",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.reindeer"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.elephant.1",
+      "lemma": "elephant",
+      "forms": {},
+      "indefiniteArticle": "an",
+      "senses": [
+        {
+          "id": "en.elephant.1.sense.animal_elephant",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.elephant"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.giraffe.1",
+      "lemma": "giraffe",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.giraffe.1.sense.animal_giraffe",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.giraffe"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.zebra.1",
+      "lemma": "zebra",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.zebra.1.sense.animal_zebra",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.zebra"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.monkey.1",
+      "lemma": "monkey",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.monkey.1.sense.animal_monkey",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.monkey"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.kangaroo.1",
+      "lemma": "kangaroo",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.kangaroo.1.sense.animal_kangaroo",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.kangaroo"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.porcupine.1",
+      "lemma": "porcupine",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.porcupine.1.sense.animal_porcupine",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.porcupine"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.bird.1",
+      "lemma": "bird",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.bird.1.sense.animal_bird",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.bird"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.eagle.1",
+      "lemma": "eagle",
+      "forms": {},
+      "indefiniteArticle": "an",
+      "senses": [
+        {
+          "id": "en.eagle.1.sense.animal_eagle",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.eagle"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.owl.1",
+      "lemma": "owl",
+      "forms": {},
+      "indefiniteArticle": "an",
+      "senses": [
+        {
+          "id": "en.owl.1.sense.animal_owl",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.owl"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.crow.1",
+      "lemma": "crow",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.crow.1.sense.animal_crow",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.crow"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.duck.1",
+      "lemma": "duck",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.duck.1.sense.animal_duck",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.duck"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.goose.1",
+      "lemma": "goose",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.goose.1.sense.animal_goose",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.goose"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.swan.1",
+      "lemma": "swan",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.swan.1.sense.animal_swan",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.swan"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.stork.1",
+      "lemma": "stork",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.stork.1.sense.animal_stork",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.stork"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.parrot.1",
+      "lemma": "parrot",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.parrot.1.sense.animal_parrot",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.parrot"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.sparrow.1",
+      "lemma": "sparrow",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.sparrow.1.sense.animal_sparrow",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.sparrow"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.pigeon.1",
+      "lemma": "pigeon",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.pigeon.1.sense.animal_pigeon",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.pigeon"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.peacock.1",
+      "lemma": "peacock",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.peacock.1.sense.animal_peacock",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.peacock"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.woodpecker.1",
+      "lemma": "woodpecker",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.woodpecker.1.sense.animal_woodpecker",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.woodpecker"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.penguin.1",
+      "lemma": "penguin",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.penguin.1.sense.animal_penguin",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.penguin"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.pelican.1",
+      "lemma": "pelican",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.pelican.1.sense.animal_pelican",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.pelican"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.lizard.1",
+      "lemma": "lizard",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.lizard.1.sense.animal_lizard",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.lizard"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.snake.1",
+      "lemma": "snake",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.snake.1.sense.animal_snake",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.snake"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.frog.1",
+      "lemma": "frog",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.frog.1.sense.animal_frog",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.frog"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.toad.1",
+      "lemma": "toad",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.toad.1.sense.animal_toad",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.toad"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.crocodile.1",
+      "lemma": "crocodile",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.crocodile.1.sense.animal_crocodile",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.crocodile"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.alligator.1",
+      "lemma": "alligator",
+      "forms": {},
+      "indefiniteArticle": "an",
+      "senses": [
+        {
+          "id": "en.alligator.1.sense.animal_alligator",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.alligator"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.turtle.1",
+      "lemma": "turtle",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.turtle.1.sense.animal_turtle",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.turtle"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.salamander.1",
+      "lemma": "salamander",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.salamander.1.sense.animal_salamander",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.salamander"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.salmon.1",
+      "lemma": "salmon",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.salmon.1.sense.animal_salmon",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.salmon"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.trout.1",
+      "lemma": "trout",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.trout.1.sense.animal_trout",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.trout"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.branch.1",
+      "lemma": "branch",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.branch.1.sense.plant_branch",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.branch"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.root.1",
+      "lemma": "root",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.root.1.sense.plant_root",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.root"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.leaf.1",
+      "lemma": "leaf",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.leaf.1.sense.plant_leaf",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.leaf"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.stem.1",
+      "lemma": "stem",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.stem.1.sense.plant_stem",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.stem"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.flower.1",
+      "lemma": "flower",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.flower.1.sense.plant_flower",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.flower"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.grass.1",
+      "lemma": "grass",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.grass.1.sense.plant_grass",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.grass"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.shrub.1",
+      "lemma": "shrub",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.shrub.1.sense.plant_shrub",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.shrub"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.fern.1",
+      "lemma": "fern",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.fern.1.sense.plant_fern",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.fern"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.moss.1",
+      "lemma": "moss",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.moss.1.sense.plant_moss",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.moss"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.bark.1",
+      "lemma": "bark",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.bark.1.sense.plant_bark",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.bark"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.seed.1",
+      "lemma": "seed",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.seed.1.sense.plant_seed",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.seed"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.bud.1",
+      "lemma": "bud",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.bud.1.sense.plant_bud",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.bud"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.fruit.1",
+      "lemma": "fruit",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.fruit.1.sense.plant_fruit",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.fruit"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.trunk.1",
+      "lemma": "trunk",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.trunk.1.sense.plant_trunk",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.trunk"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.weed.1",
+      "lemma": "weed",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.weed.1.sense.plant_weed",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.weed"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.daisy.1",
+      "lemma": "daisy",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.daisy.1.sense.plant_daisy",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.daisy"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.rose.1",
+      "lemma": "rose",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.rose.1.sense.plant_rose",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.rose"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.tulip.1",
+      "lemma": "tulip",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tulip.1.sense.plant_tulip",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.tulip"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.sunflower.1",
+      "lemma": "sunflower",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.sunflower.1.sense.plant_sunflower",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.sunflower"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.oak.1",
+      "lemma": "oak",
+      "forms": {},
+      "indefiniteArticle": "an",
+      "senses": [
+        {
+          "id": "en.oak.1.sense.plant_oak",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.oak"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.pine.1",
+      "lemma": "pine",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.pine.1.sense.plant_pine",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.pine"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.birch.1",
+      "lemma": "birch",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.birch.1.sense.plant_birch",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.birch"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.maple.1",
+      "lemma": "maple",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.maple.1.sense.plant_maple",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.maple"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.spruce.1",
+      "lemma": "spruce",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.spruce.1.sense.plant_spruce",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.spruce"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.willow.1",
+      "lemma": "willow",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.willow.1.sense.plant_willow",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.willow"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.palm.1",
+      "lemma": "palm",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.palm.1.sense.plant_palm",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.palm"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.cactus.1",
+      "lemma": "cactus",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.cactus.1.sense.plant_cactus",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.cactus"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.ivy.1",
+      "lemma": "ivy",
+      "forms": {},
+      "indefiniteArticle": "an",
+      "senses": [
+        {
+          "id": "en.ivy.1.sense.plant_ivy",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.ivy"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.grapevine.1",
+      "lemma": "grapevine",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.grapevine.1.sense.plant_grapevine",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.grapevine"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.lily.1",
+      "lemma": "lily",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.lily.1.sense.plant_lily",
+          "coreRef": {
+            "kind": "concept",
+            "id": "plant.lily"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.wing.1",
+      "lemma": "wing",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.wing.1.sense.body_wing",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.wing"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.head.1",
+      "lemma": "head",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.head.1.sense.body_head",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.head"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.face.1",
+      "lemma": "face",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.face.1.sense.body_face",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.face"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.eye.1",
+      "lemma": "eye",
+      "forms": {},
+      "indefiniteArticle": "an",
+      "senses": [
+        {
+          "id": "en.eye.1.sense.body_eye",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.eye"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.ear.1",
+      "lemma": "ear",
+      "forms": {},
+      "indefiniteArticle": "an",
+      "senses": [
+        {
+          "id": "en.ear.1.sense.body_ear",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.ear"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.nose.1",
+      "lemma": "nose",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.nose.1.sense.body_nose",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.nose"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.mouth.1",
+      "lemma": "mouth",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.mouth.1.sense.body_mouth",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.mouth"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.tooth.1",
+      "lemma": "tooth",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tooth.1.sense.body_tooth",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.tooth"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.tongue.1",
+      "lemma": "tongue",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tongue.1.sense.body_tongue",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.tongue"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.neck.1",
+      "lemma": "neck",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.neck.1.sense.body_neck",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.neck"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.shoulder.1",
+      "lemma": "shoulder",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.shoulder.1.sense.body_shoulder",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.shoulder"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.arm.1",
+      "lemma": "arm",
+      "forms": {},
+      "indefiniteArticle": "an",
+      "senses": [
+        {
+          "id": "en.arm.1.sense.body_arm",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.arm"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.hand.1",
+      "lemma": "hand",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.hand.1.sense.body_hand",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.hand"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.finger.1",
+      "lemma": "finger",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.finger.1.sense.body_finger",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.finger"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.thumb.1",
+      "lemma": "thumb",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.thumb.1.sense.body_thumb",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.thumb"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.wrist.1",
+      "lemma": "wrist",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.wrist.1.sense.body_wrist",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.wrist"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.elbow.1",
+      "lemma": "elbow",
+      "forms": {},
+      "indefiniteArticle": "an",
+      "senses": [
+        {
+          "id": "en.elbow.1.sense.body_elbow",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.elbow"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.knee.1",
+      "lemma": "knee",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.knee.1.sense.body_knee",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.knee"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.ankle.1",
+      "lemma": "ankle",
+      "forms": {},
+      "indefiniteArticle": "an",
+      "senses": [
+        {
+          "id": "en.ankle.1.sense.body_ankle",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.ankle"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.foot.1",
+      "lemma": "foot",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.foot.1.sense.body_foot",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.foot"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.skin.1",
+      "lemma": "skin",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.skin.1.sense.body_skin",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.skin"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.hair.1",
+      "lemma": "hair",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.hair.1.sense.body_hair",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.hair"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.heart.1",
+      "lemma": "heart",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.heart.1.sense.body_heart",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.heart"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.lung.1",
+      "lemma": "lung",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.lung.1.sense.body_lung",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.lung"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.cortex.1",
+      "lemma": "cortex",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.cortex.1.sense.body_cortex",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.cortex"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.nevus.1",
+      "lemma": "nevus",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.nevus.1.sense.body_mole",
+          "coreRef": {
+            "kind": "concept",
+            "id": "body.mole"
+          }
+        }
+      ]
     }
   ],
   "verbs": [

@@ -3055,6 +3055,69 @@
           ]
         }
       ]
+    },
+    "pl.noun.w2_singular_acc_masculine_a": {
+      "pos": "NOUN",
+      "slots": [
+        {
+          "features": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "a"
+            }
+          ],
+          "path": [
+            "singular",
+            "acc"
+          ]
+        }
+      ]
+    },
+    "pl.noun.w2_singular_acc_masculine_ia": {
+      "pos": "NOUN",
+      "slots": [
+        {
+          "features": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "ia"
+            }
+          ],
+          "path": [
+            "singular",
+            "acc"
+          ]
+        }
+      ]
+    },
+    "pl.noun.w2_singular_acc_masculine_zia": {
+      "pos": "NOUN",
+      "slots": [
+        {
+          "features": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "zia"
+            }
+          ],
+          "path": [
+            "singular",
+            "acc"
+          ]
+        }
+      ]
     }
   },
   "bindings": [
@@ -15131,6 +15194,214 @@
       "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
       "stems": {
         "base": "sof"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.wydra.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "wydr"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.bobr.1",
+      "paradigmId": "pl.noun.w2_singular_acc_masculine_a",
+      "stems": {
+        "base": "bobr"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.wiewiorka.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "wiewiórk"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.jez.1",
+      "paradigmId": "pl.noun.w2_singular_acc_masculine_a",
+      "stems": {
+        "base": "jeż"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.borsuk.1",
+      "paradigmId": "pl.noun.w2_singular_acc_masculine_a",
+      "stems": {
+        "base": "borsuk"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.wilk.1",
+      "paradigmId": "pl.noun.w2_singular_acc_masculine_a",
+      "stems": {
+        "base": "wilk"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.niedzwiedz.1",
+      "paradigmId": "pl.noun.w2_singular_acc_masculine_zia",
+      "stems": {
+        "base": "niedźwied"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.los.1",
+      "paradigmId": "pl.noun.w2_singular_acc_masculine_ia",
+      "stems": {
+        "base": "łos"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.dzik.1",
+      "paradigmId": "pl.noun.w2_singular_acc_masculine_a",
+      "stems": {
+        "base": "dzik"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.rys.1",
+      "paradigmId": "pl.noun.w2_singular_acc_masculine_ia",
+      "stems": {
+        "base": "rys"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.renifer.1",
+      "paradigmId": "pl.noun.w2_singular_acc_masculine_a",
+      "stems": {
+        "base": "renifer"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.zyrafa.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "żyraf"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.ptak.1",
+      "paradigmId": "pl.noun.w2_singular_acc_masculine_a",
+      "stems": {
+        "base": "ptak"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.zolw.1",
+      "paradigmId": "pl.noun.w2_singular_acc_masculine_ia",
+      "stems": {
+        "base": "żółw"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.galaz.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "gałąź"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.korzen.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "korzeń"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.lisc.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "liść"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.lodyga.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "łodyg"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.kwiat.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "kwiat"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.roza.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "róż"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.dab.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "dąb"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.glowa.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "głow"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.oko.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "oko"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.nos.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "nos"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.serce.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "serce"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.kora.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "kor"
       },
       "overrides": []
     }

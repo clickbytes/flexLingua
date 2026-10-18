@@ -434,6 +434,20 @@
           ]
         }
       ]
+    },
+    "en.noun.w2_singular_only": {
+      "pos": "NOUN",
+      "slots": [
+        {
+          "features": {
+            "number": "singular"
+          },
+          "steps": [],
+          "path": [
+            "singular"
+          ]
+        }
+      ]
     }
   },
   "bindings": [
@@ -3202,6 +3216,214 @@
       "paradigmId": "en.noun.regular",
       "stems": {
         "base": "couch"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.otter.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "otter"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.beaver.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "beaver"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.squirrel.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "squirrel"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.hedgehog.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "hedgehog"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.badger.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "badger"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.wolf.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "wolf"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.bear.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "bear"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.moose.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "moose"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.boar.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "boar"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.lynx.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "lynx"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.reindeer.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "reindeer"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.giraffe.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "giraffe"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.bird.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "bird"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.turtle.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "turtle"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.branch.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "branch"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.root.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "root"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.leaf.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "leaf"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.stem.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "stem"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.flower.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "flower"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.rose.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "rose"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.oak.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "oak"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.head.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "head"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.eye.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "eye"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.nose.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "nose"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.heart.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "heart"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.mole.1",
+      "paradigmId": "en.noun.w2_singular_only",
+      "stems": {
+        "base": "mole"
       },
       "overrides": []
     }

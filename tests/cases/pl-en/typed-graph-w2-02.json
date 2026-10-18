@@ -1,0 +1,1756 @@
+{
+  "schemaVersion": "1.0",
+  "cases": [
+    {
+      "id": "A1-PL-EN-TGW-0113",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "W2 positive bilingual witness; preserve visual-perception roles and typed event, agent and theme ancestry.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Dziewczynka widzi ptaka."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "A girl sees a bird."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            },
+            "theme": {
+              "concept": "animal.bird",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "imperfective"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "The girl sees the bird."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "ambiguous"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "animal"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "has_part",
+              "toConcept": "body.wing"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; W2 linguistic curation and independent expected review delegated by the project owner (2026-10-18). #405 candidate ledger comment #6251909714 records the complete proposal and oracle. Codex checked senses, polysemy, exact forms, roles, typed ancestry, ambiguity and refusal behavior; this does not claim per-ID manual user review.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#405"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "pl.analyze(event.visual_perception) -> en.realize"
+      }
+    },
+    {
+      "id": "A1-PL-EN-TGW-0114",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "W2 positive bilingual witness; preserve visual-perception roles and typed event, agent and theme ancestry.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Dziewczynka widzi żółwia."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "A girl sees a turtle."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            },
+            "theme": {
+              "concept": "animal.turtle",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "imperfective"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "The girl sees the turtle."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "ambiguous"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "animal"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; W2 linguistic curation and independent expected review delegated by the project owner (2026-10-18). #405 candidate ledger comment #6251909714 records the complete proposal and oracle. Codex checked senses, polysemy, exact forms, roles, typed ancestry, ambiguity and refusal behavior; this does not claim per-ID manual user review.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#405"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "pl.analyze(event.visual_perception) -> en.realize"
+      }
+    },
+    {
+      "id": "A1-PL-EN-TGW-0115",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "W2 positive bilingual witness; preserve visual-perception roles and typed event, agent and theme ancestry.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Dziewczynka widzi gałąź."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "A girl sees a branch."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            },
+            "theme": {
+              "concept": "plant.branch",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "imperfective"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "The girl sees the branch."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "ambiguous"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; W2 linguistic curation and independent expected review delegated by the project owner (2026-10-18). #405 candidate ledger comment #6251909714 records the complete proposal and oracle. Codex checked senses, polysemy, exact forms, roles, typed ancestry, ambiguity and refusal behavior; this does not claim per-ID manual user review.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#405"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "pl.analyze(event.visual_perception) -> en.realize"
+      }
+    },
+    {
+      "id": "A1-PL-EN-TGW-0116",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "W2 positive bilingual witness; preserve visual-perception roles and typed event, agent and theme ancestry.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Dziewczynka widzi korzeń."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "A girl sees a root."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            },
+            "theme": {
+              "concept": "plant.root",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "imperfective"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "The girl sees the root."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "ambiguous"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; W2 linguistic curation and independent expected review delegated by the project owner (2026-10-18). #405 candidate ledger comment #6251909714 records the complete proposal and oracle. Codex checked senses, polysemy, exact forms, roles, typed ancestry, ambiguity and refusal behavior; this does not claim per-ID manual user review.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#405"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "pl.analyze(event.visual_perception) -> en.realize"
+      }
+    },
+    {
+      "id": "A1-PL-EN-TGW-0117",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "W2 positive bilingual witness; preserve visual-perception roles and typed event, agent and theme ancestry.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Dziewczynka widzi liść."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "A girl sees a leaf."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            },
+            "theme": {
+              "concept": "plant.leaf",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "imperfective"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "The girl sees the leaf."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "ambiguous"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; W2 linguistic curation and independent expected review delegated by the project owner (2026-10-18). #405 candidate ledger comment #6251909714 records the complete proposal and oracle. Codex checked senses, polysemy, exact forms, roles, typed ancestry, ambiguity and refusal behavior; this does not claim per-ID manual user review.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#405"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "pl.analyze(event.visual_perception) -> en.realize"
+      }
+    },
+    {
+      "id": "A1-PL-EN-TGW-0118",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "W2 positive bilingual witness; preserve visual-perception roles and typed event, agent and theme ancestry.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Dziewczynka widzi łodygę."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "A girl sees a stem."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            },
+            "theme": {
+              "concept": "plant.stem",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "imperfective"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "The girl sees the stem."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "ambiguous"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; W2 linguistic curation and independent expected review delegated by the project owner (2026-10-18). #405 candidate ledger comment #6251909714 records the complete proposal and oracle. Codex checked senses, polysemy, exact forms, roles, typed ancestry, ambiguity and refusal behavior; this does not claim per-ID manual user review.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#405"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "pl.analyze(event.visual_perception) -> en.realize"
+      }
+    },
+    {
+      "id": "A1-PL-EN-TGW-0119",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "W2 positive bilingual witness; preserve visual-perception roles and typed event, agent and theme ancestry.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Dziewczynka widzi kwiat."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "A girl sees a flower."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            },
+            "theme": {
+              "concept": "plant.flower",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "imperfective"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "The girl sees the flower."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "ambiguous"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; W2 linguistic curation and independent expected review delegated by the project owner (2026-10-18). #405 candidate ledger comment #6251909714 records the complete proposal and oracle. Codex checked senses, polysemy, exact forms, roles, typed ancestry, ambiguity and refusal behavior; this does not claim per-ID manual user review.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#405"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "pl.analyze(event.visual_perception) -> en.realize"
+      }
+    },
+    {
+      "id": "A1-PL-EN-TGW-0120",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "W2 positive bilingual witness; preserve visual-perception roles and typed event, agent and theme ancestry.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Dziewczynka widzi różę."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "A girl sees a rose."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            },
+            "theme": {
+              "concept": "plant.rose",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "imperfective"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "The girl sees the rose."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "ambiguous"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "plant"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; W2 linguistic curation and independent expected review delegated by the project owner (2026-10-18). #405 candidate ledger comment #6251909714 records the complete proposal and oracle. Codex checked senses, polysemy, exact forms, roles, typed ancestry, ambiguity and refusal behavior; this does not claim per-ID manual user review.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#405"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "pl.analyze(event.visual_perception) -> en.realize"
+      }
+    },
+    {
+      "id": "A1-PL-EN-TGW-0121",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "W2 positive bilingual witness; preserve visual-perception roles and typed event, agent and theme ancestry.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Dziewczynka widzi dąb."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "A girl sees an oak."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            },
+            "theme": {
+              "concept": "plant.oak",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "imperfective"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "The girl sees the oak."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "ambiguous"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "plant"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "has_part",
+              "toConcept": "plant.root"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "has_part",
+              "toConcept": "plant.trunk"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; W2 linguistic curation and independent expected review delegated by the project owner (2026-10-18). #405 candidate ledger comment #6251909714 records the complete proposal and oracle. Codex checked senses, polysemy, exact forms, roles, typed ancestry, ambiguity and refusal behavior; this does not claim per-ID manual user review.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#405"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "pl.analyze(event.visual_perception) -> en.realize"
+      }
+    },
+    {
+      "id": "A1-PL-EN-TGW-0122",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "W2 positive bilingual witness; preserve visual-perception roles and typed event, agent and theme ancestry.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Lekarz widzi głowę."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "A doctor sees a head."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.doctor",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            },
+            "theme": {
+              "concept": "body.head",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "imperfective"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "The doctor sees the head."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "ambiguous"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; W2 linguistic curation and independent expected review delegated by the project owner (2026-10-18). #405 candidate ledger comment #6251909714 records the complete proposal and oracle. Codex checked senses, polysemy, exact forms, roles, typed ancestry, ambiguity and refusal behavior; this does not claim per-ID manual user review.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#405"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "pl.analyze(event.visual_perception) -> en.realize"
+      }
+    },
+    {
+      "id": "A1-PL-EN-TGW-0123",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "W2 positive bilingual witness; preserve visual-perception roles and typed event, agent and theme ancestry.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Lekarz widzi oko."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "A doctor sees an eye."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.doctor",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            },
+            "theme": {
+              "concept": "body.eye",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "imperfective"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "The doctor sees the eye."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "ambiguous"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; W2 linguistic curation and independent expected review delegated by the project owner (2026-10-18). #405 candidate ledger comment #6251909714 records the complete proposal and oracle. Codex checked senses, polysemy, exact forms, roles, typed ancestry, ambiguity and refusal behavior; this does not claim per-ID manual user review.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#405"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "pl.analyze(event.visual_perception) -> en.realize"
+      }
+    },
+    {
+      "id": "A1-PL-EN-TGW-0124",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "W2 positive bilingual witness; preserve visual-perception roles and typed event, agent and theme ancestry.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Lekarz widzi nos."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "A doctor sees a nose."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.doctor",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            },
+            "theme": {
+              "concept": "body.nose",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "imperfective"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "The doctor sees the nose."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "ambiguous"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; W2 linguistic curation and independent expected review delegated by the project owner (2026-10-18). #405 candidate ledger comment #6251909714 records the complete proposal and oracle. Codex checked senses, polysemy, exact forms, roles, typed ancestry, ambiguity and refusal behavior; this does not claim per-ID manual user review.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#405"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "pl.analyze(event.visual_perception) -> en.realize"
+      }
+    }
+  ]
+}
