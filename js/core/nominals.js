@@ -332,14 +332,19 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms, fe
   function read(tokens, index, grammaticalCase, { allowBare = false } = {}) {
     const found = [];
     let visited = 0;
+    // Modifier parsing depends on position and agreement, not noun identity.
+    // Keep results within this read so neither tokens nor returned graphs can
+    // leak into another request. Noun/layout traversal still counts every state.
+    const modifierParses = new Map();
+    const possibleCases=new Set([grammaticalCase,
+      ...(quantityModel?.caseOverrides||[]).filter(rule=>rule.from.includes(grammaticalCase))
+        .map(rule=>rule.to)]);
     for (const { noun, forms } of nounForms) for (const form of forms) for (const [layoutIndex, layout] of layouts.entries()) {
-      const possibleCases=new Set([grammaticalCase,
-        ...(quantityModel?.caseOverrides||[]).filter(rule=>rule.from.includes(grammaticalCase))
-          .map(rule=>rule.to)]);
       if (form.bindings.case !== undefined && !possibleCases.has(form.bindings.case)) continue;
       const number = form.bindings.number;
       if (!number) continue;
       const context = featuresFor(noun, number, grammaticalCase);
+      const contextKey = JSON.stringify(context);
       function search(slotIndex, at, state) {
         if (++visited > MAX_NP_STATES) throw new Error('Qualified noun phrase exceeded parsing limit.');
         if (slotIndex === layout.length) {
@@ -365,7 +370,8 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms, fe
               state.definiteness === 'indefinite' &&
               state.marker !== (firstAdj?.indefiniteArticle || noun.indefiniteArticle)) return;
           const options = {};
-          if (state.modifiers.length) options.modifiers = state.modifiers;
+          // Each candidate owns its graph even when its parse was memoized.
+          if (state.modifiers.length) options.modifiers = structuredClone(state.modifiers);
           if(exact&&quantityModel)options.quantity=exact;
           else if (state.quantifier) options.quantifier = state.quantifier.meaning;
           if(state.demonstrative)options.demonstrative=state.demonstrative;
@@ -425,7 +431,13 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms, fe
             advance(at, { definiteness: 'unknown', marker: null, determinerChosen: false });
           }
         } else if (step === 'modifiers') {
-          for (const parsed of parseProperties(tokens, at, context, maxAdjectives)) {
+          let positions = modifierParses.get(contextKey);
+          if (!positions) {
+            positions = new Map();
+            modifierParses.set(contextKey, positions);
+          }
+          if (!positions.has(at)) positions.set(at, parseProperties(tokens, at, context, maxAdjectives));
+          for (const parsed of positions.get(at)) {
             advance(parsed.next, { modifiers: parsed.modifiers, lexemes: parsed.lexemes });
           }
         }
