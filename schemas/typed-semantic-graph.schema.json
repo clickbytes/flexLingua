@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://flexlingua.local/schemas/typed-semantic-graph.schema.json",
+  "title": "flexLingua typed semantic graph definition fragment",
+  "description": "Reusable fragment for CORE concept definitions. Runtime budgets are normative: 16 candidates, 128 projected nodes, 256 projected edges, and expansion depth 8. A definition may contain at most 16 explicit edges.",
+  "type": "object",
+  "properties": {
+    "definitionGraph": {"$ref": "#/$defs/definitionGraph"},
+    "semanticEffect": {"$ref": "#/$defs/semanticEffect"},
+    "relationTypes": {
+      "type": "object",
+      "description": "CORE relation signatures keyed by safe relation name.",
+      "patternProperties": {
+        "^(?:domain|material|color|purpose|has_part|contains|located_in|adjacent_to|associated_with)$": {
+          "$ref": "#/$defs/relationType"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "minProperties": 1,
+  "additionalProperties": false,
+  "$defs": {
+    "conceptId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100,
+      "pattern": "^[A-Za-z][A-Za-z0-9_]*(?:\\.[A-Za-z][A-Za-z0-9_]*)*$",
+      "not": {"pattern": "(^|\\.)(__proto__|prototype|constructor)(\\.|$)"}
+    },
+    "relationName": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "^[A-Za-z][A-Za-z0-9_]*$",
+      "enum": ["domain", "material", "color", "purpose", "has_part", "contains", "located_in", "adjacent_to", "associated_with"]
+    },
+    "relationType": {
+      "type": "object",
+      "required": ["subject", "object", "symmetric"],
+      "properties": {
+        "subject": {"$ref": "#/$defs/conceptId"},
+        "object": {"$ref": "#/$defs/conceptId"},
+        "symmetric": {"type": "boolean"}
+      },
+      "additionalProperties": false
+    },
+    "definitionEdge": {
+      "type": "object",
+      "oneOf": [
+        {
+          "required": ["relation", "target", "constraint"],
+          "properties": {
+            "relation": {"$ref": "#/$defs/relationName"},
+            "target": {"$ref": "#/$defs/conceptId"},
+            "constraint": {"const": "required"}
+          },
+          "additionalProperties": false
+        },
+        {
+          "required": ["relation", "target", "constraint", "weight"],
+          "properties": {
+            "relation": {"$ref": "#/$defs/relationName"},
+            "target": {"$ref": "#/$defs/conceptId"},
+            "constraint": {"const": "typical"},
+            "weight": {"type": "number", "exclusiveMinimum": 0, "maximum": 1}
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "definitionGraph": {
+      "type": "object",
+      "required": ["edges"],
+      "properties": {
+        "edges": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 16,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/definitionEdge"}
+        }
+      },
+      "additionalProperties": false
+    },
+    "semanticEffect": {
+      "type": "object",
+      "required": ["operation", "relation", "target"],
+      "properties": {
+        "operation": {"const": "add_relation"},
+        "relation": {"$ref": "#/$defs/relationName"},
+        "target": {"$ref": "#/$defs/conceptId"}
+      },
+      "additionalProperties": false
+    },
+    "runtimeLimits": {
+      "type": "object",
+      "description": "Normative runtime resource limits; these values are not per-record data fields.",
+      "required": ["maxDefinitionEdges", "maxCandidates", "maxProjectedNodes", "maxProjectedEdges", "maxExpansionDepth"],
+      "properties": {
+        "maxDefinitionEdges": {"const": 16},
+        "maxCandidates": {"const": 16},
+        "maxProjectedNodes": {"const": 128},
+        "maxProjectedEdges": {"const": 256},
+        "maxExpansionDepth": {"const": 8}
+      },
+      "additionalProperties": false
+    }
+  }
+}

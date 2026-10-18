@@ -7,13 +7,16 @@ flowchart LR
   CLI[tools/translate.mjs] --> R[PluginRegistry]
   R --> L[walidowany loader]
   L --> S[LanguagePlugin źródłowy]
-  S -->|analyze| M[MeaningGraph / CORE]
+  S -->|analyze| M[MeaningGraph]
   M --> T[LanguagePlugin docelowy]
   T -->|realize| CLI
-  CORE[data/core] --> M
+  CORE[data/core/concepts.json] --> O[Ontology / typowane definicje konceptów]
+  O --> M
 ```
 
 CLI rozwiązuje pakiety przez registry. Plugin źródłowy analizuje zdanie do neutralnego znaczenia, a plugin docelowy realizuje to znaczenie w swoim zakresie. Wynik zawiera tekst albo jawną odmowę, CORE i diagnostykę. Obecność leksemu lub reguły w danych nie dowodzi obsługi całej konstrukcji.
+
+CORE definiuje stabilne koncepty i ich opcjonalne, typowane grafy znaczenia. Ontology wiąże te definicje z `coreRef`; MeaningGraph zachowuje role zdania, referenty i cechy. Ten graf semantyczny jest odrębny od LanguageGraph, który opisuje połączenia modułów w pakiecie języka. Kontrakt grafu opisuje [ADR typowanego grafu definicji konceptu](adr/typed-semantic-graph.md); jego walidacja i projekcja są ograniczonymi capability, a nie deklaracją pełnego pokrycia języka.
 
 ## Własność warstw
 
