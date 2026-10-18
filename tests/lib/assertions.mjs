@@ -234,7 +234,114 @@ function sameInformationLossItem(required, observed) {
  * Compare one approved case expectation against the returned service document.
  * Returns {pass, kind, failures[], observed} — the runner decides gating and printing.
  */
-export function compareCase(item, document) {
+function graphAssertionKey(assertion) {
+  return JSON.stringify([assertion.fromPath, assertion.relation, assertion.toConcept]);
+}
+
+function resolvesMeaningPath(meaning, path) {
+  if (typeof path !== 'string' || !path.startsWith('#/')) return false;
+  let value = meaning;
+  for (const rawSegment of path.slice(2).split('/')) {
+    if (/~(?![01])/u.test(rawSegment)) return false;
+    const segment = rawSegment.replace(/~1/gu, '/').replace(/~0/gu, '~');
+    if (!isRecord(value) && !Array.isArray(value)) return false;
+    if (!Object.hasOwn(value, segment)) return false;
+    value = value[segment];
+  }
+  return true;
+}
+
+function compareTypedGraph(policy, document, engine, fail, observed) {
+  if (!engine || typeof engine.projectMeaningGraph !== 'function') {
+    fail('/graph/projection', 'production Engine.projectMeaningGraph', 'unavailable');
+    return 'infra';
+  }
+  // An expected success that receives a controlled refusal already fails its
+  // status/text/meaning assertions. Do not relabel that translation failure as
+  // infrastructure just because there is no successful MeaningGraph to project.
+  if (document?.status !== 'ok') return null;
+
+  let graph;
+  try {
+    graph = engine.projectMeaningGraph(document?.meaning);
+  } catch (error) {
+    fail('/graph/projection', 'a valid typed graph projection',
+      `${error?.code ?? error?.name ?? 'Error'}: ${error?.message ?? String(error)}`);
+    return 'infra';
+  }
+  if (!isRecord(graph) || !Array.isArray(graph.nodes) || !Array.isArray(graph.edges) ||
+      !isRecord(graph.sourcePaths) || !isRecord(graph.sourcePaths.edges) ||
+      !Array.isArray(graph.unresolved)) {
+    fail('/graph/projection', 'bounded graph with nodes, edges, sourcePaths and unresolved', graph);
+    return 'infra';
+  }
+
+  observed.typedGraph = graph;
+  const nodes = new Map();
+  let malformedGraph = false;
+  for (const node of graph.nodes) {
+    if (!isRecord(node) || typeof node.id !== 'string' || !node.id ||
+        typeof node.conceptId !== 'string' || !node.conceptId || nodes.has(node.id)) {
+      fail('/graph/nodes', 'unique nodes with string id and conceptId', node);
+      malformedGraph = true;
+      continue;
+    }
+    nodes.set(node.id, node);
+  }
+  const actual = new Set();
+  let malformedSourcePaths = false;
+  for (const edge of graph.edges) {
+    if (!isRecord(edge) || typeof edge.from !== 'string' || typeof edge.relation !== 'string' ||
+        typeof edge.target !== 'string' || !nodes.has(edge.from)) {
+      fail('/graph/edges', 'typed edges with known source and target nodes', edge);
+      malformedGraph = true;
+      continue;
+    }
+    const target = nodes.get(edge.target);
+    const key = JSON.stringify([edge?.from, edge?.relation, edge?.target]);
+    const paths = graph.sourcePaths.edges[key];
+    if (!target) {
+      fail('/graph/edges', 'typed edges with known source and target nodes', edge);
+      malformedGraph = true;
+      continue;
+    }
+    if (!Array.isArray(paths) || paths.length === 0 ||
+        paths.some(path => !resolvesMeaningPath(document.meaning, path))) {
+      fail('/graph/sourcePaths', 'at least one valid MeaningGraph path for every projected edge',
+        {edge, paths});
+      malformedSourcePaths = true;
+      continue;
+    }
+    for (const fromPath of paths) {
+      actual.add(JSON.stringify([fromPath, edge.relation, target.conceptId]));
+    }
+  }
+
+  const required = new Set(policy.requiredEdges.map(graphAssertionKey));
+  policy.requiredEdges.forEach((assertion, index) => {
+    if (!actual.has(graphAssertionKey(assertion))) {
+      fail(`/graph/requiredEdges/${index}`, assertion, 'edge not projected at this source path');
+    }
+  });
+  policy.forbiddenEdges.forEach((assertion, index) => {
+    if (actual.has(graphAssertionKey(assertion))) {
+      fail(`/graph/forbiddenEdges/${index}`, 'edge absent', assertion);
+    }
+  });
+  if (graph.unresolved.length) {
+    fail('/graph/unresolved', 'no unresolved semantic graph paths', graph.unresolved);
+  }
+  if (!policy.allowUnexpected) {
+    for (const assertion of actual) {
+      if (!required.has(assertion)) {
+        fail('/graph (unexpected)', 'only the declared required edges', assertion);
+      }
+    }
+  }
+  return malformedGraph || malformedSourcePaths ? 'infra' : null;
+}
+
+export function compareCase(item, document, {engine} = {}) {
   const failures = [];
   const format = value => isRecord(value) || Array.isArray(value)
     ? JSON.stringify(value) : value === undefined ? 'none' : String(value);
@@ -325,7 +432,9 @@ export function compareCase(item, document) {
       sameInformationLossItem, fail, '/informationLoss',
       {allowUnexpected: expected.informationLoss.allowUnexpected});
   }
+  let graphKind = null;
+  if (expected.graph) graphKind = compareTypedGraph(expected.graph, document, engine, fail, observed);
   return {pass: failures.length === 0,
-    kind: document?.status === 'error' ? 'infra' : (STATUS_KIND[expected.status] ?? 'unknown'),
+    kind: graphKind ?? (document?.status === 'error' ? 'infra' : (STATUS_KIND[expected.status] ?? 'unknown')),
     failures, observed};
 }

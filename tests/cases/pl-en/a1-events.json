@@ -56,7 +56,18 @@
             "path": "#/roles/agent/features/definiteness", "status": "ambiguous"},
           {"cause": "source-definiteness-unspecified-target-default", "feature": "definiteness",
             "path": "#/roles/theme/features/definiteness", "status": "ambiguous"}
-        ], "allowUnexpected": false}
+        ], "allowUnexpected": false},
+        "graph": {
+          "requiredEdges": [
+            {"fromPath": "#/concept", "relation": "is_a", "toConcept": "event.perception"},
+            {"fromPath": "#/roles/agent", "relation": "is_a", "toConcept": "person"},
+            {"fromPath": "#/roles/agent", "relation": "is_a", "toConcept": "entity"},
+            {"fromPath": "#/roles/theme", "relation": "is_a", "toConcept": "animal"},
+            {"fromPath": "#/roles/theme", "relation": "is_a", "toConcept": "entity"}
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
       },
       "review": {
         "status": "approved",
