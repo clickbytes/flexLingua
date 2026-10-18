@@ -1,0 +1,1455 @@
+{
+  "schemaVersion": "1.0",
+  "cases": [
+    {
+      "id": "A1-EN-PL-TGW-0201",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "mixed",
+        "quantity": "none"
+      },
+      "purpose": "W3 positive witness; independently assert visual-perception roles, lexical sense, source features and typed CORE ancestry.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "The girl sees a peach."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "Dziewczynka widzi brzoskwinię."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "definite"
+              }
+            },
+            "theme": {
+              "concept": "food.peach",
+              "features": {
+                "number": "singular",
+                "definiteness": "indefinite"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "unknown"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "unknown"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "unavoidable"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "food"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "physical_object"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; W3 linguistic curation and independent expected review delegated by project owner (2026-10-18). #406 candidate ledger comment #6252277598 records the complete batch and oracle; no per-ID manual user review is claimed.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#406"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "en.analyze(event.visual_perception) -> pl.realize"
+      }
+    },
+    {
+      "id": "A1-EN-PL-TGW-0202",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "mixed",
+        "quantity": "none"
+      },
+      "purpose": "W3 positive witness; independently assert visual-perception roles, lexical sense, source features and typed CORE ancestry.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "The girl sees a plum."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "Dziewczynka widzi śliwkę."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "definite"
+              }
+            },
+            "theme": {
+              "concept": "food.plum",
+              "features": {
+                "number": "singular",
+                "definiteness": "indefinite"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "unknown"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "unknown"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "unavoidable"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "food"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "physical_object"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; W3 linguistic curation and independent expected review delegated by project owner (2026-10-18). #406 candidate ledger comment #6252277598 records the complete batch and oracle; no per-ID manual user review is claimed.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#406"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "en.analyze(event.visual_perception) -> pl.realize"
+      }
+    },
+    {
+      "id": "A1-EN-PL-TGW-0203",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "mixed",
+        "quantity": "none"
+      },
+      "purpose": "W3 positive witness; independently assert visual-perception roles, lexical sense, source features and typed CORE ancestry.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "The girl sees a pumpkin."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "Dziewczynka widzi dynię."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "definite"
+              }
+            },
+            "theme": {
+              "concept": "food.pumpkin",
+              "features": {
+                "number": "singular",
+                "definiteness": "indefinite"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "unknown"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "unknown"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "unavoidable"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "food"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "physical_object"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; W3 linguistic curation and independent expected review delegated by project owner (2026-10-18). #406 candidate ledger comment #6252277598 records the complete batch and oracle; no per-ID manual user review is claimed.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#406"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "en.analyze(event.visual_perception) -> pl.realize"
+      }
+    },
+    {
+      "id": "A1-EN-PL-TGW-0204",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "mixed",
+        "quantity": "none"
+      },
+      "purpose": "W3 positive witness; independently assert visual-perception roles, lexical sense, source features and typed CORE ancestry.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "The girl sees an apricot."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "Dziewczynka widzi morelę."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "definite"
+              }
+            },
+            "theme": {
+              "concept": "food.apricot",
+              "features": {
+                "number": "singular",
+                "definiteness": "indefinite"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "unknown"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "unknown"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "unavoidable"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "food"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "physical_object"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; W3 linguistic curation and independent expected review delegated by project owner (2026-10-18). #406 candidate ledger comment #6252277598 records the complete batch and oracle; no per-ID manual user review is claimed.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#406"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "en.analyze(event.visual_perception) -> pl.realize"
+      }
+    },
+    {
+      "id": "A1-EN-PL-TGW-0205",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "mixed",
+        "quantity": "none"
+      },
+      "purpose": "W3 positive witness; independently assert visual-perception roles, lexical sense, source features and typed CORE ancestry.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "The girl sees a bean."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "Dziewczynka widzi fasolę."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "definite"
+              }
+            },
+            "theme": {
+              "concept": "food.bean",
+              "features": {
+                "number": "singular",
+                "definiteness": "indefinite"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "unknown"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "unknown"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "unavoidable"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "food"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "physical_object"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; W3 linguistic curation and independent expected review delegated by project owner (2026-10-18). #406 candidate ledger comment #6252277598 records the complete batch and oracle; no per-ID manual user review is claimed.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#406"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "en.analyze(event.visual_perception) -> pl.realize"
+      }
+    },
+    {
+      "id": "A1-EN-PL-TGW-0206",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "mixed",
+        "quantity": "none"
+      },
+      "purpose": "W3 positive witness; independently assert visual-perception roles, lexical sense, source features and typed CORE ancestry.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "The girl sees an olive."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "Dziewczynka widzi oliwkę."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "definite"
+              }
+            },
+            "theme": {
+              "concept": "food.olive",
+              "features": {
+                "number": "singular",
+                "definiteness": "indefinite"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "unknown"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "unknown"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "unavoidable"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "food"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "physical_object"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; W3 linguistic curation and independent expected review delegated by project owner (2026-10-18). #406 candidate ledger comment #6252277598 records the complete batch and oracle; no per-ID manual user review is claimed.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#406"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "en.analyze(event.visual_perception) -> pl.realize"
+      }
+    },
+    {
+      "id": "A1-EN-PL-TGW-0207",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "mixed",
+        "quantity": "none"
+      },
+      "purpose": "W3 positive witness; independently assert visual-perception roles, lexical sense, source features and typed CORE ancestry.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "The girl sees a sausage."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "Dziewczynka widzi kiełbasę."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "definite"
+              }
+            },
+            "theme": {
+              "concept": "food.sausage",
+              "features": {
+                "number": "singular",
+                "definiteness": "indefinite"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "unknown"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "unknown"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "unavoidable"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "food"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "physical_object"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; W3 linguistic curation and independent expected review delegated by project owner (2026-10-18). #406 candidate ledger comment #6252277598 records the complete batch and oracle; no per-ID manual user review is claimed.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#406"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "en.analyze(event.visual_perception) -> pl.realize"
+      }
+    },
+    {
+      "id": "A1-EN-PL-TGW-0208",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "mixed",
+        "quantity": "none"
+      },
+      "purpose": "W3 positive witness; independently assert visual-perception roles, lexical sense, source features and typed CORE ancestry.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "The girl sees a berry."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "Dziewczynka widzi jagodę."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "definite"
+              }
+            },
+            "theme": {
+              "concept": "food.berry",
+              "features": {
+                "number": "singular",
+                "definiteness": "indefinite"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "unknown"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "unknown"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "unavoidable"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "food"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "physical_object"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; W3 linguistic curation and independent expected review delegated by project owner (2026-10-18). #406 candidate ledger comment #6252277598 records the complete batch and oracle; no per-ID manual user review is claimed.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#406"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "en.analyze(event.visual_perception) -> pl.realize"
+      }
+    },
+    {
+      "id": "A1-EN-PL-TGW-0209",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "mixed",
+        "quantity": "none"
+      },
+      "purpose": "W3 positive witness; independently assert visual-perception roles, lexical sense, source features and typed CORE ancestry.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "The girl sees a pineapple."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "Dziewczynka widzi ananas."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "definite"
+              }
+            },
+            "theme": {
+              "concept": "food.pineapple",
+              "features": {
+                "number": "singular",
+                "definiteness": "indefinite"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "unknown"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "unknown"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "unavoidable"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "food"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "physical_object"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; W3 linguistic curation and independent expected review delegated by project owner (2026-10-18). #406 candidate ledger comment #6252277598 records the complete batch and oracle; no per-ID manual user review is claimed.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#406"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "en.analyze(event.visual_perception) -> pl.realize"
+      }
+    },
+    {
+      "id": "A1-EN-PL-TGW-0210",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "mixed",
+        "quantity": "none"
+      },
+      "purpose": "W3 positive witness; independently assert visual-perception roles, lexical sense, source features and typed CORE ancestry.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "The girl sees a grapefruit."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "Dziewczynka widzi grejpfrut."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "definite"
+              }
+            },
+            "theme": {
+              "concept": "food.grapefruit",
+              "features": {
+                "number": "singular",
+                "definiteness": "indefinite"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "unknown"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "unknown"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "unavoidable"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "food"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "physical_object"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; W3 linguistic curation and independent expected review delegated by project owner (2026-10-18). #406 candidate ledger comment #6252277598 records the complete batch and oracle; no per-ID manual user review is claimed.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#406"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "en.analyze(event.visual_perception) -> pl.realize"
+      }
+    }
+  ]
+}

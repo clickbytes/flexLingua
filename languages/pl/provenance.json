@@ -100,6 +100,13 @@
           "source": "Project-authored bilingual lexical and CORE senses based on bounded linguistic review; no external dictionary, vocabulary list, definition text or imported dataset was used.",
           "license": "Project-authored for internal flexLingua use; this repository declares no separate SPDX data license.",
           "scope": "Adds 100 distinct Polish lemmas for 100 selected concepts, with shared kora and ręka senses plus project-authored dłoń synonym; only reviewed sentences and ambiguity are morphology-ready."
+        },
+        {
+          "issue": "#406",
+          "author": "Codex agent (linguistic curation delegated by project owner)",
+          "source": "Project-authored Polish-English concept labels, lexical senses and reviewed singular forms from bounded LLM linguistic review; no external dictionary, vocabulary list, protected list, or imported dataset was copied.",
+          "license": "Project-authored for internal flexLingua use; this repository declares no separate SPDX data license.",
+          "scope": "Adds 101 noun entries for 97 entity concepts and four aliases, giving 100 distinct Polish lemmas; category labels are not counted as nouns."
         }
       ],
       "migratedFrom": "data/pl.json"
@@ -278,6 +285,13 @@
           "source": "Project-authored bilingual lexical and CORE senses based on bounded linguistic review; no external dictionary, vocabulary list, definition text or imported dataset was used.",
           "license": "Project-authored for internal flexLingua use; this repository declares no separate SPDX data license.",
           "scope": "Adds three bounded singular accusative suffix paradigms and 26 reviewed bindings, including korę for bark/cortex ambiguity; no plural or unrelated slots are claimed."
+        },
+        {
+          "issue": "#406",
+          "author": "Codex agent (linguistic curation delegated by project owner)",
+          "source": "Project-authored Polish-English concept labels, lexical senses and reviewed singular forms from bounded LLM linguistic review; no external dictionary, vocabulary list, protected list, or imported dataset was copied.",
+          "license": "Project-authored for internal flexLingua use; this repository declares no separate SPDX data license.",
+          "scope": "Adds 27 singular accusative bindings: 25 positive witnesses and both zamek homonym senses; no plural forms are claimed."
         }
       ],
       "migratedFrom": "data/morphology/pl.json"

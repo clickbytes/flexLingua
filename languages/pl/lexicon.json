@@ -7351,6 +7351,1824 @@
           }
         }
       ]
+    },
+    {
+      "id": "pl.tgw3.food_peach.1",
+      "lemma": "brzoskwinia",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.food_peach.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.peach"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.food_plum.1",
+      "lemma": "śliwka",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.food_plum.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.plum"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.food_pumpkin.1",
+      "lemma": "dynia",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.food_pumpkin.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.pumpkin"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.food_garlic.1",
+      "lemma": "czosnek",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.food_garlic.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.garlic"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.food_rice.1",
+      "lemma": "ryż",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.food_rice.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.rice"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.food_honey.1",
+      "lemma": "miód",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.food_honey.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.honey"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.food_apricot.1",
+      "lemma": "morela",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.food_apricot.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.apricot"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.food_corn.1",
+      "lemma": "kukurydza",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.food_corn.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.corn"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.food_bean.1",
+      "lemma": "fasola",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.food_bean.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.bean"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.food_olive.1",
+      "lemma": "oliwka",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.food_olive.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.olive"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.food_vinegar.1",
+      "lemma": "ocet",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.food_vinegar.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.vinegar"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.food_sugar.1",
+      "lemma": "cukier",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.food_sugar.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.sugar"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.food_salt.1",
+      "lemma": "sól",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.food_salt.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.salt"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.food_flour.1",
+      "lemma": "mąka",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.food_flour.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.flour"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.food_yogurt.1",
+      "lemma": "jogurt",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.food_yogurt.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.yogurt"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.food_butter.1",
+      "lemma": "masło",
+      "forms": {},
+      "gender": "neuter",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.food_butter.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.butter"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.food_pasta.1",
+      "lemma": "makaron",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.food_pasta.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.pasta"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.food_sausage.1",
+      "lemma": "kiełbasa",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.food_sausage.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.sausage"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.food_ham.1",
+      "lemma": "szynka",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.food_ham.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.ham"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.food_spice.1",
+      "lemma": "przyprawa",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.food_spice.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.spice"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.food_cheese.1",
+      "lemma": "ser",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.food_cheese.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.cheese"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.food_berry.1",
+      "lemma": "jagoda",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.food_berry.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.berry"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.food_pineapple.1",
+      "lemma": "ananas",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.food_pineapple.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.pineapple"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.food_grapefruit.1",
+      "lemma": "grejpfrut",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.food_grapefruit.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.grapefruit"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.food_melon.1",
+      "lemma": "melon",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.food_melon.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.melon"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.food_cinnamon.1",
+      "lemma": "cynamon",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.food_cinnamon.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.cinnamon"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.food_cereal.1",
+      "lemma": "zboże",
+      "forms": {},
+      "gender": "neuter",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.food_cereal.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.cereal"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.food_candy.1",
+      "lemma": "cukierek",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.food_candy.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.candy"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.food_mint.1",
+      "lemma": "mięta",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.food_mint.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.mint"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.food_gherkin.1",
+      "lemma": "korniszon",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.food_gherkin.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.gherkin"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.clothing_apron.1",
+      "lemma": "fartuch",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.clothing_apron.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.apron"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.clothing_jacket.1",
+      "lemma": "kurtka",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.clothing_jacket.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.jacket"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.clothing_coat.1",
+      "lemma": "płaszcz",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.clothing_coat.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.coat"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.clothing_skirt.1",
+      "lemma": "spódnica",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.clothing_skirt.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.skirt"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.clothing_dress.1",
+      "lemma": "sukienka",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.clothing_dress.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.dress"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.clothing_shoe.1",
+      "lemma": "but",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.clothing_shoe.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.shoe"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.clothing_sock.1",
+      "lemma": "skarpeta",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.clothing_sock.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.sock"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.clothing_hat.1",
+      "lemma": "kapelusz",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.clothing_hat.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.hat"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.clothing_belt.1",
+      "lemma": "pasek",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.clothing_belt.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.belt"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.clothing_button.1",
+      "lemma": "guzik",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.clothing_button.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.button"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.clothing_zipper.1",
+      "lemma": "zamek",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.clothing_zipper.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.zipper"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.clothing_scarf.1",
+      "lemma": "szalik",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.clothing_scarf.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.scarf"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.clothing_boot.1",
+      "lemma": "trzewik",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.clothing_boot.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.boot"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.clothing_pocket.1",
+      "lemma": "kieszeń",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.clothing_pocket.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.pocket"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.clothing_sleeve.1",
+      "lemma": "rękaw",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.clothing_sleeve.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.sleeve"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.clothing_collar.1",
+      "lemma": "kołnierz",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.clothing_collar.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.collar"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.clothing_glove.1",
+      "lemma": "rękawica",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.clothing_glove.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.glove"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.clothing_uniform.1",
+      "lemma": "mundur",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.clothing_uniform.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.uniform"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.clothing_tie.1",
+      "lemma": "krawat",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.clothing_tie.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.tie"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.clothing_raincoat.1",
+      "lemma": "peleryna",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.clothing_raincoat.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.raincoat"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.clothing_rubber_boot.1",
+      "lemma": "kalosz",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.clothing_rubber_boot.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.rubber_boot"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.clothing_wool_sweater.1",
+      "lemma": "sweter wełniany",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.clothing_wool_sweater.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.wool_sweater"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.clothing_sandal.1",
+      "lemma": "sandał",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.clothing_sandal.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.sandal"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.clothing_slipper.1",
+      "lemma": "pantofel",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.clothing_slipper.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.slipper"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.material_wool.1",
+      "lemma": "wełna",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.material_wool.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "material.wool"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.material_copper.1",
+      "lemma": "miedź",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.material_copper.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "material.copper"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.material_cotton.1",
+      "lemma": "bawełna",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.material_cotton.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "material.cotton"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.material_rubber.1",
+      "lemma": "guma",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.material_rubber.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "material.rubber"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.material_iron.1",
+      "lemma": "żelazo",
+      "forms": {},
+      "gender": "neuter",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.material_iron.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "material.iron"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.material_steel.1",
+      "lemma": "stal",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.material_steel.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "material.steel"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.material_silk.1",
+      "lemma": "jedwab",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.material_silk.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "material.silk"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.material_paper.1",
+      "lemma": "papier",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.material_paper.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "material.paper"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.material_cardboard.1",
+      "lemma": "tektura",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.material_cardboard.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "material.cardboard"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.material_clay.1",
+      "lemma": "glina",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.material_clay.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "material.clay"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.material_stone.1",
+      "lemma": "kamień",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.material_stone.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "material.stone"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.material_sand.1",
+      "lemma": "piasek",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.material_sand.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "material.sand"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.material_glass.1",
+      "lemma": "szkło",
+      "forms": {},
+      "gender": "neuter",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.material_glass.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "material.glass"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.material_gold.1",
+      "lemma": "złoto",
+      "forms": {},
+      "gender": "neuter",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.material_gold.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "material.gold"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.material_silver.1",
+      "lemma": "srebro",
+      "forms": {},
+      "gender": "neuter",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.material_silver.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "material.silver"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.material_plastic.1",
+      "lemma": "plastik",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.material_plastic.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "material.plastic"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.material_brick.1",
+      "lemma": "cegła",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.material_brick.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "material.brick"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.material_concrete.1",
+      "lemma": "beton",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.material_concrete.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "material.concrete"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.material_coating.1",
+      "lemma": "powłoka",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.material_coating.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "material.coating"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.material_ceramic.1",
+      "lemma": "ceramika",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.material_ceramic.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "material.ceramic"
+          },
+          "countability": "mass"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.tool_hammer.1",
+      "lemma": "młotek",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.tool_hammer.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "tool.hammer"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.tool_screwdriver.1",
+      "lemma": "śrubokręt",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.tool_screwdriver.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "tool.screwdriver"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.tool_chisel.1",
+      "lemma": "dłuto",
+      "forms": {},
+      "gender": "neuter",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.tool_chisel.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "tool.chisel"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.tool_pliers.1",
+      "lemma": "szczypce",
+      "forms": {},
+      "gender": "neuter",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.tool_pliers.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "tool.pliers"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.tool_saw.1",
+      "lemma": "piła",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.tool_saw.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "tool.saw"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.tool_needle.1",
+      "lemma": "igła",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.tool_needle.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "tool.needle"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.tool_brush.1",
+      "lemma": "pędzel",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.tool_brush.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "tool.brush"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.tool_ruler.1",
+      "lemma": "linijka",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.tool_ruler.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "tool.ruler"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.tool_drill.1",
+      "lemma": "wiertarka",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.tool_drill.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "tool.drill"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.tool_shovel.1",
+      "lemma": "łopata",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.tool_shovel.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "tool.shovel"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.tool_rake.1",
+      "lemma": "grabie",
+      "forms": {},
+      "gender": "neuter",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.tool_rake.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "tool.rake"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.tool_hoe.1",
+      "lemma": "motyka",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.tool_hoe.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "tool.hoe"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.tool_axe.1",
+      "lemma": "siekiera",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.tool_axe.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "tool.axe"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.tool_ladder.1",
+      "lemma": "drabina",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.tool_ladder.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "tool.ladder"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.tool_clamp.1",
+      "lemma": "zacisk",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.tool_clamp.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "tool.clamp"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.tool_file.1",
+      "lemma": "pilnik",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.tool_file.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "tool.file"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.tool_tape_measure.1",
+      "lemma": "miarka",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.tool_tape_measure.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "tool.tape_measure"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.object_nail.1",
+      "lemma": "gwóźdź",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.object_nail.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.nail"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.tool_stapler.1",
+      "lemma": "zszywacz",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.tool_stapler.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "tool.stapler"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.tool_tongs.1",
+      "lemma": "szczypce kuchenne",
+      "forms": {},
+      "gender": "neuter",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.tool_tongs.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "tool.tongs"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.tool_trowel.1",
+      "lemma": "kielnia",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.tool_trowel.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "tool.trowel"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.tool_lock.1",
+      "lemma": "zamek",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.tool_lock.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "tool.lock"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.tgw3.object_push_button.1",
+      "lemma": "przycisk",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.tgw3.object_push_button.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.push_button"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.guzik_odziezowy.1",
+      "lemma": "guzik odzieżowy",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.guzik_odziezowy.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.button"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.pantofel_domowy.1",
+      "lemma": "pantofel domowy",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.pantofel_domowy.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "clothing.slipper"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.igla_do_szycia.1",
+      "lemma": "igła do szycia",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.igla_do_szycia.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "tool.needle"
+          },
+          "countability": "count"
+        }
+      ]
+    },
+    {
+      "id": "pl.ogorek_marynowany.1",
+      "lemma": "ogórek marynowany",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.ogorek_marynowany.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.gherkin"
+          },
+          "countability": "count"
+        }
+      ]
     }
   ],
   "verbs": [
