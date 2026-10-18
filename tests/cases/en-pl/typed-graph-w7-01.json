@@ -1,0 +1,1721 @@
+{
+  "schemaVersion": "1.0",
+  "cases": [
+    {
+      "id": "A1-EN-PL-TGW-0701",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "definite",
+        "quantity": "none"
+      },
+      "purpose": "W7 en-pl witness 1: independently expected event.visual_perception with theme clothing.hat; adjective meaning stays on the theme and typed color/material effects are asserted on the modifier graph node.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "The girl sees a blue woolen hat."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "Dziewczynka widzi niebieski wełniany kapelusz."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "definite"
+              },
+              "modifiers": []
+            },
+            "theme": {
+              "concept": "clothing.hat",
+              "features": {
+                "number": "singular",
+                "definiteness": "indefinite"
+              },
+              "modifiers": [
+                {
+                  "concept": "quality.blue"
+                },
+                {
+                  "concept": "quality.woolen"
+                }
+              ]
+            }
+          },
+          "roleFeaturesExact": true,
+          "modifiersExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "unknown"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/theme/modifiers/0/concept": "quality.blue",
+            "#/roles/theme/modifiers/1/concept": "quality.woolen",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "unknown"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "unavoidable"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/theme/modifiers/0",
+              "relation": "color",
+              "toConcept": "color.blue"
+            },
+            {
+              "fromPath": "#/roles/theme/modifiers/1",
+              "relation": "material",
+              "toConcept": "material.wool"
+            }
+          ],
+          "forbiddenEdges": [
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "color",
+              "toConcept": "color.blue"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "material",
+              "toConcept": "material.wool"
+            }
+          ],
+          "allowUnexpected": true
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent expected meaning, Polish adjective agreement, articles and typed graph effects were recorded in the approved W7 candidate batch before CLI; https://github.com/clickbytes/flexLingua/issues/410#issuecomment-6253980135.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#410"
+      },
+      "requirements": {
+        "coverageTargetId": "concept.quality.blue",
+        "capability": "en.analyze(event.visual_perception, theme=clothing.hat, modifiers=quality.blue+quality.woolen) -> pl.realize"
+      }
+    },
+    {
+      "id": "A1-EN-PL-TGW-0702",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "definite",
+        "quantity": "none"
+      },
+      "purpose": "W7 en-pl witness 2: independently expected event.visual_perception with theme clothing.coat; adjective meaning stays on the theme and typed color/material effects are asserted on the modifier graph node.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "The girl sees a navy woolen coat."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "Dziewczynka widzi granatowy wełniany płaszcz."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "definite"
+              },
+              "modifiers": []
+            },
+            "theme": {
+              "concept": "clothing.coat",
+              "features": {
+                "number": "singular",
+                "definiteness": "indefinite"
+              },
+              "modifiers": [
+                {
+                  "concept": "quality.navy"
+                },
+                {
+                  "concept": "quality.woolen"
+                }
+              ]
+            }
+          },
+          "roleFeaturesExact": true,
+          "modifiersExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "unknown"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/theme/modifiers/0/concept": "quality.navy",
+            "#/roles/theme/modifiers/1/concept": "quality.woolen",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "unknown"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "unavoidable"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/theme/modifiers/0",
+              "relation": "color",
+              "toConcept": "color.navy"
+            },
+            {
+              "fromPath": "#/roles/theme/modifiers/1",
+              "relation": "material",
+              "toConcept": "material.wool"
+            }
+          ],
+          "forbiddenEdges": [
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "color",
+              "toConcept": "color.navy"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "material",
+              "toConcept": "material.wool"
+            }
+          ],
+          "allowUnexpected": true
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent expected meaning, Polish adjective agreement, articles and typed graph effects were recorded in the approved W7 candidate batch before CLI; https://github.com/clickbytes/flexLingua/issues/410#issuecomment-6253980135.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#410"
+      },
+      "requirements": {
+        "coverageTargetId": "concept.quality.navy",
+        "capability": "en.analyze(event.visual_perception, theme=clothing.coat, modifiers=quality.navy+quality.woolen) -> pl.realize"
+      }
+    },
+    {
+      "id": "A1-EN-PL-TGW-0703",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "definite",
+        "quantity": "none"
+      },
+      "purpose": "W7 en-pl witness 3: independently expected event.visual_perception with theme clothing.jacket; adjective meaning stays on the theme and typed color/material effects are asserted on the modifier graph node.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "The girl sees a green woolen jacket."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "Dziewczynka widzi zieloną wełnianą kurtkę."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "definite"
+              },
+              "modifiers": []
+            },
+            "theme": {
+              "concept": "clothing.jacket",
+              "features": {
+                "number": "singular",
+                "definiteness": "indefinite"
+              },
+              "modifiers": [
+                {
+                  "concept": "quality.green"
+                },
+                {
+                  "concept": "quality.woolen"
+                }
+              ]
+            }
+          },
+          "roleFeaturesExact": true,
+          "modifiersExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "unknown"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/theme/modifiers/0/concept": "quality.green",
+            "#/roles/theme/modifiers/1/concept": "quality.woolen",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "unknown"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "unavoidable"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/theme/modifiers/0",
+              "relation": "color",
+              "toConcept": "color.green"
+            },
+            {
+              "fromPath": "#/roles/theme/modifiers/1",
+              "relation": "material",
+              "toConcept": "material.wool"
+            }
+          ],
+          "forbiddenEdges": [
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "color",
+              "toConcept": "color.green"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "material",
+              "toConcept": "material.wool"
+            }
+          ],
+          "allowUnexpected": true
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent expected meaning, Polish adjective agreement, articles and typed graph effects were recorded in the approved W7 candidate batch before CLI; https://github.com/clickbytes/flexLingua/issues/410#issuecomment-6253980135.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#410"
+      },
+      "requirements": {
+        "coverageTargetId": "concept.quality.green",
+        "capability": "en.analyze(event.visual_perception, theme=clothing.jacket, modifiers=quality.green+quality.woolen) -> pl.realize"
+      }
+    },
+    {
+      "id": "A1-EN-PL-TGW-0704",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "definite",
+        "quantity": "none"
+      },
+      "purpose": "W7 en-pl witness 4: independently expected event.visual_perception with theme clothing.dress; adjective meaning stays on the theme and typed color/material effects are asserted on the modifier graph node.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "The girl sees a yellow woolen dress."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "Dziewczynka widzi żółtą wełnianą sukienkę."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "definite"
+              },
+              "modifiers": []
+            },
+            "theme": {
+              "concept": "clothing.dress",
+              "features": {
+                "number": "singular",
+                "definiteness": "indefinite"
+              },
+              "modifiers": [
+                {
+                  "concept": "quality.yellow"
+                },
+                {
+                  "concept": "quality.woolen"
+                }
+              ]
+            }
+          },
+          "roleFeaturesExact": true,
+          "modifiersExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "unknown"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/theme/modifiers/0/concept": "quality.yellow",
+            "#/roles/theme/modifiers/1/concept": "quality.woolen",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "unknown"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "unavoidable"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/theme/modifiers/0",
+              "relation": "color",
+              "toConcept": "color.yellow"
+            },
+            {
+              "fromPath": "#/roles/theme/modifiers/1",
+              "relation": "material",
+              "toConcept": "material.wool"
+            }
+          ],
+          "forbiddenEdges": [
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "color",
+              "toConcept": "color.yellow"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "material",
+              "toConcept": "material.wool"
+            }
+          ],
+          "allowUnexpected": true
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent expected meaning, Polish adjective agreement, articles and typed graph effects were recorded in the approved W7 candidate batch before CLI; https://github.com/clickbytes/flexLingua/issues/410#issuecomment-6253980135.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#410"
+      },
+      "requirements": {
+        "coverageTargetId": "concept.quality.yellow",
+        "capability": "en.analyze(event.visual_perception, theme=clothing.dress, modifiers=quality.yellow+quality.woolen) -> pl.realize"
+      }
+    },
+    {
+      "id": "A1-EN-PL-TGW-0705",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "definite",
+        "quantity": "none"
+      },
+      "purpose": "W7 en-pl witness 5: independently expected event.visual_perception with theme clothing.skirt; adjective meaning stays on the theme and typed color/material effects are asserted on the modifier graph node.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "The girl sees a black woolen skirt."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "Dziewczynka widzi czarną wełnianą spódnicę."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "definite"
+              },
+              "modifiers": []
+            },
+            "theme": {
+              "concept": "clothing.skirt",
+              "features": {
+                "number": "singular",
+                "definiteness": "indefinite"
+              },
+              "modifiers": [
+                {
+                  "concept": "quality.black"
+                },
+                {
+                  "concept": "quality.woolen"
+                }
+              ]
+            }
+          },
+          "roleFeaturesExact": true,
+          "modifiersExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "unknown"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/theme/modifiers/0/concept": "quality.black",
+            "#/roles/theme/modifiers/1/concept": "quality.woolen",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "unknown"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "unavoidable"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/theme/modifiers/0",
+              "relation": "color",
+              "toConcept": "color.black"
+            },
+            {
+              "fromPath": "#/roles/theme/modifiers/1",
+              "relation": "material",
+              "toConcept": "material.wool"
+            }
+          ],
+          "forbiddenEdges": [
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "color",
+              "toConcept": "color.black"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "material",
+              "toConcept": "material.wool"
+            }
+          ],
+          "allowUnexpected": true
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent expected meaning, Polish adjective agreement, articles and typed graph effects were recorded in the approved W7 candidate batch before CLI; https://github.com/clickbytes/flexLingua/issues/410#issuecomment-6253980135.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#410"
+      },
+      "requirements": {
+        "coverageTargetId": "concept.quality.black",
+        "capability": "en.analyze(event.visual_perception, theme=clothing.skirt, modifiers=quality.black+quality.woolen) -> pl.realize"
+      }
+    },
+    {
+      "id": "A1-EN-PL-TGW-0706",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "definite",
+        "quantity": "none"
+      },
+      "purpose": "W7 en-pl witness 6: independently expected event.visual_perception with theme clothing.sock; adjective meaning stays on the theme and typed color/material effects are asserted on the modifier graph node.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "The girl sees a gray woolen sock."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "Dziewczynka widzi szarą wełnianą skarpetę."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "definite"
+              },
+              "modifiers": []
+            },
+            "theme": {
+              "concept": "clothing.sock",
+              "features": {
+                "number": "singular",
+                "definiteness": "indefinite"
+              },
+              "modifiers": [
+                {
+                  "concept": "quality.gray"
+                },
+                {
+                  "concept": "quality.woolen"
+                }
+              ]
+            }
+          },
+          "roleFeaturesExact": true,
+          "modifiersExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "unknown"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/theme/modifiers/0/concept": "quality.gray",
+            "#/roles/theme/modifiers/1/concept": "quality.woolen",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "unknown"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "unavoidable"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/theme/modifiers/0",
+              "relation": "color",
+              "toConcept": "color.gray"
+            },
+            {
+              "fromPath": "#/roles/theme/modifiers/1",
+              "relation": "material",
+              "toConcept": "material.wool"
+            }
+          ],
+          "forbiddenEdges": [
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "color",
+              "toConcept": "color.gray"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "material",
+              "toConcept": "material.wool"
+            }
+          ],
+          "allowUnexpected": true
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent expected meaning, Polish adjective agreement, articles and typed graph effects were recorded in the approved W7 candidate batch before CLI; https://github.com/clickbytes/flexLingua/issues/410#issuecomment-6253980135.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#410"
+      },
+      "requirements": {
+        "coverageTargetId": "concept.quality.gray",
+        "capability": "en.analyze(event.visual_perception, theme=clothing.sock, modifiers=quality.gray+quality.woolen) -> pl.realize"
+      }
+    },
+    {
+      "id": "A1-EN-PL-TGW-0707",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "definite",
+        "quantity": "none"
+      },
+      "purpose": "W7 en-pl witness 7: independently expected event.visual_perception with theme clothing.hat; adjective meaning stays on the theme and typed color/material effects are asserted on the modifier graph node.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "The girl sees a brown woolen hat."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "Dziewczynka widzi brązowy wełniany kapelusz."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "definite"
+              },
+              "modifiers": []
+            },
+            "theme": {
+              "concept": "clothing.hat",
+              "features": {
+                "number": "singular",
+                "definiteness": "indefinite"
+              },
+              "modifiers": [
+                {
+                  "concept": "quality.brown"
+                },
+                {
+                  "concept": "quality.woolen"
+                }
+              ]
+            }
+          },
+          "roleFeaturesExact": true,
+          "modifiersExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "unknown"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/theme/modifiers/0/concept": "quality.brown",
+            "#/roles/theme/modifiers/1/concept": "quality.woolen",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "unknown"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "unavoidable"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/theme/modifiers/0",
+              "relation": "color",
+              "toConcept": "color.brown"
+            },
+            {
+              "fromPath": "#/roles/theme/modifiers/1",
+              "relation": "material",
+              "toConcept": "material.wool"
+            }
+          ],
+          "forbiddenEdges": [
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "color",
+              "toConcept": "color.brown"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "material",
+              "toConcept": "material.wool"
+            }
+          ],
+          "allowUnexpected": true
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent expected meaning, Polish adjective agreement, articles and typed graph effects were recorded in the approved W7 candidate batch before CLI; https://github.com/clickbytes/flexLingua/issues/410#issuecomment-6253980135.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#410"
+      },
+      "requirements": {
+        "coverageTargetId": "concept.quality.brown",
+        "capability": "en.analyze(event.visual_perception, theme=clothing.hat, modifiers=quality.brown+quality.woolen) -> pl.realize"
+      }
+    },
+    {
+      "id": "A1-EN-PL-TGW-0708",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "definite",
+        "quantity": "none"
+      },
+      "purpose": "W7 en-pl witness 8: independently expected event.visual_perception with theme clothing.coat; adjective meaning stays on the theme and typed color/material effects are asserted on the modifier graph node.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "The girl sees a pink woolen coat."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "Dziewczynka widzi różowy wełniany płaszcz."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "definite"
+              },
+              "modifiers": []
+            },
+            "theme": {
+              "concept": "clothing.coat",
+              "features": {
+                "number": "singular",
+                "definiteness": "indefinite"
+              },
+              "modifiers": [
+                {
+                  "concept": "quality.pink"
+                },
+                {
+                  "concept": "quality.woolen"
+                }
+              ]
+            }
+          },
+          "roleFeaturesExact": true,
+          "modifiersExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "unknown"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/theme/modifiers/0/concept": "quality.pink",
+            "#/roles/theme/modifiers/1/concept": "quality.woolen",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "unknown"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "unavoidable"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/theme/modifiers/0",
+              "relation": "color",
+              "toConcept": "color.pink"
+            },
+            {
+              "fromPath": "#/roles/theme/modifiers/1",
+              "relation": "material",
+              "toConcept": "material.wool"
+            }
+          ],
+          "forbiddenEdges": [
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "color",
+              "toConcept": "color.pink"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "material",
+              "toConcept": "material.wool"
+            }
+          ],
+          "allowUnexpected": true
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent expected meaning, Polish adjective agreement, articles and typed graph effects were recorded in the approved W7 candidate batch before CLI; https://github.com/clickbytes/flexLingua/issues/410#issuecomment-6253980135.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#410"
+      },
+      "requirements": {
+        "coverageTargetId": "concept.quality.pink",
+        "capability": "en.analyze(event.visual_perception, theme=clothing.coat, modifiers=quality.pink+quality.woolen) -> pl.realize"
+      }
+    },
+    {
+      "id": "A1-EN-PL-TGW-0709",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "definite",
+        "quantity": "none"
+      },
+      "purpose": "W7 en-pl witness 9: independently expected event.visual_perception with theme clothing.apron; adjective meaning stays on the theme and typed color/material effects are asserted on the modifier graph node.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "The girl sees a purple woolen apron."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "Dziewczynka widzi fioletowy wełniany fartuch."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "definite"
+              },
+              "modifiers": []
+            },
+            "theme": {
+              "concept": "clothing.apron",
+              "features": {
+                "number": "singular",
+                "definiteness": "indefinite"
+              },
+              "modifiers": [
+                {
+                  "concept": "quality.purple"
+                },
+                {
+                  "concept": "quality.woolen"
+                }
+              ]
+            }
+          },
+          "roleFeaturesExact": true,
+          "modifiersExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "unknown"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/theme/modifiers/0/concept": "quality.purple",
+            "#/roles/theme/modifiers/1/concept": "quality.woolen",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "unknown"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "unavoidable"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/theme/modifiers/0",
+              "relation": "color",
+              "toConcept": "color.purple"
+            },
+            {
+              "fromPath": "#/roles/theme/modifiers/1",
+              "relation": "material",
+              "toConcept": "material.wool"
+            }
+          ],
+          "forbiddenEdges": [
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "color",
+              "toConcept": "color.purple"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "material",
+              "toConcept": "material.wool"
+            }
+          ],
+          "allowUnexpected": true
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent expected meaning, Polish adjective agreement, articles and typed graph effects were recorded in the approved W7 candidate batch before CLI; https://github.com/clickbytes/flexLingua/issues/410#issuecomment-6253980135.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#410"
+      },
+      "requirements": {
+        "coverageTargetId": "concept.quality.purple",
+        "capability": "en.analyze(event.visual_perception, theme=clothing.apron, modifiers=quality.purple+quality.woolen) -> pl.realize"
+      }
+    },
+    {
+      "id": "A1-EN-PL-TGW-0710",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "definite",
+        "quantity": "none"
+      },
+      "purpose": "W7 en-pl witness 10: independently expected event.visual_perception with theme clothing.jacket; adjective meaning stays on the theme and typed color/material effects are asserted on the modifier graph node.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "The girl sees a turquoise woolen jacket."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "Dziewczynka widzi turkusową wełnianą kurtkę."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "definite"
+              },
+              "modifiers": []
+            },
+            "theme": {
+              "concept": "clothing.jacket",
+              "features": {
+                "number": "singular",
+                "definiteness": "indefinite"
+              },
+              "modifiers": [
+                {
+                  "concept": "quality.turquoise"
+                },
+                {
+                  "concept": "quality.woolen"
+                }
+              ]
+            }
+          },
+          "roleFeaturesExact": true,
+          "modifiersExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "unknown"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/theme/modifiers/0/concept": "quality.turquoise",
+            "#/roles/theme/modifiers/1/concept": "quality.woolen",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "unknown"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "unavoidable"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/theme/modifiers/0",
+              "relation": "color",
+              "toConcept": "color.turquoise"
+            },
+            {
+              "fromPath": "#/roles/theme/modifiers/1",
+              "relation": "material",
+              "toConcept": "material.wool"
+            }
+          ],
+          "forbiddenEdges": [
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "color",
+              "toConcept": "color.turquoise"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "material",
+              "toConcept": "material.wool"
+            }
+          ],
+          "allowUnexpected": true
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent expected meaning, Polish adjective agreement, articles and typed graph effects were recorded in the approved W7 candidate batch before CLI; https://github.com/clickbytes/flexLingua/issues/410#issuecomment-6253980135.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#410"
+      },
+      "requirements": {
+        "coverageTargetId": "concept.quality.turquoise",
+        "capability": "en.analyze(event.visual_perception, theme=clothing.jacket, modifiers=quality.turquoise+quality.woolen) -> pl.realize"
+      }
+    },
+    {
+      "id": "A1-EN-PL-TGW-0711",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "definite",
+        "quantity": "none"
+      },
+      "purpose": "W7 en-pl witness 11: independently expected event.visual_perception with theme clothing.dress; adjective meaning stays on the theme and typed color/material effects are asserted on the modifier graph node.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "The girl sees an orange woolen dress."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "Dziewczynka widzi pomarańczową wełnianą sukienkę."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "definite"
+              },
+              "modifiers": []
+            },
+            "theme": {
+              "concept": "clothing.dress",
+              "features": {
+                "number": "singular",
+                "definiteness": "indefinite"
+              },
+              "modifiers": [
+                {
+                  "concept": "quality.orange"
+                },
+                {
+                  "concept": "quality.woolen"
+                }
+              ]
+            }
+          },
+          "roleFeaturesExact": true,
+          "modifiersExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "unknown"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/theme/modifiers/0/concept": "quality.orange",
+            "#/roles/theme/modifiers/1/concept": "quality.woolen",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "unknown"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "unavoidable"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/theme/modifiers/0",
+              "relation": "color",
+              "toConcept": "color.orange"
+            },
+            {
+              "fromPath": "#/roles/theme/modifiers/1",
+              "relation": "material",
+              "toConcept": "material.wool"
+            }
+          ],
+          "forbiddenEdges": [
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "color",
+              "toConcept": "color.orange"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "material",
+              "toConcept": "material.wool"
+            }
+          ],
+          "allowUnexpected": true
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent expected meaning, Polish adjective agreement, articles and typed graph effects were recorded in the approved W7 candidate batch before CLI; https://github.com/clickbytes/flexLingua/issues/410#issuecomment-6253980135.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#410"
+      },
+      "requirements": {
+        "coverageTargetId": "concept.quality.woolen",
+        "capability": "en.analyze(event.visual_perception, theme=clothing.dress, modifiers=quality.orange+quality.woolen) -> pl.realize"
+      }
+    }
+  ]
+}

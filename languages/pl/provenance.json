@@ -128,6 +128,13 @@
           "source": "Project-authored W6 school, work, technology, institution, service and finance concepts/lemmas; no external corpus or dictionary data copied.",
           "license": "Project-authored; this repository declares no separate SPDX data license.",
           "scope": "100 project-authored Polish lemmas; 25 verified accusative forms in the bounded visual-perception frame and 75 data-only senses."
+        },
+        {
+          "issue": "#410",
+          "author": "Codex (linguistic curation and expected review delegated by project owner)",
+          "source": "Project-authored English and Polish property senses, inflected forms, and typed color/material effects; independently authored expected readings were recorded in the approved candidate batch before runtime checks. No external corpus or dictionary data copied.",
+          "license": "Project-authored; this repository declares no separate SPDX data license.",
+          "scope": "Adds 100 distinct Polish adjective lemmas: 25 morphology-ready and 75 data-only; project-authored senses."
         }
       ],
       "migratedFrom": "data/pl.json"
@@ -341,6 +348,13 @@
           "source": "Project-authored W6 school, work, technology, institution, service and finance concepts/lemmas; no external corpus or dictionary data copied.",
           "license": "Project-authored; this repository declares no separate SPDX data license.",
           "scope": "25 finite accusative noun bindings using existing W1 patterns; no unsupported paradigms or extra case capability claimed."
+        },
+        {
+          "issue": "#410",
+          "author": "Codex (linguistic curation and expected review delegated by project owner)",
+          "source": "Project-authored English and Polish property senses, inflected forms, and typed color/material effects; independently authored expected readings were recorded in the approved candidate batch before runtime checks. No external corpus or dictionary data copied.",
+          "license": "Project-authored; this repository declares no separate SPDX data license.",
+          "scope": "Adds 25 regular Polish adjective morphology bindings, full reviewed 26-cell overrides for niebieski, miękki, lekki and ciężki, and targeted overrides for other irregular virile nominative cells."
         }
       ],
       "migratedFrom": "data/morphology/pl.json"

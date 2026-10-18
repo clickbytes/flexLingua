@@ -16587,6 +16587,1665 @@
         "base": "faktur"
       },
       "overrides": []
+    },
+    {
+      "lexemeId": "pl.niebieski.adj.1",
+      "paradigmId": "pl.adj.regular",
+      "stems": {
+        "base": "niebiesk",
+        "virile": "niebiesk"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "gender": "feminine",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "niebieska"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "feminine",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "niebieską"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "feminine",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "niebieskiej"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "feminine",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "niebieskiej"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "masculine",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "niebieski"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "masculine",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "niebieskiego"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "masculine",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "niebieskiemu"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "masculine",
+            "animacy": "animate",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "niebieskiego"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "masculine",
+            "animacy": "inanimate",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "niebieski"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "neuter",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "niebieskie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "neuter",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "niebieskie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "neuter",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "niebieskiego"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "neuter",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "niebieskiemu"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "niebiescy"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "niebieskich"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "niebieskich"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "niebieskim"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "niebieskie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "niebieskie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "niebieskich"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "niebieskim"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "feminine",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "niebieskiej"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "masculine",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "niebieskim"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "neuter",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "niebieskim"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "niebieskich"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "niebieskich"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.granatowy.adj.1",
+      "paradigmId": "pl.adj.regular",
+      "stems": {
+        "base": "granatow",
+        "virile": "granatow"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.zielony.adj.1",
+      "paradigmId": "pl.adj.regular",
+      "stems": {
+        "base": "zielon",
+        "virile": "zielon"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.zo_ty.adj.1",
+      "paradigmId": "pl.adj.regular",
+      "stems": {
+        "base": "żółt",
+        "virile": "żółt"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "żółci"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.czarny.adj.1",
+      "paradigmId": "pl.adj.regular",
+      "stems": {
+        "base": "czarn",
+        "virile": "czarn"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.szary.adj.1",
+      "paradigmId": "pl.adj.regular",
+      "stems": {
+        "base": "szar",
+        "virile": "szar"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "szarzy"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.brazowy.adj.1",
+      "paradigmId": "pl.adj.regular",
+      "stems": {
+        "base": "brązow",
+        "virile": "brązow"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.rozowy.adj.1",
+      "paradigmId": "pl.adj.regular",
+      "stems": {
+        "base": "różow",
+        "virile": "różow"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.fioletowy.adj.1",
+      "paradigmId": "pl.adj.regular",
+      "stems": {
+        "base": "fioletow",
+        "virile": "fioletow"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.turkusowy.adj.1",
+      "paradigmId": "pl.adj.regular",
+      "stems": {
+        "base": "turkusow",
+        "virile": "turkusow"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.we_niany.adj.1",
+      "paradigmId": "pl.adj.regular",
+      "stems": {
+        "base": "wełnian",
+        "virile": "wełnian"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.miekki.adj.1",
+      "paradigmId": "pl.adj.regular",
+      "stems": {
+        "base": "miękk",
+        "virile": "miękk"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "gender": "feminine",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "miękka"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "feminine",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "miękką"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "feminine",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "miękkiej"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "feminine",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "miękkiej"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "masculine",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "miękki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "masculine",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "miękkiego"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "masculine",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "miękkiemu"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "masculine",
+            "animacy": "animate",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "miękkiego"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "masculine",
+            "animacy": "inanimate",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "miękki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "neuter",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "miękkie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "neuter",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "miękkie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "neuter",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "miękkiego"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "neuter",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "miękkiemu"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "miękcy"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "miękkich"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "miękkich"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "miękkim"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "miękkie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "miękkie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "miękkich"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "miękkim"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "feminine",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "miękkiej"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "masculine",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "miękkim"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "neuter",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "miękkim"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "miękkich"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "miękkich"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.twardy.adj.1",
+      "paradigmId": "pl.adj.regular",
+      "stems": {
+        "base": "tward",
+        "virile": "tward"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.lekki.adj.1",
+      "paradigmId": "pl.adj.regular",
+      "stems": {
+        "base": "lekk",
+        "virile": "lekk"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "gender": "feminine",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lekka"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "feminine",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lekką"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "feminine",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lekkiej"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "feminine",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lekkiej"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "masculine",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lekki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "masculine",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lekkiego"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "masculine",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lekkiemu"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "masculine",
+            "animacy": "animate",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lekkiego"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "masculine",
+            "animacy": "inanimate",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lekki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "neuter",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lekkie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "neuter",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lekkie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "neuter",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lekkiego"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "neuter",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lekkiemu"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lekcy"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lekkich"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lekkich"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lekkim"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lekkie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lekkie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lekkich"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lekkim"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "feminine",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lekkiej"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "masculine",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lekkim"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "neuter",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lekkim"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lekkich"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lekkich"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.ciezki.adj.1",
+      "paradigmId": "pl.adj.regular",
+      "stems": {
+        "base": "ciężk",
+        "virile": "ciężk"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "gender": "feminine",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ciężka"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "feminine",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ciężką"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "feminine",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ciężkiej"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "feminine",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ciężkiej"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "masculine",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ciężki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "masculine",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ciężkiego"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "masculine",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ciężkiemu"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "masculine",
+            "animacy": "animate",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ciężkiego"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "masculine",
+            "animacy": "inanimate",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ciężki"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "neuter",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ciężkie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "neuter",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ciężkie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "neuter",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ciężkiego"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "neuter",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ciężkiemu"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ciężcy"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ciężkich"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ciężkich"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ciężkim"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ciężkie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ciężkie"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ciężkich"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "case": "dat"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ciężkim"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "feminine",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ciężkiej"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "masculine",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ciężkim"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "singular",
+            "gender": "neuter",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ciężkim"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ciężkich"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "pluralClass": "nonvirile",
+            "case": "loc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ciężkich"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.jasny.adj.1",
+      "paradigmId": "pl.adj.regular",
+      "stems": {
+        "base": "jasn",
+        "virile": "jasn"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.ciemny.adj.1",
+      "paradigmId": "pl.adj.regular",
+      "stems": {
+        "base": "ciemn",
+        "virile": "ciemn"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.okrag_y.adj.1",
+      "paradigmId": "pl.adj.regular",
+      "stems": {
+        "base": "okrągł",
+        "virile": "okrągł"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "okrągli"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.mokry.adj.1",
+      "paradigmId": "pl.adj.regular",
+      "stems": {
+        "base": "mokr",
+        "virile": "mokr"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "mokrzy"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.suchy.adj.1",
+      "paradigmId": "pl.adj.regular",
+      "stems": {
+        "base": "such",
+        "virile": "such"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.zimny.adj.1",
+      "paradigmId": "pl.adj.regular",
+      "stems": {
+        "base": "zimn",
+        "virile": "zimn"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.goracy.adj.1",
+      "paradigmId": "pl.adj.regular",
+      "stems": {
+        "base": "gorąc",
+        "virile": "gorąc"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "plural",
+            "pluralClass": "virile",
+            "case": "nom"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "gorący"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.brudny.adj.1",
+      "paradigmId": "pl.adj.regular",
+      "stems": {
+        "base": "brudn",
+        "virile": "brudn"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.pe_ny.adj.1",
+      "paradigmId": "pl.adj.regular",
+      "stems": {
+        "base": "pełn",
+        "virile": "pełn"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.pusty.adj.1",
+      "paradigmId": "pl.adj.regular",
+      "stems": {
+        "base": "pust",
+        "virile": "pust"
+      },
+      "overrides": []
     }
   ]
 }

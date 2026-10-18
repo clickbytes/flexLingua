@@ -3496,6 +3496,381 @@
         "en-pl",
         "pl-en"
       ]
+    },
+    {
+      "targetId": "concept.quality.blue",
+      "revision": "current",
+      "historicalId": "quality.blue",
+      "unitType": "concept",
+      "domain": "descriptions",
+      "kind": "property",
+      "concept": "quality.blue",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.quality.navy",
+      "revision": "current",
+      "historicalId": "quality.navy",
+      "unitType": "concept",
+      "domain": "descriptions",
+      "kind": "property",
+      "concept": "quality.navy",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.quality.green",
+      "revision": "current",
+      "historicalId": "quality.green",
+      "unitType": "concept",
+      "domain": "descriptions",
+      "kind": "property",
+      "concept": "quality.green",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.quality.yellow",
+      "revision": "current",
+      "historicalId": "quality.yellow",
+      "unitType": "concept",
+      "domain": "descriptions",
+      "kind": "property",
+      "concept": "quality.yellow",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.quality.black",
+      "revision": "current",
+      "historicalId": "quality.black",
+      "unitType": "concept",
+      "domain": "descriptions",
+      "kind": "property",
+      "concept": "quality.black",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.quality.gray",
+      "revision": "current",
+      "historicalId": "quality.gray",
+      "unitType": "concept",
+      "domain": "descriptions",
+      "kind": "property",
+      "concept": "quality.gray",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.quality.brown",
+      "revision": "current",
+      "historicalId": "quality.brown",
+      "unitType": "concept",
+      "domain": "descriptions",
+      "kind": "property",
+      "concept": "quality.brown",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.quality.pink",
+      "revision": "current",
+      "historicalId": "quality.pink",
+      "unitType": "concept",
+      "domain": "descriptions",
+      "kind": "property",
+      "concept": "quality.pink",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.quality.purple",
+      "revision": "current",
+      "historicalId": "quality.purple",
+      "unitType": "concept",
+      "domain": "descriptions",
+      "kind": "property",
+      "concept": "quality.purple",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.quality.turquoise",
+      "revision": "current",
+      "historicalId": "quality.turquoise",
+      "unitType": "concept",
+      "domain": "descriptions",
+      "kind": "property",
+      "concept": "quality.turquoise",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.quality.woolen",
+      "revision": "current",
+      "historicalId": "quality.woolen",
+      "unitType": "concept",
+      "domain": "descriptions",
+      "kind": "property",
+      "concept": "quality.woolen",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.quality.soft",
+      "revision": "current",
+      "historicalId": "quality.soft",
+      "unitType": "concept",
+      "domain": "descriptions",
+      "kind": "property",
+      "concept": "quality.soft",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.quality.hard",
+      "revision": "current",
+      "historicalId": "quality.hard",
+      "unitType": "concept",
+      "domain": "descriptions",
+      "kind": "property",
+      "concept": "quality.hard",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.quality.lightweight",
+      "revision": "current",
+      "historicalId": "quality.lightweight",
+      "unitType": "concept",
+      "domain": "descriptions",
+      "kind": "property",
+      "concept": "quality.lightweight",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.quality.heavy",
+      "revision": "current",
+      "historicalId": "quality.heavy",
+      "unitType": "concept",
+      "domain": "descriptions",
+      "kind": "property",
+      "concept": "quality.heavy",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.quality.bright",
+      "revision": "current",
+      "historicalId": "quality.bright",
+      "unitType": "concept",
+      "domain": "descriptions",
+      "kind": "property",
+      "concept": "quality.bright",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.quality.dark",
+      "revision": "current",
+      "historicalId": "quality.dark",
+      "unitType": "concept",
+      "domain": "descriptions",
+      "kind": "property",
+      "concept": "quality.dark",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.quality.round",
+      "revision": "current",
+      "historicalId": "quality.round",
+      "unitType": "concept",
+      "domain": "descriptions",
+      "kind": "property",
+      "concept": "quality.round",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.quality.wet",
+      "revision": "current",
+      "historicalId": "quality.wet",
+      "unitType": "concept",
+      "domain": "descriptions",
+      "kind": "property",
+      "concept": "quality.wet",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.quality.dry",
+      "revision": "current",
+      "historicalId": "quality.dry",
+      "unitType": "concept",
+      "domain": "descriptions",
+      "kind": "property",
+      "concept": "quality.dry",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.quality.cold",
+      "revision": "current",
+      "historicalId": "quality.cold",
+      "unitType": "concept",
+      "domain": "descriptions",
+      "kind": "property",
+      "concept": "quality.cold",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.quality.hot",
+      "revision": "current",
+      "historicalId": "quality.hot",
+      "unitType": "concept",
+      "domain": "descriptions",
+      "kind": "property",
+      "concept": "quality.hot",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.quality.dirty",
+      "revision": "current",
+      "historicalId": "quality.dirty",
+      "unitType": "concept",
+      "domain": "descriptions",
+      "kind": "property",
+      "concept": "quality.dirty",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.quality.full",
+      "revision": "current",
+      "historicalId": "quality.full",
+      "unitType": "concept",
+      "domain": "descriptions",
+      "kind": "property",
+      "concept": "quality.full",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.quality.empty",
+      "revision": "current",
+      "historicalId": "quality.empty",
+      "unitType": "concept",
+      "domain": "descriptions",
+      "kind": "property",
+      "concept": "quality.empty",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
     }
   ]
 }

@@ -171,10 +171,9 @@ export function composeMeaningGraph({meaning,core,limits} = {}) {
   }
 
   function applyEffect(property,propertyId,participantRootId,participantConceptId,path) {
-    if (!property.semanticEffect) {
-      unresolvedAt(path,propertyId,'SEMANTIC_EFFECT_UNSPECIFIED');
-      return;
-    }
+    // A property without a declared relation effect remains in MeaningGraph,
+    // but contributes no edge to the typed relation projection.
+    if (!property.semanticEffect) return;
     if (!property.appliesTo?.some(type=>ontology.isA(participantConceptId,type))) {
       fail('TYPED_GRAPH_INVALID',`Property ${propertyId} does not apply to ${participantConceptId}.`);
     }
