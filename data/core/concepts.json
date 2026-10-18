@@ -170,6 +170,15 @@
         "associated_with": [
           "object.money"
         ]
+      },
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "domain",
+            "target": "domain.finance",
+            "constraint": "required"
+          }
+        ]
       }
     },
     "place.riverbank": {
@@ -1290,6 +1299,50 @@
       "appliesTo": [
         "entity"
       ]
+    },
+    "domain": {
+      "type": "category",
+      "parent": "entity",
+      "label": "domain"
+    },
+    "domain.finance": {
+      "type": "category",
+      "parent": "domain",
+      "label": "finance"
+    },
+    "material": {
+      "type": "category",
+      "parent": "entity",
+      "label": "material"
+    },
+    "material.wood": {
+      "type": "category",
+      "parent": "material",
+      "label": "wood"
+    },
+    "quality.financial": {
+      "type": "property",
+      "label": "financial",
+      "appliesTo": [
+        "entity"
+      ],
+      "semanticEffect": {
+        "operation": "add_relation",
+        "relation": "domain",
+        "target": "domain.finance"
+      }
+    },
+    "quality.wooden": {
+      "type": "property",
+      "label": "wooden",
+      "appliesTo": [
+        "entity"
+      ],
+      "semanticEffect": {
+        "operation": "add_relation",
+        "relation": "material",
+        "target": "material.wood"
+      }
     }
   },
   "relationTypes": {
@@ -1301,6 +1354,16 @@
     "associated_with": {
       "subject": "entity",
       "object": "entity",
+      "symmetric": false
+    },
+    "domain": {
+      "subject": "entity",
+      "object": "domain",
+      "symmetric": false
+    },
+    "material": {
+      "subject": "entity",
+      "object": "material",
       "symmetric": false
     }
   },

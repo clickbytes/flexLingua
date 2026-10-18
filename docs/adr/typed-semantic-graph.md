@@ -73,7 +73,7 @@ For example, an unqualified `bank` with no disambiguating context retains both f
 
 ## Normalization and resource limits
 
-Graph definitions and projections have deterministic serialization. Sort edges by relation, target, constraint, and then weight; sort node records by canonical concept ID and source path. Preserve distinct source paths when semantically distinct participants share a concept ID. Do not silently truncate.
+Graph definitions and projections have deterministic serialization. Sort projected edges by `from`, relation, target, constraint, and then weight; sort concept nodes by canonical ID. Sentence-level projections preserve distinct source paths when semantically distinct participants share a concept ID. Do not silently truncate. `Ontology.projectConceptGraph` expands the root, its parent chain, and typed definition targets once; it includes `typical` edges only when requested. Existing plain `relations` remain available through `relationTargets` and are not reweighted into definition graph edges.
 
 | Budget | Limit |
 | --- | ---: |
@@ -83,7 +83,7 @@ Graph definitions and projections have deterministic serialization. Sort edges b
 | Edges in one projected graph | 256 |
 | Relation expansion depth | 8 |
 
-The `parent` hierarchy must be acyclic. Other relation expansion uses a visited set and the depth and graph-size budgets; reaching a budget returns `resource_limit`. The schema enforces the per-definition edge count. Runtime code enforces all budgets and cross-record invariants.
+The `parent` hierarchy must be acyclic. Other relation expansion uses a visited set and the depth and graph-size budgets; reaching a budget returns `resource_limit`. Projection defaults to required edges only and a maximum of 256 edges; callers may lower, but not raise, that edge limit. The schema enforces the per-definition edge count. Runtime code enforces all budgets and cross-record invariants.
 
 For inventory reporting, a lemma is a nonempty canonical `lemma` normalized to NFC and locale casefolded independently for each language. Multiple senses or homographs count as one spelling. An entry without `lemma` is excluded unless an explicit, reviewed rule derives its canonical lemma from `forms`. Report `data_only`, `morphology_ready`, and `sentence_licensed` separately; a lexicon entry alone does not establish a supported sentence.
 

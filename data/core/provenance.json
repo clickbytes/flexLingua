@@ -7,10 +7,10 @@
       "path": "data/core/concepts.json",
       "version": "1.0",
       "status": "project-authored",
-      "author": "flexLingua project contributors; individual concept authors are not recorded",
-      "source": "Original flexLingua CORE inventory, including the project-authored 28-concept LEX-01 batch; no external definition list was imported.",
+      "author": "flexLingua project contributors; historical concept authors are not individually attributed, and the TG-02 pilot author is recorded in authoredBatches.",
+      "source": "Original flexLingua CORE inventory plus the project-authored typed graph pilot in TG-02; no external definition list or lexical data was imported.",
       "license": "Project-authored; no separate SPDX license grant is declared in this repository",
-      "reviewedAt": "2026-10-15",
+      "reviewedAt": "2026-10-18",
       "permittedUse": "Used in flexLingua. No third-party lists or definitions are included. External reuse requires rights-holder review because this repository declares no separate data license.",
       "authoredBatches": [
         {
@@ -59,6 +59,13 @@
           "source": "Project-authored progressive forms for six configured English event verbs; no external lexicon or list copied.",
           "license": "Project-authored; the repository declares no separate data license.",
           "scope": "A1-ENPL-06: read, write, eat, drink, help, and open progressive forms."
+        },
+        {
+          "issue": "#397",
+          "author": "flexLingua project contributors; typed graph pilot authored by Codex agent",
+          "source": "Original project-authored category roots, property meanings, and typed relation definitions; no third-party list, dictionary, or external definition was copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "Six CORE concepts (domain, domain.finance, material, material.wood, quality.financial, quality.wooden), domain/material relation signatures, semantic effects, and a required domain edge on place.financial_institution."
         }
       ]
     },

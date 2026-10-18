@@ -4,6 +4,14 @@ export const ONTOLOGY_VERSION = '0.5';
 const CONCEPT_ID = /^[a-zA-Z][a-zA-Z0-9_]*(?:\.[a-zA-Z][a-zA-Z0-9_]*)*$/u;
 const KINDS = new Set(['category', 'entity', 'event', 'property', 'degree']);
 const MAX_CONCEPTS = 10000;
+const MAX_DEFINITION_EDGES = 16;
+const MAX_PROJECTED_NODES = 128;
+const MAX_PROJECTED_EDGES = 256;
+const MAX_GRAPH_EXPANSION_DEPTH = 8;
+const DEFINITION_RELATIONS = new Set([
+  'domain', 'material', 'color', 'purpose', 'has_part', 'contains', 'located_in',
+  'adjacent_to', 'associated_with'
+]);
 export const STATE_FRAME_VERSION = '1.3';
 const STATE_FRAME_CONTRACTS = Object.freeze({
   identity: Object.freeze({
@@ -51,6 +59,18 @@ function freezeDeep(value) {
     Object.freeze(value);
   }
   return value;
+}
+
+function graphError(code, message) {
+  const error = new Error(message);
+  error.code = code;
+  return error;
+}
+
+function exactKeys(value, keys) {
+  const allowed = new Set(keys);
+  return Object.keys(value).every(key => allowed.has(key)) &&
+    Object.keys(value).length === allowed.size;
 }
 
 /** Validated, language-neutral semantic taxonomy and typed relations. */
@@ -131,13 +151,16 @@ export class Ontology {
     for (const id of Object.keys(source)) resolve(id);
     this.concepts = freezeDeep(normalized);
 
-    this.relationTypes = freezeDeep(JSON.parse(JSON.stringify(spec.relationTypes || {})));
+    const relationTypes = spec.relationTypes ?? {};
+    if (!record(relationTypes)) throw graphError('INVALID_RELATION_TYPE', 'Invalid relation type registry.');
+    this.relationTypes = freezeDeep(JSON.parse(JSON.stringify(relationTypes)));
     for (const [relation, definition] of Object.entries(this.relationTypes)) {
-      if (!safeName(relation) || !record(definition) ||
+      if (!DEFINITION_RELATIONS.has(relation) || !safeName(relation) || relation.length > 64 ||
+          !record(definition) || !exactKeys(definition, ['subject', 'object', 'symmetric']) ||
           !validConceptId(definition.subject) || !validConceptId(definition.object) ||
           typeof definition.symmetric !== 'boolean' ||
           !hasOwn(this.concepts, definition.subject) || !hasOwn(this.concepts, definition.object)) {
-        throw new Error(`Invalid relation type: ${relation}`);
+        throw graphError('INVALID_RELATION_TYPE', `Invalid relation type: ${relation}`);
       }
     }
     const hasStateContracts = hasOwn(spec,'stateFrames') || hasOwn(spec,'stateFrameVersion');
@@ -205,6 +228,69 @@ export class Ontology {
           }
         }
       }
+      if (concept.definitionGraph !== undefined) {
+        const graph = concept.definitionGraph;
+        if (!record(graph) || !exactKeys(graph, ['edges']) || !Array.isArray(graph.edges) ||
+            graph.edges.length < 1 || graph.edges.length > MAX_DEFINITION_EDGES) {
+          throw graphError('INVALID_DEFINITION_GRAPH', `Invalid definition graph in ${id}.`);
+        }
+        const seenEdges = new Set();
+        for (const edge of graph.edges) {
+          if (!record(edge) || !['required', 'typical'].includes(edge.constraint)) {
+            throw graphError('INVALID_DEFINITION_GRAPH', `Invalid definition edge in ${id}.`);
+          }
+          const expectedKeys = edge.constraint === 'required'
+            ? ['relation', 'target', 'constraint']
+            : ['relation', 'target', 'constraint', 'weight'];
+          if (!exactKeys(edge, expectedKeys) || !DEFINITION_RELATIONS.has(edge.relation) ||
+              !safeName(edge.relation) || edge.relation.length > 64 || !validConceptId(edge.target)) {
+            throw graphError('INVALID_DEFINITION_GRAPH', `Invalid definition edge in ${id}.`);
+          }
+          if (edge.constraint === 'typical' &&
+              (typeof edge.weight !== 'number' || !Number.isFinite(edge.weight) ||
+               edge.weight <= 0 || edge.weight > 1)) {
+            throw graphError('INVALID_DEFINITION_GRAPH', `Invalid typical weight in ${id}.${edge.relation}.`);
+          }
+          const signature = this.relationTypes[edge.relation];
+          if (!signature) {
+            throw graphError('INVALID_RELATION_TYPE', `Unknown definition relation ${edge.relation} in ${id}.`);
+          }
+          if (!this.isA(id, signature.subject)) {
+            throw graphError('INVALID_RELATION_SUBJECT',
+              `Concept ${id} is not valid as the subject of ${edge.relation}.`);
+          }
+          if (!this.get(edge.target) || !this.isA(edge.target, signature.object)) {
+            throw graphError('INVALID_RELATION_TARGET',
+              `Invalid target ${edge.target} for ${edge.relation} in ${id}.`);
+          }
+          const edgeKey = JSON.stringify([edge.relation, edge.target, edge.constraint]);
+          if (seenEdges.has(edgeKey)) {
+            throw graphError('INVALID_DEFINITION_GRAPH', `Duplicate definition edge in ${id}: ${edge.relation} → ${edge.target}.`);
+          }
+          seenEdges.add(edgeKey);
+        }
+      }
+      if (concept.semanticEffect !== undefined) {
+        const effect = concept.semanticEffect;
+        if (concept.type !== 'property' || !record(effect) ||
+            !exactKeys(effect, ['operation', 'relation', 'target']) || effect.operation !== 'add_relation' ||
+            !DEFINITION_RELATIONS.has(effect.relation) || !safeName(effect.relation) ||
+            effect.relation.length > 64 || !validConceptId(effect.target)) {
+          throw graphError('INVALID_SEMANTIC_EFFECT', `Invalid semantic effect in ${id}.`);
+        }
+        const signature = this.relationTypes[effect.relation];
+        if (!signature) {
+          throw graphError('INVALID_RELATION_TYPE', `Unknown semantic effect relation ${effect.relation} in ${id}.`);
+        }
+        if (concept.appliesTo.some(type => !this.isA(type, signature.subject))) {
+          throw graphError('INVALID_RELATION_SUBJECT',
+            `Semantic effect ${id} is not valid for every declared appliesTo type.`);
+        }
+        if (!this.get(effect.target) || !this.isA(effect.target, signature.object)) {
+          throw graphError('INVALID_RELATION_TARGET',
+            `Invalid semantic effect target ${effect.target} for ${id}.${effect.relation}.`);
+        }
+      }
     }
     Object.freeze(this);
   }
@@ -227,6 +313,68 @@ export class Ontology {
     const out = [];
     for (let at = this.get(id).parent; at; at = this.get(at)?.parent) out.push(at);
     return out;
+  }
+
+  /**
+   * Project a bounded, immutable semantic graph for one concept. Parent edges
+   * are synthesized as required is_a edges; legacy relations are not rewritten
+   * or reweighted. Required relation targets and their definitions are expanded
+   * once. Typical edges are included only when explicitly requested.
+   */
+  projectConceptGraph(conceptId, options = {}) {
+    if (!this.get(conceptId)) throw new Error(`Unknown ontology concept: ${conceptId}`);
+    if (!record(options) || Object.keys(options).some(key => !['includeTypical', 'maxEdges'].includes(key))) {
+      throw graphError('INVALID_GRAPH_OPTIONS', 'Invalid concept graph projection options.');
+    }
+    const includeTypical = options.includeTypical === undefined ? false : options.includeTypical;
+    const maxEdges = options.maxEdges === undefined ? MAX_PROJECTED_EDGES : options.maxEdges;
+    if (typeof includeTypical !== 'boolean' || !Number.isSafeInteger(maxEdges) ||
+        maxEdges < 0 || maxEdges > MAX_PROJECTED_EDGES) {
+      throw graphError('INVALID_GRAPH_OPTIONS', 'Invalid concept graph projection options.');
+    }
+
+    const nodes = new Map();
+    const edges = [];
+    const visited = new Set();
+    const pending = [{id: conceptId, depth: 0}];
+    const addEdge = edge => {
+      if (edges.length >= maxEdges || edges.length >= MAX_PROJECTED_EDGES) {
+        throw graphError('RESOURCE_LIMIT', 'Concept graph edge limit exceeded.');
+      }
+      edges.push(edge);
+    };
+
+    while (pending.length) {
+      const {id, depth} = pending.shift();
+      if (visited.has(id)) continue;
+      if (depth > MAX_GRAPH_EXPANSION_DEPTH) {
+        throw graphError('RESOURCE_LIMIT', 'Concept graph expansion depth exceeded.');
+      }
+      visited.add(id);
+      const concept = this.get(id);
+      nodes.set(id, {id, type: concept.type});
+      if (nodes.size > MAX_PROJECTED_NODES) {
+        throw graphError('RESOURCE_LIMIT', 'Concept graph node limit exceeded.');
+      }
+      if (concept.parent) {
+        addEdge({from: id, relation: 'is_a', target: concept.parent, constraint: 'required'});
+        pending.push({id: concept.parent, depth: depth + 1});
+      }
+      for (const edge of concept.definitionGraph?.edges || []) {
+        if (edge.constraint === 'typical' && !includeTypical) continue;
+        addEdge({from: id, relation: edge.relation, target: edge.target,
+          constraint: edge.constraint, ...(edge.weight === undefined ? {} : {weight: edge.weight})});
+        pending.push({id: edge.target, depth: depth + 1});
+      }
+    }
+
+    const compare = (left, right) => left < right ? -1 : left > right ? 1 : 0;
+    const orderedNodes = [...nodes.values()].sort((left, right) => compare(left.id, right.id));
+    const orderedEdges = edges.sort((left, right) =>
+      compare(left.from, right.from) || compare(left.relation, right.relation) ||
+      compare(left.target, right.target) || compare(left.constraint, right.constraint) ||
+      (left.weight ?? 0) - (right.weight ?? 0));
+    return freezeDeep({root: conceptId, nodes: orderedNodes, edges: orderedEdges});
   }
 
   frameRoles(id) {
