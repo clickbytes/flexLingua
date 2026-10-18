@@ -1,0 +1,113 @@
+{
+  "schemaVersion": "1.0",
+  "cases": [
+    {
+      "id": "A1-EN-FI-VISUAL-0001",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-fi",
+      "family": "visual_attention",
+      "construction": "event.visual_attention",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "indefinite",
+        "quantity": "none"
+      },
+      "purpose": "Positive A1 visual-attention event en>fi: the 'looks at' verb theme maps to the Finnish partitive (taloa), the agent keeps nominative agreement through katsoo, number survives without loss for both participants, and both English determiner claims (indefinite 'a') are recorded as unavoidable target loss because Finnish has no determiners.",
+      "input": {"from": "en", "to": "fi", "text": "A girl looks at a house."},
+      "expected": {
+        "status": "ok",
+        "text": {"accepted": ["Tyttö katsoo taloa."]},
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_attention",
+          "roleSet": ["agent", "theme"],
+          "roles": {
+            "agent": {"concept": "person.girl",
+              "features": {"number": "singular", "definiteness": "indefinite"}},
+            "theme": {"concept": "structure.house",
+              "features": {"number": "singular", "definiteness": "indefinite"}}
+          },
+          "roleFeaturesExact": true,
+          "features": {"tense": "present", "polarity": "positive"},
+          "featuresAllowExtra": true,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive"
+          }
+        },
+        "diagnostics": {"required": [], "allowUnexpected": true},
+        "alternatives": {"required": [], "allowUnexpected": false},
+        "informationLoss": {"required": [
+          {"cause": "target-grammar-does-not-mark-definiteness", "feature": "definiteness",
+            "path": "#/roles/agent/features/definiteness", "status": "unavoidable"},
+          {"cause": "target-grammar-does-not-mark-definiteness", "feature": "definiteness",
+            "path": "#/roles/theme/features/definiteness", "status": "unavoidable"}
+        ], "allowUnexpected": false}
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent expectation recorded in the #364 pre-edit comment (6243928763), stated after a documented in-memory diagnosis and before the data fix or matrix: katsoa governs the partitive for viewing (taloa); determinerless fi records both 'a' claims as unavoidable loss. CLI-matched at the tm/p364-visual fix tree; the matrix re-asserts it on the pushed head.",
+        "author": "opencode-agent (OpenCode/GLM)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#364"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_attention",
+        "capability": "sentence en.analyze(event.visual_attention) -> fi.realize partitive theme"
+      }
+    },
+    {
+      "id": "A1-EN-FI-VISUAL-0002",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-fi",
+      "family": "agreement_boundary",
+      "construction": "event.visual_attention",
+      "tier": "required",
+      "priority": 2,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "third",
+        "number": "mismatch",
+        "reference": "none",
+        "quantity": "none"
+      },
+      "purpose": "Controlled refusal of an English subject-verb number disagreement inside this frame (plural girls with the 3sg form looks): the en analyzer refuses the mismatched morphology instead of guessing a repair, and the bounded result is an explicit unsupported refusal with LANGUAGE_CONSTRUCTION_UNSUPPORTED; it is never counted as evidence that visual attention is handled.",
+      "input": {"from": "en", "to": "fi", "text": "Girls looks at the house."},
+      "expected": {
+        "status": "unsupported",
+        "text": null,
+        "meaning": null,
+        "diagnostics": {"required": [{"code": "LANGUAGE_CONSTRUCTION_UNSUPPORTED"}], "allowUnexpected": false},
+        "alternatives": {"required": [], "allowUnexpected": false},
+        "informationLoss": {"required": [], "allowUnexpected": false}
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent expectation recorded in the #364 pre-edit comment (6243928763): the same agreement machinery that accepts 'The girls look' refuses 'Girls looks' (agreement-failure path in the en grammar), so the sentence has no grammatical reading and must refuse rather than guess. CLI-matched at the tm/p364-visual fix tree; the matrix re-asserts it on the pushed head.",
+        "author": "opencode-agent (OpenCode/GLM)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#364"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_attention",
+        "capability": "en.analyze controlled refusal: subject-verb number disagreement"
+      }
+    }
+  ]
+}

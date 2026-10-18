@@ -200,7 +200,8 @@
           }
         }
       ],
-      "indefiniteArticle": "a"
+      "indefiniteArticle": "a",
+      "forms": {}
     },
     {
       "id": "en.bicycle.1",

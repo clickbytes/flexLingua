@@ -244,6 +244,19 @@
       "directions": ["en-pl", "pl-en"]
     },
     {
+      "targetId": "construction.event.visual_attention",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "construction",
+      "domain": "activities",
+      "kind": "event",
+      "concept": "event.visual_attention",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": ["en-fi", "fi-en"],
+      "note": "Implemented only in the en-fi/fi-en declared manifest pair (language packages en and fi); no approved PL-EN construction witness exists because neither the en nor the pl manifest declares this construction in the canonical pair. Approved case witnesses: A1-EN-FI-VISUAL-0001/0002, A1-FI-EN-VISUAL-0001/0002 (#364)."
+    },
+    {
       "targetId": "construction.event.transfer_possession",
       "revision": "historical-planning-baseline",
       "historicalId": "construction.event.transfer_possession",
