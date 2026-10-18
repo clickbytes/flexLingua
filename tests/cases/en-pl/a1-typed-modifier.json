@@ -9,7 +9,7 @@
       "direction": "en-pl",
       "family": "typed_modifier",
       "construction": "event.visual_perception",
-      "tier": "exploratory",
+      "tier": "required",
       "priority": 2,
       "cliSmoke": false,
       "tags": {
@@ -21,7 +21,7 @@
         "reference": "definite",
         "quantity": "none"
       },
-      "purpose": "Proposed English to Polish adjective witness: a definite red dog remains the theme, Polish agrees in animate masculine accusative, and the typed color effect stays on the dog.",
+      "purpose": "English to Polish adjective witness: a definite red dog remains the theme, Polish agrees in animate masculine accusative, and the typed color effect stays on the dog.",
       "input": {
         "from": "en",
         "to": "pl",
@@ -80,9 +80,9 @@
         }
       },
       "review": {
-        "status": "proposed",
-        "source": "Independent definite English meaning, Polish agreement and information-loss expectation recorded in #400 before this exact input was executed.",
-        "author": "Codex agent working on flexLingua",
+        "status": "approved",
+        "source": "Independent definite English meaning, Polish agreement and information-loss expectation recorded in #400 before execution; delegated linguistic approval in #400 issuecomment-6250503432.",
+        "author": "Codex agent, language review delegated by the project owner",
         "reviewedAt": "2026-10-18",
         "issue": "#400"
       },

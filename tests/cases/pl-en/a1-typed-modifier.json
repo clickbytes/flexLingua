@@ -9,7 +9,7 @@
       "direction": "pl-en",
       "family": "typed_modifier",
       "construction": "event.visual_perception",
-      "tier": "exploratory",
+      "tier": "required",
       "priority": 2,
       "cliSmoke": false,
       "tags": {
@@ -21,7 +21,7 @@
         "reference": "unknown",
         "quantity": "none"
       },
-      "purpose": "Proposed Polish adjective-agreement witness: the red modifier belongs to the dog theme and adds a typed color edge without changing the event roles. Polish leaves definiteness open and English exposes both article choices.",
+      "purpose": "Polish adjective-agreement witness: the red modifier belongs to the dog theme and adds a typed color edge without changing the event roles. Polish leaves definiteness open and English exposes both article choices.",
       "input": {
         "from": "pl",
         "to": "en",
@@ -81,9 +81,9 @@
         }
       },
       "review": {
-        "status": "proposed",
-        "source": "Independent PL meaning and color scope recorded in #400 before CLI; valid case ID and exact proposed oracle recorded in #400 before adding this exploratory case.",
-        "author": "Codex agent working on flexLingua",
+        "status": "approved",
+        "source": "Independent PL meaning and color scope recorded in #400 before CLI; delegated linguistic approval in #400 issuecomment-6250503432.",
+        "author": "Codex agent, language review delegated by the project owner",
         "reviewedAt": "2026-10-18",
         "issue": "#400"
       },
@@ -100,7 +100,7 @@
       "direction": "pl-en",
       "family": "typed_modifier",
       "construction": "event.visual_perception",
-      "tier": "exploratory",
+      "tier": "required",
       "priority": 2,
       "cliSmoke": false,
       "tags": {
@@ -112,7 +112,7 @@
         "reference": "unknown",
         "quantity": "none"
       },
-      "purpose": "Proposed controlled refusal: animate accusative adjective czerwonego cannot agree with masculine inanimate accusative stół.",
+      "purpose": "Controlled refusal: animate accusative adjective czerwonego cannot agree with masculine inanimate accusative stół.",
       "input": {
         "from": "pl",
         "to": "en",
@@ -130,9 +130,9 @@
         "informationLoss": {"required": [], "allowUnexpected": false}
       },
       "review": {
-        "status": "proposed",
-        "source": "Independent agreement refusal and exact input recorded in #400 before CLI execution; this is a refusal witness, not translation coverage.",
-        "author": "Codex agent working on flexLingua",
+        "status": "approved",
+        "source": "Independent agreement refusal and exact input recorded in #400 before CLI execution; delegated linguistic approval in #400 issuecomment-6250503432. This remains a refusal witness, not translation coverage.",
+        "author": "Codex agent, language review delegated by the project owner",
         "reviewedAt": "2026-10-18",
         "issue": "#400"
       },
