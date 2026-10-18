@@ -785,7 +785,12 @@
       "label": "orange in color",
       "appliesTo": [
         "entity"
-      ]
+      ],
+      "semanticEffect": {
+        "operation": "add_relation",
+        "relation": "color",
+        "target": "color.orange"
+      }
     },
     "beverage": {
       "type": "category",
@@ -5603,6 +5608,739 @@
           }
         ]
       }
+    },
+    "color.blue": {
+      "type": "category",
+      "parent": "color",
+      "label": "blue"
+    },
+    "color.navy": {
+      "type": "category",
+      "parent": "color",
+      "label": "navy"
+    },
+    "color.green": {
+      "type": "category",
+      "parent": "color",
+      "label": "green"
+    },
+    "color.yellow": {
+      "type": "category",
+      "parent": "color",
+      "label": "yellow"
+    },
+    "color.black": {
+      "type": "category",
+      "parent": "color",
+      "label": "black"
+    },
+    "color.gray": {
+      "type": "category",
+      "parent": "color",
+      "label": "gray"
+    },
+    "color.brown": {
+      "type": "category",
+      "parent": "color",
+      "label": "brown"
+    },
+    "color.pink": {
+      "type": "category",
+      "parent": "color",
+      "label": "pink"
+    },
+    "color.purple": {
+      "type": "category",
+      "parent": "color",
+      "label": "purple"
+    },
+    "color.turquoise": {
+      "type": "category",
+      "parent": "color",
+      "label": "turquoise"
+    },
+    "color.orange": {
+      "type": "category",
+      "parent": "color",
+      "label": "orange"
+    },
+    "quality.blue": {
+      "type": "property",
+      "label": "blue",
+      "appliesTo": [
+        "entity"
+      ],
+      "semanticEffect": {
+        "operation": "add_relation",
+        "relation": "color",
+        "target": "color.blue"
+      }
+    },
+    "quality.navy": {
+      "type": "property",
+      "label": "navy",
+      "appliesTo": [
+        "entity"
+      ],
+      "semanticEffect": {
+        "operation": "add_relation",
+        "relation": "color",
+        "target": "color.navy"
+      }
+    },
+    "quality.green": {
+      "type": "property",
+      "label": "green",
+      "appliesTo": [
+        "entity"
+      ],
+      "semanticEffect": {
+        "operation": "add_relation",
+        "relation": "color",
+        "target": "color.green"
+      }
+    },
+    "quality.yellow": {
+      "type": "property",
+      "label": "yellow",
+      "appliesTo": [
+        "entity"
+      ],
+      "semanticEffect": {
+        "operation": "add_relation",
+        "relation": "color",
+        "target": "color.yellow"
+      }
+    },
+    "quality.black": {
+      "type": "property",
+      "label": "black",
+      "appliesTo": [
+        "entity"
+      ],
+      "semanticEffect": {
+        "operation": "add_relation",
+        "relation": "color",
+        "target": "color.black"
+      }
+    },
+    "quality.gray": {
+      "type": "property",
+      "label": "gray",
+      "appliesTo": [
+        "entity"
+      ],
+      "semanticEffect": {
+        "operation": "add_relation",
+        "relation": "color",
+        "target": "color.gray"
+      }
+    },
+    "quality.brown": {
+      "type": "property",
+      "label": "brown",
+      "appliesTo": [
+        "entity"
+      ],
+      "semanticEffect": {
+        "operation": "add_relation",
+        "relation": "color",
+        "target": "color.brown"
+      }
+    },
+    "quality.pink": {
+      "type": "property",
+      "label": "pink",
+      "appliesTo": [
+        "entity"
+      ],
+      "semanticEffect": {
+        "operation": "add_relation",
+        "relation": "color",
+        "target": "color.pink"
+      }
+    },
+    "quality.purple": {
+      "type": "property",
+      "label": "purple",
+      "appliesTo": [
+        "entity"
+      ],
+      "semanticEffect": {
+        "operation": "add_relation",
+        "relation": "color",
+        "target": "color.purple"
+      }
+    },
+    "quality.turquoise": {
+      "type": "property",
+      "label": "turquoise",
+      "appliesTo": [
+        "entity"
+      ],
+      "semanticEffect": {
+        "operation": "add_relation",
+        "relation": "color",
+        "target": "color.turquoise"
+      }
+    },
+    "quality.woolen": {
+      "type": "property",
+      "label": "woolen",
+      "appliesTo": [
+        "entity"
+      ],
+      "semanticEffect": {
+        "operation": "add_relation",
+        "relation": "material",
+        "target": "material.wool"
+      }
+    },
+    "quality.soft": {
+      "type": "property",
+      "label": "soft",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.hard": {
+      "type": "property",
+      "label": "hard",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.lightweight": {
+      "type": "property",
+      "label": "lightweight",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.heavy": {
+      "type": "property",
+      "label": "heavy",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.bright": {
+      "type": "property",
+      "label": "bright",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.dark": {
+      "type": "property",
+      "label": "dark",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.round": {
+      "type": "property",
+      "label": "round",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.wet": {
+      "type": "property",
+      "label": "wet",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.dry": {
+      "type": "property",
+      "label": "dry",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.cold": {
+      "type": "property",
+      "label": "cold",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.hot": {
+      "type": "property",
+      "label": "hot",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.dirty": {
+      "type": "property",
+      "label": "dirty",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.full": {
+      "type": "property",
+      "label": "full",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.empty": {
+      "type": "property",
+      "label": "empty",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.closed": {
+      "type": "property",
+      "label": "closed",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.long": {
+      "type": "property",
+      "label": "long",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.short": {
+      "type": "property",
+      "label": "short",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.fast": {
+      "type": "property",
+      "label": "fast",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.slow": {
+      "type": "property",
+      "label": "slow",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.new": {
+      "type": "property",
+      "label": "new",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.old": {
+      "type": "property",
+      "label": "old",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.local": {
+      "type": "property",
+      "label": "local",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.public": {
+      "type": "property",
+      "label": "public",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.private": {
+      "type": "property",
+      "label": "private",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.legal": {
+      "type": "property",
+      "label": "legal",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.illegal": {
+      "type": "property",
+      "label": "illegal",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.social": {
+      "type": "property",
+      "label": "social",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.cultural": {
+      "type": "property",
+      "label": "cultural",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.natural": {
+      "type": "property",
+      "label": "natural",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.artificial": {
+      "type": "property",
+      "label": "artificial",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.historical": {
+      "type": "property",
+      "label": "historical",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.modern": {
+      "type": "property",
+      "label": "modern",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.ancient": {
+      "type": "property",
+      "label": "ancient",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.urban": {
+      "type": "property",
+      "label": "urban",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.rural": {
+      "type": "property",
+      "label": "rural",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.national": {
+      "type": "property",
+      "label": "national",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.international": {
+      "type": "property",
+      "label": "international",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.digital": {
+      "type": "property",
+      "label": "digital",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.electrical": {
+      "type": "property",
+      "label": "electrical",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.electronic": {
+      "type": "property",
+      "label": "electronic",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.medical": {
+      "type": "property",
+      "label": "medical",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.biological": {
+      "type": "property",
+      "label": "biological",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.chemical": {
+      "type": "property",
+      "label": "chemical",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.triangular": {
+      "type": "property",
+      "label": "triangular",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.rectangular": {
+      "type": "property",
+      "label": "rectangular",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.flat": {
+      "type": "property",
+      "label": "flat",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.curved": {
+      "type": "property",
+      "label": "curved",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.narrow": {
+      "type": "property",
+      "label": "narrow",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.wide": {
+      "type": "property",
+      "label": "wide",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.thick": {
+      "type": "property",
+      "label": "thick",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.thin": {
+      "type": "property",
+      "label": "thin",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.deep": {
+      "type": "property",
+      "label": "deep",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.shallow": {
+      "type": "property",
+      "label": "shallow",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.high": {
+      "type": "property",
+      "label": "high",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.low": {
+      "type": "property",
+      "label": "low",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.tiny": {
+      "type": "property",
+      "label": "tiny",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.smooth": {
+      "type": "property",
+      "label": "smooth",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.rough": {
+      "type": "property",
+      "label": "rough",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.sharp": {
+      "type": "property",
+      "label": "sharp",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.blunt": {
+      "type": "property",
+      "label": "blunt",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.sticky": {
+      "type": "property",
+      "label": "sticky",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.slippery": {
+      "type": "property",
+      "label": "slippery",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.flexible": {
+      "type": "property",
+      "label": "flexible",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.stiff": {
+      "type": "property",
+      "label": "stiff",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.liquid": {
+      "type": "property",
+      "label": "liquid",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.gaseous": {
+      "type": "property",
+      "label": "gaseous",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.warm": {
+      "type": "property",
+      "label": "warm",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.cool": {
+      "type": "property",
+      "label": "cool",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.frozen": {
+      "type": "property",
+      "label": "frozen",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.boiling": {
+      "type": "property",
+      "label": "boiling",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.sweet": {
+      "type": "property",
+      "label": "sweet",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.sour": {
+      "type": "property",
+      "label": "sour",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.bitter": {
+      "type": "property",
+      "label": "bitter",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.salty": {
+      "type": "property",
+      "label": "salty",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.alive": {
+      "type": "property",
+      "label": "alive",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.dead": {
+      "type": "property",
+      "label": "dead",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.healthy": {
+      "type": "property",
+      "label": "healthy",
+      "appliesTo": [
+        "entity"
+      ]
+    },
+    "quality.ill": {
+      "type": "property",
+      "label": "ill",
+      "appliesTo": [
+        "entity"
+      ]
     }
   },
   "relationTypes": {

@@ -4608,6 +4608,206 @@
         "base": "invoice"
       },
       "overrides": []
+    },
+    {
+      "lexemeId": "en.blue.adj.1",
+      "paradigmId": "en.adj.invariant",
+      "stems": {
+        "base": "blue"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.navy.adj.1",
+      "paradigmId": "en.adj.invariant",
+      "stems": {
+        "base": "navy"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.green.adj.1",
+      "paradigmId": "en.adj.invariant",
+      "stems": {
+        "base": "green"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.yellow.adj.1",
+      "paradigmId": "en.adj.invariant",
+      "stems": {
+        "base": "yellow"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.black.adj.1",
+      "paradigmId": "en.adj.invariant",
+      "stems": {
+        "base": "black"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.gray.adj.1",
+      "paradigmId": "en.adj.invariant",
+      "stems": {
+        "base": "gray"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.brown.adj.1",
+      "paradigmId": "en.adj.invariant",
+      "stems": {
+        "base": "brown"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.pink.adj.1",
+      "paradigmId": "en.adj.invariant",
+      "stems": {
+        "base": "pink"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.purple.adj.1",
+      "paradigmId": "en.adj.invariant",
+      "stems": {
+        "base": "purple"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.turquoise.adj.1",
+      "paradigmId": "en.adj.invariant",
+      "stems": {
+        "base": "turquoise"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.woolen.adj.1",
+      "paradigmId": "en.adj.invariant",
+      "stems": {
+        "base": "woolen"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.soft.adj.1",
+      "paradigmId": "en.adj.invariant",
+      "stems": {
+        "base": "soft"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.hard.adj.1",
+      "paradigmId": "en.adj.invariant",
+      "stems": {
+        "base": "hard"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.lightweight.adj.1",
+      "paradigmId": "en.adj.invariant",
+      "stems": {
+        "base": "lightweight"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.heavy.adj.1",
+      "paradigmId": "en.adj.invariant",
+      "stems": {
+        "base": "heavy"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.bright.adj.1",
+      "paradigmId": "en.adj.invariant",
+      "stems": {
+        "base": "bright"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.dark.adj.1",
+      "paradigmId": "en.adj.invariant",
+      "stems": {
+        "base": "dark"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.round.adj.1",
+      "paradigmId": "en.adj.invariant",
+      "stems": {
+        "base": "round"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.wet.adj.1",
+      "paradigmId": "en.adj.invariant",
+      "stems": {
+        "base": "wet"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.dry.adj.1",
+      "paradigmId": "en.adj.invariant",
+      "stems": {
+        "base": "dry"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.cold.adj.1",
+      "paradigmId": "en.adj.invariant",
+      "stems": {
+        "base": "cold"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.hot.adj.1",
+      "paradigmId": "en.adj.invariant",
+      "stems": {
+        "base": "hot"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.dirty.adj.1",
+      "paradigmId": "en.adj.invariant",
+      "stems": {
+        "base": "dirty"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.full.adj.1",
+      "paradigmId": "en.adj.invariant",
+      "stems": {
+        "base": "full"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.empty.adj.1",
+      "paradigmId": "en.adj.invariant",
+      "stems": {
+        "base": "empty"
+      },
+      "overrides": []
     }
   ]
 }

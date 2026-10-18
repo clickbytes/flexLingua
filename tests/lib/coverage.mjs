@@ -87,6 +87,12 @@ function collectMeaningConcepts(meaning) {
   const push = value => {
     if (typeof value === 'string' && !found.includes(value)) found.push(value);
   };
+  const collectModifiers = modifiers => {
+    for (const modifier of Array.isArray(modifiers) ? modifiers : []) {
+      push(modifier?.concept);
+      collectModifiers(modifier?.modifiers);
+    }
+  };
   if (meaning?.type === 'question') {
     // A question can witness its wrapper construction and proposition concepts,
     // but must not be counted as a separate event-construction case.
@@ -95,6 +101,7 @@ function collectMeaningConcepts(meaning) {
   if (meaning?.type === 'event') {
     for (const participant of Object.values(meaning.roles ?? {})) {
       push(participant?.concept);
+      collectModifiers(participant?.modifiers);
     }
   } else if (meaning?.type === 'state') {
     const category = meaning.roles?.category;

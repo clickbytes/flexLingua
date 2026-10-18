@@ -122,6 +122,13 @@
           "source": "Project-authored W6 school, work, technology, institution, service and finance concepts/lemmas; no external corpus or dictionary data copied.",
           "license": "Project-authored; this repository declares no separate SPDX data license.",
           "scope": "100 new entity concepts and 100 unique EN/PL lemmas; 25 finite morphology entries and bidirectional sentence witnesses; 75 data-only entries; typed domain/association/containment edges."
+        },
+        {
+          "issue": "#410",
+          "author": "Codex (linguistic curation and expected review delegated by project owner)",
+          "source": "Project-authored English and Polish property senses, inflected forms, and typed color/material effects; independently authored expected readings were recorded in the approved candidate batch before runtime checks. No external corpus or dictionary data copied.",
+          "license": "Project-authored; this repository declares no separate SPDX data license.",
+          "scope": "Adds 11 color category nodes, 89 property concepts, 100 distinct English and Polish lemmas, 25 morphology-ready adjective pairs, 75 data-only lemma pairs, typed color/material effects, and 56 bidirectional matrix witnesses."
         }
       ]
     },

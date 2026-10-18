@@ -16245,6 +16245,1806 @@
           }
         }
       ]
+    },
+    {
+      "id": "pl.niebieski.adj.1",
+      "lemma": "niebieski",
+      "forms": [
+        {
+          "text": "niebieski"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.niebieski.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.blue"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.granatowy.adj.1",
+      "lemma": "granatowy",
+      "forms": [
+        {
+          "text": "granatowy"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.granatowy.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.navy"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.zielony.adj.1",
+      "lemma": "zielony",
+      "forms": [
+        {
+          "text": "zielony"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.zielony.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.green"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.zo_ty.adj.1",
+      "lemma": "żółty",
+      "forms": [
+        {
+          "text": "żółty"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.zo_ty.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.yellow"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.czarny.adj.1",
+      "lemma": "czarny",
+      "forms": [
+        {
+          "text": "czarny"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.czarny.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.black"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.szary.adj.1",
+      "lemma": "szary",
+      "forms": [
+        {
+          "text": "szary"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.szary.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.gray"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.brazowy.adj.1",
+      "lemma": "brązowy",
+      "forms": [
+        {
+          "text": "brązowy"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.brazowy.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.brown"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.rozowy.adj.1",
+      "lemma": "różowy",
+      "forms": [
+        {
+          "text": "różowy"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.rozowy.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.pink"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.fioletowy.adj.1",
+      "lemma": "fioletowy",
+      "forms": [
+        {
+          "text": "fioletowy"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.fioletowy.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.purple"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.turkusowy.adj.1",
+      "lemma": "turkusowy",
+      "forms": [
+        {
+          "text": "turkusowy"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.turkusowy.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.turquoise"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.we_niany.adj.1",
+      "lemma": "wełniany",
+      "forms": [
+        {
+          "text": "wełniany"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.we_niany.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.woolen"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.miekki.adj.1",
+      "lemma": "miękki",
+      "forms": [
+        {
+          "text": "miękki"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.miekki.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.soft"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.twardy.adj.1",
+      "lemma": "twardy",
+      "forms": [
+        {
+          "text": "twardy"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.twardy.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.hard"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.lekki.adj.1",
+      "lemma": "lekki",
+      "forms": [
+        {
+          "text": "lekki"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.lekki.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.lightweight"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.ciezki.adj.1",
+      "lemma": "ciężki",
+      "forms": [
+        {
+          "text": "ciężki"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.ciezki.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.heavy"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.jasny.adj.1",
+      "lemma": "jasny",
+      "forms": [
+        {
+          "text": "jasny"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.jasny.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.bright"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.ciemny.adj.1",
+      "lemma": "ciemny",
+      "forms": [
+        {
+          "text": "ciemny"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.ciemny.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.dark"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.okrag_y.adj.1",
+      "lemma": "okrągły",
+      "forms": [
+        {
+          "text": "okrągły"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.okrag_y.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.round"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.mokry.adj.1",
+      "lemma": "mokry",
+      "forms": [
+        {
+          "text": "mokry"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.mokry.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.wet"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.suchy.adj.1",
+      "lemma": "suchy",
+      "forms": [
+        {
+          "text": "suchy"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.suchy.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.dry"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.zimny.adj.1",
+      "lemma": "zimny",
+      "forms": [
+        {
+          "text": "zimny"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.zimny.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.cold"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.goracy.adj.1",
+      "lemma": "gorący",
+      "forms": [
+        {
+          "text": "gorący"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.goracy.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.hot"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.brudny.adj.1",
+      "lemma": "brudny",
+      "forms": [
+        {
+          "text": "brudny"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.brudny.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.dirty"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.pe_ny.adj.1",
+      "lemma": "pełny",
+      "forms": [
+        {
+          "text": "pełny"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.pe_ny.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.full"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.pusty.adj.1",
+      "lemma": "pusty",
+      "forms": [
+        {
+          "text": "pusty"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.pusty.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.empty"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.zamkniety.adj.1",
+      "lemma": "zamknięty",
+      "forms": [
+        {
+          "text": "zamknięty"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.zamkniety.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.closed"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.d_ugi.adj.1",
+      "lemma": "długi",
+      "forms": [
+        {
+          "text": "długi"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.d_ugi.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.long"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.krotki.adj.1",
+      "lemma": "krótki",
+      "forms": [
+        {
+          "text": "krótki"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.krotki.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.short"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.szybki.adj.1",
+      "lemma": "szybki",
+      "forms": [
+        {
+          "text": "szybki"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.szybki.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.fast"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.wolny.adj.1",
+      "lemma": "wolny",
+      "forms": [
+        {
+          "text": "wolny"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.wolny.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.slow"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.nowy.adj.1",
+      "lemma": "nowy",
+      "forms": [
+        {
+          "text": "nowy"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.nowy.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.new"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.stary.adj.1",
+      "lemma": "stary",
+      "forms": [
+        {
+          "text": "stary"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.stary.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.old"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.lokalny.adj.1",
+      "lemma": "lokalny",
+      "forms": [
+        {
+          "text": "lokalny"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.lokalny.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.local"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.publiczny.adj.1",
+      "lemma": "publiczny",
+      "forms": [
+        {
+          "text": "publiczny"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.publiczny.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.public"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.prywatny.adj.1",
+      "lemma": "prywatny",
+      "forms": [
+        {
+          "text": "prywatny"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.prywatny.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.private"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.legalny.adj.1",
+      "lemma": "legalny",
+      "forms": [
+        {
+          "text": "legalny"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.legalny.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.legal"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.nielegalny.adj.1",
+      "lemma": "nielegalny",
+      "forms": [
+        {
+          "text": "nielegalny"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.nielegalny.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.illegal"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.spo_eczny.adj.1",
+      "lemma": "społeczny",
+      "forms": [
+        {
+          "text": "społeczny"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.spo_eczny.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.social"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.kulturowy.adj.1",
+      "lemma": "kulturowy",
+      "forms": [
+        {
+          "text": "kulturowy"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.kulturowy.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.cultural"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.naturalny.adj.1",
+      "lemma": "naturalny",
+      "forms": [
+        {
+          "text": "naturalny"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.naturalny.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.natural"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.sztuczny.adj.1",
+      "lemma": "sztuczny",
+      "forms": [
+        {
+          "text": "sztuczny"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.sztuczny.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.artificial"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.historyczny.adj.1",
+      "lemma": "historyczny",
+      "forms": [
+        {
+          "text": "historyczny"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.historyczny.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.historical"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.nowoczesny.adj.1",
+      "lemma": "nowoczesny",
+      "forms": [
+        {
+          "text": "nowoczesny"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.nowoczesny.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.modern"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.starozytny.adj.1",
+      "lemma": "starożytny",
+      "forms": [
+        {
+          "text": "starożytny"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.starozytny.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.ancient"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.miejski.adj.1",
+      "lemma": "miejski",
+      "forms": [
+        {
+          "text": "miejski"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.miejski.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.urban"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.wiejski.adj.1",
+      "lemma": "wiejski",
+      "forms": [
+        {
+          "text": "wiejski"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.wiejski.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.rural"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.narodowy.adj.1",
+      "lemma": "narodowy",
+      "forms": [
+        {
+          "text": "narodowy"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.narodowy.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.national"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.miedzynarodowy.adj.1",
+      "lemma": "międzynarodowy",
+      "forms": [
+        {
+          "text": "międzynarodowy"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.miedzynarodowy.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.international"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.cyfrowy.adj.1",
+      "lemma": "cyfrowy",
+      "forms": [
+        {
+          "text": "cyfrowy"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.cyfrowy.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.digital"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.elektryczny.adj.1",
+      "lemma": "elektryczny",
+      "forms": [
+        {
+          "text": "elektryczny"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.elektryczny.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.electrical"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.elektroniczny.adj.1",
+      "lemma": "elektroniczny",
+      "forms": [
+        {
+          "text": "elektroniczny"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.elektroniczny.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.electronic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.medyczny.adj.1",
+      "lemma": "medyczny",
+      "forms": [
+        {
+          "text": "medyczny"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.medyczny.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.medical"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.biologiczny.adj.1",
+      "lemma": "biologiczny",
+      "forms": [
+        {
+          "text": "biologiczny"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.biologiczny.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.biological"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.chemiczny.adj.1",
+      "lemma": "chemiczny",
+      "forms": [
+        {
+          "text": "chemiczny"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.chemiczny.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.chemical"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.trojkatny.adj.1",
+      "lemma": "trójkątny",
+      "forms": [
+        {
+          "text": "trójkątny"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.trojkatny.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.triangular"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.prostokatny.adj.1",
+      "lemma": "prostokątny",
+      "forms": [
+        {
+          "text": "prostokątny"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.prostokatny.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.rectangular"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.p_aski.adj.1",
+      "lemma": "płaski",
+      "forms": [
+        {
+          "text": "płaski"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.p_aski.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.flat"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.zakrzywiony.adj.1",
+      "lemma": "zakrzywiony",
+      "forms": [
+        {
+          "text": "zakrzywiony"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.zakrzywiony.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.curved"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.waski.adj.1",
+      "lemma": "wąski",
+      "forms": [
+        {
+          "text": "wąski"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.waski.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.narrow"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.szeroki.adj.1",
+      "lemma": "szeroki",
+      "forms": [
+        {
+          "text": "szeroki"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.szeroki.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.wide"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.gruby.adj.1",
+      "lemma": "gruby",
+      "forms": [
+        {
+          "text": "gruby"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.gruby.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.thick"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.cienki.adj.1",
+      "lemma": "cienki",
+      "forms": [
+        {
+          "text": "cienki"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.cienki.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.thin"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.g_eboki.adj.1",
+      "lemma": "głęboki",
+      "forms": [
+        {
+          "text": "głęboki"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.g_eboki.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.deep"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.p_ytki.adj.1",
+      "lemma": "płytki",
+      "forms": [
+        {
+          "text": "płytki"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.p_ytki.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.shallow"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.wysoki.adj.1",
+      "lemma": "wysoki",
+      "forms": [
+        {
+          "text": "wysoki"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.wysoki.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.high"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.niski.adj.1",
+      "lemma": "niski",
+      "forms": [
+        {
+          "text": "niski"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.niski.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.low"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.malutki.adj.1",
+      "lemma": "malutki",
+      "forms": [
+        {
+          "text": "malutki"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.malutki.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.tiny"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.g_adki.adj.1",
+      "lemma": "gładki",
+      "forms": [
+        {
+          "text": "gładki"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.g_adki.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.smooth"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.szorstki.adj.1",
+      "lemma": "szorstki",
+      "forms": [
+        {
+          "text": "szorstki"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.szorstki.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.rough"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.ostry.adj.1",
+      "lemma": "ostry",
+      "forms": [
+        {
+          "text": "ostry"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.ostry.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.sharp"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.tepy.adj.1",
+      "lemma": "tępy",
+      "forms": [
+        {
+          "text": "tępy"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.tepy.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.blunt"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.lepki.adj.1",
+      "lemma": "lepki",
+      "forms": [
+        {
+          "text": "lepki"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.lepki.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.sticky"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.sliski.adj.1",
+      "lemma": "śliski",
+      "forms": [
+        {
+          "text": "śliski"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.sliski.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.slippery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.elastyczny.adj.1",
+      "lemma": "elastyczny",
+      "forms": [
+        {
+          "text": "elastyczny"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.elastyczny.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.flexible"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.sztywny.adj.1",
+      "lemma": "sztywny",
+      "forms": [
+        {
+          "text": "sztywny"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.sztywny.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.stiff"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.ciek_y.adj.1",
+      "lemma": "ciekły",
+      "forms": [
+        {
+          "text": "ciekły"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.ciek_y.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.liquid"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.gazowy.adj.1",
+      "lemma": "gazowy",
+      "forms": [
+        {
+          "text": "gazowy"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.gazowy.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.gaseous"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.ciep_y.adj.1",
+      "lemma": "ciepły",
+      "forms": [
+        {
+          "text": "ciepły"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.ciep_y.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.warm"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.ch_odny.adj.1",
+      "lemma": "chłodny",
+      "forms": [
+        {
+          "text": "chłodny"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.ch_odny.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.cool"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.zamarzniety.adj.1",
+      "lemma": "zamarznięty",
+      "forms": [
+        {
+          "text": "zamarznięty"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.zamarzniety.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.frozen"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.wrzacy.adj.1",
+      "lemma": "wrzący",
+      "forms": [
+        {
+          "text": "wrzący"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.wrzacy.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.boiling"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.s_odki.adj.1",
+      "lemma": "słodki",
+      "forms": [
+        {
+          "text": "słodki"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.s_odki.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.sweet"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.kwasny.adj.1",
+      "lemma": "kwaśny",
+      "forms": [
+        {
+          "text": "kwaśny"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.kwasny.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.sour"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.gorzki.adj.1",
+      "lemma": "gorzki",
+      "forms": [
+        {
+          "text": "gorzki"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.gorzki.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.bitter"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.s_ony.adj.1",
+      "lemma": "słony",
+      "forms": [
+        {
+          "text": "słony"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.s_ony.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.salty"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.zywy.adj.1",
+      "lemma": "żywy",
+      "forms": [
+        {
+          "text": "żywy"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.zywy.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.alive"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.martwy.adj.1",
+      "lemma": "martwy",
+      "forms": [
+        {
+          "text": "martwy"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.martwy.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.dead"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.zdrowy.adj.1",
+      "lemma": "zdrowy",
+      "forms": [
+        {
+          "text": "zdrowy"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.zdrowy.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.healthy"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.chory.adj.1",
+      "lemma": "chory",
+      "forms": [
+        {
+          "text": "chory"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.chory.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.ill"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.niebieskawy.adj.1",
+      "lemma": "niebieskawy",
+      "forms": [
+        {
+          "text": "niebieskawy"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.niebieskawy.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.blue"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.granatowawy.adj.1",
+      "lemma": "granatowawy",
+      "forms": [
+        {
+          "text": "granatowawy"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.granatowawy.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.navy"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.zielonkawy.adj.1",
+      "lemma": "zielonkawy",
+      "forms": [
+        {
+          "text": "zielonkawy"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.zielonkawy.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.green"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.zo_tawy.adj.1",
+      "lemma": "żółtawy",
+      "forms": [
+        {
+          "text": "żółtawy"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.zo_tawy.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.yellow"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.czarniawy.adj.1",
+      "lemma": "czarniawy",
+      "forms": [
+        {
+          "text": "czarniawy"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.czarniawy.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.black"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.szarawy.adj.1",
+      "lemma": "szarawy",
+      "forms": [
+        {
+          "text": "szarawy"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.szarawy.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.gray"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.brunatnawy.adj.1",
+      "lemma": "brunatnawy",
+      "forms": [
+        {
+          "text": "brunatnawy"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.brunatnawy.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.brown"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.rozowawy.adj.1",
+      "lemma": "różowawy",
+      "forms": [
+        {
+          "text": "różowawy"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.rozowawy.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.pink"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.fioletowawy.adj.1",
+      "lemma": "fioletowawy",
+      "forms": [
+        {
+          "text": "fioletowawy"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.fioletowawy.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.purple"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.morski.adj.1",
+      "lemma": "morski",
+      "forms": [
+        {
+          "text": "morski"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.morski.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.turquoise"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.pomaranczowawy.adj.1",
+      "lemma": "pomarańczowawy",
+      "forms": [
+        {
+          "text": "pomarańczowawy"
+        }
+      ],
+      "senses": [
+        {
+          "id": "pl.pomaranczowawy.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.orange"
+          }
+        }
+      ]
     }
   ],
   "degrees": [

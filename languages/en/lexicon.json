@@ -12827,7 +12827,8 @@
             "id": "quality.simple"
           }
         }
-      ]
+      ],
+      "indefiniteArticle": "a"
     },
     {
       "id": "en.financial.adj.1",
@@ -12866,6 +12867,1906 @@
           }
         }
       ]
+    },
+    {
+      "id": "en.blue.adj.1",
+      "lemma": "blue",
+      "forms": [
+        {
+          "text": "blue"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.blue.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.blue"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.navy.adj.1",
+      "lemma": "navy",
+      "forms": [
+        {
+          "text": "navy"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.navy.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.navy"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.green.adj.1",
+      "lemma": "green",
+      "forms": [
+        {
+          "text": "green"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.green.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.green"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.yellow.adj.1",
+      "lemma": "yellow",
+      "forms": [
+        {
+          "text": "yellow"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.yellow.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.yellow"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.black.adj.1",
+      "lemma": "black",
+      "forms": [
+        {
+          "text": "black"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.black.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.black"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.gray.adj.1",
+      "lemma": "gray",
+      "forms": [
+        {
+          "text": "gray"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.gray.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.gray"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.brown.adj.1",
+      "lemma": "brown",
+      "forms": [
+        {
+          "text": "brown"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.brown.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.brown"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.pink.adj.1",
+      "lemma": "pink",
+      "forms": [
+        {
+          "text": "pink"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.pink.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.pink"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.purple.adj.1",
+      "lemma": "purple",
+      "forms": [
+        {
+          "text": "purple"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.purple.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.purple"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.turquoise.adj.1",
+      "lemma": "turquoise",
+      "forms": [
+        {
+          "text": "turquoise"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.turquoise.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.turquoise"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.woolen.adj.1",
+      "lemma": "woolen",
+      "forms": [
+        {
+          "text": "woolen"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.woolen.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.woolen"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.soft.adj.1",
+      "lemma": "soft",
+      "forms": [
+        {
+          "text": "soft"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.soft.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.soft"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.hard.adj.1",
+      "lemma": "hard",
+      "forms": [
+        {
+          "text": "hard"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.hard.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.hard"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.lightweight.adj.1",
+      "lemma": "lightweight",
+      "forms": [
+        {
+          "text": "lightweight"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.lightweight.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.lightweight"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.heavy.adj.1",
+      "lemma": "heavy",
+      "forms": [
+        {
+          "text": "heavy"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.heavy.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.heavy"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.bright.adj.1",
+      "lemma": "bright",
+      "forms": [
+        {
+          "text": "bright"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.bright.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.bright"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.dark.adj.1",
+      "lemma": "dark",
+      "forms": [
+        {
+          "text": "dark"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.dark.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.dark"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.round.adj.1",
+      "lemma": "round",
+      "forms": [
+        {
+          "text": "round"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.round.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.round"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.wet.adj.1",
+      "lemma": "wet",
+      "forms": [
+        {
+          "text": "wet"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.wet.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.wet"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.dry.adj.1",
+      "lemma": "dry",
+      "forms": [
+        {
+          "text": "dry"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.dry.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.dry"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.cold.adj.1",
+      "lemma": "cold",
+      "forms": [
+        {
+          "text": "cold"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.cold.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.cold"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.hot.adj.1",
+      "lemma": "hot",
+      "forms": [
+        {
+          "text": "hot"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.hot.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.hot"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.dirty.adj.1",
+      "lemma": "dirty",
+      "forms": [
+        {
+          "text": "dirty"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.dirty.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.dirty"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.full.adj.1",
+      "lemma": "full",
+      "forms": [
+        {
+          "text": "full"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.full.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.full"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.empty.adj.1",
+      "lemma": "empty",
+      "forms": [
+        {
+          "text": "empty"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.empty.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.empty"
+          }
+        }
+      ],
+      "indefiniteArticle": "an"
+    },
+    {
+      "id": "en.closed.adj.1",
+      "lemma": "closed",
+      "forms": [
+        {
+          "text": "closed"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.closed.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.closed"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.long.adj.1",
+      "lemma": "long",
+      "forms": [
+        {
+          "text": "long"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.long.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.long"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.short.adj.1",
+      "lemma": "short",
+      "forms": [
+        {
+          "text": "short"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.short.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.short"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.fast.adj.1",
+      "lemma": "fast",
+      "forms": [
+        {
+          "text": "fast"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.fast.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.fast"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.slow.adj.1",
+      "lemma": "slow",
+      "forms": [
+        {
+          "text": "slow"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.slow.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.slow"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.new.adj.1",
+      "lemma": "new",
+      "forms": [
+        {
+          "text": "new"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.new.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.new"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.old.adj.1",
+      "lemma": "old",
+      "forms": [
+        {
+          "text": "old"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.old.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.old"
+          }
+        }
+      ],
+      "indefiniteArticle": "an"
+    },
+    {
+      "id": "en.local.adj.1",
+      "lemma": "local",
+      "forms": [
+        {
+          "text": "local"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.local.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.local"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.public.adj.1",
+      "lemma": "public",
+      "forms": [
+        {
+          "text": "public"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.public.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.public"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.private.adj.1",
+      "lemma": "private",
+      "forms": [
+        {
+          "text": "private"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.private.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.private"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.legal.adj.1",
+      "lemma": "legal",
+      "forms": [
+        {
+          "text": "legal"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.legal.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.legal"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.illegal.adj.1",
+      "lemma": "illegal",
+      "forms": [
+        {
+          "text": "illegal"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.illegal.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.illegal"
+          }
+        }
+      ],
+      "indefiniteArticle": "an"
+    },
+    {
+      "id": "en.social.adj.1",
+      "lemma": "social",
+      "forms": [
+        {
+          "text": "social"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.social.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.social"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.cultural.adj.1",
+      "lemma": "cultural",
+      "forms": [
+        {
+          "text": "cultural"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.cultural.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.cultural"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.natural.adj.1",
+      "lemma": "natural",
+      "forms": [
+        {
+          "text": "natural"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.natural.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.natural"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.artificial.adj.1",
+      "lemma": "artificial",
+      "forms": [
+        {
+          "text": "artificial"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.artificial.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.artificial"
+          }
+        }
+      ],
+      "indefiniteArticle": "an"
+    },
+    {
+      "id": "en.historical.adj.1",
+      "lemma": "historical",
+      "forms": [
+        {
+          "text": "historical"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.historical.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.historical"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.modern.adj.1",
+      "lemma": "modern",
+      "forms": [
+        {
+          "text": "modern"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.modern.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.modern"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.ancient.adj.1",
+      "lemma": "ancient",
+      "forms": [
+        {
+          "text": "ancient"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.ancient.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.ancient"
+          }
+        }
+      ],
+      "indefiniteArticle": "an"
+    },
+    {
+      "id": "en.urban.adj.1",
+      "lemma": "urban",
+      "forms": [
+        {
+          "text": "urban"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.urban.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.urban"
+          }
+        }
+      ],
+      "indefiniteArticle": "an"
+    },
+    {
+      "id": "en.rural.adj.1",
+      "lemma": "rural",
+      "forms": [
+        {
+          "text": "rural"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.rural.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.rural"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.national.adj.1",
+      "lemma": "national",
+      "forms": [
+        {
+          "text": "national"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.national.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.national"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.international.adj.1",
+      "lemma": "international",
+      "forms": [
+        {
+          "text": "international"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.international.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.international"
+          }
+        }
+      ],
+      "indefiniteArticle": "an"
+    },
+    {
+      "id": "en.digital.adj.1",
+      "lemma": "digital",
+      "forms": [
+        {
+          "text": "digital"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.digital.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.digital"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.electrical.adj.1",
+      "lemma": "electrical",
+      "forms": [
+        {
+          "text": "electrical"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.electrical.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.electrical"
+          }
+        }
+      ],
+      "indefiniteArticle": "an"
+    },
+    {
+      "id": "en.electronic.adj.1",
+      "lemma": "electronic",
+      "forms": [
+        {
+          "text": "electronic"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.electronic.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.electronic"
+          }
+        }
+      ],
+      "indefiniteArticle": "an"
+    },
+    {
+      "id": "en.medical.adj.1",
+      "lemma": "medical",
+      "forms": [
+        {
+          "text": "medical"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.medical.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.medical"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.biological.adj.1",
+      "lemma": "biological",
+      "forms": [
+        {
+          "text": "biological"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.biological.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.biological"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.chemical.adj.1",
+      "lemma": "chemical",
+      "forms": [
+        {
+          "text": "chemical"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.chemical.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.chemical"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.triangular.adj.1",
+      "lemma": "triangular",
+      "forms": [
+        {
+          "text": "triangular"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.triangular.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.triangular"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.rectangular.adj.1",
+      "lemma": "rectangular",
+      "forms": [
+        {
+          "text": "rectangular"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.rectangular.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.rectangular"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.flat.adj.1",
+      "lemma": "flat",
+      "forms": [
+        {
+          "text": "flat"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.flat.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.flat"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.curved.adj.1",
+      "lemma": "curved",
+      "forms": [
+        {
+          "text": "curved"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.curved.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.curved"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.narrow.adj.1",
+      "lemma": "narrow",
+      "forms": [
+        {
+          "text": "narrow"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.narrow.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.narrow"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.wide.adj.1",
+      "lemma": "wide",
+      "forms": [
+        {
+          "text": "wide"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.wide.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.wide"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.thick.adj.1",
+      "lemma": "thick",
+      "forms": [
+        {
+          "text": "thick"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.thick.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.thick"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.thin.adj.1",
+      "lemma": "thin",
+      "forms": [
+        {
+          "text": "thin"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.thin.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.thin"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.deep.adj.1",
+      "lemma": "deep",
+      "forms": [
+        {
+          "text": "deep"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.deep.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.deep"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.shallow.adj.1",
+      "lemma": "shallow",
+      "forms": [
+        {
+          "text": "shallow"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.shallow.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.shallow"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.high.adj.1",
+      "lemma": "high",
+      "forms": [
+        {
+          "text": "high"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.high.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.high"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.low.adj.1",
+      "lemma": "low",
+      "forms": [
+        {
+          "text": "low"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.low.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.low"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.tiny.adj.1",
+      "lemma": "tiny",
+      "forms": [
+        {
+          "text": "tiny"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.tiny.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.tiny"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.smooth.adj.1",
+      "lemma": "smooth",
+      "forms": [
+        {
+          "text": "smooth"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.smooth.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.smooth"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.rough.adj.1",
+      "lemma": "rough",
+      "forms": [
+        {
+          "text": "rough"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.rough.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.rough"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.sharp.adj.1",
+      "lemma": "sharp",
+      "forms": [
+        {
+          "text": "sharp"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.sharp.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.sharp"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.blunt.adj.1",
+      "lemma": "blunt",
+      "forms": [
+        {
+          "text": "blunt"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.blunt.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.blunt"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.sticky.adj.1",
+      "lemma": "sticky",
+      "forms": [
+        {
+          "text": "sticky"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.sticky.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.sticky"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.slippery.adj.1",
+      "lemma": "slippery",
+      "forms": [
+        {
+          "text": "slippery"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.slippery.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.slippery"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.flexible.adj.1",
+      "lemma": "flexible",
+      "forms": [
+        {
+          "text": "flexible"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.flexible.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.flexible"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.stiff.adj.1",
+      "lemma": "stiff",
+      "forms": [
+        {
+          "text": "stiff"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.stiff.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.stiff"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.liquid.adj.1",
+      "lemma": "liquid",
+      "forms": [
+        {
+          "text": "liquid"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.liquid.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.liquid"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.gaseous.adj.1",
+      "lemma": "gaseous",
+      "forms": [
+        {
+          "text": "gaseous"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.gaseous.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.gaseous"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.warm.adj.1",
+      "lemma": "warm",
+      "forms": [
+        {
+          "text": "warm"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.warm.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.warm"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.cool.adj.1",
+      "lemma": "cool",
+      "forms": [
+        {
+          "text": "cool"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.cool.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.cool"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.frozen.adj.1",
+      "lemma": "frozen",
+      "forms": [
+        {
+          "text": "frozen"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.frozen.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.frozen"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.boiling.adj.1",
+      "lemma": "boiling",
+      "forms": [
+        {
+          "text": "boiling"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.boiling.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.boiling"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.sweet.adj.1",
+      "lemma": "sweet",
+      "forms": [
+        {
+          "text": "sweet"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.sweet.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.sweet"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.sour.adj.1",
+      "lemma": "sour",
+      "forms": [
+        {
+          "text": "sour"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.sour.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.sour"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.bitter.adj.1",
+      "lemma": "bitter",
+      "forms": [
+        {
+          "text": "bitter"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.bitter.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.bitter"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.salty.adj.1",
+      "lemma": "salty",
+      "forms": [
+        {
+          "text": "salty"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.salty.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.salty"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.alive.adj.1",
+      "lemma": "alive",
+      "forms": [
+        {
+          "text": "alive"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.alive.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.alive"
+          }
+        }
+      ],
+      "indefiniteArticle": "an"
+    },
+    {
+      "id": "en.dead.adj.1",
+      "lemma": "dead",
+      "forms": [
+        {
+          "text": "dead"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.dead.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.dead"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.healthy.adj.1",
+      "lemma": "healthy",
+      "forms": [
+        {
+          "text": "healthy"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.healthy.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.healthy"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.ill.adj.1",
+      "lemma": "ill",
+      "forms": [
+        {
+          "text": "ill"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.ill.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.ill"
+          }
+        }
+      ],
+      "indefiniteArticle": "an"
+    },
+    {
+      "id": "en.bluish.adj.1",
+      "lemma": "bluish",
+      "forms": [
+        {
+          "text": "bluish"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.bluish.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.blue"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.navyish.adj.1",
+      "lemma": "navyish",
+      "forms": [
+        {
+          "text": "navyish"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.navyish.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.navy"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.greenish.adj.1",
+      "lemma": "greenish",
+      "forms": [
+        {
+          "text": "greenish"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.greenish.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.green"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.yellowish.adj.1",
+      "lemma": "yellowish",
+      "forms": [
+        {
+          "text": "yellowish"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.yellowish.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.yellow"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.blackish.adj.1",
+      "lemma": "blackish",
+      "forms": [
+        {
+          "text": "blackish"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.blackish.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.black"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.grayish.adj.1",
+      "lemma": "grayish",
+      "forms": [
+        {
+          "text": "grayish"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.grayish.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.gray"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.brownish.adj.1",
+      "lemma": "brownish",
+      "forms": [
+        {
+          "text": "brownish"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.brownish.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.brown"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.pinkish.adj.1",
+      "lemma": "pinkish",
+      "forms": [
+        {
+          "text": "pinkish"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.pinkish.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.pink"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.purplish.adj.1",
+      "lemma": "purplish",
+      "forms": [
+        {
+          "text": "purplish"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.purplish.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.purple"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.teal.adj.1",
+      "lemma": "teal",
+      "forms": [
+        {
+          "text": "teal"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.teal.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.turquoise"
+          }
+        }
+      ],
+      "indefiniteArticle": "a"
+    },
+    {
+      "id": "en.orangish.adj.1",
+      "lemma": "orangish",
+      "forms": [
+        {
+          "text": "orangish"
+        }
+      ],
+      "senses": [
+        {
+          "id": "en.orangish.adj.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "quality.orange"
+          }
+        }
+      ],
+      "indefiniteArticle": "an"
     }
   ],
   "degrees": [
