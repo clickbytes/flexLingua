@@ -49,16 +49,16 @@
         },
         "features": {"tense": "present", "polarity": "positive"}
       },
-      "observedStatus": "unsupported",
-      "observedDiagnosticsCodes": ["LANGUAGE_CONSTRUCTION_UNSUPPORTED"],
-      "observedExitCode": 2,
-      "observedAtSha": "caffbd52b5951cccc06708d055574d68486d1a62",
+      "observedStatus": "ok",
+      "observedDiagnosticsCodes": [],
+      "observedExitCode": 0,
+      "observedAtSha": "78067443bb20c26ce3febdeb9f0df60c0a1327e7",
       "severity": "medium",
-      "state": "open",
-      "owner": "epic #341 (TM) — follow-up issue required",
-      "issue": "#346",
-      "retestPolicy": "Re-run the CLI on every branch SHA that touches en quantity analysis or the pl realize path for plurals. The refusal remains acceptable only while the matching capability genuinely does not exist; if quantity analysis lands, re-observe and close by recording approved positive cases instead.",
-      "note": "The refusal is controlled and honest (explicit unsupported status, exit 2), but exact bare-numeral quantity is a plain A1 capability inside this project's stated A1 scope, so it is registered as a product gap rather than an approved boundary case."
+      "state": "closed",
+      "owner": "#363 — exact quantity profiles (Drugi agent, opencode/GLM)",
+      "issue": "#363",
+      "retestPolicy": "Closed by the #363 repair: exact quantity 0-20 is declared by nounPhrase.quantity profiles on both sides and guarded by the approved cases in both canonical directions. If A1-EN-PL-QUANTITY-0001/0002 or A1-PL-EN-QUANTITY-0001/0002 ever fail or the capability regresses to a refusal or an infrastructure error, re-open this family.",
+      "note": "History: at main@caffbd52b5951cccc06708d055574d68486d1a62 the input returned a controlled unsupported/LANGUAGE_CONSTRUCTION_UNSUPPORTED exit 2 (no nounPhrase.quantity profile; quantifier lexemes were additionally reported as lexical senses by lexeme id, which crashed even universal readings with PLUGIN_CORE_REFERENCE_INVALID). Re-observed 2026-10-18 at the repair SHA 78067443bb20c26ce3febdeb9f0df60c0a1327e7 (merged via PR #368 as 8e69bdb): status ok, text 'Trzy dziewczynki widzą psa.', exit 0 in both directions. Closed as approved cases: A1-EN-PL-QUANTITY-0001 (positive en->pl), A1-EN-PL-QUANTITY-0002 (controlled refusal), A1-PL-EN-QUANTITY-0001 (positive pl->en), A1-PL-EN-QUANTITY-0002 (controlled refusal). Required check translation-matrix SUCCESS on PR #368; the refusal diagnostics were never rewritten as capability proof."
     },
     {
       "id": "GAP-EN-FI-VISUAL-0003",
