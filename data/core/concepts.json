@@ -1368,6 +1368,506 @@
       "type": "category",
       "parent": "color",
       "label": "red"
+    },
+    "person.guest": {
+      "type": "entity",
+      "parent": "person",
+      "label": "guest"
+    },
+    "person.host": {
+      "type": "entity",
+      "parent": "person",
+      "label": "host"
+    },
+    "person.roommate": {
+      "type": "entity",
+      "parent": "person",
+      "label": "roommate"
+    },
+    "person.partner": {
+      "type": "entity",
+      "parent": "person",
+      "label": "partner"
+    },
+    "person.widow": {
+      "type": "entity",
+      "parent": "person",
+      "label": "widow"
+    },
+    "person.widower": {
+      "type": "entity",
+      "parent": "person",
+      "label": "widower"
+    },
+    "person.stepmother": {
+      "type": "entity",
+      "parent": "person",
+      "label": "stepmother"
+    },
+    "person.stepfather": {
+      "type": "entity",
+      "parent": "person",
+      "label": "stepfather"
+    },
+    "person.stepson": {
+      "type": "entity",
+      "parent": "person",
+      "label": "stepson"
+    },
+    "person.stepdaughter": {
+      "type": "entity",
+      "parent": "person",
+      "label": "stepdaughter"
+    },
+    "person.grandson": {
+      "type": "entity",
+      "parent": "person",
+      "label": "grandson"
+    },
+    "person.granddaughter": {
+      "type": "entity",
+      "parent": "person",
+      "label": "granddaughter"
+    },
+    "person.orphan": {
+      "type": "entity",
+      "parent": "person",
+      "label": "orphan"
+    },
+    "person.baby": {
+      "type": "entity",
+      "parent": "person",
+      "label": "baby"
+    },
+    "person.toddler": {
+      "type": "entity",
+      "parent": "person",
+      "label": "toddler"
+    },
+    "person.teenager": {
+      "type": "entity",
+      "parent": "person",
+      "label": "teenager"
+    },
+    "person.resident": {
+      "type": "entity",
+      "parent": "person",
+      "label": "resident"
+    },
+    "person.owner": {
+      "type": "entity",
+      "parent": "person",
+      "label": "owner"
+    },
+    "person.caretaker": {
+      "type": "entity",
+      "parent": "person",
+      "label": "caretaker"
+    },
+    "person.cleaner": {
+      "type": "entity",
+      "parent": "person",
+      "label": "cleaner"
+    },
+    "person.doorman": {
+      "type": "entity",
+      "parent": "person",
+      "label": "doorman"
+    },
+    "person.plumber": {
+      "type": "entity",
+      "parent": "person",
+      "label": "plumber"
+    },
+    "person.electrician": {
+      "type": "entity",
+      "parent": "person",
+      "label": "electrician"
+    },
+    "person.carpenter": {
+      "type": "entity",
+      "parent": "person",
+      "label": "carpenter"
+    },
+    "person.gardener": {
+      "type": "entity",
+      "parent": "person",
+      "label": "gardener"
+    },
+    "person.cook": {
+      "type": "entity",
+      "parent": "person",
+      "label": "cook"
+    },
+    "person.baker": {
+      "type": "entity",
+      "parent": "person",
+      "label": "baker"
+    },
+    "person.tailor": {
+      "type": "entity",
+      "parent": "person",
+      "label": "tailor"
+    },
+    "person.seamstress": {
+      "type": "entity",
+      "parent": "person",
+      "label": "seamstress"
+    },
+    "person.nurse": {
+      "type": "entity",
+      "parent": "person",
+      "label": "nurse"
+    },
+    "person.lawyer": {
+      "type": "entity",
+      "parent": "person",
+      "label": "lawyer"
+    },
+    "person.actor": {
+      "type": "entity",
+      "parent": "person",
+      "label": "actor"
+    },
+    "person.musician": {
+      "type": "entity",
+      "parent": "person",
+      "label": "musician"
+    },
+    "person.singer": {
+      "type": "entity",
+      "parent": "person",
+      "label": "singer"
+    },
+    "person.writer": {
+      "type": "entity",
+      "parent": "person",
+      "label": "writer"
+    },
+    "person.photographer": {
+      "type": "entity",
+      "parent": "person",
+      "label": "photographer"
+    },
+    "person.farmer": {
+      "type": "entity",
+      "parent": "person",
+      "label": "farmer"
+    },
+    "person.mechanic": {
+      "type": "entity",
+      "parent": "person",
+      "label": "mechanic"
+    },
+    "person.cashier": {
+      "type": "entity",
+      "parent": "person",
+      "label": "cashier"
+    },
+    "person.courier": {
+      "type": "entity",
+      "parent": "person",
+      "label": "courier"
+    },
+    "person.firefighter": {
+      "type": "entity",
+      "parent": "person",
+      "label": "firefighter"
+    },
+    "person.soldier": {
+      "type": "entity",
+      "parent": "person",
+      "label": "soldier"
+    },
+    "person.priest": {
+      "type": "entity",
+      "parent": "person",
+      "label": "priest"
+    },
+    "person.volunteer": {
+      "type": "entity",
+      "parent": "person",
+      "label": "volunteer"
+    },
+    "person.husband": {
+      "type": "entity",
+      "parent": "person",
+      "label": "husband"
+    },
+    "person.parent": {
+      "type": "entity",
+      "parent": "person",
+      "label": "parent"
+    },
+    "person.heir": {
+      "type": "entity",
+      "parent": "person",
+      "label": "heir"
+    },
+    "person.nanny": {
+      "type": "entity",
+      "parent": "person",
+      "label": "nanny"
+    },
+    "object.pillow": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "pillow"
+    },
+    "object.duvet": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "duvet"
+    },
+    "object.drawer": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "drawer"
+    },
+    "object.blanket": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "blanket"
+    },
+    "object.pillowcase": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "pillowcase"
+    },
+    "object.mattress": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "mattress"
+    },
+    "object.wardrobe": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "wardrobe"
+    },
+    "object.shelf": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "shelf"
+    },
+    "object.sofa": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "sofa"
+    },
+    "object.armchair": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "armchair"
+    },
+    "object.desk": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "desk"
+    },
+    "object.lamp": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "lamp"
+    },
+    "object.mirror": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "mirror"
+    },
+    "object.curtain": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "curtain"
+    },
+    "object.rug": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "rug"
+    },
+    "object.doormat": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "doormat"
+    },
+    "object.doorknob": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "doorknob"
+    },
+    "object.hinge": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "hinge"
+    },
+    "object.latch": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "latch"
+    },
+    "object.doorbell": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "doorbell"
+    },
+    "object.socket": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "socket"
+    },
+    "object.bulb": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "bulb"
+    },
+    "object.ceiling": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "ceiling"
+    },
+    "object.gate": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "gate"
+    },
+    "object.fence": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "fence"
+    },
+    "object.chimney": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "chimney"
+    },
+    "object.fireplace": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "fireplace"
+    },
+    "object.radiator": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "radiator"
+    },
+    "object.fan": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "fan"
+    },
+    "object.clock": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "clock"
+    },
+    "object.vacuum_cleaner": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "vacuum"
+    },
+    "object.broom": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "broom"
+    },
+    "object.mop": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "mop"
+    },
+    "object.bucket": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "bucket"
+    },
+    "object.sponge": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "sponge"
+    },
+    "object.brush": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "brush"
+    },
+    "object.towel": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "towel"
+    },
+    "object.comb": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "comb"
+    },
+    "object.toothbrush": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "toothbrush"
+    },
+    "object.shower": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "shower"
+    },
+    "object.bathtub": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "bathtub"
+    },
+    "object.sink": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "sink"
+    },
+    "object.tap": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "tap"
+    },
+    "object.toilet": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "toilet"
+    },
+    "object.washing_machine": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "washer"
+    },
+    "object.clothes_dryer": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "dryer"
+    },
+    "object.fridge": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "fridge"
+    },
+    "object.freezer": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "freezer"
+    },
+    "person.tenant": {
+      "type": "entity",
+      "parent": "person",
+      "label": "tenant"
+    },
+    "person.visitor": {
+      "type": "entity",
+      "parent": "person",
+      "label": "visitor"
+    },
+    "object.cabinet": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "cabinet"
+    },
+    "purpose": {
+      "type": "category",
+      "parent": "entity",
+      "label": "purpose"
     }
   },
   "relationTypes": {
@@ -1394,6 +1894,26 @@
     "color": {
       "subject": "entity",
       "object": "color",
+      "symmetric": false
+    },
+    "purpose": {
+      "subject": "entity",
+      "object": "purpose",
+      "symmetric": false
+    },
+    "has_part": {
+      "subject": "entity",
+      "object": "entity",
+      "symmetric": false
+    },
+    "contains": {
+      "subject": "entity",
+      "object": "entity",
+      "symmetric": false
+    },
+    "located_in": {
+      "subject": "entity",
+      "object": "place",
       "symmetric": false
     }
   },

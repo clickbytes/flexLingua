@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "reviewedAt": "2026-10-17",
+  "reviewedAt": "2026-10-18",
   "packages": [
     {
       "path": "languages/en/lexicon.json",
@@ -9,7 +9,7 @@
       "author": "flexLingua project contributors; individual entry authors are not recorded",
       "source": "Original project-maintained English lexical entries, including 28 project-authored LEX-01 senses curated in-repository rather than bulk-imported.",
       "license": "Project-authored; no separate SPDX license grant is declared in this repository",
-      "reviewedAt": "2026-10-17",
+      "reviewedAt": "2026-10-18",
       "permittedUse": "Used in flexLingua. No third-party dictionary definitions or protected Oxford lists are included. External reuse requires rights-holder review because this repository declares no separate data license.",
       "authoredBatches": [
         {
@@ -79,6 +79,13 @@
           "source": "Project-authored English noun and adjective senses mapped to CORE concepts; the shared organization.institution concept was added for this pilot. No external lexicon or protected list was imported.",
           "license": "Project-authored for internal flexLingua use; the repository declares no separate SPDX data license.",
           "scope": "Adds institution, financial, and wooden lexical entries; institution maps to organization.institution, while financial and wooden are typed modifiers, not direct translations."
+        },
+        {
+          "issue": "#404",
+          "author": "Codex agent (linguistic curation delegated by project owner)",
+          "source": "Project-authored bilingual lexical senses based on bounded linguistic review; no external dictionary, vocabulary list or protected list was copied.",
+          "license": "Project-authored for internal flexLingua use; this repository declares no separate SPDX data license.",
+          "scope": "Adds 99 bilingual new entity concept lemma pairs plus a project-authored PL sofa / EN couch synonym pair for object.sofa; purpose remains a nonlexicalized typed category."
         }
       ],
       "migratedFrom": "data/en.json"
@@ -201,7 +208,7 @@
       "author": "Not attributed in the existing package metadata",
       "source": "Historical flexLingua curated forms plus LEX-01 project-authored productive noun bindings. Historical entry attribution remains incomplete.",
       "license": "Project-authored label exists in package; rights and reuse terms are not specified",
-      "reviewedAt": "2026-10-15",
+      "reviewedAt": "2026-10-18",
       "permittedUse": "Existing in-repository execution only. Verify source and rights before reuse or export.",
       "migrationNote": "Add verified author, version date and permitted-use terms to the package provenance. The A2-03 additions are project-authored and remain bounded to the in-repository adapter; no historical data was copied. The upstream data/provenance.json record for data/morphology/en.json also lists #165, which describes Polish past być cells in data/morphology/pl.json; that unrelated batch is excluded from this English package record.",
       "authoredBatches": [
@@ -257,6 +264,13 @@
           "source": "Project-authored bindings to existing English invariant-adjective and regular-noun paradigms; no external paradigms were copied.",
           "license": "Project-authored for internal flexLingua use; the repository declares no separate SPDX data license.",
           "scope": "Binds financial and wooden as invariant adjectives and institution to the regular English noun paradigm."
+        },
+        {
+          "issue": "#404",
+          "author": "Codex agent (linguistic curation delegated by project owner)",
+          "source": "Project-authored, restricted forms only for the W1 licensed singular constructions; no bulk inflection table or external morphology resource was copied.",
+          "license": "Project-authored for internal flexLingua use; this repository declares no separate SPDX data license.",
+          "scope": "Adds reviewed regular, sibilant and consonant-y noun paradigms for 99 new entity lemmas plus the additional English couch/couches synonym forms."
         }
       ],
       "migratedFrom": "data/morphology/en.json"
@@ -270,13 +284,15 @@
       "license": "Project-authored; no separate SPDX data license grant is declared in this repository.",
       "reviewedAt": "2026-10-17",
       "permittedUse": "Internal flexLingua package configuration only; external reuse requires rights-holder review.",
-      "authoredBatches": [{
-        "issue": "#381",
-        "author": "flexLingua project contributors",
-        "source": "Project-authored bounded English yes/no visual-perception capability; the prior refusal evidence remains as pre-activation history and a positive witness is added.",
-        "license": "Project-authored; no separate SPDX data license grant is declared in this repository.",
-        "scope": "Implements analyze and realize for question.yes-no under the R1 visual-perception, present-positive, explicit singular nominal policy. Historical evidence ID: en.question-bridge-refusal.01. Positive witness: en.question-visual-perception.01."
-      }]
+      "authoredBatches": [
+        {
+          "issue": "#381",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored bounded English yes/no visual-perception capability; the prior refusal evidence remains as pre-activation history and a positive witness is added.",
+          "license": "Project-authored; no separate SPDX data license grant is declared in this repository.",
+          "scope": "Implements analyze and realize for question.yes-no under the R1 visual-perception, present-positive, explicit singular nominal policy. Historical evidence ID: en.question-bridge-refusal.01. Positive witness: en.question-visual-perception.01."
+        }
+      ]
     },
     {
       "path": "languages/en/graph.json",
@@ -287,13 +303,15 @@
       "license": "Project-authored; no separate SPDX data license grant is declared in this repository.",
       "reviewedAt": "2026-10-17",
       "permittedUse": "Internal flexLingua package configuration only; external reuse requires rights-holder review.",
-      "authoredBatches": [{
-        "issue": "#381",
-        "author": "flexLingua project contributors",
-        "source": "Project-authored English LanguageGraph declaration for the bounded yes/no visual-perception question, linked to the existing syntax, lexicon, morphology and evidence modules.",
-        "license": "Project-authored; no separate SPDX data license grant is declared in this repository.",
-        "scope": "Adds en.syntax.question.yes-no and its declared maps-to, licenses and evidences edges."
-      }]
+      "authoredBatches": [
+        {
+          "issue": "#381",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored English LanguageGraph declaration for the bounded yes/no visual-perception question, linked to the existing syntax, lexicon, morphology and evidence modules.",
+          "license": "Project-authored; no separate SPDX data license grant is declared in this repository.",
+          "scope": "Adds en.syntax.question.yes-no and its declared maps-to, licenses and evidences edges."
+        }
+      ]
     },
     {
       "path": "languages/en/features.json",
@@ -324,13 +342,15 @@
       "license": "Project-authored; no separate SPDX data license grant is declared in this repository.",
       "reviewedAt": "2026-10-17",
       "permittedUse": "Internal flexLingua package configuration only; external reuse requires rights-holder review.",
-      "authoredBatches": [{
-        "issue": "#381",
-        "author": "flexLingua project contributors",
-        "source": "Project-authored closed transfer declaration referencing the existing event.visual_perception transfer; it adds no CORE concept, argument mapping, or language rule.",
-        "license": "Project-authored; no separate SPDX data license grant is declared in this repository.",
-        "scope": "Declares question.yes-no.visual-perception.present-positive.nominal-singular."
-      }]
+      "authoredBatches": [
+        {
+          "issue": "#381",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored closed transfer declaration referencing the existing event.visual_perception transfer; it adds no CORE concept, argument mapping, or language rule.",
+          "license": "Project-authored; no separate SPDX data license grant is declared in this repository.",
+          "scope": "Declares question.yes-no.visual-perception.present-positive.nominal-singular."
+        }
+      ]
     },
     {
       "path": "languages/en/provenance.json",

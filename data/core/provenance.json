@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "reviewedAt": "2026-10-17",
+  "reviewedAt": "2026-10-18",
   "policy": "This manifest covers shared CORE packages only. Language plugin provenance is maintained in languages/<code>/provenance.json.",
   "packages": [
     {
@@ -80,6 +80,13 @@
           "source": "Project-authored organization category and institutional entity distinction needed to represent an institution as an organization rather than a place; no external ontology or definition was imported.",
           "license": "Project-authored for internal flexLingua use; the repository declares no separate SPDX data license.",
           "scope": "Adds category organization and entity organization.institution for the bidirectional financial-institution pilot."
+        },
+        {
+          "issue": "#404",
+          "author": "Codex agent (linguistic curation delegated by project owner)",
+          "source": "Project-authored CORE senses and typed category inventory based on bounded linguistic review; no external dictionary, vocabulary list, ontology or imported definition was used.",
+          "license": "Project-authored for internal flexLingua use; this repository declares no separate SPDX data license.",
+          "scope": "Adds 99 entity concepts for people and household objects, the typed purpose category, and typed purpose/has_part/contains/located_in relation signatures; purpose has no lexical entry in W1."
         }
       ]
     },

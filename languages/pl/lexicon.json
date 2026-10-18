@@ -3937,6 +3937,1706 @@
           }
         }
       ]
+    },
+    {
+      "id": "pl.gosc.1",
+      "lemma": "gość",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.gosc.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.guest"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.gospodarz.1",
+      "lemma": "gospodarz",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.gospodarz.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.host"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.wspollokator.1",
+      "lemma": "współlokator",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.wspollokator.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.roommate"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.partner.1",
+      "lemma": "partner",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.partner.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.partner"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.wdowa.1",
+      "lemma": "wdowa",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.wdowa.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.widow"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.wdowiec.1",
+      "lemma": "wdowiec",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.wdowiec.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.widower"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.macocha.1",
+      "lemma": "macocha",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.macocha.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.stepmother"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.ojczym.1",
+      "lemma": "ojczym",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.ojczym.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.stepfather"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.pasierb.1",
+      "lemma": "pasierb",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.pasierb.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.stepson"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.pasierbica.1",
+      "lemma": "pasierbica",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.pasierbica.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.stepdaughter"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.wnuk.1",
+      "lemma": "wnuk",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.wnuk.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.grandson"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.wnuczka.1",
+      "lemma": "wnuczka",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.wnuczka.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.granddaughter"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.sierota.1",
+      "lemma": "sierota",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.sierota.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.orphan"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.niemowle.1",
+      "lemma": "niemowlę",
+      "forms": {},
+      "gender": "neuter",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.niemowle.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.baby"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.maluch.1",
+      "lemma": "maluch",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.maluch.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.toddler"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.nastolatek.1",
+      "lemma": "nastolatek",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.nastolatek.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.teenager"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.mieszkaniec.1",
+      "lemma": "mieszkaniec",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.mieszkaniec.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.resident"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.wlasciciel.1",
+      "lemma": "właściciel",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.wlasciciel.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.owner"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.opiekun.1",
+      "lemma": "opiekun",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.opiekun.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.caretaker"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.sprzatacz.1",
+      "lemma": "sprzątacz",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.sprzatacz.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.cleaner"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.portier.1",
+      "lemma": "portier",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.portier.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.doorman"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.hydraulik.1",
+      "lemma": "hydraulik",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.hydraulik.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.plumber"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.elektryk.1",
+      "lemma": "elektryk",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.elektryk.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.electrician"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.stolarz.1",
+      "lemma": "stolarz",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.stolarz.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.carpenter"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.ogrodnik.1",
+      "lemma": "ogrodnik",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.ogrodnik.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.gardener"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.kucharz.1",
+      "lemma": "kucharz",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.kucharz.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.cook"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.piekarz.1",
+      "lemma": "piekarz",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.piekarz.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.baker"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.krawiec.1",
+      "lemma": "krawiec",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.krawiec.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.tailor"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.krawcowa.1",
+      "lemma": "krawcowa",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.krawcowa.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.seamstress"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.pielegniarka.1",
+      "lemma": "pielęgniarka",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.pielegniarka.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.nurse"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.prawnik.1",
+      "lemma": "prawnik",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.prawnik.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.lawyer"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.aktor.1",
+      "lemma": "aktor",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.aktor.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.actor"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.muzyk.1",
+      "lemma": "muzyk",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.muzyk.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.musician"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.piosenkarz.1",
+      "lemma": "piosenkarz",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.piosenkarz.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.singer"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.pisarz.1",
+      "lemma": "pisarz",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.pisarz.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.writer"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.fotograf.1",
+      "lemma": "fotograf",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.fotograf.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.photographer"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.rolnik.1",
+      "lemma": "rolnik",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.rolnik.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.farmer"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.mechanik.1",
+      "lemma": "mechanik",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.mechanik.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.mechanic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.kasjer.1",
+      "lemma": "kasjer",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.kasjer.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.cashier"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.kurier.1",
+      "lemma": "kurier",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.kurier.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.courier"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.strazak.1",
+      "lemma": "strażak",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.strazak.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.firefighter"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.zolnierz.1",
+      "lemma": "żołnierz",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.zolnierz.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.soldier"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.ksiadz.1",
+      "lemma": "ksiądz",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.ksiadz.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.priest"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.wolontariusz.1",
+      "lemma": "wolontariusz",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.wolontariusz.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.volunteer"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.maz.1",
+      "lemma": "mąż",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.maz.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.husband"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.rodzic.1",
+      "lemma": "rodzic",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.rodzic.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.parent"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.spadkobierca.1",
+      "lemma": "spadkobierca",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.spadkobierca.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.heir"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.niania.1",
+      "lemma": "niania",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.niania.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.nanny"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.poduszka.1",
+      "lemma": "poduszka",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.poduszka.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.pillow"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.koldra.1",
+      "lemma": "kołdra",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.koldra.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.duvet"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.szuflada.1",
+      "lemma": "szuflada",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.szuflada.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.drawer"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.koc.1",
+      "lemma": "koc",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.koc.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.blanket"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.poszewka.1",
+      "lemma": "poszewka",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.poszewka.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.pillowcase"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.materac.1",
+      "lemma": "materac",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.materac.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.mattress"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.szafa.1",
+      "lemma": "szafa",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.szafa.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.wardrobe"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.polka.1",
+      "lemma": "półka",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.polka.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.shelf"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.kanapa.1",
+      "lemma": "kanapa",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.kanapa.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.sofa"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.fotel.1",
+      "lemma": "fotel",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.fotel.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.armchair"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.biurko.1",
+      "lemma": "biurko",
+      "forms": {},
+      "gender": "neuter",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.biurko.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.desk"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.lampa.1",
+      "lemma": "lampa",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.lampa.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.lamp"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.lustro.1",
+      "lemma": "lustro",
+      "forms": {},
+      "gender": "neuter",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.lustro.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.mirror"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.zaslona.1",
+      "lemma": "zasłona",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.zaslona.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.curtain"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.dywan.1",
+      "lemma": "dywan",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.dywan.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.rug"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.wycieraczka.1",
+      "lemma": "wycieraczka",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.wycieraczka.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.doormat"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.klamka.1",
+      "lemma": "klamka",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.klamka.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.doorknob"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.zawias.1",
+      "lemma": "zawias",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.zawias.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.hinge"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.zasuwka.1",
+      "lemma": "zasuwka",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.zasuwka.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.latch"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.dzwonek.1",
+      "lemma": "dzwonek",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.dzwonek.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.doorbell"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.gniazdko.1",
+      "lemma": "gniazdko",
+      "forms": {},
+      "gender": "neuter",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.gniazdko.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.socket"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.zarowka.1",
+      "lemma": "żarówka",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.zarowka.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.bulb"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.sufit.1",
+      "lemma": "sufit",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.sufit.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.ceiling"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.brama.1",
+      "lemma": "brama",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.brama.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.gate"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.plot.1",
+      "lemma": "płot",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.plot.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.fence"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.komin.1",
+      "lemma": "komin",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.komin.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.chimney"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.kominek.1",
+      "lemma": "kominek",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.kominek.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.fireplace"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.kaloryfer.1",
+      "lemma": "kaloryfer",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.kaloryfer.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.radiator"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.wentylator.1",
+      "lemma": "wentylator",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.wentylator.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.fan"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.zegar.1",
+      "lemma": "zegar",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.zegar.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.clock"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.odkurzacz.1",
+      "lemma": "odkurzacz",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.odkurzacz.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.vacuum_cleaner"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.miotla.1",
+      "lemma": "miotła",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.miotla.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.broom"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.mop.1",
+      "lemma": "mop",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.mop.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.mop"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.wiadro.1",
+      "lemma": "wiadro",
+      "forms": {},
+      "gender": "neuter",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.wiadro.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.bucket"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.gabka.1",
+      "lemma": "gąbka",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.gabka.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.sponge"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.szczotka.1",
+      "lemma": "szczotka",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.szczotka.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.brush"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.recznik.1",
+      "lemma": "ręcznik",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.recznik.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.towel"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.grzebien.1",
+      "lemma": "grzebień",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.grzebien.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.comb"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.szczoteczka.1",
+      "lemma": "szczoteczka",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.szczoteczka.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.toothbrush"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.prysznic.1",
+      "lemma": "prysznic",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.prysznic.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.shower"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.wanna.1",
+      "lemma": "wanna",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.wanna.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.bathtub"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.zlew.1",
+      "lemma": "zlew",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.zlew.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.sink"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.kran.1",
+      "lemma": "kran",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.kran.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.tap"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.toaleta.1",
+      "lemma": "toaleta",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.toaleta.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.toilet"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.pralka.1",
+      "lemma": "pralka",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.pralka.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.washing_machine"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.suszarka.1",
+      "lemma": "suszarka",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.suszarka.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.clothes_dryer"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.lodowka.1",
+      "lemma": "lodówka",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.lodowka.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.fridge"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.zamrazarka.1",
+      "lemma": "zamrażarka",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.zamrazarka.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.freezer"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.najemca.1",
+      "lemma": "najemca",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.najemca.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.tenant"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.odwiedzajacy.1",
+      "lemma": "odwiedzający",
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "virile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.odwiedzajacy.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.visitor"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.szafka.1",
+      "lemma": "szafka",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.szafka.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.cabinet"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.sofa.1",
+      "lemma": "sofa",
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.sofa.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.sofa"
+          }
+        }
+      ]
     }
   ],
   "verbs": [
