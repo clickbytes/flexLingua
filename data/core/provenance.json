@@ -108,6 +108,13 @@
           "source": "Project-authored English-Polish travel, place, landform and vehicle concepts; no external dictionary, vocabulary list, protected list, or imported dataset was copied.",
           "license": "Project-authored for internal flexLingua use; this repository declares no separate SPDX data license.",
           "scope": "Adds 100 typed entity concepts across geography, travel infrastructure, vehicles and travel objects. Parent chains emit is_a; no unsupported destination/origin relation types are introduced."
+        },
+        {
+          "issue": "#408",
+          "author": "Codex (linguistic curation delegated by project owner)",
+          "source": "Project-authored candidates and independent expected review recorded in the TG-W5 issue before implementation; no external corpus or dictionary data copied.",
+          "license": "Project-authored; this repository declares no separate SPDX data license.",
+          "scope": "100 CORE concepts: 51 event concepts and 49 temporal entities; only 25 events are licensed for the bounded present-third-singular pilot."
         }
       ]
     },

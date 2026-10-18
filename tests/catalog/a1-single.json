@@ -2746,6 +2746,381 @@
         "en-pl",
         "pl-en"
       ]
+    },
+    {
+      "targetId": "construction.event.running",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "construction",
+      "domain": "activities",
+      "kind": "event",
+      "concept": "event.running",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "construction.event.walking",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "construction",
+      "domain": "activities",
+      "kind": "event",
+      "concept": "event.walking",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "construction.event.jumping",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "construction",
+      "domain": "activities",
+      "kind": "event",
+      "concept": "event.jumping",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "construction.event.dancing",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "construction",
+      "domain": "activities",
+      "kind": "event",
+      "concept": "event.dancing",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "construction.event.sitting",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "construction",
+      "domain": "activities",
+      "kind": "event",
+      "concept": "event.sitting",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "construction.event.standing",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "construction",
+      "domain": "activities",
+      "kind": "event",
+      "concept": "event.standing",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "construction.event.singing",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "construction",
+      "domain": "activities",
+      "kind": "event",
+      "concept": "event.singing",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "construction.event.crying",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "construction",
+      "domain": "activities",
+      "kind": "event",
+      "concept": "event.crying",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "construction.event.resting",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "construction",
+      "domain": "activities",
+      "kind": "event",
+      "concept": "event.resting",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "construction.event.roaming",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "construction",
+      "domain": "activities",
+      "kind": "event",
+      "concept": "event.roaming",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "construction.event.exercising",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "construction",
+      "domain": "activities",
+      "kind": "event",
+      "concept": "event.exercising",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "construction.event.staying",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "construction",
+      "domain": "activities",
+      "kind": "event",
+      "concept": "event.staying",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "construction.event.leaving",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "construction",
+      "domain": "activities",
+      "kind": "event",
+      "concept": "event.leaving",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "construction.event.falling",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "construction",
+      "domain": "activities",
+      "kind": "event",
+      "concept": "event.falling",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "construction.event.breathing",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "construction",
+      "domain": "activities",
+      "kind": "event",
+      "concept": "event.breathing",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "construction.event.sneezing",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "construction",
+      "domain": "activities",
+      "kind": "event",
+      "concept": "event.sneezing",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "construction.event.coughing",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "construction",
+      "domain": "activities",
+      "kind": "event",
+      "concept": "event.coughing",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "construction.event.yawning",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "construction",
+      "domain": "activities",
+      "kind": "event",
+      "concept": "event.yawning",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "construction.event.kneeling",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "construction",
+      "domain": "activities",
+      "kind": "event",
+      "concept": "event.kneeling",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "construction.event.marching",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "construction",
+      "domain": "activities",
+      "kind": "event",
+      "concept": "event.marching",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "construction.event.jogging",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "construction",
+      "domain": "activities",
+      "kind": "event",
+      "concept": "event.jogging",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "construction.event.sailing",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "construction",
+      "domain": "activities",
+      "kind": "event",
+      "concept": "event.sailing",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "construction.event.answering",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "construction",
+      "domain": "activities",
+      "kind": "event",
+      "concept": "event.answering",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "construction.event.clapping",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "construction",
+      "domain": "activities",
+      "kind": "event",
+      "concept": "event.clapping",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "construction.event.waving",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "construction",
+      "domain": "activities",
+      "kind": "event",
+      "concept": "event.waving",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
     }
   ]
 }

@@ -448,6 +448,22 @@
           ]
         }
       ]
+    },
+    "en.verb.present3sg_only": {
+      "pos": "VERB",
+      "slots": [
+        {
+          "features": {
+            "tense": "present",
+            "number": "singular",
+            "person": "third"
+          },
+          "steps": [],
+          "path": [
+            "present3sg"
+          ]
+        }
+      ]
     }
   },
   "bindings": [
@@ -3842,6 +3858,556 @@
         "base": "hut"
       },
       "overrides": []
+    },
+    {
+      "lexemeId": "en.w5.event.running.1",
+      "paradigmId": "en.verb.present3sg_only",
+      "stems": {
+        "base": "run"
+      },
+      "overrides": [
+        {
+          "when": {
+            "tense": "present",
+            "number": "singular",
+            "person": "third"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "runs"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "en.w5.event.walking.1",
+      "paradigmId": "en.verb.present3sg_only",
+      "stems": {
+        "base": "walk"
+      },
+      "overrides": [
+        {
+          "when": {
+            "tense": "present",
+            "number": "singular",
+            "person": "third"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "walks"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "en.w5.event.jumping.1",
+      "paradigmId": "en.verb.present3sg_only",
+      "stems": {
+        "base": "jump"
+      },
+      "overrides": [
+        {
+          "when": {
+            "tense": "present",
+            "number": "singular",
+            "person": "third"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "jumps"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "en.w5.event.dancing.1",
+      "paradigmId": "en.verb.present3sg_only",
+      "stems": {
+        "base": "dance"
+      },
+      "overrides": [
+        {
+          "when": {
+            "tense": "present",
+            "number": "singular",
+            "person": "third"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "dances"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "en.w5.event.sitting.1",
+      "paradigmId": "en.verb.present3sg_only",
+      "stems": {
+        "base": "sit"
+      },
+      "overrides": [
+        {
+          "when": {
+            "tense": "present",
+            "number": "singular",
+            "person": "third"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "sits"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "en.w5.event.standing.1",
+      "paradigmId": "en.verb.present3sg_only",
+      "stems": {
+        "base": "stand"
+      },
+      "overrides": [
+        {
+          "when": {
+            "tense": "present",
+            "number": "singular",
+            "person": "third"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "stands"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "en.w5.event.singing.1",
+      "paradigmId": "en.verb.present3sg_only",
+      "stems": {
+        "base": "sing"
+      },
+      "overrides": [
+        {
+          "when": {
+            "tense": "present",
+            "number": "singular",
+            "person": "third"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "sings"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "en.w5.event.crying.1",
+      "paradigmId": "en.verb.present3sg_only",
+      "stems": {
+        "base": "cry"
+      },
+      "overrides": [
+        {
+          "when": {
+            "tense": "present",
+            "number": "singular",
+            "person": "third"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "cries"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "en.w5.event.resting.1",
+      "paradigmId": "en.verb.present3sg_only",
+      "stems": {
+        "base": "rest"
+      },
+      "overrides": [
+        {
+          "when": {
+            "tense": "present",
+            "number": "singular",
+            "person": "third"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "rests"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "en.w5.event.roaming.1",
+      "paradigmId": "en.verb.present3sg_only",
+      "stems": {
+        "base": "roam"
+      },
+      "overrides": [
+        {
+          "when": {
+            "tense": "present",
+            "number": "singular",
+            "person": "third"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "roams"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "en.w5.event.exercising.1",
+      "paradigmId": "en.verb.present3sg_only",
+      "stems": {
+        "base": "exercise"
+      },
+      "overrides": [
+        {
+          "when": {
+            "tense": "present",
+            "number": "singular",
+            "person": "third"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "exercises"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "en.w5.event.staying.1",
+      "paradigmId": "en.verb.present3sg_only",
+      "stems": {
+        "base": "stay"
+      },
+      "overrides": [
+        {
+          "when": {
+            "tense": "present",
+            "number": "singular",
+            "person": "third"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "stays"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "en.w5.event.leaving.1",
+      "paradigmId": "en.verb.present3sg_only",
+      "stems": {
+        "base": "leave"
+      },
+      "overrides": [
+        {
+          "when": {
+            "tense": "present",
+            "number": "singular",
+            "person": "third"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "leaves"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "en.w5.event.falling.1",
+      "paradigmId": "en.verb.present3sg_only",
+      "stems": {
+        "base": "fall"
+      },
+      "overrides": [
+        {
+          "when": {
+            "tense": "present",
+            "number": "singular",
+            "person": "third"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "falls"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "en.w5.event.breathing.1",
+      "paradigmId": "en.verb.present3sg_only",
+      "stems": {
+        "base": "breathe"
+      },
+      "overrides": [
+        {
+          "when": {
+            "tense": "present",
+            "number": "singular",
+            "person": "third"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "breathes"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "en.w5.event.sneezing.1",
+      "paradigmId": "en.verb.present3sg_only",
+      "stems": {
+        "base": "sneeze"
+      },
+      "overrides": [
+        {
+          "when": {
+            "tense": "present",
+            "number": "singular",
+            "person": "third"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "sneezes"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "en.w5.event.coughing.1",
+      "paradigmId": "en.verb.present3sg_only",
+      "stems": {
+        "base": "cough"
+      },
+      "overrides": [
+        {
+          "when": {
+            "tense": "present",
+            "number": "singular",
+            "person": "third"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "coughs"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "en.w5.event.yawning.1",
+      "paradigmId": "en.verb.present3sg_only",
+      "stems": {
+        "base": "yawn"
+      },
+      "overrides": [
+        {
+          "when": {
+            "tense": "present",
+            "number": "singular",
+            "person": "third"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "yawns"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "en.w5.event.kneeling.1",
+      "paradigmId": "en.verb.present3sg_only",
+      "stems": {
+        "base": "kneel"
+      },
+      "overrides": [
+        {
+          "when": {
+            "tense": "present",
+            "number": "singular",
+            "person": "third"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kneels"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "en.w5.event.marching.1",
+      "paradigmId": "en.verb.present3sg_only",
+      "stems": {
+        "base": "march"
+      },
+      "overrides": [
+        {
+          "when": {
+            "tense": "present",
+            "number": "singular",
+            "person": "third"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "marches"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "en.w5.event.jogging.1",
+      "paradigmId": "en.verb.present3sg_only",
+      "stems": {
+        "base": "jog"
+      },
+      "overrides": [
+        {
+          "when": {
+            "tense": "present",
+            "number": "singular",
+            "person": "third"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "jogs"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "en.w5.event.sailing.1",
+      "paradigmId": "en.verb.present3sg_only",
+      "stems": {
+        "base": "sail"
+      },
+      "overrides": [
+        {
+          "when": {
+            "tense": "present",
+            "number": "singular",
+            "person": "third"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "sails"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "en.w5.event.answering.1",
+      "paradigmId": "en.verb.present3sg_only",
+      "stems": {
+        "base": "answer"
+      },
+      "overrides": [
+        {
+          "when": {
+            "tense": "present",
+            "number": "singular",
+            "person": "third"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "answers"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "en.w5.event.clapping.1",
+      "paradigmId": "en.verb.present3sg_only",
+      "stems": {
+        "base": "clap"
+      },
+      "overrides": [
+        {
+          "when": {
+            "tense": "present",
+            "number": "singular",
+            "person": "third"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "claps"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "en.w5.event.waving.1",
+      "paradigmId": "en.verb.present3sg_only",
+      "stems": {
+        "base": "wave"
+      },
+      "overrides": [
+        {
+          "when": {
+            "tense": "present",
+            "number": "singular",
+            "person": "third"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "waves"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

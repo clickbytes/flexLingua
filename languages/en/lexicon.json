@@ -8823,6 +8823,643 @@
           "countability": "count"
         }
       ]
+    },
+    {
+      "id": "en.w5.time.morning.1",
+      "lemma": "morning",
+      "senses": [
+        {
+          "id": "en.w5.time.morning.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "time.morning"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.time.noon.1",
+      "lemma": "noon",
+      "senses": [
+        {
+          "id": "en.w5.time.noon.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "time.noon"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.time.afternoon.1",
+      "lemma": "afternoon",
+      "senses": [
+        {
+          "id": "en.w5.time.afternoon.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "time.afternoon"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.time.evening.1",
+      "lemma": "evening",
+      "senses": [
+        {
+          "id": "en.w5.time.evening.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "time.evening"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.time.night.1",
+      "lemma": "night",
+      "senses": [
+        {
+          "id": "en.w5.time.night.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "time.night"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.time.midnight.1",
+      "lemma": "midnight",
+      "senses": [
+        {
+          "id": "en.w5.time.midnight.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "time.midnight"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.time.dawn.1",
+      "lemma": "dawn",
+      "senses": [
+        {
+          "id": "en.w5.time.dawn.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "time.dawn"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.time.dusk.1",
+      "lemma": "dusk",
+      "senses": [
+        {
+          "id": "en.w5.time.dusk.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "time.dusk"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.time.weekday.1",
+      "lemma": "weekday",
+      "senses": [
+        {
+          "id": "en.w5.time.weekday.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "time.weekday"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.time.weekend.1",
+      "lemma": "weekend",
+      "senses": [
+        {
+          "id": "en.w5.time.weekend.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "time.weekend"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.time.week.1",
+      "lemma": "week",
+      "senses": [
+        {
+          "id": "en.w5.time.week.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "time.week"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.time.month.1",
+      "lemma": "month",
+      "senses": [
+        {
+          "id": "en.w5.time.month.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "time.month"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.time.season.1",
+      "lemma": "season",
+      "senses": [
+        {
+          "id": "en.w5.time.season.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "time.season"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.time.year.1",
+      "lemma": "year",
+      "senses": [
+        {
+          "id": "en.w5.time.year.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "time.year"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.time.decade.1",
+      "lemma": "decade",
+      "senses": [
+        {
+          "id": "en.w5.time.decade.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "time.decade"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.time.century.1",
+      "lemma": "century",
+      "senses": [
+        {
+          "id": "en.w5.time.century.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "time.century"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.time.hour.1",
+      "lemma": "hour",
+      "senses": [
+        {
+          "id": "en.w5.time.hour.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "time.hour"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.time.minute.1",
+      "lemma": "minute",
+      "senses": [
+        {
+          "id": "en.w5.time.minute.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "time.minute"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.time.second.1",
+      "lemma": "second",
+      "senses": [
+        {
+          "id": "en.w5.time.second.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "time.second"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.time.moment.1",
+      "lemma": "moment",
+      "senses": [
+        {
+          "id": "en.w5.time.moment.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "time.moment"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.time.duration.1",
+      "lemma": "duration",
+      "senses": [
+        {
+          "id": "en.w5.time.duration.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "time.duration"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.time.interval.1",
+      "lemma": "interval",
+      "senses": [
+        {
+          "id": "en.w5.time.interval.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "time.interval"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.time.deadline.1",
+      "lemma": "deadline",
+      "senses": [
+        {
+          "id": "en.w5.time.deadline.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "time.deadline"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.time.recess.1",
+      "lemma": "recess",
+      "senses": [
+        {
+          "id": "en.w5.time.recess.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "time.recess"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.time.holiday.1",
+      "lemma": "holiday",
+      "senses": [
+        {
+          "id": "en.w5.time.holiday.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "time.holiday"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.time.vacation.1",
+      "lemma": "vacation",
+      "senses": [
+        {
+          "id": "en.w5.time.vacation.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "time.vacation"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.time.period.1",
+      "lemma": "period",
+      "senses": [
+        {
+          "id": "en.w5.time.period.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "time.period"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.time.date.1",
+      "lemma": "date",
+      "senses": [
+        {
+          "id": "en.w5.time.date.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "time.date"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.time.clock_time.1",
+      "lemma": "clock time",
+      "senses": [
+        {
+          "id": "en.w5.time.clock_time.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "time.clock_time"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.time.time_zone.1",
+      "lemma": "time zone",
+      "senses": [
+        {
+          "id": "en.w5.time.time_zone.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "time.time_zone"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.time.sunrise.1",
+      "lemma": "sunrise",
+      "senses": [
+        {
+          "id": "en.w5.time.sunrise.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "time.sunrise"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.time.sunset.1",
+      "lemma": "sunset",
+      "senses": [
+        {
+          "id": "en.w5.time.sunset.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "time.sunset"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.time.bedtime.1",
+      "lemma": "bedtime",
+      "senses": [
+        {
+          "id": "en.w5.time.bedtime.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "time.bedtime"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.time.rush_hour.1",
+      "lemma": "rush hour",
+      "senses": [
+        {
+          "id": "en.w5.time.rush_hour.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "time.rush_hour"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.time.workday.1",
+      "lemma": "workday",
+      "senses": [
+        {
+          "id": "en.w5.time.workday.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "time.workday"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.time.school_day.1",
+      "lemma": "school day",
+      "senses": [
+        {
+          "id": "en.w5.time.school_day.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "time.school_day"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.time.day_off.1",
+      "lemma": "day off",
+      "senses": [
+        {
+          "id": "en.w5.time.day_off.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "time.day_off"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.time.payday.1",
+      "lemma": "payday",
+      "senses": [
+        {
+          "id": "en.w5.time.payday.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "time.payday"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.time.spring.1",
+      "lemma": "spring",
+      "senses": [
+        {
+          "id": "en.w5.time.spring.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "time.spring"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.time.summer.1",
+      "lemma": "summer",
+      "senses": [
+        {
+          "id": "en.w5.time.summer.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "time.summer"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.time.autumn.1",
+      "lemma": "autumn",
+      "senses": [
+        {
+          "id": "en.w5.time.autumn.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "time.autumn"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.time.winter.1",
+      "lemma": "winter",
+      "senses": [
+        {
+          "id": "en.w5.time.winter.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "time.winter"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.time.quarter.1",
+      "lemma": "quarter",
+      "senses": [
+        {
+          "id": "en.w5.time.quarter.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "time.quarter"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.time.semester.1",
+      "lemma": "semester",
+      "senses": [
+        {
+          "id": "en.w5.time.semester.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "time.semester"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.time.trimester.1",
+      "lemma": "trimester",
+      "senses": [
+        {
+          "id": "en.w5.time.trimester.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "time.trimester"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.time.fortnight.1",
+      "lemma": "fortnight",
+      "senses": [
+        {
+          "id": "en.w5.time.fortnight.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "time.fortnight"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.time.millennium.1",
+      "lemma": "millennium",
+      "senses": [
+        {
+          "id": "en.w5.time.millennium.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "time.millennium"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.time.workweek.1",
+      "lemma": "workweek",
+      "senses": [
+        {
+          "id": "en.w5.time.workweek.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "time.workweek"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.time.school_year.1",
+      "lemma": "school year",
+      "senses": [
+        {
+          "id": "en.w5.time.school_year.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "time.school_year"
+          }
+        }
+      ]
     }
   ],
   "verbs": [
@@ -9455,6 +10092,1144 @@
           "coreRef": {
             "kind": "concept",
             "id": "event.social_icebreak"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.event.running.1",
+      "lemma": "run",
+      "senses": [
+        {
+          "id": "en.w5.event.running.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.running"
+          }
+        }
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "polarities": [
+          "positive"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      },
+      "forms": {
+        "base": "run",
+        "present3sg": "runs"
+      }
+    },
+    {
+      "id": "en.w5.event.walking.1",
+      "lemma": "walk",
+      "senses": [
+        {
+          "id": "en.w5.event.walking.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.walking"
+          }
+        }
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "polarities": [
+          "positive"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      },
+      "forms": {
+        "base": "walk",
+        "present3sg": "walks"
+      }
+    },
+    {
+      "id": "en.w5.event.jumping.1",
+      "lemma": "jump",
+      "senses": [
+        {
+          "id": "en.w5.event.jumping.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.jumping"
+          }
+        }
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "polarities": [
+          "positive"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      },
+      "forms": {
+        "base": "jump",
+        "present3sg": "jumps"
+      }
+    },
+    {
+      "id": "en.w5.event.dancing.1",
+      "lemma": "dance",
+      "senses": [
+        {
+          "id": "en.w5.event.dancing.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.dancing"
+          }
+        }
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "polarities": [
+          "positive"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      },
+      "forms": {
+        "base": "dance",
+        "present3sg": "dances"
+      }
+    },
+    {
+      "id": "en.w5.event.sitting.1",
+      "lemma": "sit",
+      "senses": [
+        {
+          "id": "en.w5.event.sitting.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.sitting"
+          }
+        }
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "polarities": [
+          "positive"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      },
+      "forms": {
+        "base": "sit",
+        "present3sg": "sits"
+      }
+    },
+    {
+      "id": "en.w5.event.standing.1",
+      "lemma": "stand",
+      "senses": [
+        {
+          "id": "en.w5.event.standing.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.standing"
+          }
+        }
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "polarities": [
+          "positive"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      },
+      "forms": {
+        "base": "stand",
+        "present3sg": "stands"
+      }
+    },
+    {
+      "id": "en.w5.event.singing.1",
+      "lemma": "sing",
+      "senses": [
+        {
+          "id": "en.w5.event.singing.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.singing"
+          }
+        }
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "polarities": [
+          "positive"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      },
+      "forms": {
+        "base": "sing",
+        "present3sg": "sings"
+      }
+    },
+    {
+      "id": "en.w5.event.crying.1",
+      "lemma": "cry",
+      "senses": [
+        {
+          "id": "en.w5.event.crying.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.crying"
+          }
+        }
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "polarities": [
+          "positive"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      },
+      "forms": {
+        "base": "cry",
+        "present3sg": "cries"
+      }
+    },
+    {
+      "id": "en.w5.event.resting.1",
+      "lemma": "rest",
+      "senses": [
+        {
+          "id": "en.w5.event.resting.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.resting"
+          }
+        }
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "polarities": [
+          "positive"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      },
+      "forms": {
+        "base": "rest",
+        "present3sg": "rests"
+      }
+    },
+    {
+      "id": "en.w5.event.roaming.1",
+      "lemma": "roam",
+      "senses": [
+        {
+          "id": "en.w5.event.roaming.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.roaming"
+          }
+        }
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "polarities": [
+          "positive"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      },
+      "forms": {
+        "base": "roam",
+        "present3sg": "roams"
+      }
+    },
+    {
+      "id": "en.w5.event.exercising.1",
+      "lemma": "exercise",
+      "senses": [
+        {
+          "id": "en.w5.event.exercising.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.exercising"
+          }
+        }
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "polarities": [
+          "positive"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      },
+      "forms": {
+        "base": "exercise",
+        "present3sg": "exercises"
+      }
+    },
+    {
+      "id": "en.w5.event.staying.1",
+      "lemma": "stay",
+      "senses": [
+        {
+          "id": "en.w5.event.staying.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.staying"
+          }
+        }
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "polarities": [
+          "positive"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      },
+      "forms": {
+        "base": "stay",
+        "present3sg": "stays"
+      }
+    },
+    {
+      "id": "en.w5.event.leaving.1",
+      "lemma": "leave",
+      "senses": [
+        {
+          "id": "en.w5.event.leaving.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.leaving"
+          }
+        }
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "polarities": [
+          "positive"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      },
+      "forms": {
+        "base": "leave",
+        "present3sg": "leaves"
+      }
+    },
+    {
+      "id": "en.w5.event.falling.1",
+      "lemma": "fall",
+      "senses": [
+        {
+          "id": "en.w5.event.falling.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.falling"
+          }
+        }
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "polarities": [
+          "positive"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      },
+      "forms": {
+        "base": "fall",
+        "present3sg": "falls"
+      }
+    },
+    {
+      "id": "en.w5.event.breathing.1",
+      "lemma": "breathe",
+      "senses": [
+        {
+          "id": "en.w5.event.breathing.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.breathing"
+          }
+        }
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "polarities": [
+          "positive"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      },
+      "forms": {
+        "base": "breathe",
+        "present3sg": "breathes"
+      }
+    },
+    {
+      "id": "en.w5.event.sneezing.1",
+      "lemma": "sneeze",
+      "senses": [
+        {
+          "id": "en.w5.event.sneezing.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.sneezing"
+          }
+        }
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "polarities": [
+          "positive"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      },
+      "forms": {
+        "base": "sneeze",
+        "present3sg": "sneezes"
+      }
+    },
+    {
+      "id": "en.w5.event.coughing.1",
+      "lemma": "cough",
+      "senses": [
+        {
+          "id": "en.w5.event.coughing.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.coughing"
+          }
+        }
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "polarities": [
+          "positive"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      },
+      "forms": {
+        "base": "cough",
+        "present3sg": "coughs"
+      }
+    },
+    {
+      "id": "en.w5.event.yawning.1",
+      "lemma": "yawn",
+      "senses": [
+        {
+          "id": "en.w5.event.yawning.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.yawning"
+          }
+        }
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "polarities": [
+          "positive"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      },
+      "forms": {
+        "base": "yawn",
+        "present3sg": "yawns"
+      }
+    },
+    {
+      "id": "en.w5.event.kneeling.1",
+      "lemma": "kneel",
+      "senses": [
+        {
+          "id": "en.w5.event.kneeling.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.kneeling"
+          }
+        }
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "polarities": [
+          "positive"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      },
+      "forms": {
+        "base": "kneel",
+        "present3sg": "kneels"
+      }
+    },
+    {
+      "id": "en.w5.event.marching.1",
+      "lemma": "march",
+      "senses": [
+        {
+          "id": "en.w5.event.marching.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.marching"
+          }
+        }
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "polarities": [
+          "positive"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      },
+      "forms": {
+        "base": "march",
+        "present3sg": "marches"
+      }
+    },
+    {
+      "id": "en.w5.event.jogging.1",
+      "lemma": "jog",
+      "senses": [
+        {
+          "id": "en.w5.event.jogging.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.jogging"
+          }
+        }
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "polarities": [
+          "positive"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      },
+      "forms": {
+        "base": "jog",
+        "present3sg": "jogs"
+      }
+    },
+    {
+      "id": "en.w5.event.sailing.1",
+      "lemma": "sail",
+      "senses": [
+        {
+          "id": "en.w5.event.sailing.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.sailing"
+          }
+        }
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "polarities": [
+          "positive"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      },
+      "forms": {
+        "base": "sail",
+        "present3sg": "sails"
+      }
+    },
+    {
+      "id": "en.w5.event.answering.1",
+      "lemma": "answer",
+      "senses": [
+        {
+          "id": "en.w5.event.answering.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.answering"
+          }
+        }
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "polarities": [
+          "positive"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      },
+      "forms": {
+        "base": "answer",
+        "present3sg": "answers"
+      }
+    },
+    {
+      "id": "en.w5.event.clapping.1",
+      "lemma": "clap",
+      "senses": [
+        {
+          "id": "en.w5.event.clapping.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.clapping"
+          }
+        }
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "polarities": [
+          "positive"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      },
+      "forms": {
+        "base": "clap",
+        "present3sg": "claps"
+      }
+    },
+    {
+      "id": "en.w5.event.waving.1",
+      "lemma": "wave",
+      "senses": [
+        {
+          "id": "en.w5.event.waving.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.waving"
+          }
+        }
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "polarities": [
+          "positive"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      },
+      "forms": {
+        "base": "wave",
+        "present3sg": "waves"
+      }
+    },
+    {
+      "id": "en.w5.event.carrying.1",
+      "lemma": "carry",
+      "senses": [
+        {
+          "id": "en.w5.event.carrying.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.carrying"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.event.bringing.1",
+      "lemma": "bring",
+      "senses": [
+        {
+          "id": "en.w5.event.bringing.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.bringing"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.event.closing.1",
+      "lemma": "close",
+      "senses": [
+        {
+          "id": "en.w5.event.closing.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.closing"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.event.baking.1",
+      "lemma": "bake",
+      "senses": [
+        {
+          "id": "en.w5.event.baking.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.baking"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.event.drawing.1",
+      "lemma": "draw",
+      "senses": [
+        {
+          "id": "en.w5.event.drawing.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.drawing"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.event.asking.1",
+      "lemma": "ask",
+      "senses": [
+        {
+          "id": "en.w5.event.asking.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.asking"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.event.washing.1",
+      "lemma": "wash",
+      "senses": [
+        {
+          "id": "en.w5.event.washing.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.washing"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.event.cleaning.1",
+      "lemma": "clean",
+      "senses": [
+        {
+          "id": "en.w5.event.cleaning.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.cleaning"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.event.building.1",
+      "lemma": "build",
+      "senses": [
+        {
+          "id": "en.w5.event.building.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.building"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.event.cutting.1",
+      "lemma": "cut",
+      "senses": [
+        {
+          "id": "en.w5.event.cutting.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.cutting"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.event.repairing.1",
+      "lemma": "repair",
+      "senses": [
+        {
+          "id": "en.w5.event.repairing.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.repairing"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.event.planting.1",
+      "lemma": "plant",
+      "senses": [
+        {
+          "id": "en.w5.event.planting.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.planting"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.event.choosing.1",
+      "lemma": "choose",
+      "senses": [
+        {
+          "id": "en.w5.event.choosing.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.choosing"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.event.throwing.1",
+      "lemma": "throw",
+      "senses": [
+        {
+          "id": "en.w5.event.throwing.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.throwing"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.event.catching.1",
+      "lemma": "catch",
+      "senses": [
+        {
+          "id": "en.w5.event.catching.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.catching"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.event.swimming.1",
+      "lemma": "swim",
+      "senses": [
+        {
+          "id": "en.w5.event.swimming.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.swimming"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.event.pushing.1",
+      "lemma": "push",
+      "senses": [
+        {
+          "id": "en.w5.event.pushing.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.pushing"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.event.pulling.1",
+      "lemma": "pull",
+      "senses": [
+        {
+          "id": "en.w5.event.pulling.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.pulling"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.event.dropping.1",
+      "lemma": "drop",
+      "senses": [
+        {
+          "id": "en.w5.event.dropping.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.dropping"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.event.holding.1",
+      "lemma": "hold",
+      "senses": [
+        {
+          "id": "en.w5.event.holding.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.holding"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.event.touching.1",
+      "lemma": "touch",
+      "senses": [
+        {
+          "id": "en.w5.event.touching.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.touching"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.event.pointing.1",
+      "lemma": "point",
+      "senses": [
+        {
+          "id": "en.w5.event.pointing.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.pointing"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.event.kicking.1",
+      "lemma": "kick",
+      "senses": [
+        {
+          "id": "en.w5.event.kicking.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.kicking"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.event.hitting.1",
+      "lemma": "hit",
+      "senses": [
+        {
+          "id": "en.w5.event.hitting.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.hitting"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.event.sweeping.1",
+      "lemma": "sweep",
+      "senses": [
+        {
+          "id": "en.w5.event.sweeping.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.sweeping"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.w5.event.arriving.1",
+      "lemma": "arrive",
+      "senses": [
+        {
+          "id": "en.w5.event.arriving.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.arriving"
           }
         }
       ]

@@ -1,0 +1,879 @@
+{
+  "schemaVersion": "1.0",
+  "cases": [
+    {
+      "id": "A1-PL-EN-TGW-0421",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "typed_graph",
+      "construction": "event.jogging",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unspecified",
+        "quantity": "none"
+      },
+      "purpose": "W5 positive witness 21: bounded third-person singular present; source meaning and typed graph independently specified.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Dziewczynka truchta."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "A girl jogs."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.jogging",
+          "roleSet": [
+            "agent"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/agent/features/definiteness": "unknown",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "imperfective"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "The girl jogs."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.movement"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; refined after the first canonical matrix confirmed that Polish unspecified definiteness licenses both the default indefinite and a definite English article. This review is owner-delegated and recorded in #408.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#408"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.jogging",
+        "capability": "pl.analyze(event.jogging) -> en.realize"
+      }
+    },
+    {
+      "id": "A1-PL-EN-TGW-0422",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "typed_graph",
+      "construction": "event.sailing",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unspecified",
+        "quantity": "none"
+      },
+      "purpose": "W5 positive witness 22: bounded third-person singular present; source meaning and typed graph independently specified.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Dziewczynka żegluje."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "A girl sails."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.sailing",
+          "roleSet": [
+            "agent"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/agent/features/definiteness": "unknown",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "imperfective"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "The girl sails."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.movement"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; refined after the first canonical matrix confirmed that Polish unspecified definiteness licenses both the default indefinite and a definite English article. This review is owner-delegated and recorded in #408.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#408"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.sailing",
+        "capability": "pl.analyze(event.sailing) -> en.realize"
+      }
+    },
+    {
+      "id": "A1-PL-EN-TGW-0423",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "typed_graph",
+      "construction": "event.answering",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unspecified",
+        "quantity": "none"
+      },
+      "purpose": "W5 positive witness 23: bounded third-person singular present; source meaning and typed graph independently specified.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Dziewczynka odpowiada."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "A girl answers."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.answering",
+          "roleSet": [
+            "agent"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/agent/features/definiteness": "unknown",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "imperfective"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "The girl answers."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.daily_activity"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; refined after the first canonical matrix confirmed that Polish unspecified definiteness licenses both the default indefinite and a definite English article. This review is owner-delegated and recorded in #408.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#408"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.answering",
+        "capability": "pl.analyze(event.answering) -> en.realize"
+      }
+    },
+    {
+      "id": "A1-PL-EN-TGW-0424",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "typed_graph",
+      "construction": "event.clapping",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unspecified",
+        "quantity": "none"
+      },
+      "purpose": "W5 positive witness 24: bounded third-person singular present; source meaning and typed graph independently specified.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Dziewczynka klaszcze."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "A girl claps."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.clapping",
+          "roleSet": [
+            "agent"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/agent/features/definiteness": "unknown",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "imperfective"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "The girl claps."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.daily_activity"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; refined after the first canonical matrix confirmed that Polish unspecified definiteness licenses both the default indefinite and a definite English article. This review is owner-delegated and recorded in #408.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#408"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.clapping",
+        "capability": "pl.analyze(event.clapping) -> en.realize"
+      }
+    },
+    {
+      "id": "A1-PL-EN-TGW-0425",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "typed_graph",
+      "construction": "event.waving",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unspecified",
+        "quantity": "none"
+      },
+      "purpose": "W5 positive witness 25: bounded third-person singular present; source meaning and typed graph independently specified.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Dziewczynka macha."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "A girl waves."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.waving",
+          "roleSet": [
+            "agent"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/agent/features/definiteness": "unknown",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "imperfective"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "The girl waves."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.daily_activity"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; refined after the first canonical matrix confirmed that Polish unspecified definiteness licenses both the default indefinite and a definite English article. This review is owner-delegated and recorded in #408.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#408"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.waving",
+        "capability": "pl.analyze(event.waving) -> en.realize"
+      }
+    },
+    {
+      "id": "A1-PL-EN-TGW-0426",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "mixed",
+        "quantity": "one"
+      },
+      "purpose": "W5 ambiguity witness: mouse can denote an animal or a computer device; no context selects one sense.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Dziewczynka widzi mysz."
+      },
+      "expected": {
+        "status": "ambiguous",
+        "text": null,
+        "meaning": null,
+        "diagnostics": {
+          "required": [
+            {
+              "code": "AMBIGUOUS_MEANING"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            {
+              "meaning": {
+                "type": "event",
+                "concept": "event.visual_perception",
+                "roleSet": [
+                  "agent",
+                  "theme"
+                ],
+                "roles": {
+                  "agent": {
+                    "concept": "person.girl",
+                    "features": {
+                      "number": "singular",
+                      "definiteness": "unknown"
+                    }
+                  },
+                  "theme": {
+                    "concept": "animal.mouse",
+                    "features": {
+                      "number": "singular",
+                      "definiteness": "unknown"
+                    }
+                  }
+                },
+                "roleFeaturesExact": true,
+                "features": {
+                  "tense": "present",
+                  "polarity": "positive",
+                  "aspect": "imperfective"
+                },
+                "featuresAllowExtra": false,
+                "assert": {
+                  "#/roles/agent/features/number": "singular",
+                  "#/roles/agent/features/definiteness": "unknown",
+                  "#/roles/theme/features/number": "singular",
+                  "#/roles/theme/features/definiteness": "unknown",
+                  "#/features/tense": "present",
+                  "#/features/polarity": "positive",
+                  "#/features/aspect": "imperfective"
+                }
+              }
+            },
+            {
+              "meaning": {
+                "type": "event",
+                "concept": "event.visual_perception",
+                "roleSet": [
+                  "agent",
+                  "theme"
+                ],
+                "roles": {
+                  "agent": {
+                    "concept": "person.girl",
+                    "features": {
+                      "number": "singular",
+                      "definiteness": "unknown"
+                    }
+                  },
+                  "theme": {
+                    "concept": "device.computer_mouse",
+                    "features": {
+                      "number": "singular",
+                      "definiteness": "unknown"
+                    }
+                  }
+                },
+                "roleFeaturesExact": true,
+                "features": {
+                  "tense": "present",
+                  "polarity": "positive",
+                  "aspect": "imperfective"
+                },
+                "featuresAllowExtra": false,
+                "assert": {
+                  "#/roles/agent/features/number": "singular",
+                  "#/roles/agent/features/definiteness": "unknown",
+                  "#/roles/theme/features/number": "singular",
+                  "#/roles/theme/features/definiteness": "unknown",
+                  "#/features/tense": "present",
+                  "#/features/polarity": "positive",
+                  "#/features/aspect": "imperfective"
+                }
+              }
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "W5 mouse ambiguity; preserve both lexically supported meanings. Expected authored before CLI from project-owner-delegated W5 linguistic review; candidate and expected ledger in #408.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#408"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "pl.analyze(event.visual_perception); preserve both mouse senses"
+      }
+    },
+    {
+      "id": "A1-PL-EN-TGW-0427",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "typed_graph",
+      "construction": "event.running",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "past",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "W5 controlled refusal: no past morphology is bound for this verb.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Dziewczynka biegała."
+      },
+      "expected": {
+        "status": "unsupported",
+        "text": null,
+        "meaning": null,
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": true
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "W5 refusal expectation; past form is unbound or agent type violates the declared frame. Expected authored before CLI from project-owner-delegated W5 linguistic review; candidate and expected ledger in #408.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#408"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.running",
+        "capability": "pl.analyze(event.running) -> en.realize"
+      }
+    },
+    {
+      "id": "A1-PL-EN-TGW-0428",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "typed_graph",
+      "construction": "event.running",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "W5 controlled refusal: an island is outside the person-agent frame.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Wyspa biega."
+      },
+      "expected": {
+        "status": "unsupported",
+        "text": null,
+        "meaning": null,
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": true
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "W5 refusal expectation; past form is unbound or agent type violates the declared frame. Expected authored before CLI from project-owner-delegated W5 linguistic review; candidate and expected ledger in #408.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#408"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.running",
+        "capability": "pl.analyze(event.running) -> en.realize"
+      }
+    }
+  ]
+}

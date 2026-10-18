@@ -74,6 +74,181 @@
       "type": "evidence",
       "module": "evidence",
       "path": "provenance.json"
+    },
+    {
+      "id": "pl.syntax.tgw5.running",
+      "type": "syntax",
+      "module": "grammar",
+      "path": "grammar.json",
+      "capability": "event.running"
+    },
+    {
+      "id": "pl.syntax.tgw5.walking",
+      "type": "syntax",
+      "module": "grammar",
+      "path": "grammar.json",
+      "capability": "event.walking"
+    },
+    {
+      "id": "pl.syntax.tgw5.jumping",
+      "type": "syntax",
+      "module": "grammar",
+      "path": "grammar.json",
+      "capability": "event.jumping"
+    },
+    {
+      "id": "pl.syntax.tgw5.dancing",
+      "type": "syntax",
+      "module": "grammar",
+      "path": "grammar.json",
+      "capability": "event.dancing"
+    },
+    {
+      "id": "pl.syntax.tgw5.sitting",
+      "type": "syntax",
+      "module": "grammar",
+      "path": "grammar.json",
+      "capability": "event.sitting"
+    },
+    {
+      "id": "pl.syntax.tgw5.standing",
+      "type": "syntax",
+      "module": "grammar",
+      "path": "grammar.json",
+      "capability": "event.standing"
+    },
+    {
+      "id": "pl.syntax.tgw5.singing",
+      "type": "syntax",
+      "module": "grammar",
+      "path": "grammar.json",
+      "capability": "event.singing"
+    },
+    {
+      "id": "pl.syntax.tgw5.crying",
+      "type": "syntax",
+      "module": "grammar",
+      "path": "grammar.json",
+      "capability": "event.crying"
+    },
+    {
+      "id": "pl.syntax.tgw5.resting",
+      "type": "syntax",
+      "module": "grammar",
+      "path": "grammar.json",
+      "capability": "event.resting"
+    },
+    {
+      "id": "pl.syntax.tgw5.roaming",
+      "type": "syntax",
+      "module": "grammar",
+      "path": "grammar.json",
+      "capability": "event.roaming"
+    },
+    {
+      "id": "pl.syntax.tgw5.exercising",
+      "type": "syntax",
+      "module": "grammar",
+      "path": "grammar.json",
+      "capability": "event.exercising"
+    },
+    {
+      "id": "pl.syntax.tgw5.staying",
+      "type": "syntax",
+      "module": "grammar",
+      "path": "grammar.json",
+      "capability": "event.staying"
+    },
+    {
+      "id": "pl.syntax.tgw5.leaving",
+      "type": "syntax",
+      "module": "grammar",
+      "path": "grammar.json",
+      "capability": "event.leaving"
+    },
+    {
+      "id": "pl.syntax.tgw5.falling",
+      "type": "syntax",
+      "module": "grammar",
+      "path": "grammar.json",
+      "capability": "event.falling"
+    },
+    {
+      "id": "pl.syntax.tgw5.breathing",
+      "type": "syntax",
+      "module": "grammar",
+      "path": "grammar.json",
+      "capability": "event.breathing"
+    },
+    {
+      "id": "pl.syntax.tgw5.sneezing",
+      "type": "syntax",
+      "module": "grammar",
+      "path": "grammar.json",
+      "capability": "event.sneezing"
+    },
+    {
+      "id": "pl.syntax.tgw5.coughing",
+      "type": "syntax",
+      "module": "grammar",
+      "path": "grammar.json",
+      "capability": "event.coughing"
+    },
+    {
+      "id": "pl.syntax.tgw5.yawning",
+      "type": "syntax",
+      "module": "grammar",
+      "path": "grammar.json",
+      "capability": "event.yawning"
+    },
+    {
+      "id": "pl.syntax.tgw5.kneeling",
+      "type": "syntax",
+      "module": "grammar",
+      "path": "grammar.json",
+      "capability": "event.kneeling"
+    },
+    {
+      "id": "pl.syntax.tgw5.marching",
+      "type": "syntax",
+      "module": "grammar",
+      "path": "grammar.json",
+      "capability": "event.marching"
+    },
+    {
+      "id": "pl.syntax.tgw5.jogging",
+      "type": "syntax",
+      "module": "grammar",
+      "path": "grammar.json",
+      "capability": "event.jogging"
+    },
+    {
+      "id": "pl.syntax.tgw5.sailing",
+      "type": "syntax",
+      "module": "grammar",
+      "path": "grammar.json",
+      "capability": "event.sailing"
+    },
+    {
+      "id": "pl.syntax.tgw5.answering",
+      "type": "syntax",
+      "module": "grammar",
+      "path": "grammar.json",
+      "capability": "event.answering"
+    },
+    {
+      "id": "pl.syntax.tgw5.clapping",
+      "type": "syntax",
+      "module": "grammar",
+      "path": "grammar.json",
+      "capability": "event.clapping"
+    },
+    {
+      "id": "pl.syntax.tgw5.waving",
+      "type": "syntax",
+      "module": "grammar",
+      "path": "grammar.json",
+      "capability": "event.waving"
     }
   ],
   "edges": [
@@ -195,6 +370,506 @@
     {
       "from": "pl.evidence",
       "to": "pl.syntax.read",
+      "relation": "evidences"
+    },
+    {
+      "from": "pl.bridge",
+      "to": "pl.syntax.tgw5.running",
+      "relation": "maps-to"
+    },
+    {
+      "from": "pl.syntax.tgw5.running",
+      "to": "pl.lexicon",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.syntax.tgw5.running",
+      "to": "pl.morphology",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.evidence",
+      "to": "pl.syntax.tgw5.running",
+      "relation": "evidences"
+    },
+    {
+      "from": "pl.bridge",
+      "to": "pl.syntax.tgw5.walking",
+      "relation": "maps-to"
+    },
+    {
+      "from": "pl.syntax.tgw5.walking",
+      "to": "pl.lexicon",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.syntax.tgw5.walking",
+      "to": "pl.morphology",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.evidence",
+      "to": "pl.syntax.tgw5.walking",
+      "relation": "evidences"
+    },
+    {
+      "from": "pl.bridge",
+      "to": "pl.syntax.tgw5.jumping",
+      "relation": "maps-to"
+    },
+    {
+      "from": "pl.syntax.tgw5.jumping",
+      "to": "pl.lexicon",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.syntax.tgw5.jumping",
+      "to": "pl.morphology",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.evidence",
+      "to": "pl.syntax.tgw5.jumping",
+      "relation": "evidences"
+    },
+    {
+      "from": "pl.bridge",
+      "to": "pl.syntax.tgw5.dancing",
+      "relation": "maps-to"
+    },
+    {
+      "from": "pl.syntax.tgw5.dancing",
+      "to": "pl.lexicon",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.syntax.tgw5.dancing",
+      "to": "pl.morphology",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.evidence",
+      "to": "pl.syntax.tgw5.dancing",
+      "relation": "evidences"
+    },
+    {
+      "from": "pl.bridge",
+      "to": "pl.syntax.tgw5.sitting",
+      "relation": "maps-to"
+    },
+    {
+      "from": "pl.syntax.tgw5.sitting",
+      "to": "pl.lexicon",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.syntax.tgw5.sitting",
+      "to": "pl.morphology",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.evidence",
+      "to": "pl.syntax.tgw5.sitting",
+      "relation": "evidences"
+    },
+    {
+      "from": "pl.bridge",
+      "to": "pl.syntax.tgw5.standing",
+      "relation": "maps-to"
+    },
+    {
+      "from": "pl.syntax.tgw5.standing",
+      "to": "pl.lexicon",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.syntax.tgw5.standing",
+      "to": "pl.morphology",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.evidence",
+      "to": "pl.syntax.tgw5.standing",
+      "relation": "evidences"
+    },
+    {
+      "from": "pl.bridge",
+      "to": "pl.syntax.tgw5.singing",
+      "relation": "maps-to"
+    },
+    {
+      "from": "pl.syntax.tgw5.singing",
+      "to": "pl.lexicon",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.syntax.tgw5.singing",
+      "to": "pl.morphology",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.evidence",
+      "to": "pl.syntax.tgw5.singing",
+      "relation": "evidences"
+    },
+    {
+      "from": "pl.bridge",
+      "to": "pl.syntax.tgw5.crying",
+      "relation": "maps-to"
+    },
+    {
+      "from": "pl.syntax.tgw5.crying",
+      "to": "pl.lexicon",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.syntax.tgw5.crying",
+      "to": "pl.morphology",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.evidence",
+      "to": "pl.syntax.tgw5.crying",
+      "relation": "evidences"
+    },
+    {
+      "from": "pl.bridge",
+      "to": "pl.syntax.tgw5.resting",
+      "relation": "maps-to"
+    },
+    {
+      "from": "pl.syntax.tgw5.resting",
+      "to": "pl.lexicon",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.syntax.tgw5.resting",
+      "to": "pl.morphology",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.evidence",
+      "to": "pl.syntax.tgw5.resting",
+      "relation": "evidences"
+    },
+    {
+      "from": "pl.bridge",
+      "to": "pl.syntax.tgw5.roaming",
+      "relation": "maps-to"
+    },
+    {
+      "from": "pl.syntax.tgw5.roaming",
+      "to": "pl.lexicon",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.syntax.tgw5.roaming",
+      "to": "pl.morphology",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.evidence",
+      "to": "pl.syntax.tgw5.roaming",
+      "relation": "evidences"
+    },
+    {
+      "from": "pl.bridge",
+      "to": "pl.syntax.tgw5.exercising",
+      "relation": "maps-to"
+    },
+    {
+      "from": "pl.syntax.tgw5.exercising",
+      "to": "pl.lexicon",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.syntax.tgw5.exercising",
+      "to": "pl.morphology",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.evidence",
+      "to": "pl.syntax.tgw5.exercising",
+      "relation": "evidences"
+    },
+    {
+      "from": "pl.bridge",
+      "to": "pl.syntax.tgw5.staying",
+      "relation": "maps-to"
+    },
+    {
+      "from": "pl.syntax.tgw5.staying",
+      "to": "pl.lexicon",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.syntax.tgw5.staying",
+      "to": "pl.morphology",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.evidence",
+      "to": "pl.syntax.tgw5.staying",
+      "relation": "evidences"
+    },
+    {
+      "from": "pl.bridge",
+      "to": "pl.syntax.tgw5.leaving",
+      "relation": "maps-to"
+    },
+    {
+      "from": "pl.syntax.tgw5.leaving",
+      "to": "pl.lexicon",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.syntax.tgw5.leaving",
+      "to": "pl.morphology",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.evidence",
+      "to": "pl.syntax.tgw5.leaving",
+      "relation": "evidences"
+    },
+    {
+      "from": "pl.bridge",
+      "to": "pl.syntax.tgw5.falling",
+      "relation": "maps-to"
+    },
+    {
+      "from": "pl.syntax.tgw5.falling",
+      "to": "pl.lexicon",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.syntax.tgw5.falling",
+      "to": "pl.morphology",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.evidence",
+      "to": "pl.syntax.tgw5.falling",
+      "relation": "evidences"
+    },
+    {
+      "from": "pl.bridge",
+      "to": "pl.syntax.tgw5.breathing",
+      "relation": "maps-to"
+    },
+    {
+      "from": "pl.syntax.tgw5.breathing",
+      "to": "pl.lexicon",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.syntax.tgw5.breathing",
+      "to": "pl.morphology",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.evidence",
+      "to": "pl.syntax.tgw5.breathing",
+      "relation": "evidences"
+    },
+    {
+      "from": "pl.bridge",
+      "to": "pl.syntax.tgw5.sneezing",
+      "relation": "maps-to"
+    },
+    {
+      "from": "pl.syntax.tgw5.sneezing",
+      "to": "pl.lexicon",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.syntax.tgw5.sneezing",
+      "to": "pl.morphology",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.evidence",
+      "to": "pl.syntax.tgw5.sneezing",
+      "relation": "evidences"
+    },
+    {
+      "from": "pl.bridge",
+      "to": "pl.syntax.tgw5.coughing",
+      "relation": "maps-to"
+    },
+    {
+      "from": "pl.syntax.tgw5.coughing",
+      "to": "pl.lexicon",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.syntax.tgw5.coughing",
+      "to": "pl.morphology",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.evidence",
+      "to": "pl.syntax.tgw5.coughing",
+      "relation": "evidences"
+    },
+    {
+      "from": "pl.bridge",
+      "to": "pl.syntax.tgw5.yawning",
+      "relation": "maps-to"
+    },
+    {
+      "from": "pl.syntax.tgw5.yawning",
+      "to": "pl.lexicon",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.syntax.tgw5.yawning",
+      "to": "pl.morphology",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.evidence",
+      "to": "pl.syntax.tgw5.yawning",
+      "relation": "evidences"
+    },
+    {
+      "from": "pl.bridge",
+      "to": "pl.syntax.tgw5.kneeling",
+      "relation": "maps-to"
+    },
+    {
+      "from": "pl.syntax.tgw5.kneeling",
+      "to": "pl.lexicon",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.syntax.tgw5.kneeling",
+      "to": "pl.morphology",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.evidence",
+      "to": "pl.syntax.tgw5.kneeling",
+      "relation": "evidences"
+    },
+    {
+      "from": "pl.bridge",
+      "to": "pl.syntax.tgw5.marching",
+      "relation": "maps-to"
+    },
+    {
+      "from": "pl.syntax.tgw5.marching",
+      "to": "pl.lexicon",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.syntax.tgw5.marching",
+      "to": "pl.morphology",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.evidence",
+      "to": "pl.syntax.tgw5.marching",
+      "relation": "evidences"
+    },
+    {
+      "from": "pl.bridge",
+      "to": "pl.syntax.tgw5.jogging",
+      "relation": "maps-to"
+    },
+    {
+      "from": "pl.syntax.tgw5.jogging",
+      "to": "pl.lexicon",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.syntax.tgw5.jogging",
+      "to": "pl.morphology",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.evidence",
+      "to": "pl.syntax.tgw5.jogging",
+      "relation": "evidences"
+    },
+    {
+      "from": "pl.bridge",
+      "to": "pl.syntax.tgw5.sailing",
+      "relation": "maps-to"
+    },
+    {
+      "from": "pl.syntax.tgw5.sailing",
+      "to": "pl.lexicon",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.syntax.tgw5.sailing",
+      "to": "pl.morphology",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.evidence",
+      "to": "pl.syntax.tgw5.sailing",
+      "relation": "evidences"
+    },
+    {
+      "from": "pl.bridge",
+      "to": "pl.syntax.tgw5.answering",
+      "relation": "maps-to"
+    },
+    {
+      "from": "pl.syntax.tgw5.answering",
+      "to": "pl.lexicon",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.syntax.tgw5.answering",
+      "to": "pl.morphology",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.evidence",
+      "to": "pl.syntax.tgw5.answering",
+      "relation": "evidences"
+    },
+    {
+      "from": "pl.bridge",
+      "to": "pl.syntax.tgw5.clapping",
+      "relation": "maps-to"
+    },
+    {
+      "from": "pl.syntax.tgw5.clapping",
+      "to": "pl.lexicon",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.syntax.tgw5.clapping",
+      "to": "pl.morphology",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.evidence",
+      "to": "pl.syntax.tgw5.clapping",
+      "relation": "evidences"
+    },
+    {
+      "from": "pl.bridge",
+      "to": "pl.syntax.tgw5.waving",
+      "relation": "maps-to"
+    },
+    {
+      "from": "pl.syntax.tgw5.waving",
+      "to": "pl.lexicon",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.syntax.tgw5.waving",
+      "to": "pl.morphology",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.evidence",
+      "to": "pl.syntax.tgw5.waving",
       "relation": "evidences"
     }
   ]

@@ -264,7 +264,9 @@
           "subject.person": "first",
           "subject.number": "singular"
         },
-        "prefix": ["am"],
+        "prefix": [
+          "am"
+        ],
         "path": "forms.progressive"
       },
       {
@@ -275,7 +277,9 @@
           "subject.person": "second",
           "subject.number": "singular"
         },
-        "prefix": ["are"],
+        "prefix": [
+          "are"
+        ],
         "path": "forms.progressive"
       },
       {
@@ -286,7 +290,9 @@
           "subject.person": "third",
           "subject.number": "singular"
         },
-        "prefix": ["is"],
+        "prefix": [
+          "is"
+        ],
         "path": "forms.progressive"
       },
       {
@@ -297,7 +303,9 @@
           "subject.person": "first",
           "subject.number": "plural"
         },
-        "prefix": ["are"],
+        "prefix": [
+          "are"
+        ],
         "path": "forms.progressive"
       },
       {
@@ -308,7 +316,9 @@
           "subject.person": "second",
           "subject.number": "plural"
         },
-        "prefix": ["are"],
+        "prefix": [
+          "are"
+        ],
         "path": "forms.progressive"
       },
       {
@@ -319,7 +329,9 @@
           "subject.person": "third",
           "subject.number": "plural"
         },
-        "prefix": ["are"],
+        "prefix": [
+          "are"
+        ],
         "path": "forms.progressive"
       },
       {
@@ -330,7 +342,10 @@
           "subject.person": "first",
           "subject.number": "singular"
         },
-        "prefix": ["am", "not"],
+        "prefix": [
+          "am",
+          "not"
+        ],
         "path": "forms.progressive"
       },
       {
@@ -341,7 +356,10 @@
           "subject.person": "second",
           "subject.number": "singular"
         },
-        "prefix": ["are", "not"],
+        "prefix": [
+          "are",
+          "not"
+        ],
         "path": "forms.progressive"
       },
       {
@@ -352,7 +370,10 @@
           "subject.person": "third",
           "subject.number": "singular"
         },
-        "prefix": ["is", "not"],
+        "prefix": [
+          "is",
+          "not"
+        ],
         "path": "forms.progressive"
       },
       {
@@ -363,7 +384,10 @@
           "subject.person": "first",
           "subject.number": "plural"
         },
-        "prefix": ["are", "not"],
+        "prefix": [
+          "are",
+          "not"
+        ],
         "path": "forms.progressive"
       },
       {
@@ -374,7 +398,10 @@
           "subject.person": "second",
           "subject.number": "plural"
         },
-        "prefix": ["are", "not"],
+        "prefix": [
+          "are",
+          "not"
+        ],
         "path": "forms.progressive"
       },
       {
@@ -385,7 +412,10 @@
           "subject.person": "third",
           "subject.number": "plural"
         },
-        "prefix": ["are", "not"],
+        "prefix": [
+          "are",
+          "not"
+        ],
         "path": "forms.progressive"
       },
       {
@@ -874,6 +904,506 @@
           "@verb"
         ]
       ]
+    },
+    "event.running": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.walking": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.jumping": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.dancing": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.sitting": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.standing": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.singing": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.crying": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.resting": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.roaming": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.exercising": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.staying": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.leaving": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.falling": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.breathing": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.sneezing": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.coughing": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.yawning": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.kneeling": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.marching": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.jogging": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.sailing": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.answering": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.clapping": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
+    },
+    "event.waving": {
+      "linearizations": [
+        [
+          "agent",
+          "@verb"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "roles": {
+          "agent": "person"
+        },
+        "themeConcepts": []
+      }
     }
   },
   "states": {
@@ -887,7 +1417,9 @@
       "negative"
     ],
     "supportedTensesByPolarity": {
-      "negative": ["present"]
+      "negative": [
+        "present"
+      ]
     },
     "verbs": {
       "grammar.state_copula": [
@@ -1005,7 +1537,9 @@
         ]
       },
       "classification": {
-        "supportedTenses": ["present"],
+        "supportedTenses": [
+          "present"
+        ],
         "subjectRole": "subject",
         "cases": {
           "subject": "nom",
