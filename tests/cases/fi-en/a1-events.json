@@ -1,0 +1,113 @@
+{
+  "schemaVersion": "1.0",
+  "cases": [
+    {
+      "id": "A1-FI-EN-VISUAL-0001",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "fi-en",
+      "family": "visual_attention",
+      "construction": "event.visual_attention",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "Positive A1 visual-attention event fi>en: the Finnish numeral-free partitive construction (Tyttö katsoo taloa) maps to the English 'looks at' frame with the partitive theme read as an ordinary singular noun phrase, bare Finnish nouns leave definiteness unspecified (unknown, not definite), the English realization selects determiners by explicit display policy while the definite variant stays an endorsed alternative, and quantity and number survive without loss.",
+      "input": {"from": "fi", "to": "en", "text": "Tyttö katsoo taloa."},
+      "expected": {
+        "status": "ok",
+        "text": {"accepted": ["A girl looks at a house."]},
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_attention",
+          "roleSet": ["agent", "theme"],
+          "roles": {
+            "agent": {"concept": "person.girl",
+              "features": {"number": "singular", "definiteness": "unknown"}},
+            "theme": {"concept": "structure.house",
+              "features": {"number": "singular", "definiteness": "unknown"}}
+          },
+          "roleFeaturesExact": true,
+          "features": {"tense": "present", "polarity": "positive"},
+          "featuresAllowExtra": true,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive"
+          }
+        },
+        "diagnostics": {"required": [], "allowUnexpected": true},
+        "alternatives": {"required": ["The girl looks at the house."], "allowUnexpected": true},
+        "informationLoss": {"required": [
+          {"cause": "source-definiteness-unspecified-target-default", "feature": "definiteness",
+            "path": "#/roles/agent/features/definiteness", "status": "ambiguous"},
+          {"cause": "source-definiteness-unspecified-target-default", "feature": "definiteness",
+            "path": "#/roles/theme/features/definiteness", "status": "ambiguous"}
+        ], "allowUnexpected": false}
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent expectation recorded in the #364 pre-edit comment (6243928763), stated after a documented in-memory diagnosis and before the data fix or matrix: the partitive object is not a definiteness marker, bare fi participants stay CORE-unknown; no aspect-loss entry because fi leaves aspect unknown. CLI-matched at the tm/p364-visual fix tree; the matrix re-asserts it on the pushed head.",
+        "author": "opencode-agent (OpenCode/GLM)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#364"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_attention",
+        "capability": "sentence fi.analyze(event.visual_attention partitive theme) -> en.realize"
+      }
+    },
+    {
+      "id": "A1-FI-EN-VISUAL-0002",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "fi-en",
+      "family": "case_boundary",
+      "construction": "event.visual_attention",
+      "tier": "required",
+      "priority": 2,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "none",
+        "quantity": "none"
+      },
+      "purpose": "Controlled refusal of the Finnish total-object (genitive-accusative 'talon') in this frame: the declared visual-attention profile realizes the viewing object in the partitive (katsoa taloa), so the accusative construction has no grammatical reading in the bounded subset and the result is an explicit unsupported refusal with LANGUAGE_CONSTRUCTION_UNSUPPORTED; it is never counted as evidence that visual attention is handled.",
+      "input": {"from": "fi", "to": "en", "text": "Tyttö katsoo talon."},
+      "expected": {
+        "status": "unsupported",
+        "text": null,
+        "meaning": null,
+        "diagnostics": {"required": [{"code": "LANGUAGE_CONSTRUCTION_UNSUPPORTED"}], "allowUnexpected": false},
+        "alternatives": {"required": [], "allowUnexpected": false},
+        "informationLoss": {"required": [], "allowUnexpected": false}
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent expectation recorded in the #364 pre-edit comment (6243928763): the bounded fi attention frame declares the theme in partitive, so the genitive-accusative object construction (katsoa talon, a real Finnish bounded-completion variant) is outside the declared subset and must refuse rather than guess. CLI-matched at the tm/p364-visual fix tree; the matrix re-asserts it on the pushed head.",
+        "author": "opencode-agent (OpenCode/GLM)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#364"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_attention",
+        "capability": "fi.analyze controlled refusal: accusative total object outside the partitive frame"
+      }
+    }
+  ]
+}

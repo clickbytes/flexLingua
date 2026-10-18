@@ -143,6 +143,13 @@
           "scope": "nounPhrase.quantity version 1.0 for exact numeric quantity on counted English noun phrases in data/grammar/en.json."
         },
         {
+          "issue": "#364",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored repair of the en.house.1 lexical entry wiring (empty forms table plus the already-tracked en.noun.regular morphology binding); no external lexicon was imported.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "en.house.1 empty forms table activation for morphology materialization in languages/en/lexicon.json."
+        },
+        {
           "issue": "#65",
           "author": "flexLingua project contributors",
           "source": "Original bounded English grammar frames for purchase and explicit prices; no external rule inventory copied.",
