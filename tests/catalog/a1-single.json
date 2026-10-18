@@ -3121,6 +3121,381 @@
         "en-pl",
         "pl-en"
       ]
+    },
+    {
+      "targetId": "concept.device.printer",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "device.printer",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.device.screen",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "device.screen",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.device.keyboard",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "device.keyboard",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.device.laptop",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "device.laptop",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.device.monitor",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "device.monitor",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.device.projector",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "device.projector",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.object.notebook",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.notebook",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.object.pencil",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.pencil",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.object.pen",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.pen",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.object.calculator",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.calculator",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.object.eraser",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.eraser",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.object.marker",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.marker",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.document.record",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "document.record",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.document.form",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "document.form",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.document.certificate",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "document.certificate",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.document.diploma",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "document.diploma",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.object.folder",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.folder",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.information.password",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "tools",
+      "kind": "entity",
+      "concept": "information.password",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.device.tablet",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "device.tablet",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.device.camera",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "device.camera",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.device.microphone",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "device.microphone",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.device.smartphone",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "device.smartphone",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.device.usb_flash_drive",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "device.usb_flash_drive",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.object.cable",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.cable",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.finance.invoice",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "finance.invoice",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
     }
   ]
 }

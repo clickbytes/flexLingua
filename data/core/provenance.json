@@ -115,6 +115,13 @@
           "source": "Project-authored candidates and independent expected review recorded in the TG-W5 issue before implementation; no external corpus or dictionary data copied.",
           "license": "Project-authored; this repository declares no separate SPDX data license.",
           "scope": "100 CORE concepts: 51 event concepts and 49 temporal entities; only 25 events are licensed for the bounded present-third-singular pilot."
+        },
+        {
+          "issue": "#409",
+          "author": "Codex (linguistic curation and expected review delegated by project owner)",
+          "source": "Project-authored W6 school, work, technology, institution, service and finance concepts/lemmas; no external corpus or dictionary data copied.",
+          "license": "Project-authored; this repository declares no separate SPDX data license.",
+          "scope": "100 new entity concepts and 100 unique EN/PL lemmas; 25 finite morphology entries and bidirectional sentence witnesses; 75 data-only entries; typed domain/association/containment edges."
         }
       ]
     },
