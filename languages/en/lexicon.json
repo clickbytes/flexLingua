@@ -215,7 +215,8 @@
           }
         }
       ],
-      "indefiniteArticle": "a"
+      "indefiniteArticle": "a",
+      "forms": {}
     },
     {
       "id": "en.phone.1",
@@ -229,7 +230,8 @@
           }
         }
       ],
-      "indefiniteArticle": "a"
+      "indefiniteArticle": "a",
+      "forms": {}
     },
     {
       "id": "en.garden.1",
@@ -285,7 +287,8 @@
           }
         }
       ],
-      "indefiniteArticle": "a"
+      "indefiniteArticle": "a",
+      "forms": {}
     },
     {
       "id": "en.school.1",
@@ -299,7 +302,8 @@
           }
         }
       ],
-      "indefiniteArticle": "a"
+      "indefiniteArticle": "a",
+      "forms": {}
     },
     {
       "id": "en.river.1",

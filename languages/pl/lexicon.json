@@ -306,7 +306,8 @@
       ],
       "gender": "masculine",
       "pluralClass": "nonvirile",
-      "animacy": "inanimate"
+      "animacy": "inanimate",
+      "forms": {}
     },
     {
       "id": "pl.telefon.1",
@@ -322,7 +323,8 @@
       ],
       "gender": "masculine",
       "pluralClass": "nonvirile",
-      "animacy": "inanimate"
+      "animacy": "inanimate",
+      "forms": {}
     },
     {
       "id": "pl.ogrod.1",
@@ -386,7 +388,8 @@
       ],
       "gender": "feminine",
       "pluralClass": "nonvirile",
-      "animacy": "animate"
+      "animacy": "animate",
+      "forms": {}
     },
     {
       "id": "pl.szkola.1",
@@ -402,7 +405,8 @@
       ],
       "gender": "feminine",
       "pluralClass": "nonvirile",
-      "animacy": "inanimate"
+      "animacy": "inanimate",
+      "forms": {}
     },
     {
       "id": "pl.rzeka.1",
