@@ -73,6 +73,12 @@ Matching first enforces valid IDs, relation direction, root and target types, an
 
 `Engine.resolveWord` accepts this graph only as the explicit `context.typedGraph` option. It runs after the existing form and lexical analysis, filters only hard-incompatible concept senses, and returns graph evidence with each remaining reading. An ambiguous result retains every compatible sense. The graph does not feed sentence parsing or translation until a later MeaningGraph projection supplies validated observations.
 
+## MeaningGraph projection and source paths
+
+`composeMeaningGraph({meaning,core,limits})` derives an immutable graph view from a validated MeaningGraph; `Engine.projectMeaningGraph(meaning,{limits})` is the runtime entry point and validates the full MeaningGraph first. The input document is never rewritten. Event concepts and each entity participant get distinct root nodes keyed by their JSON Pointer source path, so two participants with the same concept ID remain separate. Their CORE ancestry and typed definition edges are projected beneath those roots. Event roles, participant features, referents, negation, tense, aspect, and question wrappers remain in the original MeaningGraph; `sourcePaths` points back to the exact concept, participant, or modifier that contributed each node or edge.
+
+Top-level participant properties with a validated `semanticEffect` add a required typed edge to that participant root; the edge and its target nodes trace back to the modifier path. A property with no declared graph effect appears in `unresolved` with `SEMANTIC_EFFECT_UNSPECIFIED`; the projector does not invent a target. Classification predicates with a semantic effect apply it to the `subject` participant. Nested modifier effects and predicates without an explicit supported subject scope are reported as unresolved rather than attached to the wrong referent. Repeated identical edges merge source paths; conflicting typical weights fail instead of being averaged or treated as probabilities. Node, edge, and depth budgets are bounded by the TG-00 limits and overflow returns `resource_limit` without a partial result.
+
 For example, an unqualified `bank` with no disambiguating context retains both financial-institution and riverbank senses and is ambiguous. Finance context can support the financial sense; a river-location context can support the riverbank sense. A weight alone cannot resolve the bare word.
 
 ## Normalization and resource limits
