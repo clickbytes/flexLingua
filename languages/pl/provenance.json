@@ -53,6 +53,13 @@
           "scope": "Adds the unmarked accusative variant cię to pl.pronoun.ciebie without introducing a separate CORE meaning."
         },
         {
+          "issue": "#373",
+          "author": "flexLingua project contributors",
+          "source": "Project-authored bounded event-frame policy for analyzing omitted first- and second-person deictic subjects only when finite verb agreement identifies person and number.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "Opts event.visual_perception analysis into first/second-person pro-drop; Polish realization keeps the subject explicit. No third-person or contextual antecedent is inferred."
+        },
+        {
           "issue": "#65",
           "author": "flexLingua project contributors",
           "source": "Original project-authored Polish service and travel senses, inflected forms, and transaction verb paradigms; no external dictionary list imported.",

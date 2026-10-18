@@ -950,6 +950,10 @@
       ]
     },
     "event.visual_perception": {
+      "implicitSubject": {
+        "analysis": true,
+        "realization": false
+      },
       "cases": {
         "agent": "nom",
         "theme": "acc"

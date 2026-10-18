@@ -184,6 +184,191 @@
         "coverageTargetId": "construction.event.visual_perception",
         "capability": "pl.analyze + en.realize positive witness: short accusative cię retains the existing deictic addressee second/singular theme reading and realizes as `I see you.`"
       }
+    },
+    {
+      "id": "A1-PL-EN-DEIXIS-0004",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "deixis",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 4,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "first",
+        "number": "singular",
+        "reference": "deictic",
+        "quantity": "none"
+      },
+      "purpose": "Positive witness for Polish first-person singular pro-drop: the finite form identifies a deictic speaker agent while the explicit full-form object identifies the addressee; English realizes `I see you.`.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Widzę ciebie."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {"accepted": ["I see you."]},
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": ["agent", "theme"],
+          "roles": {
+            "agent": {
+              "target": {"kind": "deictic", "anchor": "speaker"},
+              "agreement": {"person": "first", "number": "singular"}
+            },
+            "theme": {
+              "target": {"kind": "deictic", "anchor": "addressee"},
+              "agreement": {"person": "second", "number": "singular"}
+            }
+          },
+          "features": {"tense": "present", "polarity": "positive", "aspect": "imperfective"},
+          "assert": {"#/version": "1.22"}
+        },
+        "diagnostics": {"required": [], "allowUnexpected": false},
+        "alternatives": {"required": [], "allowUnexpected": false},
+        "informationLoss": {
+          "required": [
+            {"cause": "target-grammar-does-not-encode-aspect", "feature": "aspect",
+              "path": "#/features/aspect", "status": "unavoidable"}
+          ],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent expected authored from Polish finite first-singular agreement and ADR person-deixis.md before running the changed case; the unexpressed agent is the speaker, not an unresolved third-person antecedent.",
+        "author": "clickbytes",
+        "reviewedAt": "2026-10-18",
+        "issue": "#373"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "pl.analyze + en.realize with finite first-singular agreement resolving an omitted agent to the speaker"
+      }
+    },
+    {
+      "id": "A1-PL-EN-DEIXIS-0005",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "deixis",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 4,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "second",
+        "number": "singular",
+        "reference": "deictic",
+        "quantity": "none"
+      },
+      "purpose": "Positive witness for Polish second-person singular pro-drop: the finite form identifies a deictic addressee agent while the explicit full-form object identifies the speaker; English realizes `You see me.`.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Widzisz mnie."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {"accepted": ["You see me."]},
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": ["agent", "theme"],
+          "roles": {
+            "agent": {
+              "target": {"kind": "deictic", "anchor": "addressee"},
+              "agreement": {"person": "second", "number": "singular"}
+            },
+            "theme": {
+              "target": {"kind": "deictic", "anchor": "speaker"},
+              "agreement": {"person": "first", "number": "singular"}
+            }
+          },
+          "features": {"tense": "present", "polarity": "positive", "aspect": "imperfective"},
+          "assert": {"#/version": "1.22"}
+        },
+        "diagnostics": {"required": [], "allowUnexpected": false},
+        "alternatives": {"required": [], "allowUnexpected": false},
+        "informationLoss": {
+          "required": [
+            {"cause": "target-grammar-does-not-encode-aspect", "feature": "aspect",
+              "path": "#/features/aspect", "status": "unavoidable"}
+          ],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent expected authored from Polish finite second-singular agreement and ADR person-deixis.md before running the changed case; the unexpressed agent is the addressee, and the accusative full form mnie fixes the speaker as theme.",
+        "author": "clickbytes",
+        "reviewedAt": "2026-10-18",
+        "issue": "#373"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "pl.analyze + en.realize with finite second-singular agreement resolving an omitted agent to the addressee"
+      }
+    },
+    {
+      "id": "A1-PL-EN-DEIXIS-0006",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "deixis_boundary",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 4,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "plural",
+        "reference": "unresolved",
+        "quantity": "none"
+      },
+      "purpose": "Controlled refusal boundary: third-person plural agreement does not identify a CORE referent for an omitted agent; the analyzer must not invent an antecedent such as `they`.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Widzą ciebie."
+      },
+      "expected": {
+        "status": "unsupported",
+        "text": null,
+        "meaning": null,
+        "diagnostics": {
+          "required": [{"code": "LANGUAGE_CONSTRUCTION_UNSUPPORTED"}],
+          "allowUnexpected": false
+        },
+        "alternatives": {"required": [], "allowUnexpected": false},
+        "informationLoss": {"required": [], "allowUnexpected": false}
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent boundary expectation authored before running the changed case: third-person agreement supplies no deictic anchor or discourse antecedent, so this bounded parser must refuse rather than fabricate a CORE role referent.",
+        "author": "clickbytes",
+        "reviewedAt": "2026-10-18",
+        "issue": "#373"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "pl.analyze refuses unresolved third-person pro-drop instead of inventing a participant"
+      }
     }
   ]
 }
