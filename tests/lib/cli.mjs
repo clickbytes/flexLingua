@@ -37,7 +37,7 @@ function clip(value, limit = 240) {
  * Run the CLI for each tagged case through the documented acceptance command.
  * Returns [{id, tier, pass, kind, lines[], durationMs}] — the runner prints and gates.
  */
-export function runCliSmoke({cases, service, repoRoot}) {
+export function runCliSmoke({cases, service, engine, repoRoot}) {
   const results = [];
   for (const item of cases) {
     const started = Date.now();
@@ -86,7 +86,7 @@ export function runCliSmoke({cases, service, repoRoot}) {
         continue;
       }
 
-      const comparison = compareCase(item, document);
+      const comparison = compareCase(item, document, {engine});
       result.kind = comparison.kind;
       if (run.status !== expectedExit) {
         result.kind = run.status === 1 || run.status === undefined || run.status === null

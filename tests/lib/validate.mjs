@@ -59,7 +59,86 @@ function summarizeAjvErrors(validate, file, issues, kind) {
 }
 
 /** Cross-file and semantic rules the JSON schema cannot express per-case. */
-function checkCaseRules(item, issues) {
+function meaningConceptAtPath(meaning, path) {
+  if (typeof path !== 'string' || !path.startsWith('#/')) return null;
+  let value = meaning;
+  for (const rawSegment of path.slice(2).split('/')) {
+    const segment = rawSegment.replace(/~1/gu, '/').replace(/~0/gu, '~');
+    if (!isRecord(value) && !Array.isArray(value)) return null;
+    if (!Object.hasOwn(value, segment)) return null;
+    value = value[segment];
+  }
+  if (typeof value === 'string') return value;
+  return isRecord(value) && typeof value.concept === 'string' ? value.concept : null;
+}
+
+function checkGraphExpected(item, issues, ontology) {
+  const policy = item.expected?.graph;
+  if (!policy) return;
+  const issue = message => issues.push({kind: 'graph-expected', file: item.file, id: item.id,
+    severity: 'error', message});
+  if (item.expected.status !== 'ok' || !item.expected.meaning) {
+    issue('expected.graph is only valid for an expected successful MeaningGraph.');
+    return;
+  }
+  if (!ontology || typeof ontology.get !== 'function' || typeof ontology.isA !== 'function') {
+    issue('Compiled CORE ontology is required to validate expected.graph before execution.');
+    return;
+  }
+  for (const [listName, assertions] of [['requiredEdges', policy.requiredEdges],
+    ['forbiddenEdges', policy.forbiddenEdges]]) {
+    for (const assertion of assertions ?? []) {
+      const fromConcept = meaningConceptAtPath(item.expected.meaning, assertion.fromPath);
+      const toConcept = assertion.toConcept;
+      if (!fromConcept || !ontology.get(fromConcept)) {
+        issue(`${listName} source path '${assertion.fromPath}' does not resolve to a known CORE concept.`);
+        continue;
+      }
+      if (!ontology.get(toConcept)) {
+        issue(`${listName} target '${toConcept}' is not a CORE concept.`);
+        continue;
+      }
+      if (assertion.relation === 'is_a') {
+        if (fromConcept === toConcept || !ontology.isA(fromConcept, toConcept)) {
+          issue(`${listName} edge '${fromConcept} is_a ${toConcept}' is not supported by CORE ancestry.`);
+        }
+        continue;
+      }
+      const signature = ontology.relationTypes?.[assertion.relation];
+      if (!signature || !ontology.isA(fromConcept, signature.subject) ||
+          !ontology.isA(toConcept, signature.object)) {
+        issue(`${listName} edge '${fromConcept} ${assertion.relation} ${toConcept}' violates a declared CORE relation type.`);
+      }
+    }
+  }
+  if (item.tier === 'required' && item.review?.status !== 'approved') {
+    issue('A required graph expectation needs an approved human review before it can enter the gate.');
+  }
+}
+
+function normalizeInput(text, language) {
+  return typeof text === 'string'
+    ? text.normalize('NFC').trim().replace(/\s+/gu, ' ').toLocaleLowerCase(language).normalize('NFC')
+    : '';
+}
+
+function checkDuplicateRequiredInputs(cases, issues) {
+  const seen = new Map();
+  for (const item of cases) {
+    if (item.tier !== 'required' || !item.input) continue;
+    const key = JSON.stringify([item.input.from, item.input.to,
+      normalizeInput(item.input.text, item.input.from)]);
+    const first = seen.get(key);
+    if (first) {
+      issues.push({kind: 'duplicate-input', file: item.file, id: item.id, severity: 'error',
+        message: `Required input duplicates ${first.id} after NFC, whitespace and case normalization.`});
+    } else {
+      seen.set(key, item);
+    }
+  }
+}
+
+function checkCaseRules(item, issues, ontology) {
   const id = item.id;
   const [source, target] = item.direction.split('-');
   const expectedPrefix = `A1-${source.toUpperCase()}-${target.toUpperCase()}-`;
@@ -91,6 +170,7 @@ function checkCaseRules(item, issues) {
       message: 'review.status=proposed is only allowed for tier=exploratory cases.'});
   }
   const expected = item.expected;
+  checkGraphExpected(item, issues, ontology);
   if (expected.status === 'ok') {
     if (expected.text === null || expected.meaning === null) {
       issues.push({kind: 'expected', file: item.file, id, severity: 'error',
@@ -304,7 +384,7 @@ function checkGaps(gaps, issues) {
  * required-ids, known gaps, and all cross-file rules. Returns the parsed matrix plus
  * human-readable issues ({kind,file,id,severity,message}); no engine execution here.
  */
-export async function loadMatrix({testsRoot = TESTS_ROOT} = {}) {
+export async function loadMatrix({testsRoot = TESTS_ROOT, ontology = null} = {}) {
   const issues = [];
   const discovery = await discoverCases({root: join(testsRoot, 'cases')});
   issues.push(...discovery.issues.map(message => ({...message, severity: 'error'})));
@@ -333,8 +413,9 @@ export async function loadMatrix({testsRoot = TESTS_ROOT} = {}) {
       summarizeAjvErrors(caseValidate, envelope.file, issues, 'schema');
     }
     for (const item of discovery.cases) {
-      checkCaseRules(item, issues);
+      checkCaseRules(item, issues, ontology);
     }
+    checkDuplicateRequiredInputs(discovery.cases, issues);
   }
 
   let catalog = null;

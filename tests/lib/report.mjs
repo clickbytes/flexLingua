@@ -47,7 +47,8 @@ function caseRecord({item, outcome, durationMs, document}) {
       meaning: document?.meaning ?? null,
       alternatives: document?.alternatives ?? [],
       informationLoss: document?.informationLoss ?? [],
-      diagnostics: document?.diagnostics ?? []
+      diagnostics: document?.diagnostics ?? [],
+      typedGraph: outcome?.observed?.typedGraph ?? null
     },
     durationMs,
     failures: outcome?.failures ?? []
@@ -119,6 +120,49 @@ function summaryMarkdown(report) {
     for (const warning of coverage.warnings) lines.push(`  - WARN ${safeMarkdown(warning)}`);
   } else {
     lines.push('- Coverage: NOT RUN');
+  }
+  const inventory = coverage?.inventory;
+  if (inventory) {
+    const target = inventory.intended;
+    const actual = inventory.actual;
+    lines.push('', '## Inventory (observed counts; not a matrix gate)', '');
+    lines.push(`- CORE concepts: ${actual.concepts.total}/${target.concepts}; ` +
+      `typed parent/definition edges ${actual.concepts.typedEdges}; ` +
+      `semantic effects ${actual.concepts.semanticEffects}; types ` +
+      `${safeMarkdown(JSON.stringify(actual.concepts.byType))}`);
+    lines.push(`- Approved required cases: ${actual.approvedRequiredCases.total}/${target.approvedRequiredCases}; ` +
+      `${actual.approvedRequiredCases.notRun} NOT RUN; successful translations ${actual.approvedRequiredCases.successfulTranslations}/` +
+      `${target.successfulTranslationsMinimum} minimum; distinct inputs ` +
+      `${actual.approvedRequiredCases.distinctInputs}; distinct semantic frames ` +
+      `${actual.approvedRequiredCases.distinctFrames}`);
+    for (const [direction, count] of Object.entries(actual.approvedRequiredCases.byDirection)) {
+      const directionTarget = target.byDirection[direction];
+      lines.push(`  - ${safeMarkdown(direction)}: ${count.total}/${directionTarget ?? 'no target'} cases; ` +
+        `${count.successfulTranslations} translations, ${count.refusals} refusals, ` +
+        `${count.ambiguities} ambiguities, ${count.failed} FAIL, ${count.infra} INFRA, ` +
+        `${count.notRun} NOT RUN; ${count.distinctInputs} distinct inputs, ` +
+        `${count.distinctFrames} semantic frames`);
+    }
+    if (actual.otherRequiredCases.total || actual.otherRequiredCases.notRun) {
+      lines.push(`- Other required directions (outside the 500 EN↔PL target): ` +
+        `${actual.otherRequiredCases.total} observed, ${actual.otherRequiredCases.notRun} NOT RUN`);
+      for (const [direction, count] of Object.entries(actual.otherRequiredCases.byDirection)) {
+        lines.push(`  - ${safeMarkdown(direction)}: ${count.total} cases; ` +
+          `${count.successfulTranslations} translations, ${count.refusals} refusals, ` +
+          `${count.ambiguities} ambiguities, ${count.failed} FAIL, ${count.infra} INFRA, ` +
+          `${count.notRun} NOT RUN; ${count.distinctInputs} distinct inputs, ` +
+          `${count.distinctFrames} semantic frames`);
+      }
+    }
+    for (const language of ['pl', 'en']) {
+      const counts = actual.lemmas[language];
+      lines.push(`- ${language.toUpperCase()} lemmas: ${counts.dataOnly}/${target.lemmas[language]} ` +
+        `data-only; ${counts.morphologyReady} morphology-ready; ${counts.sentenceLicensed} ` +
+        `sentence-licensed; ${counts.lexicalSenses} senses, ${counts.polysemousLemmas} ` +
+        `polysemous lemmas; ${counts.duplicateLemmaEntries} duplicate lemma entries; ` +
+        `${counts.excludedMissingLemma} entries excluded for missing lemma ` +
+        `(${counts.resolvedFromForms} resolved from forms)`);
+    }
   }
   if (cliSmoke?.length) {
     lines.push(`- CLI smoke: ${cliSmoke.filter(entry => entry.pass).length}/${cliSmoke.length} passed ` +

@@ -14,7 +14,7 @@ import {createTranslationService} from '../js/app/translation-service.js';
 import {runCliSmoke} from './lib/cli.mjs';
 import {compareCase} from './lib/assertions.mjs';
 import {ALLOWED_DIRECTIONS} from './lib/discover.mjs';
-import {buildCoverage} from './lib/coverage.mjs';
+import {buildCoverage, buildInventoryCoverage} from './lib/coverage.mjs';
 import {regenerateReports, writeReports} from './lib/report.mjs';
 import {loadMatrix} from './lib/validate.mjs';
 
@@ -121,7 +121,8 @@ async function main() {
   const sha = readSha();
   console.log(`translation-matrix at ${sha} (node ${process.version}, ${process.platform})`);
 
-  const matrix = await loadMatrix({testsRoot: RUNNER_DIR});
+  const runtime = await createAppRuntime();
+  const matrix = await loadMatrix({testsRoot: RUNNER_DIR, ontology: runtime.engine.ontology});
   printIssues(matrix.issues);
   const hasErrors = matrix.issues.some(issue => issue.severity === 'error');
 
@@ -157,7 +158,6 @@ async function main() {
     return;
   }
 
-  const runtime = await createAppRuntime();
   const service = createTranslationService(runtime);
   const outcomes = [];
   for (const item of matrix.cases) {
@@ -175,7 +175,7 @@ async function main() {
         [{path: 'exception', expected: 'a service document', actual: clip(threw?.message ?? String(threw))}],
         observed: {status: 'exception'}};
     } else {
-      outcome = compareCase(item, document);
+      outcome = compareCase(item, document, {engine: runtime.engine});
       if (document?.status === 'error') {
         outcome.kind = 'infra';
       }
@@ -225,7 +225,9 @@ async function main() {
   console.log(`Known gaps registered: ${gapCount} (reported separately, never counted as PASS)`);
 
   const notRunLabels = flags.cli ? [] : ['CLI smoke (run --cli or --all)'];
-  const coverageResult = printCoverage({runtime, matrix, outcomes, gapCount, notRunLabels});
+  const inventory = await buildInventoryCoverage({runtime, outcomes,
+    requiredCaseIds: matrix.requiredIds?.requiredCaseIds ?? [], cases: matrix.cases});
+  const coverageResult = printCoverage({runtime, matrix, outcomes, gapCount, notRunLabels, inventory});
   const coverageFailed = !coverageResult.gate.passed;
 
   let cliFailed = false;
@@ -241,7 +243,7 @@ async function main() {
     } else {
       console.log(`CLI SMOKE (${smokeCases.length} tagged cases): exit-code policy ` +
         '(ok→0; unsupported/invalid/ambiguous/resource_limit→2), single JSON document, no node:internal stacks');
-      cliResults = runCliSmoke({cases: smokeCases, service, repoRoot: REPO_ROOT});
+      cliResults = runCliSmoke({cases: smokeCases, service, engine: runtime.engine, repoRoot: REPO_ROOT});
       let smokePassed = 0;
       for (const result of cliResults) {
         if (result.pass) {
@@ -332,7 +334,7 @@ function extractDeclaredTuples(runtime) {
 }
 
 /** Print the coverage section; returns the full coverage object (gate included). */
-function printCoverage({runtime, matrix, outcomes, gapCount, notRunLabels = []}) {
+function printCoverage({runtime, matrix, outcomes, gapCount, notRunLabels = [], inventory = null}) {
   const coverage = buildCoverage({
     declaredTuples: extractDeclaredTuples(runtime),
     outcomes,
@@ -341,7 +343,8 @@ function printCoverage({runtime, matrix, outcomes, gapCount, notRunLabels = []})
     catalogTargetIds: (Array.isArray(matrix.catalog?.targets) ? matrix.catalog.targets : [])
       .map(target => target?.targetId).filter(id => typeof id === 'string'),
     catalogTargetCount: Array.isArray(matrix.catalog?.targets) ? matrix.catalog.targets.length : 0,
-    gapsCount: gapCount
+    gapsCount: gapCount,
+    inventory
   });
   console.log('');
   console.log('COVERAGE (A1 canonical subset; witnesses only from approved PASSING cases):');
@@ -367,6 +370,34 @@ function printCoverage({runtime, matrix, outcomes, gapCount, notRunLabels = []})
     console.log(`    ${target.missing.length ? 'FAIL' : 'ok  '} ${target.targetId} witnessed in ` +
       `${target.witnessed.join(', ') || 'no direction'}` +
       (target.missing.length ? ` — missing ${target.missing.join(', ')}` : ''));
+  }
+  if (coverage.inventory) {
+    const {intended, actual} = coverage.inventory;
+    console.log(`  inventory CORE ${actual.concepts.total}/${intended.concepts} distinct IDs; ` +
+      `typed edges ${actual.concepts.typedEdges}; semantic effects ${actual.concepts.semanticEffects}`);
+    for (const language of ['pl', 'en']) {
+      const count = actual.lemmas[language];
+      console.log(`  inventory ${language.toUpperCase()} ${count.dataOnly}/${intended.lemmas[language]} ` +
+        `data-only; morphology-ready ${count.morphologyReady}; ` +
+        `sentence-licensed ${count.sentenceLicensed}; senses ${count.lexicalSenses}; ` +
+        `polysemous lemmas ${count.polysemousLemmas}; excluded missing lemma ${count.excludedMissingLemma}`);
+    }
+    const pair = actual.approvedRequiredCases;
+    console.log(`  approved EN↔PL cases ${pair.total}/${intended.approvedRequiredCases}; ` +
+      `${pair.successfulTranslations}/${intended.successfulTranslationsMinimum} minimum successful translations; ` +
+      `NOT RUN ${pair.notRun}; distinct inputs ${pair.distinctInputs}; ` +
+      `semantic frames ${pair.distinctFrames}`);
+    for (const [direction, count] of Object.entries(pair.byDirection)) {
+      console.log(`    ${direction}: ${count.total}/${intended.byDirection[direction]} cases; ` +
+        `${count.successfulTranslations} translations, ${count.refusals} refusals, ` +
+        `${count.ambiguities} ambiguities, ${count.failed} FAIL, ${count.infra} INFRA, ` +
+        `${count.notRun} NOT RUN`);
+    }
+    for (const [direction, count] of Object.entries(actual.otherRequiredCases.byDirection)) {
+      console.log(`    ${direction} (outside EN↔PL target): ${count.total} required; ` +
+        `${count.successfulTranslations} translations, ${count.refusals} refusals, ` +
+        `${count.ambiguities} ambiguities, ${count.failed} FAIL, ${count.infra} INFRA`);
+    }
   }
   return coverage;
 }

@@ -101,7 +101,42 @@
         "meaning": { "oneOf": [ { "type": "null" }, { "$ref": "#/$defs/meaning" } ] },
         "diagnostics": { "$ref": "#/$defs/diagnosticPolicy" },
         "alternatives": { "$ref": "#/$defs/alternativesPolicy" },
-        "informationLoss": { "$ref": "#/$defs/informationLossPolicy" }
+        "informationLoss": { "$ref": "#/$defs/informationLossPolicy" },
+        "graph": { "$ref": "#/$defs/graphPolicy" }
+      }
+    },
+    "graphPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["requiredEdges", "forbiddenEdges", "allowUnexpected"],
+      "properties": {
+        "requiredEdges": {
+          "type": "array",
+          "maxItems": 12,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/graphEdgeAssertion" }
+        },
+        "forbiddenEdges": {
+          "type": "array",
+          "maxItems": 12,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/graphEdgeAssertion" }
+        },
+        "allowUnexpected": { "type": "boolean" }
+      },
+      "anyOf": [
+        { "properties": { "requiredEdges": { "type": "array", "minItems": 1 } } },
+        { "properties": { "forbiddenEdges": { "type": "array", "minItems": 1 } } }
+      ]
+    },
+    "graphEdgeAssertion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fromPath", "relation", "toConcept"],
+      "properties": {
+        "fromPath": { "$ref": "#/$defs/pointer" },
+        "relation": { "type": "string", "pattern": "^[a-z][a-z0-9_]{0,63}$" },
+        "toConcept": { "type": "string", "pattern": "^[a-z][a-z0-9_]*(?:\\.[a-z][a-z0-9_]*)*$", "maxLength": 120 }
       }
     },
     "diagnosticPolicy": {
