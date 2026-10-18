@@ -11614,6 +11614,1406 @@
           }
         }
       ]
+    },
+    {
+      "id": "pl.drukarka.1",
+      "lemma": "drukarka",
+      "senses": [
+        {
+          "id": "pl.drukarka.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "device.printer"
+          }
+        }
+      ],
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate"
+    },
+    {
+      "id": "pl.ekran.1",
+      "lemma": "ekran",
+      "senses": [
+        {
+          "id": "pl.ekran.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "device.screen"
+          }
+        }
+      ],
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate"
+    },
+    {
+      "id": "pl.klawiatura.1",
+      "lemma": "klawiatura",
+      "senses": [
+        {
+          "id": "pl.klawiatura.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "device.keyboard"
+          }
+        }
+      ],
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate"
+    },
+    {
+      "id": "pl.laptop.1",
+      "lemma": "laptop",
+      "senses": [
+        {
+          "id": "pl.laptop.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "device.laptop"
+          }
+        }
+      ],
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate"
+    },
+    {
+      "id": "pl.monitor.1",
+      "lemma": "monitor",
+      "senses": [
+        {
+          "id": "pl.monitor.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "device.monitor"
+          }
+        }
+      ],
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate"
+    },
+    {
+      "id": "pl.projektor.1",
+      "lemma": "projektor",
+      "senses": [
+        {
+          "id": "pl.projektor.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "device.projector"
+          }
+        }
+      ],
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate"
+    },
+    {
+      "id": "pl.zeszyt.1",
+      "lemma": "zeszyt",
+      "senses": [
+        {
+          "id": "pl.zeszyt.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.notebook"
+          }
+        }
+      ],
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate"
+    },
+    {
+      "id": "pl.olowek.1",
+      "lemma": "ołówek",
+      "senses": [
+        {
+          "id": "pl.olowek.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.pencil"
+          }
+        }
+      ],
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate"
+    },
+    {
+      "id": "pl.dlugopis.1",
+      "lemma": "długopis",
+      "senses": [
+        {
+          "id": "pl.dlugopis.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.pen"
+          }
+        }
+      ],
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate"
+    },
+    {
+      "id": "pl.kalkulator.1",
+      "lemma": "kalkulator",
+      "senses": [
+        {
+          "id": "pl.kalkulator.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.calculator"
+          }
+        }
+      ],
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate"
+    },
+    {
+      "id": "pl.gumka.1",
+      "lemma": "gumka",
+      "senses": [
+        {
+          "id": "pl.gumka.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.eraser"
+          }
+        }
+      ],
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate"
+    },
+    {
+      "id": "pl.flamaster.1",
+      "lemma": "flamaster",
+      "senses": [
+        {
+          "id": "pl.flamaster.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.marker"
+          }
+        }
+      ],
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate"
+    },
+    {
+      "id": "pl.dokument.1",
+      "lemma": "dokument",
+      "senses": [
+        {
+          "id": "pl.dokument.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "document.record"
+          }
+        }
+      ],
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate"
+    },
+    {
+      "id": "pl.formularz.1",
+      "lemma": "formularz",
+      "senses": [
+        {
+          "id": "pl.formularz.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "document.form"
+          }
+        }
+      ],
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate"
+    },
+    {
+      "id": "pl.certyfikat.1",
+      "lemma": "certyfikat",
+      "senses": [
+        {
+          "id": "pl.certyfikat.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "document.certificate"
+          }
+        }
+      ],
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate"
+    },
+    {
+      "id": "pl.dyplom.1",
+      "lemma": "dyplom",
+      "senses": [
+        {
+          "id": "pl.dyplom.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "document.diploma"
+          }
+        }
+      ],
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate"
+    },
+    {
+      "id": "pl.teczka.1",
+      "lemma": "teczka",
+      "senses": [
+        {
+          "id": "pl.teczka.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.folder"
+          }
+        }
+      ],
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate"
+    },
+    {
+      "id": "pl.haslo.1",
+      "lemma": "hasło",
+      "senses": [
+        {
+          "id": "pl.haslo.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "information.password"
+          }
+        }
+      ],
+      "forms": {},
+      "gender": "neuter",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate"
+    },
+    {
+      "id": "pl.tablet.1",
+      "lemma": "tablet",
+      "senses": [
+        {
+          "id": "pl.tablet.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "device.tablet"
+          }
+        }
+      ],
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate"
+    },
+    {
+      "id": "pl.kamera.1",
+      "lemma": "kamera",
+      "senses": [
+        {
+          "id": "pl.kamera.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "device.camera"
+          }
+        }
+      ],
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate"
+    },
+    {
+      "id": "pl.mikrofon.1",
+      "lemma": "mikrofon",
+      "senses": [
+        {
+          "id": "pl.mikrofon.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "device.microphone"
+          }
+        }
+      ],
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate"
+    },
+    {
+      "id": "pl.smartfon.1",
+      "lemma": "smartfon",
+      "senses": [
+        {
+          "id": "pl.smartfon.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "device.smartphone"
+          }
+        }
+      ],
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate"
+    },
+    {
+      "id": "pl.pendrive.1",
+      "lemma": "pendrive",
+      "senses": [
+        {
+          "id": "pl.pendrive.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "device.usb_flash_drive"
+          }
+        }
+      ],
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate"
+    },
+    {
+      "id": "pl.kabel.1",
+      "lemma": "kabel",
+      "senses": [
+        {
+          "id": "pl.kabel.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.cable"
+          }
+        }
+      ],
+      "forms": {},
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate"
+    },
+    {
+      "id": "pl.faktura.1",
+      "lemma": "faktura",
+      "senses": [
+        {
+          "id": "pl.faktura.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "finance.invoice"
+          }
+        }
+      ],
+      "forms": {},
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate"
+    },
+    {
+      "id": "pl.arkusz.1",
+      "lemma": "kartka papieru",
+      "senses": [
+        {
+          "id": "pl.arkusz.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "document.sheet"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.uczen.1",
+      "lemma": "uczeń",
+      "senses": [
+        {
+          "id": "pl.uczen.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.pupil"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.wspolpracownik.1",
+      "lemma": "współpracownik",
+      "senses": [
+        {
+          "id": "pl.wspolpracownik.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.colleague"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.pracownik.1",
+      "lemma": "pracownik",
+      "senses": [
+        {
+          "id": "pl.pracownik.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.employee"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.pracodawca.1",
+      "lemma": "pracodawca",
+      "senses": [
+        {
+          "id": "pl.pracodawca.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.employer"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.kierownik.1",
+      "lemma": "kierownik",
+      "senses": [
+        {
+          "id": "pl.kierownik.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.manager"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.dyrektor_szkoly.1",
+      "lemma": "dyrektor szkoły",
+      "senses": [
+        {
+          "id": "pl.dyrektor_szkoly.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.principal"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.sekretarka.1",
+      "lemma": "sekretarka",
+      "senses": [
+        {
+          "id": "pl.sekretarka.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.secretary"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.recepcjonista.1",
+      "lemma": "recepcjonista",
+      "senses": [
+        {
+          "id": "pl.recepcjonista.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.receptionist"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.ksiegowy.1",
+      "lemma": "księgowy",
+      "senses": [
+        {
+          "id": "pl.ksiegowy.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.accountant"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.inzynier.1",
+      "lemma": "inżynier",
+      "senses": [
+        {
+          "id": "pl.inzynier.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.engineer"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.programista.1",
+      "lemma": "programista",
+      "senses": [
+        {
+          "id": "pl.programista.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.programmer"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.technik.1",
+      "lemma": "technik",
+      "senses": [
+        {
+          "id": "pl.technik.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.technician"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.klient.1",
+      "lemma": "klient",
+      "senses": [
+        {
+          "id": "pl.klient.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.customer"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.zespol.1",
+      "lemma": "zespół",
+      "senses": [
+        {
+          "id": "pl.zespol.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "organization.team"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.dzial.1",
+      "lemma": "dział",
+      "senses": [
+        {
+          "id": "pl.dzial.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "organization.department"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.firma.1",
+      "lemma": "firma",
+      "senses": [
+        {
+          "id": "pl.firma.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "organization.company"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.fabryka.1",
+      "lemma": "fabryka",
+      "senses": [
+        {
+          "id": "pl.fabryka.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "structure.factory"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.uniwersytet.1",
+      "lemma": "uniwersytet",
+      "senses": [
+        {
+          "id": "pl.uniwersytet.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "institution.university"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.sala_lekcyjna.1",
+      "lemma": "sala lekcyjna",
+      "senses": [
+        {
+          "id": "pl.sala_lekcyjna.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.classroom"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.tornister.1",
+      "lemma": "tornister",
+      "senses": [
+        {
+          "id": "pl.tornister.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.schoolbag"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.karta_pracy.1",
+      "lemma": "karta pracy",
+      "senses": [
+        {
+          "id": "pl.karta_pracy.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "document.worksheet"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.zeszyt_cwiczen.1",
+      "lemma": "zeszyt ćwiczeń",
+      "senses": [
+        {
+          "id": "pl.zeszyt_cwiczen.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "document.exercise_book"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.podrecznik.1",
+      "lemma": "podręcznik",
+      "senses": [
+        {
+          "id": "pl.podrecznik.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "document.textbook"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.egzamin.1",
+      "lemma": "egzamin",
+      "senses": [
+        {
+          "id": "pl.egzamin.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "school.exam"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.praca_domowa.1",
+      "lemma": "praca domowa",
+      "senses": [
+        {
+          "id": "pl.praca_domowa.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "school.homework"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.ocena.1",
+      "lemma": "ocena",
+      "senses": [
+        {
+          "id": "pl.ocena.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "school.grade"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.harmonogram_lekcji.1",
+      "lemma": "plan lekcji",
+      "senses": [
+        {
+          "id": "pl.harmonogram_lekcji.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "school.schedule"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.rok_akademicki.1",
+      "lemma": "rok akademicki",
+      "senses": [
+        {
+          "id": "pl.rok_akademicki.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "school.academic_year"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.wyklad.1",
+      "lemma": "wykład",
+      "senses": [
+        {
+          "id": "pl.wyklad.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "school.lecture"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.stypendium.1",
+      "lemma": "stypendium",
+      "senses": [
+        {
+          "id": "pl.stypendium.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "school.scholarship"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.formularz_zgloszeniowy.1",
+      "lemma": "formularz zgłoszeniowy",
+      "senses": [
+        {
+          "id": "pl.formularz_zgloszeniowy.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "document.application"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.identyfikator.1",
+      "lemma": "identyfikator",
+      "senses": [
+        {
+          "id": "pl.identyfikator.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.badge"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.skaner.1",
+      "lemma": "skaner",
+      "senses": [
+        {
+          "id": "pl.skaner.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "device.scanner"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.kamera_internetowa.1",
+      "lemma": "kamera internetowa",
+      "senses": [
+        {
+          "id": "pl.kamera_internetowa.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "device.webcam"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.router.1",
+      "lemma": "router",
+      "senses": [
+        {
+          "id": "pl.router.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "device.router"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.modem.1",
+      "lemma": "modem",
+      "senses": [
+        {
+          "id": "pl.modem.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "device.modem"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.przegladarka.1",
+      "lemma": "przeglądarka",
+      "senses": [
+        {
+          "id": "pl.przegladarka.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "software.browser"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.baza_danych.1",
+      "lemma": "baza danych",
+      "senses": [
+        {
+          "id": "pl.baza_danych.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "software.database"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.system_operacyjny.1",
+      "lemma": "system operacyjny",
+      "senses": [
+        {
+          "id": "pl.system_operacyjny.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "software.operating_system"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.witryna.1",
+      "lemma": "strona internetowa",
+      "senses": [
+        {
+          "id": "pl.witryna.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "software.website"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.e_mail.1",
+      "lemma": "e-mail",
+      "senses": [
+        {
+          "id": "pl.e_mail.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "software.email_message"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.nazwa_uzytkownika.1",
+      "lemma": "nazwa użytkownika",
+      "senses": [
+        {
+          "id": "pl.nazwa_uzytkownika.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "software.username"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.konto.1",
+      "lemma": "konto",
+      "senses": [
+        {
+          "id": "pl.konto.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "software.account"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.ustawienie.1",
+      "lemma": "ustawienie",
+      "senses": [
+        {
+          "id": "pl.ustawienie.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "software.setting"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.aktualizacja.1",
+      "lemma": "aktualizacja",
+      "senses": [
+        {
+          "id": "pl.aktualizacja.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "software.update"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.odnosnik.1",
+      "lemma": "odnośnik",
+      "senses": [
+        {
+          "id": "pl.odnosnik.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "software.link"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.aplikacja.1",
+      "lemma": "aplikacja",
+      "senses": [
+        {
+          "id": "pl.aplikacja.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "software.app"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.program_antywirusowy.1",
+      "lemma": "program antywirusowy",
+      "senses": [
+        {
+          "id": "pl.program_antywirusowy.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "software.antivirus"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.oprogramowanie.1",
+      "lemma": "oprogramowanie",
+      "senses": [
+        {
+          "id": "pl.oprogramowanie.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "software.software"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.sprzet_komputerowy.1",
+      "lemma": "sprzęt komputerowy",
+      "senses": [
+        {
+          "id": "pl.sprzet_komputerowy.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "software.hardware"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.siec_komputerowa.1",
+      "lemma": "sieć komputerowa",
+      "senses": [
+        {
+          "id": "pl.siec_komputerowa.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "software.network"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.serwer.1",
+      "lemma": "serwer",
+      "senses": [
+        {
+          "id": "pl.serwer.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "software.server"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.usluga_internetowa.1",
+      "lemma": "usługa internetowa",
+      "senses": [
+        {
+          "id": "pl.usluga_internetowa.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "service.internet_service"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.zgloszenie_serwisowe.1",
+      "lemma": "zgłoszenie serwisowe",
+      "senses": [
+        {
+          "id": "pl.zgloszenie_serwisowe.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "service.support_ticket"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.platnosc.1",
+      "lemma": "płatność",
+      "senses": [
+        {
+          "id": "pl.platnosc.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "finance.payment"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.transakcja.1",
+      "lemma": "transakcja",
+      "senses": [
+        {
+          "id": "pl.transakcja.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "finance.transaction"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.przelew_bankowy.1",
+      "lemma": "przelew bankowy",
+      "senses": [
+        {
+          "id": "pl.przelew_bankowy.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "finance.transfer"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.pozyczka.1",
+      "lemma": "pożyczka",
+      "senses": [
+        {
+          "id": "pl.pozyczka.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "finance.loan"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.oplata.1",
+      "lemma": "opłata",
+      "senses": [
+        {
+          "id": "pl.oplata.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "finance.fee"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.budzet.1",
+      "lemma": "budżet",
+      "senses": [
+        {
+          "id": "pl.budzet.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "finance.budget"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.lokata.1",
+      "lemma": "lokata",
+      "senses": [
+        {
+          "id": "pl.lokata.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "finance.term_deposit"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.bankomat.1",
+      "lemma": "bankomat",
+      "senses": [
+        {
+          "id": "pl.bankomat.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "device.atm"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.saldo.1",
+      "lemma": "saldo",
+      "senses": [
+        {
+          "id": "pl.saldo.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "finance.balance"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.wynagrodzenie.1",
+      "lemma": "wynagrodzenie",
+      "senses": [
+        {
+          "id": "pl.wynagrodzenie.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "finance.salary"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.podatek.1",
+      "lemma": "podatek",
+      "senses": [
+        {
+          "id": "pl.podatek.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "finance.tax"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.instruktor.1",
+      "lemma": "instruktor",
+      "senses": [
+        {
+          "id": "pl.instruktor.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.instructor"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.kolega_z_klasy.1",
+      "lemma": "kolega z klasy",
+      "senses": [
+        {
+          "id": "pl.kolega_z_klasy.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.classmate"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.kolega_z_pracy.1",
+      "lemma": "kolega z pracy",
+      "senses": [
+        {
+          "id": "pl.kolega_z_pracy.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.coworker"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.kampus.1",
+      "lemma": "kampus",
+      "senses": [
+        {
+          "id": "pl.kampus.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.campus"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.kreda.1",
+      "lemma": "kreda",
+      "senses": [
+        {
+          "id": "pl.kreda.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "school.chalk"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.menedzer_hasel.1",
+      "lemma": "menedżer haseł",
+      "senses": [
+        {
+          "id": "pl.menedzer_hasel.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "software.password_manager"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.centrum_danych.1",
+      "lemma": "centrum danych",
+      "senses": [
+        {
+          "id": "pl.centrum_danych.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "software.data_center"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.samorzad_uczniowski.1",
+      "lemma": "samorząd uczniowski",
+      "senses": [
+        {
+          "id": "pl.samorzad_uczniowski.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "organization.student_council"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.wicedyrektor.1",
+      "lemma": "wicedyrektor",
+      "senses": [
+        {
+          "id": "pl.wicedyrektor.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.vice_principal"
+          }
+        }
+      ]
     }
   ],
   "verbs": [

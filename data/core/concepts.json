@@ -4310,6 +4310,1299 @@
       "type": "entity",
       "parent": "temporal_reference",
       "label": "school year"
+    },
+    "device.printer": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "printer",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "material.paper",
+            "constraint": "typical",
+            "weight": 0.9
+          }
+        ]
+      }
+    },
+    "device.screen": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "screen",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "device.laptop",
+            "constraint": "typical",
+            "weight": 0.8
+          }
+        ]
+      }
+    },
+    "device.keyboard": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "keyboard",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "device.laptop",
+            "constraint": "typical",
+            "weight": 0.8
+          }
+        ]
+      }
+    },
+    "device.laptop": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "laptop"
+    },
+    "device.monitor": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "computer monitor",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "device.laptop",
+            "constraint": "typical",
+            "weight": 0.8
+          }
+        ]
+      }
+    },
+    "device.projector": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "projector",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "device.laptop",
+            "constraint": "typical",
+            "weight": 0.8
+          }
+        ]
+      }
+    },
+    "object.notebook": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "paper notebook",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "institution.school",
+            "constraint": "typical",
+            "weight": 0.8
+          }
+        ]
+      }
+    },
+    "object.pencil": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "pencil",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "object.notebook",
+            "constraint": "typical",
+            "weight": 0.8
+          }
+        ]
+      }
+    },
+    "object.pen": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "pen",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "object.notebook",
+            "constraint": "typical",
+            "weight": 0.8
+          }
+        ]
+      }
+    },
+    "object.calculator": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "calculator",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "person.student",
+            "constraint": "typical",
+            "weight": 0.8
+          }
+        ]
+      }
+    },
+    "object.eraser": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "eraser",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "object.pencil",
+            "constraint": "typical",
+            "weight": 0.8
+          }
+        ]
+      }
+    },
+    "object.marker": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "marker pen",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "object.notebook",
+            "constraint": "typical",
+            "weight": 0.8
+          }
+        ]
+      }
+    },
+    "document.record": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "document",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "institution.school",
+            "constraint": "typical",
+            "weight": 0.7
+          }
+        ]
+      }
+    },
+    "document.form": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "form",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "institution.school",
+            "constraint": "typical",
+            "weight": 0.7
+          }
+        ]
+      }
+    },
+    "document.certificate": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "certificate",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "institution.school",
+            "constraint": "typical",
+            "weight": 0.7
+          }
+        ]
+      }
+    },
+    "document.diploma": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "diploma",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "institution.school",
+            "constraint": "typical",
+            "weight": 0.7
+          }
+        ]
+      }
+    },
+    "object.folder": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "file folder",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "contains",
+            "target": "document.record",
+            "constraint": "typical",
+            "weight": 0.8
+          }
+        ]
+      }
+    },
+    "information.password": {
+      "type": "entity",
+      "parent": "knowledge_content",
+      "label": "password",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "software.account",
+            "constraint": "typical",
+            "weight": 0.8
+          }
+        ]
+      }
+    },
+    "device.tablet": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "tablet computer"
+    },
+    "device.camera": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "camera",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "device.smartphone",
+            "constraint": "typical",
+            "weight": 0.7
+          }
+        ]
+      }
+    },
+    "device.microphone": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "microphone",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "device.smartphone",
+            "constraint": "typical",
+            "weight": 0.7
+          }
+        ]
+      }
+    },
+    "device.smartphone": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "smartphone",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "device.camera",
+            "constraint": "typical",
+            "weight": 0.7
+          }
+        ]
+      }
+    },
+    "device.usb_flash_drive": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "flash drive"
+    },
+    "object.cable": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "cable",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "device.laptop",
+            "constraint": "typical",
+            "weight": 0.7
+          }
+        ]
+      }
+    },
+    "finance.invoice": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "invoice",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "domain",
+            "target": "domain.finance",
+            "constraint": "required"
+          }
+        ]
+      }
+    },
+    "document.sheet": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "sheet of paper",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "institution.school",
+            "constraint": "typical",
+            "weight": 0.7
+          }
+        ]
+      }
+    },
+    "person.pupil": {
+      "type": "entity",
+      "parent": "person",
+      "label": "school pupil",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "institution.school",
+            "constraint": "typical",
+            "weight": 0.8
+          }
+        ]
+      }
+    },
+    "person.colleague": {
+      "type": "entity",
+      "parent": "person",
+      "label": "colleague"
+    },
+    "person.employee": {
+      "type": "entity",
+      "parent": "person",
+      "label": "employee"
+    },
+    "person.employer": {
+      "type": "entity",
+      "parent": "person",
+      "label": "employer"
+    },
+    "person.manager": {
+      "type": "entity",
+      "parent": "person",
+      "label": "manager"
+    },
+    "person.principal": {
+      "type": "entity",
+      "parent": "person",
+      "label": "headteacher",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "institution.school",
+            "constraint": "typical",
+            "weight": 0.8
+          }
+        ]
+      }
+    },
+    "person.secretary": {
+      "type": "entity",
+      "parent": "person",
+      "label": "secretary"
+    },
+    "person.receptionist": {
+      "type": "entity",
+      "parent": "person",
+      "label": "receptionist"
+    },
+    "person.accountant": {
+      "type": "entity",
+      "parent": "person",
+      "label": "accountant",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "domain",
+            "target": "domain.finance",
+            "constraint": "typical",
+            "weight": 0.8
+          }
+        ]
+      }
+    },
+    "person.engineer": {
+      "type": "entity",
+      "parent": "person",
+      "label": "engineer",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "device.laptop",
+            "constraint": "typical",
+            "weight": 0.6
+          }
+        ]
+      }
+    },
+    "person.programmer": {
+      "type": "entity",
+      "parent": "person",
+      "label": "programmer",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "software.app",
+            "constraint": "typical",
+            "weight": 0.8
+          }
+        ]
+      }
+    },
+    "person.technician": {
+      "type": "entity",
+      "parent": "person",
+      "label": "technician",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "software.server",
+            "constraint": "typical",
+            "weight": 0.6
+          }
+        ]
+      }
+    },
+    "person.customer": {
+      "type": "entity",
+      "parent": "person",
+      "label": "customer"
+    },
+    "organization.team": {
+      "type": "entity",
+      "parent": "organization",
+      "label": "team"
+    },
+    "organization.department": {
+      "type": "entity",
+      "parent": "organization",
+      "label": "department"
+    },
+    "organization.company": {
+      "type": "entity",
+      "parent": "organization",
+      "label": "company"
+    },
+    "structure.factory": {
+      "type": "entity",
+      "parent": "structure",
+      "label": "factory"
+    },
+    "institution.university": {
+      "type": "entity",
+      "parent": "institution",
+      "label": "university",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "institution.school",
+            "constraint": "typical",
+            "weight": 0.9
+          }
+        ]
+      }
+    },
+    "place.classroom": {
+      "type": "entity",
+      "parent": "structure",
+      "label": "classroom",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "institution.school",
+            "constraint": "typical",
+            "weight": 0.9
+          }
+        ]
+      }
+    },
+    "object.schoolbag": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "schoolbag",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "institution.school",
+            "constraint": "typical",
+            "weight": 0.8
+          }
+        ]
+      }
+    },
+    "document.worksheet": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "worksheet",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "institution.school",
+            "constraint": "typical",
+            "weight": 0.9
+          }
+        ]
+      }
+    },
+    "document.exercise_book": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "exercise book",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "institution.school",
+            "constraint": "typical",
+            "weight": 0.9
+          }
+        ]
+      }
+    },
+    "document.textbook": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "textbook",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "institution.school",
+            "constraint": "typical",
+            "weight": 0.9
+          }
+        ]
+      }
+    },
+    "school.exam": {
+      "type": "entity",
+      "parent": "abstract_process",
+      "label": "exam",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "institution.school",
+            "constraint": "typical",
+            "weight": 0.9
+          }
+        ]
+      }
+    },
+    "school.homework": {
+      "type": "entity",
+      "parent": "abstract_process",
+      "label": "homework",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "institution.school",
+            "constraint": "typical",
+            "weight": 0.9
+          }
+        ]
+      }
+    },
+    "school.grade": {
+      "type": "entity",
+      "parent": "knowledge_content",
+      "label": "grade",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "institution.school",
+            "constraint": "typical",
+            "weight": 0.9
+          }
+        ]
+      }
+    },
+    "school.schedule": {
+      "type": "entity",
+      "parent": "knowledge_content",
+      "label": "school schedule",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "institution.school",
+            "constraint": "typical",
+            "weight": 0.9
+          }
+        ]
+      }
+    },
+    "school.academic_year": {
+      "type": "entity",
+      "parent": "temporal_reference",
+      "label": "academic year",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "institution.school",
+            "constraint": "typical",
+            "weight": 0.9
+          }
+        ]
+      }
+    },
+    "school.lecture": {
+      "type": "entity",
+      "parent": "abstract_process",
+      "label": "lecture",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "institution.school",
+            "constraint": "typical",
+            "weight": 0.8
+          }
+        ]
+      }
+    },
+    "school.scholarship": {
+      "type": "entity",
+      "parent": "abstract_process",
+      "label": "scholarship",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "institution.school",
+            "constraint": "typical",
+            "weight": 0.8
+          }
+        ]
+      }
+    },
+    "document.application": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "application form",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "institution.school",
+            "constraint": "typical",
+            "weight": 0.8
+          }
+        ]
+      }
+    },
+    "object.badge": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "badge",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "institution.school",
+            "constraint": "typical",
+            "weight": 0.6
+          }
+        ]
+      }
+    },
+    "device.scanner": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "scanner",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "document.record",
+            "constraint": "typical",
+            "weight": 0.9
+          }
+        ]
+      }
+    },
+    "device.webcam": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "webcam"
+    },
+    "device.router": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "router"
+    },
+    "device.modem": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "modem"
+    },
+    "software.browser": {
+      "type": "entity",
+      "parent": "knowledge_content",
+      "label": "browser",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "software.website",
+            "constraint": "typical",
+            "weight": 0.8
+          }
+        ]
+      }
+    },
+    "software.database": {
+      "type": "entity",
+      "parent": "knowledge_content",
+      "label": "database",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "software.server",
+            "constraint": "typical",
+            "weight": 0.8
+          }
+        ]
+      }
+    },
+    "software.operating_system": {
+      "type": "entity",
+      "parent": "knowledge_content",
+      "label": "operating system",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "software.app",
+            "constraint": "typical",
+            "weight": 0.8
+          }
+        ]
+      }
+    },
+    "software.website": {
+      "type": "entity",
+      "parent": "knowledge_content",
+      "label": "website"
+    },
+    "software.email_message": {
+      "type": "entity",
+      "parent": "knowledge_content",
+      "label": "email",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "software.account",
+            "constraint": "typical",
+            "weight": 0.8
+          }
+        ]
+      }
+    },
+    "software.username": {
+      "type": "entity",
+      "parent": "knowledge_content",
+      "label": "username",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "software.account",
+            "constraint": "typical",
+            "weight": 0.9
+          }
+        ]
+      }
+    },
+    "software.account": {
+      "type": "entity",
+      "parent": "knowledge_content",
+      "label": "account"
+    },
+    "software.setting": {
+      "type": "entity",
+      "parent": "knowledge_content",
+      "label": "setting",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "software.operating_system",
+            "constraint": "typical",
+            "weight": 0.8
+          }
+        ]
+      }
+    },
+    "software.update": {
+      "type": "entity",
+      "parent": "abstract_process",
+      "label": "update",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "software.operating_system",
+            "constraint": "typical",
+            "weight": 0.8
+          }
+        ]
+      }
+    },
+    "software.link": {
+      "type": "entity",
+      "parent": "knowledge_content",
+      "label": "link",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "software.website",
+            "constraint": "typical",
+            "weight": 0.9
+          }
+        ]
+      }
+    },
+    "software.app": {
+      "type": "entity",
+      "parent": "knowledge_content",
+      "label": "app",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "software.operating_system",
+            "constraint": "typical",
+            "weight": 0.8
+          }
+        ]
+      }
+    },
+    "software.antivirus": {
+      "type": "entity",
+      "parent": "knowledge_content",
+      "label": "antivirus",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "software.operating_system",
+            "constraint": "typical",
+            "weight": 0.9
+          }
+        ]
+      }
+    },
+    "software.software": {
+      "type": "entity",
+      "parent": "knowledge_content",
+      "label": "software",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "software.hardware",
+            "constraint": "typical",
+            "weight": 0.6
+          }
+        ]
+      }
+    },
+    "software.hardware": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "hardware"
+    },
+    "software.network": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "computer network",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "software.server",
+            "constraint": "typical",
+            "weight": 0.8
+          }
+        ]
+      }
+    },
+    "software.server": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "server",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "software.network",
+            "constraint": "typical",
+            "weight": 0.8
+          }
+        ]
+      }
+    },
+    "service.internet_service": {
+      "type": "entity",
+      "parent": "abstract_process",
+      "label": "internet service",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "software.network",
+            "constraint": "typical",
+            "weight": 0.8
+          }
+        ]
+      }
+    },
+    "service.support_ticket": {
+      "type": "entity",
+      "parent": "knowledge_content",
+      "label": "support ticket",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "service.internet_service",
+            "constraint": "typical",
+            "weight": 0.7
+          }
+        ]
+      }
+    },
+    "finance.payment": {
+      "type": "entity",
+      "parent": "abstract_process",
+      "label": "payment",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "domain",
+            "target": "domain.finance",
+            "constraint": "required"
+          }
+        ]
+      }
+    },
+    "finance.transaction": {
+      "type": "entity",
+      "parent": "abstract_process",
+      "label": "transaction",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "domain",
+            "target": "domain.finance",
+            "constraint": "required"
+          }
+        ]
+      }
+    },
+    "finance.transfer": {
+      "type": "entity",
+      "parent": "abstract_process",
+      "label": "bank transfer",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "domain",
+            "target": "domain.finance",
+            "constraint": "required"
+          }
+        ]
+      }
+    },
+    "finance.loan": {
+      "type": "entity",
+      "parent": "abstract_process",
+      "label": "loan",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "domain",
+            "target": "domain.finance",
+            "constraint": "required"
+          }
+        ]
+      }
+    },
+    "finance.fee": {
+      "type": "entity",
+      "parent": "abstract_process",
+      "label": "fee",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "domain",
+            "target": "domain.finance",
+            "constraint": "typical",
+            "weight": 0.8
+          }
+        ]
+      }
+    },
+    "finance.budget": {
+      "type": "entity",
+      "parent": "knowledge_content",
+      "label": "budget",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "domain",
+            "target": "domain.finance",
+            "constraint": "typical",
+            "weight": 0.8
+          }
+        ]
+      }
+    },
+    "finance.term_deposit": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "term deposit",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "domain",
+            "target": "domain.finance",
+            "constraint": "required"
+          }
+        ]
+      }
+    },
+    "device.atm": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "ATM",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "domain",
+            "target": "domain.finance",
+            "constraint": "typical",
+            "weight": 0.9
+          }
+        ]
+      }
+    },
+    "finance.balance": {
+      "type": "entity",
+      "parent": "knowledge_content",
+      "label": "account balance",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "domain",
+            "target": "domain.finance",
+            "constraint": "typical",
+            "weight": 0.9
+          }
+        ]
+      }
+    },
+    "finance.salary": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "salary",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "domain",
+            "target": "domain.finance",
+            "constraint": "typical",
+            "weight": 0.9
+          }
+        ]
+      }
+    },
+    "finance.tax": {
+      "type": "entity",
+      "parent": "abstract_process",
+      "label": "tax",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "domain",
+            "target": "domain.finance",
+            "constraint": "required"
+          }
+        ]
+      }
+    },
+    "person.instructor": {
+      "type": "entity",
+      "parent": "person",
+      "label": "instructor",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "institution.school",
+            "constraint": "typical",
+            "weight": 0.8
+          }
+        ]
+      }
+    },
+    "person.classmate": {
+      "type": "entity",
+      "parent": "person",
+      "label": "classmate",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "person.student",
+            "constraint": "typical",
+            "weight": 0.8
+          }
+        ]
+      }
+    },
+    "person.coworker": {
+      "type": "entity",
+      "parent": "person",
+      "label": "coworker",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "organization.company",
+            "constraint": "typical",
+            "weight": 0.8
+          }
+        ]
+      }
+    },
+    "place.campus": {
+      "type": "entity",
+      "parent": "place",
+      "label": "campus",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "institution.university",
+            "constraint": "typical",
+            "weight": 0.9
+          }
+        ]
+      }
+    },
+    "school.chalk": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "chalk",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "institution.school",
+            "constraint": "typical",
+            "weight": 0.7
+          }
+        ]
+      }
+    },
+    "software.password_manager": {
+      "type": "entity",
+      "parent": "knowledge_content",
+      "label": "password manager",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "software.account",
+            "constraint": "typical",
+            "weight": 0.8
+          }
+        ]
+      }
+    },
+    "software.data_center": {
+      "type": "entity",
+      "parent": "structure",
+      "label": "data center",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "software.server",
+            "constraint": "typical",
+            "weight": 0.9
+          }
+        ]
+      }
+    },
+    "organization.student_council": {
+      "type": "entity",
+      "parent": "organization",
+      "label": "student council",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "institution.school",
+            "constraint": "typical",
+            "weight": 0.9
+          }
+        ]
+      }
+    },
+    "person.vice_principal": {
+      "type": "entity",
+      "parent": "person",
+      "label": "vice principal",
+      "definitionGraph": {
+        "edges": [
+          {
+            "relation": "associated_with",
+            "target": "institution.school",
+            "constraint": "typical",
+            "weight": 0.8
+          }
+        ]
+      }
     }
   },
   "relationTypes": {

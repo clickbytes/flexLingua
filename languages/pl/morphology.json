@@ -16387,6 +16387,206 @@
           ]
         }
       ]
+    },
+    {
+      "lexemeId": "pl.drukarka.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "drukark"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.ekran.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "ekran"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.klawiatura.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "klawiatur"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.laptop.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "laptop"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.monitor.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "monitor"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.projektor.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "projektor"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.zeszyt.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "zeszyt"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.olowek.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "ołówek"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.dlugopis.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "długopis"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.kalkulator.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "kalkulator"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.gumka.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "gumk"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.flamaster.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "flamaster"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.dokument.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "dokument"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.formularz.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "formularz"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.certyfikat.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "certyfikat"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.dyplom.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "dyplom"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.teczka.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "teczk"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.haslo.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "hasło"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.tablet.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "tablet"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.kamera.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "kamer"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.mikrofon.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "mikrofon"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.smartfon.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "smartfon"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.pendrive.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "pendrive"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.kabel.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "kabel"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.faktura.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "faktur"
+      },
+      "overrides": []
     }
   ]
 }

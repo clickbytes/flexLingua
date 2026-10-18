@@ -114,6 +114,13 @@
           "source": "Project-authored candidates and independent expected review recorded in the TG-W5 issue before implementation; no external corpus or dictionary data copied.",
           "license": "Project-authored; this repository declares no separate SPDX data license.",
           "scope": "100 project-authored W5 verb and temporal-reference lemmas mapped to the approved CORE candidate batch."
+        },
+        {
+          "issue": "#409",
+          "author": "Codex (linguistic curation and expected review delegated by project owner)",
+          "source": "Project-authored W6 school, work, technology, institution, service and finance concepts/lemmas; no external corpus or dictionary data copied.",
+          "license": "Project-authored; this repository declares no separate SPDX data license.",
+          "scope": "100 project-authored English lemmas; 25 licensed singular/plural forms in the bounded visual-perception frame and 75 data-only senses."
         }
       ],
       "migratedFrom": "data/en.json"
@@ -334,6 +341,13 @@
           "source": "Project-authored candidates and independent expected review recorded in the TG-W5 issue before implementation; no external corpus or dictionary data copied.",
           "license": "Project-authored; this repository declares no separate SPDX data license.",
           "scope": "One explicit present-third-singular cell for each of 25 W5 sentence-licensed verbs; no other tense, person, number, or aspect cells are added."
+        },
+        {
+          "issue": "#409",
+          "author": "Codex (linguistic curation and expected review delegated by project owner)",
+          "source": "Project-authored W6 school, work, technology, institution, service and finance concepts/lemmas; no external corpus or dictionary data copied.",
+          "license": "Project-authored; this repository declares no separate SPDX data license.",
+          "scope": "25 regular noun bindings; each provides singular/plural forms from the existing en.noun.regular paradigm."
         }
       ],
       "migratedFrom": "data/morphology/en.json"

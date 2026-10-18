@@ -4408,6 +4408,206 @@
           ]
         }
       ]
+    },
+    {
+      "lexemeId": "en.printer.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "printer"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.screen.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "screen"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.keyboard.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "keyboard"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.laptop.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "laptop"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.monitor.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "computer monitor"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.projector.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "projector"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.notebook.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "paper notebook"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.pencil.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "pencil"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.pen.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "pen"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.calculator.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "calculator"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.eraser.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "eraser"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.marker_pen.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "marker pen"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.document.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "document"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.form.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "form"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.certificate.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "certificate"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.diploma.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "diploma"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.folder.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "file folder"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.password.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "password"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tablet.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "tablet computer"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.camera.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "camera"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.microphone.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "microphone"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.smartphone.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "smartphone"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.flash_drive.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "flash drive"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.cable.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "cable"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.invoice.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "invoice"
+      },
+      "overrides": []
     }
   ]
 }
