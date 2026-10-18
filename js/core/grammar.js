@@ -77,6 +77,14 @@ function isAnaphoricReferent(ref) {
   return isDeicticReferent(ref) && ref.referent?.kind === 'anaphoric';
 }
 
+function implicitEventSubject(rule) {
+  const person=rule?.when?.['subject.person'];
+  const number=rule?.when?.['subject.number'];
+  if(!['first','second'].includes(person) || !['singular','plural'].includes(number))return null;
+  return {referent:{kind:'deictic',anchor:person==='first'?'speaker':'addressee'},
+    agreement:{person,number}};
+}
+
 function own(obj, key) {
   return hasOwn(obj, key) ? obj[key] : undefined;
 }
@@ -612,6 +620,7 @@ function validateGrammar(dictionary, grammar, featureProfile) {
     }
   }
   for (const [concept, frame] of Object.entries(grammar.frames)) {
+    const implicitSubject=frame?.implicitSubject;
     if (typeof concept !== 'string' || !record(frame) ||
         (frame.whTheme !== undefined && typeof frame.whTheme !== 'boolean' &&
           (!record(frame.whTheme) ||
@@ -620,6 +629,11 @@ function validateGrammar(dictionary, grammar, featureProfile) {
             !/^[\p{L}]+$/u.test(frame.whTheme.frontPreposition) ||
             grammar.questions?.yesNo?.mode !== 'prefix')) ||
         (frame.caseAlternations !== undefined && typeof frame.caseAlternations !== 'boolean') ||
+        (implicitSubject!==undefined && (!record(implicitSubject) ||
+          Object.keys(implicitSubject).sort().join(',')!=='analysis,realization' ||
+          typeof implicitSubject.analysis!=='boolean' ||
+          typeof implicitSubject.realization!=='boolean' ||
+          (!implicitSubject.analysis&&!implicitSubject.realization))) ||
         (frame.bareRoles !== undefined && (!Array.isArray(frame.bareRoles) ||
           !frame.bareRoles.every(safeName) || new Set(frame.bareRoles).size !== frame.bareRoles.length)) ||
         (frame.bareRoleConcepts !== undefined && (!record(frame.bareRoleConcepts) ||
@@ -1588,7 +1602,8 @@ function createGrammarInterpreter(sourceDictionary, rules,
     const comparisonReadings=parseComparisonCandidates(tokens,budget);
     const stateReadings = [...parseStateCandidates(tokens,budget),
       ...analyzeNegativeStateStatement(tokens,budget)];
-    const results = [...comparisonReadings,...stateReadings,...parseClause(tokens, null, null, 0, budget)];
+    const results = [...comparisonReadings,...stateReadings,...parseClause(tokens, null, null, 0, budget,
+      {allowImplicitSubject:true})];
     if (results.length) return results.slice(0, MAX_ANALYSES);
     if (budget.agreementFailed) unsupported(grammar.messages?.agreement ||
       'Verb form does not agree with subject.');
@@ -1596,9 +1611,11 @@ function createGrammarInterpreter(sourceDictionary, rules,
   }
 
   function parseClause(tokens, gap, antecedent, depth, budget, options = {}) {
-    const {verbEntries=verbForms,linearizations=null,omitGap=false,skipPreposition=null} = options;
+    const {verbEntries=verbForms,linearizations=null,omitGap=false,skipPreposition=null,
+      allowImplicitSubject=false} = options;
     const memoKey = JSON.stringify([tokens,gap,antecedent?.noun?.id,
-      antecedent?.value,depth,omitGap,linearizations?'question':'declarative',skipPreposition]);
+      antecedent?.value,depth,omitGap,linearizations?'question':'declarative',skipPreposition,
+      allowImplicitSubject]);
     if (budget.memo.has(memoKey)) return budget.memo.get(memoKey);
     const readings = new Map();
     const matchedVerbEntries = new Map();
@@ -1624,86 +1641,95 @@ function createGrammarInterpreter(sourceDictionary, rules,
           const features = { tense: entry.rule.tense, polarity: entry.rule.polarity,
             aspect: entry.rule.aspect!==undefined ? entry.rule.aspect :
               (verbGrammar.aspectSource === 'lexeme' ? entry.lexeme.aspect || 'unknown' : 'unknown') };
-          const initialRoles = gap ? { [gap]: antecedent } : {};
-          function search(position, index, parsedRoles) {
-            if (++budget.counter.visited > MAX_SEARCH_NODES) {
-              throw new EngineError('GRAMMAR_SEARCH_LIMIT',
-                'Sentence analysis exceeded the bounded search limit.');
-            }
-            if (position === sequence.length) {
-              if (index !== tokens.length) return;
-              const context = contextFor(parsedRoles, features,subjectRole,
-                {formalSubject:sequence.includes('@expletive')?frame.formalSubject:null});
-              if (!matchesConditions(context, entry.rule.when || {}) ||
-                  !matchesAgreement(entry.bindings, agreementForFrame(frame), context) ||
-                  !matchesMorphologyFeatures(entry,context,features,agreementForFrame(frame))) {
-                budget.agreementFailed = true;
-                return;
+          const implicit=allowImplicitSubject&&frame.implicitSubject?.analysis
+            ?implicitEventSubject(entry.rule):null;
+          const variants=[{sequence,implicitSubject:null},
+            ...(implicit&&sequence.includes(subjectRole)
+              ?[{sequence:sequence.filter(step=>step!==subjectRole),implicitSubject:implicit}]:[])];
+          for(const variant of variants) {
+            const parseSequence=variant.sequence;
+            const initialRoles=gap?{[gap]:antecedent}:variant.implicitSubject
+              ?{[subjectRole]:{value:variant.implicitSubject,noun:null,senseId:null,priority:0}}:{};
+            function search(position, index, parsedRoles) {
+              if (++budget.counter.visited > MAX_SEARCH_NODES) {
+                throw new EngineError('GRAMMAR_SEARCH_LIMIT',
+                  'Sentence analysis exceeded the bounded search limit.');
               }
-              const meaning = createEvent(concept, Object.fromEntries(Object.entries(parsedRoles)
-                .filter(([role]) => !omitGap || role !== gap)
-                .map(([role, parsed]) => [role, parsed.value])), features);
-              const senses = Object.fromEntries(Object.entries(parsedRoles)
-                .filter(([role]) => role !== gap)
-                .map(([role, parsed]) => [role, parsed.senseId]));
-              for (const [role, parsed] of Object.entries(parsedRoles)) {
-                if (role === gap) continue;
-                if (parsed.modifierSenses?.length) senses[`${role}.modifiers`] = parsed.modifierSenses;
-                if (parsed.quantifierSense) senses[`${role}.quantifier`] = parsed.quantifierSense;
-              }
-              senses.verb = entry.lexeme.senseId;
-              const candidate = { interlingua: meaning, lexicalSenses: senses,
-                score: (entry.lexeme.priority || 0) + Object.entries(parsedRoles)
-                  .filter(([role]) => role !== gap)
-                  .reduce((score, [, parsed]) => score + (parsed.noun?.priority || parsed.priority || 0), 0) };
-              const key = JSON.stringify(meaning);
-              const former = readings.get(key);
-              if (!former || candidate.score > former.score) readings.set(key, candidate);
-              return;
-            }
-            const step = sequence[position];
-            if (step === gap) { search(position + 1, index, parsedRoles); return; }
-            if (step === '@verb') {
-              const next = matchVerb(tokens, index, entry);
-              if (next !== null) search(position + 1, next, parsedRoles);
-              return;
-            }
-            if (step.startsWith('@')) {
-              const literal=step==='@expletive'?frame.formalSubject.surface:step.slice(1);
-              if(literal===skipPreposition) {
-                search(position+1,index,parsedRoles);
-                return;
-              }
-              const count = matchesTokens(tokens, index, literal);
-              if (count) search(position + 1, index + count, parsedRoles);
-              return;
-            }
-            const caseRule = compiledCases.get(frame)?.has(step)?null:frame.cases?.[step];
-            const cases = record(caseRule) ? [...new Set(Object.values(caseRule))] :
-              [roleCase(frame, step, features)];
-            for (const grammaticalCase of cases) {
-              const phrases=[...readNounPhrases(tokens,index,grammaticalCase,depth,budget,
-                {allowBare:frame.bareRoles?.includes(step) === true}),
-                ...readDeicticNounPhrases(tokens,index,deicticCase(grammaticalCase,step)),
-                ...(step===subjectRole && grammaticalCase===nounPhrase.subjectCase
-                  ?readStateSubjectPronouns(tokens,index):[])];
-              for (const parsed of phrases) {
-                if (parsed.bare && frame.bareRoleConcepts?.[step] &&
-                    !bareRoleAllows(frame,step,parsed.noun.concept)) continue;
-                if (record(caseRule)) {
-                  const implied = Object.keys(caseRule).find(key => key !== 'unknown' &&
-                    caseRule[key] === grammaticalCase);
-                  if (!implied) continue;
-                  if (parsed.value.features.definiteness !== 'unknown' &&
-                      parsed.value.features.definiteness !== implied) continue;
-                  parsed.value = { ...parsed.value,
-                    features: { ...parsed.value.features, definiteness: implied } };
+              if (position === parseSequence.length) {
+                if (index !== tokens.length) return;
+                const context = contextFor(parsedRoles, features,subjectRole,
+                  {formalSubject:parseSequence.includes('@expletive')?frame.formalSubject:null});
+                if (!matchesConditions(context, entry.rule.when || {}) ||
+                    !matchesAgreement(entry.bindings, agreementForFrame(frame), context) ||
+                    !matchesMorphologyFeatures(entry,context,features,agreementForFrame(frame))) {
+                  budget.agreementFailed = true;
+                  return;
                 }
-                search(position + 1, parsed.next, { ...parsedRoles, [step]: parsed });
+                const meaning = createEvent(concept, Object.fromEntries(Object.entries(parsedRoles)
+                  .filter(([role]) => !omitGap || role !== gap)
+                  .map(([role, parsed]) => [role, parsed.value])), features);
+                const senses = Object.fromEntries(Object.entries(parsedRoles)
+                  .filter(([role]) => role !== gap)
+                  .map(([role, parsed]) => [role, parsed.senseId]));
+                for (const [role, parsed] of Object.entries(parsedRoles)) {
+                  if (role === gap) continue;
+                  if (parsed.modifierSenses?.length) senses[`${role}.modifiers`] = parsed.modifierSenses;
+                  if (parsed.quantifierSense) senses[`${role}.quantifier`] = parsed.quantifierSense;
+                }
+                senses.verb = entry.lexeme.senseId;
+                const candidate = { interlingua: meaning, lexicalSenses: senses,
+                  score: (entry.lexeme.priority || 0) + Object.entries(parsedRoles)
+                    .filter(([role]) => role !== gap)
+                    .reduce((score, [, parsed]) => score + (parsed.noun?.priority || parsed.priority || 0), 0) };
+                const key = JSON.stringify(meaning);
+                const former = readings.get(key);
+                if (!former || candidate.score > former.score) readings.set(key, candidate);
+                return;
+              }
+              const step = parseSequence[position];
+              if (step === gap) { search(position + 1, index, parsedRoles); return; }
+              if (step === '@verb') {
+                const next = matchVerb(tokens, index, entry);
+                if (next !== null) search(position + 1, next, parsedRoles);
+                return;
+              }
+              if (step.startsWith('@')) {
+                const literal=step==='@expletive'?frame.formalSubject.surface:step.slice(1);
+                if(literal===skipPreposition) {
+                  search(position+1,index,parsedRoles);
+                  return;
+                }
+                const count = matchesTokens(tokens, index, literal);
+                if (count) search(position + 1, index + count, parsedRoles);
+                return;
+              }
+              const caseRule = compiledCases.get(frame)?.has(step)?null:frame.cases?.[step];
+              const cases = record(caseRule) ? [...new Set(Object.values(caseRule))] :
+                [roleCase(frame, step, features)];
+              for (const grammaticalCase of cases) {
+                const phrases=[...readNounPhrases(tokens,index,grammaticalCase,depth,budget,
+                  {allowBare:frame.bareRoles?.includes(step) === true}),
+                  ...readDeicticNounPhrases(tokens,index,deicticCase(grammaticalCase,step)),
+                  ...(step===subjectRole && grammaticalCase===nounPhrase.subjectCase
+                    ?readStateSubjectPronouns(tokens,index):[])];
+                for (const parsed of phrases) {
+                  if (parsed.bare && frame.bareRoleConcepts?.[step] &&
+                      !bareRoleAllows(frame,step,parsed.noun.concept)) continue;
+                  if (record(caseRule)) {
+                    const implied = Object.keys(caseRule).find(key => key !== 'unknown' &&
+                      caseRule[key] === grammaticalCase);
+                    if (!implied) continue;
+                    if (parsed.value.features.definiteness !== 'unknown' &&
+                        parsed.value.features.definiteness !== implied) continue;
+                    parsed.value = { ...parsed.value,
+                      features: { ...parsed.value.features, definiteness: implied } };
+                  }
+                  search(position + 1, parsed.next, { ...parsedRoles, [step]: parsed });
+                }
               }
             }
+            search(0, 0, initialRoles);
           }
-          search(0, 0, initialRoles);
         }
       }
     }
@@ -2344,6 +2370,10 @@ function createGrammarInterpreter(sourceDictionary, rules,
         if (step === '@verb') return [...entry.rule.prefix, entry.text];
         if (step === '@expletive') return [frame.formalSubject.surface];
         if (step.startsWith('@')) return [step.slice(1)];
+        if (step === subjectRole && frame.implicitSubject?.realization &&
+            isDeicticReferent(meaning.roles[step]) && !isAnaphoricReferent(meaning.roles[step]) &&
+            ['first','second'].includes(meaning.roles[step].agreement?.person) &&
+            ['singular','plural'].includes(meaning.roles[step].agreement?.number)) return [];
         if (step === subjectRole && options.subjectPronoun)
           return [options.subjectPronoun];
         return [nounSurface(step, meaning, frame, def, depth,options.lexicalRegister)];
@@ -3050,6 +3080,9 @@ function createGrammarInterpreter(sourceDictionary, rules,
       if (!frame) throw new Error(`Missing grammatical frame for ${verb.concept}`);
       if (!semanticFrame.roles.includes(subjectRole)) {
         throw new Error('Subject semantic role missing from frame.');
+      }
+      if(frame.implicitSubject && frame.linearizations.some(sequence=>!sequence.includes(subjectRole))) {
+        throw new Error(`Implicit subject policy requires an explicit subject slot in every ${verb.concept} linearization.`);
       }
       for(const [binding,source] of Object.entries(frame.agreement||{})){
         const [root,name]=featureSource(source,featureProfile,[...semanticFrame.roles,'object','possessor']);
