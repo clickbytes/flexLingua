@@ -1,0 +1,387 @@
+{
+  "schemaVersion": "1.0",
+  "cases": [
+    {
+      "id": "A1-EN-PL-TGW-0025",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "definite",
+        "quantity": "none"
+      },
+      "purpose": "W1 positive bilingual witness; expected typed graph preserves event.visual_perception, person agent and physical_object theme ancestry.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "The electrician sees the fence."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "Elektryk widzi płot."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.electrician",
+              "features": {
+                "number": "singular",
+                "definiteness": "definite"
+              }
+            },
+            "theme": {
+              "concept": "object.fence",
+              "features": {
+                "number": "singular",
+                "definiteness": "definite"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "unknown"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "unknown"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "unavoidable"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "physical_object"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; user delegated W1 linguistic curation/review (2026-10-18). #404 comments: ledger #6251479477; selection #6251620163; ambiguity #6251611122; category/synonym #6251677629; graph/refusals #6251693085; definiteness #6251702354. Codex reviewed senses, forms, roles, graphs and information loss; no claim of per-ID manual user review.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#404"
+      },
+      "requirements": {
+        "coverageTargetId": "concept.object.fence",
+        "capability": "en.analyze(event.visual_perception) -> pl.realize"
+      }
+    },
+    {
+      "id": "A1-EN-PL-TGW-0027",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "notation_boundary",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 4,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "definite",
+        "quantity": "none"
+      },
+      "purpose": "Controlled refusal: doubled comma is outside accepted source notation; return SOURCE_CHARACTER_UNSUPPORTED before meaning analysis.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "The guest sees,, the pillow."
+      },
+      "expected": {
+        "status": "unsupported",
+        "text": null,
+        "meaning": null,
+        "diagnostics": {
+          "required": [
+            {
+              "code": "SOURCE_CHARACTER_UNSUPPORTED"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; user delegated W1 linguistic curation/review (2026-10-18). #404 comments: ledger #6251479477; selection #6251620163; ambiguity #6251611122; category/synonym #6251677629; graph/refusals #6251693085; definiteness #6251702354. Codex reviewed senses, forms, roles, graphs and information loss; no claim of per-ID manual user review.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#404"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "en.analyze malformed punctuation refusal"
+      }
+    },
+    {
+      "id": "A1-EN-PL-TGW-0028",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "anaphora_boundary",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 4,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "pronoun-deictic",
+        "quantity": "none"
+      },
+      "purpose": "Controlled refusal: bare third-person pronouns lack a discourse antecedent; do not invent agent or theme referents.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "He sees her."
+      },
+      "expected": {
+        "status": "unsupported",
+        "text": null,
+        "meaning": null,
+        "diagnostics": {
+          "required": [
+            {
+              "code": "LANGUAGE_CONSTRUCTION_UNSUPPORTED"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; user delegated W1 linguistic curation/review (2026-10-18). #404 comments: ledger #6251479477; selection #6251620163; ambiguity #6251611122; category/synonym #6251677629; graph/refusals #6251693085; definiteness #6251702354. Codex reviewed senses, forms, roles, graphs and information loss; no claim of per-ID manual user review.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#404"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "en.analyze unresolved pronoun refusal"
+      }
+    },
+    {
+      "id": "A1-EN-PL-TGW-0026",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "lexical_ambiguity",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 4,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "indefinite",
+        "quantity": "none"
+      },
+      "purpose": "Bank has two typed CORE senses and neither relation context resolves the visual-perception theme; preserve both readings.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "The guest sees a bank."
+      },
+      "expected": {
+        "status": "ambiguous",
+        "text": null,
+        "meaning": null,
+        "diagnostics": {
+          "required": [
+            {
+              "code": "AMBIGUOUS_MEANING"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            {
+              "meaning": {
+                "type": "event",
+                "concept": "event.visual_perception",
+                "roleSet": [
+                  "agent",
+                  "theme"
+                ],
+                "roles": {
+                  "agent": {
+                    "concept": "person.guest",
+                    "features": {
+                      "number": "singular",
+                      "definiteness": "definite"
+                    }
+                  },
+                  "theme": {
+                    "concept": "place.financial_institution",
+                    "features": {
+                      "number": "singular",
+                      "definiteness": "indefinite"
+                    }
+                  }
+                },
+                "features": {
+                  "tense": "present",
+                  "polarity": "positive",
+                  "aspect": "unknown"
+                },
+                "assert": {}
+              }
+            },
+            {
+              "meaning": {
+                "type": "event",
+                "concept": "event.visual_perception",
+                "roleSet": [
+                  "agent",
+                  "theme"
+                ],
+                "roles": {
+                  "agent": {
+                    "concept": "person.guest",
+                    "features": {
+                      "number": "singular",
+                      "definiteness": "definite"
+                    }
+                  },
+                  "theme": {
+                    "concept": "place.riverbank",
+                    "features": {
+                      "number": "singular",
+                      "definiteness": "indefinite"
+                    }
+                  }
+                },
+                "features": {
+                  "tense": "present",
+                  "polarity": "positive",
+                  "aspect": "unknown"
+                },
+                "assert": {}
+              }
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; user delegated W1 linguistic curation/review (2026-10-18). #404 comments: ledger #6251479477; selection #6251620163; ambiguity #6251611122; category/synonym #6251677629; graph/refusals #6251693085; definiteness #6251702354. Codex reviewed senses, forms, roles, graphs and information loss; no claim of per-ID manual user review.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#404"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "en.analyze lexical ambiguity bank; do not rank senses into one meaning"
+      }
+    }
+  ]
+}

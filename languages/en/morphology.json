@@ -2404,6 +2404,806 @@
         "base": "institution"
       },
       "overrides": []
+    },
+    {
+      "lexemeId": "en.guest.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "guest"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.host.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "host"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.roommate.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "roommate"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.partner.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "partner"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.widow.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "widow"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.widower.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "widower"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.stepmother.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "stepmother"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.stepfather.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "stepfather"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.stepson.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "stepson"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.stepdaughter.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "stepdaughter"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.grandson.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "grandson"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.granddaughter.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "granddaughter"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.orphan.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "orphan"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.baby.1",
+      "paradigmId": "en.noun.consonant_y",
+      "stems": {
+        "base": "baby"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.toddler.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "toddler"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.teenager.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "teenager"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.resident.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "resident"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.owner.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "owner"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.caretaker.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "caretaker"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.cleaner.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "cleaner"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.doorman.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "doorman"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.plumber.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "plumber"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.electrician.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "electrician"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.carpenter.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "carpenter"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.gardener.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "gardener"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.cook.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "cook"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.baker.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "baker"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tailor.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "tailor"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.seamstress.1",
+      "paradigmId": "en.noun.sibilant",
+      "stems": {
+        "base": "seamstress"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.nurse.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "nurse"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.lawyer.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "lawyer"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.actor.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "actor"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.musician.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "musician"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.singer.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "singer"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.writer.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "writer"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.photographer.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "photographer"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.farmer.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "farmer"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.mechanic.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "mechanic"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.cashier.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "cashier"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.courier.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "courier"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.firefighter.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "firefighter"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.soldier.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "soldier"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.priest.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "priest"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.volunteer.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "volunteer"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.husband.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "husband"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.parent.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "parent"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.heir.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "heir"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.nanny.1",
+      "paradigmId": "en.noun.consonant_y",
+      "stems": {
+        "base": "nanny"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.pillow.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "pillow"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.duvet.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "duvet"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.drawer.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "drawer"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.blanket.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "blanket"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.pillowcase.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "pillowcase"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.mattress.1",
+      "paradigmId": "en.noun.sibilant",
+      "stems": {
+        "base": "mattress"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.wardrobe.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "wardrobe"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.shelf.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "shelf"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.sofa.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "sofa"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.armchair.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "armchair"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.desk.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "desk"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.lamp.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "lamp"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.mirror.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "mirror"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.curtain.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "curtain"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.rug.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "rug"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.doormat.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "doormat"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.doorknob.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "doorknob"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.hinge.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "hinge"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.latch.1",
+      "paradigmId": "en.noun.sibilant",
+      "stems": {
+        "base": "latch"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.doorbell.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "doorbell"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.socket.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "socket"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.bulb.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "bulb"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.ceiling.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "ceiling"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.gate.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "gate"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.fence.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "fence"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.chimney.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "chimney"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.fireplace.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "fireplace"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.radiator.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "radiator"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.fan.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "fan"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.clock.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "clock"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.vacuum.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "vacuum"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.broom.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "broom"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.mop.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "mop"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.bucket.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "bucket"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.sponge.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "sponge"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.brush.1",
+      "paradigmId": "en.noun.sibilant",
+      "stems": {
+        "base": "brush"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.towel.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "towel"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.comb.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "comb"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.toothbrush.1",
+      "paradigmId": "en.noun.sibilant",
+      "stems": {
+        "base": "toothbrush"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.shower.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "shower"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.bathtub.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "bathtub"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.sink.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "sink"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tap.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "tap"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.toilet.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "toilet"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.washer.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "washer"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.dryer.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "dryer"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.fridge.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "fridge"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.freezer.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "freezer"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tenant.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "tenant"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.visitor.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "visitor"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.cabinet.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "cabinet"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.couch.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "couch"
+      },
+      "overrides": []
     }
   ]
 }

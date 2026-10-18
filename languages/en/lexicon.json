@@ -2603,6 +2603,1506 @@
           }
         }
       ]
+    },
+    {
+      "id": "en.guest.1",
+      "lemma": "guest",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.guest.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.guest"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.host.1",
+      "lemma": "host",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.host.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.host"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.roommate.1",
+      "lemma": "roommate",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.roommate.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.roommate"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.partner.1",
+      "lemma": "partner",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.partner.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.partner"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.widow.1",
+      "lemma": "widow",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.widow.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.widow"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.widower.1",
+      "lemma": "widower",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.widower.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.widower"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.stepmother.1",
+      "lemma": "stepmother",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.stepmother.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.stepmother"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.stepfather.1",
+      "lemma": "stepfather",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.stepfather.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.stepfather"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.stepson.1",
+      "lemma": "stepson",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.stepson.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.stepson"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.stepdaughter.1",
+      "lemma": "stepdaughter",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.stepdaughter.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.stepdaughter"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.grandson.1",
+      "lemma": "grandson",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.grandson.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.grandson"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.granddaughter.1",
+      "lemma": "granddaughter",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.granddaughter.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.granddaughter"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.orphan.1",
+      "lemma": "orphan",
+      "forms": {},
+      "indefiniteArticle": "an",
+      "senses": [
+        {
+          "id": "en.orphan.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.orphan"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.baby.1",
+      "lemma": "baby",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.baby.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.baby"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.toddler.1",
+      "lemma": "toddler",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.toddler.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.toddler"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.teenager.1",
+      "lemma": "teenager",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.teenager.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.teenager"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.resident.1",
+      "lemma": "resident",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.resident.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.resident"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.owner.1",
+      "lemma": "owner",
+      "forms": {},
+      "indefiniteArticle": "an",
+      "senses": [
+        {
+          "id": "en.owner.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.owner"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.caretaker.1",
+      "lemma": "caretaker",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.caretaker.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.caretaker"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.cleaner.1",
+      "lemma": "cleaner",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.cleaner.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.cleaner"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.doorman.1",
+      "lemma": "doorman",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.doorman.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.doorman"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.plumber.1",
+      "lemma": "plumber",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.plumber.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.plumber"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.electrician.1",
+      "lemma": "electrician",
+      "forms": {},
+      "indefiniteArticle": "an",
+      "senses": [
+        {
+          "id": "en.electrician.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.electrician"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.carpenter.1",
+      "lemma": "carpenter",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.carpenter.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.carpenter"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.gardener.1",
+      "lemma": "gardener",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.gardener.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.gardener"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.cook.1",
+      "lemma": "cook",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.cook.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.cook"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.baker.1",
+      "lemma": "baker",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.baker.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.baker"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.tailor.1",
+      "lemma": "tailor",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tailor.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.tailor"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.seamstress.1",
+      "lemma": "seamstress",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.seamstress.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.seamstress"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.nurse.1",
+      "lemma": "nurse",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.nurse.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.nurse"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.lawyer.1",
+      "lemma": "lawyer",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.lawyer.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.lawyer"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.actor.1",
+      "lemma": "actor",
+      "forms": {},
+      "indefiniteArticle": "an",
+      "senses": [
+        {
+          "id": "en.actor.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.actor"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.musician.1",
+      "lemma": "musician",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.musician.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.musician"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.singer.1",
+      "lemma": "singer",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.singer.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.singer"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.writer.1",
+      "lemma": "writer",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.writer.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.writer"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.photographer.1",
+      "lemma": "photographer",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.photographer.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.photographer"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.farmer.1",
+      "lemma": "farmer",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.farmer.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.farmer"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.mechanic.1",
+      "lemma": "mechanic",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.mechanic.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.mechanic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.cashier.1",
+      "lemma": "cashier",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.cashier.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.cashier"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.courier.1",
+      "lemma": "courier",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.courier.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.courier"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.firefighter.1",
+      "lemma": "firefighter",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.firefighter.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.firefighter"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.soldier.1",
+      "lemma": "soldier",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.soldier.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.soldier"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.priest.1",
+      "lemma": "priest",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.priest.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.priest"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.volunteer.1",
+      "lemma": "volunteer",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.volunteer.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.volunteer"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.husband.1",
+      "lemma": "husband",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.husband.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.husband"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.parent.1",
+      "lemma": "parent",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.parent.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.parent"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.heir.1",
+      "lemma": "heir",
+      "forms": {},
+      "indefiniteArticle": "an",
+      "senses": [
+        {
+          "id": "en.heir.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.heir"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.nanny.1",
+      "lemma": "nanny",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.nanny.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.nanny"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.pillow.1",
+      "lemma": "pillow",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.pillow.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.pillow"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.duvet.1",
+      "lemma": "duvet",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.duvet.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.duvet"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.drawer.1",
+      "lemma": "drawer",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.drawer.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.drawer"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.blanket.1",
+      "lemma": "blanket",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.blanket.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.blanket"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.pillowcase.1",
+      "lemma": "pillowcase",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.pillowcase.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.pillowcase"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.mattress.1",
+      "lemma": "mattress",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.mattress.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.mattress"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.wardrobe.1",
+      "lemma": "wardrobe",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.wardrobe.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.wardrobe"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.shelf.1",
+      "lemma": "shelf",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.shelf.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.shelf"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.sofa.1",
+      "lemma": "sofa",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.sofa.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.sofa"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.armchair.1",
+      "lemma": "armchair",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.armchair.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.armchair"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.desk.1",
+      "lemma": "desk",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.desk.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.desk"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.lamp.1",
+      "lemma": "lamp",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.lamp.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.lamp"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.mirror.1",
+      "lemma": "mirror",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.mirror.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.mirror"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.curtain.1",
+      "lemma": "curtain",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.curtain.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.curtain"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.rug.1",
+      "lemma": "rug",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.rug.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.rug"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.doormat.1",
+      "lemma": "doormat",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.doormat.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.doormat"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.doorknob.1",
+      "lemma": "doorknob",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.doorknob.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.doorknob"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.hinge.1",
+      "lemma": "hinge",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.hinge.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.hinge"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.latch.1",
+      "lemma": "latch",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.latch.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.latch"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.doorbell.1",
+      "lemma": "doorbell",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.doorbell.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.doorbell"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.socket.1",
+      "lemma": "socket",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.socket.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.socket"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.bulb.1",
+      "lemma": "bulb",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.bulb.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.bulb"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.ceiling.1",
+      "lemma": "ceiling",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.ceiling.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.ceiling"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.gate.1",
+      "lemma": "gate",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.gate.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.gate"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.fence.1",
+      "lemma": "fence",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.fence.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.fence"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.chimney.1",
+      "lemma": "chimney",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.chimney.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.chimney"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.fireplace.1",
+      "lemma": "fireplace",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.fireplace.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.fireplace"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.radiator.1",
+      "lemma": "radiator",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.radiator.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.radiator"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.fan.1",
+      "lemma": "fan",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.fan.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.fan"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.clock.1",
+      "lemma": "clock",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.clock.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.clock"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.vacuum.1",
+      "lemma": "vacuum",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.vacuum.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.vacuum_cleaner"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.broom.1",
+      "lemma": "broom",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.broom.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.broom"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.mop.1",
+      "lemma": "mop",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.mop.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.mop"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.bucket.1",
+      "lemma": "bucket",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.bucket.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.bucket"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.sponge.1",
+      "lemma": "sponge",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.sponge.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.sponge"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.brush.1",
+      "lemma": "brush",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.brush.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.brush"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.towel.1",
+      "lemma": "towel",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.towel.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.towel"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.comb.1",
+      "lemma": "comb",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.comb.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.comb"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.toothbrush.1",
+      "lemma": "toothbrush",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.toothbrush.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.toothbrush"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.shower.1",
+      "lemma": "shower",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.shower.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.shower"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.bathtub.1",
+      "lemma": "bathtub",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.bathtub.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.bathtub"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.sink.1",
+      "lemma": "sink",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.sink.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.sink"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.tap.1",
+      "lemma": "tap",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tap.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.tap"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.toilet.1",
+      "lemma": "toilet",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.toilet.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.toilet"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.washer.1",
+      "lemma": "washer",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.washer.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.washing_machine"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.dryer.1",
+      "lemma": "dryer",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.dryer.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.clothes_dryer"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.fridge.1",
+      "lemma": "fridge",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.fridge.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.fridge"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.freezer.1",
+      "lemma": "freezer",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.freezer.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.freezer"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.tenant.1",
+      "lemma": "tenant",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.tenant.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.tenant"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.visitor.1",
+      "lemma": "visitor",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.visitor.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.visitor"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.cabinet.1",
+      "lemma": "cabinet",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.cabinet.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.cabinet"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.couch.1",
+      "lemma": "couch",
+      "forms": {},
+      "indefiniteArticle": "a",
+      "senses": [
+        {
+          "id": "en.couch.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.sofa"
+          }
+        }
+      ]
     }
   ],
   "verbs": [

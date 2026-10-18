@@ -3002,6 +3002,59 @@
           ]
         }
       ]
+    },
+    "pl.noun.w1_singular_nominative": {
+      "pos": "NOUN",
+      "slots": [
+        {
+          "features": {
+            "number": "singular",
+            "case": "nom"
+          },
+          "steps": [],
+          "path": [
+            "singular",
+            "nom"
+          ]
+        }
+      ]
+    },
+    "pl.noun.w1_singular_acc_feminine_a": {
+      "pos": "NOUN",
+      "slots": [
+        {
+          "features": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "steps": [
+            {
+              "op": "append",
+              "value": "ę"
+            }
+          ],
+          "path": [
+            "singular",
+            "acc"
+          ]
+        }
+      ]
+    },
+    "pl.noun.w1_singular_acc_inanimate": {
+      "pos": "NOUN",
+      "slots": [
+        {
+          "features": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "steps": [],
+          "path": [
+            "singular",
+            "acc"
+          ]
+        }
+      ]
     }
   },
   "bindings": [
@@ -4837,7 +4890,9 @@
           },
           "mode": "replace",
           "forms": [
-            {"text": "był"}
+            {
+              "text": "był"
+            }
           ]
         },
         {
@@ -4849,7 +4904,9 @@
           },
           "mode": "replace",
           "forms": [
-            {"text": "była"}
+            {
+              "text": "była"
+            }
           ]
         },
         {
@@ -4861,7 +4918,9 @@
           },
           "mode": "replace",
           "forms": [
-            {"text": "było"}
+            {
+              "text": "było"
+            }
           ]
         },
         {
@@ -4873,7 +4932,9 @@
           },
           "mode": "replace",
           "forms": [
-            {"text": "byli"}
+            {
+              "text": "byli"
+            }
           ]
         },
         {
@@ -4885,7 +4946,9 @@
           },
           "mode": "replace",
           "forms": [
-            {"text": "były"}
+            {
+              "text": "były"
+            }
           ]
         }
       ]
@@ -14268,6 +14331,806 @@
       "stems": {
         "base": "instytucj",
         "lemma": "instytucja"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.gosc.1",
+      "paradigmId": "pl.noun.w1_singular_nominative",
+      "stems": {
+        "base": "gość"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.gospodarz.1",
+      "paradigmId": "pl.noun.w1_singular_nominative",
+      "stems": {
+        "base": "gospodarz"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.wspollokator.1",
+      "paradigmId": "pl.noun.w1_singular_nominative",
+      "stems": {
+        "base": "współlokator"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.partner.1",
+      "paradigmId": "pl.noun.w1_singular_nominative",
+      "stems": {
+        "base": "partner"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.wdowa.1",
+      "paradigmId": "pl.noun.w1_singular_nominative",
+      "stems": {
+        "base": "wdowa"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.wdowiec.1",
+      "paradigmId": "pl.noun.w1_singular_nominative",
+      "stems": {
+        "base": "wdowiec"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.macocha.1",
+      "paradigmId": "pl.noun.w1_singular_nominative",
+      "stems": {
+        "base": "macocha"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.ojczym.1",
+      "paradigmId": "pl.noun.w1_singular_nominative",
+      "stems": {
+        "base": "ojczym"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.pasierb.1",
+      "paradigmId": "pl.noun.w1_singular_nominative",
+      "stems": {
+        "base": "pasierb"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.pasierbica.1",
+      "paradigmId": "pl.noun.w1_singular_nominative",
+      "stems": {
+        "base": "pasierbica"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.wnuk.1",
+      "paradigmId": "pl.noun.w1_singular_nominative",
+      "stems": {
+        "base": "wnuk"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.wnuczka.1",
+      "paradigmId": "pl.noun.w1_singular_nominative",
+      "stems": {
+        "base": "wnuczka"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.sierota.1",
+      "paradigmId": "pl.noun.w1_singular_nominative",
+      "stems": {
+        "base": "sierota"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.niemowle.1",
+      "paradigmId": "pl.noun.w1_singular_nominative",
+      "stems": {
+        "base": "niemowlę"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.maluch.1",
+      "paradigmId": "pl.noun.w1_singular_nominative",
+      "stems": {
+        "base": "maluch"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.nastolatek.1",
+      "paradigmId": "pl.noun.w1_singular_nominative",
+      "stems": {
+        "base": "nastolatek"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.mieszkaniec.1",
+      "paradigmId": "pl.noun.w1_singular_nominative",
+      "stems": {
+        "base": "mieszkaniec"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.wlasciciel.1",
+      "paradigmId": "pl.noun.w1_singular_nominative",
+      "stems": {
+        "base": "właściciel"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.opiekun.1",
+      "paradigmId": "pl.noun.w1_singular_nominative",
+      "stems": {
+        "base": "opiekun"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.sprzatacz.1",
+      "paradigmId": "pl.noun.w1_singular_nominative",
+      "stems": {
+        "base": "sprzątacz"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.portier.1",
+      "paradigmId": "pl.noun.w1_singular_nominative",
+      "stems": {
+        "base": "portier"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.hydraulik.1",
+      "paradigmId": "pl.noun.w1_singular_nominative",
+      "stems": {
+        "base": "hydraulik"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.elektryk.1",
+      "paradigmId": "pl.noun.w1_singular_nominative",
+      "stems": {
+        "base": "elektryk"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.stolarz.1",
+      "paradigmId": "pl.noun.w1_singular_nominative",
+      "stems": {
+        "base": "stolarz"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.ogrodnik.1",
+      "paradigmId": "pl.noun.w1_singular_nominative",
+      "stems": {
+        "base": "ogrodnik"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.kucharz.1",
+      "paradigmId": "pl.noun.w1_singular_nominative",
+      "stems": {
+        "base": "kucharz"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.piekarz.1",
+      "paradigmId": "pl.noun.w1_singular_nominative",
+      "stems": {
+        "base": "piekarz"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.krawiec.1",
+      "paradigmId": "pl.noun.w1_singular_nominative",
+      "stems": {
+        "base": "krawiec"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.krawcowa.1",
+      "paradigmId": "pl.noun.w1_singular_nominative",
+      "stems": {
+        "base": "krawcowa"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.pielegniarka.1",
+      "paradigmId": "pl.noun.w1_singular_nominative",
+      "stems": {
+        "base": "pielęgniarka"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.prawnik.1",
+      "paradigmId": "pl.noun.w1_singular_nominative",
+      "stems": {
+        "base": "prawnik"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.aktor.1",
+      "paradigmId": "pl.noun.w1_singular_nominative",
+      "stems": {
+        "base": "aktor"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.muzyk.1",
+      "paradigmId": "pl.noun.w1_singular_nominative",
+      "stems": {
+        "base": "muzyk"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.piosenkarz.1",
+      "paradigmId": "pl.noun.w1_singular_nominative",
+      "stems": {
+        "base": "piosenkarz"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.pisarz.1",
+      "paradigmId": "pl.noun.w1_singular_nominative",
+      "stems": {
+        "base": "pisarz"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.fotograf.1",
+      "paradigmId": "pl.noun.w1_singular_nominative",
+      "stems": {
+        "base": "fotograf"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.rolnik.1",
+      "paradigmId": "pl.noun.w1_singular_nominative",
+      "stems": {
+        "base": "rolnik"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.mechanik.1",
+      "paradigmId": "pl.noun.w1_singular_nominative",
+      "stems": {
+        "base": "mechanik"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.kasjer.1",
+      "paradigmId": "pl.noun.w1_singular_nominative",
+      "stems": {
+        "base": "kasjer"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.kurier.1",
+      "paradigmId": "pl.noun.w1_singular_nominative",
+      "stems": {
+        "base": "kurier"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.strazak.1",
+      "paradigmId": "pl.noun.w1_singular_nominative",
+      "stems": {
+        "base": "strażak"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.zolnierz.1",
+      "paradigmId": "pl.noun.w1_singular_nominative",
+      "stems": {
+        "base": "żołnierz"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.ksiadz.1",
+      "paradigmId": "pl.noun.w1_singular_nominative",
+      "stems": {
+        "base": "ksiądz"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.wolontariusz.1",
+      "paradigmId": "pl.noun.w1_singular_nominative",
+      "stems": {
+        "base": "wolontariusz"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.maz.1",
+      "paradigmId": "pl.noun.w1_singular_nominative",
+      "stems": {
+        "base": "mąż"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.rodzic.1",
+      "paradigmId": "pl.noun.w1_singular_nominative",
+      "stems": {
+        "base": "rodzic"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.spadkobierca.1",
+      "paradigmId": "pl.noun.w1_singular_nominative",
+      "stems": {
+        "base": "spadkobierca"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.niania.1",
+      "paradigmId": "pl.noun.w1_singular_nominative",
+      "stems": {
+        "base": "niania"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.poduszka.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "poduszk"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.koldra.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "kołdr"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.szuflada.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "szuflad"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.koc.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "koc"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.poszewka.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "poszewk"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.materac.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "materac"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.szafa.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "szaf"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.polka.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "półk"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.kanapa.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "kanap"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.fotel.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "fotel"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.biurko.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "biurko"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.lampa.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "lamp"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.lustro.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "lustro"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.zaslona.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "zasłon"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.dywan.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "dywan"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.wycieraczka.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "wycieraczk"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.klamka.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "klamk"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.zawias.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "zawias"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.zasuwka.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "zasuwk"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.dzwonek.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "dzwonek"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.gniazdko.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "gniazdko"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.zarowka.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "żarówk"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.sufit.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "sufit"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.brama.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "bram"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.plot.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "płot"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.komin.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "komin"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.kominek.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "kominek"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.kaloryfer.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "kaloryfer"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.wentylator.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "wentylator"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.zegar.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "zegar"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.odkurzacz.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "odkurzacz"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.miotla.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "miotł"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.mop.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "mop"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.wiadro.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "wiadro"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.gabka.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "gąbk"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.szczotka.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "szczotk"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.recznik.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "ręcznik"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.grzebien.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "grzebień"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.szczoteczka.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "szczoteczk"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.prysznic.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "prysznic"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.wanna.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "wann"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.zlew.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "zlew"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.kran.1",
+      "paradigmId": "pl.noun.w1_singular_acc_inanimate",
+      "stems": {
+        "base": "kran"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.toaleta.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "toalet"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.pralka.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "pralk"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.suszarka.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "suszark"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.lodowka.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "lodówk"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.zamrazarka.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "zamrażark"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.najemca.1",
+      "paradigmId": "pl.noun.w1_singular_nominative",
+      "stems": {
+        "base": "najemca"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.odwiedzajacy.1",
+      "paradigmId": "pl.noun.w1_singular_nominative",
+      "stems": {
+        "base": "odwiedzający"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.szafka.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "szafk"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.sofa.1",
+      "paradigmId": "pl.noun.w1_singular_acc_feminine_a",
+      "stems": {
+        "base": "sof"
       },
       "overrides": []
     }

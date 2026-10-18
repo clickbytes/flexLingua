@@ -24,7 +24,10 @@
       "concept": "person.girl",
       "tier": "required",
       "witnessKind": "positive",
-      "directions": ["en-pl", "pl-en"]
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
     },
     {
       "targetId": "concept.person.boy",
@@ -36,7 +39,10 @@
       "concept": "person.boy",
       "tier": "planned",
       "witnessKind": "positive",
-      "directions": ["en-pl", "pl-en"],
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ],
       "note": "Planned: no approved positive sentence witnesses this concept yet."
     },
     {
@@ -49,7 +55,10 @@
       "concept": "person.child",
       "tier": "planned",
       "witnessKind": "positive",
-      "directions": ["en-pl", "pl-en"],
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ],
       "note": "Planned: no approved positive sentence witnesses this concept yet."
     },
     {
@@ -62,7 +71,10 @@
       "concept": "person.woman",
       "tier": "planned",
       "witnessKind": "positive",
-      "directions": ["en-pl", "pl-en"],
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ],
       "note": "Planned: no approved positive sentence witnesses this concept yet."
     },
     {
@@ -75,7 +87,10 @@
       "concept": "person.mother",
       "tier": "required",
       "witnessKind": "positive",
-      "directions": ["en-pl", "pl-en"]
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
     },
     {
       "targetId": "concept.person.sister",
@@ -87,7 +102,10 @@
       "concept": "person.sister",
       "tier": "planned",
       "witnessKind": "positive",
-      "directions": ["en-pl", "pl-en"],
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ],
       "note": "Planned: no approved positive sentence witnesses this concept yet."
     },
     {
@@ -100,7 +118,10 @@
       "concept": "person.brother",
       "tier": "planned",
       "witnessKind": "positive",
-      "directions": ["en-pl", "pl-en"],
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ],
       "note": "Planned: no approved positive sentence witnesses this concept yet."
     },
     {
@@ -113,7 +134,10 @@
       "concept": "person.father",
       "tier": "planned",
       "witnessKind": "positive",
-      "directions": ["en-pl", "pl-en"],
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ],
       "note": "Planned: no approved positive sentence witnesses this concept yet."
     },
     {
@@ -126,7 +150,10 @@
       "concept": "animal.dog",
       "tier": "required",
       "witnessKind": "positive",
-      "directions": ["en-pl", "pl-en"]
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
     },
     {
       "targetId": "concept.animal.cat",
@@ -138,7 +165,10 @@
       "concept": "animal.cat",
       "tier": "planned",
       "witnessKind": "positive",
-      "directions": ["en-pl", "pl-en"],
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ],
       "note": "Planned: no approved positive sentence witnesses this concept yet."
     },
     {
@@ -151,7 +181,10 @@
       "concept": "object.book",
       "tier": "required",
       "witnessKind": "positive",
-      "directions": ["en-pl", "pl-en"]
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
     },
     {
       "targetId": "concept.object.bicycle",
@@ -163,7 +196,10 @@
       "concept": "object.bicycle",
       "tier": "required",
       "witnessKind": "positive",
-      "directions": ["en-pl", "pl-en"]
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
     },
     {
       "targetId": "concept.object.phone",
@@ -175,7 +211,10 @@
       "concept": "object.phone",
       "tier": "required",
       "witnessKind": "positive",
-      "directions": ["en-pl", "pl-en"]
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
     },
     {
       "targetId": "concept.object.table",
@@ -187,7 +226,10 @@
       "concept": "object.table",
       "tier": "required",
       "witnessKind": "positive",
-      "directions": ["en-pl", "pl-en"]
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
     },
     {
       "targetId": "concept.object.apple",
@@ -199,7 +241,10 @@
       "concept": "object.apple",
       "tier": "planned",
       "witnessKind": "positive",
-      "directions": ["en-pl", "pl-en"],
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ],
       "note": "Planned: no approved positive sentence witnesses this concept yet."
     },
     {
@@ -212,7 +257,10 @@
       "concept": "structure.house",
       "tier": "planned",
       "witnessKind": "positive",
-      "directions": ["en-pl", "pl-en"],
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ],
       "note": "Planned: no approved positive sentence witnesses this concept yet."
     },
     {
@@ -225,7 +273,10 @@
       "concept": "institution.school",
       "tier": "required",
       "witnessKind": "positive",
-      "directions": ["en-pl", "pl-en"]
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
     },
     {
       "targetId": "concept.organization.institution",
@@ -237,7 +288,10 @@
       "concept": "organization.institution",
       "tier": "required",
       "witnessKind": "positive",
-      "directions": ["en-pl", "pl-en"]
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
     },
     {
       "targetId": "concept.quality.big",
@@ -249,7 +303,10 @@
       "concept": "quality.big",
       "tier": "planned",
       "witnessKind": "positive",
-      "directions": ["en-pl", "pl-en"],
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ],
       "note": "Planned: no approved positive sentence witnesses this concept yet."
     },
     {
@@ -262,7 +319,10 @@
       "concept": "quality.small",
       "tier": "planned",
       "witnessKind": "positive",
-      "directions": ["en-pl", "pl-en"],
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ],
       "note": "Planned: no approved positive sentence witnesses this concept yet."
     },
     {
@@ -275,7 +335,10 @@
       "concept": "quality.simple",
       "tier": "required",
       "witnessKind": "positive",
-      "directions": ["en-pl", "pl-en"]
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
     },
     {
       "targetId": "construction.event.visual_perception",
@@ -287,7 +350,10 @@
       "concept": "event.visual_perception",
       "tier": "required",
       "witnessKind": "positive",
-      "directions": ["en-pl", "pl-en"]
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
     },
     {
       "targetId": "construction.question.yes-no",
@@ -299,7 +365,10 @@
       "concept": null,
       "tier": "required",
       "witnessKind": "positive",
-      "directions": ["en-pl", "pl-en"],
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ],
       "note": "Bounded yes/no visual-perception questions only: present positive event.visual_perception with explicit singular nominal agent and theme. Project-authored target, not a CEFR coverage claim."
     },
     {
@@ -312,7 +381,10 @@
       "concept": "event.visual_attention",
       "tier": "planned",
       "witnessKind": "positive",
-      "directions": ["en-fi", "fi-en"],
+      "directions": [
+        "en-fi",
+        "fi-en"
+      ],
       "note": "Implemented only in the en-fi/fi-en declared manifest pair (language packages en and fi); no approved PL-EN construction witness exists because neither the en nor the pl manifest declares this construction in the canonical pair. Approved case witnesses: A1-EN-FI-VISUAL-0001/0002, A1-FI-EN-VISUAL-0001/0002 (#364)."
     },
     {
@@ -325,7 +397,10 @@
       "concept": "event.transfer_possession",
       "tier": "planned",
       "witnessKind": "positive",
-      "directions": ["en-pl", "pl-en"],
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ],
       "note": "Partially implemented only as a tr->en limited demo (languages/tr manifest); no approved PL or EN sentence witness exists."
     },
     {
@@ -338,7 +413,10 @@
       "concept": "event.movement",
       "tier": "planned",
       "witnessKind": "positive",
-      "directions": ["en-pl", "pl-en"],
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ],
       "note": "Not declared as a sentence construction by any current manifest."
     },
     {
@@ -351,7 +429,10 @@
       "concept": "event.write",
       "tier": "planned",
       "witnessKind": "positive",
-      "directions": ["en-pl", "pl-en"],
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ],
       "note": "Not declared as a sentence construction by any current manifest."
     },
     {
@@ -364,7 +445,10 @@
       "concept": "event.read",
       "tier": "required",
       "witnessKind": "positive",
-      "directions": ["en-pl", "pl-en"]
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
     },
     {
       "targetId": "construction.event.help",
@@ -376,7 +460,10 @@
       "concept": "event.help",
       "tier": "planned",
       "witnessKind": "positive",
-      "directions": ["en-pl", "pl-en"],
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ],
       "note": "Not declared as a sentence construction by any current manifest."
     },
     {
@@ -389,7 +476,10 @@
       "concept": "event.open",
       "tier": "planned",
       "witnessKind": "positive",
-      "directions": ["en-pl", "pl-en"],
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ],
       "note": "Not declared as a sentence construction by any current manifest."
     },
     {
@@ -402,7 +492,1510 @@
       "concept": "state.classification",
       "tier": "required",
       "witnessKind": "positive",
-      "directions": ["en-pl", "pl-en"]
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.person.guest",
+      "revision": "current",
+      "historicalId": "person.guest",
+      "unitType": "concept",
+      "domain": "people",
+      "kind": "entity",
+      "concept": "person.guest",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.person.host",
+      "revision": "current",
+      "historicalId": "person.host",
+      "unitType": "concept",
+      "domain": "people",
+      "kind": "entity",
+      "concept": "person.host",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.person.roommate",
+      "revision": "current",
+      "historicalId": "person.roommate",
+      "unitType": "concept",
+      "domain": "people",
+      "kind": "entity",
+      "concept": "person.roommate",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.person.partner",
+      "revision": "current",
+      "historicalId": "person.partner",
+      "unitType": "concept",
+      "domain": "people",
+      "kind": "entity",
+      "concept": "person.partner",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.person.widow",
+      "revision": "current",
+      "historicalId": "person.widow",
+      "unitType": "concept",
+      "domain": "people",
+      "kind": "entity",
+      "concept": "person.widow",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.person.widower",
+      "revision": "current",
+      "historicalId": "person.widower",
+      "unitType": "concept",
+      "domain": "people",
+      "kind": "entity",
+      "concept": "person.widower",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.person.stepmother",
+      "revision": "current",
+      "historicalId": "person.stepmother",
+      "unitType": "concept",
+      "domain": "people",
+      "kind": "entity",
+      "concept": "person.stepmother",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.person.stepfather",
+      "revision": "current",
+      "historicalId": "person.stepfather",
+      "unitType": "concept",
+      "domain": "people",
+      "kind": "entity",
+      "concept": "person.stepfather",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.person.stepson",
+      "revision": "current",
+      "historicalId": "person.stepson",
+      "unitType": "concept",
+      "domain": "people",
+      "kind": "entity",
+      "concept": "person.stepson",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.person.stepdaughter",
+      "revision": "current",
+      "historicalId": "person.stepdaughter",
+      "unitType": "concept",
+      "domain": "people",
+      "kind": "entity",
+      "concept": "person.stepdaughter",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.person.grandson",
+      "revision": "current",
+      "historicalId": "person.grandson",
+      "unitType": "concept",
+      "domain": "people",
+      "kind": "entity",
+      "concept": "person.grandson",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.person.granddaughter",
+      "revision": "current",
+      "historicalId": "person.granddaughter",
+      "unitType": "concept",
+      "domain": "people",
+      "kind": "entity",
+      "concept": "person.granddaughter",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.person.visitor",
+      "revision": "current",
+      "historicalId": "person.visitor",
+      "unitType": "concept",
+      "domain": "people",
+      "kind": "entity",
+      "concept": "person.visitor",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.person.orphan",
+      "revision": "current",
+      "historicalId": "person.orphan",
+      "unitType": "concept",
+      "domain": "people",
+      "kind": "entity",
+      "concept": "person.orphan",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.person.baby",
+      "revision": "current",
+      "historicalId": "person.baby",
+      "unitType": "concept",
+      "domain": "people",
+      "kind": "entity",
+      "concept": "person.baby",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.person.toddler",
+      "revision": "current",
+      "historicalId": "person.toddler",
+      "unitType": "concept",
+      "domain": "people",
+      "kind": "entity",
+      "concept": "person.toddler",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.person.teenager",
+      "revision": "current",
+      "historicalId": "person.teenager",
+      "unitType": "concept",
+      "domain": "people",
+      "kind": "entity",
+      "concept": "person.teenager",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.person.resident",
+      "revision": "current",
+      "historicalId": "person.resident",
+      "unitType": "concept",
+      "domain": "people",
+      "kind": "entity",
+      "concept": "person.resident",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.person.owner",
+      "revision": "current",
+      "historicalId": "person.owner",
+      "unitType": "concept",
+      "domain": "people",
+      "kind": "entity",
+      "concept": "person.owner",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.person.caretaker",
+      "revision": "current",
+      "historicalId": "person.caretaker",
+      "unitType": "concept",
+      "domain": "people",
+      "kind": "entity",
+      "concept": "person.caretaker",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.person.tenant",
+      "revision": "current",
+      "historicalId": "person.tenant",
+      "unitType": "concept",
+      "domain": "people",
+      "kind": "entity",
+      "concept": "person.tenant",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.person.cleaner",
+      "revision": "current",
+      "historicalId": "person.cleaner",
+      "unitType": "concept",
+      "domain": "people",
+      "kind": "entity",
+      "concept": "person.cleaner",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.person.doorman",
+      "revision": "current",
+      "historicalId": "person.doorman",
+      "unitType": "concept",
+      "domain": "people",
+      "kind": "entity",
+      "concept": "person.doorman",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.person.plumber",
+      "revision": "current",
+      "historicalId": "person.plumber",
+      "unitType": "concept",
+      "domain": "people",
+      "kind": "entity",
+      "concept": "person.plumber",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.person.electrician",
+      "revision": "current",
+      "historicalId": "person.electrician",
+      "unitType": "concept",
+      "domain": "people",
+      "kind": "entity",
+      "concept": "person.electrician",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.person.carpenter",
+      "revision": "current",
+      "historicalId": "person.carpenter",
+      "unitType": "concept",
+      "domain": "people",
+      "kind": "entity",
+      "concept": "person.carpenter",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.person.gardener",
+      "revision": "current",
+      "historicalId": "person.gardener",
+      "unitType": "concept",
+      "domain": "people",
+      "kind": "entity",
+      "concept": "person.gardener",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.person.cook",
+      "revision": "current",
+      "historicalId": "person.cook",
+      "unitType": "concept",
+      "domain": "people",
+      "kind": "entity",
+      "concept": "person.cook",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.person.baker",
+      "revision": "current",
+      "historicalId": "person.baker",
+      "unitType": "concept",
+      "domain": "people",
+      "kind": "entity",
+      "concept": "person.baker",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.person.tailor",
+      "revision": "current",
+      "historicalId": "person.tailor",
+      "unitType": "concept",
+      "domain": "people",
+      "kind": "entity",
+      "concept": "person.tailor",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.person.seamstress",
+      "revision": "current",
+      "historicalId": "person.seamstress",
+      "unitType": "concept",
+      "domain": "people",
+      "kind": "entity",
+      "concept": "person.seamstress",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.person.nurse",
+      "revision": "current",
+      "historicalId": "person.nurse",
+      "unitType": "concept",
+      "domain": "people",
+      "kind": "entity",
+      "concept": "person.nurse",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.person.lawyer",
+      "revision": "current",
+      "historicalId": "person.lawyer",
+      "unitType": "concept",
+      "domain": "people",
+      "kind": "entity",
+      "concept": "person.lawyer",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.person.actor",
+      "revision": "current",
+      "historicalId": "person.actor",
+      "unitType": "concept",
+      "domain": "people",
+      "kind": "entity",
+      "concept": "person.actor",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.person.musician",
+      "revision": "current",
+      "historicalId": "person.musician",
+      "unitType": "concept",
+      "domain": "people",
+      "kind": "entity",
+      "concept": "person.musician",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.person.singer",
+      "revision": "current",
+      "historicalId": "person.singer",
+      "unitType": "concept",
+      "domain": "people",
+      "kind": "entity",
+      "concept": "person.singer",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.person.writer",
+      "revision": "current",
+      "historicalId": "person.writer",
+      "unitType": "concept",
+      "domain": "people",
+      "kind": "entity",
+      "concept": "person.writer",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.person.photographer",
+      "revision": "current",
+      "historicalId": "person.photographer",
+      "unitType": "concept",
+      "domain": "people",
+      "kind": "entity",
+      "concept": "person.photographer",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.person.farmer",
+      "revision": "current",
+      "historicalId": "person.farmer",
+      "unitType": "concept",
+      "domain": "people",
+      "kind": "entity",
+      "concept": "person.farmer",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.person.mechanic",
+      "revision": "current",
+      "historicalId": "person.mechanic",
+      "unitType": "concept",
+      "domain": "people",
+      "kind": "entity",
+      "concept": "person.mechanic",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.person.cashier",
+      "revision": "current",
+      "historicalId": "person.cashier",
+      "unitType": "concept",
+      "domain": "people",
+      "kind": "entity",
+      "concept": "person.cashier",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.person.courier",
+      "revision": "current",
+      "historicalId": "person.courier",
+      "unitType": "concept",
+      "domain": "people",
+      "kind": "entity",
+      "concept": "person.courier",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.person.firefighter",
+      "revision": "current",
+      "historicalId": "person.firefighter",
+      "unitType": "concept",
+      "domain": "people",
+      "kind": "entity",
+      "concept": "person.firefighter",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.person.soldier",
+      "revision": "current",
+      "historicalId": "person.soldier",
+      "unitType": "concept",
+      "domain": "people",
+      "kind": "entity",
+      "concept": "person.soldier",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.person.priest",
+      "revision": "current",
+      "historicalId": "person.priest",
+      "unitType": "concept",
+      "domain": "people",
+      "kind": "entity",
+      "concept": "person.priest",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.person.volunteer",
+      "revision": "current",
+      "historicalId": "person.volunteer",
+      "unitType": "concept",
+      "domain": "people",
+      "kind": "entity",
+      "concept": "person.volunteer",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.person.husband",
+      "revision": "current",
+      "historicalId": "person.husband",
+      "unitType": "concept",
+      "domain": "people",
+      "kind": "entity",
+      "concept": "person.husband",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.person.parent",
+      "revision": "current",
+      "historicalId": "person.parent",
+      "unitType": "concept",
+      "domain": "people",
+      "kind": "entity",
+      "concept": "person.parent",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.person.heir",
+      "revision": "current",
+      "historicalId": "person.heir",
+      "unitType": "concept",
+      "domain": "people",
+      "kind": "entity",
+      "concept": "person.heir",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.person.nanny",
+      "revision": "current",
+      "historicalId": "person.nanny",
+      "unitType": "concept",
+      "domain": "people",
+      "kind": "entity",
+      "concept": "person.nanny",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.object.pillow",
+      "revision": "current",
+      "historicalId": "object.pillow",
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.pillow",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.object.duvet",
+      "revision": "current",
+      "historicalId": "object.duvet",
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.duvet",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.object.drawer",
+      "revision": "current",
+      "historicalId": "object.drawer",
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.drawer",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.object.blanket",
+      "revision": "current",
+      "historicalId": "object.blanket",
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.blanket",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.object.pillowcase",
+      "revision": "current",
+      "historicalId": "object.pillowcase",
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.pillowcase",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.object.mattress",
+      "revision": "current",
+      "historicalId": "object.mattress",
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.mattress",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.object.wardrobe",
+      "revision": "current",
+      "historicalId": "object.wardrobe",
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.wardrobe",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.object.shelf",
+      "revision": "current",
+      "historicalId": "object.shelf",
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.shelf",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.object.sofa",
+      "revision": "current",
+      "historicalId": "object.sofa",
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.sofa",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.object.armchair",
+      "revision": "current",
+      "historicalId": "object.armchair",
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.armchair",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.object.desk",
+      "revision": "current",
+      "historicalId": "object.desk",
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.desk",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.object.lamp",
+      "revision": "current",
+      "historicalId": "object.lamp",
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.lamp",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.object.mirror",
+      "revision": "current",
+      "historicalId": "object.mirror",
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.mirror",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.object.curtain",
+      "revision": "current",
+      "historicalId": "object.curtain",
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.curtain",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.object.rug",
+      "revision": "current",
+      "historicalId": "object.rug",
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.rug",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.object.doormat",
+      "revision": "current",
+      "historicalId": "object.doormat",
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.doormat",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.object.doorknob",
+      "revision": "current",
+      "historicalId": "object.doorknob",
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.doorknob",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.object.hinge",
+      "revision": "current",
+      "historicalId": "object.hinge",
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.hinge",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.object.latch",
+      "revision": "current",
+      "historicalId": "object.latch",
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.latch",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.object.doorbell",
+      "revision": "current",
+      "historicalId": "object.doorbell",
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.doorbell",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.object.socket",
+      "revision": "current",
+      "historicalId": "object.socket",
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.socket",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.object.bulb",
+      "revision": "current",
+      "historicalId": "object.bulb",
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.bulb",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.object.ceiling",
+      "revision": "current",
+      "historicalId": "object.ceiling",
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.ceiling",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.object.gate",
+      "revision": "current",
+      "historicalId": "object.gate",
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.gate",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.object.fence",
+      "revision": "current",
+      "historicalId": "object.fence",
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.fence",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.object.chair",
+      "revision": "current",
+      "historicalId": "object.chair",
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.chair",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.object.chimney",
+      "revision": "current",
+      "historicalId": "object.chimney",
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.chimney",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.object.fireplace",
+      "revision": "current",
+      "historicalId": "object.fireplace",
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.fireplace",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.object.radiator",
+      "revision": "current",
+      "historicalId": "object.radiator",
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.radiator",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.object.fan",
+      "revision": "current",
+      "historicalId": "object.fan",
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.fan",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.object.clock",
+      "revision": "current",
+      "historicalId": "object.clock",
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.clock",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.object.vacuum_cleaner",
+      "revision": "current",
+      "historicalId": "object.vacuum_cleaner",
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.vacuum_cleaner",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.object.broom",
+      "revision": "current",
+      "historicalId": "object.broom",
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.broom",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.object.mop",
+      "revision": "current",
+      "historicalId": "object.mop",
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.mop",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.object.bucket",
+      "revision": "current",
+      "historicalId": "object.bucket",
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.bucket",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.object.sponge",
+      "revision": "current",
+      "historicalId": "object.sponge",
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.sponge",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.object.brush",
+      "revision": "current",
+      "historicalId": "object.brush",
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.brush",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.object.towel",
+      "revision": "current",
+      "historicalId": "object.towel",
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.towel",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.object.cabinet",
+      "revision": "current",
+      "historicalId": "object.cabinet",
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.cabinet",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.object.comb",
+      "revision": "current",
+      "historicalId": "object.comb",
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.comb",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.object.toothbrush",
+      "revision": "current",
+      "historicalId": "object.toothbrush",
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.toothbrush",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.object.shower",
+      "revision": "current",
+      "historicalId": "object.shower",
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.shower",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.object.bathtub",
+      "revision": "current",
+      "historicalId": "object.bathtub",
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.bathtub",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.object.sink",
+      "revision": "current",
+      "historicalId": "object.sink",
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.sink",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.object.tap",
+      "revision": "current",
+      "historicalId": "object.tap",
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.tap",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.object.toilet",
+      "revision": "current",
+      "historicalId": "object.toilet",
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.toilet",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.object.washing_machine",
+      "revision": "current",
+      "historicalId": "object.washing_machine",
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.washing_machine",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.object.clothes_dryer",
+      "revision": "current",
+      "historicalId": "object.clothes_dryer",
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.clothes_dryer",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.object.fridge",
+      "revision": "current",
+      "historicalId": "object.fridge",
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.fridge",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
+    },
+    {
+      "targetId": "concept.object.freezer",
+      "revision": "current",
+      "historicalId": "object.freezer",
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "object.freezer",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "W1 positive sentence witness in one direction; not yet a bidirectional target."
     }
   ]
 }

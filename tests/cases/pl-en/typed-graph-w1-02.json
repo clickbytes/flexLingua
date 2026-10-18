@@ -1,0 +1,1781 @@
+{
+  "schemaVersion": "1.0",
+  "cases": [
+    {
+      "id": "A1-PL-EN-TGW-0013",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "W1 positive bilingual witness; expected typed graph preserves event.visual_perception, person agent and physical_object theme ancestry.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Fotograf widzi ręcznik."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "A photographer sees a towel."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.photographer",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            },
+            "theme": {
+              "concept": "object.towel",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "imperfective"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "The photographer sees the towel."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "ambiguous"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "physical_object"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; user delegated W1 linguistic curation/review (2026-10-18). #404 comments: ledger #6251479477; selection #6251620163; ambiguity #6251611122; category/synonym #6251677629; graph/refusals #6251693085; definiteness #6251702354. Codex reviewed senses, forms, roles, graphs and information loss; no claim of per-ID manual user review.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#404"
+      },
+      "requirements": {
+        "coverageTargetId": "concept.object.towel",
+        "capability": "pl.analyze(event.visual_perception) -> en.realize"
+      }
+    },
+    {
+      "id": "A1-PL-EN-TGW-0014",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "W1 positive bilingual witness; expected typed graph preserves event.visual_perception, person agent and physical_object theme ancestry.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Rolnik widzi szafkę."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "A farmer sees a cabinet."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.farmer",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            },
+            "theme": {
+              "concept": "object.cabinet",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "imperfective"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "The farmer sees the cabinet."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "ambiguous"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "physical_object"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; user delegated W1 linguistic curation/review (2026-10-18). #404 comments: ledger #6251479477; selection #6251620163; ambiguity #6251611122; category/synonym #6251677629; graph/refusals #6251693085; definiteness #6251702354. Codex reviewed senses, forms, roles, graphs and information loss; no claim of per-ID manual user review.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#404"
+      },
+      "requirements": {
+        "coverageTargetId": "concept.object.cabinet",
+        "capability": "pl.analyze(event.visual_perception) -> en.realize"
+      }
+    },
+    {
+      "id": "A1-PL-EN-TGW-0015",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "W1 positive bilingual witness; expected typed graph preserves event.visual_perception, person agent and physical_object theme ancestry.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Mechanik widzi grzebień."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "A mechanic sees a comb."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.mechanic",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            },
+            "theme": {
+              "concept": "object.comb",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "imperfective"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "The mechanic sees the comb."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "ambiguous"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "physical_object"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; user delegated W1 linguistic curation/review (2026-10-18). #404 comments: ledger #6251479477; selection #6251620163; ambiguity #6251611122; category/synonym #6251677629; graph/refusals #6251693085; definiteness #6251702354. Codex reviewed senses, forms, roles, graphs and information loss; no claim of per-ID manual user review.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#404"
+      },
+      "requirements": {
+        "coverageTargetId": "concept.object.comb",
+        "capability": "pl.analyze(event.visual_perception) -> en.realize"
+      }
+    },
+    {
+      "id": "A1-PL-EN-TGW-0016",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "W1 positive bilingual witness; expected typed graph preserves event.visual_perception, person agent and physical_object theme ancestry.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Kasjer widzi szczoteczkę."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "A cashier sees a toothbrush."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.cashier",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            },
+            "theme": {
+              "concept": "object.toothbrush",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "imperfective"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "The cashier sees the toothbrush."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "ambiguous"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "physical_object"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; user delegated W1 linguistic curation/review (2026-10-18). #404 comments: ledger #6251479477; selection #6251620163; ambiguity #6251611122; category/synonym #6251677629; graph/refusals #6251693085; definiteness #6251702354. Codex reviewed senses, forms, roles, graphs and information loss; no claim of per-ID manual user review.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#404"
+      },
+      "requirements": {
+        "coverageTargetId": "concept.object.toothbrush",
+        "capability": "pl.analyze(event.visual_perception) -> en.realize"
+      }
+    },
+    {
+      "id": "A1-PL-EN-TGW-0017",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "W1 positive bilingual witness; expected typed graph preserves event.visual_perception, person agent and physical_object theme ancestry.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Kurier widzi prysznic."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "A courier sees a shower."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.courier",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            },
+            "theme": {
+              "concept": "object.shower",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "imperfective"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "The courier sees the shower."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "ambiguous"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "physical_object"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; user delegated W1 linguistic curation/review (2026-10-18). #404 comments: ledger #6251479477; selection #6251620163; ambiguity #6251611122; category/synonym #6251677629; graph/refusals #6251693085; definiteness #6251702354. Codex reviewed senses, forms, roles, graphs and information loss; no claim of per-ID manual user review.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#404"
+      },
+      "requirements": {
+        "coverageTargetId": "concept.object.shower",
+        "capability": "pl.analyze(event.visual_perception) -> en.realize"
+      }
+    },
+    {
+      "id": "A1-PL-EN-TGW-0018",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "W1 positive bilingual witness; expected typed graph preserves event.visual_perception, person agent and physical_object theme ancestry.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Strażak widzi wannę."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "A firefighter sees a bathtub."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.firefighter",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            },
+            "theme": {
+              "concept": "object.bathtub",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "imperfective"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "The firefighter sees the bathtub."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "ambiguous"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "physical_object"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; user delegated W1 linguistic curation/review (2026-10-18). #404 comments: ledger #6251479477; selection #6251620163; ambiguity #6251611122; category/synonym #6251677629; graph/refusals #6251693085; definiteness #6251702354. Codex reviewed senses, forms, roles, graphs and information loss; no claim of per-ID manual user review.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#404"
+      },
+      "requirements": {
+        "coverageTargetId": "concept.object.bathtub",
+        "capability": "pl.analyze(event.visual_perception) -> en.realize"
+      }
+    },
+    {
+      "id": "A1-PL-EN-TGW-0019",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "W1 positive bilingual witness; expected typed graph preserves event.visual_perception, person agent and physical_object theme ancestry.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Żołnierz widzi zlew."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "A soldier sees a sink."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.soldier",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            },
+            "theme": {
+              "concept": "object.sink",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "imperfective"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "The soldier sees the sink."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "ambiguous"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "physical_object"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; user delegated W1 linguistic curation/review (2026-10-18). #404 comments: ledger #6251479477; selection #6251620163; ambiguity #6251611122; category/synonym #6251677629; graph/refusals #6251693085; definiteness #6251702354. Codex reviewed senses, forms, roles, graphs and information loss; no claim of per-ID manual user review.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#404"
+      },
+      "requirements": {
+        "coverageTargetId": "concept.object.sink",
+        "capability": "pl.analyze(event.visual_perception) -> en.realize"
+      }
+    },
+    {
+      "id": "A1-PL-EN-TGW-0020",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "W1 positive bilingual witness; expected typed graph preserves event.visual_perception, person agent and physical_object theme ancestry.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Ksiądz widzi kran."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "A priest sees a tap."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.priest",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            },
+            "theme": {
+              "concept": "object.tap",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "imperfective"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "The priest sees the tap."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "ambiguous"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "physical_object"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; user delegated W1 linguistic curation/review (2026-10-18). #404 comments: ledger #6251479477; selection #6251620163; ambiguity #6251611122; category/synonym #6251677629; graph/refusals #6251693085; definiteness #6251702354. Codex reviewed senses, forms, roles, graphs and information loss; no claim of per-ID manual user review.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#404"
+      },
+      "requirements": {
+        "coverageTargetId": "concept.object.tap",
+        "capability": "pl.analyze(event.visual_perception) -> en.realize"
+      }
+    },
+    {
+      "id": "A1-PL-EN-TGW-0021",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "W1 positive bilingual witness; expected typed graph preserves event.visual_perception, person agent and physical_object theme ancestry.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Wolontariusz widzi toaletę."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "A volunteer sees a toilet."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.volunteer",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            },
+            "theme": {
+              "concept": "object.toilet",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "imperfective"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "The volunteer sees the toilet."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "ambiguous"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "physical_object"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; user delegated W1 linguistic curation/review (2026-10-18). #404 comments: ledger #6251479477; selection #6251620163; ambiguity #6251611122; category/synonym #6251677629; graph/refusals #6251693085; definiteness #6251702354. Codex reviewed senses, forms, roles, graphs and information loss; no claim of per-ID manual user review.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#404"
+      },
+      "requirements": {
+        "coverageTargetId": "concept.object.toilet",
+        "capability": "pl.analyze(event.visual_perception) -> en.realize"
+      }
+    },
+    {
+      "id": "A1-PL-EN-TGW-0022",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "W1 positive bilingual witness; expected typed graph preserves event.visual_perception, person agent and physical_object theme ancestry.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Mąż widzi pralkę."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "A husband sees a washer."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.husband",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            },
+            "theme": {
+              "concept": "object.washing_machine",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "imperfective"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "The husband sees the washer."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "ambiguous"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "physical_object"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; user delegated W1 linguistic curation/review (2026-10-18). #404 comments: ledger #6251479477; selection #6251620163; ambiguity #6251611122; category/synonym #6251677629; graph/refusals #6251693085; definiteness #6251702354. Codex reviewed senses, forms, roles, graphs and information loss; no claim of per-ID manual user review.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#404"
+      },
+      "requirements": {
+        "coverageTargetId": "concept.object.washing_machine",
+        "capability": "pl.analyze(event.visual_perception) -> en.realize"
+      }
+    },
+    {
+      "id": "A1-PL-EN-TGW-0023",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "W1 positive bilingual witness; expected typed graph preserves event.visual_perception, person agent and physical_object theme ancestry.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Rodzic widzi suszarkę."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "A parent sees a dryer."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.parent",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            },
+            "theme": {
+              "concept": "object.clothes_dryer",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "imperfective"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "The parent sees the dryer."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "ambiguous"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "physical_object"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; user delegated W1 linguistic curation/review (2026-10-18). #404 comments: ledger #6251479477; selection #6251620163; ambiguity #6251611122; category/synonym #6251677629; graph/refusals #6251693085; definiteness #6251702354. Codex reviewed senses, forms, roles, graphs and information loss; no claim of per-ID manual user review.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#404"
+      },
+      "requirements": {
+        "coverageTargetId": "concept.object.clothes_dryer",
+        "capability": "pl.analyze(event.visual_perception) -> en.realize"
+      }
+    },
+    {
+      "id": "A1-PL-EN-TGW-0024",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "W1 positive bilingual witness; expected typed graph preserves event.visual_perception, person agent and physical_object theme ancestry.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Spadkobierca widzi lodówkę."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "An heir sees a fridge."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.heir",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            },
+            "theme": {
+              "concept": "object.fridge",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "imperfective"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "The heir sees the fridge."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "ambiguous"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "physical_object"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Expected authored before CLI; user delegated W1 linguistic curation/review (2026-10-18). #404 comments: ledger #6251479477; selection #6251620163; ambiguity #6251611122; category/synonym #6251677629; graph/refusals #6251693085; definiteness #6251702354. Codex reviewed senses, forms, roles, graphs and information loss; no claim of per-ID manual user review.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-18",
+        "issue": "#404"
+      },
+      "requirements": {
+        "coverageTargetId": "concept.object.fridge",
+        "capability": "pl.analyze(event.visual_perception) -> en.realize"
+      }
+    }
+  ]
+}
