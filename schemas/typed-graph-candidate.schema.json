@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://flexlingua.local/schemas/typed-graph-candidate.schema.json",
+  "title": "flexLingua typed graph staging candidate",
+  "description": "Input schema for the offline typed-graph staging importer. Candidates remain unverified and are never active data.",
+  "$defs": {
+    "conceptId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100,
+      "pattern": "^[A-Za-z][A-Za-z0-9_]*(?:\\.[A-Za-z][A-Za-z0-9_]*)*$",
+      "not": {"pattern": "(^|\\.)(__proto__|prototype|constructor)(\\.|$)"}
+    },
+    "relationEdge": {
+      "type": "object",
+      "oneOf": [
+        {
+          "required": ["relation", "target", "constraint"],
+          "properties": {
+            "relation": {
+              "type": "string",
+              "enum": ["domain", "material", "color", "purpose", "has_part", "contains", "located_in", "adjacent_to", "associated_with"]
+            },
+            "target": {"$ref": "#/$defs/conceptId"},
+            "constraint": {"const": "required"}
+          },
+          "additionalProperties": false
+        },
+        {
+          "required": ["relation", "target", "constraint", "weight"],
+          "properties": {
+            "relation": {
+              "type": "string",
+              "enum": ["domain", "material", "color", "purpose", "has_part", "contains", "located_in", "adjacent_to", "associated_with"]
+            },
+            "target": {"$ref": "#/$defs/conceptId"},
+            "constraint": {"const": "typical"},
+            "weight": {"type": "number", "exclusiveMinimum": 0, "maximum": 1}
+          },
+          "additionalProperties": false
+        }
+      ]
+    }
+  },
+  "type": "object",
+  "required": [
+    "sourceId", "sourceVersion", "author", "license", "permittedUse", "reviewedAt",
+    "plLemma", "enLemma", "plPOS", "enPOS", "senseDefinition", "proposedCoreId",
+    "proposedCoreType", "parent", "relations", "confidenceNote", "sourceLocation"
+  ],
+  "properties": {
+    "sourceId": {"type": "string", "minLength": 1, "maxLength": 120, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"},
+    "sourceVersion": {"type": "string", "maxLength": 120},
+    "author": {"type": "string", "maxLength": 300},
+    "license": {"type": "string", "maxLength": 300},
+    "permittedUse": {"type": "string", "maxLength": 1000},
+    "reviewedAt": {"type": "string", "pattern": "^(|[0-9]{4}-[0-9]{2}-[0-9]{2})$"},
+    "plLemma": {"type": "string", "minLength": 1, "maxLength": 120},
+    "enLemma": {"type": "string", "minLength": 1, "maxLength": 120},
+    "plPOS": {"type": "string", "enum": ["noun", "verb", "adjective", "degree", "quantifier", "attitude", "function_word", "modal"]},
+    "enPOS": {"type": "string", "enum": ["noun", "verb", "adjective", "degree", "quantifier", "attitude", "function_word", "modal"]},
+    "senseDefinition": {"type": "string", "minLength": 1, "maxLength": 1000},
+    "senseId": {"type": "string", "maxLength": 120, "pattern": "^[A-Za-z0-9._:-]*$"},
+    "proposedCoreId": {"$ref": "#/$defs/conceptId"},
+    "proposedCoreType": {"type": "string", "enum": ["category", "entity", "event", "property", "degree"]},
+    "parent": {
+      "oneOf": [
+        {"type": "null"},
+        {"$ref": "#/$defs/conceptId"}
+      ]
+    },
+    "relations": {
+      "type": "array",
+      "maxItems": 16,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/relationEdge"}
+    },
+    "confidenceNote": {"type": "string", "maxLength": 1000},
+    "sourceLocation": {"type": "string", "maxLength": 2000}
+  },
+  "additionalProperties": false
+}
