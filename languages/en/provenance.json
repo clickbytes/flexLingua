@@ -72,6 +72,13 @@
           "source": "Project-authored typed existence state frame separating existential quantification from ordinary location; no external ontology imported.",
           "license": "Project-authored; the repository declares no separate SPDX data license.",
           "scope": "A1-ENPL-12: CORE existence(entity, location, relation), version 1.33 and state-frame registry 1.3."
+        },
+        {
+          "issue": "#401",
+          "author": "Codex agent working on flexLingua",
+          "source": "Project-authored English noun and adjective senses mapped to CORE concepts; the shared organization.institution concept was added for this pilot. No external lexicon or protected list was imported.",
+          "license": "Project-authored for internal flexLingua use; the repository declares no separate SPDX data license.",
+          "scope": "Adds institution, financial, and wooden lexical entries; institution maps to organization.institution, while financial and wooden are typed modifiers, not direct translations."
         }
       ],
       "migratedFrom": "data/en.json"
@@ -243,6 +250,13 @@
           "source": "Original bounded English invariant and Polish regular adjective bindings for the project-authored simple sense; no external paradigms copied.",
           "license": "Project-authored; the repository declares no separate SPDX data license.",
           "scope": "English simple and Polish prosty inflection bindings for A1-ENPL-01."
+        },
+        {
+          "issue": "#401",
+          "author": "Codex agent working on flexLingua",
+          "source": "Project-authored bindings to existing English invariant-adjective and regular-noun paradigms; no external paradigms were copied.",
+          "license": "Project-authored for internal flexLingua use; the repository declares no separate SPDX data license.",
+          "scope": "Binds financial and wooden as invariant adjectives and institution to the regular English noun paradigm."
         }
       ],
       "migratedFrom": "data/morphology/en.json"

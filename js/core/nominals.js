@@ -89,6 +89,7 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms, fe
   }
   const layouts = qualified.layouts || [qualified.layout || DEFAULT_LAYOUT];
   const layoutByQuantifier = qualified.layoutByQuantifier || {};
+  const layoutByModifier = qualified.layoutByModifier === undefined ? {} : qualified.layoutByModifier;
   const adjectiveMorphologyIds=new Map();
   const adjectiveParadigms=new Map();
   const morphologyLexemeBySense=new Map(morphology?.lexicon?.entries?.flatMap(entry=>
@@ -180,6 +181,8 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms, fe
       Object.entries(layoutByQuantifier).some(([kind, index]) =>
         !['exact', 'universal'].includes(kind) || !Number.isInteger(index) ||
         index < 0 || index >= layouts.length) ||
+      !record(layoutByModifier) || Object.entries(layoutByModifier).some(([concept, index]) =>
+        !LEXEME.test(concept) || !Number.isInteger(index) || index < 0 || index >= layouts.length) ||
       qualified.maxAdjectives !== undefined &&
         (!Number.isInteger(qualified.maxAdjectives) || qualified.maxAdjectives < 1 || qualified.maxAdjectives > MAX_ENTITY_MODIFIERS) ||
       qualified.maxDegreeDepth !== undefined &&
@@ -504,11 +507,24 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms, fe
       if(!classifierText)throw new Error(`Missing classifier form for ${noun.lemma}.`);
     }
     const slots = { quantifier, classifier:classifierText||'', determiner: marker || '', modifiers: modifierWords.join(' '), noun: nounText };
-    const layout = layouts[layoutByQuantifier[quantity?.kind] ?? 0];
+    // Explicit modifier layouts take precedence over quantity defaults.
+    const modifierLayouts = new Set((ref.modifiers || []).flatMap(node =>
+      layoutByModifier[node.concept] === undefined ? [] : [layoutByModifier[node.concept]]));
+    if (modifierLayouts.size > 1) {
+      throw new EngineError('LANGUAGE_CONSTRUCTION_UNSUPPORTED',
+        'Configured modifiers require incompatible noun-phrase layouts.', {status:'unsupported'});
+    }
+    const modifierLayout = modifierLayouts.values().next().value;
+    const layout = layouts[modifierLayout ?? layoutByQuantifier[quantity?.kind] ?? 0];
     return [demonstrative,...layout.map(slot => slots[slot] || '')].filter(Boolean).join(' ');
   }
 
   function validateOntology(ontology, registry) {
+    for (const concept of Object.keys(layoutByModifier)) {
+      if (ontology.get(concept)?.type !== 'property' || !propertyIndex.has(concept)) {
+        throw new Error(`Unknown adjective-layout property for ${dictionary.language}: ${concept}`);
+      }
+    }
     for (const [entries, kind] of [[adjectives, 'property'], [degrees, 'degree']]) {
       for (const lex of entries) {
         if (ontology.get(lex.concept)?.type !== kind) {

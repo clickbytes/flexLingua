@@ -152,6 +152,11 @@
       "parent": "entity",
       "label": "place"
     },
+    "organization": {
+      "type": "category",
+      "parent": "entity",
+      "label": "organization"
+    },
     "institution": {
       "type": "category",
       "parent": "place",
@@ -357,6 +362,11 @@
       "type": "entity",
       "parent": "institution",
       "label": "school as institution"
+    },
+    "organization.institution": {
+      "type": "entity",
+      "parent": "organization",
+      "label": "institution as an organization"
     },
     "object.window": {
       "type": "entity",

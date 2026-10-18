@@ -2380,6 +2380,30 @@
         "base": "simple"
       },
       "overrides": []
+    },
+    {
+      "lexemeId": "en.financial.adj.1",
+      "paradigmId": "en.adj.invariant",
+      "stems": {
+        "base": "financial"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.wooden.adj.1",
+      "paradigmId": "en.adj.invariant",
+      "stems": {
+        "base": "wooden"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.institution.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "institution"
+      },
+      "overrides": []
     }
   ]
 }
