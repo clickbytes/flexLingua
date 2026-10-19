@@ -284,14 +284,16 @@ export function defineDeclarativeLanguagePlugin({manifest, graph, modules, core}
           return {meaning: reading.meaning, analysis: {
             lexicalSenses: reading.lexicalSenses, score: reading.score,
             transfer: runtimeTransfer,
-            ...(Array.isArray(candidate.sourceSegments)?{sourceSegments:candidate.sourceSegments}: {})
+            ...(Array.isArray(candidate.sourceSegments)?{sourceSegments:candidate.sourceSegments}: {}),
+            ...(Array.isArray(candidate.surfaceVariants)&&candidate.surfaceVariants.length?{
+              surface:{variants:candidate.surfaceVariants.map(variant=>({
+                id:variant.id,construction:runtimeTransfer.construction,
+                slots:variant.slots,markedness:variant.markedness
+              }))}
+            }: {})
           }};
         });
-        const distinct = distinctReadings(readings).map(reading => {
-          const {surfaceParses, ...normalized} = reading;
-          return surfaceParses ? {...normalized,
-            analysis: {...normalized.analysis, surfaceParses}} : normalized;
-        });
+        const distinct = distinctReadings(readings);
         const ambiguous = distinct.length > 1;
         return normalizeAnalysisResult({status: ambiguous ? 'ambiguous' : 'ok', readings: distinct,
           diagnostics: ambiguous ? [{code: 'PLUGIN_ANALYSIS_AMBIGUOUS',

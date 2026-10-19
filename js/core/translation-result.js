@@ -9,18 +9,9 @@ const keyOf = meaningKey;
 const uniqueValues = values => [...new Map(values.map(value => [keyOf(value), value]))]
   .sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0).map(([, value]) => value);
 
-function parseEvidence(reading) {
-  const existing = reading.surfaceParses ?? reading.analysis?.surfaceParses;
-  if (Array.isArray(existing)) return existing;
-  const analysis = reading.analysis ?? {};
-  const transfer = analysis.transfer ?? reading.transfer;
-  return [{
-    ...(typeof transfer?.construction === 'string' ? {construction: transfer.construction} : {}),
-    ...(analysis.lexicalSenses !== undefined ? {lexicalSenses: analysis.lexicalSenses} :
-      reading.lexicalSenses !== undefined ? {lexicalSenses: reading.lexicalSenses} : {}),
-    ...(Number.isFinite(analysis.score ?? reading.score) ? {score: analysis.score ?? reading.score} : {}),
-    sourceSegments: analysis.sourceSegments ?? reading.sourceSegments ?? []
-  }];
+function surfaceEvidence(reading) {
+  const existing = reading.surface?.variants ?? reading.analysis?.surface?.variants;
+  return Array.isArray(existing) ? existing : [];
 }
 
 function representativeOrder(left, right) {
@@ -35,16 +26,26 @@ function representativeOrder(left, right) {
 
 function representativeKey(reading) {
   const normalized = {...reading};
-  delete normalized.surfaceParses;
+  delete normalized.surface;
   if (normalized.analysis) {
     normalized.analysis = {...normalized.analysis};
-    delete normalized.analysis.surfaceParses;
+    delete normalized.analysis.surface;
   }
-  normalized.surfaceParses = [...parseEvidence(reading)].sort((left,right) => {
+  normalized.surface = [...surfaceEvidence(reading)].sort((left,right) => {
     const leftKey = meaningKey(left), rightKey = meaningKey(right);
     return leftKey < rightKey ? -1 : leftKey > rightKey ? 1 : 0;
   });
   return meaningKey(normalized);
+}
+
+function attachSurface(reading, variants) {
+  const ordered = [...variants.entries()].sort(([left],[right]) =>
+    left < right ? -1 : left > right ? 1 : 0).map(([,variant]) => variant);
+  if (reading.analysis) {
+    const analysis = {...reading.analysis};
+    return {...reading,analysis:{...analysis,surface:{variants:ordered}}};
+  }
+  return {...reading,surface:{variants:ordered}};
 }
 
 /** Group surface analyses by their complete MeaningGraph without losing parse traces. */
@@ -54,7 +55,7 @@ export function distinctReadings(readings) {
     const meaning = reading.interlingua ?? reading.meaning;
     const key = meaningKey(meaning);
     const former = groups.get(key);
-    const traces = parseEvidence(reading);
+    const traces = surfaceEvidence(reading);
     if (!former) {
       groups.set(key, {reading, traces: new Map(traces.map(trace => [meaningKey(trace), trace]))});
       continue;
@@ -64,12 +65,11 @@ export function distinctReadings(readings) {
   }
   return [...groups.entries()].sort(([left], [right]) => left < right ? -1 : left > right ? 1 : 0)
     .map(([, group]) => {
-      const traces = [...group.traces.entries()].sort(([left], [right]) =>
-        left < right ? -1 : left > right ? 1 : 0).map(([, trace]) => trace);
-      if (traces.length < 2) return group.reading;
+      const hasSurface = Array.isArray(group.reading.surface?.variants) ||
+        Array.isArray(group.reading.analysis?.surface?.variants);
+      if (group.traces.size < 2 && !hasSurface) return group.reading;
       const representative = stable(group.reading);
-      delete representative.surfaceParses;
-      return {...representative, surfaceParses: traces};
+      return attachSurface(representative,group.traces);
     });
 }
 
@@ -142,7 +142,7 @@ export function ambiguousTranslation(readings) {
     `Source has ${readings.length} distinct semantic readings.`,
     {alternatives: readings.map(item => ({meaning: item.interlingua,
       lexicalSenses: item.lexicalSenses, score: item.score,
-      ...(Array.isArray(item.surfaceParses) ? {surfaceParses: item.surfaceParses} : {})}))});
+      ...(item.surface ? {surface:item.surface} : {})}))});
 }
 
 /** Unclassified exceptions are infrastructure errors, never controlled refusals. */

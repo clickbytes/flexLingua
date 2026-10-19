@@ -112,73 +112,30 @@ Malformed descriptors, duplicate IDs/sequences, invalid slots and inconsistent b
 
 Wariant opisuje kolejność powierzchniową, a nie temat, focus, subject ani rolę CORE. Funkcja składniowa i przypadek nadal wynikają z językowego bridge/gramatyki. Jeśli przypadek nie rozróżnia kandydatów i nie ma innego dowodu, parser zachowuje różne MeaningGraphy jako ambiguitet.
 
-## Przyszły ślad analizy LanguagePlugin
+## Opcjonalny ślad analizy LanguagePlugin
 
-Dotychczasowy kontrakt pluginu pozostaje opcjonalny i kompatybilny. RFC może rozszerzyć istniejący, opcjonalny obiekt analysis o analysis.surface; FWO-01 nie zmienia walidatora, wersji interfejsu ani wymagań aktualnych pluginów. Ślad nie jest MeaningGraphem, nie deklaruje capability i nie zatwierdza oczekiwanego wyniku.
-
-Wejście analizy to tekst „Psa widzi dziewczynka.” z pakietu PL. Wynik jednej analizy może zawierać:
-
-~~~json
-{"text": "Psa widzi dziewczynka."}
-~~~
+`analysis.surface` jest opcjonalnym, ściśle walidowanym polem metadanych analizy. Nie jest MeaningGraphem, nie deklaruje capability i nie zatwierdza oczekiwanego wyniku. Jego publiczny kształt to:
 
 ~~~json
 {
-  "status": "ok",
-  "readings": [{
-    "meaning": {
-      "version": "1.0",
-      "type": "event",
-      "concept": "event.visual_perception",
-      "roles": {
-        "agent": {
-          "concept": "person.girl",
-          "features": {"number": "singular", "definiteness": "unknown"}
-        },
-        "theme": {
-          "concept": "animal.dog",
-          "features": {"number": "singular", "definiteness": "unknown"}
-        }
-      },
-      "features": {
-        "tense": "present",
-        "polarity": "positive",
-        "aspect": "imperfective"
-      }
-    },
-    "analysis": {
-      "surface": {
-        "matches": [{
-          "construction": "event.visual_perception",
-          "variantId": "theme-fronted",
-          "slots": [
-            {
-              "slot": "theme",
-              "meaningPaths": ["#/roles/theme"],
-              "span": {"start": 0, "end": 3},
-              "evidence": {"syntacticFunction": "object", "case": "acc"}
-            },
-            {
-              "slot": "@verb",
-              "meaningPaths": ["#/concept", "#/features"],
-              "span": {"start": 4, "end": 9}
-            },
-            {
-              "slot": "agent",
-              "meaningPaths": ["#/roles/agent"],
-              "span": {"start": 10, "end": 21},
-              "evidence": {"syntacticFunction": "subject", "case": "nom"}
-            }
-          ]
-        }]
-      }
+  "analysis": {
+    "surface": {
+      "variants": [{
+        "id": "theme-fronted",
+        "construction": "event.visual_perception",
+        "slots": [
+          {"name": "theme", "start": 0, "end": 3},
+          {"name": "@verb", "start": 4, "end": 9},
+          {"name": "agent", "start": 10, "end": 21}
+        ],
+        "markedness": "unknown"
+      }]
     }
-  }],
-  "diagnostics": []
+  }
 }
 ~~~
 
-span.start jest włączne, span.end wyłączne; jednostką są jednostki UTF-16 tekstu źródłowego. Każde mapowanie wskazuje zwalidowaną ścieżkę CORE; funkcja i przypadek są dowodem składniowym. Wpisy matches opisują wyłącznie licencjonowane warianty; w przyszłości mogą zachować więcej niż jeden ślad tej samej interpretacji. Kontrakt ogranicza matches do 8 śladów i 16 slotów na ślad. Brak śladu znaczy „nie podano”, nie „kanoniczny szyk”, a obecność śladu nie zmienia równoważności CORE.
+`id` pochodzi z jawnego deskryptora albo ze stabilnego ID linearizacji domyślnej; nigdy z indeksu tablicy. `slots` zawiera dopasowane nazwy ról, `@verb` lub `@auxiliary`. Zakresy są półotwarte i liczone w jednostkach UTF-16 tekstu źródłowego, więc dla wejścia „Psa widzi dziewczynka.” oznaczają `Psa` 0–3, `widzi` 4–9 i `dziewczynka` 10–21. Kontrakt ogranicza ślad do 32 wariantów oraz 16 slotów na wariant. `markedness` można pominąć albo podać jako `unknown`; kolejność nie jest dowodem topic ani focus. Brak śladu oznacza „nie podano”, a jego obecność nie zmienia równoważności CORE.
 
 ## Warianty rozważone
 
@@ -204,8 +161,8 @@ Opisany kontrakt daje ograniczony punkt wejścia dla sekwencji FWO bez migracji 
 
 - FWO-02 kompiluje wpisy tablicowe i obiektowe do jednego zamrożonego planu, waliduje ID i sloty oraz nie aktywuje capability samą obecnością wariantu. Żaden obecny pakiet PL/EN nie deklaruje jeszcze deskryptora.
 - FWO-03 używa bieżącego bridge do przypisania ról CORE, funkcji składniowych, przypadków i agreement; kolejność slotów nie zmienia mapowania ról.
-- FWO-04 porównuje kompletne, zwalidowane znaczenia. Zgodne grafy tworzą jeden odczyt z zachowanymi, ograniczonymi matches; różne grafy pozostają odrębnymi odczytaniami lub ambiguous.
-- FWO-05 może przekazać opcjonalne analysis.surface bez nowego wymaganego interfejsu LanguagePlugin.
+- FWO-04 porównuje kompletne, zwalidowane znaczenia. Zgodne grafy tworzą jeden odczyt z zachowanymi, ograniczonymi wariantami surface; różne grafy pozostają odrębnymi odczytaniami lub ambiguous.
+- FWO-05 przekazuje opcjonalne `analysis.surface` przez LanguagePlugin i Engine bez nowego wymaganego interfejsu.
 - FWO-06 realizuje domyślną kolejność docelową niezależnie od kolejności źródłowej. Jawny, obsługiwany wybór presentation pozostaje osobnym żądaniem.
 - FWO-07 dodaje tylko lingwistycznie zatwierdzone warianty PL w już wspieranych ramach i zachowuje przypadek/agreement.
 - FWO-08 utrzymuje ograniczenia EN; ruch pojazdu staje się dostępny dopiero z poprawnym leksykalnym sensem, formami morfologicznymi, działającym bridge i dowodem capability.

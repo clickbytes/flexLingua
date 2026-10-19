@@ -52,7 +52,7 @@ Ograniczenia i kolejność słów należą do grammar.json; wspólny interpreter
 
 ## Niepewność w publicznym wyniku
 
-Przyszłe, opcjonalne analysis.surface może dodać ID rozpoznanej konstrukcji/wariantu, mapowanie slotów, zakresy źródłowe i dowody składniowe. Jest to trace pluginu, a nie pole MeaningGraph ani obowiązkowa część interfejsu 1.0; brak trace nie oznacza wariantu domyślnego ani topic/focus.
+Opcjonalne `analysis.surface` zapisuje rozpoznany wariant jako `{variants:[{id,construction,slots,markedness}]}`. Dopuszcza do 32 wariantów i 16 slotów na wariant. Każdy slot zawiera `name`, `start` i `end`; nazwy ról oraz `@verb` i `@auxiliary` wskazują dopasowane zakresy źródłowe. Zakresy są półotwarte, liczone od zera w jednostkach UTF-16 tekstu wejściowego. `markedness` może być pominięte albo mieć wartość `unknown`; parser nie wyprowadza z kolejności słów topic ani focus. ID wariantu jest stabilne: używa jawnego ID deskryptora albo `default`/hasza sekwencji dla wpisu domyślnego, nigdy indeksu tablicy. Ślad pozostaje poza MeaningGraph, `sourceSegments` i wynikami realizacji. Brak śladu oznacza „nie podano”, a nie „wariant domyślny”.
 
 `Engine.translate()` i serwis aplikacji zachowują wszystkie odrębne znaczenia. Gdy pozostaje więcej niż jedno, zwracają `status:"ambiguous"`, `text:null`, `meaning:null` i `interlingua:null`, a odczytania pozostają w `alternatives`. Różne wyniki punktowe nie rozstrzygają znaczenia. Jawne ograniczenie `context.senses` może zawężać zbiór; `context.topics` jedynie zmienia kolejność. Serwis sprawdza dodatkowo dostępność pakietów, kierunków i capabilities.
 

@@ -344,8 +344,7 @@ export class Engine {
         interlingua: reading.meaning,
         lexicalSenses: reading.analysis?.lexicalSenses || {},
         sourceSegments:reading.analysis?.sourceSegments||[],
-        ...(Array.isArray(reading.analysis?.surfaceParses)
-          ? {surfaceParses:reading.analysis.surfaceParses} : {}),
+        ...(reading.analysis?.surface ? {surface:reading.analysis.surface} : {}),
         lexicalPreference: Number.isFinite(reading.analysis?.score) ? reading.analysis.score : 0,
         score: Number.isFinite(reading.analysis?.score) ? reading.analysis.score : 0
       })));
