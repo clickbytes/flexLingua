@@ -154,6 +154,30 @@ export class ConversationContext {
 
   clearMemory(){return this.#memory.reset();}
 
+  /** Only explicitly remembered facts with a matching current source turn may bind translation. */
+  translationContext(context = {}) {
+    this.#engine.validateContext(context);
+    const facts = [];
+    for (const fact of this.#memory.snapshot().facts.filter(item => item.status === 'active')) {
+      const turn = this.#turns.find(item => item.id === fact.source.turnId);
+      if (!turn || turn.surface?.source?.language !== fact.source.language ||
+          turn.surface?.source?.text !== fact.source.text ||
+          canonicalJson(turn.interlingua?.payload?.proposition) !== canonicalJson(fact.proposition)) continue;
+      const references = turn.references.filter(item => item.referenceId === fact.referent);
+      if (!references.length || references.some(item =>
+          canonicalJson(item.referent) !== canonicalJson(references[0].referent))) continue;
+      const ref = references[0].referent;
+      for (const [feature,value] of Object.entries({concept:ref.concept,
+        number:ref.features?.number ?? ref.agreement?.number})) {
+        if (value === undefined || value === 'unknown') continue;
+        facts.push({id:`${fact.id}.${feature}`, referentId:fact.referent, feature, value,
+          source:{kind:'session',id:fact.id,...fact.source,recordedAt:fact.recordedAt}});
+      }
+    }
+    if (!facts.length && context.facts === undefined) return context;
+    return this.#engine.validateContext({...context, facts:[...(context.facts ?? []), ...facts]});
+  }
+
   /** Explicitly approve a source-turn assertion for bounded session memory. */
   remember({turnId,referent,recordedAt,scope='session',supersedes=[]}={}) {
     const turn=this.#turns.find(item=>item.id===turnId);

@@ -11,6 +11,8 @@ import {dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {createAppRuntime} from '../js/app/runtime.js';
 import {createTranslationService} from '../js/app/translation-service.js';
+import {ConversationContext} from '../js/core/conversation.js';
+import {withUncertainties} from '../js/core/translation-result.js';
 import {runCliSmoke} from './lib/cli.mjs';
 import {compareCase, comparePublicEntryPoints} from './lib/assertions.mjs';
 import {ALLOWED_DIRECTIONS} from './lib/discover.mjs';
@@ -164,8 +166,25 @@ async function main() {
     const startedAt = Date.now();
     let document = null;
     let threw = null;
+    let apiItem = item;
     try {
-      document = service.translate(item.input);
+      let caseService = service;
+      if (item.session) {
+        const seed = matrix.cases.find(candidate => candidate.id === item.session.caseId);
+        if (!seed || seed.tier !== 'required' || seed.review.status !== 'approved' || seed.expected.status !== 'ok') {
+          throw new Error('Session setup requires an approved successful canonical case.');
+        }
+        const session = new ConversationContext(runtime.engine);
+        const output = session.translate(seed.input);
+        const checked = compareCase(seed,withUncertainties({...output,status:'ok',meaning:output.interlingua,
+          interpretations:[],previewId:null}),{engine:runtime.engine});
+        if (!checked.pass) throw new Error('Session seed does not satisfy its independent canonical oracle.');
+        session.remember({turnId:'t1',referent:`proposition.roles.${item.session.rememberRole}`,
+          recordedAt:'2026-10-19T00:00:00.000Z'});
+        caseService = createTranslationService(runtime,{session});
+        apiItem = {...item,input:{...item.input,context:session.translationContext(item.input.context)}};
+      }
+      document = caseService.translate(item.input);
     } catch (error) {
       threw = error;
     }
@@ -180,7 +199,7 @@ async function main() {
         outcome.kind = 'infra';
       }
       if (item.verifyEngine === true) {
-        const api = comparePublicEntryPoints(item, document, runtime.engine);
+        const api = comparePublicEntryPoints(apiItem, document, runtime.engine);
         outcome.observed.publicEntryPoints = api.checks;
         outcome.failures.push(...api.failures);
         if (api.failures.length) outcome.pass = false;

@@ -16,6 +16,7 @@ import {composeMeaningGraph} from './semantic-composition.js';
 import {ambiguousTranslation, distinctReadings, translationFailure, withUncertainties}
   from './translation-result.js';
 import {realizeInterpretations} from './translation-interpretations.js';
+import {validateReferentContext, applyReferentContext} from './translation-context.js';
 
 const MAX_CANDIDATES = 16;
 
@@ -306,10 +307,10 @@ export class Engine {
   }
 
   validateContext(context = {}) {
-    if (!record(context)) throw new Error('Invalid analysis context.');
+    validateReferentContext(context, this.ontology);
     if (context.topics !== undefined && (!Array.isArray(context.topics) || context.topics.length > 8 ||
         context.topics.some(topic => !this.ontology.get(topic)))) {
-      throw new Error('Invalid semantic context topics.');
+      throw new EngineError('INVALID_INPUT','Invalid semantic context topics.',{status:'invalid'});
     }
     if (context.coreference !== undefined) validateCoreferenceMap(context.coreference);
     if(context.eventRelations!==undefined && (!Array.isArray(context.eventRelations) ||
@@ -318,12 +319,12 @@ export class Engine {
           Object.keys(relation).sort().join(',')!=='from,to,type' ||
           typeof relation.from!=='string' || !/^e[1-8]$/u.test(relation.from) ||
           typeof relation.to!=='string' || !/^e[1-8]$/u.test(relation.to)))) {
-      throw new Error('Invalid explicit event relation context.');
+      throw new EngineError('INVALID_INPUT','Invalid explicit event relation context.',{status:'invalid'});
     }
     if (context.senses !== undefined && (!record(context.senses) ||
         Object.entries(context.senses).some(([role, concept]) =>
           !safeName(role) || !this.ontology.get(concept)))) {
-      throw new Error('Invalid semantic sense constraints.');
+      throw new EngineError('INVALID_INPUT','Invalid semantic sense constraints.',{status:'invalid'});
     }
     return context;
   }
@@ -408,7 +409,7 @@ export class Engine {
       }
       // JSON serialization drops null prototypes; restore the canonical wire graph.
       meaning = canonicalizeParsedCoreDocument(meaning);
-      return [{ interlingua: meaning, lexicalSenses: {}, score: 0 }];
+      return applyReferentContext([{interlingua:meaning, lexicalSenses:{}, score:0}],settings,this.ontology);
     }
     if(typeof text==='string' && text.length>RESOURCE_LIMITS.sourceTextCodeUnits) {
       throw new EngineError('SOURCE_TEXT_SIZE_LIMIT',
@@ -423,7 +424,7 @@ export class Engine {
       }
       const readings=this.pluginAnalysisCandidates(plugin,text,
         settings.construction ? {construction: settings.construction} : {});
-      const candidates=readings.filter(candidate=>
+      const candidates=applyReferentContext(readings.filter(candidate=>
         candidate.interlingua.type==='question' &&
         Object.entries(settings.senses||{}).every(([role,concept])=>
           eventWithin(candidate.interlingua)?.roles?.[role]?.concept===concept))
@@ -431,7 +432,7 @@ export class Engine {
           (settings.topics||[]).reduce((sum,topic)=>sum+
             participantsOf(candidate.interlingua).filter(ref=>ref.concept).filter(ref=>
               this.ontology.relatedToTopic(ref.concept,topic)).length*10,0)}))
-        .sort((a,b)=>b.score-a.score);
+        .sort((a,b)=>b.score-a.score),settings,this.ontology);
       boundedCandidates(candidates, limit);
       if(!candidates.length)throw new Error('No semantic question reading matches context constraints.');
       return candidates.map(candidate=>{
@@ -440,6 +441,9 @@ export class Engine {
       });
     }
     const sentences = splitSentences(text, MAX_DISCOURSE_EVENTS);
+    if (sentences.length > 1 && (settings.bindings !== undefined || settings.facts !== undefined)) {
+      throw new EngineError('INVALID_INPUT','Referent context currently requires one sentence.',{status:'invalid'});
+    }
     if(settings.eventRelations?.length && sentences.length<2)
       throw new Error('Explicit event relations require a multi-event discourse.');
     if (settings.coreference !== undefined && sentences.length === 1)
@@ -459,7 +463,8 @@ export class Engine {
       if (!candidates.length) {
         throw new Error('No semantic reading matches the context constraints.');
       }
-      return boundedCandidates(candidates.sort((a, b) => b.score - a.score), limit);
+      return boundedCandidates(applyReferentContext(candidates.sort((a, b) => b.score - a.score),
+        settings,this.ontology), limit);
     });
     if (scored.length === 1) {
       return scored[0].map(candidate => {
@@ -632,7 +637,8 @@ export class Engine {
       const bundle = realizeInterpretations(this, candidates, {to, context,
         pronounRealization, profile, lexicalRegister, informationStructure});
       const attach = result => ({...result, interpretations:bundle.interpretations,
-        previewId:bundle.previewId});
+        previewId:bundle.previewId,
+        ...(candidates[0]?.contextReport ? {contextReport:candidates[0].contextReport} : {})});
       if (bundle.limitError) return attach(translationFailure(bundle.limitError));
       if (candidates.length !== 1) return attach(ambiguousTranslation(candidates));
       const candidate = candidates[0];

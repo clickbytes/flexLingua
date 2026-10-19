@@ -66,8 +66,10 @@ export function realizeInterpretations(engine, candidates, options) {
   const interpretations = candidates.map(candidate => {
     const id = ids.get(candidate), meaning = candidate.interlingua;
     const reasons = contextEvidence(meaning, context, engine.ontology);
+    reasons.push(...(candidate.contextReport?.decisions ?? [])
+      .filter(decision => ['matched','bound'].includes(decision.action)));
     const score = {assumptions:null,
-      contextRules:reasons.filter(reason => reason.ruleId === 'context.explicit-sense').length,
+      contextRules:reasons.filter(reason => ['context.explicit-sense','context.explicit-fact'].includes(reason.ruleId)).length,
       ontologyLinks:reasons.filter(reason => reason.ruleId === 'ontology.topic-link').length,
       lexicalPreference:candidate.lexicalPreference ?? 0};
     reasons.push({ruleId:'source.lexical-preference', source:'LanguagePlugin.analysis.score',
@@ -104,6 +106,7 @@ export function realizeInterpretations(engine, candidates, options) {
       }
     }
     return {id, meaning, lexicalSenses:candidate.lexicalSenses, score, reasons,
+      ...(candidate.contextReport ? {contextReport:candidate.contextReport} : {}),
       ruleIds:[...new Set(reasons.map(reason => reason.ruleId))],
       status:error ? translationErrorStatus(error) : 'ok',
       diagnostics:error ? [{code:error.code, message:'No complete target realization is available for this reading.'}] : [],

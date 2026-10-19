@@ -384,6 +384,7 @@ export function compareCase(item, document, {engine, analysisOnly = false} = {})
       fail, '/uncertainties', {allowUnexpected: expected.uncertainties.allowUnexpected});
   }
   if (!analysisOnly) compareInterpretations(expected.interpretations, document, fail);
+  if (!analysisOnly && expected.context) compareContext(expected.context, document.contextReport, fail);
 
   if (nfc(document?.status) !== nfc(expected.status)) {
     fail('status', expected.status, document?.status ?? 'none');
@@ -514,6 +515,30 @@ function compareInterpretations(policy, document, fail) {
   if (tied !== policy.tied) fail('/interpretations/tied', policy.tied, tied);
 }
 
+function compareContext(policy, report, fail) {
+  if (!isRecord(report)) { fail('/contextReport','a context evidence report',report); return; }
+  compareMultiset(policy.bindings, report.bindings ?? [],
+    (wanted, actual) => Object.entries(wanted).every(([key,value]) => sameJson(value,actual[key])),
+    fail,'/contextReport/bindings',{allowUnexpected:false});
+  const decisions = report.decisions ?? [];
+  const sortedIds = values => [...new Set(values)].sort();
+  const observed = {
+    appliedFactIds:sortedIds(decisions.filter(item => ['matched','bound'].includes(item.action)).map(item => item.factId)),
+    ignoredFactIds:sortedIds(decisions.filter(item => item.action === 'ignored').map(item => item.factId)),
+    conflictFactIds:sortedIds((report.conflicts ?? []).flatMap(item => item.factIds))
+  };
+  for (const key of Object.keys(observed)) {
+    if (!sameJson(sortedIds(policy[key]),observed[key])) fail(`/contextReport/${key}`,policy[key],observed[key]);
+  }
+  for (const wanted of policy.sessionSources ?? []) {
+    const decision = decisions.find(item => item.factId === wanted.factId);
+    if (decision?.source?.id !== wanted.sourceId || decision?.source?.turnId !== wanted.turnId ||
+        decision?.source?.kind !== wanted.kind || !decision.source.recordedAt || !decision.source.text) {
+      fail('/contextReport/sessionSources',wanted,decision?.source);
+    }
+  }
+}
+
 export function comparePublicEntryPoints(item, document, engine) {
   const failures = [];
   const checks = {};
@@ -552,7 +577,7 @@ export function comparePublicEntryPoints(item, document, engine) {
         for (const failure of compareCase(item, value, {engine}).failures) {
           add(api, failure.path, failure.expected, failure.actual);
         }
-        for (const field of ['status','text','meaning','alternatives','informationLoss','uncertainties','interpretations','previewId']) {
+        for (const field of ['status','text','meaning','alternatives','informationLoss','uncertainties','interpretations','previewId','contextReport']) {
           if (!sameJson(value?.[field], document?.[field])) {
             add(api, field, document?.[field], value?.[field]);
           }

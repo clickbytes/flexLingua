@@ -62,6 +62,9 @@ export function describeUncertainties(document, meanings = []) {
     add(document.status === 'resource_limit' ? 'search_limit' : 'unsupported', '#', [],
       document.diagnostics?.[0]?.code ?? document.status);
   }
+  if (document.diagnostics?.some(item => item.code === 'CONTEXT_CONFLICT')) {
+    add('context_conflict', '#', [], 'CONTEXT_CONFLICT');
+  }
   return uniqueValues(entries).map((entry, index) => ({id: `u${index + 1}`, ...entry}));
 }
 
@@ -101,5 +104,6 @@ export function translationFailure(error) {
   const message = {unsupported: 'The requested translation is unsupported.',
     invalid: 'The request is invalid.', ambiguous: 'The source has multiple possible meanings.',
     resource_limit: 'The request exceeds supported resource limits.'}[status];
-  return translationRefusal(status, error.code ?? 'INVALID_INPUT', message);
+  return translationRefusal(status, error.code ?? 'INVALID_INPUT', message,
+    error.contextReport ? {contextReport:error.contextReport} : {});
 }
