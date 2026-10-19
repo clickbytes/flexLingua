@@ -22,106 +22,41 @@
         "quantity": "none"
       },
       "purpose": "Honest ambiguity: English `you` does not resolve grammatical number, so the deictic addressee stays second/singular and second/plural; the service must refuse to choose (ambiguous, AMBIGUOUS_MEANING, exit 2) instead of picking a number or parts silently. The pair agent=speaker/first/singular plus theme=addressee/second/{sg,pl} is the ADR person-deixis contract for events; version 1.22 deictic participants are asserted per reading.",
-      "input": {
-        "from": "en",
-        "to": "pl",
-        "text": "I see you."
-      },
+      "input": {"from": "en", "to": "pl", "text": "I see you."},
       "expected": {
         "status": "ambiguous",
         "text": null,
         "meaning": null,
-        "diagnostics": {
-          "required": [
-            {
-              "code": "AMBIGUOUS_MEANING"
-            }
-          ],
-          "allowUnexpected": false
-        },
-        "alternatives": {
-          "required": [
-            {
-              "meaning": {
-                "type": "event",
-                "concept": "event.visual_perception",
-                "roleSet": [
-                  "agent",
-                  "theme"
-                ],
-                "roles": {
-                  "agent": {
-                    "target": {
-                      "kind": "deictic",
-                      "anchor": "speaker"
-                    },
-                    "agreement": {
-                      "person": "first",
-                      "number": "singular"
-                    }
-                  },
-                  "theme": {
-                    "target": {
-                      "kind": "deictic",
-                      "anchor": "addressee"
-                    },
-                    "agreement": {
-                      "person": "second",
-                      "number": "singular"
-                    }
-                  }
-                },
-                "features": {
-                  "tense": "present",
-                  "polarity": "positive"
-                },
-                "assert": {}
-              }
+        "diagnostics": {"required": [{"code": "AMBIGUOUS_MEANING"}], "allowUnexpected": false},
+        "alternatives": {"required": [
+          {"meaning": {
+            "type": "event",
+            "concept": "event.visual_perception",
+            "roleSet": ["agent", "theme"],
+            "roles": {
+              "agent": {"target": {"kind": "deictic", "anchor": "speaker"},
+                "agreement": {"person": "first", "number": "singular"}},
+              "theme": {"target": {"kind": "deictic", "anchor": "addressee"},
+                "agreement": {"person": "second", "number": "singular"}}
             },
-            {
-              "meaning": {
-                "type": "event",
-                "concept": "event.visual_perception",
-                "roleSet": [
-                  "agent",
-                  "theme"
-                ],
-                "roles": {
-                  "agent": {
-                    "target": {
-                      "kind": "deictic",
-                      "anchor": "speaker"
-                    },
-                    "agreement": {
-                      "person": "first",
-                      "number": "singular"
-                    }
-                  },
-                  "theme": {
-                    "target": {
-                      "kind": "deictic",
-                      "anchor": "addressee"
-                    },
-                    "agreement": {
-                      "person": "second",
-                      "number": "plural"
-                    }
-                  }
-                },
-                "features": {
-                  "tense": "present",
-                  "polarity": "positive"
-                },
-                "assert": {}
-              }
-            }
-          ],
-          "allowUnexpected": false
-        },
-        "informationLoss": {
-          "required": [],
-          "allowUnexpected": false
-        }
+            "features": {"tense": "present", "polarity": "positive"},
+            "assert": {}
+          }},
+          {"meaning": {
+            "type": "event",
+            "concept": "event.visual_perception",
+            "roleSet": ["agent", "theme"],
+            "roles": {
+              "agent": {"target": {"kind": "deictic", "anchor": "speaker"},
+                "agreement": {"person": "first", "number": "singular"}},
+              "theme": {"target": {"kind": "deictic", "anchor": "addressee"},
+                "agreement": {"person": "second", "number": "plural"}}
+            },
+            "features": {"tense": "present", "polarity": "positive"},
+            "assert": {}
+          }}
+        ], "allowUnexpected": false},
+        "informationLoss": {"required": [], "allowUnexpected": false}
       },
       "review": {
         "status": "approved",
@@ -156,72 +91,29 @@
         "quantity": "none"
       },
       "purpose": "Positive deictic witness: first-person speaker as the agent survives analysis and realization (PL target keeps speaker identity as an ADR v1.22 deictic participant); the theme is a concept participant (animal.dog singular definite), present/positive, and the concrete reference 'the dog' loses its articled definiteness in Polish only as an explicitly reported unavoidable loss.",
-      "input": {
-        "from": "en",
-        "to": "pl",
-        "text": "I see the dog."
-      },
+      "input": {"from": "en", "to": "pl", "text": "I see the dog."},
       "expected": {
         "status": "ok",
-        "text": {
-          "accepted": [
-            "Ja widzę psa."
-          ]
-        },
+        "text": {"accepted": ["Ja widzę psa."]},
         "meaning": {
           "type": "event",
           "concept": "event.visual_perception",
-          "roleSet": [
-            "agent",
-            "theme"
-          ],
+          "roleSet": ["agent", "theme"],
           "roles": {
-            "agent": {
-              "target": {
-                "kind": "deictic",
-                "anchor": "speaker"
-              },
-              "agreement": {
-                "person": "first",
-                "number": "singular"
-              }
-            },
-            "theme": {
-              "concept": "animal.dog",
-              "features": {
-                "number": "singular",
-                "definiteness": "definite"
-              }
-            }
+            "agent": {"target": {"kind": "deictic", "anchor": "speaker"},
+              "agreement": {"person": "first", "number": "singular"}},
+            "theme": {"concept": "animal.dog",
+              "features": {"number": "singular", "definiteness": "definite"}}
           },
-          "features": {
-            "tense": "present",
-            "polarity": "positive",
-            "aspect": "unknown"
-          },
-          "assert": {
-            "#/version": "1.22"
-          }
+          "features": {"tense": "present", "polarity": "positive", "aspect": "unknown"},
+          "assert": {"#/version": "1.22"}
         },
-        "diagnostics": {
-          "required": [],
-          "allowUnexpected": false
-        },
-        "alternatives": {
-          "required": [],
-          "allowUnexpected": false
-        },
-        "informationLoss": {
-          "required": [
-            {
-              "cause": "target-grammar-does-not-mark-definiteness",
-              "feature": "definiteness",
-              "path": "#/roles/theme/features/definiteness",
-              "status": "unavoidable"
-            }
-          ],
-          "allowUnexpected": false
-        }
+        "diagnostics": {"required": [], "allowUnexpected": false},
+        "alternatives": {"required": [], "allowUnexpected": false},
+        "informationLoss": {"required": [
+          {"cause": "target-grammar-does-not-mark-definiteness", "feature": "definiteness",
+            "path": "#/roles/theme/features/definiteness", "status": "unavoidable"}
+        ], "allowUnexpected": false}
       },
       "review": {
         "status": "approved",
@@ -256,106 +148,41 @@
         "quantity": "none"
       },
       "purpose": "Addressee-as-agent improves honesty: English `you` as the subject keeps second/singular and second/plural readings while the speaker-object (`me`) stays first/singular; the service returns both ADR v1.22 readings with AMBIGUOUS_MEANING and exit 2 instead of silently choosing the agent number.",
-      "input": {
-        "from": "en",
-        "to": "pl",
-        "text": "You see me."
-      },
+      "input": {"from": "en", "to": "pl", "text": "You see me."},
       "expected": {
         "status": "ambiguous",
         "text": null,
         "meaning": null,
-        "diagnostics": {
-          "required": [
-            {
-              "code": "AMBIGUOUS_MEANING"
-            }
-          ],
-          "allowUnexpected": false
-        },
-        "alternatives": {
-          "required": [
-            {
-              "meaning": {
-                "type": "event",
-                "concept": "event.visual_perception",
-                "roleSet": [
-                  "agent",
-                  "theme"
-                ],
-                "roles": {
-                  "agent": {
-                    "target": {
-                      "kind": "deictic",
-                      "anchor": "addressee"
-                    },
-                    "agreement": {
-                      "person": "second",
-                      "number": "singular"
-                    }
-                  },
-                  "theme": {
-                    "target": {
-                      "kind": "deictic",
-                      "anchor": "speaker"
-                    },
-                    "agreement": {
-                      "person": "first",
-                      "number": "singular"
-                    }
-                  }
-                },
-                "features": {
-                  "tense": "present",
-                  "polarity": "positive"
-                },
-                "assert": {}
-              }
+        "diagnostics": {"required": [{"code": "AMBIGUOUS_MEANING"}], "allowUnexpected": false},
+        "alternatives": {"required": [
+          {"meaning": {
+            "type": "event",
+            "concept": "event.visual_perception",
+            "roleSet": ["agent", "theme"],
+            "roles": {
+              "agent": {"target": {"kind": "deictic", "anchor": "addressee"},
+                "agreement": {"person": "second", "number": "singular"}},
+              "theme": {"target": {"kind": "deictic", "anchor": "speaker"},
+                "agreement": {"person": "first", "number": "singular"}}
             },
-            {
-              "meaning": {
-                "type": "event",
-                "concept": "event.visual_perception",
-                "roleSet": [
-                  "agent",
-                  "theme"
-                ],
-                "roles": {
-                  "agent": {
-                    "target": {
-                      "kind": "deictic",
-                      "anchor": "addressee"
-                    },
-                    "agreement": {
-                      "person": "second",
-                      "number": "plural"
-                    }
-                  },
-                  "theme": {
-                    "target": {
-                      "kind": "deictic",
-                      "anchor": "speaker"
-                    },
-                    "agreement": {
-                      "person": "first",
-                      "number": "singular"
-                    }
-                  }
-                },
-                "features": {
-                  "tense": "present",
-                  "polarity": "positive"
-                },
-                "assert": {}
-              }
-            }
-          ],
-          "allowUnexpected": false
-        },
-        "informationLoss": {
-          "required": [],
-          "allowUnexpected": false
-        }
+            "features": {"tense": "present", "polarity": "positive"},
+            "assert": {}
+          }},
+          {"meaning": {
+            "type": "event",
+            "concept": "event.visual_perception",
+            "roleSet": ["agent", "theme"],
+            "roles": {
+              "agent": {"target": {"kind": "deictic", "anchor": "addressee"},
+                "agreement": {"person": "second", "number": "plural"}},
+              "theme": {"target": {"kind": "deictic", "anchor": "speaker"},
+                "agreement": {"person": "first", "number": "singular"}}
+            },
+            "features": {"tense": "present", "polarity": "positive"},
+            "assert": {}
+          }}
+        ], "allowUnexpected": false},
+        "informationLoss": {"required": [], "allowUnexpected": false}
       },
       "review": {
         "status": "approved",
