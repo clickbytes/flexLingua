@@ -6,6 +6,7 @@ import {compileLanguageGraph} from './compiler.js';
 import {createSemanticBridge} from './semantic-bridge.js';
 import {createSignalProviders} from './signal.js';
 import {normalizeAnalysisResult, normalizeRealizationResult} from './contract.js';
+import {distinctReadings} from '../core/translation-result.js';
 
 const isRecord = value => {
   if (value === null || typeof value !== 'object' || Array.isArray(value)) return false;
@@ -286,8 +287,13 @@ export function defineDeclarativeLanguagePlugin({manifest, graph, modules, core}
             ...(Array.isArray(candidate.sourceSegments)?{sourceSegments:candidate.sourceSegments}: {})
           }};
         });
-        const ambiguous = readings.length > 1;
-        return normalizeAnalysisResult({status: ambiguous ? 'ambiguous' : 'ok', readings,
+        const distinct = distinctReadings(readings).map(reading => {
+          const {surfaceParses, ...normalized} = reading;
+          return surfaceParses ? {...normalized,
+            analysis: {...normalized.analysis, surfaceParses}} : normalized;
+        });
+        const ambiguous = distinct.length > 1;
+        return normalizeAnalysisResult({status: ambiguous ? 'ambiguous' : 'ok', readings: distinct,
           diagnostics: ambiguous ? [{code: 'PLUGIN_ANALYSIS_AMBIGUOUS',
             message: 'More than one meaning fits the input.'}] : []});
       } catch (error) {
