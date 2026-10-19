@@ -1,9 +1,11 @@
 import { createEvent, createQuestion, createRelativeClause, createDialogueAct, createModality, createNegation,
   createIdentity, createPredication, createClassification, createPossession, createLocation, createExistence, createComparison, createInformationStructure, MAX_RELATIVE_DEPTH } from './meaning-graph.js';
 import { createLexicon } from './lexicon.js';
+import { getMorphologyRuntimeView } from './morphology/engine.js';
 import { createNominalInterpreter } from './nominals.js';
 import { createTextProfile, matchesTokens as matchTokenPhrase,
-  sentenceText as formatSentence, tokenize as tokenizeText, validateTextProfile,
+  firstToken as firstTextToken, sentenceText as formatSentence,
+  tokenize as tokenizeText, validateTextProfile,
   textProfileForSignal } from './text.js';
 import {EngineError} from './errors.js';
 import {RESOURCE_LIMITS} from './resource-limits.js';
@@ -24,6 +26,19 @@ const GRAMMAR_VERSIONS = new Set(['0.6', '1.0']);
 const MAX_ANALYSES = RESOURCE_LIMITS.grammarAnalyses;
 const MAX_SEARCH_NODES = RESOURCE_LIMITS.grammarSearchNodes;
 const searchBudget = counter => ({counter,memo:new Map(),nounPhraseMemo:new WeakMap()});
+function freezeCachedGraph(value, seen = new WeakSet()) {
+  if (!value || typeof value !== 'object' || seen.has(value)) return value;
+  seen.add(value);
+  for (const child of Object.values(value)) freezeCachedGraph(child,seen);
+  return Object.freeze(value);
+}
+function cacheNounPhraseCandidates(items) {
+  for (const item of items) freezeCachedGraph(item.value);
+  return Object.freeze(items);
+}
+function cloneNounPhraseCandidates(items) {
+  return items.map(item=>({...item}));
+}
 function unsupported(message) {
   throw new EngineError('LANGUAGE_CONSTRUCTION_UNSUPPORTED', message, {status:'unsupported'});
 }
@@ -104,9 +119,9 @@ function formPlaceholders(path) {
   return pathParts(path).flatMap(part => part.match(PLACEHOLDER)?.[1] || []);
 }
 
-function bindingsForPath(template, concrete) {
+function bindingsForPath(expected, concrete) {
   if(typeof concrete!=='string'||!concrete)return null;
-  const expected=pathParts(template),actual=concrete.split('.');
+  const actual=concrete.split('.');
   if(expected.length!==actual.length)return null;
   let bindings={};
   for(let index=0;index<expected.length;index++){
@@ -148,14 +163,14 @@ function formsAt(lexeme, path, bridge) {
   visit(lexeme, 0, {});
   const cells=(bridge?.cells||[]).flatMap(cell=>{
     const cellPath=fullMorphologyPath(cell.path);
-    const bindings=bindingsForPath(path,cellPath);
+    const bindings=bindingsForPath(parts,cellPath);
     const unified=bindings&&unifyFeatures(bindings,cell.features||{});
     return unified?[{cell:{...cell,path:cellPath},bindings:unified}]:[];
   });
   const coveredPaths=new Set(cells.map(({cell})=>cell.path));
   const candidates=(bridge?.candidates||[]).flatMap(candidate=>{
     const candidatePath=fullMorphologyPath(candidate.path);
-    const bindings=bindingsForPath(path,candidatePath);
+    const bindings=bindingsForPath(parts,candidatePath);
     const consistent=bindings&&unifyFeatures(bindings,candidate.features||{});
     return consistent?[{text:candidate.text,bindings,path:candidatePath,
       morphologyFeatures:candidate.features||{},
@@ -1006,6 +1021,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
   }
   const matchesTokens=(tokens,index,phrase)=>matchTokenPhrase(tokens,index,phrase,textProfile);
   const tokenize=text=>tokenizeText(text,textProfile);
+  const getFirstToken=text=>firstTextToken(text,textProfile);
   const sentenceText=(parts,terminator='.')=>formatSentence(parts,terminator,textProfile.locale);
   const possessives=nounPhrase.possessives || [];
   const subjectRole = sentence.subjectRole;
@@ -1019,10 +1035,13 @@ function createGrammarInterpreter(sourceDictionary, rules,
       senseIds.map(senseId=>canonicalBySense.get(senseId)).find(id=>id&&morphology.has(id));
     if(!lexemeId)return null;
     if(!morphologyBridgeCache.has(lexemeId)){
-      const availability=morphology.availability({lexemeId,features:{},exact:false});
-      const candidates=availability?.supported===true?morphology.paradigm({lexemeId}):[];
+      const runtimeView=getMorphologyRuntimeView(morphology,lexemeId);
+      const availability=runtimeView?{supported:runtimeView.supported}:
+        morphology.availability({lexemeId,features:{},exact:false});
+      const candidates=availability?.supported===true
+        ?(runtimeView?runtimeView.forms:morphology.paradigm({lexemeId})):[];
       morphologyBridgeCache.set(lexemeId,Array.isArray(candidates)&&candidates.length?{
-        candidates,cells:morphology.cells?.({lexemeId})||[]
+        candidates,cells:runtimeView?.cells??(morphology.cells?.({lexemeId})||[])
       }:null);
     }
     const bridge=morphologyBridgeCache.get(lexemeId);
@@ -1037,7 +1056,16 @@ function createGrammarInterpreter(sourceDictionary, rules,
       if(generated)morphologyBridge.set(lexeme,generated.bridge);
     }
   }
-  const formsAtLexeme=(lexeme,path)=>formsAt(lexeme,path,morphologyBridge.get(lexeme));
+  const formsAtCache=new WeakMap();
+  const formsAtLexeme=(lexeme,path)=>{
+    let byPath=formsAtCache.get(lexeme);
+    if(byPath?.has(path))return byPath.get(path);
+    const forms=formsAt(lexeme,path,morphologyBridge.get(lexeme));
+    if(!byPath){byPath=new Map();formsAtCache.set(lexeme,byPath);}
+    byPath.set(path,forms);
+    return forms;
+  };
+  const modalEntriesCache=new WeakMap();
   const verbs = expandedVerbs.filter(lexeme => !!lexeme.concept);
   const stateVerbs = expandedVerbs.filter(lexeme =>
     hasOwn(grammar.states?.verbs || {},lexeme.stateFunction));
@@ -1102,7 +1130,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
     if(!verbFormsByConcept.has(entry.lexeme.concept))verbFormsByConcept.set(entry.lexeme.concept,[]);
     verbFormsByConcept.get(entry.lexeme.concept).push(entry);
     const literal=entry.rule.prefix[0]||entry.text;
-    const firstToken=tokenize(literal)[0];
+    const firstToken=getFirstToken(literal);
     if(!firstToken)continue;
     verbFirstTokenByEntry.set(entry,firstToken);
     if(!verbFormsByFirstToken.has(firstToken))verbFormsByFirstToken.set(firstToken,[]);
@@ -1667,7 +1695,8 @@ function createGrammarInterpreter(sourceDictionary, rules,
       for(const entry of verbEntries) {
         if(!entriesByConcept.has(entry.lexeme.concept))entriesByConcept.set(entry.lexeme.concept,[]);
         entriesByConcept.get(entry.lexeme.concept).push(entry);
-        const firstToken=verbFirstTokenByEntry.get(entry)||tokenize(entry.rule.prefix[0]||entry.text)[0];
+        const firstToken=verbFirstTokenByEntry.get(entry)||
+          getFirstToken(entry.rule.prefix[0]||entry.text);
         if(!firstToken)continue;
         if(!entriesByFirstToken.has(firstToken))entriesByFirstToken.set(firstToken,[]);
         entriesByFirstToken.get(firstToken).push(entry);
@@ -1801,8 +1830,12 @@ function createGrammarInterpreter(sourceDictionary, rules,
   function modalEntries(modal, mode, person, number, includeModal = true) {
     const modalForm=modal.forms[mode]?.[modalAgreementKey(person,number)];
     if (!modality || !modalForm) return [];
+    let cache=modalEntriesCache.get(modal);
+    if(!cache){cache=new Map();modalEntriesCache.set(modal,cache);}
+    const cacheKey=JSON.stringify([mode,person,number,includeModal]);
+    if(cache.has(cacheKey))return cache.get(cacheKey);
     const operator=modal.senses[0].coreRef.id;
-    return verbs.flatMap(lexeme => formsAtLexeme(lexeme,modality.infinitivePath)
+    const entries=verbs.flatMap(lexeme => formsAtLexeme(lexeme,modality.infinitivePath)
       .filter(verbForm => Object.keys(verbForm.bindings).length === 0)
       .map(verbForm => ({
         lexeme, text: includeModal ? modalForm+' '+verbForm.text : verbForm.text,
@@ -1811,6 +1844,15 @@ function createGrammarInterpreter(sourceDictionary, rules,
           prefix:[],when:{'subject.person':person,'subject.number':number}
         }
       })));
+    cache.set(cacheKey,entries);
+    return entries;
+  }
+
+  function containsPhrase(tokens, phrase) {
+    for(let index=0;index<tokens.length;index++) {
+      if(matchesTokens(tokens,index,phrase))return true;
+    }
+    return false;
   }
 
   function wrapModalReading(reading, modal, mode) {
@@ -1834,6 +1876,8 @@ function createGrammarInterpreter(sourceDictionary, rules,
       ? ['positive'] : ['positive','negative','prohibition'])) {
       if (!modal.forms[mode]) continue;
       for (const person of ['first','second','third']) for (const number of ['singular','plural']) {
+        const modalForm=modal.forms[mode][modalAgreementKey(person,number)];
+        if(!modalForm || !containsPhrase(tokens,modalForm))continue;
         const variants=parseClause(tokens,gap,antecedent,0,questionBudget(counter),{
           verbEntries:modalEntries(modal,mode,person,number),
           omitGap:!!gap, linearizations
@@ -2188,8 +2232,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
     let byPosition=budget.nounPhraseMemo.get(tokens);
     if(!byPosition){byPosition=new Map();budget.nounPhraseMemo.set(tokens,byPosition);}
     const cacheKey=JSON.stringify([index,grammaticalCase,depth,options]);
-    const cloneCandidates=items=>items.map(item=>({...item,value:structuredClone(item.value)}));
-    if(byPosition.has(cacheKey))return cloneCandidates(byPosition.get(cacheKey));
+    if(byPosition.has(cacheKey))return cloneNounPhraseCandidates(byPosition.get(cacheKey));
     const bare = nominal.read(tokens, index, grammaticalCase, options);
     for(const entry of possessives)for(const form of entry.forms){
       const length=matchesTokens(tokens,index,form.text);
@@ -2208,8 +2251,8 @@ function createGrammarInterpreter(sourceDictionary, rules,
       }
     }
     if (depth >= relativeGrammar.maxDepth) {
-      byPosition.set(cacheKey,bare);
-      return cloneCandidates(bare);
+      byPosition.set(cacheKey,cacheNounPhraseCandidates(bare));
+      return cloneNounPhraseCandidates(bare);
     }
     const enriched = [...bare];
     for (const base of bare) for (const marker of relativeGrammar.markers) {
@@ -2237,8 +2280,8 @@ function createGrammarInterpreter(sourceDictionary, rules,
         }
       }
     }
-    byPosition.set(cacheKey,enriched);
-    return cloneCandidates(enriched);
+    byPosition.set(cacheKey,cacheNounPhraseCandidates(enriched));
+    return cloneNounPhraseCandidates(enriched);
   }
 
   function analyze(text) { return analyzeCandidates(text)[0].interlingua; }

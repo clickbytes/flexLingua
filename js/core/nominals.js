@@ -1,7 +1,7 @@
 import { participant, modifier, MAX_ENTITY_MODIFIERS, MAX_MODIFIER_DEPTH } from './meaning-graph.js';
 import { EngineError } from './errors.js';
 import { record, safeName, hasOwn } from './features.js';
-import { createTextProfile, matchesTokens, tokenize, validateTextProfile } from './text.js';
+import { createTextProfile, firstToken, matchesTokens, validateTextProfile } from './text.js';
 
 const WORDS = /^[\p{L}]+(?:\s+[\p{L}]+)*$/u;
 const LEXEME = /^[a-zA-Z][a-zA-Z0-9_]*(?:\.[a-zA-Z0-9_]+)*$/u;
@@ -65,9 +65,9 @@ function matchingForms(lexeme, features, forms=lexeme.forms) {
 }
 
 function addSurfaceEntry(index, text, entry, profile) {
-  const firstToken=tokenize(text,profile)[0];
-  if(!index.has(firstToken))index.set(firstToken,[]);
-  index.get(firstToken).push(entry);
+  const head=firstToken(text,profile);
+  if(!index.has(head))index.set(head,[]);
+  index.get(head).push(entry);
 }
 
 function matchesConditions(conditions, features) {

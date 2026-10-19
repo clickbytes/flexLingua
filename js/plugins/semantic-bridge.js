@@ -389,7 +389,7 @@ export function createSemanticBridge({plan, core} = {}) {
   }
 
   function realizationTrace(meaning, transfer, informationLoss) {
-    const projection = projectMeaning(meaning, transfer);
+    validateMeaning(meaning, transfer);
     if (!Array.isArray(informationLoss)) {
       fail('PLUGIN_RESULT_INVALID', 'Realizer informationLoss trace must be an array.');
     }
@@ -433,9 +433,6 @@ export function createSemanticBridge({plan, core} = {}) {
       losses.set(item.path, item);
     }
 
-    if (JSON.stringify(projection.meaning) !== JSON.stringify(meaning)) {
-      fail('PLUGIN_RESULT_INVALID', 'Semantic bridge dropped meaning during realization projection.');
-    }
     return semanticFeatures.map(feature => {
       const loss = losses.get(feature.path);
       return {...feature, status: !loss ? 'preserved'

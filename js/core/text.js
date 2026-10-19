@@ -7,6 +7,7 @@ const TEXT_SEGMENTATION = 'unicode-whitespace-v1';
 const TOKEN_PATTERN = /[\p{L}\d][\p{L}\p{M}\d]*(?:['’ʼ\-:][\p{L}\d][\p{L}\p{M}\d]*)*|,/uy;
 const VALIDATED_TEXT_PROFILES = new WeakSet();
 const PHRASE_TOKENS_BY_PROFILE = new WeakMap();
+const FIRST_TOKENS_BY_PROFILE = new WeakMap();
 const GRAPHEME_SEGMENTERS_BY_PROFILE = new WeakMap();
 const MAX_CACHED_PHRASES = 4096;
 
@@ -154,6 +155,21 @@ export function tokenizeDetailed(text, rawProfile = DEFAULT_TEXT_PROFILE) {
 /** Strict tokenizer: unsupported punctuation is never silently discarded. */
 export function tokenize(text, profile = DEFAULT_TEXT_PROFILE) {
   return tokenizeDetailed(text,profile).tokens;
+}
+
+/** Strictly tokenize a phrase once per immutable profile when only its head is needed. */
+export function firstToken(text, rawProfile = DEFAULT_TEXT_PROFILE) {
+  requireBoundedText(text);
+  const profile=validateTextProfile(rawProfile);
+  let cache=FIRST_TOKENS_BY_PROFILE.get(profile);
+  if(cache?.has(text))return cache.get(text);
+  const token=tokenizeDetailed(text,profile).tokens[0];
+  if(text.length<=MAX_SOURCE_TEXT_LENGTH) {
+    if(!cache){cache=new Map();FIRST_TOKENS_BY_PROFILE.set(profile,cache);}
+    if(cache.size>=MAX_CACHED_PHRASES)cache.delete(cache.keys().next().value);
+    cache.set(text,token);
+  }
+  return token;
 }
 
 export function matchesTokens(tokens, index, phrase, rawProfile = tokens?.textProfile || DEFAULT_TEXT_PROFILE) {

@@ -6,9 +6,15 @@ import { executeOperations, validateOperations } from './operations.js';
 const ID=/^[A-Za-z][A-Za-z0-9_]*(?:\.[A-Za-z0-9_]+)*$/u;
 const MAX_SLOTS=256,MAX_LEXEMES=30000,MAX_ANALYSES=64,MAX_COMPILED_FORMS=300000;
 const clone=structuredClone;
+const RUNTIME_PARADIGMS=new WeakMap();
 const key=features=>JSON.stringify(Object.entries(features).sort(([a],[b])=>a.localeCompare(b)));
 const matches=(pattern,query)=>Object.entries(pattern).every(([k,v])=>query[k]===v);
 const safeText=text=>typeof text==='string' && text.length>0 && text.length<128 && !/[<>\x00-\x1f]/u.test(text);
+
+/** Return immutable parser-only forms without crossing the public clone boundary. */
+export function getMorphologyRuntimeView(provider,lexemeId) {
+  return RUNTIME_PARADIGMS.get(provider)?.get(lexemeId) ?? null;
+}
 
 /**
  * Finite, validated paradigm interpreter. A bounded inverse form index supplies
@@ -56,7 +62,7 @@ export function createMorphology(spec, dictionary, featureSpec, options={}) {
     const paradigm={id,pos:source.pos,slots};resolved.set(id,paradigm);states.set(id,2);return paradigm;
   };
   for(const id of Object.keys(spec.paradigms))resolve(id);
-  const bindings=new Map(),inverse=new Map();
+  const bindings=new Map(),inverse=new Map(),runtimeViews=new Map();
   let compiledCount=0;
   const provenance=record(spec.provenance)?clone(spec.provenance):{};
   for(const item of spec.bindings){
@@ -121,10 +127,20 @@ export function createMorphology(spec, dictionary, featureSpec, options={}) {
       features:clone(slot.features),path:slot.path?.join('.')||null,
       blocked:blockedCells.has(featuresKey)
     }));
+    const runtimeForms=Object.freeze(forms.map(form=>Object.freeze({
+      lexemeId:form.lexemeId,text:form.text,features:Object.freeze(form.features),
+      path:form.path,source:form.source,variant:form.variant,
+      coreRefs:Object.freeze(form.coreRefs.map(ref=>Object.freeze(ref)))
+    })));
+    const runtimeCells=Object.freeze(cells.map(cell=>Object.freeze({
+      features:Object.freeze(cell.features),path:cell.path,blocked:cell.blocked
+    })));
+    runtimeViews.set(item.lexemeId,Object.freeze({forms:runtimeForms,cells:runtimeCells,
+      supported:forms.length>0}));
     bindings.set(item.lexemeId,Object.freeze({lexeme:lex,paradigmId:item.paradigmId,forms,cells}));
   }
   const output=entry=>clone(entry);
-  return Object.freeze({language:spec.language,version:'1.11',
+  const provider=Object.freeze({language:spec.language,version:'1.11',
     registry,
     ...(featureProfile?{featureProfile}:{}),
     lexicon:lexical,paradigms:resolved,
@@ -173,4 +189,6 @@ export function createMorphology(spec, dictionary, featureSpec, options={}) {
       forms:[...bindings.values()].reduce((sum,b)=>sum+b.forms.length,0),featuresVersion:registry.version,
       ...(featureProfile?{featureProfile}: {})};}
   });
+  RUNTIME_PARADIGMS.set(provider,runtimeViews);
+  return provider;
 }
