@@ -2940,7 +2940,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
     // CORE aspect does not distinguish English progressive from simple present.
     const preferred = preferencePool.find(v => v.lexeme.aspect === preferredAspect) || preferencePool[0];
     function linearizeParts(entry, def, lexicalOverrides=options.lexicalOverrides||{}) {
-      return sequence.flatMap(step => {
+      const parts = sequence.flatMap(step => {
         if (step === relative?.gap) return [];
         if (step === '@verb') return [{text:[...entry.rule.prefix,entry.text].join(' '),
           kind:'predicate',meaningPaths:['#/concept','#/features',
@@ -2964,18 +2964,35 @@ function createGrammarInterpreter(sourceDictionary, rules,
             id:noun?.id||deicticPronounSurface(meaning.roles[step],deicticCase(
               roleCase(frame,step,meaning.features,meaning.roles[step]),step))}}];
       });
+      if(meaning.timeReference&&meaning.timeReference!=='unspecified') {
+        const markers=grammar.temporalDeixis?.[meaning.timeReference];
+        if(!markers)unsupported(`Unsupported temporal reference in ${grammar.language}.`);
+        const marker=Array.isArray(markers)?markers[0]:markers;
+        parts.push({text:marker,kind:'temporal',meaningPaths:['#/timeReference'],
+          decision:{kind:'time-reference',id:meaning.timeReference}});
+      }
+      if(meaning.clockTime) {
+        const marker=grammar.numericTime?.clockMarker;
+        if(!marker)unsupported(`Unsupported clock time in ${grammar.language}.`);
+        const time=`${String(meaning.clockTime.hour).padStart(2,'0')}:`+
+          String(meaning.clockTime.minute).padStart(2,'0');
+        parts.push({text:`${marker} ${time}`,kind:'temporal',meaningPaths:['#/clockTime'],
+          decision:{kind:'clock-time',id:time}});
+      }
+      if(meaning.calendarDate) {
+        const marker=grammar.numericTime?.dateMarker;
+        if(!marker)unsupported(`Unsupported calendar date in ${grammar.language}.`);
+        const date=`${String(meaning.calendarDate.year).padStart(4,'0')}-`+
+          `${String(meaning.calendarDate.month).padStart(2,'0')}-`+
+          String(meaning.calendarDate.day).padStart(2,'0');
+        parts.push({text:`${marker} ${date}`,kind:'temporal',meaningPaths:['#/calendarDate'],
+          decision:{kind:'calendar-date',id:date}});
+      }
+      return parts;
     }
     function linearize(entry, def, lexicalOverrides=options.lexicalOverrides||{}) {
       const parts = linearizeParts(entry,def,lexicalOverrides).map(part=>part.text);
-      const text=parts.join(' ').replace(/\s+/gu, ' ').replace(/\s+,/gu, ',').trim();
-      const marker=meaning.timeReference && grammar.temporalDeixis?.[meaning.timeReference];
-      if(meaning.timeReference && meaning.timeReference!=='unspecified' && !marker) {
-        unsupported(`Unsupported temporal reference in ${grammar.language}.`);
-      }
-      let output=marker ? `${text} ${[].concat(marker)[0]}` : text;
-      if(meaning.clockTime)output+=` ${grammar.numericTime.clockMarker} ${String(meaning.clockTime.hour).padStart(2,'0')}:${String(meaning.clockTime.minute).padStart(2,'0')}`;
-      if(meaning.calendarDate)output+=` ${grammar.numericTime.dateMarker} ${String(meaning.calendarDate.year).padStart(4,'0')}-${String(meaning.calendarDate.month).padStart(2,'0')}-${String(meaning.calendarDate.day).padStart(2,'0')}`;
-      return output;
+      return parts.join(' ').replace(/\s+/gu, ' ').replace(/\s+,/gu, ',').trim();
     }
     if (relative && !options.returnBuilder) return linearize(preferred, fallback);
     return { candidates, preferred, linearize, linearizeParts, roles };

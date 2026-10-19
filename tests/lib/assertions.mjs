@@ -217,9 +217,13 @@ function projectOracleMeaning(meaning, path, unresolved) {
     projected.roles = roles;
   }
   if (isRecord(meaning.features)) projected.features = materialMeaning(meaning.features);
+  if (typeof meaning.timeReference === 'string') projected.timeReference = nfc(meaning.timeReference);
+  if (isRecord(meaning.clockTime)) projected.clockTime = materialMeaning(meaning.clockTime);
+  if (isRecord(meaning.calendarDate)) projected.calendarDate = materialMeaning(meaning.calendarDate);
   const known = new Set([
     'type', 'concept', 'kind', 'roleSet', 'roles', 'roleFeaturesExact',
-    'modifiersExact', 'features', 'featuresAllowExtra', 'assert'
+    'modifiersExact', 'features', 'featuresAllowExtra', 'timeReference',
+    'clockTime', 'calendarDate', 'assert'
   ]);
   for (const key of Object.keys(meaning)) {
     if (!known.has(key) && !PRESENTATION_MEANING_KEYS.has(key) && key !== 'version') {
@@ -263,6 +267,11 @@ function knownOracleAssertionPath(meaning, segments) {
   if (meaning.type === 'question') return head === 'questionType' && tail.length === 0;
   if ((head === 'concept' || head === 'kind') && tail.length === 0) return true;
   if (head === 'features') return tail.length === 1;
+  if (head === 'timeReference') return tail.length === 0 && Object.hasOwn(meaning, head);
+  if (head === 'clockTime') return tail.length === 1 && ['hour', 'minute'].includes(tail[0]) &&
+    isRecord(meaning.clockTime);
+  if (head === 'calendarDate') return tail.length === 1 && ['year', 'month', 'day'].includes(tail[0]) &&
+    isRecord(meaning.calendarDate);
   if (head !== 'roles' || tail.length < 2) return false;
   const [role, field, ...rest] = tail;
   const participant = meaning.roles?.[role];

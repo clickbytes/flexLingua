@@ -1064,6 +1064,397 @@
         "coverageTargetId": "construction.event.visual_perception",
         "capability": "Meaning-linked source and target segments with coherent complete-sentence alternatives through CLI"
       }
+    },
+    {
+      "id": "A1-EN-PL-TEMPORAL-0001",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "temporal_realization",
+      "construction": "event.visual_perception",
+      "tier": "exploratory",
+      "priority": 4,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "definite",
+        "quantity": "none"
+      },
+      "purpose": "Preserves today as an event time reference in Polish text and its meaning-linked segment.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "The girl sees the dog today.",
+        "includeSegments": true
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "Dziewczyna widzi psa dziś."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "definite"
+              }
+            },
+            "theme": {
+              "concept": "animal.dog",
+              "features": {
+                "number": "singular",
+                "definiteness": "definite"
+              }
+            }
+          },
+          "timeReference": "today",
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "unknown"
+          },
+          "featuresAllowExtra": true,
+          "assert": {
+            "#/timeReference": "today"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "unavoidable"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "segments": {
+          "previewText": [
+            "Dziewczyna widzi psa dziś."
+          ],
+          "required": [
+            {
+              "meaningPath": "#/timeReference",
+              "text": "dziś",
+              "targetSpan": {
+                "start": 21,
+                "end": 25
+              },
+              "source": {
+                "status": "unavailable",
+                "reason": "source-span-unavailable"
+              }
+            }
+          ],
+          "allowUnexpected": true
+        }
+      },
+      "review": {
+        "status": "proposed",
+        "source": "Expected event meaning, surface form, and temporal role were authored independently in issue #496 before implementation and CLI execution; owner approval for this exact case ID is pending.",
+        "author": "Codex (proposal; not owner approved)",
+        "reviewedAt": "2026-10-20",
+        "issue": "#496"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "Preserve event time reference through analysis, realization, and source-linked target segments."
+      }
+    },
+    {
+      "id": "A1-EN-PL-TEMPORAL-0002",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "temporal_realization",
+      "construction": "event.visual_perception",
+      "tier": "exploratory",
+      "priority": 4,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "definite",
+        "quantity": "none"
+      },
+      "purpose": "Preserves a numeric clock time in Polish text and its meaning-linked segment.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "The girl sees the dog at 09:05.",
+        "includeSegments": true
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "Dziewczyna widzi psa o 09:05."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "definite"
+              }
+            },
+            "theme": {
+              "concept": "animal.dog",
+              "features": {
+                "number": "singular",
+                "definiteness": "definite"
+              }
+            }
+          },
+          "clockTime": {
+            "hour": 9,
+            "minute": 5
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "unknown"
+          },
+          "featuresAllowExtra": true,
+          "assert": {
+            "#/clockTime/hour": 9,
+            "#/clockTime/minute": 5
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "unavoidable"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "segments": {
+          "previewText": [
+            "Dziewczyna widzi psa o 09:05."
+          ],
+          "required": [
+            {
+              "meaningPath": "#/clockTime",
+              "text": "o 09:05",
+              "targetSpan": {
+                "start": 21,
+                "end": 28
+              },
+              "source": {
+                "status": "unavailable",
+                "reason": "source-span-unavailable"
+              }
+            }
+          ],
+          "allowUnexpected": true
+        }
+      },
+      "review": {
+        "status": "proposed",
+        "source": "Expected event meaning, surface form, and temporal role were authored independently in issue #496 before implementation and CLI execution; owner approval for this exact case ID is pending.",
+        "author": "Codex (proposal; not owner approved)",
+        "reviewedAt": "2026-10-20",
+        "issue": "#496"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "Preserve numeric clock time through analysis, realization, and source-linked target segments."
+      }
+    },
+    {
+      "id": "A1-EN-PL-TEMPORAL-0003",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "temporal_realization",
+      "construction": "event.visual_perception",
+      "tier": "exploratory",
+      "priority": 4,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "definite",
+        "quantity": "none"
+      },
+      "purpose": "Preserves a numeric calendar date in Polish text and its meaning-linked segment.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "The girl sees the dog on 2024-02-29.",
+        "includeSegments": true
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "Dziewczyna widzi psa dnia 2024-02-29."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "definite"
+              }
+            },
+            "theme": {
+              "concept": "animal.dog",
+              "features": {
+                "number": "singular",
+                "definiteness": "definite"
+              }
+            }
+          },
+          "calendarDate": {
+            "year": 2024,
+            "month": 2,
+            "day": 29
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "unknown"
+          },
+          "featuresAllowExtra": true,
+          "assert": {
+            "#/calendarDate/year": 2024,
+            "#/calendarDate/month": 2,
+            "#/calendarDate/day": 29
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "unavoidable"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "segments": {
+          "previewText": [
+            "Dziewczyna widzi psa dnia 2024-02-29."
+          ],
+          "required": [
+            {
+              "meaningPath": "#/calendarDate",
+              "text": "dnia 2024-02-29",
+              "targetSpan": {
+                "start": 21,
+                "end": 36
+              },
+              "source": {
+                "status": "unavailable",
+                "reason": "source-span-unavailable"
+              }
+            }
+          ],
+          "allowUnexpected": true
+        }
+      },
+      "review": {
+        "status": "proposed",
+        "source": "Expected event meaning, surface form, and temporal role were authored independently in issue #496 before implementation and CLI execution; owner approval for this exact case ID is pending.",
+        "author": "Codex (proposal; not owner approved)",
+        "reviewedAt": "2026-10-20",
+        "issue": "#496"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "Preserve numeric calendar date through analysis, realization, and source-linked target segments."
+      }
     }
   ]
 }
