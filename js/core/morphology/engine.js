@@ -7,6 +7,17 @@ const ID=/^[A-Za-z][A-Za-z0-9_]*(?:\.[A-Za-z0-9_]+)*$/u;
 const MAX_SLOTS=256,MAX_LEXEMES=30000,MAX_ANALYSES=64,MAX_COMPILED_FORMS=300000;
 const clone=structuredClone;
 const RUNTIME_PARADIGMS=new WeakMap();
+/** Published Map shapes are read-only facades: lookups and iteration only. */
+const readOnlyMap=map=>Object.freeze({
+  has:key=>map.has(key),
+  get:key=>map.get(key),
+  get size(){return map.size;},
+  keys:()=>[...map.keys()],
+  values:()=>[...map.values()],
+  entries:()=>[...map.entries()],
+  forEach:(visit)=>map.forEach((value,mapKey)=>visit(value,mapKey,map)),
+  [Symbol.iterator]:()=>map.entries()
+});
 const key=features=>JSON.stringify(Object.entries(features).sort(([a],[b])=>a.localeCompare(b)));
 const matches=(pattern,query)=>Object.entries(pattern).every(([k,v])=>query[k]===v);
 const safeText=text=>typeof text==='string' && text.length>0 && text.length<128 && !/[<>\x00-\x1f]/u.test(text);
@@ -68,7 +79,8 @@ export function createMorphology(spec, dictionary, featureSpec, options={}) {
       slots.set(cellKey,clone(slot));
     }
     if(!slots.size||slots.size>MAX_SLOTS)throw new Error('Invalid inherited paradigm slot count.');
-    const paradigm={id,pos:source.pos,slots};resolved.set(id,paradigm);states.set(id,2);return paradigm;
+    const paradigm=Object.freeze({id,pos:source.pos,slots:readOnlyMap(slots)});
+    resolved.set(id,paradigm);states.set(id,2);return paradigm;
   };
   for(const id of Object.keys(spec.paradigms))resolve(id);
   const bindings=new Map(),inverse=new Map(),runtimeViews=new Map();
@@ -167,7 +179,7 @@ export function createMorphology(spec, dictionary, featureSpec, options={}) {
   const provider=Object.freeze({language:spec.language,version:'1.11',
     registry,
     ...(featureProfile?{featureProfile}:{}),
-    lexicon:lexical,paradigms:resolved,
+    lexicon:lexical,paradigms:readOnlyMap(resolved),
     has:lexemeId=>bindings.has(lexemeId),
     availability({lexemeId,features={},exact=true}={}){
       const binding=bindings.get(lexemeId);
