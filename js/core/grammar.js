@@ -1307,6 +1307,36 @@ function createGrammarInterpreter(sourceDictionary, rules,
     return length ? at + length : null;
   }
 
+  const sentenceTokenPositions=new WeakMap();
+  const stateVerbPresenceCache=new WeakMap();
+  function tokenPositions(tokens) {
+    let positions=sentenceTokenPositions.get(tokens);
+    if(!positions) {
+      positions=new Map();
+      for(let index=0;index<tokens.length;index++) {
+        const token=tokens[index];
+        if(!positions.has(token))positions.set(token,[]);
+        positions.get(token).push(index);
+      }
+      sentenceTokenPositions.set(tokens,positions);
+    }
+    return positions;
+  }
+  function hasStateVerb(tokens,entry) {
+    let matches=stateVerbPresenceCache.get(tokens);
+    if(!matches) {
+      matches=new Map();
+      stateVerbPresenceCache.set(tokens,matches);
+    }
+    const signature=JSON.stringify([entry.rule.prefix,entry.text]);
+    if(matches.has(signature))return matches.get(signature);
+    const firstToken=getFirstToken(entry.rule.prefix[0]||entry.text);
+    const positions=tokenPositions(tokens).get(firstToken)||[];
+    const found=positions.some(index=>matchVerb(tokens,index,entry)!==null);
+    matches.set(signature,found);
+    return found;
+  }
+
   function stateRoleCase(frame, role, polarity) {
     const mapping = frame.cases[role];
     return record(mapping) ? mapping[polarity] : mapping;
@@ -1369,8 +1399,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
         const entry = {...base,...(replacement?{text:replacement}:{}),rule:{...base.rule,polarity,
           prefix:polarity==='negative'&&!postverbal&&!doSupport&&negativeStrategy!=='replacement'
             ?[stateGrammar.negator]:[]}};
-        if (!options.omitVerb && !options.doSupport &&
-            !tokens.some((_,index) => matchVerb(tokens,index,entry)!==null)) continue;
+        if (!options.omitVerb && !options.doSupport && !hasStateVerb(tokens,entry)) continue;
         const features={tense:entry.features.tense,polarity};
         for(const sequence of stateLinearizations){
           const implicitSubject=!sequence.includes(frame.subjectRole)
@@ -1562,9 +1591,10 @@ function createGrammarInterpreter(sourceDictionary, rules,
   function parsePassiveCandidates(tokens,counter) {
     if(!grammar.passive)return [];
     const budget=searchBudget(counter),readings=new Map();
+    let themes;
     for(const [concept,tenses] of Object.entries(grammar.passive.events)) {
       for(const [tense,paradigm] of Object.entries(tenses)) {
-        const themes=readNounPhrases(tokens,0,'nom',0,budget);
+        if(!themes)themes=readNounPhrases(tokens,0,'nom',0,budget);
         for(const theme of themes) {
           const auxiliary=passiveCell(paradigm.auxiliary,theme);
           const participle=passiveCell(paradigm.participle,theme);

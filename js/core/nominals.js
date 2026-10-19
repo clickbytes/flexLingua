@@ -2,6 +2,7 @@ import { participant, modifier, MAX_ENTITY_MODIFIERS, MAX_MODIFIER_DEPTH } from 
 import { EngineError } from './errors.js';
 import { record, safeName, hasOwn } from './features.js';
 import { createTextProfile, firstToken, matchesTokens, validateTextProfile } from './text.js';
+import { getMorphologyRuntimeView } from './morphology/engine.js';
 
 const WORDS = /^[\p{L}]+(?:\s+[\p{L}]+)*$/u;
 const LEXEME = /^[a-zA-Z][a-zA-Z0-9_]*(?:\.[a-zA-Z0-9_]+)*$/u;
@@ -85,10 +86,33 @@ function formFor(lexeme, features, forms=lexeme.forms) {
 export function createNominalInterpreter({ dictionary, nounPhrase, nounForms, featureProfile, morphology, textProfile }) {
   textProfile=textProfile===undefined?createTextProfile(dictionary.language):validateTextProfile(textProfile);
   const nounFormsByFirstToken=new Map();
+  const nounSurfaceCandidateCache=new WeakMap();
   let nounFormOrder=0;
   for(const {noun,forms} of nounForms)for(const form of forms) {
     addSurfaceEntry(nounFormsByFirstToken,form.text,
       {noun,form,order:nounFormOrder++},textProfile);
+  }
+  function nounCandidatesAt(tokens,index) {
+    let cache=nounSurfaceCandidateCache.get(tokens);
+    if(!cache) {
+      cache={matches:new Map(),scannedFrom:tokens.length,byIndex:new Map()};
+      nounSurfaceCandidateCache.set(tokens,cache);
+    }
+    for(let at=cache.scannedFrom-1;at>=index;at--) {
+      for(const candidate of nounFormsByFirstToken.get(tokens[at])||[]) {
+        if(!cache.matches.has(candidate.order)&&matchesTokens(tokens,at,candidate.form.text)) {
+          cache.matches.set(candidate.order,{candidate,start:at});
+        }
+      }
+    }
+    cache.scannedFrom=Math.min(cache.scannedFrom,index);
+    if(!cache.byIndex.has(index)) {
+      cache.byIndex.set(index,[...cache.matches.values()]
+        .filter(match=>match.start>=index)
+        .map(match=>match.candidate)
+        .sort((left,right)=>left.order-right.order));
+    }
+    return cache.byIndex.get(index);
   }
   const qualified = nounPhrase.qualified || {};
   const quantityModel=nounPhrase.quantity;
@@ -143,8 +167,10 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms, fe
     const lexemeId=adjectiveMorphologyIds.get(lexeme.id)||
       (morphology?.has(lexeme.id)?lexeme.id:null);
     if(!lexemeId)return lexeme.forms;
-    if(!adjectiveParadigms.has(lexeme.id))
-      adjectiveParadigms.set(lexeme.id,morphology.paradigm({lexemeId}));
+    if(!adjectiveParadigms.has(lexeme.id)) {
+      const runtimeView=getMorphologyRuntimeView(morphology,lexemeId);
+      adjectiveParadigms.set(lexeme.id,runtimeView?.forms??morphology.paradigm({lexemeId}));
+    }
     return adjectiveParadigms.get(lexeme.id);
   }
   const degrees = verifySurfaceInventory(dictionary.degrees || [], 'degree');
@@ -372,11 +398,7 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms, fe
     const possibleCases=new Set([grammaticalCase,
       ...(quantityModel?.caseOverrides||[]).filter(rule=>rule.from.includes(grammaticalCase))
         .map(rule=>rule.to)]);
-    const matchingNounForms=new Map();
-    for(let at=index;at<tokens.length;at++)for(const candidate of nounFormsByFirstToken.get(tokens[at])||[]) {
-      if(matchesTokens(tokens,at,candidate.form.text))matchingNounForms.set(candidate.order,candidate);
-    }
-    const nounCandidates=[...matchingNounForms.values()].sort((left,right)=>left.order-right.order);
+    const nounCandidates=nounCandidatesAt(tokens,index);
     for (const {noun,form} of nounCandidates) for (const [layoutIndex, layout] of layouts.entries()) {
       if (form.bindings.case !== undefined && !possibleCases.has(form.bindings.case)) continue;
       const number = form.bindings.number;
