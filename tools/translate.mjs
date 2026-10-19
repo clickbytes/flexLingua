@@ -83,7 +83,7 @@ async function main() {
     if (options.languages) {
       document = {status: 'ok', languages: await listLanguages()};
     } else {
-      const runtime = await createAppRuntime();
+      const runtime = await createAppRuntime({pluginCodes: [...new Set([options.from, options.to])]});
       document = createTranslationService(runtime).translate({from: options.from, to: options.to,
         text: options.text});
     }

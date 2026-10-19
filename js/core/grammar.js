@@ -1,9 +1,11 @@
 import { createEvent, createQuestion, createRelativeClause, createDialogueAct, createModality, createNegation,
   createIdentity, createPredication, createClassification, createPossession, createLocation, createExistence, createComparison, createInformationStructure, MAX_RELATIVE_DEPTH } from './meaning-graph.js';
 import { createLexicon } from './lexicon.js';
+import { getMorphologyRuntimeView } from './morphology/engine.js';
 import { createNominalInterpreter } from './nominals.js';
 import { createTextProfile, matchesTokens as matchTokenPhrase,
-  sentenceText as formatSentence, tokenize as tokenizeText, validateTextProfile,
+  firstToken as firstTextToken, sentenceText as formatSentence,
+  tokenize as tokenizeText, validateTextProfile,
   textProfileForSignal } from './text.js';
 import {EngineError} from './errors.js';
 import {RESOURCE_LIMITS} from './resource-limits.js';
@@ -23,7 +25,20 @@ import {
 const GRAMMAR_VERSIONS = new Set(['0.6', '1.0']);
 const MAX_ANALYSES = RESOURCE_LIMITS.grammarAnalyses;
 const MAX_SEARCH_NODES = RESOURCE_LIMITS.grammarSearchNodes;
-const searchBudget = counter => ({counter,memo:new Map()});
+const searchBudget = counter => ({counter,memo:new Map(),nounPhraseMemo:new WeakMap()});
+function freezeCachedGraph(value, seen = new WeakSet()) {
+  if (!value || typeof value !== 'object' || seen.has(value)) return value;
+  seen.add(value);
+  for (const child of Object.values(value)) freezeCachedGraph(child,seen);
+  return Object.freeze(value);
+}
+function cacheNounPhraseCandidates(items) {
+  for (const item of items) freezeCachedGraph(item.value);
+  return Object.freeze(items);
+}
+function cloneNounPhraseCandidates(items) {
+  return items.map(item=>({...item}));
+}
 function unsupported(message) {
   throw new EngineError('LANGUAGE_CONSTRUCTION_UNSUPPORTED', message, {status:'unsupported'});
 }
@@ -104,9 +119,9 @@ function formPlaceholders(path) {
   return pathParts(path).flatMap(part => part.match(PLACEHOLDER)?.[1] || []);
 }
 
-function bindingsForPath(template, concrete) {
+function bindingsForPath(expected, concrete) {
   if(typeof concrete!=='string'||!concrete)return null;
-  const expected=pathParts(template),actual=concrete.split('.');
+  const actual=concrete.split('.');
   if(expected.length!==actual.length)return null;
   let bindings={};
   for(let index=0;index<expected.length;index++){
@@ -148,14 +163,14 @@ function formsAt(lexeme, path, bridge) {
   visit(lexeme, 0, {});
   const cells=(bridge?.cells||[]).flatMap(cell=>{
     const cellPath=fullMorphologyPath(cell.path);
-    const bindings=bindingsForPath(path,cellPath);
+    const bindings=bindingsForPath(parts,cellPath);
     const unified=bindings&&unifyFeatures(bindings,cell.features||{});
     return unified?[{cell:{...cell,path:cellPath},bindings:unified}]:[];
   });
   const coveredPaths=new Set(cells.map(({cell})=>cell.path));
   const candidates=(bridge?.candidates||[]).flatMap(candidate=>{
     const candidatePath=fullMorphologyPath(candidate.path);
-    const bindings=bindingsForPath(path,candidatePath);
+    const bindings=bindingsForPath(parts,candidatePath);
     const consistent=bindings&&unifyFeatures(bindings,candidate.features||{});
     return consistent?[{text:candidate.text,bindings,path:candidatePath,
       morphologyFeatures:candidate.features||{},
@@ -886,10 +901,10 @@ export function createRuleAdapter(plan, options = {}) {
       !['lexicon','syntax','morphology','signal'].every(layer=>Array.isArray(plan.layers[layer]))) {
     throw new Error('Invalid compiled grammar plan.');
   }
-  if(!record(options)||Object.keys(options).some(key=>key!=='morphology')) {
+  if(!record(options)||Object.keys(options).some(key=>!['morphology','lexicon'].includes(key))) {
     throw new Error('Invalid compiled grammar runtime options.');
   }
-  const {morphology}=options;
+  const {morphology,lexicon}=options;
   const dictionary=planModule(plan,'lexicon',data=>
     record(data)&&data.language===plan.language&&Array.isArray(data.nouns));
   const grammar=planModule(plan,'syntax',data=>
@@ -902,23 +917,28 @@ export function createRuleAdapter(plan, options = {}) {
   const signal=plan.layers.signal.length?planModule(plan,'signal',data=>record(data)&&data.channel==='written'):null;
   return createGrammarInterpreter(dictionary,grammar,{
     morphology,
+    lexicon,
     featureProfile,
     ...(signal?{textProfile:textProfileForSignal(signal,plan.language)}:{})
   },plan);
 }
 
 function createGrammarInterpreter(sourceDictionary, rules,
-  {morphology,featureProfile:rawFeatureProfile,textProfile:rawTextProfile}, compiledPlan) {
+  {morphology,lexicon:sharedLexicon,featureProfile:rawFeatureProfile,textProfile:rawTextProfile}, compiledPlan) {
   const featureProfile=rawFeatureProfile===undefined?undefined:
     createLanguageFeatureProfile(rawFeatureProfile,{language:sourceDictionary.language});
   const textProfile=rawTextProfile===undefined?createTextProfile(sourceDictionary.language):
     validateTextProfile(rawTextProfile);
-  const lexicon = createLexicon(sourceDictionary);
+  const lexicon = sharedLexicon ?? createLexicon(sourceDictionary);
+  if (lexicon.language !== sourceDictionary.language) {
+    throw new Error('Shared grammar lexicon does not match its dictionary.');
+  }
   // A compatibility view lets existing declarative grammar use the normalized
   // meaning inventory while the canonical source always points through CORE.
   const dictionary = lexicon.dictionary;
   const grammar = validateGrammar(dictionary, rules, featureProfile);
   const { nounPhrase, sentence, verb: verbGrammar, frames } = grammar;
+  const frameOrder = new Map(Object.keys(frames).map((concept,index)=>[concept,index]));
   const compiledCases=new WeakMap();
   for(const transfer of compiledPlan.transferPlans) {
     const frame=frames[transfer.conceptId];
@@ -1002,6 +1022,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
   }
   const matchesTokens=(tokens,index,phrase)=>matchTokenPhrase(tokens,index,phrase,textProfile);
   const tokenize=text=>tokenizeText(text,textProfile);
+  const getFirstToken=text=>firstTextToken(text,textProfile);
   const sentenceText=(parts,terminator='.')=>formatSentence(parts,terminator,textProfile.locale);
   const possessives=nounPhrase.possessives || [];
   const subjectRole = sentence.subjectRole;
@@ -1015,10 +1036,13 @@ function createGrammarInterpreter(sourceDictionary, rules,
       senseIds.map(senseId=>canonicalBySense.get(senseId)).find(id=>id&&morphology.has(id));
     if(!lexemeId)return null;
     if(!morphologyBridgeCache.has(lexemeId)){
-      const availability=morphology.availability({lexemeId,features:{},exact:false});
-      const candidates=availability?.supported===true?morphology.paradigm({lexemeId}):[];
+      const runtimeView=getMorphologyRuntimeView(morphology,lexemeId);
+      const availability=runtimeView?{supported:runtimeView.supported}:
+        morphology.availability({lexemeId,features:{},exact:false});
+      const candidates=availability?.supported===true
+        ?(runtimeView?runtimeView.forms:morphology.paradigm({lexemeId})):[];
       morphologyBridgeCache.set(lexemeId,Array.isArray(candidates)&&candidates.length?{
-        candidates,cells:morphology.cells?.({lexemeId})||[]
+        candidates,cells:runtimeView?.cells??(morphology.cells?.({lexemeId})||[])
       }:null);
     }
     const bridge=morphologyBridgeCache.get(lexemeId);
@@ -1033,12 +1057,23 @@ function createGrammarInterpreter(sourceDictionary, rules,
       if(generated)morphologyBridge.set(lexeme,generated.bridge);
     }
   }
-  const formsAtLexeme=(lexeme,path)=>formsAt(lexeme,path,morphologyBridge.get(lexeme));
+  const formsAtCache=new WeakMap();
+  const formsAtLexeme=(lexeme,path)=>{
+    let byPath=formsAtCache.get(lexeme);
+    if(byPath?.has(path))return byPath.get(path);
+    const forms=formsAt(lexeme,path,morphologyBridge.get(lexeme));
+    if(!byPath){byPath=new Map();formsAtCache.set(lexeme,byPath);}
+    byPath.set(path,forms);
+    return forms;
+  };
+  const modalEntriesCache=new WeakMap();
   const verbs = expandedVerbs.filter(lexeme => !!lexeme.concept);
   const stateVerbs = expandedVerbs.filter(lexeme =>
     hasOwn(grammar.states?.verbs || {},lexeme.stateFunction));
   const nounForms = nouns.map(noun => ({ noun, forms: formsAtLexeme(noun, nounPhrase.path) }));
-  const nominal = createNominalInterpreter({ dictionary, nounPhrase, nounForms, featureProfile, morphology });
+  const nounFormsByLexeme=new Map(nounForms.map(item=>[item.noun,item.forms]));
+  const nominal = createNominalInterpreter({ dictionary, nounPhrase, nounForms,
+    featureProfile, morphology, textProfile });
   const exactQuantityValue=ref=>{
     const value=ref?.quantity||ref?.quantifier;
     return value?.kind==='exact'?value.value:null;
@@ -1089,11 +1124,51 @@ function createGrammarInterpreter(sourceDictionary, rules,
       ? rule.path.replace(/^forms\./u,'negativeForms.') : rule.path;
     return formsAtLexeme(lexeme,path).map(form => ({ ...form, lexeme, rule }));
   }));
+  // These private candidate arrays are stable, including cached modal variants.
+  const verbEntryIndexes=new WeakMap();
+  function indexVerbEntries(entries,includeConcepts=false) {
+    let indexes=verbEntryIndexes.get(entries);
+    if(indexes)return indexes;
+    const unprefixedByFirstToken=new Map();
+    const prefixGroupsByFirstToken=new Map();
+    const prefixGroups=new Map();
+    const byConcept=includeConcepts?new Map():null;
+    for(let order=0;order<entries.length;order++) {
+      const entry=entries[order],candidate={entry,order};
+      if(byConcept) {
+        if(!byConcept.has(entry.lexeme.concept))byConcept.set(entry.lexeme.concept,[]);
+        byConcept.get(entry.lexeme.concept).push(entry);
+      }
+      const prefixes=entry.rule.prefix;
+      const formHead=getFirstToken(entry.text);
+      if(!prefixes.length) {
+        if(!unprefixedByFirstToken.has(formHead))unprefixedByFirstToken.set(formHead,[]);
+        unprefixedByFirstToken.get(formHead).push(candidate);
+        continue;
+      }
+      const prefixKey=JSON.stringify(prefixes);
+      let group=prefixGroups.get(prefixKey);
+      if(!group) {
+        group={prefixes,formsByFirstToken:new Map()};
+        prefixGroups.set(prefixKey,group);
+        const prefixHead=getFirstToken(prefixes[0]);
+        if(!prefixGroupsByFirstToken.has(prefixHead))prefixGroupsByFirstToken.set(prefixHead,[]);
+        prefixGroupsByFirstToken.get(prefixHead).push(group);
+      }
+      if(!group.formsByFirstToken.has(formHead))group.formsByFirstToken.set(formHead,[]);
+      group.formsByFirstToken.get(formHead).push(candidate);
+    }
+    indexes={unprefixedByFirstToken,prefixGroupsByFirstToken,...(byConcept?{byConcept}:{})};
+    verbEntryIndexes.set(entries,indexes);
+    return indexes;
+  }
+  const verbFormsByConcept=indexVerbEntries(verbForms,true).byConcept;
   const stateGrammar = grammar.states || null;
   const stateVerbForms = stateGrammar ? stateVerbs.flatMap(lexeme => {
     const kinds = [].concat(stateGrammar.verbs[lexeme.stateFunction]);
     const cells = morphology?.has(lexeme.id)
-      ? morphology.paradigm({lexemeId:lexeme.id}).map(form => ({
+      ? (getMorphologyRuntimeView(morphology,lexeme.id)?.forms ??
+        morphology.paradigm({lexemeId:lexeme.id})).map(form => ({
         text:form.text, features:form.features
       }))
       : STATE_FORM_CELLS.flatMap(cell => formsAtLexeme(lexeme,cell.path).map(form => ({
@@ -1157,7 +1232,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
     const count=exactQuantityValue(ref);
     const grammaticalNumber=grammaticalNumberFor(ref);
     const surfaceCase=count===null?gramCase:nominal.surfaceCaseForQuantity(count,gramCase);
-    const forms = nounForms.find(item => item.noun === noun)?.forms || [];
+    const forms = nounFormsByLexeme.get(noun) || [];
     const form = forms.find(candidate => candidate.bindings.number === grammaticalNumber &&
       (candidate.bindings.case === undefined || candidate.bindings.case === surfaceCase));
     if (!form) throw new Error(`Missing ${grammaticalNumber}/${surfaceCase || '-'} noun form for ${noun.lemma}.`);
@@ -1260,6 +1335,36 @@ function createGrammarInterpreter(sourceDictionary, rules,
     return length ? at + length : null;
   }
 
+  const sentenceTokenPositions=new WeakMap();
+  const stateVerbPresenceCache=new WeakMap();
+  function tokenPositions(tokens) {
+    let positions=sentenceTokenPositions.get(tokens);
+    if(!positions) {
+      positions=new Map();
+      for(let index=0;index<tokens.length;index++) {
+        const token=tokens[index];
+        if(!positions.has(token))positions.set(token,[]);
+        positions.get(token).push(index);
+      }
+      sentenceTokenPositions.set(tokens,positions);
+    }
+    return positions;
+  }
+  function hasStateVerb(tokens,entry) {
+    let matches=stateVerbPresenceCache.get(tokens);
+    if(!matches) {
+      matches=new Map();
+      stateVerbPresenceCache.set(tokens,matches);
+    }
+    const signature=JSON.stringify([entry.rule.prefix,entry.text]);
+    if(matches.has(signature))return matches.get(signature);
+    const firstToken=getFirstToken(entry.rule.prefix[0]||entry.text);
+    const positions=tokenPositions(tokens).get(firstToken)||[];
+    const found=positions.some(index=>matchVerb(tokens,index,entry)!==null);
+    matches.set(signature,found);
+    return found;
+  }
+
   function stateRoleCase(frame, role, polarity) {
     const mapping = frame.cases[role];
     return record(mapping) ? mapping[polarity] : mapping;
@@ -1322,8 +1427,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
         const entry = {...base,...(replacement?{text:replacement}:{}),rule:{...base.rule,polarity,
           prefix:polarity==='negative'&&!postverbal&&!doSupport&&negativeStrategy!=='replacement'
             ?[stateGrammar.negator]:[]}};
-        if (!options.omitVerb && !options.doSupport &&
-            !tokens.some((_,index) => matchVerb(tokens,index,entry)!==null)) continue;
+        if (!options.omitVerb && !options.doSupport && !hasStateVerb(tokens,entry)) continue;
         const features={tense:entry.features.tense,polarity};
         for(const sequence of stateLinearizations){
           const implicitSubject=!sequence.includes(frame.subjectRole)
@@ -1515,9 +1619,10 @@ function createGrammarInterpreter(sourceDictionary, rules,
   function parsePassiveCandidates(tokens,counter) {
     if(!grammar.passive)return [];
     const budget=searchBudget(counter),readings=new Map();
+    let themes;
     for(const [concept,tenses] of Object.entries(grammar.passive.events)) {
       for(const [tense,paradigm] of Object.entries(tenses)) {
-        const themes=readNounPhrases(tokens,0,'nom',0,budget);
+        if(!themes)themes=readNounPhrases(tokens,0,'nom',0,budget);
         for(const theme of themes) {
           const auxiliary=passiveCell(paradigm.auxiliary,theme);
           const participle=passiveCell(paradigm.participle,theme);
@@ -1640,14 +1745,36 @@ function createGrammarInterpreter(sourceDictionary, rules,
       allowImplicitSubject]);
     if (budget.memo.has(memoKey)) return budget.memo.get(memoKey);
     const readings = new Map();
-    const matchedVerbEntries = new Map();
-    for (const [concept, frame] of Object.entries(frames)) {
-      let entries = matchedVerbEntries.get(concept);
-      if (!entries) {
-        entries = verbEntries.filter(entry => entry.lexeme.concept === concept &&
-          tokens.some((_, i) => matchVerb(tokens, i, entry) !== null));
-        matchedVerbEntries.set(concept, entries);
+    const {unprefixedByFirstToken,prefixGroupsByFirstToken}=indexVerbEntries(verbEntries);
+    const matchedOrders=new Set(),matchingEntriesByConcept=new Map();
+    const collectMatch=(candidate,at)=>{
+      if(matchedOrders.has(candidate.order)||!matchesTokens(tokens,at,candidate.entry.text))return;
+      matchedOrders.add(candidate.order);
+      const concept=candidate.entry.lexeme.concept;
+      if(!matchingEntriesByConcept.has(concept))matchingEntriesByConcept.set(concept,[]);
+      matchingEntriesByConcept.get(concept).push(candidate);
+    };
+    for(let at=0;at<tokens.length;at++) {
+      for(const candidate of unprefixedByFirstToken.get(tokens[at])||[])collectMatch(candidate,at);
+      for(const group of prefixGroupsByFirstToken.get(tokens[at])||[]) {
+        let formAt=at,matched=true;
+        for(const prefix of group.prefixes) {
+          const length=matchesTokens(tokens,formAt,prefix);
+          if(!length){matched=false;break;}
+          formAt+=length;
+        }
+        if(!matched)continue;
+        for(const candidate of group.formsByFirstToken.get(tokens[formAt])||[])
+          collectMatch(candidate,formAt);
       }
+    }
+    const orderedConcepts=[...matchingEntriesByConcept.keys()]
+      .filter(concept=>frameOrder.has(concept))
+      .sort((left,right)=>frameOrder.get(left)-frameOrder.get(right));
+    for (const concept of orderedConcepts) {
+      const frame=frames[concept];
+      const entries=matchingEntriesByConcept.get(concept)
+        .sort((left,right)=>left.order-right.order).map(candidate=>candidate.entry);
       const sequences = linearizations ? linearizations(frame) : frame.linearizations;
       if (sequences.length > MAX_ANALYSES) {
         throw new EngineError('GRAMMAR_SEARCH_LIMIT',
@@ -1768,16 +1895,29 @@ function createGrammarInterpreter(sourceDictionary, rules,
   function modalEntries(modal, mode, person, number, includeModal = true) {
     const modalForm=modal.forms[mode]?.[modalAgreementKey(person,number)];
     if (!modality || !modalForm) return [];
+    let cache=modalEntriesCache.get(modal);
+    if(!cache){cache=new Map();modalEntriesCache.set(modal,cache);}
+    const cacheKey=JSON.stringify([mode,person,number,includeModal]);
+    if(cache.has(cacheKey))return cache.get(cacheKey);
     const operator=modal.senses[0].coreRef.id;
-    return verbs.flatMap(lexeme => formsAtLexeme(lexeme,modality.infinitivePath)
+    const entries=verbs.flatMap(lexeme => formsAtLexeme(lexeme,modality.infinitivePath)
       .filter(verbForm => Object.keys(verbForm.bindings).length === 0)
       .map(verbForm => ({
-        lexeme, text: includeModal ? modalForm+' '+verbForm.text : verbForm.text,
+        lexeme, text:verbForm.text,
         bindings: {}, rule: {
           tense:operator==='modality.intention'?'future':'present', polarity:mode === 'positive' ? 'positive' : 'negative',
-          prefix:[],when:{'subject.person':person,'subject.number':number}
+          prefix:includeModal?[modalForm]:[],when:{'subject.person':person,'subject.number':number}
         }
       })));
+    cache.set(cacheKey,entries);
+    return entries;
+  }
+
+  function containsPhrase(tokens, phrase) {
+    for(let index=0;index<tokens.length;index++) {
+      if(matchesTokens(tokens,index,phrase))return true;
+    }
+    return false;
   }
 
   function wrapModalReading(reading, modal, mode) {
@@ -1801,6 +1941,8 @@ function createGrammarInterpreter(sourceDictionary, rules,
       ? ['positive'] : ['positive','negative','prohibition'])) {
       if (!modal.forms[mode]) continue;
       for (const person of ['first','second','third']) for (const number of ['singular','plural']) {
+        const modalForm=modal.forms[mode][modalAgreementKey(person,number)];
+        if(!modalForm || !containsPhrase(tokens,modalForm))continue;
         const variants=parseClause(tokens,gap,antecedent,0,questionBudget(counter),{
           verbEntries:modalEntries(modal,mode,person,number),
           omitGap:!!gap, linearizations
@@ -2152,6 +2294,10 @@ function createGrammarInterpreter(sourceDictionary, rules,
   }
 
   function readNounPhrases(tokens, index, grammaticalCase, depth, budget, options = {}) {
+    let byPosition=budget.nounPhraseMemo.get(tokens);
+    if(!byPosition){byPosition=new Map();budget.nounPhraseMemo.set(tokens,byPosition);}
+    const cacheKey=JSON.stringify([index,grammaticalCase,depth,options]);
+    if(byPosition.has(cacheKey))return cloneNounPhraseCandidates(byPosition.get(cacheKey));
     const bare = nominal.read(tokens, index, grammaticalCase, options);
     for(const entry of possessives)for(const form of entry.forms){
       const length=matchesTokens(tokens,index,form.text);
@@ -2169,7 +2315,10 @@ function createGrammarInterpreter(sourceDictionary, rules,
           agreement:{person:entry.person,number:entry.number}}},next:parsed.next});
       }
     }
-    if (depth >= relativeGrammar.maxDepth) return bare;
+    if (depth >= relativeGrammar.maxDepth) {
+      byPosition.set(cacheKey,cacheNounPhraseCandidates(bare));
+      return cloneNounPhraseCandidates(bare);
+    }
     const enriched = [...bare];
     for (const base of bare) for (const marker of relativeGrammar.markers) {
       if (!relativeMarker(marker, base.noun, base.value)) continue;
@@ -2196,7 +2345,8 @@ function createGrammarInterpreter(sourceDictionary, rules,
         }
       }
     }
-    return enriched;
+    byPosition.set(cacheKey,cacheNounPhraseCandidates(enriched));
+    return cloneNounPhraseCandidates(enriched);
   }
 
   function analyze(text) { return analyzeCandidates(text)[0].interlingua; }
@@ -2372,7 +2522,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
       }
       context[argument] = {...context[argument], ...features};
     }
-    const candidates = verbForms.filter(entry => entry.lexeme.concept === meaning.concept &&
+    const candidates = (verbFormsByConcept.get(meaning.concept)||[]).filter(entry =>
       entry.rule.tense === meaning.features.tense && entry.rule.polarity === meaning.features.polarity &&
       (verbGrammar.aspectSource !== 'lexeme' || meaning.features.aspect === 'unknown' ||
         entry.lexeme.aspect === meaning.features.aspect) &&
@@ -2707,7 +2857,15 @@ function createGrammarInterpreter(sourceDictionary, rules,
     if (withDeterminers && unspecifiedRoles.length && !fallback) {
       throw new Error('No default definiteness policy for underspecified source.');
     }
-    const render = (entry, def) => sentenceText([linearize(entry, def)], sentence.terminator);
+    const renderCache=new Map();
+    const render = (entry, def) => {
+      let byDef=renderCache.get(entry);
+      if(!byDef){byDef=new Map();renderCache.set(entry,byDef);}
+      if(byDef.has(def))return byDef.get(def);
+      const text=sentenceText([linearize(entry, def)], sentence.terminator);
+      byDef.set(def,text);
+      return text;
+    };
     const text = render(preferred, fallback);
     const alternatives = [];
     const seen = new Set([text]);

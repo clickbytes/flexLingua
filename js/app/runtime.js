@@ -48,15 +48,23 @@ export async function listLanguages(root = DEFAULT_PROJECT_ROOT) {
 }
 
 /** Build one shared CORE, PluginRegistry, and Engine for application services. */
-export async function createAppRuntime({root = DEFAULT_PROJECT_ROOT} = {}) {
+export async function createAppRuntime({root = DEFAULT_PROJECT_ROOT, pluginCodes} = {}) {
+  if (pluginCodes !== undefined && (!Array.isArray(pluginCodes) || !pluginCodes.length ||
+      pluginCodes.length > 128 || pluginCodes.some(code => typeof code !== 'string' || !CODE.test(code)) ||
+      new Set(pluginCodes).size !== pluginCodes.length)) {
+    throw new Error('Runtime plugin codes must be a non-empty list of distinct language codes.');
+  }
   const [ontology, features, languages] = await Promise.all([
     readJson(join(root, 'data', 'core', 'concepts.json')),
     readJson(join(root, 'data', 'core', 'features.json')),
     listLanguages(root)
   ]);
   const core = createCoreLanguage(ontology);
-  const plugins = await loadPluginRegistry(root, {core});
-  const engine = new Engine(ontology, features, plugins);
+  const knownCodes = new Set(languages.map(language => language.code));
+  const selectedCodes = pluginCodes?.filter(code => knownCodes.has(code));
+  const plugins = await loadPluginRegistry(root, {core,
+    ...(selectedCodes ? {codes: selectedCodes} : {})});
+  const engine = new Engine(ontology, features, plugins, {core});
   const capabilities = engine.capabilities();
   const capabilityCatalog = createCapabilityService({languages, capabilities});
   return Object.freeze({root, ontology, features, plugins, engine, languages,

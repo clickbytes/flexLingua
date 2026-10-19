@@ -45,10 +45,19 @@ function findFeatureModule(plan) {
   return candidates[0][1];
 }
 
+const CAPABILITY_INDEXES=new WeakMap();
 function availableFor(capabilities, operation, construction) {
-  return capabilities.some(item => item.channel === 'sentence' &&
-    item.operation === operation && item.construction === construction &&
-    item.status === 'implemented');
+  let index=CAPABILITY_INDEXES.get(capabilities);
+  if(!index) {
+    index=new Map();
+    for(const item of capabilities) {
+      if(item.channel!=='sentence'||item.status!=='implemented')continue;
+      if(!index.has(item.operation))index.set(item.operation,new Set());
+      index.get(item.operation).add(item.construction);
+    }
+    CAPABILITY_INDEXES.set(capabilities,index);
+  }
+  return index.get(operation)?.has(construction)===true;
 }
 
 function availableForTransfer(capabilities, operation, transfer) {
@@ -135,8 +144,8 @@ function refusalRealization(error, operation = 'realization') {
 /** Build one ESM LanguagePlugin from a compiled language graph and its JSON modules. */
 export function defineDeclarativeLanguagePlugin({manifest, graph, modules, core} = {}) {
   const plan = compileLanguageGraph({manifest, graph, modules, core});
-  const runtimeManifest = structuredClone(manifest);
-  const capabilities = structuredClone(plan.capabilities);
+  const runtimeVersion=manifest.schemaVersion;
+  const capabilities = plan.capabilities;
   const sentenceCapabilities = capabilities.filter(item => item.channel === 'sentence');
   const hasSentenceImplementation = sentenceCapabilities.some(item => item.status === 'implemented');
   const lexiconModule = uniqueModuleForLayer(plan, 'lexicon', data =>
@@ -150,6 +159,19 @@ export function defineDeclarativeLanguagePlugin({manifest, graph, modules, core}
     data.language === manifest.code && data.version === '1.11' &&
     isRecord(data.paradigms) && Array.isArray(data.bindings));
   const morphologyCapabilities = capabilities.filter(item => item.channel === 'morphology');
+  const lexiconCapabilities = capabilities.filter(item => item.channel === 'lexicon');
+  const wantsLexicon = lexiconCapabilities.some(item => item.status === 'implemented');
+  const needsLexicon = hasSentenceImplementation ||
+    morphologyCapabilities.some(item => item.status === 'implemented') || wantsLexicon;
+  let lexical = null;
+  if (needsLexicon && dictionary) {
+    try {
+      lexical = createLexicon(dictionary, {strict: dictionary.lexicalModel === '1.01'});
+      lexical.validateCore(core);
+    } catch (error) {
+      fail('PLUGIN_PACKAGE_INVALID', 'Cannot build the declared lexical provider.', error);
+    }
+  }
   let morphology;
   if (morphologyCapabilities.some(item => item.status === 'implemented')) {
     if (!morphologyModule || !dictionary) {
@@ -159,8 +181,8 @@ export function defineDeclarativeLanguagePlugin({manifest, graph, modules, core}
     if (!featureModule) fail('PLUGIN_CAPABILITY_UNAVAILABLE', 'Morphology requires a local feature inventory.');
     const featureProfile = morphologyModule.data.featureProfile ?? featureModule.featureProfile;
     try {
-      morphology = createMorphology(morphologyModule.data, dictionary, featureModule, {
-        core, ...(featureProfile ? {featureProfile} : {})
+      morphology = createMorphology(morphologyModule.data, lexical.dictionary, featureModule, {
+        core, lexicon: lexical, ...(featureProfile ? {featureProfile} : {})
       });
     } catch (error) {
       fail('PLUGIN_PACKAGE_INVALID', 'Cannot build the declared morphology provider.', error);
@@ -186,19 +208,15 @@ export function defineDeclarativeLanguagePlugin({manifest, graph, modules, core}
   let adapter = null;
   if (hasSentenceImplementation) {
     try {
-      adapter = createRuleAdapter(plan, {morphology});
-      adapter.lexicon.validateCore(core);
+      adapter = createRuleAdapter(plan, {morphology,lexicon:lexical});
     } catch (error) {
       fail('PLUGIN_PACKAGE_INVALID', 'Cannot build the declared sentence runtime.', error);
     }
   }
 
   const semanticBridge = createSemanticBridge({plan, core});
-  const lexiconCapabilities = capabilities.filter(item => item.channel === 'lexicon');
-  const wantsLexicon = lexiconCapabilities.some(item => item.status === 'implemented');
   const lexicalProvider = wantsLexicon
-    ? adapter?.lexicon || morphology?.lexicon ||
-      (dictionary ? createLexicon(dictionary, {strict: dictionary.lexicalModel === '1.01'}) : null)
+    ? adapter?.lexicon || morphology?.lexicon || lexical
     : null;
   if (lexiconCapabilities.some(item => item.status === 'implemented') && !lexicalProvider) {
     fail('PLUGIN_CAPABILITY_UNAVAILABLE', 'Implemented lexicon capability has no lexical module.');
@@ -207,7 +225,7 @@ export function defineDeclarativeLanguagePlugin({manifest, graph, modules, core}
   const plugin = {
     contractVersion: '1.0',
     code: plan.language,
-    describe() { return {language: plan.language, version: runtimeManifest.schemaVersion}; },
+    describe() { return {language: plan.language, version: runtimeVersion}; },
     capabilities() { return structuredClone(capabilities); }
   };
   if (lexiconCapabilities.length && lexicalProvider) plugin.lexicon = lexicalProvider;

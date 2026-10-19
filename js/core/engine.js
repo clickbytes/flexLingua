@@ -102,11 +102,19 @@ function eventWithin(node) {
 
 /** One semantic ontology and a registry of language-neutral LanguagePlugin providers. */
 export class Engine {
-  constructor(ontology, features, plugins) {
+  constructor(ontology, features, plugins, options = {}) {
     if (!plugins || typeof plugins.get !== 'function' || typeof plugins.list !== 'function') {
       throw new EngineError('PLUGIN_REGISTRY_INVALID', 'Engine requires a LanguagePlugin registry.');
     }
-    this.core = createCoreLanguage(ontology);
+    if (!options || typeof options !== 'object' || Array.isArray(options) ||
+        Object.keys(options).some(key => key !== 'core')) {
+      throw new EngineError('ENGINE_OPTIONS_INVALID', 'Engine options may contain only a shared CORE.');
+    }
+    const core = options.core ?? createCoreLanguage(ontology);
+    if (!core || typeof core.resolve !== 'function' || !core.ontology) {
+      throw new EngineError('CORE_LANGUAGE_INVALID', 'Engine requires a valid CORE language.');
+    }
+    this.core = core;
     this.ontology = this.core.ontology;
     this.features = createFeatureRegistry(features);
     this.plugins = plugins;
