@@ -3284,7 +3284,11 @@ function createGrammarInterpreter(sourceDictionary, rules,
     }
     const renderCache=new Map();
     const renderDetail=(entry,def,lexicalOverrides={})=>{
-      const key=JSON.stringify([entry.lexeme.id,entry.rule.path,def,lexicalOverrides]);
+      // The key must identify the compiled form itself: one morphology cell can hold
+      // several variant forms (rule form plus addVariant exceptions) with the same
+      // lexeme id and rule path but different surfaces.
+      const key=JSON.stringify([entry.lexeme.id,entry.rule.path,entry.text,
+        entry.variant===undefined?null:entry.variant,def,lexicalOverrides]);
       if(renderCache.has(key))return renderCache.get(key);
       const renderer=Object.keys(lexicalOverrides).length?
         renderEvent(meaning,undefined,0,null,{subjectPronoun,lexicalRegister,sequence,
