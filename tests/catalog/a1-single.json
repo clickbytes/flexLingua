@@ -37,13 +37,12 @@
       "domain": "people",
       "kind": "entity",
       "concept": "person.boy",
-      "tier": "planned",
+      "tier": "required",
       "witnessKind": "positive",
       "directions": [
         "en-pl",
         "pl-en"
-      ],
-      "note": "Planned: no approved positive sentence witnesses this concept yet."
+      ]
     },
     {
       "targetId": "concept.person.child",
@@ -69,13 +68,12 @@
       "domain": "people",
       "kind": "entity",
       "concept": "person.woman",
-      "tier": "planned",
+      "tier": "required",
       "witnessKind": "positive",
       "directions": [
         "en-pl",
         "pl-en"
-      ],
-      "note": "Planned: no approved positive sentence witnesses this concept yet."
+      ]
     },
     {
       "targetId": "concept.person.mother",
@@ -163,13 +161,12 @@
       "domain": "objects",
       "kind": "entity",
       "concept": "animal.cat",
-      "tier": "planned",
+      "tier": "required",
       "witnessKind": "positive",
       "directions": [
         "en-pl",
         "pl-en"
-      ],
-      "note": "Planned: no approved positive sentence witnesses this concept yet."
+      ]
     },
     {
       "targetId": "concept.object.book",
@@ -239,13 +236,12 @@
       "domain": "objects",
       "kind": "entity",
       "concept": "object.apple",
-      "tier": "planned",
+      "tier": "required",
       "witnessKind": "positive",
       "directions": [
         "en-pl",
         "pl-en"
-      ],
-      "note": "Planned: no approved positive sentence witnesses this concept yet."
+      ]
     },
     {
       "targetId": "concept.structure.house",
