@@ -1,6 +1,6 @@
 # ADR: warianty szyku sterowane cechami i równoważność semantyczna
 
-- **Status:** Proposed; status Accepted wymaga niezależnego review właściciela.
+- **Status:** Proposed; właściciel jawnie uchylił niezależny review na potrzeby implementacji, więc ADR pozostaje niezaakceptowany.
 - **Data:** 2026-10-19
 - **Zakres:** bounded, opt-in warianty szyku w istniejących pakietach LanguagePlugin; bez zmian runtime w tym ADR.
 
@@ -84,13 +84,31 @@ Jedyną deklaracją szyku pozostaje frame.linearizations w istniejącym grammar.
 }
 ~~~
 
-To jest RFC dla FWO-02, nie konfiguracja aktywna w obecnych pakietach. Pole i ograniczenia są następujące:
+FWO-02 implements validation and compiled-plan output for this RFC. No checked-in language package opts into an object variant yet, so current language capabilities and translation outcomes are unchanged. The compiled plan stores the explicit variants as an immutable construction index:
+
+~~~json
+{
+  "language": "pl",
+  "linearizationPlans": {
+    "event.visual_perception": {
+      "theme-fronted": {
+        "sequence": ["theme", "@verb", "agent"],
+        "realizationPreference": 20
+      }
+    }
+  }
+}
+~~~
+
+Each compiled language plan carries its language code and maps constructions to stable variant IDs, sequences, and preferences. The entire compiled plan, including this index, is deeply frozen. At adapter creation, descriptors normalize to slot arrays for existing grammar consumers; all original array entries stay ahead of descriptor entries, preserving the first array as the realization default. The compiler leaves the manifest and capabilities unchanged. Field shape and limits are:
 
 - variantId jest jawnym, stabilnym ID wewnątrz pary język + konstrukcja; nie jest indeksem tablicy ani hashem zawartości. Pasuje do ^[a-z][a-z0-9.-]{0,63}$; zastrzeżone nazwy constructor i prototype są odrzucane. ID jest unikalne w ramie, a pełna tożsamość planu to language + construction + variantId.
 - sequence zawiera 1–16 slotów już zdefiniowanych przez daną ramę i dozwolonych literałów gramatycznych. Wariant nie może dodać roli ani zmienić bridge mapping, przypadku, agreement, czasu, polaryzacji lub capability.
 - realizationPreference to liczba całkowita 1–100; niższa liczba porządkuje alternatywne realizacje opt-in w zwracanej liście. Nie rankinguje odczytań semantycznych i nie zastępuje aktualnego defaultu, którym pozostaje pierwsza wpisana tablica, dopóki późniejsza, jawnie zaakceptowana reguła realizacji nie stanowi inaczej. Remisy rozstrzyga stabilne variantId, nie pozycja wpisu.
-- Wpis obiektowy ma dokładnie te trzy pola. Powtórzone ID, powtórzona sekwencja, nieznany slot, brak dokładnie jednego wymaganego @verb, powtórzona rola, niepoprawny token lub przekroczony limit to błąd walidacji.
+- Wpis obiektowy ma dokładnie te trzy pola. Powtórzone ID, powtórzona sekwencja, nieznany slot, brak dokładnie jednego wymaganego @verb, powtórzona rola, niepoprawny token lub przekroczony limit to błąd walidacji. Deskryptor musi przestawiać sloty istniejącej tablicy w tej samej ramie; nie może dodawać ani usuwać roli, znacznika ani zmieniać mapowania bridge.
 - Maksymalnie 8 wpisów linearization na jedną ramę, licząc wpisy stare i obiektowe. Nie generuje się permutacji kartezjańskich. Całe parsowanie nadal podlega istniejącym limitom: 16 analiz, 10 000 węzłów wyszukiwania i 16 384 jednostki UTF-16 tekstu. Wyczerpanie zwraca resource_limit, bez cichego ucięcia.
+
+Malformed descriptors, duplicate IDs/sequences, invalid slots and inconsistent bridge roles fail compilation with `PLUGIN_GRAPH_INVALID`; a descriptor on a frame without an implemented semantic transfer fails with `PLUGIN_CAPABILITY_UNAVAILABLE`. Descriptor variants are indexed only under constructions with matching bridge transfer plans. The runtime plan stores `{sequence, realizationPreference}` by construction and variant ID; analysis and realization only receive the normalized grammar sequences and cannot mutate the frozen plan.
 
 Wariant opisuje kolejność powierzchniową, a nie temat, focus, subject ani rolę CORE. Funkcja składniowa i przypadek nadal wynikają z językowego bridge/gramatyki. Jeśli przypadek nie rozróżnia kandydatów i nie ma innego dowodu, parser zachowuje różne MeaningGraphy jako ambiguitet.
 
@@ -184,7 +202,7 @@ FWO-01 nie zmienia runtime, danych, schematów ani testów. Kompilacja i matrix 
 
 Opisany kontrakt daje ograniczony punkt wejścia dla sekwencji FWO bez migracji obecnych ramek:
 
-- FWO-02 kompiluje wpisy tablicowe i obiektowe do jednego zamrożonego planu, waliduje ID i sloty oraz nie aktywuje capability samą obecnością wariantu.
+- FWO-02 kompiluje wpisy tablicowe i obiektowe do jednego zamrożonego planu, waliduje ID i sloty oraz nie aktywuje capability samą obecnością wariantu. Żaden obecny pakiet PL/EN nie deklaruje jeszcze deskryptora.
 - FWO-03 używa bieżącego bridge do przypisania ról CORE, funkcji składniowych, przypadków i agreement; kolejność slotów nie zmienia mapowania ról.
 - FWO-04 porównuje kompletne, zwalidowane znaczenia. Zgodne grafy tworzą jeden odczyt z zachowanymi, ograniczonymi matches; różne grafy pozostają odrębnymi odczytaniami lub ambiguous.
 - FWO-05 może przekazać opcjonalne analysis.surface bez nowego wymaganego interfejsu LanguagePlugin.

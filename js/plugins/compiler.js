@@ -1,6 +1,7 @@
 import {PluginError} from './errors.js';
 import {validateLanguageGraph} from './graph.js';
 import {safeName} from '../core/features.js';
+import {normalizeLinearizations} from '../core/grammar.js';
 
 const IDENTIFIER = /^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*$/u;
 const REFERENCE_ID = /^[A-Za-z][A-Za-z0-9_]*(?:\.[A-Za-z0-9_]+)*$/u;
@@ -330,6 +331,81 @@ function compileTransfers(graph, modules, core, senseIds, capabilities, featureD
   });
 }
 
+function compileLinearizationPlans(graph, modules, transferPlans) {
+  const declarations = [];
+  const seenSyntaxModules = new Set();
+  const addFrames = (frames, kind, moduleName) => {
+    if (!isRecord(frames)) return;
+    for (const [frameId, frame] of Object.entries(frames).sort(([left],[right]) =>
+      left < right ? -1 : left > right ? 1 : 0)) {
+      if (!isRecord(frame) || !Array.isArray(frame.linearizations)) continue;
+      let normalized;
+      try {
+        normalized = normalizeLinearizations(frame.linearizations, `${moduleName}.${frameId}`);
+      } catch (error) {
+        fail('PLUGIN_GRAPH_INVALID', `Invalid linearizations for ${moduleName}.${frameId}.`, error);
+      }
+      if (!normalized.variants.length) continue;
+      const transfers = transferPlans.filter(item => kind === 'event'
+        ? item.conceptId === frameId : item.stateKind === frameId);
+      if (!transfers.length) {
+        fail('PLUGIN_CAPABILITY_UNAVAILABLE',
+          `No implemented semantic transfer licenses variants for ${moduleName}.${frameId}.`);
+      }
+      for (const variant of normalized.variants) {
+        const slots = JSON.stringify(variant.sequence.slice().sort());
+        if (!normalized.defaultSequences.some(sequence =>
+            JSON.stringify(sequence.slice().sort()) === slots)) {
+          fail('PLUGIN_GRAPH_INVALID',
+            `Variant ${variant.variantId} must reorder an existing slot sequence at ${moduleName}.${frameId}.`);
+        }
+        const roleSlots = variant.sequence.filter(step => !step.startsWith('@'));
+        for (const transfer of transfers) {
+          const transferRoles = new Set(transfer.arguments.map(argument => argument.semanticRole));
+          const unmappedRole = roleSlots.find(role => !transferRoles.has(role));
+          if (unmappedRole) {
+            fail('PLUGIN_GRAPH_INVALID',
+              `Variant ${variant.variantId} has no bridge mapping for ${frameId}.${unmappedRole}.`);
+          }
+          declarations.push({
+            construction:transfer.construction,
+            variantId:variant.variantId,
+            sequence:variant.sequence,
+            realizationPreference:variant.realizationPreference
+          });
+        }
+      }
+    }
+  };
+
+  for (const node of graph.nodes.filter(item => item.type === 'syntax')) {
+    if (seenSyntaxModules.has(node.module)) continue;
+    seenSyntaxModules.add(node.module);
+    const grammar = modules[node.module];
+    if (!isRecord(grammar)) continue;
+    addFrames(grammar.frames, 'event', node.module);
+    addFrames(grammar.states?.frames, 'state', node.module);
+  }
+
+  declarations.sort((left,right) =>
+    left.construction < right.construction ? -1 : left.construction > right.construction ? 1 :
+      left.variantId < right.variantId ? -1 : left.variantId > right.variantId ? 1 : 0);
+  const plans = Object.create(null);
+  for (const declaration of declarations) {
+    const byVariant = plans[declaration.construction] ||
+      (plans[declaration.construction] = Object.create(null));
+    if (hasOwn(byVariant, declaration.variantId)) {
+      fail('PLUGIN_GRAPH_INVALID',
+        `Duplicate linearization variant ID ${declaration.variantId} for ${declaration.construction}.`);
+    }
+    byVariant[declaration.variantId] = {
+      sequence:[...declaration.sequence],
+      realizationPreference:declaration.realizationPreference
+    };
+  }
+  return plans;
+}
+
 /** Compile validated graph declarations and independent module data into an immutable runtime plan. */
 export function compileLanguageGraph(input = {}) {
   if (!isRecord(input) || Object.keys(input).some(key =>
@@ -372,6 +448,8 @@ export function compileLanguageGraph(input = {}) {
   const featureDimensions = collectFeatureDimensions(normalizedModules);
   const transferPlans = compileTransfers(normalizedGraph, normalizedModules, core,
     senseIds, capabilities, featureDimensions);
+  const linearizationPlans = compileLinearizationPlans(normalizedGraph,
+    normalizedModules, transferPlans);
   const layers = Object.create(null);
   for (const layer of LAYERS) {
     layers[layer] = normalizedGraph.nodes.filter(node => node.type === layer)
@@ -385,6 +463,7 @@ export function compileLanguageGraph(input = {}) {
     edges: normalizedGraph.edges.map(edge => ({...edge})),
     layers,
     modules: normalizedModules,
-    transferPlans
+    transferPlans,
+    linearizationPlans
   });
 }
