@@ -209,7 +209,7 @@ function normalizeGrammarLinearizations(grammar) {
       }
       normalized[id] = {
         ...frame,
-        linearizations:normalizeLinearizations(frame.linearizations, `${label} ${id}`).sequences
+        linearizations:normalizeLinearizations(frame.linearizations, `${label} ${id}`).defaultSequences
       };
     }
     return normalized;
@@ -1031,7 +1031,7 @@ function planModule(plan, layer, predicate) {
 export function createRuleAdapter(plan, options = {}) {
   if(arguments.length>2)throw new Error('Invalid compiled grammar runtime arguments.');
   if(!record(plan)||!Array.isArray(plan.transferPlans)||!record(plan.modules)||
-      !record(plan.layers)||!safeName(plan.language)||
+      !record(plan.layers)||!record(plan.linearizationPlans)||!safeName(plan.language)||
       !['lexicon','syntax','morphology','signal'].every(layer=>Array.isArray(plan.layers[layer]))) {
     throw new Error('Invalid compiled grammar plan.');
   }
@@ -1087,6 +1087,41 @@ function createGrammarInterpreter(sourceDictionary, rules,
         throw new Error(`Conflicting case plans for ${transfer.conceptId}.${argument.semanticRole}.`);
       roles.set(argument.semanticRole,exponent);
     }
+  }
+  const eventParserLinearizations=new WeakMap();
+  const stateParserLinearizations=new WeakMap();
+  function parserLinearizations(kind, frameId, frame) {
+    const cache=kind==='event'?eventParserLinearizations:stateParserLinearizations;
+    if(cache.has(frame))return cache.get(frame);
+    const sourceFrame=kind==='event'?rules.frames?.[frameId]:rules.states?.frames?.[frameId];
+    if(!record(sourceFrame)||!Array.isArray(sourceFrame.linearizations))return frame.linearizations;
+    const declared=normalizeLinearizations(sourceFrame.linearizations,`${kind} frame ${frameId}`);
+    const sequences=frame.linearizations.map(sequence=>[...sequence]);
+    const seen=new Set(sequences.map(sequence=>JSON.stringify(sequence)));
+    if(declared.variants.length) {
+      const transfers=compiledPlan.transferPlans.filter(transfer=>kind==='event'
+        ?transfer.conceptId===frameId:transfer.stateKind===frameId);
+      if(!transfers.length)throw new Error(`No compiled transfer for ${kind} frame ${frameId}.`);
+      const variants=declared.variants.slice().sort((left,right)=>
+        left.variantId<right.variantId?-1:left.variantId>right.variantId?1:0);
+      for(const variant of variants) {
+        for(const transfer of transfers) {
+          const compiled=compiledPlan.linearizationPlans[transfer.construction]?.[variant.variantId];
+          if(!record(compiled)||!Array.isArray(compiled.sequence)||
+              compiled.realizationPreference!==variant.realizationPreference||
+              JSON.stringify(compiled.sequence)!==JSON.stringify(variant.sequence)) {
+            throw new Error(`Missing or inconsistent compiled variant ${variant.variantId} for ${kind} frame ${frameId}.`);
+          }
+          const key=JSON.stringify(compiled.sequence);
+          if(!seen.has(key)) {
+            seen.add(key);
+            sequences.push([...compiled.sequence]);
+          }
+        }
+      }
+    }
+    cache.set(frame,sequences);
+    return sequences;
   }
   function agreementContextForTransfer(meaning, transfer) {
     if (!record(transfer) || !Array.isArray(transfer.arguments) ||
@@ -1553,7 +1588,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
       if(stateGrammar.pastPredication==='positive_statement' && base.features.tense==='past' &&
           (base.kind!=='predication' || options.question))continue;
       if(options.gap && (base.kind!=='location' || options.gap!=='location'))continue;
-      const linearizations=frame.linearizations.flatMap(sequence=>{
+      const linearizations=parserLinearizations('state',base.kind,frame).flatMap(sequence=>{
         if(frame.existentialMarker && sequence.includes('@'+frame.existentialMarker) &&
             (!frame.existentialTenses.includes(base.features.tense) || options.gap ||
               options.omitVerb || options.doSupport))return [];
@@ -1933,7 +1968,8 @@ function createGrammarInterpreter(sourceDictionary, rules,
       const frameAgreement=agreementForFrame(frame);
       const entries=matchingEntriesByConcept.get(concept)
         .sort((left,right)=>left.order-right.order).map(candidate=>candidate.entry);
-      const sequences = linearizations ? linearizations(frame) : frame.linearizations;
+      const parserSequences=parserLinearizations('event',concept,frame);
+      const sequences = linearizations ? linearizations(frame,concept,parserSequences) : parserSequences;
       if (sequences.length > MAX_ANALYSES) {
         throw new EngineError('GRAMMAR_SEARCH_LIMIT',
           'Sentence analysis exceeded the bounded search limit.');
@@ -2239,7 +2275,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
   const gapSyntax=()=>({value:{features:{number:questions.wh.agent.agreement.number}},
     noun:{id:'question_gap',gender:questions.wh.agent.agreement.gender,
       pluralClass:questions.wh.agent.agreement.pluralClass},senseId:null});
-  const themeOrder=frame=>frame.linearizations.map(seq=>
+  const themeOrder=(frame,concept,sequences=frame.linearizations)=>sequences.map(seq=>
     ['@verb',...seq.filter(step=>step!=='@verb'&&step!=='theme'),'theme']);
   const normalizedWord=value=>value.toLocaleLowerCase(grammar.language);
   const questionBudget=counter=>searchBudget(counter);
@@ -2417,7 +2453,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
         add(analyzeAuxiliaryQuestion(tokens.slice(1),gap,antecedent,counter,
           {skipPreposition:questions.wh.destination.preposition}),'wh',gap);
       } else {
-        const linearizations=frame=>frame.linearizations.filter(sequence=>sequence.includes(gap))
+        const linearizations=(frame,concept,sequences=frame.linearizations)=>sequences.filter(sequence=>sequence.includes(gap))
           .map(sequence=>questions.wh.destination.order==='verb_first'
             ? ['@verb',...sequence.filter(step=>step!=='@verb')]
             : sequence);
