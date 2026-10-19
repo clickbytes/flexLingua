@@ -3,6 +3,22 @@
   "version": "1.0",
   "nouns": [
     {
+      "id": "pl.dziewczyna.1",
+      "lemma": "dziewczyna",
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.dziewczyna.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "person.girl"
+          }
+        }
+      ]
+    },
+    {
       "id": "pl.dziewczynka.1",
       "lemma": "dziewczynka",
       "gender": "feminine",
@@ -13987,6 +14003,22 @@
           }
         }
       ]
+    },
+    {
+      "id": "pl.mieszkanie.1",
+      "lemma": "mieszkanie",
+      "gender": "neuter",
+      "pluralClass": "nonvirile",
+      "animacy": "inanimate",
+      "senses": [
+        {
+          "id": "pl.mieszkanie.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "structure.apartment"
+          }
+        }
+      ]
     }
   ],
   "verbs": [
@@ -16220,6 +16252,37 @@
           "coreRef": {
             "kind": "concept",
             "id": "event.arriving"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.mieszkac.1",
+      "lemma": "mieszkać",
+      "aspect": "imperfective",
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "imperfective"
+        ],
+        "polarities": [
+          "positive",
+          "negative"
+        ],
+        "roles": {
+          "agent": "person",
+          "location": "place"
+        },
+        "themeConcepts": []
+      },
+      "senses": [
+        {
+          "id": "pl.mieszkac.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.residence"
           }
         }
       ]

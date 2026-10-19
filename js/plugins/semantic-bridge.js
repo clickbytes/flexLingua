@@ -11,8 +11,8 @@ const hasExactKeys = (value, keys) =>
  * ADR person-deixis deictic participant contract, identical to the state-role
  * branch in validateMeaning: `{referent:{kind:"deictic",anchor},agreement:{person,number}}`
  * with anchor/person consistency (speaker↔first, addressee↔second,
- * demonstrative↔third/singular). Anaphoric participants are deliberately not
- * accepted here; unresolved anaphora keeps its own bounded refusal behavior.
+ * demonstrative↔third/singular). Anaphoric subjects have a separate contract
+ * so their unresolved identity is preserved rather than treated as deixis.
  */
 function holdsDeicticParticipantContract(participant) {
   if (!isRecord(participant) ||
@@ -34,6 +34,18 @@ function holdsDeicticParticipantContract(participant) {
   }
   return participant.agreement.person === 'third' &&
     participant.agreement.number === 'singular';
+}
+
+/** Same unresolved third-person subject shape already accepted for states. */
+function holdsAnaphoricSubjectContract(participant) {
+  return hasExactKeys(participant, ['referent', 'agreement']) &&
+    hasExactKeys(participant.referent, ['kind', 'resolution']) &&
+    participant.referent.kind === 'anaphoric' &&
+    participant.referent.resolution === 'unresolved' &&
+    hasExactKeys(participant.agreement, ['person', 'number', 'gender']) &&
+    participant.agreement.person === 'third' &&
+    participant.agreement.number === 'singular' &&
+    ['feminine', 'masculine'].includes(participant.agreement.gender);
 }
 
 /**
@@ -302,9 +314,13 @@ export function createSemanticBridge({plan, core} = {}) {
         : typeof participant.concept === 'string'
           ? {kind: 'concept', id: participant.concept} : null;
       if (!reference) {
-        // ADR person-deixis: event roles may carry deictic participants without a
-        // CORE concept; they are identity anchors, not entity references.
-        if (!holdsDeicticParticipantContract(participant)) {
+        // Pronoun subjects preserve their reference and agreement without
+        // inventing a lexical entity or an antecedent.
+        const anaphoricSubject = holdsAnaphoricSubjectContract(participant) &&
+          transfer.arguments.some(argument => argument.semanticRole === role &&
+            argument.syntacticFunction === 'subject') &&
+          core.ontology.isA('person', concept.roleTypes?.[role]);
+        if (!holdsDeicticParticipantContract(participant) && !anaphoricSubject) {
           fail('PLUGIN_CORE_REFERENCE_INVALID', `Participant has no typed CORE reference for role ${role}.`);
         }
         continue;

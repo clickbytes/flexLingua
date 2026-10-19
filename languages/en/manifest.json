@@ -804,6 +804,30 @@
           "id": "a1-pl-en-tgw-0425"
         }
       ]
+    },
+    {
+      "operation": "analyze",
+      "channel": "sentence",
+      "construction": "event.residence",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-en-residence-438"
+        }
+      ]
+    },
+    {
+      "operation": "realize",
+      "channel": "sentence",
+      "construction": "event.residence",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-en-residence-438"
+        }
+      ]
     }
   ],
   "provenance": "provenance.json"

@@ -91,16 +91,10 @@ function compareParticipant(want, actual, path, fail, meaning) {
       fail(`${path}/concept`, want.concept, actual?.concept ?? 'none');
     }
   } else if (want.target !== undefined) {
-    if (actual?.referent?.kind !== 'deictic' || nfc(actual?.referent?.anchor) !== nfc(want.target.anchor)) {
-      fail(`${path}/referent`, {kind: 'deictic', anchor: want.target.anchor},
-        actual?.referent ?? 'none');
-    }
-    if (nfc(actual?.agreement?.person) !== nfc(want.agreement.person)) {
-      fail(`${path}/agreement/person`, want.agreement.person, actual?.agreement?.person ?? 'none');
-    }
-    if (nfc(actual?.agreement?.number) !== nfc(want.agreement.number)) {
-      fail(`${path}/agreement/number`, want.agreement.number, actual?.agreement?.number ?? 'none');
-    }
+    compareFeatures(want.target, actual?.referent ?? {}, `${path}/referent`, fail,
+      {extraAllowed: false, exact: true});
+    compareFeatures(want.agreement, actual?.agreement ?? {}, `${path}/agreement`, fail,
+      {extraAllowed: false, exact: true});
   }
   if (want.features && (Object.keys(want.features).length || meaning.roleFeaturesExact === true)) {
     compareFeatures(want.features, actual?.features ?? {}, `${path}/features`, fail, {

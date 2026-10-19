@@ -6691,6 +6691,22 @@
       "type": "entity",
       "parent": "place",
       "label": "police station"
+    },
+    "structure.apartment": {
+      "type": "entity",
+      "parent": "structure",
+      "label": "apartment / dwelling unit"
+    },
+    "event.residence": {
+      "type": "event",
+      "parent": "event.daily_activity",
+      "label": "reside in a place",
+      "roles": [
+        "location"
+      ],
+      "roleTypes": {
+        "location": "place"
+      }
     }
   },
   "relationTypes": {

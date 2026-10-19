@@ -32,6 +32,8 @@ W `expected` dla `status:"ok"` wymagane są: `text.accepted[]` (dokładne, ogran
 
 `alternatives` i `informationLoss` mają zawsze jawne `required[]` oraz `allowUnexpected` — brak pola nie oznacza zgody na dowolną stratę. Odwołania do alternatyw pasują semantycznie (typ, koncept, role; dla pytania również `questionType` i proposition) albo literalnie (tekst), nigdy heurystycznie.
 
+Uczestnik zaimkowy może mieć `target:{kind:"deictic",anchor}` i `agreement:{person,number}` albo `target:{kind:"anaphoric",resolution:"unresolved"}` i `agreement:{person:"third",number:"singular",gender:"feminine"|"masculine"}`. Asercje sprawdzają dokładny kształt referencji i zgodności, w tym rodzaj, bez wymyślania poprzednika zaimka.
+
 `expected.graph` jest opcjonalną projekcją sprawdzaną po tekście i MeaningGraph przez tę samą produkcyjną `Engine.projectMeaningGraph`. Ma wymagane `requiredEdges[]`, `forbiddenEdges[]` i `allowUnexpected`; każda krawędź zapisuje `fromPath` (JSON Pointer źródła MeaningGraph), `relation` i kanoniczny `toConcept`. Walidator sprawdza źródło, cel i sygnaturę relacji na skompilowanym CORE przed uruchomieniem zdań. Brak projekcji lub niekompletne `sourcePaths` to INFRA; brak/nadmiar krawędzi to FAIL. Nierozwiązane fragmenty projekcji nie przechodzą asercji grafowej.
 
 Dla `unsupported|invalid|resource_limit` wymagane są `text:null`, `meaning:null`, puste alternatywy i lista wymaganych kodów diagnostyki. Dla `ambiguous` wymagany jest zbiór co najmniej dwóch odrębnych sensów (porównywane znaczeń, nie tylko liczby) oraz kod `AMBIGUOUS_MEANING`; runner nie wybiera arbitralnego tekstu.

@@ -256,6 +256,13 @@
       "module": "grammar",
       "path": "grammar.json",
       "capability": "event.waving"
+    },
+    {
+      "id": "en.syntax.residence",
+      "type": "syntax",
+      "module": "grammar",
+      "path": "grammar.json",
+      "capability": "event.residence"
     }
   ],
   "edges": [
@@ -898,6 +905,21 @@
       "from": "en.evidence",
       "to": "en.syntax.tgw5.waving",
       "relation": "evidences"
+    },
+    {
+      "from": "en.bridge",
+      "to": "en.syntax.residence",
+      "relation": "maps-to"
+    },
+    {
+      "from": "en.syntax.residence",
+      "to": "en.lexicon",
+      "relation": "licenses"
+    },
+    {
+      "from": "en.syntax.residence",
+      "to": "en.morphology",
+      "relation": "licenses"
     }
   ]
 }

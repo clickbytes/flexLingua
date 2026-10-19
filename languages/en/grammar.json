@@ -1404,6 +1404,33 @@
         },
         "themeConcepts": []
       }
+    },
+    "event.residence": {
+      "cases": {
+        "agent": "nom",
+        "location": "loc"
+      },
+      "linearizations": [
+        [
+          "agent",
+          "@verb",
+          "@in",
+          "location"
+        ]
+      ],
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "roles": {
+          "agent": "person",
+          "location": "place"
+        },
+        "themeConcepts": []
+      }
     }
   },
   "states": {

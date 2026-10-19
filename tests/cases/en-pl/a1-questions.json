@@ -17,7 +17,7 @@
       "input": {"from": "en", "to": "pl", "text": "Does the girl see the dog?"},
       "expected": {
         "status": "ok",
-        "text": {"accepted": ["Czy dziewczynka widzi psa?"]},
+        "text": {"accepted": ["Czy dziewczyna widzi psa?"]},
         "meaning": {
           "type": "question",
           "questionType": "yes_no",
@@ -62,7 +62,7 @@
       "input": {"from": "en", "to": "pl", "text": "Does a girl see a dog?"},
       "expected": {
         "status": "ok",
-        "text": {"accepted": ["Czy dziewczynka widzi psa?"]},
+        "text": {"accepted": ["Czy dziewczyna widzi psa?"]},
         "meaning": {
           "type": "question",
           "questionType": "yes_no",

@@ -18779,6 +18779,62 @@
           ]
         }
       ]
+    },
+    {
+      "lexemeId": "pl.mieszkanie.1",
+      "paradigmId": "pl.noun.neuter_o",
+      "stems": {
+        "base": "mieszkani",
+        "lemma": "mieszkanie"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "inst"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "mieszkaniem"
+            }
+          ]
+        },
+        {
+          "when": {
+            "number": "plural",
+            "case": "gen"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "mieszkań"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.mieszkac.1",
+      "paradigmId": "pl.verb.personal_am",
+      "stems": {
+        "base": "mieszka",
+        "personalStem": "mieszk",
+        "pastSingular": "mieszka",
+        "pastVirile": "mieszka",
+        "presentSingular": "mieszka",
+        "presentPlural": "mieszkają"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "pl.dziewczyna.1",
+      "paradigmId": "pl.noun.feminine_a",
+      "stems": {
+        "base": "dziewczyn",
+        "lemma": "dziewczyna"
+      },
+      "overrides": []
     }
   ]
 }

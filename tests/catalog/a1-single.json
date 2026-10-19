@@ -4216,6 +4216,38 @@
         "en-pl",
         "pl-en"
       ]
+    },
+    {
+      "targetId": "construction.event.residence",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "construction",
+      "domain": "daily_activity",
+      "kind": "event",
+      "concept": "event.residence",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ],
+      "note": "Issue #438; independently reviewed sentence expectations approved under explicit owner delegation."
+    },
+    {
+      "targetId": "concept.structure.apartment",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "places",
+      "kind": "entity",
+      "concept": "structure.apartment",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ],
+      "note": "Issue #438; independently reviewed sentence expectations approved under explicit owner delegation."
     }
   ]
 }

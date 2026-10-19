@@ -29,7 +29,7 @@
       },
       "expected": {
         "status": "ok",
-        "text": {"accepted": ["Dziewczynka widzi czerwonego psa."]},
+        "text": {"accepted": ["Dziewczyna widzi czerwonego psa."]},
         "meaning": {
           "type": "event",
           "concept": "event.visual_perception",
@@ -121,7 +121,7 @@
         "status": "ok",
         "text": {
           "accepted": [
-            "Dziewczynka widzi drewniany stół."
+            "Dziewczyna widzi drewniany stół."
           ]
         },
         "meaning": {
@@ -268,7 +268,7 @@
         "status": "ok",
         "text": {
           "accepted": [
-            "Dziewczynka widzi instytucję finansową."
+            "Dziewczyna widzi instytucję finansową."
           ]
         },
         "meaning": {

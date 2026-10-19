@@ -25,7 +25,7 @@
       "input": {"from": "en", "to": "pl", "text": "The girl sees the dog."},
       "expected": {
         "status": "ok",
-        "text": {"accepted": ["Dziewczynka widzi psa."]},
+        "text": {"accepted": ["Dziewczyna widzi psa."]},
         "meaning": {
           "type": "event",
           "concept": "event.visual_perception",
@@ -102,7 +102,7 @@
       "input": {"from": "en", "to": "pl", "text": "The girl reads the book."},
       "expected": {
         "status": "ok",
-        "text": {"accepted": ["Dziewczynka czyta ksi\u0105\u017ck\u0119."]},
+        "text": {"accepted": ["Dziewczyna czyta książkę."]},
         "meaning": {
           "type": "event",
           "concept": "event.read",
