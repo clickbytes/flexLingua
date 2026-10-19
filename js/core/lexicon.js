@@ -9,6 +9,9 @@ const CATEGORIES = Object.freeze({
 });
 const MAX_LEXEMES = 100000;
 const MAX_SENSES = 16;
+/** Shared lemma index key: NFC before the unchanged language-aware case fold,
+ * matching the analyzer text and morphology inverse normalization. */
+const lemmaKey = (value, language) => String(value).toLocaleLowerCase(language).normalize('NFC');
 function freezeDeep(value) {
   if (value && typeof value === 'object' && !Object.isFrozen(value)) {
     Object.values(value).forEach(freezeDeep);
@@ -154,7 +157,7 @@ export function createLexicon(input, {strict = false} = {}) {
       });
       entries.push(summary);
       byId.set(item.id,summary);
-      const key = lemma.toLocaleLowerCase(source.language);
+      const key = lemmaKey(lemma, source.language);
       if (!byLemma.has(key)) byLemma.set(key,[]);
       byLemma.get(key).push(summary);
       for (const sense of summary.senses) {
@@ -188,7 +191,7 @@ export function createLexicon(input, {strict = false} = {}) {
     language:source.language, lexicalModel:source.lexicalModel || '1.0',
     dictionary, entries, validateCore,
     get: id => byId.get(id),
-    lookup: lemma => byLemma.get(String(lemma).toLocaleLowerCase(source.language)) || [],
+    lookup: lemma => byLemma.get(lemmaKey(lemma, source.language)) || [],
     forCore: ref => byCore.get(keyOf(ref)) || [],
     count: () => entries.length,
     senseCount: () => senseIds.size
