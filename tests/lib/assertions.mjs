@@ -45,6 +45,129 @@ export function resolvePointer(root, pointer) {
   return {missing: false, value: current};
 }
 
+const PRESENTATION_MEANING_KEYS = new Set(['surface', 'surfaceTrace', 'presentation']);
+const ORACLE_MEANING_KEYS = new Set(['roleSet', 'roleFeaturesExact', 'featuresAllowExtra', 'assert']);
+
+function materialMeaning(value, {oracle = false} = {}) {
+  if (Array.isArray(value)) return value.map(item => materialMeaning(item, {oracle}));
+  if (!isRecord(value)) return nfc(value);
+  const keys = Object.keys(value).filter(key => !PRESENTATION_MEANING_KEYS.has(key) &&
+    (!oracle || !ORACLE_MEANING_KEYS.has(key))).sort();
+  return Object.fromEntries(keys.map(key => [key, materialMeaning(value[key], {oracle})]));
+}
+
+function meaningValue(value) {
+  if (value === undefined) return '(missing)';
+  const text = JSON.stringify(value);
+  return text.length > 240 ? `${text.slice(0, 237)}...` : text;
+}
+
+/** Compare material MeaningGraph content, ignoring presentation and surface metadata. */
+export function compareSemanticMeanings(left, right, options = {}) {
+  const expected = materialMeaning(left, options);
+  const observed = materialMeaning(right, options);
+  const differences = [];
+  const add = (path, want, got) => {
+    if (differences.length < 24) {
+      differences.push({path, expected: meaningValue(want), observed: meaningValue(got)});
+    }
+  };
+  const walk = (want, got, path) => {
+    if (Array.isArray(want) || Array.isArray(got)) {
+      if (!Array.isArray(want) || !Array.isArray(got)) {
+        add(path, want, got);
+        return;
+      }
+      const length = Math.max(want.length, got.length);
+      for (let index = 0; index < length && differences.length < 24; index++) {
+        walk(want[index], got[index], `${path}/${index}`);
+      }
+      return;
+    }
+    if (isRecord(want) || isRecord(got)) {
+      if (!isRecord(want) || !isRecord(got)) {
+        add(path, want, got);
+        return;
+      }
+      const keys = [...new Set([...Object.keys(want), ...Object.keys(got)])].sort();
+      for (const key of keys) {
+        const escaped = key.replace(/~/gu, '~0').replace(/\//gu, '~1');
+        const child = path === '#' ? `#/${escaped}` : `${path}/${escaped}`;
+        if (!Object.hasOwn(want, key) || !Object.hasOwn(got, key)) {
+          add(child, want[key], got[key]);
+        } else {
+          walk(want[key], got[key], child);
+        }
+        if (differences.length >= 24) break;
+      }
+      return;
+    }
+    if (!deepScalarEqual(want, got)) add(path, want, got);
+  };
+  walk(expected, observed, '#');
+  return {equal: differences.length === 0, differences};
+}
+
+/** Check a declared same-core or different-core relation over complete material meanings. */
+export function compareSemanticRelation(relation, entries, options = {}) {
+  const differences = [];
+  if (!Array.isArray(entries) || entries.length < 2 ||
+      !['same-core', 'different-core'].includes(relation)) {
+    return {pass: false, differences: [{caseIds: [], path: '#/meaning',
+      expected: 'at least two meanings and a supported relation', observed: 'invalid relation input'}]};
+  }
+  if (relation === 'same-core') {
+    const [first, ...rest] = entries;
+    for (const entry of rest) {
+      const comparison = compareSemanticMeanings(first.meaning, entry.meaning, options);
+      for (const item of comparison.differences) {
+        differences.push({caseIds: [first.id, entry.id], ...item});
+      }
+    }
+  } else {
+    for (let left = 0; left < entries.length; left++) {
+      for (let right = left + 1; right < entries.length; right++) {
+        const first = entries[left], second = entries[right];
+        if (!compareSemanticMeanings(first.meaning, second.meaning, options).equal) continue;
+        differences.push({caseIds: [first.id, second.id], path: '#/meaning',
+          expected: 'distinct material meanings', observed: 'same material meaning'});
+      }
+    }
+  }
+  return {pass: differences.length === 0, differences: differences.slice(0, 64)};
+}
+
+/** Evaluate matrix groups without conflating semantic failures with sentence failures. */
+export function evaluateSemanticRelations(groups, outcomes) {
+  const declared = Array.isArray(groups) ? groups : [];
+  if (!declared.length) {
+    return {status: 'NOT RUN', declared: 0, passed: 0, failed: 0, notRun: 0,
+      reason: 'No semantic relation groups are declared; no relation PASS is claimed.', groups: []};
+  }
+  const byId = new Map((Array.isArray(outcomes) ? outcomes : []).map(entry => [entry.item?.id, entry]));
+  const results = declared.map(group => {
+    const rows = group.caseIds.map(id => byId.get(id));
+    const unavailable = rows.findIndex(row => !row || row.outcome?.kind === 'infra' ||
+      row.document?.status !== 'ok' || !isRecord(row.document?.meaning));
+    if (unavailable !== -1) {
+      return {id: group.id, direction: group.direction, relation: group.relation,
+        caseIds: [...group.caseIds], status: 'NOT RUN', differences: [],
+        reason: `Case ${group.caseIds[unavailable]} did not produce a usable successful MeaningGraph.`};
+    }
+    const checked = compareSemanticRelation(group.relation, rows.map(row => ({
+      id: row.item.id, meaning: row.document.meaning
+    })));
+    return {id: group.id, direction: group.direction, relation: group.relation,
+      caseIds: [...group.caseIds], status: checked.pass ? 'PASS' : 'FAIL',
+      differences: checked.differences, reason: null};
+  });
+  const passed = results.filter(group => group.status === 'PASS').length;
+  const failed = results.filter(group => group.status === 'FAIL').length;
+  const notRun = results.filter(group => group.status === 'NOT RUN').length;
+  return {status: failed ? 'FAIL' : notRun ? 'NOT RUN' : 'PASS', declared: results.length,
+    passed, failed, notRun, reason: null, groups: results};
+}
+
 function featureMismatch(wanted, got) {
   if (typeof wanted === 'string') {
     return typeof got !== 'string' || got.normalize('NFC') !== wanted.normalize('NFC');

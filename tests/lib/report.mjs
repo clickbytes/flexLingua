@@ -61,20 +61,34 @@ function caseRecord({item, outcome, durationMs, document}) {
   };
 }
 
+function semanticRelationResults(report) {
+  return report.semanticRelations ?? {status: 'NOT RUN', declared: 0, passed: 0, failed: 0,
+    notRun: 0, reason: 'No semantic relation results were recorded.', groups: []};
+}
+
 function junit(report) {
   const cases = report.cases;
+  const semanticRelations = semanticRelationResults(report);
+  const relations = semanticRelations.groups;
   const validationFailure = !report.valid || (cases.length === 0 && report.gates.matrix === 'RED');
-  const tests = cases.length + (validationFailure ? 1 : 0);
-  const failures = cases.filter(entry => entry.outcome === 'FAIL').length + (validationFailure ? 1 : 0);
+  const tests = cases.length + relations.length + (validationFailure ? 1 : 0);
+  const failures = cases.filter(entry => entry.outcome === 'FAIL').length +
+    relations.filter(entry => entry.status === 'FAIL').length + (validationFailure ? 1 : 0);
   const errors = cases.filter(entry => entry.outcome === 'INFRA').length;
+  const skipped = relations.filter(entry => entry.status === 'NOT RUN').length;
   const timeMs = report.run?.durationMs ?? report.durationMs ?? 0;
   const lines = [
     '<?xml version="1.0" encoding="UTF-8"?>',
     `<testsuites name="translation-matrix" tests="${tests}" failures="${failures}" ` +
-      `errors="${errors}" skipped="0" time="${(timeMs / 1000).toFixed(3)}">`,
+      `errors="${errors}" skipped="${skipped}" time="${(timeMs / 1000).toFixed(3)}">`,
     `<testsuite name="translation-matrix" tests="${tests}" failures="${failures}" ` +
-      `errors="${errors}" skipped="0" time="${(timeMs / 1000).toFixed(3)}">`
+      `errors="${errors}" skipped="${skipped}" time="${(timeMs / 1000).toFixed(3)}">`
   ];
+  const relationSummary = `${semanticRelations.status} (${semanticRelations.passed}/` +
+    `${semanticRelations.declared} PASS, ${semanticRelations.failed} FAIL, ` +
+    `${semanticRelations.notRun} NOT RUN)`;
+  lines.push(`  <properties><property name="semantic-relations" ` +
+    `value="${escapeXml(relationSummary)}"/></properties>`);
   for (const entry of cases) {
     lines.push(`  <testcase id="${escapeXml(entry.id)}" ` +
       `classname="${escapeXml(`${entry.direction}.${entry.construction ?? entry.family ?? ''}`)}" ` +
@@ -86,6 +100,19 @@ function junit(report) {
     } else if (entry.outcome === 'INFRA') {
       const first = entry.failures[0];
       lines.push(`    <error message="${escapeXml(clip(first?.actual ?? 'infrastructure failure'))}" type="infrastructure"/>`);
+    }
+    lines.push('  </testcase>');
+  }
+  for (const entry of relations) {
+    lines.push(`  <testcase id="${escapeXml(entry.id)}" classname="semantic-relations" ` +
+      `name="${escapeXml(entry.id)}" time="0.000">`);
+    if (entry.status === 'FAIL') {
+      const details = entry.differences.map(diff =>
+        `${diff.path}: expected ${diff.expected}; observed ${diff.observed} (${diff.caseIds.join(' / ')})`);
+      lines.push(`    <failure message="${escapeXml(clip(details[0] ?? 'semantic relation mismatch'))}" ` +
+        `type="semantic-relation">${escapeXml(details.join('\n'))}</failure>`);
+    } else if (entry.status === 'NOT RUN') {
+      lines.push(`    <skipped message="${escapeXml(clip(entry.reason ?? 'relation inputs unavailable'))}"/>`);
     }
     lines.push('  </testcase>');
   }
@@ -102,10 +129,12 @@ function junit(report) {
 
 function summaryMarkdown(report) {
   const {gates, cases, totals, coverage, cliSmoke, knownGaps, notRun} = report;
+  const semanticRelations = semanticRelationResults(report);
   const lines = [];
   lines.push(`# Translation matrix — ${safeMarkdown(report.run.sha.slice(0, 10))} (${safeMarkdown(report.run.timestamp)})`);
   lines.push('');
-  lines.push(`**Gates: matrix ${gates.matrix} · coverage ${gates.coverage} · CLI smoke ${gates.cli}**`);
+  lines.push(`**Gates: matrix ${gates.matrix} · semantic relations ${gates.semanticRelations ??
+    semanticRelations.status} · coverage ${gates.coverage} · CLI smoke ${gates.cli}**`);
   lines.push('');
   lines.push(`- Node ${safeMarkdown(report.run.node)} on ${safeMarkdown(report.run.platform)}; validated matrix: ${report.valid ? 'VALID' : 'INVALID (execution refused)'}`);
   lines.push(`- Executed cases: ${cases.length}; ` +
@@ -114,6 +143,21 @@ function summaryMarkdown(report) {
     `ambiguity ${totals.ambiguity.pass}/${totals.ambiguity.run}, ` +
     `FAIL ${totals.fail.required} required / ${totals.fail.exploratory} exploratory, ` +
     `INFRA ${totals.infra.required} required / ${totals.infra.exploratory} exploratory`);
+  lines.push(`- Semantic relations: ${semanticRelations.passed}/${semanticRelations.declared} PASS, ` +
+    `${semanticRelations.failed} FAIL, ${semanticRelations.notRun} NOT RUN`);
+  for (const group of semanticRelations.groups) {
+    lines.push(`  - ${group.status} ${safeMarkdown(group.id)} (${safeMarkdown(group.relation)}): ` +
+      `${group.caseIds.map(id => safeMarkdown(id)).join(', ')}`);
+    if (group.reason) lines.push(`    - NOT RUN: ${safeMarkdown(group.reason)}`);
+    for (const difference of group.differences ?? []) {
+      lines.push(`    - ${safeMarkdown(difference.path)} [${difference.caseIds.map(id =>
+        safeMarkdown(id)).join(' / ')}]: expected ${safeMarkdown(difference.expected)}; ` +
+        `observed ${safeMarkdown(difference.observed)}`);
+    }
+  }
+  if (!semanticRelations.declared) {
+    lines.push('  - NOT RUN: no relation groups are declared; this is not a PASS.');
+  }
   if (coverage) {
     lines.push(`- Coverage: declared_implemented ${coverage.categories.declared_implemented} ` +
       `(with positive witness ${coverage.categories.implemented_with_positive_witness}); ` +
@@ -227,7 +271,7 @@ function summaryMarkdown(report) {
  * GITHUB_STEP_SUMMARY. Returns the collection of written paths.
  */
 export async function writeReports({testsRoot, sha, matrix, outcomes, coverage, cliSmoke,
-  gates, notRun = [], durationMs, mode}) {
+  semanticRelations, gates, notRun = [], durationMs, mode}) {
   const report = {
     schemaVersion: '1.0',
     kind: 'translation-matrix-report',
@@ -240,6 +284,8 @@ export async function writeReports({testsRoot, sha, matrix, outcomes, coverage, 
       timestamp: new Date().toISOString(), mode, durationMs},
     valid: !matrix.issues.some(issue => issue.severity === 'error'),
     gates,
+    semanticRelations: semanticRelations ?? {status: 'NOT RUN', declared: 0, passed: 0,
+      failed: 0, notRun: 0, reason: 'No semantic relation results were recorded.', groups: []},
     validationIssues: matrix.issues.map(issue => ({severity: issue.severity, kind: issue.kind,
       file: issue.file ?? null, id: issue.id ?? null, message: clip(issue.message)})),
     cases: outcomes.map(caseRecord),

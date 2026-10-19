@@ -5,6 +5,7 @@ import {join, dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import Ajv2020 from 'ajv/dist/2020.js';
 import {ALLOWED_DIRECTIONS, discoverCases} from './discover.mjs';
+import {compareSemanticRelation} from './assertions.mjs';
 
 const LIB_DIR = dirname(fileURLToPath(import.meta.url));
 export const TESTS_ROOT = join(LIB_DIR, '..');
@@ -433,7 +434,7 @@ export async function loadMatrix({testsRoot = TESTS_ROOT, ontology = null} = {})
 
   const validators = new Map();
   const ajv = createAjv();
-  for (const name of ['case.schema.json', 'catalog.schema.json']) {
+  for (const name of ['case.schema.json', 'catalog.schema.json', 'surface-equivalence.schema.json']) {
     const schemaFile = await readJsonFile(join(testsRoot, 'schemas', name), name);
     if (!schemaFile.value) {
       issues.push({kind: 'schema', file: `tests/schemas/${name}`, id: undefined, severity: 'error',
@@ -481,6 +482,7 @@ export async function loadMatrix({testsRoot = TESTS_ROOT, ontology = null} = {})
     }
   }
 
+  const caseIndex = new Map(discovery.cases.map(item => [item.id, item]));
   let requiredIds = null;
   const requiredFile = await readJsonFile(join(testsRoot, 'catalog', 'required-ids.json'), 'required-ids.json');
   if (!requiredFile.value) {
@@ -488,8 +490,72 @@ export async function loadMatrix({testsRoot = TESTS_ROOT, ontology = null} = {})
       severity: 'error', message: requiredFile.error ?? 'required-ids.json could not be loaded.'});
   } else {
     requiredIds = requiredFile.value;
-    const caseIndex = new Map(discovery.cases.map(item => [item.id, item]));
     checkRequiredIds(requiredIds, catalogById, caseIndex, issues);
+  }
+
+  let surfaceEquivalence = null;
+  const relationFile = await readJsonFile(join(testsRoot, 'catalog', 'surface-equivalence.json'),
+    'surface-equivalence.json');
+  if (!relationFile.value) {
+    issues.push({kind: 'semantic-relation', file: 'tests/catalog/surface-equivalence.json',
+      id: undefined, severity: 'error', message: relationFile.error ??
+        'surface-equivalence.json could not be loaded.'});
+  } else {
+    const relationValidate = validators.get('surface-equivalence.schema.json');
+    if (!relationValidate) {
+      issues.push({kind: 'semantic-relation', file: 'tests/catalog/surface-equivalence.json',
+        id: undefined, severity: 'error', message: 'surface-equivalence.schema.json unavailable.'});
+    } else {
+      relationValidate(relationFile.value);
+      if (summarizeAjvErrors(relationValidate, 'tests/catalog/surface-equivalence.json',
+        issues, 'semantic-relation')) {
+        surfaceEquivalence = relationFile.value;
+        const groupIds = new Set();
+        const caseIds = new Set();
+        for (const group of surfaceEquivalence.groups) {
+          const problem = message => issues.push({kind: 'semantic-relation',
+            file: 'tests/catalog/surface-equivalence.json', id: group.id,
+            severity: 'error', message});
+          if (groupIds.has(group.id)) problem(`Duplicate semantic relation group id '${group.id}'.`);
+          groupIds.add(group.id);
+          const members = [];
+          let valid = true;
+          for (const id of group.caseIds) {
+            if (caseIds.has(id)) {
+              problem(`Case '${id}' appears in more than one semantic relation group.`);
+              valid = false;
+            }
+            caseIds.add(id);
+            const item = caseIndex.get(id);
+            if (!item) {
+              problem(`Unknown case id '${id}'.`);
+              valid = false;
+              continue;
+            }
+            members.push(item);
+            if (item.direction !== group.direction) {
+              problem(`Case '${id}' direction '${item.direction}' does not match group direction '${group.direction}'.`);
+              valid = false;
+            }
+            if (item.tier !== 'required' || item.review?.status !== 'approved' ||
+                item.expected?.status !== 'ok' || !item.expected?.meaning) {
+              problem(`Case '${id}' must be an approved required case with expected status 'ok' and a MeaningGraph.`);
+              valid = false;
+            }
+          }
+          if (valid && members.length === group.caseIds.length) {
+            const expected = compareSemanticRelation(group.relation, members.map(item => ({
+              id: item.id, meaning: item.expected.meaning
+            })), {oracle: true});
+            if (!expected.pass) {
+              const first = expected.differences[0];
+              problem(`Expected '${group.relation}' relation is not satisfied at ${first?.path ?? '#/meaning'} ` +
+                `(${first?.caseIds?.join(' / ') ?? 'cases'}).`);
+            }
+          }
+        }
+      }
+    }
   }
 
   let gaps = null;
@@ -523,6 +589,7 @@ export async function loadMatrix({testsRoot = TESTS_ROOT, ontology = null} = {})
     cases: discovery.cases,
     envelopes: discovery.envelopes,
     catalog,
+    surfaceEquivalence,
     requiredIds,
     gaps,
     issues

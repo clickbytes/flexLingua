@@ -7,8 +7,8 @@
 ```text
 tests/
   README.md
-  schemas/{case,catalog}.schema.json   # JSON Schema 2020-12
-  catalog/{a1-single,required-ids}.json
+  schemas/{case,catalog,surface-equivalence}.schema.json   # JSON Schema 2020-12
+  catalog/{a1-single,required-ids,surface-equivalence}.json
   cases/<from>-<to>/*.json             # koperty {"schemaVersion":"1.0","cases":[...]}
   gaps/known-gaps.json
   lib/{discover,validate,assertions,coverage,report,cli}.mjs
@@ -66,6 +66,30 @@ Dla `unsupported|invalid|resource_limit` wymagane są `text:null`, `meaning:null
 - Teksty, koncepcje i diagnozy oczekiwane były pisane przed uruchomieniem; `review.source` dokumentuje niezależne źródło oczekiwań (np. dowody historyczne z issue), a PR pokazują wykonane komendy z SHA.
 - Dla nowych graph-constrained required cases zatwierdzenie konkretnych ID i znaczeń musi być zapisane w komentarzu GitHub przed ustawieniem `review.status:"approved"` lub dodaniem ID do `required-ids.json`; pole `review` samo nie zastępuje tej decyzji. Właściciel projektu może jawnie powierzyć ocenę językową wskazanych przypadków agentowi. Agent zapisuje własne uzasadnienie form, ról, cech, strat informacji, grafu i odmów oraz zakres delegacji; zgodność z outputem silnika nie jest uzasadnieniem. Ta delegacja nie osłabia ochrony wcześniejszych required expected ani osobnego przeglądu źródeł i praw do wsadów danych.
 - Warianty poza wymaganym zakresem mogą być obserwowane, ale nie podnoszą raportowanej jakości A1; deklaracje capabilities bez pozytywnego świadectwa są raportowane oddzielnie (coverage).
+
+## Relacyjne grupy semantyczne
+
+`tests/catalog/surface-equivalence.json` wiąże istniejące przypadki w grupy `same-core` albo `different-core`. Nie tworzy kopii oczekiwanego znaczenia ani nowych przypadków. Każda grupa ma unikalne ID, jeden kierunek, od 2 do 8 unikalnych case ID i `comparison:"strict-core"`. Case ID może należeć tylko do jednej grupy; wskazany przypadek musi istnieć, mieć ten sam kierunek, `tier:"required"`, `review.status:"approved"`, `expected.status:"ok"` i expected MeaningGraph. Walidator odrzuca także grupę sprzeczną z już zatwierdzonymi expected MeaningGraphs.
+
+Przykład:
+
+```json
+{
+  "schemaVersion": "1.0",
+  "purpose": "Relacyjne asercje na zatwierdzonych przypadkach.",
+  "groups": [{
+    "id": "FWO-PL-0001",
+    "direction": "pl-en",
+    "relation": "same-core",
+    "caseIds": ["A1-PL-EN-VISUAL-0001", "A1-PL-EN-OVSVISUAL-0001"],
+    "comparison": "strict-core"
+  }]
+}
+```
+
+Po wykonaniu zdań runner porównuje wynikowe MeaningGraphs rekurencyjnie. Obiekty porównuje niezależnie od kolejności kluczy, tablice zachowują kolejność, a tekst normalizuje do NFC. Zachowane są wszystkie role i referenty oraz cechy, w tym czas, aspekt, polaryzacja, określoność i zakres. W wynikowych MeaningGraphs ignorowane są wyłącznie metadane prezentacji i śladu powierzchniowego (`surface`, `surfaceTrace`, `presentation`). Podczas sprawdzania relacji wobec zatwierdzonego oracle pomijane są dodatkowo jego dyrektywy testowe (`assert`, `roleSet`, `roleFeaturesExact`, `featuresAllowExtra`), które nie należą do wynikowego MeaningGraph. `unknown` pozostaje zwykłą wartością i nigdy nie jest normalizowane do pominięcia.
+
+`same-core` wymaga identycznej treści materialnej wszystkich wyników; `different-core` wymaga różnicy każdej pary. Brak wyniku `ok`, MeaningGraph lub wykonania grupy daje `NOT RUN`, nie PASS. `FAIL` albo `NOT RUN` zadeklarowanej grupy blokuje gate macierzy, ale pozostaje osobnym wynikiem relacji — nie zmienia klasy FAIL/INFRA/odmowy pojedynczego przypadku ani liczników coverage. Pusty katalog raportuje `NOT RUN`, bez twierdzenia o pokryciu. JSON, Markdown i JUnit zachowują status, ID grup, case ID oraz ścieżki różnic; `test:report` odtwarza je bez ponownego tłumaczenia.
 
 ## Uruchamianie
 

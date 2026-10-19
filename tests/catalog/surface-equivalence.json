@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "1.0",
+  "purpose": "Relational assertions over existing approved sentence cases; groups never copy or replace their expected MeaningGraphs.",
+  "groups": [
+    {
+      "id": "FWO-PL-0001",
+      "direction": "pl-en",
+      "relation": "same-core",
+      "caseIds": [
+        "A1-PL-EN-VISUAL-0001",
+        "A1-PL-EN-OVSVISUAL-0001"
+      ],
+      "comparison": "strict-core"
+    },
+    {
+      "id": "FWO-PL-0002",
+      "direction": "pl-en",
+      "relation": "same-core",
+      "caseIds": [
+        "A1-PL-EN-READ-0001",
+        "A1-PL-EN-OVSREAD-0001"
+      ],
+      "comparison": "strict-core"
+    },
+    {
+      "id": "FWO-PL-0003",
+      "direction": "pl-en",
+      "relation": "different-core",
+      "caseIds": [
+        "A1-PL-EN-VISUALROLES-0001",
+        "A1-PL-EN-VISUALROLES-0002"
+      ],
+      "comparison": "strict-core"
+    }
+  ]
+}

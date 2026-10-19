@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://flexlingua.dev/schemas/surface-equivalence.schema.json",
+  "title": "flexLingua semantic relation catalog",
+  "description": "Bounded same-core and different-core assertions over approved canonical sentence cases.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "purpose",
+    "groups"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0"
+    },
+    "purpose": {
+      "type": "string",
+      "minLength": 20,
+      "maxLength": 600
+    },
+    "groups": {
+      "type": "array",
+      "maxItems": 64,
+      "items": {
+        "$ref": "#/$defs/group"
+      }
+    }
+  },
+  "$defs": {
+    "direction": {
+      "enum": [
+        "en-pl",
+        "pl-en",
+        "en-fi",
+        "fi-en",
+        "tr-en",
+        "it-en",
+        "en-it",
+        "en-ar",
+        "ar-en"
+      ]
+    },
+    "caseId": {
+      "type": "string",
+      "pattern": "^A1-[A-Z]{2}-[A-Z]{2}-[A-Z]+-[0-9]{4}$"
+    },
+    "group": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "direction",
+        "relation",
+        "caseIds",
+        "comparison"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^FWO-[A-Z]{2,8}-[0-9]{4}$"
+        },
+        "direction": {
+          "$ref": "#/$defs/direction"
+        },
+        "relation": {
+          "enum": [
+            "same-core",
+            "different-core"
+          ]
+        },
+        "caseIds": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 8,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/caseId"
+          }
+        },
+        "comparison": {
+          "const": "strict-core"
+        }
+      }
+    }
+  }
+}
