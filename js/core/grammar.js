@@ -66,14 +66,18 @@ function boundedAnalyses(readings) {
   if (readings.length > MAX_ANALYSES) resourceLimit('Grammar analysis exceeded its reading budget.');
   return readings;
 }
-function defaultLinearizationId(sequence, count, reservedIds = new Set()) {
+/** Deterministic ID for an implicit linearization plan. The canonical default
+ * (first declared sequence) keeps the published `default` identifier regardless
+ * of how many other layouts exist; every further implicit layout fingerprints
+ * its own sequence, so adding or reordering layouts never renames one. */
+function defaultLinearizationId(sequence, reservedIds = new Set(), primary = false) {
+  if(primary&&!reservedIds.has('default'))return 'default';
   const signature=JSON.stringify(sequence);
   const hashOf=value=>{
     let hash=2166136261;
     for(const character of value)hash=Math.imul(hash^character.charCodeAt(0),16777619);
     return (hash>>>0).toString(16).padStart(8,'0');
   };
-  if(count===1&&!reservedIds.has('default'))return 'default';
   let salt=0,id;
   do { id=`default-${hashOf(salt?`${signature}:${salt}`:signature)}`; salt++; }
   while(reservedIds.has(id));
@@ -1129,8 +1133,8 @@ function createGrammarInterpreter(sourceDictionary, rules,
     const surfaceEnabled=declared.variants.length>0;
     const defaults=frame.linearizations.map(sequence=>[...sequence]);
     const reservedIds=new Set(declared.variants.map(variant=>variant.variantId));
-    const plans=defaults.map(sequence=>{
-      const id=surfaceEnabled?defaultLinearizationId(sequence,defaults.length,reservedIds):null;
+    const plans=defaults.map((sequence,index)=>{
+      const id=surfaceEnabled?defaultLinearizationId(sequence,reservedIds,index===0):null;
       if(id)reservedIds.add(id);
       return {sequence,id,surfaceEnabled,isDefault:true,realizationPreference:null};
     });
