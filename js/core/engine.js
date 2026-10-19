@@ -4,6 +4,7 @@ import { createCoreLanguage } from './core-language.js';
 import { splitSentences } from './text.js';
 import {EngineError, isResourceLimitError, toEngineError, pluginResultError} from './errors.js';
 import {RESOURCE_LIMITS} from './resource-limits.js';
+import {snapshotBoundedJsonGraph, utf8ByteLength} from './bounded-json.js';
 import {createResponsePlanner, RESPONSE_PLANNER_VERSION} from './response-planner.js';
 import {createDialogueEngine as createDialogueEngineApi, DIALOGUE_ENGINE_VERSION}
   from './dialogue-engine.js';
@@ -70,33 +71,41 @@ function assertCoreJsonDepth(text) {
       depth++;
       if (depth > RESOURCE_LIMITS.coreJsonDepth) {
         throw new EngineError('CORE_JSON_DEPTH_LIMIT',
-          `CORE JSON nesting exceeds ${RESOURCE_LIMITS.coreJsonDepth} levels.`);
+          `CORE JSON nesting exceeds ${RESOURCE_LIMITS.coreJsonDepth} levels.`, {status:'resource_limit'});
       }
     } else if (character==='}' || character===']') depth--;
   }
 }
 
 function assertSafeCoreJsonGraph(root) {
-  const stack=[{value:root,depth:0}];
-  let visited=0;
-  while(stack.length) {
-    const {value,depth}=stack.pop();
-    if(++visited>RESOURCE_LIMITS.coreJsonNodes) {
-      throw new EngineError('CORE_JSON_NODE_LIMIT',
-        `CORE JSON exceeds ${RESOURCE_LIMITS.coreJsonNodes} values.`);
-    }
-    if(!value || typeof value!=='object')continue;
-    if(depth>RESOURCE_LIMITS.coreJsonDepth) {
-      throw new EngineError('CORE_JSON_DEPTH_LIMIT',
-        `CORE JSON nesting exceeds ${RESOURCE_LIMITS.coreJsonDepth} levels.`);
-    }
-    const keys=Object.keys(value);
-    if(keys.some(key=>['__proto__','prototype','constructor'].includes(key))) {
-      throw new EngineError('CORE_JSON_UNSAFE_KEY','Unsafe CORE JSON key.');
-    }
-    for(let index=keys.length-1;index>=0;index--) {
-      stack.push({value:value[keys[index]],depth:depth+1});
-    }
+  try {
+    return snapshotBoundedJsonGraph(root, {maxDepth:RESOURCE_LIMITS.coreJsonDepth,
+      maxNodes:RESOURCE_LIMITS.coreJsonNodes, maxBytes:RESOURCE_LIMITS.jsonGraphBytes}).value;
+  } catch (error) {
+    const mapping = {
+      JSON_GRAPH_DEPTH_LIMIT: ['CORE_JSON_DEPTH_LIMIT',
+        `CORE JSON nesting exceeds ${RESOURCE_LIMITS.coreJsonDepth} levels.`],
+      JSON_GRAPH_NODE_LIMIT: ['CORE_JSON_NODE_LIMIT',
+        `CORE JSON exceeds ${RESOURCE_LIMITS.coreJsonNodes} values.`],
+      JSON_GRAPH_SIZE_LIMIT: ['CORE_JSON_SIZE_LIMIT',
+        `CORE JSON exceeds ${RESOURCE_LIMITS.jsonGraphBytes} UTF-8 bytes.`],
+      JSON_GRAPH_UNSAFE_KEY: ['CORE_JSON_UNSAFE_KEY', 'Unsafe CORE JSON key.'],
+      JSON_GRAPH_CYCLE: ['CORE_JSON_CYCLE', 'CORE JSON graph must not contain cycles.']
+    };
+    const [code, message] = mapping[error?.code] ?? ['CORE_JSON_INVALID_GRAPH',
+      'CORE JSON must contain only bounded JSON-like values.'];
+    throw new EngineError(code, message, {cause:error,
+      status:error?.status === 'resource_limit' ? 'resource_limit' : 'invalid'});
+  }
+}
+
+function assertSafeContextGraph(context) {
+  try {
+    return snapshotBoundedJsonGraph(context).value;
+  } catch (error) {
+    const status = error?.status === 'resource_limit' ? 'resource_limit' : 'invalid';
+    throw new EngineError(status === 'resource_limit' ? 'CONTEXT_RESOURCE_LIMIT' : 'INVALID_INPUT',
+      'Analysis context must be a bounded JSON-like value.', {cause:error, status});
   }
 }
 
@@ -270,12 +279,14 @@ export class Engine {
 
   /** Return a read-only typed graph view while preserving the MeaningGraph wire contract. */
   projectMeaningGraph(meaning, {limits} = {}) {
+    meaning = snapshotBoundedJsonGraph(meaning).value;
     validateMeaningGraph(meaning,this.ontology,this.features);
     return composeMeaningGraph({meaning,core:this.core,limits});
   }
 
   /** Build a deterministic response plan using only explicitly supplied CORE facts. */
-  planResponse(request) {
+  planResponse(request = {}) {
+    request = snapshotBoundedJsonGraph(request).value;
     return this.responsePlanner.plan(request);
   }
 
@@ -286,7 +297,12 @@ export class Engine {
       throw new Error(`Unsupported response language: ${to}`);
     }
     if(to!=='core')this.plugin(to);
-    const plan = this.planResponse({question,facts,clarifyQuestion,referenceContext});
+    const plan = this.planResponse({
+      ...(question===undefined?{}:{question}),
+      ...(facts===undefined?{}:{facts}),
+      ...(clarifyQuestion===undefined?{}:{clarifyQuestion}),
+      ...(referenceContext===undefined?{}:{referenceContext})
+    });
     if (!plan.realization) {
       return {plan,text:null,warnings:[],alternatives:[],informationLoss:[],diagnostics:[]};
     }
@@ -307,6 +323,7 @@ export class Engine {
   }
 
   validateContext(context = {}) {
+    context = assertSafeContextGraph(context);
     validateReferentContext(context, this.ontology);
     if (context.topics !== undefined && (!Array.isArray(context.topics) || context.topics.length > 8 ||
         context.topics.some(topic => !this.ontology.get(topic)))) {
@@ -331,6 +348,7 @@ export class Engine {
 
   pluginAnalysisCandidates(plugin, text, context = {}) {
     try {
+      context = snapshotBoundedJsonGraph(context).value;
       if (typeof plugin?.analyze !== 'function') {
         throw new EngineError('PLUGIN_CAPABILITY_UNAVAILABLE',
           `Sentence analysis is unsupported for language ${plugin?.code || 'unknown'}.`,
@@ -356,6 +374,9 @@ export class Engine {
   pluginRealization(plugin, meaning, context = {}, {includeSegments=false,sourceSegments=[],
     omitDeicticSubject=false} = {}) {
     try {
+      meaning = snapshotBoundedJsonGraph(meaning).value;
+      context = snapshotBoundedJsonGraph(context).value;
+      sourceSegments = includeSegments ? snapshotBoundedJsonGraph(sourceSegments).value : [];
       if (typeof plugin?.realize !== 'function') {
         throw new EngineError('PLUGIN_CAPABILITY_UNAVAILABLE',
           `Sentence realization is unsupported for language ${plugin?.code || 'unknown'}.`,
@@ -386,7 +407,11 @@ export class Engine {
         throw new EngineError('CORE_JSON_TYPE_INVALID','CORE JSON input must be a string.');
       }
       if (text.length > RESOURCE_LIMITS.coreJsonCodeUnits) {
-        throw new EngineError('CORE_JSON_SIZE_LIMIT','Invalid CORE JSON document size.');
+        throw new EngineError('CORE_JSON_SIZE_LIMIT','Invalid CORE JSON document size.', {status:'resource_limit'});
+      }
+      if (utf8ByteLength(text) > RESOURCE_LIMITS.jsonGraphBytes) {
+        throw new EngineError('CORE_JSON_SIZE_LIMIT',
+          `CORE JSON exceeds ${RESOURCE_LIMITS.jsonGraphBytes} UTF-8 bytes.`, {status:'resource_limit'});
       }
       if (settings.coreference !== undefined) {
         throw new EngineError('INVALID_COREFERENCE',
@@ -405,7 +430,7 @@ export class Engine {
       catch (error) {
         throw new EngineError('CORE_JSON_INVALID','Invalid CORE JSON document.',{cause:error});
       }
-      assertSafeCoreJsonGraph(meaning);
+      meaning = assertSafeCoreJsonGraph(meaning);
       try { validateMeaningGraph(meaning, this.ontology, this.features); }
       catch (error) {
         if(isResourceLimitError(error))throw error;
@@ -552,6 +577,7 @@ export class Engine {
     if(typeof includeSegments!=='boolean'||!Array.isArray(sourceSegments)||sourceSegments.length>64||
         typeof omitDeicticSubject!=='boolean')
       throw new EngineError('INVALID_INPUT','Invalid segment request.',{status:'invalid'});
+    interlingua = snapshotBoundedJsonGraph(interlingua).value;
     validateMeaningGraph(interlingua, this.ontology, this.features);
     if(informationStructure!==undefined) {
       if(!record(informationStructure)||Object.keys(informationStructure).length!==2||
