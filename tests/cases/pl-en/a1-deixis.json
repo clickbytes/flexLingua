@@ -433,6 +433,526 @@
         "coverageTargetId": "construction.event.visual_perception",
         "capability": "pl.analyze + en.realize preserves the combined short cię theme and omitted first-singular speaker agent as `I see you.`"
       }
+    },
+    {
+      "id": "A1-PL-EN-RESIDENCE-0001",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "residence",
+      "construction": "event.residence",
+      "tier": "exploratory",
+      "priority": 4,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "first",
+        "number": "singular",
+        "reference": "deictic",
+        "quantity": "none"
+      },
+      "purpose": "Proposed residence meaning: preserve resident identity, dwelling location, small-size modifier, tense, polarity and number. No invented antecedent or addressee number.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Mieszkam w małym mieszkaniu."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "I live in a small flat."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.residence",
+          "roleSet": [
+            "agent",
+            "location"
+          ],
+          "roles": {
+            "agent": {
+              "target": {
+                "kind": "deictic",
+                "anchor": "speaker"
+              },
+              "agreement": {
+                "person": "first",
+                "number": "singular"
+              }
+            },
+            "location": {
+              "concept": "structure.apartment",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              },
+              "modifiers": [
+                {
+                  "concept": "quality.small"
+                }
+              ]
+            }
+          },
+          "roleFeaturesExact": true,
+          "modifiersExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "assert": {
+            "#/roles/location/modifiers/0/concept": "quality.small"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "I live in the small flat."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/location/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "proposed",
+        "source": "Independent residence and lexical expectations recorded before implementation in #438 and the owner conversation. Agent-authored; pending explicit linguistic approval.",
+        "author": "Codex",
+        "reviewedAt": "2026-10-19",
+        "issue": "#438"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.residence",
+        "capability": "Concept-based residence analysis and realization with person, dwelling and adjective preservation"
+      }
+    },
+    {
+      "id": "A1-PL-EN-RESIDENCE-0002",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "residence",
+      "construction": "event.residence",
+      "tier": "exploratory",
+      "priority": 4,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "anaphoric",
+        "quantity": "none"
+      },
+      "purpose": "Proposed residence meaning: preserve resident identity, dwelling location, small-size modifier, tense, polarity and number. No invented antecedent or addressee number.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "On mieszka w małym mieszkaniu."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "He lives in a small flat."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.residence",
+          "roleSet": [
+            "agent",
+            "location"
+          ],
+          "roles": {
+            "agent": {
+              "target": {
+                "kind": "anaphoric",
+                "resolution": "unresolved"
+              },
+              "agreement": {
+                "person": "third",
+                "number": "singular",
+                "gender": "masculine"
+              }
+            },
+            "location": {
+              "concept": "structure.apartment",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              },
+              "modifiers": [
+                {
+                  "concept": "quality.small"
+                }
+              ]
+            }
+          },
+          "roleFeaturesExact": true,
+          "modifiersExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "assert": {
+            "#/roles/location/modifiers/0/concept": "quality.small"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "He lives in the small flat."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/location/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "proposed",
+        "source": "Independent residence and lexical expectations recorded before implementation in #438 and the owner conversation. Agent-authored; pending explicit linguistic approval.",
+        "author": "Codex",
+        "reviewedAt": "2026-10-19",
+        "issue": "#438"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.residence",
+        "capability": "Concept-based residence analysis and realization with person, dwelling and adjective preservation"
+      }
+    },
+    {
+      "id": "A1-PL-EN-RESIDENCE-0003",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "residence",
+      "construction": "event.residence",
+      "tier": "exploratory",
+      "priority": 4,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "first",
+        "number": "plural",
+        "reference": "deictic",
+        "quantity": "none"
+      },
+      "purpose": "Proposed residence meaning: preserve resident identity, dwelling location, small-size modifier, tense, polarity and number. No invented antecedent or addressee number.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Mieszkamy w małym mieszkaniu."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "We live in a small flat."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.residence",
+          "roleSet": [
+            "agent",
+            "location"
+          ],
+          "roles": {
+            "agent": {
+              "target": {
+                "kind": "deictic",
+                "anchor": "speaker"
+              },
+              "agreement": {
+                "person": "first",
+                "number": "plural"
+              }
+            },
+            "location": {
+              "concept": "structure.apartment",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              },
+              "modifiers": [
+                {
+                  "concept": "quality.small"
+                }
+              ]
+            }
+          },
+          "roleFeaturesExact": true,
+          "modifiersExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "assert": {
+            "#/roles/location/modifiers/0/concept": "quality.small"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "We live in the small flat."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/location/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "proposed",
+        "source": "Independent residence and lexical expectations recorded before implementation in #438 and the owner conversation. Agent-authored; pending explicit linguistic approval.",
+        "author": "Codex",
+        "reviewedAt": "2026-10-19",
+        "issue": "#438"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.residence",
+        "capability": "Concept-based residence analysis and realization with person, dwelling and adjective preservation"
+      }
+    },
+    {
+      "id": "A1-PL-EN-RESIDENCE-0004",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "residence",
+      "construction": "event.residence",
+      "tier": "exploratory",
+      "priority": 4,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "negative",
+        "person": "first",
+        "number": "singular",
+        "reference": "deictic",
+        "quantity": "none"
+      },
+      "purpose": "Proposed residence meaning: preserve resident identity, dwelling location, small-size modifier, tense, polarity and number. No invented antecedent or addressee number.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Nie mieszkam w małym mieszkaniu."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "I do not live in a small flat."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.residence",
+          "roleSet": [
+            "agent",
+            "location"
+          ],
+          "roles": {
+            "agent": {
+              "target": {
+                "kind": "deictic",
+                "anchor": "speaker"
+              },
+              "agreement": {
+                "person": "first",
+                "number": "singular"
+              }
+            },
+            "location": {
+              "concept": "structure.apartment",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              },
+              "modifiers": [
+                {
+                  "concept": "quality.small"
+                }
+              ]
+            }
+          },
+          "roleFeaturesExact": true,
+          "modifiersExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "negative",
+            "aspect": "imperfective"
+          },
+          "assert": {
+            "#/roles/location/modifiers/0/concept": "quality.small"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "I do not live in the small flat."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/location/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "proposed",
+        "source": "Independent residence and lexical expectations recorded before implementation in #438 and the owner conversation. Agent-authored; pending explicit linguistic approval.",
+        "author": "Codex",
+        "reviewedAt": "2026-10-19",
+        "issue": "#438"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.residence",
+        "capability": "Concept-based residence analysis and realization with person, dwelling and adjective preservation"
+      }
+    },
+    {
+      "id": "A1-PL-EN-RESIDENCE-0005",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "residence",
+      "construction": "event.residence",
+      "tier": "exploratory",
+      "priority": 4,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "first",
+        "number": "singular",
+        "reference": "deictic",
+        "quantity": "none"
+      },
+      "purpose": "Controlled refusal: unsupported agreement, participant type or location preposition must not be silently repaired.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Mieszkam w małe mieszkanie."
+      },
+      "expected": {
+        "status": "unsupported",
+        "text": null,
+        "meaning": null,
+        "diagnostics": {
+          "required": [
+            {
+              "code": "LANGUAGE_CONSTRUCTION_UNSUPPORTED"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "proposed",
+        "source": "Independent residence and lexical expectations recorded before implementation in #438 and the owner conversation. Agent-authored; pending explicit linguistic approval.",
+        "author": "Codex",
+        "reviewedAt": "2026-10-19",
+        "issue": "#438"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.residence",
+        "capability": "Concept-based residence analysis and realization with person, dwelling and adjective preservation"
+      }
     }
   ]
 }

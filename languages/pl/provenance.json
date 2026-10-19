@@ -145,6 +145,13 @@
           "source": "Project-authored bilingual CORE labels, lexical senses, bounded inflection cells and sentence expectations from delegated linguistic curation; no external corpus, dictionary, ontology, protected list or imported vocabulary was copied.",
           "license": "Project-authored for internal flexLingua use; this repository declares no separate SPDX data license.",
           "scope": "Adds 69 unique Polish noun lemmas for 70 CORE senses, including reviewed forms for 23 animal witnesses."
+        },
+        {
+          "issue": "#438",
+          "author": "Codex",
+          "source": "Original project-authored residence and apartment lexical mappings and inflection data; Polish preferred neutral dziewczyna synonym requested by owner. No external dictionary was copied.",
+          "license": "Project-authored; the repository declares no separate SPDX data license.",
+          "scope": "Controlled present-tense residence construction; new cases proposed pending owner linguistic approval."
         }
       ],
       "migratedFrom": "data/pl.json"

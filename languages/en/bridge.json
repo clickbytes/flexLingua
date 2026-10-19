@@ -506,6 +506,28 @@
           ]
         }
       ]
+    },
+    {
+      "construction": "event.residence",
+      "conceptId": "event.residence",
+      "arguments": [
+        {
+          "role": "agent",
+          "argument": "subject",
+          "syntacticFunction": "subject",
+          "agreementControllers": [
+            {
+              "argument": "subject",
+              "feature": "number"
+            }
+          ]
+        },
+        {
+          "role": "location",
+          "argument": "location",
+          "syntacticFunction": "oblique"
+        }
+      ]
     }
   ]
 }

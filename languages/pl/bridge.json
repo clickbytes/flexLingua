@@ -364,6 +364,36 @@
           "syntacticFunction": "subject"
         }
       ]
+    },
+    {
+      "construction": "event.residence",
+      "conceptId": "event.residence",
+      "arguments": [
+        {
+          "role": "agent",
+          "argument": "subject",
+          "syntacticFunction": "subject",
+          "agreementControllers": [
+            {
+              "argument": "subject",
+              "feature": "number"
+            }
+          ],
+          "caseExponent": {
+            "kind": "case",
+            "value": "nom"
+          }
+        },
+        {
+          "role": "location",
+          "argument": "location",
+          "syntacticFunction": "oblique",
+          "caseExponent": {
+            "kind": "case",
+            "value": "loc"
+          }
+        }
+      ]
     }
   ]
 }

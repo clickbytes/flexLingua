@@ -4216,6 +4216,38 @@
         "en-pl",
         "pl-en"
       ]
+    },
+    {
+      "targetId": "construction.event.residence",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "construction",
+      "domain": "daily_activity",
+      "kind": "event",
+      "concept": "event.residence",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ],
+      "note": "Issue #438; proposed sentence expectations pending linguistic approval."
+    },
+    {
+      "targetId": "concept.structure.apartment",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "places",
+      "kind": "entity",
+      "concept": "structure.apartment",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ],
+      "note": "Issue #438; proposed sentence expectations pending linguistic approval."
     }
   ]
 }

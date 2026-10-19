@@ -276,16 +276,31 @@
       "type": "object",
       "additionalProperties": false,
       "oneOf": [
-        { "required": ["concept"] },
-        { "required": ["target"] }
+        {
+          "required": [
+            "concept"
+          ]
+        },
+        {
+          "required": [
+            "target"
+          ]
+        }
       ],
       "properties": {
-        "concept": { "type": "string", "pattern": "^[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*$" },
+        "concept": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*$"
+        },
         "features": {
           "type": "object",
           "maxProperties": 8,
-          "propertyNames": { "pattern": "^[a-z][a-zA-Z0-9_]{0,63}$" },
-          "additionalProperties": { "type": "string" }
+          "propertyNames": {
+            "pattern": "^[a-z][a-zA-Z0-9_]{0,63}$"
+          },
+          "additionalProperties": {
+            "type": "string"
+          }
         },
         "modifiers": {
           "type": "array",
@@ -293,38 +308,169 @@
           "items": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["concept"],
-            "properties": { "concept": { "type": "string", "pattern": "^[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*$" } }
+            "required": [
+              "concept"
+            ],
+            "properties": {
+              "concept": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*$"
+              }
+            }
           }
         },
         "quantity": {
           "type": "object",
           "additionalProperties": false,
-          "required": ["kind", "value"],
+          "required": [
+            "kind",
+            "value"
+          ],
           "properties": {
-            "kind": { "const": "exact" },
-            "value": { "type": "integer", "minimum": 0, "maximum": 20 }
+            "kind": {
+              "const": "exact"
+            },
+            "value": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 20
+            }
           }
         },
         "target": {
-          "type": "object",
-          "additionalProperties": false,
-          "required": ["kind", "anchor"],
-          "properties": {
-            "kind": { "const": "deictic" },
-            "anchor": { "enum": ["speaker", "addressee", "demonstrative"] }
-          }
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "anchor"
+              ],
+              "properties": {
+                "kind": {
+                  "const": "deictic"
+                },
+                "anchor": {
+                  "enum": [
+                    "speaker",
+                    "addressee",
+                    "demonstrative"
+                  ]
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "resolution"
+              ],
+              "properties": {
+                "kind": {
+                  "const": "anaphoric"
+                },
+                "resolution": {
+                  "const": "unresolved"
+                }
+              }
+            }
+          ]
         },
         "agreement": {
           "type": "object",
           "additionalProperties": false,
-          "required": ["person", "number"],
+          "required": [
+            "person",
+            "number"
+          ],
           "properties": {
-            "person": { "enum": ["first", "second", "third"] },
-            "number": { "enum": ["singular", "plural"] }
+            "person": {
+              "enum": [
+                "first",
+                "second",
+                "third"
+              ]
+            },
+            "number": {
+              "enum": [
+                "singular",
+                "plural"
+              ]
+            },
+            "gender": {
+              "enum": [
+                "feminine",
+                "masculine"
+              ]
+            }
           }
         }
-      }
+      },
+      "allOf": [
+        {
+          "if": {
+            "required": [
+              "target"
+            ]
+          },
+          "then": {
+            "required": [
+              "agreement"
+            ]
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "target"
+            ],
+            "properties": {
+              "target": {
+                "type": "object",
+                "required": [
+                  "kind"
+                ],
+                "properties": {
+                  "kind": {
+                    "const": "anaphoric"
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "agreement": {
+                "type": "object",
+                "required": [
+                  "gender"
+                ],
+                "properties": {
+                  "person": {
+                    "const": "third"
+                  },
+                  "number": {
+                    "const": "singular"
+                  }
+                }
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "agreement": {
+                "type": "object",
+                "not": {
+                  "required": [
+                    "gender"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ]
     },
     "review": {
       "type": "object",

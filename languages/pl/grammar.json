@@ -2043,6 +2043,37 @@
         },
         "themeConcepts": []
       }
+    },
+    "event.residence": {
+      "cases": {
+        "agent": "nom",
+        "location": "loc"
+      },
+      "linearizations": [
+        [
+          "agent",
+          "@verb",
+          "@w",
+          "location"
+        ]
+      ],
+      "implicitSubject": {
+        "analysis": true,
+        "realization": true
+      },
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "imperfective"
+        ],
+        "roles": {
+          "agent": "person",
+          "location": "place"
+        },
+        "themeConcepts": []
+      }
     }
   },
   "states": {

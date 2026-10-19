@@ -5006,6 +5006,34 @@
         "base": "koala"
       },
       "overrides": []
+    },
+    {
+      "lexemeId": "en.flat.1",
+      "paradigmId": "en.noun.regular",
+      "stems": {
+        "base": "flat"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.live.1",
+      "paradigmId": "en.verb.regular",
+      "stems": {
+        "base": "live"
+      },
+      "overrides": [
+        {
+          "when": {
+            "tense": "past"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lived"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

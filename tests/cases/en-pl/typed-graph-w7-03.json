@@ -31,7 +31,7 @@
         "status": "ok",
         "text": {
           "accepted": [
-            "Dziewczynka widzi suchy ręcznik."
+            "Dziewczyna widzi suchy ręcznik."
           ]
         },
         "meaning": {
@@ -162,7 +162,7 @@
         "status": "ok",
         "text": {
           "accepted": [
-            "Dziewczynka widzi zimną wodę."
+            "Dziewczyna widzi zimną wodę."
           ]
         },
         "meaning": {
@@ -287,7 +287,7 @@
         "status": "ok",
         "text": {
           "accepted": [
-            "Dziewczynka widzi gorącą herbatę."
+            "Dziewczyna widzi gorącą herbatę."
           ]
         },
         "meaning": {
@@ -412,7 +412,7 @@
         "status": "ok",
         "text": {
           "accepted": [
-            "Dziewczynka widzi brudny but."
+            "Dziewczyna widzi brudny but."
           ]
         },
         "meaning": {
@@ -543,7 +543,7 @@
         "status": "ok",
         "text": {
           "accepted": [
-            "Dziewczynka widzi pełny kubek."
+            "Dziewczyna widzi pełny kubek."
           ]
         },
         "meaning": {
@@ -674,7 +674,7 @@
         "status": "ok",
         "text": {
           "accepted": [
-            "Dziewczynka widzi pustą butelkę."
+            "Dziewczyna widzi pustą butelkę."
           ]
         },
         "meaning": {
@@ -1053,7 +1053,7 @@
         "status": "ok",
         "text": {
           "accepted": [
-            "Dziewczynka widzi koalę."
+            "Dziewczyna widzi koalę."
           ]
         },
         "meaning": {

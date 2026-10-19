@@ -11932,6 +11932,21 @@
           }
         }
       ]
+    },
+    {
+      "id": "en.flat.1",
+      "lemma": "flat",
+      "indefiniteArticle": "a",
+      "forms": {},
+      "senses": [
+        {
+          "id": "en.flat.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "structure.apartment"
+          }
+        }
+      ]
     }
   ],
   "verbs": [
@@ -13702,6 +13717,36 @@
           "coreRef": {
             "kind": "concept",
             "id": "event.arriving"
+          }
+        }
+      ]
+    },
+    {
+      "id": "en.live.1",
+      "lemma": "live",
+      "capabilities": {
+        "tenses": [
+          "present"
+        ],
+        "aspects": [
+          "unknown"
+        ],
+        "polarities": [
+          "positive",
+          "negative"
+        ],
+        "roles": {
+          "agent": "person",
+          "location": "place"
+        },
+        "themeConcepts": []
+      },
+      "senses": [
+        {
+          "id": "en.live.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.residence"
           }
         }
       ]

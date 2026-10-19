@@ -21,11 +21,11 @@
         "reference": "indefinite",
         "quantity": "exact"
       },
-      "purpose": "Positive A1 exact-quantity event en>pl: 'three' fixes the agent count to exactly 3 on the Polish noun phrase (Trzy dziewczynki, plural nominative with plural verb agreement), number and quantity survive translation without any loss record, the theme stays singular definite, and both definiteness claims are recorded as unavoidable target-side loss because Polish does not mark definiteness.",
+      "purpose": "Positive A1 exact-quantity event en>pl: 'three' fixes the agent count to exactly 3 on the Polish noun phrase (Trzy dziewczyny, plural nominative with plural verb agreement), number and quantity survive translation without any loss record, the theme stays singular definite, and both definiteness claims are recorded as unavoidable target-side loss because Polish does not mark definiteness.",
       "input": {"from": "en", "to": "pl", "text": "Three girls see the dog."},
       "expected": {
         "status": "ok",
-        "text": {"accepted": ["Trzy dziewczynki widz\u0105 psa."]},
+        "text": {"accepted": ["Trzy dziewczyny widzą psa."]},
         "meaning": {
           "type": "event",
           "concept": "event.visual_perception",

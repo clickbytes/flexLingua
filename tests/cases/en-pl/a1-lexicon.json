@@ -31,7 +31,7 @@
         "status": "ok",
         "text": {
           "accepted": [
-            "Dziewczynka widzi rower."
+            "Dziewczyna widzi rower."
           ]
         },
         "meaning": {
@@ -140,7 +140,7 @@
         "status": "ok",
         "text": {
           "accepted": [
-            "Dziewczynka widzi telefon."
+            "Dziewczyna widzi telefon."
           ]
         },
         "meaning": {
@@ -249,7 +249,7 @@
         "status": "ok",
         "text": {
           "accepted": [
-            "Dziewczynka widzi mamę."
+            "Dziewczyna widzi mamę."
           ]
         },
         "meaning": {
@@ -358,7 +358,7 @@
         "status": "ok",
         "text": {
           "accepted": [
-            "Dziewczynka widzi szkołę."
+            "Dziewczyna widzi szkołę."
           ]
         },
         "meaning": {
