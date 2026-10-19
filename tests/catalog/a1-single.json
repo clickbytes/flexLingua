@@ -400,22 +400,6 @@
       "note": "Partially implemented only as a tr->en limited demo (languages/tr manifest); no approved PL or EN sentence witness exists."
     },
     {
-      "targetId": "construction.event.movement",
-      "revision": "historical-planning-baseline",
-      "historicalId": "construction.event.movement",
-      "unitType": "construction",
-      "domain": "activities",
-      "kind": "event",
-      "concept": "event.movement",
-      "tier": "planned",
-      "witnessKind": "positive",
-      "directions": [
-        "en-pl",
-        "pl-en"
-      ],
-      "note": "Not declared as a sentence construction by any current manifest."
-    },
-    {
       "targetId": "construction.event.write",
       "revision": "historical-planning-baseline",
       "historicalId": "construction.event.write",
@@ -4244,6 +4228,22 @@
         "pl-en"
       ],
       "note": "Issue #438; independently reviewed sentence expectations approved under explicit owner delegation."
+    },
+    {
+      "targetId": "construction.event.movement",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "construction",
+      "domain": "activities",
+      "kind": "event",
+      "concept": "event.movement",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ],
+      "note": "Bounded present vehicle motion only: object.car agent; PL jechać/jedzie; EN present progressive; no unrestricted event.movement or CEFR claim. FWO-08 #461."
     }
   ]
 }

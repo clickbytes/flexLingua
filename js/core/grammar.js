@@ -1249,8 +1249,19 @@ function createGrammarInterpreter(sourceDictionary, rules,
           status:'unavoidable'});
       }
     }
+    const availableForms=meaning.type==='event'
+      ?(verbFormsByConcept.get(meaning.concept)||[]).filter(entry=>
+        entry.rule.tense===meaning.features?.tense &&
+        entry.rule.polarity===meaning.features?.polarity &&
+        matchesRoleCapabilities(entry.lexeme,meaning.roles))
+      :[];
+    const preferredForms=availableForms.some(entry=>entry.rule.path!=='forms.progressive')
+      ?availableForms.filter(entry=>entry.rule.path!=='forms.progressive')
+      :availableForms;
+    const aspectFormExists=preferredForms.some(entry=>
+      entry.rule.aspect===meaning.features?.aspect);
     if(meaning.type==='event' && meaning.features?.aspect!=='unknown' &&
-        verbGrammar.aspectSource==='unknown') {
+        verbGrammar.aspectSource==='unknown' && !aspectFormExists) {
       diagnostics.push({path:`${prefix}/features/aspect`,feature:'aspect',
         cause:'target-grammar-does-not-encode-aspect',status:'unavoidable'});
     }

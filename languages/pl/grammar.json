@@ -1140,7 +1140,15 @@
         [
           "agent",
           "@verb"
-        ]
+        ],
+        {
+          "variantId": "verb-first-agent",
+          "sequence": [
+            "@verb",
+            "agent"
+          ],
+          "realizationPreference": 20
+        }
       ]
     },
     "event.movement.to_destination": {
