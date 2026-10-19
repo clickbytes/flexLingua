@@ -841,6 +841,244 @@
         "coverageTargetId": "construction.event.visual_perception",
         "capability": "Preserve both lexical readings for event.visual_perception without ranking either to one meaning."
       }
+    },
+    {
+      "id": "A1-PL-EN-LEXICON-0006",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "visual_perception",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "Approved bounded event.visual_perception lexical witness; preserve the independently specified CORE roles, target text, alternatives, and information loss.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Chłopiec widzi kota."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "A boy sees a cat."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.boy",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            },
+            "theme": {
+              "concept": "animal.cat",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/agent/features/definiteness": "unknown",
+            "#/roles/theme/features/number": "singular",
+            "#/roles/theme/features/definiteness": "unknown",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "imperfective"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "The boy sees the cat."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "ambiguous"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent meanings, realizations, and information-loss expectations were recorded before matrix execution in https://github.com/clickbytes/flexLingua/issues/448#issuecomment-6267164768. The project owner delegated review of these exact five cases.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-19",
+        "issue": "#448"
+      },
+      "requirements": {
+        "coverageTargetId": "concept.person.boy",
+        "capability": "sentence pl.analyze(event.visual_perception) -> en.realize"
+      }
+    },
+    {
+      "id": "A1-PL-EN-LEXICON-0007",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "visual_perception",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "Approved bounded event.visual_perception lexical witness; preserve the independently specified CORE roles, target text, alternatives, and information loss.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Kobieta widzi jabłko."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "A woman sees an apple."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.woman",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            },
+            "theme": {
+              "concept": "object.apple",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/agent/features/definiteness": "unknown",
+            "#/roles/theme/features/number": "singular",
+            "#/roles/theme/features/definiteness": "unknown",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "imperfective"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "The woman sees the apple."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "ambiguous"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent meanings, realizations, and information-loss expectations were recorded before matrix execution in https://github.com/clickbytes/flexLingua/issues/448#issuecomment-6267164768. The project owner delegated review of these exact five cases.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-19",
+        "issue": "#448"
+      },
+      "requirements": {
+        "coverageTargetId": "concept.person.woman",
+        "capability": "sentence pl.analyze(event.visual_perception) -> en.realize"
+      }
     }
   ]
 }

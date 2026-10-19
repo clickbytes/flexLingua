@@ -164,7 +164,11 @@
     "concept.animal.donkey",
     "concept.animal.koala",
     "construction.event.residence",
-    "concept.structure.apartment"
+    "concept.structure.apartment",
+    "concept.person.boy",
+    "concept.animal.cat",
+    "concept.person.woman",
+    "concept.object.apple"
   ],
   "requiredCaseIds": [
     "A1-AR-EN-REFUSAL-0001",
@@ -710,6 +714,11 @@
     "A1-EN-PL-SEGMENTS-0002",
     "A1-EN-PL-SEGMENTS-0003",
     "A1-EN-PL-SEGMENTS-0004",
-    "A1-PL-EN-SEGMENTS-0001"
+    "A1-PL-EN-SEGMENTS-0001",
+    "A1-EN-PL-LEXICON-0007",
+    "A1-EN-PL-LEXICON-0008",
+    "A1-EN-PL-LEXICON-0009",
+    "A1-PL-EN-LEXICON-0006",
+    "A1-PL-EN-LEXICON-0007"
   ]
 }
