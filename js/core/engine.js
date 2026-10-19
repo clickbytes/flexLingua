@@ -13,6 +13,8 @@ import {LANGUAGE_PLUGIN_CONTRACT_VERSION, normalizeAnalysisResult, normalizeReal
   from '../plugins/contract.js';
 import {matchConceptGraphs} from './typed-graph-match.js';
 import {composeMeaningGraph} from './semantic-composition.js';
+import {ambiguousTranslation, distinctReadings, translationFailure, withUncertainties}
+  from './translation-result.js';
 
 const MAX_CANDIDATES = 16;
 
@@ -492,9 +494,17 @@ export class Engine {
     });
   }
 
-  /** Legacy convenience method: a single preferred reading. Inspect candidates if ambiguous. */
+  /** Return a meaning only when analysis uniquely identifies it. */
   analyze({ text, from, context }) {
-    return this.analyzeCandidates({ text, from, context })[0].interlingua;
+    const readings = distinctReadings(this.analyzeCandidates({text, from, context}));
+    if (readings.length !== 1) {
+      const result = ambiguousTranslation(readings);
+      const error = new EngineError('AMBIGUOUS_MEANING', result.diagnostics[0].message,
+        {status: 'ambiguous', diagnostics: result.diagnostics});
+      error.result = result;
+      throw error;
+    }
+    return readings[0].interlingua;
   }
 
   realize({ interlingua, to, pronounRealization='repeat', profile,
@@ -580,61 +590,43 @@ export class Engine {
 
   /** Safe entry point for UIs: malformed input is a result, not an unhandled exception. */
   tryTranslate(request) {
-    try { return { ok: true, value: this.translate(request) }; }
+    try {
+      const value = this.translate(request);
+      if (value.status === 'ok') return {ok: true, value};
+      return {ok: false, value, error: {status: value.status,
+        code: value.diagnostics[0]?.code, message: value.diagnostics[0]?.message,
+        diagnostics: value.diagnostics, uncertainties: value.uncertainties}};
+    }
     catch (error) {
-      return { ok: false, error: { code: error?.code || (/Ambiguous anaphora/.test(error.message) ?
-        'AMBIGUOUS_ANAPHORA' : /anaphora/i.test(error.message) ?
-        'UNRESOLVED_ANAPHORA' : /coreference/i.test(error.message) ?
-        'INVALID_COREFERENCE' : /Unsupported language/.test(error.message) ?
-        'UNSUPPORTED_LANGUAGE' : /UNRESOLVED_DEIXIS/i.test(error.message) ?
-        'UNRESOLVED_DEIXIS' : /Missing|No .*lexeme|No .*form|no complement|no .*construction|no .*quantifier|does not match|Cannot realize|Unsupported question construction|Unsupported state construction|Unsupported modal|prohibition not available/.test(error.message) ?
-        'UNSUPPORTED_CONSTRUCTION' : 'INVALID_INPUT'), message: error.message,
-        ...(error?.status?{status:error.status}:{}),
-        ...(Array.isArray(error?.diagnostics)?{diagnostics:structuredClone(error.diagnostics)}:{}) } };
+      return {ok: false, error: {code: 'INFRASTRUCTURE_ERROR', status: 'error',
+        message: 'Translation infrastructure failed.'}};
     }
   }
 
   translate({ text, from, to, context, pronounRealization='repeat', profile,
-    lexicalRegister='neutral',informationStructure }) {
-    const candidates = this.analyzeCandidates({ text, from, context });
-    const results = [];
-    let firstError;
-    for (const candidate of candidates) {
-      try {
-        const output = this.realize({ interlingua: candidate.interlingua, to,
-          pronounRealization,profile,lexicalRegister,informationStructure,
-          construction:context?.construction });
-        results.push({ ...candidate, output });
-      } catch (error) {
-        firstError ||= error;
+    lexicalRegister='neutral',informationStructure } = {}) {
+    try {
+      const candidates = distinctReadings(this.analyzeCandidates({text, from, context}));
+      if (candidates.length !== 1) return ambiguousTranslation(candidates);
+      const candidate = candidates[0];
+      const meaning = candidate.interlingua;
+      const output = this.realize({interlingua: meaning, to,
+        pronounRealization, profile, lexicalRegister, informationStructure,
+        construction: context?.construction});
+      const warnings = [...(output.warnings ?? [])];
+      const anaphoraItems = candidate.anaphoraTrace ||
+        (candidate.anaphora ? [{...candidate.anaphora, event: 2}] : []);
+      for (const item of anaphoraItems) {
+        if (!output.pronounizedEvents?.includes(item.event)) {
+          warnings.push('Source subject pronoun ' + item.sourcePronoun +
+            ' was linked to ' + item.antecedent +
+            '; target repeats the noun phrase (safe pronoun realization was not selected or licensed).');
+        }
       }
+      return withUncertainties({...output, status: 'ok', meaning, warnings,
+        lexicalSenses: candidate.lexicalSenses, semanticAlternatives: []});
+    } catch (error) {
+      return translationFailure(error);
     }
-    if (!results.length) throw firstError || new Error('No target realization is available.');
-    const [best, ...others] = results;
-    const warnings = [...best.output.warnings];
-    const anaphoraItems=best.anaphoraTrace ||
-      (best.anaphora?[{...best.anaphora,event:2}]:[]);
-    for(const item of anaphoraItems) {
-      if(!best.output.pronounizedEvents?.includes(item.event))
-        warnings.push('Source subject pronoun '+item.sourcePronoun+
-          ' was linked to '+item.antecedent+
-          '; target repeats the noun phrase (safe pronoun realization was not selected or licensed).');
-    }
-    if (candidates.length > 1) {
-      warnings.push(`Source has ${candidates.length} distinct semantic readings; selected the preferred reading. See semantic alternatives.`);
-    }
-    if (results.length < candidates.length) {
-      warnings.push(`${candidates.length - results.length} semantic readings cannot be realized in ${to}.`);
-    }
-    return {
-      ...best.output,
-      warnings,
-      diagnostics:[...(best.output.diagnostics||[])],
-      lexicalSenses: best.lexicalSenses,
-      semanticAlternatives: others.map(other => ({
-        text: other.output.text, interlingua: other.interlingua,
-        lexicalSenses: other.lexicalSenses, score: other.score
-      }))
-    };
   }
 }

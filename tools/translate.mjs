@@ -2,18 +2,11 @@ import {createAppRuntime, listLanguages} from '../js/app/runtime.js';
 import {createTranslationService} from '../js/app/translation-service.js';
 import {resolve} from 'node:path';
 import {pathToFileURL} from 'node:url';
+import {translationRefusal as refusal} from '../js/core/translation-result.js';
 
 const USAGE = 'Usage: node tools/translate.mjs --languages [--json] | --from CODE --to CODE --text "sentence" [--json | --show-core]';
 const CODE = /^[a-z]{2,8}$/u;
 const OPTIONS = new Set(['--languages', '--from', '--to', '--text', '--json', '--show-core']);
-
-function refusal(status, code, message, extra = {}) {
-  const {diagnostics: suppliedDiagnostics, ...details} = extra;
-  return {status, ...details,
-    alternatives: details.alternatives ?? [],
-    informationLoss: details.informationLoss ?? [],
-    diagnostics: suppliedDiagnostics?.length ? suppliedDiagnostics : [{code, message}]};
-}
 
 function parseArgs(argv) {
   const parsed = {languages: false, json: false, showCore: false};

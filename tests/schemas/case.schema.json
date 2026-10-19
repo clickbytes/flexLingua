@@ -38,18 +38,76 @@
     "input": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["from", "to", "text"],
+      "required": [
+        "from",
+        "to",
+        "text"
+      ],
       "properties": {
-        "from": { "type": "string", "pattern": "^[a-z]{2,8}$" },
-        "to": { "type": "string", "pattern": "^[a-z]{2,8}$" },
-        "text": { "type": "string", "minLength": 3, "maxLength": 200 }
+        "from": {
+          "type": "string",
+          "pattern": "^[a-z]{2,8}$"
+        },
+        "to": {
+          "type": "string",
+          "pattern": "^[a-z]{2,8}$"
+        },
+        "text": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 200
+        },
+        "context": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "topics": {
+              "type": "array",
+              "maxItems": 8,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              }
+            },
+            "senses": {
+              "type": "object",
+              "maxProperties": 8,
+              "propertyNames": {
+                "pattern": "^[a-z][a-zA-Z0-9_]{0,63}$"
+              },
+              "additionalProperties": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              }
+            }
+          }
+        }
       }
     },
     "pointer": { "type": "string", "pattern": "^#(?:\\/(?:~[01]|[^~/])+)+$" },
     "case": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "schemaVersion", "level", "mode", "direction", "family", "construction", "tier", "priority", "tags", "purpose", "input", "expected", "review", "requirements"],
+      "required": [
+        "id",
+        "schemaVersion",
+        "level",
+        "mode",
+        "direction",
+        "family",
+        "construction",
+        "tier",
+        "priority",
+        "tags",
+        "purpose",
+        "input",
+        "expected",
+        "review",
+        "requirements"
+      ],
       "properties": {
         "id": {
           "type": "string",
@@ -57,40 +115,108 @@
           "minLength": 10,
           "maxLength": 64
         },
-        "schemaVersion": { "const": "1.0" },
-        "level": { "enum": ["A1", "pilot"] },
-        "mode": { "const": "single-sentence" },
-        "direction": { "$ref": "#/$defs/direction" },
-        "family": { "type": "string", "pattern": "^[a-z][a-z0-9_]{1,63}$" },
-        "construction": { "type": "string", "pattern": "^(?:question\\.yes-no|[a-z][a-z0-9_]+\\.[a-z][a-z0-9_]+)$" },
-        "tier": { "enum": ["required", "exploratory"] },
-        "priority": { "type": "integer", "minimum": 1, "maximum": 5 },
-        "cliSmoke": { "type": "boolean" },
-        "tags": { "$ref": "#/$defs/tags" },
-        "purpose": { "type": "string", "minLength": 10, "maxLength": 600 },
-        "input": { "$ref": "#/$defs/input" },
-        "expected": { "$ref": "#/$defs/expected" },
-        "review": { "$ref": "#/$defs/review" },
-        "requirements": { "$ref": "#/$defs/requirements" }
+        "schemaVersion": {
+          "const": "1.0"
+        },
+        "level": {
+          "enum": [
+            "A1",
+            "pilot"
+          ]
+        },
+        "mode": {
+          "const": "single-sentence"
+        },
+        "direction": {
+          "$ref": "#/$defs/direction"
+        },
+        "family": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]{1,63}$"
+        },
+        "construction": {
+          "type": "string",
+          "pattern": "^(?:question\\.yes-no|[a-z][a-z0-9_]+\\.[a-z][a-z0-9_]+)$"
+        },
+        "tier": {
+          "enum": [
+            "required",
+            "exploratory"
+          ]
+        },
+        "priority": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "cliSmoke": {
+          "type": "boolean"
+        },
+        "tags": {
+          "$ref": "#/$defs/tags"
+        },
+        "purpose": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 600
+        },
+        "input": {
+          "$ref": "#/$defs/input"
+        },
+        "expected": {
+          "$ref": "#/$defs/expected"
+        },
+        "review": {
+          "$ref": "#/$defs/review"
+        },
+        "requirements": {
+          "$ref": "#/$defs/requirements"
+        },
+        "verifyEngine": {
+          "type": "boolean"
+        }
       }
     },
     "expected": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["status", "text", "meaning", "diagnostics", "alternatives", "informationLoss"],
+      "required": [
+        "status",
+        "text",
+        "meaning",
+        "diagnostics",
+        "alternatives",
+        "informationLoss"
+      ],
       "properties": {
-        "status": { "enum": ["ok", "unsupported", "invalid", "ambiguous", "resource_limit"] },
+        "status": {
+          "enum": [
+            "ok",
+            "unsupported",
+            "invalid",
+            "ambiguous",
+            "resource_limit"
+          ]
+        },
         "text": {
           "oneOf": [
-            { "type": "null" },
+            {
+              "type": "null"
+            },
             {
               "type": "object",
               "additionalProperties": false,
-              "required": ["accepted"],
+              "required": [
+                "accepted"
+              ],
               "properties": {
                 "accepted": {
                   "type": "array",
-                  "items": { "type": "string", "minLength": 1, "maxLength": 200 },
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  },
                   "minItems": 1,
                   "maxItems": 20
                 }
@@ -98,11 +224,94 @@
             }
           ]
         },
-        "meaning": { "oneOf": [ { "type": "null" }, { "$ref": "#/$defs/meaning" } ] },
-        "diagnostics": { "$ref": "#/$defs/diagnosticPolicy" },
-        "alternatives": { "$ref": "#/$defs/alternativesPolicy" },
-        "informationLoss": { "$ref": "#/$defs/informationLossPolicy" },
-        "graph": { "$ref": "#/$defs/graphPolicy" }
+        "meaning": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/meaning"
+            }
+          ]
+        },
+        "diagnostics": {
+          "$ref": "#/$defs/diagnosticPolicy"
+        },
+        "alternatives": {
+          "$ref": "#/$defs/alternativesPolicy"
+        },
+        "informationLoss": {
+          "$ref": "#/$defs/informationLossPolicy"
+        },
+        "graph": {
+          "$ref": "#/$defs/graphPolicy"
+        },
+        "uncertainties": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "required",
+            "allowUnexpected"
+          ],
+          "properties": {
+            "required": {
+              "type": "array",
+              "maxItems": 128,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "kind",
+                  "path",
+                  "options",
+                  "reason"
+                ],
+                "properties": {
+                  "kind": {
+                    "enum": [
+                      "semantic_ambiguity",
+                      "missing_information",
+                      "equivalent_expression",
+                      "additional_assumption",
+                      "unsupported",
+                      "search_limit"
+                    ]
+                  },
+                  "path": {
+                    "anyOf": [
+                      {
+                        "const": "#"
+                      },
+                      {
+                        "$ref": "#/$defs/pointer"
+                      }
+                    ]
+                  },
+                  "options": {
+                    "type": "array",
+                    "maxItems": 32,
+                    "items": {
+                      "type": [
+                        "string",
+                        "number",
+                        "boolean",
+                        "null"
+                      ]
+                    }
+                  },
+                  "reason": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 128
+                  }
+                }
+              }
+            },
+            "allowUnexpected": {
+              "type": "boolean"
+            }
+          }
+        }
       }
     },
     "graphPolicy": {
