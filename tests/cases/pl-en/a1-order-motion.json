@@ -228,8 +228,12 @@
         "text": null,
         "meaning": null,
         "diagnostics": {
-          "required": [],
-          "allowUnexpected": true
+          "required": [
+            {
+              "code": "LANGUAGE_CONSTRUCTION_UNSUPPORTED"
+            }
+          ],
+          "allowUnexpected": false
         },
         "alternatives": {
           "required": [],
@@ -242,7 +246,7 @@
       },
       "review": {
         "status": "approved",
-        "source": "Owner delegation and independent linguistic rationale recorded before CLI in #461 comment 6274068488; WSJP PAN and Cambridge references are linked there.",
+        "source": "Owner delegation and independent linguistic rationale recorded before CLI in #461 comment 6274068488; WSJP PAN and Cambridge references are linked there. CR-37 diagnostics expectations (code LANGUAGE_CONSTRUCTION_UNSUPPORTED, allowUnexpected:false) owner-approved and delegated in #488 comments 6277478570 + 6277526365, static trace grammar.js:59/:2049 recorded before final merge review.",
         "author": "Codex (linguistic review delegated by @clickbytes)",
         "reviewedAt": "2026-10-19",
         "issue": "#461"
