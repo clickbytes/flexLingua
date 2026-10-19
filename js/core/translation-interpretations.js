@@ -1,4 +1,5 @@
 import {translationErrorStatus, withUncertainties} from './translation-result.js';
+import {EngineError} from './errors.js';
 
 const canonical = value => Array.isArray(value) ? value.map(canonical)
   : value && typeof value === 'object'
@@ -56,9 +57,24 @@ function contextEvidence(meaning, context, ontology) {
   return evidence;
 }
 
+function contextBoundAddresseeNumber(meaning,context) {
+  const role=meaning?.roles?.agent;
+  if(role?.referent?.kind!=='deictic'||role.referent.anchor!=='addressee')return false;
+  const addressees=new Set((context.bindings||[])
+    .filter(binding=>binding.path==='#/roles/agent').map(binding=>binding.referentId));
+  const numbers=new Set((context.facts||[]).filter(fact=>addressees.has(fact.referentId)&&
+    fact.feature==='number'&&['singular','plural'].includes(fact.value)&&
+    ['request','session'].includes(fact.source?.kind)).map(fact=>fact.value));
+  return numbers.size===1;
+}
+
 /** Realize bounded complete readings; ranking is preference, never disambiguation. */
 export function realizeInterpretations(engine, candidates, options) {
   const context = options.context ?? {};
+  const requestedPreviewId=options.previewId;
+  if(requestedPreviewId!==undefined&&
+      (typeof requestedPreviewId!=='string'||!/^i[1-9][0-9]*\.r[1-9][0-9]*$/u.test(requestedPreviewId)))
+    throw new EngineError('INVALID_PREVIEW_ID','Preview ID is invalid.',{status:'invalid'});
   const ids = new Map([...candidates].sort((a,b) => compare(keyOf(a.interlingua), keyOf(b.interlingua)))
     .map((candidate, index) => [candidate, `i${index + 1}`]));
   const outputs = [];
@@ -76,7 +92,9 @@ export function realizeInterpretations(engine, candidates, options) {
       value:score.lexicalPreference});
     let output, error;
     try {
-      output = engine.realize({interlingua:meaning, ...options, construction:context.construction});
+      output = engine.realize({interlingua:meaning,...options,
+        sourceSegments:candidate.sourceSegments||[],construction:context.construction,
+        omitDeicticSubject:contextBoundAddresseeNumber(meaning,context)});
     } catch (caught) {
       const status = translationErrorStatus(caught);
       if (!['unsupported','resource_limit'].includes(status)) throw caught;
@@ -86,23 +104,38 @@ export function realizeInterpretations(engine, candidates, options) {
     outputs.push({candidate, output, error});
     const realizations = [];
     if (output) {
-      const assumptions = (output.informationLoss ?? []).filter(loss => loss.status === 'ambiguous');
-      score.assumptions = assumptions.length;
-      const assumptionReasons = assumptions.map(loss => ({ruleId:'target.additional-assumption',
+      const baseAssumptions = (output.informationLoss ?? []).filter(loss => loss.status === 'ambiguous');
+      score.assumptions = baseAssumptions.length;
+      const assumptionReasons = baseAssumptions.map(loss => ({ruleId:'target.additional-assumption',
         path:loss.path, feature:loss.feature, cause:loss.cause, source:'LanguagePlugin.informationLoss'}));
-      if (!assumptions.length) assumptionReasons.push({ruleId:'target.no-additional-assumption',
+      if (!baseAssumptions.length) assumptionReasons.push({ruleId:'target.no-additional-assumption',
         source:'LanguagePlugin.informationLoss'});
       reasons.push(...assumptionReasons);
-      const texts = [...new Set([output.text, ...(output.alternatives ?? [])])];
-      for (const [index, text] of texts.entries()) {
+      const usesRealizationRows=Array.isArray(output.realizations)&&output.realizations.length>0;
+      const rows=usesRealizationRows?
+        output.realizations:[...new Set([output.text,...(output.alternatives||[])])]
+          .map(text=>({text,kind:'equivalent_expression',assumptions:[],informationLoss:[]}));
+      const availableTexts=rows.map(row=>row.text);
+      const baseAssumptionPaths=new Set(baseAssumptions.map(loss=>loss.path));
+      for (const [index, row] of rows.entries()) {
+        const text=row.text;
+        const informationLoss=[...(output.informationLoss??[]),...(row.informationLoss??[])];
+        const assumptions=informationLoss.filter(loss=>loss.status==='ambiguous');
+        const variantReasons=assumptions.map(loss=>({ruleId:'target.additional-assumption',
+          path:loss.path,feature:loss.feature,cause:loss.cause,
+          source:baseAssumptionPaths.has(loss.path)?'LanguagePlugin.informationLoss':
+            'LanguagePlugin.realization'}));
         realizations.push({id:`${id}.r${index + 1}`, interpretationId:id, text,
-          kind:assumptions.length ? 'additional_assumption' : 'equivalent_expression',
-          assumptions:assumptions.map(loss => ({path:loss.path, feature:loss.feature, reason:loss.cause})),
-          informationLoss:output.informationLoss ?? [], diagnostics:output.diagnostics ?? [],
-          warnings:output.warnings ?? [], score:{...score},
-          reasons:[...assumptionReasons, {ruleId:'target.lexical-order',
+          kind:assumptions.length?'additional_assumption':row.kind||'equivalent_expression',
+          assumptions:assumptions.map(loss=>({path:loss.path,feature:loss.feature,reason:loss.cause})),
+          informationLoss, diagnostics:output.diagnostics ?? [],
+          warnings:output.warnings ?? [], score:{...score,assumptions:assumptions.length},
+          reasons:[...(assumptions.length?variantReasons:assumptionReasons),{ruleId:'target.lexical-order',
             source:'LanguagePlugin.realize', value:index}],
-          uncertainties:withUncertainties({...output, text, status:'ok', meaning}).uncertainties});
+          uncertainties:withUncertainties({...output,text,status:'ok',meaning,
+            informationLoss,alternatives:usesRealizationRows?
+              availableTexts.filter(candidate=>candidate!==text):output.alternatives??[]}).uncertainties,
+          ...(Array.isArray(row.segments)?{segments:row.segments}:{})});
       }
     }
     return {id, meaning, lexicalSenses:candidate.lexicalSenses, score, reasons,
@@ -117,6 +150,19 @@ export function realizeInterpretations(engine, candidates, options) {
     if (index && compareScore(item.score, interpretations[index - 1].score)) rank = index + 1;
     item.rank = rank;
   });
-  return {interpretations, outputs, limitError,
-    previewId:limitError ? null : interpretations.find(item => item.realizations.length)?.realizations[0].id ?? null};
+  const defaultPreviewId=limitError?null:
+    interpretations.find(item=>item.realizations.length)?.realizations[0].id??null;
+  const allRealizations=interpretations.flatMap(item=>item.realizations.map(realization=>({
+    ...realization,meaning:item.meaning
+  })));
+  if(requestedPreviewId!==undefined&&!allRealizations.some(item=>item.id===requestedPreviewId))
+    throw new EngineError('INVALID_PREVIEW_ID','The requested complete realization was not found.',
+      {status:'invalid'});
+  const previewId=requestedPreviewId??defaultPreviewId;
+  const selected=allRealizations.find(item=>item.id===previewId);
+  const preview=selected?{id:selected.id,interpretationId:selected.interpretationId,
+    meaning:selected.meaning,text:selected.text,kind:selected.kind,assumptions:selected.assumptions,
+    informationLoss:selected.informationLoss,
+    ...(Array.isArray(selected.segments)?{segments:selected.segments}:{})}:null;
+  return {interpretations,outputs,limitError,previewId,preview};
 }

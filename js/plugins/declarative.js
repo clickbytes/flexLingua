@@ -79,9 +79,24 @@ function normalizeUnsupportedQuestion(error, text, capabilities) {
 
 function validateInput(input, operation) {
   if (!isRecord(input) || Object.keys(input).some(key =>
-      !['text', 'meaning', 'context'].includes(key)) || !isRecord(input.context ?? {})) {
+      !['text', 'meaning', 'context','includeSegments','sourceSegments'].includes(key)) ||
+      !isRecord(input.context ?? {})) {
     fail('PLUGIN_INVALID', `Invalid ${operation} request.`);
   }
+  if(input.includeSegments!==undefined&&typeof input.includeSegments!=='boolean')
+    fail('PLUGIN_INVALID','includeSegments must be boolean.');
+  if(input.sourceSegments!==undefined&&(!Array.isArray(input.sourceSegments)||
+      input.sourceSegments.length>64||input.sourceSegments.some(item=>{
+        if(!isRecord(item)||typeof item.path!=='string'||!item.path.startsWith('#/'))return true;
+        if(item.span!==undefined)return !isRecord(item.span)||
+          Object.keys(item.span).length!==2||!Number.isSafeInteger(item.span.start)||
+          !Number.isSafeInteger(item.span.end)||item.span.start<0||
+          item.span.end<=item.span.start||item.span.end>4096||
+          Object.keys(item).some(key=>!['path','span'].includes(key));
+        return Object.keys(item).length!==3||item.status!=='unavailable'||
+          typeof item.reason!=='string'||!item.reason.trim()||item.reason.length>128||
+          Object.keys(item).some(key=>!['path','status','reason'].includes(key));
+      }))) fail('PLUGIN_INVALID','sourceSegments must be a bounded source-alignment trace.');
   if (operation === 'analyze' && (typeof input.text !== 'string' || !input.text.trim())) {
     fail('PLUGIN_INVALID', 'Analysis requires non-empty text.');
   }
@@ -90,7 +105,9 @@ function validateInput(input, operation) {
   }
   const context = input.context ?? {};
   if (Object.keys(context).some(key =>
-      !['construction', 'lexicalRegister', 'subjectPronoun', 'informationStructure'].includes(key))) {
+      !['construction','lexicalRegister','subjectPronoun','informationStructure',
+        'omitDeicticSubject'].includes(key)) ||
+      (context.omitDeicticSubject!==undefined&&typeof context.omitDeicticSubject!=='boolean')) {
     fail('PLUGIN_INVALID', `Unsupported ${operation} context field.`);
   }
   return context;
@@ -265,7 +282,8 @@ export function defineDeclarativeLanguagePlugin({manifest, graph, modules, core}
             reading.meaning, transfer, reading.lexicalSenses);
           return {meaning: reading.meaning, analysis: {
             lexicalSenses: reading.lexicalSenses, score: reading.score,
-            transfer: runtimeTransfer
+            transfer: runtimeTransfer,
+            ...(Array.isArray(candidate.sourceSegments)?{sourceSegments:candidate.sourceSegments}: {})
           }};
         });
         const ambiguous = readings.length > 1;
@@ -294,7 +312,10 @@ export function defineDeclarativeLanguagePlugin({manifest, graph, modules, core}
           ...(context.lexicalRegister ? {lexicalRegister: context.lexicalRegister} : {}),
           ...(context.subjectPronoun ? {subjectPronoun: context.subjectPronoun} : {}),
           ...(context.informationStructure ? {informationStructure: context.informationStructure} : {}),
-          semanticTransfer: runtimeTransfer
+          ...(context.omitDeicticSubject===true?{omitDeicticSubject:true}:{}),
+          semanticTransfer: runtimeTransfer,
+          ...(input.includeSegments===true?{includeSegments:true,
+            sourceSegments:input.sourceSegments||[]}: {})
         });
         if (!isRecord(result) || typeof result.text !== 'string' || !result.text.trim()) {
           fail('PLUGIN_CAPABILITY_UNAVAILABLE', 'Realizer produced no supported sentence.');
@@ -312,7 +333,8 @@ export function defineDeclarativeLanguagePlugin({manifest, graph, modules, core}
             if (item.status === 'preserved') return [];
             const loss = informationLoss.find(candidate => candidate.path === item.path);
             return loss ? [loss] : [];
-          }), diagnostics: []});
+          }), diagnostics: [],
+          ...(Array.isArray(result.realizations)?{realizations:result.realizations}: {})});
       } catch (error) {
         return refusalRealization(error);
       }

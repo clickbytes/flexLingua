@@ -75,7 +75,8 @@ export function withUncertainties(document, meanings = document.meaning ? [docum
 export function translationRefusal(status, code, message, extra = {}) {
   const {diagnostics, ...details} = extra;
   return withUncertainties({...details, status, text: null, meaning: null, interlingua: null,
-    interpretations: details.interpretations ?? [], previewId: null,
+    interpretations: details.interpretations ?? [], previewId: details.previewId ?? null,
+    preview:details.preview??null,
     alternatives: details.alternatives ?? [], informationLoss: details.informationLoss ?? [],
     warnings: details.warnings ?? [],
     diagnostics: diagnostics?.length ? diagnostics : [{code, message}]},

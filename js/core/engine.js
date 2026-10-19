@@ -343,6 +343,7 @@ export class Engine {
       return result.readings.map(reading => ({
         interlingua: reading.meaning,
         lexicalSenses: reading.analysis?.lexicalSenses || {},
+        sourceSegments:reading.analysis?.sourceSegments||[],
         lexicalPreference: Number.isFinite(reading.analysis?.score) ? reading.analysis.score : 0,
         score: Number.isFinite(reading.analysis?.score) ? reading.analysis.score : 0
       }));
@@ -351,14 +352,16 @@ export class Engine {
     }
   }
 
-  pluginRealization(plugin, meaning, context = {}) {
+  pluginRealization(plugin, meaning, context = {}, {includeSegments=false,sourceSegments=[],
+    omitDeicticSubject=false} = {}) {
     try {
       if (typeof plugin?.realize !== 'function') {
         throw new EngineError('PLUGIN_CAPABILITY_UNAVAILABLE',
           `Sentence realization is unsupported for language ${plugin?.code || 'unknown'}.`,
           {status: 'unsupported'});
       }
-      const result = normalizeRealizationResult(plugin.realize({meaning, context}));
+      const result = normalizeRealizationResult(plugin.realize({meaning,context,
+        ...(includeSegments?{includeSegments:true,sourceSegments}: {})}));
       if (result.status !== 'ok') throw pluginResultError(result, 'realization');
       return result;
     } catch (error) {
@@ -535,13 +538,17 @@ export class Engine {
   }
 
   realize({ interlingua, to, pronounRealization='repeat', profile,
-    lexicalRegister='neutral',informationStructure,construction,subjectPronoun }) {
+    lexicalRegister='neutral',informationStructure,construction,subjectPronoun,
+    includeSegments=false,sourceSegments=[],omitDeicticSubject=false }) {
     const personality=createPersonalityProfile(profile);
     if (profile !== undefined) pronounRealization=personality.realization.pronounRealization;
     if(!['repeat','safe'].includes(pronounRealization))
       throw new EngineError('INVALID_INPUT','Invalid pronoun realization policy.',{status:'invalid'});
     if(!['neutral','formal','plain'].includes(lexicalRegister))
       throw new EngineError('INVALID_INPUT','Invalid lexical register.',{status:'invalid'});
+    if(typeof includeSegments!=='boolean'||!Array.isArray(sourceSegments)||sourceSegments.length>64||
+        typeof omitDeicticSubject!=='boolean')
+      throw new EngineError('INVALID_INPUT','Invalid segment request.',{status:'invalid'});
     validateMeaningGraph(interlingua, this.ontology, this.features);
     if(informationStructure!==undefined) {
       const expected=createInformationStructure(interlingua,informationStructure);
@@ -555,18 +562,19 @@ export class Engine {
         informationLoss:[],diagnostics:[],interlingua};
     }
     const plugin=this.plugin(to);
-    const context={lexicalRegister,
+    const context={lexicalRegister,omitDeicticSubject,
       ...(construction===undefined?{}:{construction}),
       ...(subjectPronoun===undefined?{}:{subjectPronoun}),
       ...(informationStructure===undefined?{}:{informationStructure})};
     try {
-      const output=this.pluginRealization(plugin,interlingua,context);
+      const output=this.pluginRealization(plugin,interlingua,context,
+        {includeSegments,sourceSegments,omitDeicticSubject});
       return applyPersonalityProfile({...output,interlingua},personality);
     } catch(error) {
       if(interlingua.type!=='discourse' || error?.status!=='unsupported')throw error;
     }
     const parts=interlingua.events.map(event=>this.pluginRealization(plugin,
-      materializeEvent(interlingua,event),context));
+      materializeEvent(interlingua,event),context,{includeSegments,sourceSegments,omitDeicticSubject}));
     const warnings=parts.flatMap((part,index)=>(part.warnings||[])
       .map(warning=>'Event '+(index+1)+': '+warning));
     const diagnostics=parts.flatMap(part=>part.diagnostics||[]);
@@ -631,13 +639,13 @@ export class Engine {
   }
 
   translate({ text, from, to, context, search, pronounRealization='repeat', profile,
-    lexicalRegister='neutral',informationStructure } = {}) {
+    lexicalRegister='neutral',informationStructure,includeSegments=false,previewId } = {}) {
     try {
       const candidates = distinctReadings(this.analyzeCandidates({text, from, context, search}));
       const bundle = realizeInterpretations(this, candidates, {to, context,
-        pronounRealization, profile, lexicalRegister, informationStructure});
+        pronounRealization, profile, lexicalRegister, informationStructure,includeSegments,previewId});
       const attach = result => ({...result, interpretations:bundle.interpretations,
-        previewId:bundle.previewId,
+        previewId:bundle.previewId,preview:bundle.preview,
         ...(candidates[0]?.contextReport ? {contextReport:candidates[0].contextReport} : {})});
       if (bundle.limitError) return attach(translationFailure(bundle.limitError));
       if (candidates.length !== 1) return attach(ambiguousTranslation(candidates));

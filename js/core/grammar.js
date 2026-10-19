@@ -862,6 +862,17 @@ function expandLexemes(lexemes, language, partOfSpeech, hasMorphologyForms = () 
         (hasStoredForms && !record(lexeme.forms))) {
       throw new Error(`Invalid or duplicate ${partOfSpeech} lexeme: ${lexeme?.id}`);
     }
+    if (lexeme.realizationProfile !== undefined) {
+      const profile=lexeme.realizationProfile;
+      if(!record(profile)||Object.keys(profile).length!==2||
+          profile.kind!=='additional_assumption'||!Array.isArray(profile.assumptions)||
+          !profile.assumptions.length||profile.assumptions.length>4||
+          profile.assumptions.some(item=>!record(item)||Object.keys(item).length!==3||
+            !safeName(item.feature)||typeof item.value!=='string'||!item.value.trim()||
+            typeof item.reason!=='string'||!item.reason.trim()||item.reason.length>240)) {
+        throw new Error(`Invalid realization profile for ${lexeme.id}`);
+      }
+    }
     lexemeIds.add(lexeme.id);
     const multisense = Array.isArray(lexeme.senses);
     if (multisense && (hasOwn(lexeme, 'concept') || !lexeme.senses.length || lexeme.senses.length > 16)) {
@@ -1783,6 +1794,10 @@ function createGrammarInterpreter(sourceDictionary, rules,
       jsonSignature(antecedent?.value,budget),depth,omitGap,linearizations?'question':'declarative',skipPreposition,
       allowImplicitSubject]);
     if (budget.memo.has(memoKey)) return budget.memo.get(memoKey);
+    const sourceRange=(start,end)=>{
+      const first=tokens.sourceSpans?.[start],last=tokens.sourceSpans?.[end-1];
+      return first&&last?{start:first.start,end:last.end}:null;
+    };
     const readings = new Map();
     const {unprefixedByFirstToken,prefixGroupsByFirstToken}=indexVerbEntries(verbEntries);
     const matchedOrders=new Set(),matchingEntriesByConcept=new Map();
@@ -1839,8 +1854,9 @@ function createGrammarInterpreter(sourceDictionary, rules,
           for(const variant of variants) {
             const parseSequence=variant.sequence;
             const initialRoles=gap?{[gap]:antecedent}:variant.implicitSubject
-              ?{[subjectRole]:{value:variant.implicitSubject,noun:null,senseId:null,priority:0}}:{};
-            function search(position, index, parsedRoles) {
+              ?{[subjectRole]:{value:variant.implicitSubject,noun:null,senseId:null,priority:0,
+                implicit:true}}:{};
+            function search(position, index, parsedRoles, sourceTrace=[]) {
               if (++budget.counter.visited > MAX_SEARCH_NODES) {
                 throw new EngineError('GRAMMAR_SEARCH_LIMIT',
                   'Sentence analysis exceeded the bounded search limit.');
@@ -1867,7 +1883,13 @@ function createGrammarInterpreter(sourceDictionary, rules,
                   if (parsed.quantifierSense) senses[`${role}.quantifier`] = parsed.quantifierSense;
                 }
                 senses.verb = entry.lexeme.senseId;
+                const roleSources=Object.entries(parsedRoles)
+                  .filter(([role])=>role!==gap)
+                  .map(([role,parsed])=>({path:`#/roles/${role.replace(/~/gu,'~0').replace(/\//gu,'~1')}`,
+                    ...(parsed.sourceSpan?{span:parsed.sourceSpan}:{status:'unavailable',
+                      reason:parsed.implicit?'implicit-source-subject':'source-span-unavailable'})}));
                 const candidate = { interlingua: meaning, lexicalSenses: senses,
+                  sourceSegments:[...sourceTrace,...roleSources],
                   score: (entry.lexeme.priority || 0) + Object.entries(parsedRoles)
                     .filter(([role]) => role !== gap)
                     .reduce((score, [, parsed]) => score + (parsed.noun?.priority || parsed.priority || 0), 0) };
@@ -1877,20 +1899,25 @@ function createGrammarInterpreter(sourceDictionary, rules,
                 return;
               }
               const step = parseSequence[position];
-              if (step === gap) { search(position + 1, index, parsedRoles); return; }
+              if (step === gap) { search(position + 1, index, parsedRoles,sourceTrace); return; }
               if (step === '@verb') {
                 const next = matchVerb(tokens, index, entry);
-                if (next !== null) search(position + 1, next, parsedRoles);
+                if (next !== null) {
+                  const span=sourceRange(index,next);
+                  const paths=['#/concept','#/features'];
+                  search(position + 1, next, parsedRoles,[...sourceTrace,...paths.map(path=>
+                    ({path,...(span?{span}:{status:'unavailable',reason:'source-span-unavailable'})}))]);
+                }
                 return;
               }
               if (step.startsWith('@')) {
                 const literal=step==='@expletive'?frame.formalSubject.surface:step.slice(1);
                 if(literal===skipPreposition) {
-                  search(position+1,index,parsedRoles);
+                  search(position+1,index,parsedRoles,sourceTrace);
                   return;
                 }
                 const count = matchesTokens(tokens, index, literal);
-                if (count) search(position + 1, index + count, parsedRoles);
+                if (count) search(position + 1, index + count, parsedRoles,sourceTrace);
                 return;
               }
               let roleRule=roleRules.get(step);
@@ -1925,11 +1952,12 @@ function createGrammarInterpreter(sourceDictionary, rules,
                     parsed.value = { ...parsed.value,
                       features: { ...parsed.value.features, definiteness: implied } };
                   }
-                  search(position + 1, parsed.next, { ...parsedRoles, [step]: parsed });
+                  const sourced={...parsed,sourceSpan:sourceRange(index,parsed.next)};
+                  search(position + 1, parsed.next, { ...parsedRoles, [step]: sourced },sourceTrace);
                 }
               }
             }
-            search(0, 0, initialRoles);
+            search(0, 0, initialRoles,[]);
           }
         }
       }
@@ -2549,13 +2577,17 @@ function createGrammarInterpreter(sourceDictionary, rules,
     return entry.text;
   }
 
-  function nounSurface(role, meaning, frame, fallback, depth, lexicalRegister='neutral') {
+  function nounSurface(role, meaning, frame, fallback, depth, lexicalRegister='neutral',
+    lexicalOverrides={}) {
     const ref = meaning.roles[role];
     const requiredCase = roleCase(frame, role, meaning.features, ref);
     if(isDeicticReferent(ref)){
       return deicticPronounSurface(ref,deicticCase(requiredCase,role));
     }
-    const noun = nounByConcept(ref.concept,lexicalRegister);
+    const override=lexicalOverrides?.[role];
+    const noun = override ? nounIndex.get(ref.concept)?.find(item=>item.id===override) :
+      nounByConcept(ref.concept,lexicalRegister);
+    if(!noun)unsupported(`No ${dictionary.language} noun lexeme ${override} for ${ref.concept}.`);
     let output = plainNoun(ref, noun, requiredCase, fallback,
       bareRoleAllows(frame,role,ref.concept));
     for (const relative of ref.relatives || []) {
@@ -2564,7 +2596,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
         relativeMarker(item, noun, ref));
       if (!marker) unsupported(`Missing ${dictionary.language} relative marker for ${relative.gap}.`);
       const clause = renderEvent(relative.event, fallback, depth + 1, { gap: relative.gap,
-        antecedent: { value: ref, noun } },{lexicalRegister});
+        antecedent: { value: ref, noun } },{lexicalRegister,lexicalOverrides});
       const opening = relativeGrammar.punctuation === 'commas' ? ', ' : ' ';
       const closing = relativeGrammar.punctuation === 'commas' && !clause.endsWith(',') ? ',' : '';
       if (output.endsWith(',') && opening.startsWith(',')) output = output.slice(0, -1);
@@ -2581,9 +2613,14 @@ function createGrammarInterpreter(sourceDictionary, rules,
         options.subjectPronoun !== subjectPronounFor(meaning.roles[subjectRole]))) {
       unsupported('Unsupported subject pronoun realization for this event.');
     }
-    const roles = Object.fromEntries(Object.entries(meaning.roles).map(([role, ref]) =>
-      [role, { value: ref, noun: isDeicticReferent(ref) ? null :
-        nounByConcept(ref.concept,options.lexicalRegister) }]));
+    const roles = Object.fromEntries(Object.entries(meaning.roles).map(([role, ref]) => {
+      const override=options.lexicalOverrides?.[role];
+      const selected=isDeicticReferent(ref)?null:override ?
+        nounIndex.get(ref.concept)?.find(item=>item.id===override):
+        nounByConcept(ref.concept,options.lexicalRegister);
+      if(override&&!selected)unsupported(`No ${dictionary.language} noun lexeme ${override} for ${ref.concept}.`);
+      return [role, { value: ref, noun: isDeicticReferent(ref) ? null : selected }];
+    }));
     if (relative) roles[relative.gap] = relative.antecedent;
     const sequence=options.sequence || frame.linearizations[0];
     const context = contextFor(roles, meaning.features,subjectRole,
@@ -2608,20 +2645,34 @@ function createGrammarInterpreter(sourceDictionary, rules,
     const preferredAspect = verbGrammar.preferredAspects?.[meaning.concept];
     // CORE aspect does not distinguish English progressive from simple present.
     const preferred = preferencePool.find(v => v.lexeme.aspect === preferredAspect) || preferencePool[0];
-    function linearize(entry, def) {
-      const parts = sequence.flatMap(step => {
+    function linearizeParts(entry, def, lexicalOverrides=options.lexicalOverrides||{}) {
+      return sequence.flatMap(step => {
         if (step === relative?.gap) return [];
-        if (step === '@verb') return [...entry.rule.prefix, entry.text];
-        if (step === '@expletive') return [frame.formalSubject.surface];
-        if (step.startsWith('@')) return [step.slice(1)];
-        if (step === subjectRole && frame.implicitSubject?.realization &&
+        if (step === '@verb') return [{text:[...entry.rule.prefix,entry.text].join(' '),
+          kind:'predicate',meaningPaths:['#/concept','#/features',
+            `#/roles/${subjectRole}`],decision:{kind:'verb-form',id:entry.lexeme.id}}];
+        if (step === '@expletive') return [{text:frame.formalSubject.surface,
+          kind:'function-word',meaningPaths:['#/concept'],
+          decision:{kind:'grammar-literal',id:'expletive'}}];
+        if (step.startsWith('@')) return [{text:step.slice(1),kind:'function-word',
+          meaningPaths:[],decision:{kind:'grammar-literal',id:step.slice(1)}}];
+    if (step === subjectRole && (frame.implicitSubject?.realization ||
+        (options.omitDeicticSubject===true&&frame.implicitSubject?.analysis===true)) &&
             isDeicticReferent(meaning.roles[step]) && !isAnaphoricReferent(meaning.roles[step]) &&
             ['first','second'].includes(meaning.roles[step].agreement?.person) &&
             ['singular','plural'].includes(meaning.roles[step].agreement?.number)) return [];
-        if (step === subjectRole && options.subjectPronoun)
-          return [options.subjectPronoun];
-        return [nounSurface(step, meaning, frame, def, depth,options.lexicalRegister)];
+        if (step === subjectRole && options.subjectPronoun) return [{text:options.subjectPronoun,
+          kind:'role',meaningPaths:[`#/roles/${step}`],decision:{kind:'pronoun',id:options.subjectPronoun}}];
+        const text=nounSurface(step,meaning,frame,def,depth,options.lexicalRegister,lexicalOverrides);
+        const noun=roles[step]?.noun;
+        return [{text,kind:'role',meaningPaths:[`#/roles/${step}`],
+          decision:{kind:isDeicticReferent(meaning.roles[step])?'deictic-pronoun':'lexical-choice',
+            id:noun?.id||deicticPronounSurface(meaning.roles[step],deicticCase(
+              roleCase(frame,step,meaning.features,meaning.roles[step]),step))}}];
       });
+    }
+    function linearize(entry, def, lexicalOverrides=options.lexicalOverrides||{}) {
+      const parts = linearizeParts(entry,def,lexicalOverrides).map(part=>part.text);
       const text=parts.join(' ').replace(/\s+/gu, ' ').replace(/\s+,/gu, ',').trim();
       const marker=meaning.timeReference && grammar.temporalDeixis?.[meaning.timeReference];
       if(meaning.timeReference && meaning.timeReference!=='unspecified' && !marker) {
@@ -2633,7 +2684,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
       return output;
     }
     if (relative && !options.returnBuilder) return linearize(preferred, fallback);
-    return { candidates, preferred, linearize, roles };
+    return { candidates, preferred, linearize, linearizeParts, roles };
   }
 
   function realizeState(meaning) {
@@ -2897,7 +2948,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
   }
 
   function realize(meaning, {subjectPronoun=null,lexicalRegister='neutral',informationStructure,
-    semanticTransfer} = {}) {
+    semanticTransfer,includeSegments=false,sourceSegments=[],omitDeicticSubject=false} = {}) {
     if(!['neutral','formal','plain'].includes(lexicalRegister))
       unsupported('Unsupported lexical register.');
     if(subjectPronoun && (meaning?.type!=='event' ||
@@ -2916,8 +2967,11 @@ function createGrammarInterpreter(sourceDictionary, rules,
       if(!sequence)unsupported(`No ${dictionary.language} information-structure variant for ${focus}.`);
     }
     const agreementControllers = agreementContextForTransfer(meaning, semanticTransfer);
+    if(typeof includeSegments!=='boolean'||!Array.isArray(sourceSegments)||sourceSegments.length>64||
+        typeof omitDeicticSubject!=='boolean')
+      unsupported('Invalid segment request.');
     const built = renderEvent(meaning, undefined, 0, null,
-      {subjectPronoun,lexicalRegister,sequence,agreementControllers});
+      {subjectPronoun,lexicalRegister,sequence,agreementControllers,omitDeicticSubject});
     const { candidates, preferred, linearize } = built;
     const unspecifiedRoles = Object.entries(meaning.roles)
       .filter(([role,ref]) => !(subjectPronoun && role === subjectRole) &&
@@ -2930,26 +2984,83 @@ function createGrammarInterpreter(sourceDictionary, rules,
       throw new Error('No default definiteness policy for underspecified source.');
     }
     const renderCache=new Map();
-    const render = (entry, def) => {
-      let byDef=renderCache.get(entry);
-      if(!byDef){byDef=new Map();renderCache.set(entry,byDef);}
-      if(byDef.has(def))return byDef.get(def);
-      const text=sentenceText([linearize(entry, def)], sentence.terminator);
-      byDef.set(def,text);
-      return text;
+    const renderDetail=(entry,def,lexicalOverrides={})=>{
+      const key=JSON.stringify([entry.lexeme.id,entry.rule.path,def,lexicalOverrides]);
+      if(renderCache.has(key))return renderCache.get(key);
+      const renderer=Object.keys(lexicalOverrides).length?
+        renderEvent(meaning,undefined,0,null,{subjectPronoun,lexicalRegister,sequence,
+          agreementControllers,lexicalOverrides,omitDeicticSubject}):built;
+      const parts=renderer.linearizeParts(entry,def,lexicalOverrides);
+      const text=sentenceText([parts.map(part=>part.text)],sentence.terminator,grammar.language);
+      if(!includeSegments){const result={text};renderCache.set(key,result);return result;}
+      const sources=new Map(sourceSegments.map(item=>[item.path,item]));
+      let cursor=0,first=true;
+      const segments=[];
+      for(const part of parts){
+        const normalized=part.text.normalize('NFC').replace(/\s+/gu,' ')
+          .replace(/\s+,/gu,',').trim();
+        if(!normalized)continue;
+        let displayed=normalized;
+        if(first){const chars=Array.from(displayed);
+          displayed=(chars[0]?.toLocaleUpperCase(grammar.language)||'')+chars.slice(1).join('');
+          first=false;
+        }
+        const start=text.indexOf(displayed,cursor);
+        const end=start<0?-1:start+displayed.length;
+        const sourceLinks=(part.meaningPaths||[]).map(path=>{
+          const source=sources.get(path);
+          return source?.span?{meaningPath:path,status:'aligned',span:source.span}:
+            {meaningPath:path,status:'unavailable',reason:source?.reason||'source-span-unavailable'};
+        });
+        segments.push({text:displayed,
+          targetSpan:start<0?null:{start,end},meaningPaths:part.meaningPaths||[],
+          sources:sourceLinks,decision:part.decision});
+        if(end>=0)cursor=end;
+      }
+      renderCache.set(key,{text,segments});
+      return {text,segments};
     };
+    const render = (entry,def)=>renderDetail(entry,def).text;
     const text = render(preferred, fallback);
     const alternatives = [];
     const seen = new Set([text]);
+    const realizationRows=[];
+    const realizationSeen=new Set();
+    const addRealization=(entry,def,lexicalOverrides={},informationLoss=[])=>{
+      const rendered=renderDetail(entry,def,lexicalOverrides);
+      if(realizationSeen.has(rendered.text))return;
+      realizationSeen.add(rendered.text);
+      realizationRows.push({text:rendered.text,
+        kind:informationLoss.length?'additional_assumption':'equivalent_expression',
+        assumptions:informationLoss.map(item=>({path:item.path,feature:item.feature,
+          reason:item.cause})),informationLoss,...(includeSegments?{segments:rendered.segments}:{})});
+    };
+    if(includeSegments)addRealization(preferred,fallback);
     const ordered = [preferred, ...candidates.filter(v => v !== preferred)];
     for (const choice of ordered) {
       for (const def of [fallback, otherFallback]) {
         if (def === undefined && def !== fallback) continue;
         const variant = render(choice, def);
+        if(includeSegments)addRealization(choice,def);
         if (!seen.has(variant)) { seen.add(variant); alternatives.push(variant); }
         if (alternatives.length >= 7) break;
       }
       if (alternatives.length >= 7) break;
+    }
+    if(includeSegments){
+      for(const [role,ref] of Object.entries(meaning.roles)){
+        if(isDeicticReferent(ref))continue;
+        const preferredNoun=nounByConcept(ref.concept,lexicalRegister);
+        for(const noun of nounIndex.get(ref.concept)||[]){
+          if(noun.id===preferredNoun.id||!noun.realizationProfile)continue;
+          const losses=noun.realizationProfile.assumptions.map(item=>({
+            path:`#/roles/${role.replace(/~/gu,'~0').replace(/\//gu,'~1')}/features/${item.feature}`,
+            feature:item.feature,cause:item.reason,status:'ambiguous'}));
+          addRealization(preferred,fallback,{[role]:noun.id},losses);
+          if(realizationRows.length>=32)break;
+        }
+        if(realizationRows.length>=32)break;
+      }
     }
     const warnings = [];
     if(lexicalRegister!=='neutral')for(const ref of Object.values(meaning.roles)) {
@@ -2973,7 +3084,8 @@ function createGrammarInterpreter(sourceDictionary, rules,
       warnings.push(grammar.messages?.aspectUnknown ||
         'Source does not specify aspect; target aspect was selected by default.');
     }
-    return { text, warnings, alternatives };
+    return { text, warnings, alternatives,
+      ...(includeSegments?{realizations:realizationRows}: {}) };
   }
 
 

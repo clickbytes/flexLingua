@@ -22,6 +22,7 @@ export function buildHelpLines(context = {}) {
     {text: `Tryb ${context.activeMode ?? 'translate'} · local · stan i historia istnieją tylko do zamknięcia procesu.`, tone: 'muted'},
     {text: `Translate: ${translate.from ?? '?'}→${translate.to ?? '?'} · Chat: ${chat.from ?? '?'}→${chat.to ?? '?'} · Forms: ${forms.language ?? '?'}.`, tone: 'muted'},
     {text: 'Skróty: F1 Translate · F2 Chat · F3 Forms · Tab/Shift+Tab fokus · Ctrl+P polecenia · Ctrl+C wyjście.', tone: 'neutral'},
+    {text: 'Translate: fokus „Pełne warianty zdania” · ←/→ lub Enter wybiera pełną realizację; segmenty pokazują powiązania i zakresy, a podgląd nie rozstrzyga nierozwiązanej wieloznaczności.', tone: 'neutral'},
     {text: 'W palecie: ↑/↓ wybór · Tab uzupełnij · Enter wykonaj · Esc zamknij; dopiero Enter wysyła treść.', tone: 'neutral'},
     {text: 'Zakres jest ograniczony do zadeklarowanych reguł i providerów. ' + questionScope +
       ' Odpowiedź wymaga faktu sesji i rozstrzygniętych referentów.', tone: 'warning'},

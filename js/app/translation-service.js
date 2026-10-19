@@ -7,9 +7,9 @@ export function createTranslationService(runtime, {session} = {}) {
   }
   const {engine, languages} = runtime;
 
-  function translate({from, to, text, context, search} = {}) {
+  function translate({from, to, text, context, search,includeSegments=false,previewId} = {}) {
     const base = {from: from ?? null, to: to ?? null, input: text ?? null,
-      text: null, meaning: null, alternatives: []};
+      text: null, meaning: null, alternatives: [],previewId:null,preview:null};
     const source = languages.find(item => item.code === from);
     const target = languages.find(item => item.code === to);
     if (!source || !target) {
@@ -43,7 +43,8 @@ export function createTranslationService(runtime, {session} = {}) {
         return refusal('invalid','INVALID_INPUT','Session provenance must come from the active session provider.',base);
       }
       const preparedContext = session ? session.translationContext(context === undefined ? {} : context) : context;
-      return {...base, ...engine.translate({text, from, to, context:preparedContext, search})};
+      return {...base, ...engine.translate({text,from,to,context:preparedContext,search,
+        includeSegments,previewId})};
     } catch (error) {
       return {...base, ...translationFailure(error)};
     }

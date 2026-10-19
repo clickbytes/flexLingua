@@ -27,6 +27,8 @@ const MAX_EVIDENCE = 32;
 const MAX_DIAGNOSTICS = 64;
 const MAX_READINGS = 32;
 const MAX_ALTERNATIVES = 32;
+const MAX_REALIZATIONS = 32;
+const MAX_SEGMENTS = 64;
 
 const isRecord = value => {
   if (value === null || typeof value !== 'object' || Array.isArray(value)) return false;
@@ -224,6 +226,79 @@ function validateStringList(value, name, maximum) {
   return values;
 }
 
+function validateSpan(value, name) {
+  if(!hasExactKeys(value,['start','end'])||!Number.isSafeInteger(value.start)||
+      !Number.isSafeInteger(value.end)||value.start<0||value.end<=value.start||value.end>4096) {
+    invalidResult(`${name} must be a bounded UTF-16 span.`);
+  }
+  return {start:value.start,end:value.end};
+}
+
+function validateRealizationSegments(value,text) {
+  if(!Array.isArray(value)||value.length>MAX_SEGMENTS)
+    invalidResult('Realization segments must be a bounded array.');
+  let formerEnd=0;
+  return Array.from(value,(item,index)=>{
+    if(!hasExactKeys(item,['text','targetSpan','meaningPaths','sources','decision'])||
+        typeof item.text!=='string'||!item.text.trim()||item.text.length>4096||
+        !Array.isArray(item.meaningPaths)||item.meaningPaths.length>16||
+        !Array.isArray(item.sources)||item.sources.length>16||
+        !hasExactKeys(item.decision,['kind','id'])||
+        typeof item.decision.kind!=='string'||!item.decision.kind.trim()||
+        typeof item.decision.id!=='string'||!item.decision.id.trim()) {
+      invalidResult('Invalid realization segment.');
+    }
+    const targetSpan=validateSpan(item.targetSpan,'Segment targetSpan');
+    if(targetSpan.start<formerEnd||text.slice(targetSpan.start,targetSpan.end)!==item.text)
+      invalidResult('Realization segment target spans must match the output text in order.');
+    formerEnd=targetSpan.end;
+    const meaningPaths=validateStringList(item.meaningPaths,'segment meaningPaths',16);
+    if(meaningPaths.some(path=>!path.startsWith('#/')))
+      invalidResult('Segment meaningPaths must be MeaningGraph pointers.');
+    const sources=Array.from(item.sources,source=>{
+      if(!isRecord(source)||!meaningPaths.includes(source.meaningPath)||
+          !['aligned','unavailable'].includes(source.status))
+        invalidResult('Invalid segment source link.');
+      if(source.status==='aligned') {
+        if(!hasExactKeys(source,['meaningPath','status','span']))invalidResult('Aligned source links require a span.');
+        return {meaningPath:source.meaningPath,status:source.status,
+          span:validateSpan(source.span,'Segment source span')};
+      }
+      if(!hasExactKeys(source,['meaningPath','status','reason'])||
+          typeof source.reason!=='string'||!source.reason.trim()||source.reason.length>128)
+        invalidResult('Unavailable source links require a reason.');
+      return {meaningPath:source.meaningPath,status:source.status,reason:source.reason};
+    });
+    return {text:item.text,targetSpan,meaningPaths,sources,
+      decision:{kind:item.decision.kind,id:item.decision.id}};
+  });
+}
+
+function validateRealizations(value) {
+  if(!Array.isArray(value)||value.length>MAX_REALIZATIONS)
+    invalidResult('Realizations must be a bounded array.');
+  return Array.from(value,item=>{
+    if(!hasExactKeys(item,['text','kind','assumptions','informationLoss','segments'])||
+        typeof item.text!=='string'||!item.text.trim()||item.text.length>4096||
+        !['equivalent_expression','additional_assumption'].includes(item.kind)||
+        !Array.isArray(item.assumptions)||item.assumptions.length>16)
+      invalidResult('Invalid complete realization.');
+    const assumptions=Array.from(item.assumptions,assumption=>{
+      if(!hasExactKeys(assumption,['path','feature','reason'])||
+          typeof assumption.path!=='string'||!assumption.path.startsWith('#/')||
+          typeof assumption.feature!=='string'||!assumption.feature.trim()||
+          typeof assumption.reason!=='string'||!assumption.reason.trim()||assumption.reason.length>240)
+        invalidResult('Invalid realization assumption.');
+      return {path:assumption.path,feature:assumption.feature,reason:assumption.reason};
+    });
+    const informationLoss=validateInformationLoss(item.informationLoss);
+    const segments=validateRealizationSegments(item.segments,item.text);
+    if(item.kind==='additional_assumption'&&!assumptions.length&&!informationLoss.some(loss=>loss.status==='ambiguous'))
+      invalidResult('An additional-assumption realization must explain its assumption.');
+    return {text:item.text,kind:item.kind,assumptions,informationLoss,segments};
+  });
+}
+
 /** Validate and normalize the single public analysis result shape. */
 export function normalizeAnalysisResult(result) {
   if (!hasExactKeys(result, ['status', 'readings', 'diagnostics']) ||
@@ -280,7 +355,7 @@ function validateInformationLoss(value) {
 /** Validate and normalize the single public realization result shape. */
 export function normalizeRealizationResult(result) {
   if (!hasExactKeys(result, ['status', 'text', 'alternatives', 'warnings',
-      'informationLoss', 'diagnostics']) ||
+      'informationLoss', 'diagnostics'], ['realizations']) ||
       !PLUGIN_RESULT_STATUSES.includes(result.status) ||
       (result.text !== null && typeof result.text !== 'string')) {
     invalidResult('Invalid language realization result shape or status.');
@@ -289,6 +364,7 @@ export function normalizeRealizationResult(result) {
   const alternatives = validateStringList(result.alternatives, 'alternatives', MAX_ALTERNATIVES);
   const warnings = validateStringList(result.warnings, 'warnings', MAX_DIAGNOSTICS);
   const informationLoss = validateInformationLoss(result.informationLoss);
+  const realizations=owns(result,'realizations')?validateRealizations(result.realizations):undefined;
   const text = result.text;
 
   if (result.status === 'ok') {
@@ -313,5 +389,6 @@ export function normalizeRealizationResult(result) {
       invalidResult('Refusal results cannot claim successful warnings or information transfer.');
     }
   }
-  return {status: result.status, text, alternatives, warnings, informationLoss, diagnostics};
+  return {status: result.status, text, alternatives, warnings, informationLoss, diagnostics,
+    ...(realizations?{realizations}:{})};
 }

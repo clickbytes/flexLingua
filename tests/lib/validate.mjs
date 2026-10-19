@@ -189,9 +189,9 @@ function checkCaseRules(item, issues, ontology) {
       message: 'This matrix only accepts single-sentence cases.'});
   }
   const review = item.review;
-  if ((item.input?.context !== undefined || item.input?.search !== undefined || item.session) && item.cliSmoke === true) {
-    issues.push({kind: 'input', file: item.file, id, severity: 'error',
-      message: 'Context/search cases cannot claim CLI smoke before those CLI inputs are supported.'});
+  if(item.expected?.segments&&item.input?.includeSegments!==true){
+    issues.push({kind:'input',file:item.file,id,severity:'error',
+      message:'Expected segment assertions require input.includeSegments=true.'});
   }
   if (item.tier === 'required' && review.status !== 'approved') {
     issues.push({kind: 'review', file: item.file, id, severity: 'error',
