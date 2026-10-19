@@ -45,10 +45,19 @@ function findFeatureModule(plan) {
   return candidates[0][1];
 }
 
+const CAPABILITY_INDEXES=new WeakMap();
 function availableFor(capabilities, operation, construction) {
-  return capabilities.some(item => item.channel === 'sentence' &&
-    item.operation === operation && item.construction === construction &&
-    item.status === 'implemented');
+  let index=CAPABILITY_INDEXES.get(capabilities);
+  if(!index) {
+    index=new Map();
+    for(const item of capabilities) {
+      if(item.channel!=='sentence'||item.status!=='implemented')continue;
+      if(!index.has(item.operation))index.set(item.operation,new Set());
+      index.get(item.operation).add(item.construction);
+    }
+    CAPABILITY_INDEXES.set(capabilities,index);
+  }
+  return index.get(operation)?.has(construction)===true;
 }
 
 function availableForTransfer(capabilities, operation, transfer) {

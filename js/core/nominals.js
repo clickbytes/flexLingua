@@ -151,7 +151,8 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms, fe
       if(!lexemeId)continue;
       const availability=morphology.availability({lexemeId,features:{},exact:false});
       if(availability?.supported!==true)continue;
-      const forms=morphology.paradigm({lexemeId});
+      const forms=getMorphologyRuntimeView(morphology,lexemeId)?.forms??
+        morphology.paradigm({lexemeId});
       if(!Array.isArray(forms)||!forms.length)continue;
       adjectiveMorphologyIds.set(entry.id,lexemeId);
       adjectiveParadigms.set(entry.id,forms);

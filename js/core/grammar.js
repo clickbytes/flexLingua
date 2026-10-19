@@ -938,6 +938,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
   const dictionary = lexicon.dictionary;
   const grammar = validateGrammar(dictionary, rules, featureProfile);
   const { nounPhrase, sentence, verb: verbGrammar, frames } = grammar;
+  const frameOrder = new Map(Object.keys(frames).map((concept,index)=>[concept,index]));
   const compiledCases=new WeakMap();
   for(const transfer of compiledPlan.transferPlans) {
     const frame=frames[transfer.conceptId];
@@ -1123,24 +1124,51 @@ function createGrammarInterpreter(sourceDictionary, rules,
       ? rule.path.replace(/^forms\./u,'negativeForms.') : rule.path;
     return formsAtLexeme(lexeme,path).map(form => ({ ...form, lexeme, rule }));
   }));
-  const verbFormsByConcept=new Map();
-  const verbFormsByFirstToken=new Map();
-  const verbFirstTokenByEntry=new WeakMap();
-  for(const entry of verbForms) {
-    if(!verbFormsByConcept.has(entry.lexeme.concept))verbFormsByConcept.set(entry.lexeme.concept,[]);
-    verbFormsByConcept.get(entry.lexeme.concept).push(entry);
-    const literal=entry.rule.prefix[0]||entry.text;
-    const firstToken=getFirstToken(literal);
-    if(!firstToken)continue;
-    verbFirstTokenByEntry.set(entry,firstToken);
-    if(!verbFormsByFirstToken.has(firstToken))verbFormsByFirstToken.set(firstToken,[]);
-    verbFormsByFirstToken.get(firstToken).push(entry);
+  // These private candidate arrays are stable, including cached modal variants.
+  const verbEntryIndexes=new WeakMap();
+  function indexVerbEntries(entries,includeConcepts=false) {
+    let indexes=verbEntryIndexes.get(entries);
+    if(indexes)return indexes;
+    const unprefixedByFirstToken=new Map();
+    const prefixGroupsByFirstToken=new Map();
+    const prefixGroups=new Map();
+    const byConcept=includeConcepts?new Map():null;
+    for(let order=0;order<entries.length;order++) {
+      const entry=entries[order],candidate={entry,order};
+      if(byConcept) {
+        if(!byConcept.has(entry.lexeme.concept))byConcept.set(entry.lexeme.concept,[]);
+        byConcept.get(entry.lexeme.concept).push(entry);
+      }
+      const prefixes=entry.rule.prefix;
+      const formHead=getFirstToken(entry.text);
+      if(!prefixes.length) {
+        if(!unprefixedByFirstToken.has(formHead))unprefixedByFirstToken.set(formHead,[]);
+        unprefixedByFirstToken.get(formHead).push(candidate);
+        continue;
+      }
+      const prefixKey=JSON.stringify(prefixes);
+      let group=prefixGroups.get(prefixKey);
+      if(!group) {
+        group={prefixes,formsByFirstToken:new Map()};
+        prefixGroups.set(prefixKey,group);
+        const prefixHead=getFirstToken(prefixes[0]);
+        if(!prefixGroupsByFirstToken.has(prefixHead))prefixGroupsByFirstToken.set(prefixHead,[]);
+        prefixGroupsByFirstToken.get(prefixHead).push(group);
+      }
+      if(!group.formsByFirstToken.has(formHead))group.formsByFirstToken.set(formHead,[]);
+      group.formsByFirstToken.get(formHead).push(candidate);
+    }
+    indexes={unprefixedByFirstToken,prefixGroupsByFirstToken,...(byConcept?{byConcept}:{})};
+    verbEntryIndexes.set(entries,indexes);
+    return indexes;
   }
+  const verbFormsByConcept=indexVerbEntries(verbForms,true).byConcept;
   const stateGrammar = grammar.states || null;
   const stateVerbForms = stateGrammar ? stateVerbs.flatMap(lexeme => {
     const kinds = [].concat(stateGrammar.verbs[lexeme.stateFunction]);
     const cells = morphology?.has(lexeme.id)
-      ? morphology.paradigm({lexemeId:lexeme.id}).map(form => ({
+      ? (getMorphologyRuntimeView(morphology,lexeme.id)?.forms ??
+        morphology.paradigm({lexemeId:lexeme.id})).map(form => ({
         text:form.text, features:form.features
       }))
       : STATE_FORM_CELLS.flatMap(cell => formsAtLexeme(lexeme,cell.path).map(form => ({
@@ -1717,29 +1745,36 @@ function createGrammarInterpreter(sourceDictionary, rules,
       allowImplicitSubject]);
     if (budget.memo.has(memoKey)) return budget.memo.get(memoKey);
     const readings = new Map();
-    let entriesByConcept=verbFormsByConcept;
-    let entriesByFirstToken=verbFormsByFirstToken;
-    if(verbEntries!==verbForms) {
-      entriesByConcept=new Map();
-      entriesByFirstToken=new Map();
-      for(const entry of verbEntries) {
-        if(!entriesByConcept.has(entry.lexeme.concept))entriesByConcept.set(entry.lexeme.concept,[]);
-        entriesByConcept.get(entry.lexeme.concept).push(entry);
-        const firstToken=verbFirstTokenByEntry.get(entry)||
-          getFirstToken(entry.rule.prefix[0]||entry.text);
-        if(!firstToken)continue;
-        if(!entriesByFirstToken.has(firstToken))entriesByFirstToken.set(firstToken,[]);
-        entriesByFirstToken.get(firstToken).push(entry);
+    const {unprefixedByFirstToken,prefixGroupsByFirstToken}=indexVerbEntries(verbEntries);
+    const matchedOrders=new Set(),matchingEntriesByConcept=new Map();
+    const collectMatch=(candidate,at)=>{
+      if(matchedOrders.has(candidate.order)||!matchesTokens(tokens,at,candidate.entry.text))return;
+      matchedOrders.add(candidate.order);
+      const concept=candidate.entry.lexeme.concept;
+      if(!matchingEntriesByConcept.has(concept))matchingEntriesByConcept.set(concept,[]);
+      matchingEntriesByConcept.get(concept).push(candidate);
+    };
+    for(let at=0;at<tokens.length;at++) {
+      for(const candidate of unprefixedByFirstToken.get(tokens[at])||[])collectMatch(candidate,at);
+      for(const group of prefixGroupsByFirstToken.get(tokens[at])||[]) {
+        let formAt=at,matched=true;
+        for(const prefix of group.prefixes) {
+          const length=matchesTokens(tokens,formAt,prefix);
+          if(!length){matched=false;break;}
+          formAt+=length;
+        }
+        if(!matched)continue;
+        for(const candidate of group.formsByFirstToken.get(tokens[formAt])||[])
+          collectMatch(candidate,formAt);
       }
     }
-    const matchingVerbEntries=new Set();
-    for(let at=0;at<tokens.length;at++)for(const entry of entriesByFirstToken.get(tokens[at])||[]) {
-      if(!matchingVerbEntries.has(entry)&&matchVerb(tokens,at,entry)!==null)
-        matchingVerbEntries.add(entry);
-    }
-    for (const [concept, frame] of Object.entries(frames)) {
-      const entries=(entriesByConcept.get(concept)||[]).filter(entry=>matchingVerbEntries.has(entry));
-      if(!entries.length)continue;
+    const orderedConcepts=[...matchingEntriesByConcept.keys()]
+      .filter(concept=>frameOrder.has(concept))
+      .sort((left,right)=>frameOrder.get(left)-frameOrder.get(right));
+    for (const concept of orderedConcepts) {
+      const frame=frames[concept];
+      const entries=matchingEntriesByConcept.get(concept)
+        .sort((left,right)=>left.order-right.order).map(candidate=>candidate.entry);
       const sequences = linearizations ? linearizations(frame) : frame.linearizations;
       if (sequences.length > MAX_ANALYSES) {
         throw new EngineError('GRAMMAR_SEARCH_LIMIT',
@@ -1868,10 +1903,10 @@ function createGrammarInterpreter(sourceDictionary, rules,
     const entries=verbs.flatMap(lexeme => formsAtLexeme(lexeme,modality.infinitivePath)
       .filter(verbForm => Object.keys(verbForm.bindings).length === 0)
       .map(verbForm => ({
-        lexeme, text: includeModal ? modalForm+' '+verbForm.text : verbForm.text,
+        lexeme, text:verbForm.text,
         bindings: {}, rule: {
           tense:operator==='modality.intention'?'future':'present', polarity:mode === 'positive' ? 'positive' : 'negative',
-          prefix:[],when:{'subject.person':person,'subject.number':number}
+          prefix:includeModal?[modalForm]:[],when:{'subject.person':person,'subject.number':number}
         }
       })));
     cache.set(cacheKey,entries);
@@ -2822,7 +2857,15 @@ function createGrammarInterpreter(sourceDictionary, rules,
     if (withDeterminers && unspecifiedRoles.length && !fallback) {
       throw new Error('No default definiteness policy for underspecified source.');
     }
-    const render = (entry, def) => sentenceText([linearize(entry, def)], sentence.terminator);
+    const renderCache=new Map();
+    const render = (entry, def) => {
+      let byDef=renderCache.get(entry);
+      if(!byDef){byDef=new Map();renderCache.set(entry,byDef);}
+      if(byDef.has(def))return byDef.get(def);
+      const text=sentenceText([linearize(entry, def)], sentence.terminator);
+      byDef.set(def,text);
+      return text;
+    };
     const text = render(preferred, fallback);
     const alternatives = [];
     const seen = new Set([text]);

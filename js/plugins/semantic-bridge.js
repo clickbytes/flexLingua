@@ -124,21 +124,32 @@ export function createSemanticBridge({plan, core} = {}) {
     collectSenseReferences(module, core, senseReferences);
   }
   const transferPlans = plan.transferPlans.map(item => structuredClone(item));
+  const transferPlansByMeaning=new Map();
+  const transferPlanKey=item=>item.kind==='question'
+    ?JSON.stringify(['question',item.questionType,item.propositionTransfer?.conceptId])
+    :item.stateKind!==undefined
+      ?JSON.stringify(['state',item.stateKind])
+      :JSON.stringify(['event',item.conceptId]);
+  for(const item of transferPlans) {
+    const key=transferPlanKey(item);
+    if(!transferPlansByMeaning.has(key))transferPlansByMeaning.set(key,[]);
+    transferPlansByMeaning.get(key).push(item);
+  }
+  const meaningTransferKey=meaning=>meaning?.type==='question'&&meaning.proposition?.type==='event'
+    ?JSON.stringify(['question',meaning.questionType,meaning.proposition.concept])
+    :meaning?.type==='state'
+      ?JSON.stringify(['state',meaning.kind])
+      :meaning?.type==='event'
+        ?JSON.stringify(['event',meaning.concept])
+        :null;
   const quantityModel = Object.values(plan.modules)
     .map(module => isRecord(module) ? module?.nounPhrase?.quantity : null)
     .find(isRecord) ?? null;
 
   function transferFor(meaning, construction) {
-    const candidates = transferPlans.filter(item => {
-      const matchesMeaning = item.kind === 'question'
-        ? meaning?.type === 'question' && meaning.questionType === item.questionType &&
-          meaning.proposition?.type === 'event' &&
-          meaning.proposition.concept === item.propositionTransfer?.conceptId
-        : item.stateKind !== undefined
-          ? meaning?.type === 'state' && meaning.kind === item.stateKind
-          : meaning?.type === 'event' && meaning?.concept === item.conceptId;
-      return matchesMeaning && (construction === undefined || construction === item.construction);
-    });
+    const key=meaningTransferKey(meaning);
+    const candidates=(key?transferPlansByMeaning.get(key)||[]:[])
+      .filter(item=>construction===undefined||construction===item.construction);
     if (candidates.length !== 1) {
       const identity = meaning?.type === 'state' ? `state.${String(meaning.kind)}` :
         String(meaning?.concept);
