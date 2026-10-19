@@ -38,6 +38,25 @@ export function validateReferentContext(context, ontology) {
         typeof fact.source.recordedAt !== 'string' || !Number.isFinite(Date.parse(fact.source.recordedAt)) ||
         typeof fact.source.language !== 'string' || typeof fact.source.text !== 'string' ||
         fact.source.text.length > 4096)) fail('INVALID_INPUT','Session facts require source-turn provenance.');
+    if (fact.source.kind === 'request') {
+      const boundedString = (value, pattern, maximum) => typeof value === 'string' &&
+        value.length <= maximum && pattern.test(value);
+      const optional = ['turnId','recordedAt','language','text'];
+      for (const key of optional) {
+        const value = fact.source[key];
+        if (value === undefined) continue;
+        const valid = key === 'turnId' ? boundedString(value, /^t[1-9][0-9]*$/u, 16)
+          : key === 'recordedAt' ? typeof value === 'string' && value.length <= 64 &&
+            Number.isFinite(Date.parse(value))
+          : key === 'language' ? boundedString(value, /^[a-zA-Z][a-zA-Z-]{1,15}$/u, 16)
+          : boundedString(value, /^[\s\S]*$/u, 4096);
+        if (!valid) fail('INVALID_INPUT','Request fact source fields exceed their provenance shape.');
+      }
+      if (optional.reduce((budget, key) => budget +
+          (typeof fact.source[key] === 'string' ? fact.source[key].length : 0), 0) > 8192) {
+        fail('INVALID_INPUT','Request fact source exceeds its provenance budget.');
+      }
+    }
     ids.add(fact.id);
   }
   const groups = new Map();
