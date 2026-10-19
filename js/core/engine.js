@@ -340,13 +340,15 @@ export class Engine {
       if (!['ok', 'ambiguous'].includes(result.status)) {
         throw pluginResultError(result, 'analysis');
       }
-      return result.readings.map(reading => ({
+      return distinctReadings(result.readings.map(reading => ({
         interlingua: reading.meaning,
         lexicalSenses: reading.analysis?.lexicalSenses || {},
         sourceSegments:reading.analysis?.sourceSegments||[],
+        ...(Array.isArray(reading.analysis?.surfaceParses)
+          ? {surfaceParses:reading.analysis.surfaceParses} : {}),
         lexicalPreference: Number.isFinite(reading.analysis?.score) ? reading.analysis.score : 0,
         score: Number.isFinite(reading.analysis?.score) ? reading.analysis.score : 0
-      }));
+      })));
     } catch (error) {
       throw toEngineError(error);
     }
@@ -427,7 +429,7 @@ export class Engine {
       }
       const readings=this.pluginAnalysisCandidates(plugin,text,
         settings.construction ? {construction: settings.construction} : {});
-      const candidates=applyReferentContext(readings.filter(candidate=>
+      const candidates=distinctReadings(applyReferentContext(readings.filter(candidate=>
         candidate.interlingua.type==='question' &&
         Object.entries(settings.senses||{}).every(([role,concept])=>
           eventWithin(candidate.interlingua)?.roles?.[role]?.concept===concept))
@@ -435,7 +437,8 @@ export class Engine {
           (settings.topics||[]).reduce((sum,topic)=>sum+
             participantsOf(candidate.interlingua).filter(ref=>ref.concept).filter(ref=>
               this.ontology.relatedToTopic(ref.concept,topic)).length*10,0)}))
-        .sort((a,b)=>b.score-a.score),settings,this.ontology);
+        .sort((a,b)=>b.score-a.score),settings,this.ontology));
+      candidates.sort((a,b)=>b.score-a.score);
       boundedCandidates(candidates, limit);
       if(!candidates.length)throw new Error('No semantic question reading matches context constraints.');
       return candidates.map(candidate=>{
@@ -466,8 +469,9 @@ export class Engine {
       if (!candidates.length) {
         throw new Error('No semantic reading matches the context constraints.');
       }
-      return boundedCandidates(applyReferentContext(candidates.sort((a, b) => b.score - a.score),
-        settings,this.ontology), limit);
+      const contextual=distinctReadings(applyReferentContext(
+        candidates.sort((a, b) => b.score - a.score),settings,this.ontology));
+      return boundedCandidates(contextual, limit);
     });
     if (scored.length === 1) {
       return scored[0].map(candidate => {

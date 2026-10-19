@@ -1,4 +1,5 @@
 import {PluginError} from './errors.js';
+import {meaningKey} from '../core/translation-result.js';
 
 export const LANGUAGE_PLUGIN_CONTRACT_VERSION = '1.0';
 export const PLUGIN_RESULT_STATUSES = Object.freeze([
@@ -313,12 +314,16 @@ export function normalizeAnalysisResult(result) {
       invalidResult('Analysis readings require an object meaning and optional object analysis.');
     }
     const normalized = {meaning: reading.meaning};
-    if (owns(reading, 'analysis')) normalized.analysis = reading.analysis;
+    if (owns(reading, 'analysis')) normalized.analysis = validateAnalysisMetadata(reading.analysis);
     return normalized;
   });
+  const meaningKeys = readings.map(reading => meaningKey(reading.meaning));
+  if (new Set(meaningKeys).size !== meaningKeys.length) {
+    invalidResult('Analysis readings must represent distinct MeaningGraphs.');
+  }
 
-  if (result.status === 'ok' && readings.length < 1) {
-    invalidResult('Successful analysis must contain at least one reading.');
+  if (result.status === 'ok' && readings.length !== 1) {
+    invalidResult('Successful analysis must contain exactly one distinct reading.');
   }
   if (result.status === 'ok' && diagnostics.length) {
     invalidResult('Successful analysis cannot contain refusal diagnostics.');
@@ -334,6 +339,90 @@ export function normalizeAnalysisResult(result) {
     invalidResult('Ambiguous analysis must include diagnostics.');
   }
   return {status: result.status, readings, diagnostics};
+}
+
+function validateAnalysisMetadata(value) {
+  const allowed = ['lexicalSenses','score','transfer','sourceSegments','surfaceParses'];
+  if (!isRecord(value) || Object.keys(value).some(key => !allowed.includes(key))) {
+    invalidResult('Analysis metadata contains an unsupported field.');
+  }
+  const normalized = {};
+  if (owns(value,'lexicalSenses')) normalized.lexicalSenses = validateLexicalSenses(value.lexicalSenses);
+  if (owns(value,'score')) {
+    if (!Number.isFinite(value.score)) invalidResult('Analysis score must be finite.');
+    normalized.score = value.score;
+  }
+  if (owns(value,'transfer')) {
+    if (!isRecord(value.transfer)) invalidResult('Analysis transfer must be an object.');
+    normalized.transfer = value.transfer;
+  }
+  if (owns(value,'sourceSegments')) normalized.sourceSegments = validateSourceSegments(value.sourceSegments);
+  if (owns(value,'surfaceParses')) normalized.surfaceParses = validateSurfaceParses(value.surfaceParses);
+  return normalized;
+}
+
+function validateLexicalSenses(value) {
+  if (!isRecord(value) || Object.keys(value).length > MAX_EVIDENCE) {
+    invalidResult('Analysis lexical senses must be a bounded record.');
+  }
+  return Object.fromEntries(Object.entries(value).sort(([left],[right]) => left < right ? -1 : left > right ? 1 : 0)
+    .map(([role,sense]) => {
+      if (!SYMBOL.test(role) || !(sense === null ||
+          (typeof sense === 'string' && sense.length <= 128 && SYMBOL.test(sense)) ||
+          (Array.isArray(sense) && sense.length <= MAX_EVIDENCE && sense.every(item =>
+            item === null || (typeof item === 'string' && item.length <= 128 && SYMBOL.test(item)))))) {
+        invalidResult('Analysis lexical sense entry is invalid.');
+      }
+      return [role, Array.isArray(sense) ? [...sense] : sense];
+    }));
+}
+
+function validateSourceSegments(value) {
+  if (!Array.isArray(value) || value.length > MAX_SEGMENTS) {
+    invalidResult('Analysis source segments must be a bounded array.');
+  }
+  return Array.from(value, item => {
+    if (!isRecord(item) || typeof item.path !== 'string' || !item.path.startsWith('#/') ||
+        item.path.length > 512) invalidResult('Analysis source segment path is invalid.');
+    if (owns(item,'span')) {
+      if (!hasExactKeys(item,['path','span'])) invalidResult('Aligned source segments require a path and span.');
+      return {path:item.path,span:validateSpan(item.span,'Analysis source span')};
+    }
+    if (!hasExactKeys(item,['path','status','reason']) || item.status !== 'unavailable' ||
+        typeof item.reason !== 'string' || !item.reason.trim() || item.reason.length > 128) {
+      invalidResult('Unavailable source segments require a bounded reason.');
+    }
+    return {path:item.path,status:item.status,reason:item.reason};
+  });
+}
+
+function validateSurfaceParses(value) {
+  if (!Array.isArray(value) || value.length < 2 || value.length > MAX_EVIDENCE) {
+    invalidResult('Surface parse evidence must contain two or more bounded traces.');
+  }
+  const traces = Array.from(value, item => {
+    if (!hasExactKeys(item,['sourceSegments'],['construction','lexicalSenses','score'])) {
+      invalidResult('Surface parse evidence contains unsupported fields.');
+    }
+    const normalized = {sourceSegments:validateSourceSegments(item.sourceSegments)};
+    if (owns(item,'construction')) {
+      if (typeof item.construction !== 'string' || !SYMBOL.test(item.construction)) {
+        invalidResult('Surface parse construction is invalid.');
+      }
+      normalized.construction = item.construction;
+    }
+    if (owns(item,'lexicalSenses')) normalized.lexicalSenses = validateLexicalSenses(item.lexicalSenses);
+    if (owns(item,'score')) {
+      if (!Number.isFinite(item.score)) invalidResult('Surface parse score must be finite.');
+      normalized.score = item.score;
+    }
+    return normalized;
+  });
+  const unique = [...new Map(traces.map(trace => [meaningKey(trace),trace])).entries()]
+    .sort(([left],[right]) => left < right ? -1 : left > right ? 1 : 0)
+    .map(([,trace]) => trace);
+  if (unique.length < 2) invalidResult('Surface parse evidence cannot contain duplicates.');
+  return unique;
 }
 
 function validateInformationLoss(value) {

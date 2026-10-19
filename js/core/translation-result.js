@@ -4,19 +4,73 @@ const domainStatuses = new Set(['unsupported', 'invalid', 'ambiguous', 'resource
 const stable = value => Array.isArray(value) ? value.map(stable)
   : value && typeof value === 'object'
     ? Object.fromEntries(Object.keys(value).sort().map(key => [key, stable(value[key])])) : value;
-const keyOf = value => JSON.stringify(stable(value));
+export const meaningKey = value => JSON.stringify(stable(value));
+const keyOf = meaningKey;
 const uniqueValues = values => [...new Map(values.map(value => [keyOf(value), value]))]
   .sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0).map(([, value]) => value);
 
-/** Lexical analyses of the same MeaningGraph are not different meanings. */
-export function distinctReadings(readings) {
-  const seen = new Set();
-  return readings.filter(reading => {
-    const key = keyOf(reading.interlingua);
-    if (seen.has(key)) return false;
-    seen.add(key);
-    return true;
+function parseEvidence(reading) {
+  const existing = reading.surfaceParses ?? reading.analysis?.surfaceParses;
+  if (Array.isArray(existing)) return existing;
+  const analysis = reading.analysis ?? {};
+  const transfer = analysis.transfer ?? reading.transfer;
+  return [{
+    ...(typeof transfer?.construction === 'string' ? {construction: transfer.construction} : {}),
+    ...(analysis.lexicalSenses !== undefined ? {lexicalSenses: analysis.lexicalSenses} :
+      reading.lexicalSenses !== undefined ? {lexicalSenses: reading.lexicalSenses} : {}),
+    ...(Number.isFinite(analysis.score ?? reading.score) ? {score: analysis.score ?? reading.score} : {}),
+    sourceSegments: analysis.sourceSegments ?? reading.sourceSegments ?? []
+  }];
+}
+
+function representativeOrder(left, right) {
+  const score = (right.score ?? right.analysis?.score ?? 0) -
+    (left.score ?? left.analysis?.score ?? 0);
+  if (score) return score;
+  const preference = (right.lexicalPreference ?? 0) - (left.lexicalPreference ?? 0);
+  if (preference) return preference;
+  const leftKey = representativeKey(left), rightKey = representativeKey(right);
+  return leftKey < rightKey ? -1 : leftKey > rightKey ? 1 : 0;
+}
+
+function representativeKey(reading) {
+  const normalized = {...reading};
+  delete normalized.surfaceParses;
+  if (normalized.analysis) {
+    normalized.analysis = {...normalized.analysis};
+    delete normalized.analysis.surfaceParses;
+  }
+  normalized.surfaceParses = [...parseEvidence(reading)].sort((left,right) => {
+    const leftKey = meaningKey(left), rightKey = meaningKey(right);
+    return leftKey < rightKey ? -1 : leftKey > rightKey ? 1 : 0;
   });
+  return meaningKey(normalized);
+}
+
+/** Group surface analyses by their complete MeaningGraph without losing parse traces. */
+export function distinctReadings(readings) {
+  const groups = new Map();
+  for (const reading of readings) {
+    const meaning = reading.interlingua ?? reading.meaning;
+    const key = meaningKey(meaning);
+    const former = groups.get(key);
+    const traces = parseEvidence(reading);
+    if (!former) {
+      groups.set(key, {reading, traces: new Map(traces.map(trace => [meaningKey(trace), trace]))});
+      continue;
+    }
+    for (const trace of traces) former.traces.set(meaningKey(trace), trace);
+    if (representativeOrder(reading, former.reading) < 0) former.reading = reading;
+  }
+  return [...groups.entries()].sort(([left], [right]) => left < right ? -1 : left > right ? 1 : 0)
+    .map(([, group]) => {
+      const traces = [...group.traces.entries()].sort(([left], [right]) =>
+        left < right ? -1 : left > right ? 1 : 0).map(([, trace]) => trace);
+      if (traces.length < 2) return group.reading;
+      const representative = stable(group.reading);
+      delete representative.surfaceParses;
+      return {...representative, surfaceParses: traces};
+    });
 }
 
 /** Describe uncertainty without changing any source feature or choosing a reading. */
@@ -87,7 +141,8 @@ export function ambiguousTranslation(readings) {
   return translationRefusal('ambiguous', 'AMBIGUOUS_MEANING',
     `Source has ${readings.length} distinct semantic readings.`,
     {alternatives: readings.map(item => ({meaning: item.interlingua,
-      lexicalSenses: item.lexicalSenses, score: item.score}))});
+      lexicalSenses: item.lexicalSenses, score: item.score,
+      ...(Array.isArray(item.surfaceParses) ? {surfaceParses: item.surfaceParses} : {})}))});
 }
 
 /** Unclassified exceptions are infrastructure errors, never controlled refusals. */

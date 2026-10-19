@@ -10,6 +10,7 @@ import { validateFeatureBundle, record, safeName, hasOwn } from './features.js';
 import { STATE_FRAME_VERSION } from './ontology.js';
 import {EngineError} from './errors.js';
 import {RESOURCE_LIMITS} from './resource-limits.js';
+import {meaningKey} from './translation-result.js';
 
 export const INTERLINGUA_VERSION = '0.2';
 export const DISCOURSE_VERSION = '0.4';
@@ -70,11 +71,8 @@ export function createInformationStructure(event, {topic='agent',focus}={}) {
 /** Stable truth-conditional signature; surface ordering and register are excluded. */
 export function eventSemanticSignature(event) {
   if(event?.type!=='event')throw new Error('Semantic signature requires an event.');
-  const stable=value=>Array.isArray(value)?value.map(stable):
-    value&&typeof value==='object'?Object.fromEntries(Object.keys(value).sort()
-      .map(key=>[key,stable(value[key])])):value;
   const {version:_version,...meaning}=event;
-  return JSON.stringify(stable(meaning));
+  return meaningKey(meaning);
 }
 
 export function createEvent(concept, roles, features, {voice,omittedRoles}={}) {

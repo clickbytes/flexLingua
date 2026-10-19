@@ -1,10 +1,6 @@
-import {translationErrorStatus, withUncertainties} from './translation-result.js';
+import {meaningKey, translationErrorStatus, withUncertainties} from './translation-result.js';
 import {EngineError} from './errors.js';
 
-const canonical = value => Array.isArray(value) ? value.map(canonical)
-  : value && typeof value === 'object'
-    ? Object.fromEntries(Object.keys(value).sort().map(key => [key, canonical(value[key])])) : value;
-const keyOf = value => JSON.stringify(canonical(value));
 const compare = (left, right) => left < right ? -1 : left > right ? 1 : 0;
 const vector = score => [score.assumptions ?? Infinity, -score.contextRules,
   -score.ontologyLinks, -score.lexicalPreference];
@@ -75,7 +71,7 @@ export function realizeInterpretations(engine, candidates, options) {
   if(requestedPreviewId!==undefined&&
       (typeof requestedPreviewId!=='string'||!/^i[1-9][0-9]*\.r[1-9][0-9]*$/u.test(requestedPreviewId)))
     throw new EngineError('INVALID_PREVIEW_ID','Preview ID is invalid.',{status:'invalid'});
-  const ids = new Map([...candidates].sort((a,b) => compare(keyOf(a.interlingua), keyOf(b.interlingua)))
+  const ids = new Map([...candidates].sort((a,b) => compare(meaningKey(a.interlingua), meaningKey(b.interlingua)))
     .map((candidate, index) => [candidate, `i${index + 1}`]));
   const outputs = [];
   let limitError;
