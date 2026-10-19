@@ -1,7 +1,7 @@
 import { record, hasOwn, safeName } from './features.js';
+import {isLexemeId, isSenseId} from './identifiers.js';
 
 export const LEXICON_MODEL_VERSION = '1.01';
-const ID = /^[a-zA-Z][a-zA-Z0-9_]*(?:\.[a-zA-Z0-9_]+)*$/u;
 const CATEGORIES = Object.freeze({
   nouns: 'entity', verbs: 'event', adjectives: 'property',
   degrees: 'degree', attitudes: 'event', quantifiers: 'operator',
@@ -9,10 +9,6 @@ const CATEGORIES = Object.freeze({
 });
 const MAX_LEXEMES = 100000;
 const MAX_SENSES = 16;
-const RESERVED_SEGMENTS = new Set(['__proto__','constructor','prototype']);
-const validLexemeId = id => typeof id === 'string' && id.length <= 128 && ID.test(id) &&
-  !id.split('.').some(part => RESERVED_SEGMENTS.has(part));
-
 function freezeDeep(value) {
   if (value && typeof value === 'object' && !Object.isFrozen(value)) {
     Object.values(value).forEach(freezeDeep);
@@ -35,7 +31,7 @@ function quantifierCore(meaning) {
 }
 
 function normalizeSense(sense, category, lexeme, strict) {
-  if (!record(sense) || !validLexemeId(sense.id) ||
+  if (!record(sense) || !isSenseId(sense.id) ||
       !Number.isInteger(sense.priority ?? 0) || Math.abs(sense.priority ?? 0) > 100 ||
       (sense.countability !== undefined &&
         (category !== 'nouns' || !['mass','count','both'].includes(sense.countability))) ||
@@ -47,7 +43,7 @@ function normalizeSense(sense, category, lexeme, strict) {
     throw new Error(`LexicalSense must declare coreRef: ${sense.id}`);
   }
   const ref = sense.coreRef;
-  if (!record(ref) || !['concept','operator','grammaticalFunction'].includes(ref.kind) || !validLexemeId(ref.id) ||
+  if (!record(ref) || !['concept','operator','grammaticalFunction'].includes(ref.kind) || !isLexemeId(ref.id) ||
       (ref.parameters !== undefined && !record(ref.parameters))) {
     throw new Error(`Invalid CORE mapping for lexical sense: ${sense.id}`);
   }
@@ -98,7 +94,7 @@ export function createLexicon(input, {strict = false} = {}) {
     if (!Array.isArray(raw)) throw new Error(`Invalid ${category} lexicon inventory.`);
     const normalized = [];
     for (const item of raw) {
-      if (!record(item) || !validLexemeId(item.id) || ids.has(item.id) ||
+      if (!record(item) || !isLexemeId(item.id) || ids.has(item.id) ||
           (!['quantifiers','functionWords'].includes(category) &&
             (typeof item.lemma !== 'string' || !item.lemma.trim()))) {
         throw new Error(`Invalid or duplicate ${category.slice(0,-1)} lexeme: ${item?.id}`);
