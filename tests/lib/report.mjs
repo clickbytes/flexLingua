@@ -51,9 +51,11 @@ function caseRecord({item, outcome, durationMs, document}) {
       uncertainties: document?.uncertainties ?? [],
       interpretations: document?.interpretations ?? [],
       previewId: document?.previewId ?? null,
+      ...(document?.contextReport ? {contextReport:document.contextReport} : {}),
       typedGraph: outcome?.observed?.typedGraph ?? null
     },
     ...(item.verifyEngine ? {publicEntryPoints: outcome?.observed?.publicEntryPoints ?? {}} : {}),
+    ...(item.session ? {session:item.session} : {}),
     durationMs,
     failures: outcome?.failures ?? []
   };

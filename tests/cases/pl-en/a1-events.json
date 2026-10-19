@@ -259,7 +259,7 @@
         "coverageTargetId": "construction.event.visual_perception",
         "capability": "Return a controlled unsupported result for an invalid agent or missing lexeme; do not guess."
       }
-    },
+    },
     {
       "id": "A1-PL-EN-UNCERTAINTY-0001",
       "schemaVersion": "1.0",
@@ -576,6 +576,170 @@
       "requirements": {
         "coverageTargetId": "construction.event.residence",
         "capability": "Bounded complete interpretation realizations, explained ranking and preview without semantic resolution"
+      },
+      "verifyEngine": true
+    },
+    {
+      "id": "A1-PL-EN-CONTEXT-0001",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "explicit_context",
+      "construction": "event.residence",
+      "tier": "exploratory",
+      "priority": 4,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "second",
+        "number": "singular",
+        "reference": "deictic",
+        "quantity": "none"
+      },
+      "purpose": "A singular addressee fact confirms the Polish source agreement without inventing English article definiteness; keep both a/the assumptions and imperfective aspect loss.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Ty mieszkasz w mieszkaniu.",
+        "context": {
+          "bindings": [
+            {
+              "path": "#/roles/agent",
+              "referentId": "listener"
+            }
+          ],
+          "facts": [
+            {
+              "id": "number",
+              "referentId": "listener",
+              "feature": "number",
+              "value": "singular",
+              "source": {
+                "kind": "request",
+                "id": "request:number"
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "You live in a flat."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.residence",
+          "roleSet": [
+            "agent",
+            "location"
+          ],
+          "roles": {
+            "agent": {
+              "target": {
+                "kind": "deictic",
+                "anchor": "addressee"
+              },
+              "agreement": {
+                "person": "second",
+                "number": "singular"
+              }
+            },
+            "location": {
+              "concept": "structure.apartment",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              },
+              "modifiers": []
+            }
+          },
+          "roleFeaturesExact": true,
+          "modifiersExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "assert": {}
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "You live in the flat."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/location/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "uncertainties": {
+          "required": [
+            {
+              "kind": "missing_information",
+              "path": "#/roles/location/features/definiteness",
+              "options": [],
+              "reason": "source-unspecified"
+            },
+            {
+              "kind": "additional_assumption",
+              "path": "#/roles/location/features/definiteness",
+              "options": [
+                "You live in a flat.",
+                "You live in the flat."
+              ],
+              "reason": "source-definiteness-unspecified-target-default"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "context": {
+          "bindings": [
+            {
+              "path": "#/roles/agent",
+              "referentId": "listener",
+              "status": "confirmed"
+            }
+          ],
+          "appliedFactIds": [
+            "number"
+          ],
+          "ignoredFactIds": [],
+          "conflictFactIds": []
+        }
+      },
+      "review": {
+        "status": "proposed",
+        "source": "Independent expectations before runtime edits: #445 scope and session-fixture refinement. Prior session assertion reuses approved A1-EN-PL-UNCERTAINTY-0003; no identity inferred from repeated words.",
+        "author": "Codex (proposed independent oracle)",
+        "reviewedAt": "2026-10-19",
+        "issue": "#445"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.residence",
+        "capability": "Explicit referent-scoped facts, source uncertainty and context provenance"
       },
       "verifyEngine": true
     }

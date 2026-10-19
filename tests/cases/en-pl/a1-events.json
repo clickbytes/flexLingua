@@ -743,6 +743,707 @@
         "capability": "Bounded complete interpretation realizations, explained ranking and preview without semantic resolution"
       },
       "verifyEngine": true
+    },
+    {
+      "id": "A1-EN-PL-CONTEXT-0001",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "explicit_context",
+      "construction": "event.residence",
+      "tier": "exploratory",
+      "priority": 4,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "second",
+        "number": "plural",
+        "reference": "deictic",
+        "quantity": "none"
+      },
+      "purpose": "An explicit plural fact constrains exactly the bound addressee before ranking; preserve the apartment and source aspect.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "You live in a flat.",
+        "context": {
+          "bindings": [
+            {
+              "path": "#/roles/agent",
+              "referentId": "audience"
+            }
+          ],
+          "facts": [
+            {
+              "id": "number",
+              "referentId": "audience",
+              "feature": "number",
+              "value": "plural",
+              "source": {
+                "kind": "request",
+                "id": "request:number"
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "Mieszkacie w mieszkaniu."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.residence",
+          "roleSet": [
+            "agent",
+            "location"
+          ],
+          "roles": {
+            "agent": {
+              "target": {
+                "kind": "deictic",
+                "anchor": "addressee"
+              },
+              "agreement": {
+                "person": "second",
+                "number": "plural"
+              }
+            },
+            "location": {
+              "concept": "structure.apartment",
+              "features": {
+                "number": "singular",
+                "definiteness": "indefinite"
+              },
+              "modifiers": []
+            }
+          },
+          "roleFeaturesExact": true,
+          "modifiersExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "unknown"
+          },
+          "assert": {}
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/location/features/definiteness",
+              "status": "unavoidable"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "uncertainties": {
+          "required": [
+            {
+              "kind": "missing_information",
+              "path": "#/features/aspect",
+              "options": [],
+              "reason": "source-unspecified"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "context": {
+          "bindings": [
+            {
+              "path": "#/roles/agent",
+              "referentId": "audience",
+              "status": "confirmed"
+            }
+          ],
+          "appliedFactIds": [
+            "number"
+          ],
+          "ignoredFactIds": [],
+          "conflictFactIds": []
+        }
+      },
+      "review": {
+        "status": "proposed",
+        "source": "Independent expectations before runtime edits: #445 scope and session-fixture refinement. Prior session assertion reuses approved A1-EN-PL-UNCERTAINTY-0003; no identity inferred from repeated words.",
+        "author": "Codex (proposed independent oracle)",
+        "reviewedAt": "2026-10-19",
+        "issue": "#445"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.residence",
+        "capability": "Explicit referent-scoped facts, source uncertainty and context provenance"
+      },
+      "verifyEngine": true
+    },
+    {
+      "id": "A1-EN-PL-CONTEXT-0002",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "explicit_context",
+      "construction": "event.residence",
+      "tier": "exploratory",
+      "priority": 4,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "anaphoric",
+        "quantity": "none"
+      },
+      "purpose": "A remembered masculine subject mention cannot establish identity for another bound referent. Keep he unresolved and report the unmatched binding.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "He lives in a flat.",
+        "context": {
+          "bindings": [
+            {
+              "path": "#/roles/agent",
+              "referentId": "unrelated"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "On mieszka w mieszkaniu."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.residence",
+          "roleSet": [
+            "agent",
+            "location"
+          ],
+          "roles": {
+            "agent": {
+              "target": {
+                "kind": "anaphoric",
+                "resolution": "unresolved"
+              },
+              "agreement": {
+                "person": "third",
+                "number": "singular",
+                "gender": "masculine"
+              }
+            },
+            "location": {
+              "concept": "structure.apartment",
+              "features": {
+                "number": "singular",
+                "definiteness": "indefinite"
+              },
+              "modifiers": []
+            }
+          },
+          "roleFeaturesExact": true,
+          "modifiersExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "unknown"
+          },
+          "assert": {}
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/location/features/definiteness",
+              "status": "unavoidable"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "uncertainties": {
+          "required": [
+            {
+              "kind": "missing_information",
+              "path": "#/features/aspect",
+              "options": [],
+              "reason": "source-unspecified"
+            },
+            {
+              "kind": "missing_information",
+              "path": "#/roles/agent/referent",
+              "options": [],
+              "reason": "unresolved-reference"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "context": {
+          "bindings": [
+            {
+              "path": "#/roles/agent",
+              "referentId": "unrelated",
+              "status": "unconfirmed"
+            }
+          ],
+          "appliedFactIds": [],
+          "ignoredFactIds": [
+            "f1.number"
+          ],
+          "conflictFactIds": []
+        }
+      },
+      "review": {
+        "status": "proposed",
+        "source": "Independent expectations before runtime edits: #445 scope and session-fixture refinement. Prior session assertion reuses approved A1-EN-PL-UNCERTAINTY-0003; no identity inferred from repeated words.",
+        "author": "Codex (proposed independent oracle)",
+        "reviewedAt": "2026-10-19",
+        "issue": "#445"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.residence",
+        "capability": "Explicit referent-scoped facts, source uncertainty and context provenance"
+      },
+      "verifyEngine": true,
+      "session": {
+        "caseId": "A1-EN-PL-UNCERTAINTY-0003",
+        "rememberRole": "agent"
+      }
+    },
+    {
+      "id": "A1-EN-PL-CONTEXT-0003",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "explicit_context",
+      "construction": "event.residence",
+      "tier": "exploratory",
+      "priority": 4,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "anaphoric",
+        "quantity": "none"
+      },
+      "purpose": "An explicit binding to exactly the remembered prior subject establishes contextual identity with provenance; the original source anaphora remains visible and no age is inferred.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "He lives in the flat.",
+        "context": {
+          "bindings": [
+            {
+              "path": "#/roles/agent",
+              "referentId": "mention:e1.agent"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "On mieszka w mieszkaniu."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.residence",
+          "roleSet": [
+            "agent",
+            "location"
+          ],
+          "roles": {
+            "agent": {
+              "target": {
+                "kind": "anaphoric",
+                "resolution": "unresolved"
+              },
+              "agreement": {
+                "person": "third",
+                "number": "singular",
+                "gender": "masculine"
+              }
+            },
+            "location": {
+              "concept": "structure.apartment",
+              "features": {
+                "number": "singular",
+                "definiteness": "definite"
+              },
+              "modifiers": []
+            }
+          },
+          "roleFeaturesExact": true,
+          "modifiersExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "unknown"
+          },
+          "assert": {}
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/location/features/definiteness",
+              "status": "unavoidable"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "uncertainties": {
+          "required": [
+            {
+              "kind": "missing_information",
+              "path": "#/features/aspect",
+              "options": [],
+              "reason": "source-unspecified"
+            },
+            {
+              "kind": "missing_information",
+              "path": "#/roles/agent/referent",
+              "options": [],
+              "reason": "unresolved-reference"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "context": {
+          "bindings": [
+            {
+              "path": "#/roles/agent",
+              "referentId": "mention:e1.agent",
+              "status": "confirmed"
+            }
+          ],
+          "appliedFactIds": [
+            "f1.number"
+          ],
+          "ignoredFactIds": [],
+          "conflictFactIds": [],
+          "sessionSources": [
+            {
+              "factId": "f1.number",
+              "sourceId": "f1",
+              "turnId": "t1",
+              "kind": "session"
+            }
+          ]
+        }
+      },
+      "review": {
+        "status": "proposed",
+        "source": "Independent expectations before runtime edits: #445 scope and session-fixture refinement. Prior session assertion reuses approved A1-EN-PL-UNCERTAINTY-0003; no identity inferred from repeated words.",
+        "author": "Codex (proposed independent oracle)",
+        "reviewedAt": "2026-10-19",
+        "issue": "#445"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.residence",
+        "capability": "Explicit referent-scoped facts, source uncertainty and context provenance"
+      },
+      "verifyEngine": true,
+      "session": {
+        "caseId": "A1-EN-PL-UNCERTAINTY-0003",
+        "rememberRole": "agent"
+      }
+    },
+    {
+      "id": "A1-EN-PL-CONTEXT-0004",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "explicit_context",
+      "construction": "event.residence",
+      "tier": "exploratory",
+      "priority": 4,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "second",
+        "number": "mixed",
+        "reference": "deictic",
+        "quantity": "none"
+      },
+      "purpose": "Two incompatible number facts about the same bound addressee are an explicit context conflict, never a score-based choice.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "You live in the flat.",
+        "context": {
+          "bindings": [
+            {
+              "path": "#/roles/agent",
+              "referentId": "audience"
+            }
+          ],
+          "facts": [
+            {
+              "id": "one",
+              "referentId": "audience",
+              "feature": "number",
+              "value": "singular",
+              "source": {
+                "kind": "request",
+                "id": "request:one"
+              }
+            },
+            {
+              "id": "many",
+              "referentId": "audience",
+              "feature": "number",
+              "value": "plural",
+              "source": {
+                "kind": "request",
+                "id": "request:many"
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "status": "invalid",
+        "text": null,
+        "meaning": null,
+        "diagnostics": {
+          "required": [
+            {
+              "code": "CONTEXT_CONFLICT"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "uncertainties": {
+          "required": [
+            {
+              "kind": "context_conflict",
+              "path": "#",
+              "options": [],
+              "reason": "CONTEXT_CONFLICT"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "context": {
+          "bindings": [],
+          "appliedFactIds": [],
+          "ignoredFactIds": [],
+          "conflictFactIds": [
+            "many",
+            "one"
+          ]
+        }
+      },
+      "review": {
+        "status": "proposed",
+        "source": "Independent expectations before runtime edits: #445 scope and session-fixture refinement. Prior session assertion reuses approved A1-EN-PL-UNCERTAINTY-0003; no identity inferred from repeated words.",
+        "author": "Codex (proposed independent oracle)",
+        "reviewedAt": "2026-10-19",
+        "issue": "#445"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.residence",
+        "capability": "Explicit referent-scoped facts, source uncertainty and context provenance"
+      },
+      "verifyEngine": true
+    },
+    {
+      "id": "A1-EN-PL-CONTEXT-0005",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "explicit_context",
+      "construction": "event.visual_perception",
+      "tier": "exploratory",
+      "priority": 3,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "first",
+        "number": "plural",
+        "reference": "deictic",
+        "quantity": "none"
+      },
+      "purpose": "An explicit concept fact about the bound bank referent selects financial institution. Preserve all remaining role features and record the hard-constraint evidence.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "We see the bank.",
+        "context": {
+          "bindings": [
+            {
+              "path": "#/roles/theme",
+              "referentId": "bank1"
+            }
+          ],
+          "facts": [
+            {
+              "id": "sense",
+              "referentId": "bank1",
+              "feature": "concept",
+              "value": "place.financial_institution",
+              "source": {
+                "kind": "request",
+                "id": "request:sense"
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "My widzimy bank."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "target": {
+                "kind": "deictic",
+                "anchor": "speaker"
+              },
+              "agreement": {
+                "person": "first",
+                "number": "plural"
+              }
+            },
+            "theme": {
+              "concept": "place.financial_institution",
+              "features": {
+                "number": "singular",
+                "definiteness": "definite"
+              }
+            }
+          },
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "unknown"
+          },
+          "assert": {}
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "unavoidable"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "uncertainties": {
+          "required": [
+            {
+              "kind": "missing_information",
+              "path": "#/features/aspect",
+              "options": [],
+              "reason": "source-unspecified"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "context": {
+          "bindings": [
+            {
+              "path": "#/roles/theme",
+              "referentId": "bank1",
+              "status": "confirmed"
+            }
+          ],
+          "appliedFactIds": [
+            "sense"
+          ],
+          "ignoredFactIds": [],
+          "conflictFactIds": []
+        }
+      },
+      "review": {
+        "status": "proposed",
+        "source": "Independent expectations before runtime edits: #445 scope and session-fixture refinement. Prior session assertion reuses approved A1-EN-PL-UNCERTAINTY-0003; no identity inferred from repeated words.",
+        "author": "Codex (proposed independent oracle)",
+        "reviewedAt": "2026-10-19",
+        "issue": "#445"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "Explicit referent-scoped facts, source uncertainty and context provenance"
+      },
+      "verifyEngine": true
     }
   ]
 }

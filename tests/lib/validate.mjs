@@ -150,15 +150,22 @@ function normalizeInput(text, language) {
     : '';
 }
 
+function canonicalContext(value) {
+  if (Array.isArray(value)) return value.map(canonicalContext)
+    .sort((a,b) => JSON.stringify(a).localeCompare(JSON.stringify(b),'en'));
+  if (value && typeof value === 'object') return Object.fromEntries(Object.keys(value).sort()
+    .map(key => [key,canonicalContext(value[key])]));
+  return value;
+}
+
 function checkDuplicateRequiredInputs(cases, issues) {
   const seen = new Map();
   for (const item of cases) {
     if (item.tier !== 'required' || !item.input) continue;
     const key = JSON.stringify([item.input.from, item.input.to,
       normalizeInput(item.input.text, item.input.from),
-      [...(item.input.context?.topics ?? [])].sort(),
-      Object.fromEntries(Object.entries(item.input.context?.senses ?? {}).sort(([a], [b]) =>
-        a < b ? -1 : a > b ? 1 : 0)), item.input.search?.maxReadings ?? 16]);
+      canonicalContext(item.input.context ?? {}), item.input.search?.maxReadings ?? 16,
+      canonicalContext(item.session ?? null)]);
     const first = seen.get(key);
     if (first) {
       issues.push({kind: 'duplicate-input', file: item.file, id: item.id, severity: 'error',
@@ -182,7 +189,7 @@ function checkCaseRules(item, issues, ontology) {
       message: 'This matrix only accepts single-sentence cases.'});
   }
   const review = item.review;
-  if ((item.input?.context !== undefined || item.input?.search !== undefined) && item.cliSmoke === true) {
+  if ((item.input?.context !== undefined || item.input?.search !== undefined || item.session) && item.cliSmoke === true) {
     issues.push({kind: 'input', file: item.file, id, severity: 'error',
       message: 'Context/search cases cannot claim CLI smoke before those CLI inputs are supported.'});
   }

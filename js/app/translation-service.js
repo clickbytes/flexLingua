@@ -1,7 +1,7 @@
-import {translationRefusal as refusal} from '../core/translation-result.js';
+import {translationRefusal as refusal, translationFailure} from '../core/translation-result.js';
 
 /** Thin translation facade. Domain refusals remain results; unexpected failures still throw. */
-export function createTranslationService(runtime) {
+export function createTranslationService(runtime, {session} = {}) {
   if (!runtime?.engine || !Array.isArray(runtime.languages)) {
     throw new Error('Translation service requires an initialized application runtime.');
   }
@@ -38,7 +38,15 @@ export function createTranslationService(runtime) {
         `Sentence translation ${from} → ${to} is unsupported by declared capabilities.`, base);
     }
 
-    return {...base, ...engine.translate({text, from, to, context, search})};
+    try {
+      if (Array.isArray(context?.facts) && context.facts.some(fact => fact?.source?.kind === 'session')) {
+        return refusal('invalid','INVALID_INPUT','Session provenance must come from the active session provider.',base);
+      }
+      const preparedContext = session ? session.translationContext(context === undefined ? {} : context) : context;
+      return {...base, ...engine.translate({text, from, to, context:preparedContext, search})};
+    } catch (error) {
+      return {...base, ...translationFailure(error)};
+    }
   }
 
   return Object.freeze({translate});
