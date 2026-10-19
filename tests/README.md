@@ -69,6 +69,28 @@ Dla `unsupported|invalid|resource_limit` wymagane są `text:null`, `meaning:null
 
 ## Uruchamianie
 
+Runner przyjmuje opcje prezentacji po poleceniu npm. Domyślne `--verbosity=normal`
+wypisuje każdy przypadek z kierunkiem, pełnym zdaniem źródłowym i zaobserwowanym
+tekstem docelowym. Przy nierozstrzygniętej wieloznaczności pokazuje pełne realizacje
+z etykietą podglądu, bez przedstawiania go jako rozstrzygniętego tłumaczenia.
+Kontrolowana odmowa pokazuje źródło i faktyczną diagnostykę, bez dopisywania celu.
+
+`--verbosity=verbose` dodaje czas, expected/observed, MeaningGraph, diagnostykę,
+straty informacji oraz szczegóły interpretacji i realizacji. `--verbosity=quiet`
+pomija udane przypadki i pozostawia podsumowania; każdy FAIL i INFRA nadal ma
+widoczny identyfikator oraz szczegóły. Wartości można podać po `=` albo jako
+osobny argument. Nie zmieniają klasyfikacji, raportów, coverage ani kodu wyjścia.
+
+`--color=auto` (domyślnie) włącza ANSI tylko w terminalu i wyłącza je przy
+ustawionym `NO_COLOR`; `--color=always` wymusza kolory, a `--color=never`
+wyłącza je. Przykłady:
+
+```sh
+npm run test:ci -- --verbosity=verbose
+npm run test:ci -- --verbosity quiet --color never
+npm run test:ci -- --verbosity=normal --color=always
+```
+
 ```sh
 npm run test:validate           # tylko schematy i reguły krzyżowe (bez wykonania)
 npm run test:matrix             # macierz + coverage + raporty
