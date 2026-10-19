@@ -8,6 +8,7 @@ import { createTextProfile, matchesTokens as matchTokenPhrase,
   tokenize as tokenizeText, validateTextProfile,
   textProfileForSignal } from './text.js';
 import {EngineError} from './errors.js';
+import {distinctReadings, ambiguousTranslation} from './translation-result.js';
 import {RESOURCE_LIMITS} from './resource-limits.js';
 import {
   record, hasOwn, safeName, unifyFeatures, featureSource, GRAMMATICAL_PERSON,
@@ -2731,7 +2732,15 @@ function createGrammarInterpreter(sourceDictionary, rules,
     return cloneNounPhraseCandidates(enriched);
   }
 
-  function analyze(text) { return analyzeCandidates(text)[0].interlingua; }
+  function analyze(text) {
+    const readings = distinctReadings(analyzeCandidates(text));
+    if (readings.length > 1) {
+      const result = ambiguousTranslation(readings);
+      throw new EngineError(result.diagnostics[0].code, result.diagnostics[0].message,
+        {status: 'ambiguous', diagnostics: result.diagnostics});
+    }
+    return readings[0].interlingua;
+  }
 
   /** Exposed language-neutral noun-phrase parser, reused by propositional clauses. */
   function matrixForm(lex, tense, ref, noun) {
