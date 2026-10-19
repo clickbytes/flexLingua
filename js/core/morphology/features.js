@@ -11,6 +11,15 @@ function featureError(code, message) {
   return error;
 }
 
+/** Published registry shapes are read-only: freeze the dimension clone and each
+ * of its domain arrays so later mutation attempts throw instead of corrupting
+ * the validation state. */
+function deepFreeze(value) {
+  Object.freeze(value);
+  for (const nested of Object.values(value)) if (record(nested) || Array.isArray(nested)) deepFreeze(nested);
+  return value;
+}
+
 export function createMorphFeatureRegistry(data, featureProfile) {
   const profile = featureProfile === undefined ? undefined : createLanguageFeatureProfile(featureProfile);
   const sourceDimensions = profile ? profile.morphology : data?.dimensions;
@@ -34,7 +43,7 @@ export function createMorphFeatureRegistry(data, featureProfile) {
       throw new Error(`Invalid morphology dimension ${key}.`);
     }
   }
-  const dimensions = structuredClone(sourceDimensions);
+  const dimensions = deepFreeze(structuredClone(sourceDimensions));
   const supports = (features, {partial = false} = {}) => {
     if (!record(features)) throw new Error('Morphological features must be an object.');
     for (const [key, value] of Object.entries(features)) {
