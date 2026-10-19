@@ -14,7 +14,7 @@ import {createTranslationService} from '../js/app/translation-service.js';
 import {ConversationContext} from '../js/core/conversation.js';
 import {withUncertainties} from '../js/core/translation-result.js';
 import {runCliSmoke} from './lib/cli.mjs';
-import {compareCase, comparePublicEntryPoints} from './lib/assertions.mjs';
+import {compareCase, comparePublicEntryPoints, evaluateSemanticRelations} from './lib/assertions.mjs';
 import {ALLOWED_DIRECTIONS} from './lib/discover.mjs';
 import {buildCoverage, buildInventoryCoverage} from './lib/coverage.mjs';
 import {regenerateReports, writeReports} from './lib/report.mjs';
@@ -265,8 +265,11 @@ async function main() {
   }
   if (hasErrors) {
     console.log('MATRIX: NOT RUN (invalid matrix data; required gate cannot be trusted)');
+    const semanticRelations = evaluateSemanticRelations(matrix.surfaceEquivalence?.groups, []);
     await writeReports({testsRoot: RUNNER_DIR, sha, matrix, outcomes: [], coverage: null,
-      cliSmoke: null, gates: {matrix: 'RED', coverage: 'NOT RUN', cli: 'NOT RUN'},
+      cliSmoke: null, gates: {matrix: 'RED', coverage: 'NOT RUN', cli: 'NOT RUN',
+        semanticRelations: 'NOT RUN'},
+      semanticRelations,
       notRun: ['matrix: invalid input', 'coverage', 'CLI smoke'],
       durationMs: Date.now() - started, mode: flags.all ? 'all' : flags.cli ? 'cli' : 'matrix'});
     process.exitCode = 1;
@@ -282,8 +285,11 @@ async function main() {
     console.log('MATRIX: INCOMPLETE — no approved required cases exist yet ' +
       `(cases ${matrix.cases.length}, requiredCaseIds ${declaredRequiredCases.length}); ` +
       'zero cases are never reported as PASS');
+    const semanticRelations = evaluateSemanticRelations(matrix.surfaceEquivalence?.groups, []);
     await writeReports({testsRoot: RUNNER_DIR, sha, matrix, outcomes: [], coverage: null,
-      cliSmoke: null, gates: {matrix: 'RED', coverage: 'NOT RUN', cli: 'NOT RUN'},
+      cliSmoke: null, gates: {matrix: 'RED', coverage: 'NOT RUN', cli: 'NOT RUN',
+        semanticRelations: 'NOT RUN'},
+      semanticRelations,
       notRun: ['matrix: incomplete required cases', 'coverage', 'CLI smoke'],
       durationMs: Date.now() - started, mode: flags.all ? 'all' : flags.cli ? 'cli' : 'matrix'});
     process.exitCode = 1;
@@ -365,6 +371,24 @@ async function main() {
     }
   }
 
+  const semanticRelations = evaluateSemanticRelations(matrix.surfaceEquivalence?.groups, outcomes);
+  console.log('');
+  if (!semanticRelations.declared) {
+    console.log('SEMANTIC RELATIONS: NOT RUN — no groups declared.');
+    console.log('GATE (semantic relations): NOT RUN — no relation coverage is claimed.');
+  } else {
+    console.log(`SEMANTIC RELATIONS: ${semanticRelations.passed}/${semanticRelations.declared} PASS, ` +
+      `${semanticRelations.failed} FAIL, ${semanticRelations.notRun} NOT RUN.`);
+    for (const group of semanticRelations.groups.filter(entry => entry.status !== 'PASS')) {
+      console.log(`  RELATION-${group.status} ${group.id} (${group.relation}): ` +
+        `${group.reason ?? group.differences.slice(0, 4).map(entry =>
+          `${entry.path} [${entry.caseIds.join(' / ')}]`).join(', ')}`);
+    }
+    console.log(semanticRelations.failed > 0 || semanticRelations.notRun > 0
+      ? 'GATE (semantic relations): RED — every declared relation must run and pass.'
+      : 'GATE (semantic relations): GREEN — all declared relations PASS.');
+  }
+
   const gapCount = Array.isArray(matrix.gaps?.gaps) ? matrix.gaps.gaps.length : 0;
   console.log('');
   const hasMatrixErrors = counts.fail.required + counts.fail.exploratory +
@@ -424,14 +448,20 @@ async function main() {
   }
 
   const failedRequired = counts.fail.required + counts.infra.required;
-  const matrixRed = failedRequired > 0;
+  const semanticRelationFailed = semanticRelations.declared > 0 &&
+    (semanticRelations.failed > 0 || semanticRelations.notRun > 0);
+  const matrixRed = failedRequired > 0 || semanticRelationFailed;
   const gates = {
     matrix: matrixRed ? 'RED' : 'GREEN',
     coverage: coverageFailed ? 'RED' : 'GREEN',
-    cli: (flags.cli || flags.all) ? (cliFailed ? 'RED' : 'GREEN') : 'NOT RUN'
+    cli: (flags.cli || flags.all) ? (cliFailed ? 'RED' : 'GREEN') : 'NOT RUN',
+    semanticRelations: !semanticRelations.declared ? 'NOT RUN' :
+      semanticRelationFailed ? 'RED' : 'GREEN'
   };
   if (matrixRed) {
-    console.log(`GATE: RED — ${failedRequired} required case(s) did not pass. Merge to main stays blocked.`);
+    console.log(`GATE: RED — ${failedRequired} required case(s) did not pass; ` +
+      `${semanticRelations.failed} semantic relation(s) FAIL, ${semanticRelations.notRun} NOT RUN. ` +
+      'Merge to main stays blocked.');
   } else {
     console.log(`GATE (matrix): GREEN — ${outcomes.length} executed case(s), required (${declaredRequiredCases.length}) all PASS.`);
   }
@@ -446,7 +476,7 @@ async function main() {
 
   if (flags.report) {
     const written = await writeReports({testsRoot: RUNNER_DIR, sha, matrix, outcomes,
-      coverage: coverageResult, cliSmoke: cliResults, gates, notRun: notRunLabels,
+      coverage: coverageResult, cliSmoke: cliResults, semanticRelations, gates, notRun: notRunLabels,
       durationMs: Date.now() - started, mode: flags.all ? 'all' : flags.cli ? 'cli' : 'matrix'});
     console.log(`REPORTS: ${written.files.join(', ')}`);
   }
