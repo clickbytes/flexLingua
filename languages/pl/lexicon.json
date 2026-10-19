@@ -13014,6 +13014,979 @@
           }
         }
       ]
+    },
+    {
+      "id": "pl.krolik.1",
+      "lemma": "królik",
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.krolik.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.rabbit"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.kon.1",
+      "lemma": "koń",
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.kon.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.horse"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.krowa.1",
+      "lemma": "krowa",
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.krowa.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.cow"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.owca.1",
+      "lemma": "owca",
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.owca.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.sheep"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.koza.1",
+      "lemma": "koza",
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.koza.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.goat"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.swinia.1",
+      "lemma": "świnia",
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.swinia.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.pig"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.kura.1",
+      "lemma": "kura",
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.kura.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.chicken"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.jelen.1",
+      "lemma": "jeleń",
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.jelen.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.deer"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.lew.1",
+      "lemma": "lew",
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.lew.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.lion"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.tygrys.1",
+      "lemma": "tygrys",
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.tygrys.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.tiger"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.delfin.1",
+      "lemma": "delfin",
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.delfin.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.dolphin"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.rekin.1",
+      "lemma": "rekin",
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.rekin.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.shark"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.pszczola.1",
+      "lemma": "pszczoła",
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.pszczola.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.bee"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.motyl.1",
+      "lemma": "motyl",
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.motyl.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.butterfly"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.pajak.1",
+      "lemma": "pająk",
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.pajak.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.spider"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.foka.1",
+      "lemma": "foka",
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.foka.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.seal"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.wielblad.1",
+      "lemma": "wielbłąd",
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.wielblad.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.camel"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.mrowka.1",
+      "lemma": "mrówka",
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.mrowka.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.ant"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.krab.1",
+      "lemma": "krab",
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.krab.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.crab"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.osmiornica.1",
+      "lemma": "ośmiornica",
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.osmiornica.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.octopus"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.wieloryb.1",
+      "lemma": "wieloryb",
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.wieloryb.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.whale"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.osiol.1",
+      "lemma": "osioł",
+      "gender": "masculine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.osiol.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.donkey"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.koala.1",
+      "lemma": "koala",
+      "gender": "feminine",
+      "pluralClass": "nonvirile",
+      "animacy": "animate",
+      "senses": [
+        {
+          "id": "pl.koala.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.koala"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.zuraw.1",
+      "lemma": "żuraw",
+      "senses": [
+        {
+          "id": "pl.zuraw.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.crane"
+          }
+        },
+        {
+          "id": "pl.zuraw.1.sense.2",
+          "coreRef": {
+            "kind": "concept",
+            "id": "machine.crane"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.nosorozec.1",
+      "lemma": "nosorożec",
+      "senses": [
+        {
+          "id": "pl.nosorozec.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.rhinoceros"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.hipopotam.1",
+      "lemma": "hipopotam",
+      "senses": [
+        {
+          "id": "pl.hipopotam.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.hippopotamus"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.goryl.1",
+      "lemma": "goryl",
+      "senses": [
+        {
+          "id": "pl.goryl.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.gorilla"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.szympans.1",
+      "lemma": "szympans",
+      "senses": [
+        {
+          "id": "pl.szympans.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.chimpanzee"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.panda.1",
+      "lemma": "panda",
+      "senses": [
+        {
+          "id": "pl.panda.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.panda"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.nietoperz.1",
+      "lemma": "nietoperz",
+      "senses": [
+        {
+          "id": "pl.nietoperz.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.bat"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.szczur.1",
+      "lemma": "szczur",
+      "senses": [
+        {
+          "id": "pl.szczur.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.rat"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.chomik.1",
+      "lemma": "chomik",
+      "senses": [
+        {
+          "id": "pl.chomik.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.hamster"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.swinka_morska.1",
+      "lemma": "świnka morska",
+      "senses": [
+        {
+          "id": "pl.swinka_morska.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.guinea_pig"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.sokol.1",
+      "lemma": "sokół",
+      "senses": [
+        {
+          "id": "pl.sokol.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.falcon"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.mors.1",
+      "lemma": "mors",
+      "senses": [
+        {
+          "id": "pl.mors.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.walrus"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.lemur.1",
+      "lemma": "lemur",
+      "senses": [
+        {
+          "id": "pl.lemur.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.lemur"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.hiena.1",
+      "lemma": "hiena",
+      "senses": [
+        {
+          "id": "pl.hiena.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.hyena"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.flaming.1",
+      "lemma": "flaming",
+      "senses": [
+        {
+          "id": "pl.flaming.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.flamingo"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.szop_pracz.1",
+      "lemma": "szop pracz",
+      "senses": [
+        {
+          "id": "pl.szop_pracz.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "animal.raccoon"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.grzyb.1",
+      "lemma": "grzyb",
+      "senses": [
+        {
+          "id": "pl.grzyb.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.mushroom"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.kapusta.1",
+      "lemma": "kapusta",
+      "senses": [
+        {
+          "id": "pl.kapusta.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.cabbage"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.salata.1",
+      "lemma": "sałata",
+      "senses": [
+        {
+          "id": "pl.salata.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.lettuce"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.szpinak.1",
+      "lemma": "szpinak",
+      "senses": [
+        {
+          "id": "pl.szpinak.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.spinach"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.seler.1",
+      "lemma": "seler",
+      "senses": [
+        {
+          "id": "pl.seler.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.celery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.burak.1",
+      "lemma": "burak",
+      "senses": [
+        {
+          "id": "pl.burak.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.beetroot"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.rzodkiewka.1",
+      "lemma": "rzodkiewka",
+      "senses": [
+        {
+          "id": "pl.rzodkiewka.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.radish"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.malina.1",
+      "lemma": "malina",
+      "senses": [
+        {
+          "id": "pl.malina.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.raspberry"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.zurawina.1",
+      "lemma": "żurawina",
+      "senses": [
+        {
+          "id": "pl.zurawina.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.cranberry"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.orzech_wloski.1",
+      "lemma": "orzech włoski",
+      "senses": [
+        {
+          "id": "pl.orzech_wloski.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "food.walnut"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.parasol.1",
+      "lemma": "parasol",
+      "senses": [
+        {
+          "id": "pl.parasol.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.umbrella"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.kask.1",
+      "lemma": "kask",
+      "senses": [
+        {
+          "id": "pl.kask.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.helmet"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.latarka.1",
+      "lemma": "latarka",
+      "senses": [
+        {
+          "id": "pl.latarka.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.flashlight"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.kosz_na_smieci.1",
+      "lemma": "kosz na śmieci",
+      "senses": [
+        {
+          "id": "pl.kosz_na_smieci.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.waste_bin"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.skrzynka_pocztowa.1",
+      "lemma": "skrzynka pocztowa",
+      "senses": [
+        {
+          "id": "pl.skrzynka_pocztowa.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.mailbox"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.gasnica.1",
+      "lemma": "gaśnica",
+      "senses": [
+        {
+          "id": "pl.gasnica.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.fire_extinguisher"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.czajnik.1",
+      "lemma": "czajnik",
+      "senses": [
+        {
+          "id": "pl.czajnik.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.kettle"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.toster.1",
+      "lemma": "toster",
+      "senses": [
+        {
+          "id": "pl.toster.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.toaster"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.zmywarka.1",
+      "lemma": "zmywarka",
+      "senses": [
+        {
+          "id": "pl.zmywarka.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.dishwasher"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.budzik.1",
+      "lemma": "budzik",
+      "senses": [
+        {
+          "id": "pl.budzik.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "object.alarm_clock"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.muzeum.1",
+      "lemma": "muzeum",
+      "senses": [
+        {
+          "id": "pl.muzeum.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.museum"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.kino.1",
+      "lemma": "kino",
+      "senses": [
+        {
+          "id": "pl.kino.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.cinema"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.teatr.1",
+      "lemma": "teatr",
+      "senses": [
+        {
+          "id": "pl.teatr.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.theater"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.ogrod_zoologiczny.1",
+      "lemma": "ogród zoologiczny",
+      "senses": [
+        {
+          "id": "pl.ogrod_zoologiczny.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.zoo"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.plac_zabaw.1",
+      "lemma": "plac zabaw",
+      "senses": [
+        {
+          "id": "pl.plac_zabaw.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.playground"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.basen.1",
+      "lemma": "basen",
+      "senses": [
+        {
+          "id": "pl.basen.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.swimming_pool"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.gospodarstwo.1",
+      "lemma": "gospodarstwo",
+      "senses": [
+        {
+          "id": "pl.gospodarstwo.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.farm"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.urzad_pocztowy.1",
+      "lemma": "urząd pocztowy",
+      "senses": [
+        {
+          "id": "pl.urzad_pocztowy.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.post_office"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.remiza_strazacka.1",
+      "lemma": "remiza strażacka",
+      "senses": [
+        {
+          "id": "pl.remiza_strazacka.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.fire_station"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.komisariat.1",
+      "lemma": "komisariat",
+      "senses": [
+        {
+          "id": "pl.komisariat.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "place.police_station"
+          }
+        }
+      ]
     }
   ],
   "verbs": [

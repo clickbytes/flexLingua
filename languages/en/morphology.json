@@ -464,6 +464,20 @@
           ]
         }
       ]
+    },
+    "en.noun.w8_singular": {
+      "pos": "NOUN",
+      "slots": [
+        {
+          "features": {
+            "number": "singular"
+          },
+          "steps": [],
+          "path": [
+            "singular"
+          ]
+        }
+      ]
     }
   },
   "bindings": [
@@ -4806,6 +4820,190 @@
       "paradigmId": "en.adj.invariant",
       "stems": {
         "base": "empty"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.rabbit.1",
+      "paradigmId": "en.noun.w8_singular",
+      "stems": {
+        "base": "rabbit"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.horse.1",
+      "paradigmId": "en.noun.w8_singular",
+      "stems": {
+        "base": "horse"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.cow.1",
+      "paradigmId": "en.noun.w8_singular",
+      "stems": {
+        "base": "cow"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.sheep.1",
+      "paradigmId": "en.noun.w8_singular",
+      "stems": {
+        "base": "sheep"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.goat.1",
+      "paradigmId": "en.noun.w8_singular",
+      "stems": {
+        "base": "goat"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.pig.1",
+      "paradigmId": "en.noun.w8_singular",
+      "stems": {
+        "base": "pig"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.chicken.1",
+      "paradigmId": "en.noun.w8_singular",
+      "stems": {
+        "base": "chicken"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.deer.1",
+      "paradigmId": "en.noun.w8_singular",
+      "stems": {
+        "base": "deer"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.lion.1",
+      "paradigmId": "en.noun.w8_singular",
+      "stems": {
+        "base": "lion"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.tiger.1",
+      "paradigmId": "en.noun.w8_singular",
+      "stems": {
+        "base": "tiger"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.dolphin.1",
+      "paradigmId": "en.noun.w8_singular",
+      "stems": {
+        "base": "dolphin"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.shark.1",
+      "paradigmId": "en.noun.w8_singular",
+      "stems": {
+        "base": "shark"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.bee.1",
+      "paradigmId": "en.noun.w8_singular",
+      "stems": {
+        "base": "bee"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.butterfly.1",
+      "paradigmId": "en.noun.w8_singular",
+      "stems": {
+        "base": "butterfly"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.spider.1",
+      "paradigmId": "en.noun.w8_singular",
+      "stems": {
+        "base": "spider"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.seal.1",
+      "paradigmId": "en.noun.w8_singular",
+      "stems": {
+        "base": "seal"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.camel.1",
+      "paradigmId": "en.noun.w8_singular",
+      "stems": {
+        "base": "camel"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.ant.1",
+      "paradigmId": "en.noun.w8_singular",
+      "stems": {
+        "base": "ant"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.crab.1",
+      "paradigmId": "en.noun.w8_singular",
+      "stems": {
+        "base": "crab"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.octopus.1",
+      "paradigmId": "en.noun.w8_singular",
+      "stems": {
+        "base": "octopus"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.whale.1",
+      "paradigmId": "en.noun.w8_singular",
+      "stems": {
+        "base": "whale"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.donkey.1",
+      "paradigmId": "en.noun.w8_singular",
+      "stems": {
+        "base": "donkey"
+      },
+      "overrides": []
+    },
+    {
+      "lexemeId": "en.koala.1",
+      "paradigmId": "en.noun.w8_singular",
+      "stems": {
+        "base": "koala"
       },
       "overrides": []
     }
