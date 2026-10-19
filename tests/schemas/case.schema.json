@@ -877,6 +877,28 @@
           "additionalProperties": { "type": "string" }
         },
         "featuresAllowExtra": { "type": "boolean" },
+        "timeReference": {
+          "enum": ["today", "tomorrow", "yesterday"]
+        },
+        "clockTime": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["hour", "minute"],
+          "properties": {
+            "hour": { "type": "integer", "minimum": 0, "maximum": 23 },
+            "minute": { "type": "integer", "minimum": 0, "maximum": 59 }
+          }
+        },
+        "calendarDate": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["year", "month", "day"],
+          "properties": {
+            "year": { "type": "integer", "minimum": 1, "maximum": 9999 },
+            "month": { "type": "integer", "minimum": 1, "maximum": 12 },
+            "day": { "type": "integer", "minimum": 1, "maximum": 31 }
+          }
+        },
         "assert": {
           "type": "object",
           "maxProperties": 40,
