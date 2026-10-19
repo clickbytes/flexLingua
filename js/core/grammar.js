@@ -3253,6 +3253,19 @@ function createGrammarInterpreter(sourceDictionary, rules,
         subjectPronoun!==subjectPronounFor(meaning.roles?.[subjectRole]))) {
       unsupported('Unsupported subject pronoun realization.');
     }
+    // Enumerate every pre-branch dispatch: only the plain event path below
+    // supports full option handling; the remaining constructions share one
+    // uniform validation instead of silently dropping unsupported options.
+    const structuredPath=meaning?.type==='question'||meaning?.type==='comparison'||meaning?.type==='state'||
+        meaning?.voice==='passive'||modalParts(meaning);
+    if(typeof includeSegments!=='boolean'||!Array.isArray(sourceSegments)||sourceSegments.length>64||
+        typeof omitDeicticSubject!=='boolean')
+      unsupported('Invalid segment request.');
+    if(structuredPath&&(informationStructure!==undefined||includeSegments===true||
+        sourceSegments.length>0||omitDeicticSubject===true))
+      unsupported(`Unsupported realize option for ${meaning?.type==='question'?'question':
+        meaning?.type==='comparison'?'comparison':meaning?.type==='state'?'state':
+        meaning?.voice==='passive'?'passive':'modal'} realization; information structure, segments and deictic-subject omission are supported by plain events only.`);
     if(meaning?.type==='question')return realizeQuestion(meaning,{semanticTransfer});
     if(meaning?.type==='comparison')return realizeComparison(meaning);
     if(meaning?.type==='state')return realizeState(meaning);
@@ -3266,9 +3279,6 @@ function createGrammarInterpreter(sourceDictionary, rules,
       if(!sequence)unsupported(`No ${dictionary.language} information-structure variant for ${focus}.`);
     }
     const agreementControllers = agreementContextForTransfer(meaning, semanticTransfer);
-    if(typeof includeSegments!=='boolean'||!Array.isArray(sourceSegments)||sourceSegments.length>64||
-        typeof omitDeicticSubject!=='boolean')
-      unsupported('Invalid segment request.');
     const built = renderEvent(meaning, undefined, 0, null,
       {subjectPronoun,lexicalRegister,sequence,agreementControllers,omitDeicticSubject});
     const { candidates, preferred, linearize } = built;
