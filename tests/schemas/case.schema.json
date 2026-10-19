@@ -84,6 +84,17 @@
               }
             }
           }
+        },
+        "search": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "maxReadings": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 16
+            }
+          }
         }
       }
     },
@@ -308,6 +319,117 @@
               }
             },
             "allowUnexpected": {
+              "type": "boolean"
+            }
+          }
+        },
+        "interpretations": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "required",
+            "allowUnexpected",
+            "preview",
+            "tied"
+          ],
+          "properties": {
+            "required": {
+              "type": "array",
+              "maxItems": 16,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "meaning",
+                  "status",
+                  "texts",
+                  "ruleIds"
+                ],
+                "properties": {
+                  "meaning": {
+                    "$ref": "#/$defs/meaning"
+                  },
+                  "status": {
+                    "enum": [
+                      "ok",
+                      "unsupported",
+                      "resource_limit"
+                    ]
+                  },
+                  "texts": {
+                    "type": "array",
+                    "maxItems": 32,
+                    "uniqueItems": true,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    }
+                  },
+                  "assumptions": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 64
+                  },
+                  "rank": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 16
+                  },
+                  "ruleIds": {
+                    "type": "array",
+                    "maxItems": 32,
+                    "uniqueItems": true,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    }
+                  },
+                  "diagnosticCodes": {
+                    "type": "array",
+                    "maxItems": 32,
+                    "uniqueItems": true,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    }
+                  }
+                }
+              }
+            },
+            "allowUnexpected": {
+              "type": "boolean"
+            },
+            "preview": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "accepted"
+                  ],
+                  "properties": {
+                    "accepted": {
+                      "type": "array",
+                      "maxItems": 32,
+                      "uniqueItems": true,
+                      "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                      },
+                      "minItems": 1
+                    }
+                  }
+                }
+              ]
+            },
+            "tied": {
               "type": "boolean"
             }
           }

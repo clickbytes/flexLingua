@@ -353,7 +353,7 @@ function compareTypedGraph(policy, document, engine, fail, observed) {
   return malformedGraph || malformedSourcePaths ? 'infra' : null;
 }
 
-export function compareCase(item, document, {engine} = {}) {
+export function compareCase(item, document, {engine, analysisOnly = false} = {}) {
   const failures = [];
   const format = value => isRecord(value) || Array.isArray(value)
     ? JSON.stringify(value) : value === undefined ? 'none' : String(value);
@@ -383,6 +383,7 @@ export function compareCase(item, document, {engine} = {}) {
         .every(([key, value]) => sameJson(value, got[key])),
       fail, '/uncertainties', {allowUnexpected: expected.uncertainties.allowUnexpected});
   }
+  if (!analysisOnly) compareInterpretations(expected.interpretations, document, fail);
 
   if (nfc(document?.status) !== nfc(expected.status)) {
     fail('status', expected.status, document?.status ?? 'none');
@@ -470,6 +471,49 @@ function canonical(value) {
   return value;
 }
 
+function compareInterpretations(policy, document, fail) {
+  const interpretations = document?.interpretations;
+  if (!Array.isArray(interpretations)) {
+    fail('/interpretations', 'an array of complete readings', interpretations);
+    return;
+  }
+  const ids = new Set();
+  const realizations = interpretations.flatMap(item => item.realizations ?? []);
+  for (const item of [...interpretations, ...realizations]) {
+    if (typeof item.id !== 'string' || ids.has(item.id)) fail('/interpretations/id', 'unique stable ID', item.id);
+    ids.add(item.id);
+  }
+  for (const interpretation of interpretations) {
+    for (const realization of interpretation.realizations ?? []) {
+      if (realization.interpretationId !== interpretation.id) {
+        fail('/interpretations/link', interpretation.id, realization.interpretationId);
+      }
+    }
+  }
+  const preview = realizations.find(item => item.id === document.previewId);
+  if (document.previewId !== null && !preview) fail('/previewId', 'an available whole-sentence realization or null', document.previewId);
+  if (!policy) return;
+  compareMultiset(policy.required, interpretations, (wanted, actual) => {
+    const problems = [];
+    compareMeaning(wanted.meaning, actual.meaning, (...args) => problems.push(args));
+    return !problems.length && wanted.status === actual.status &&
+      sameJson([...wanted.texts].map(nfc).sort(), actual.realizations.map(item => nfc(item.text)).sort()) &&
+      (wanted.rank === undefined || wanted.rank === actual.rank) &&
+      (wanted.assumptions === undefined || (actual.score.assumptions === wanted.assumptions &&
+        actual.realizations.every(item => item.assumptions.length === wanted.assumptions &&
+          item.kind === (wanted.assumptions ? 'additional_assumption' : 'equivalent_expression')))) &&
+      (wanted.ruleIds ?? []).every(id => actual.ruleIds.includes(id) && actual.reasons.some(reason => reason.ruleId === id)) &&
+      (wanted.diagnosticCodes === undefined || sameJson(wanted.diagnosticCodes.slice().sort(), actual.diagnostics.map(item => item.code).sort()));
+  }, fail, '/interpretations', {allowUnexpected:policy.allowUnexpected});
+  if (policy.preview === null) {
+    if (document.previewId !== null) fail('/previewId', null, document.previewId);
+  } else if (!policy.preview.accepted.map(nfc).includes(nfc(preview?.text))) {
+    fail('/preview/text', policy.preview.accepted, preview?.text);
+  }
+  const tied = interpretations.length > 1 && interpretations[0].rank === interpretations[1].rank;
+  if (tied !== policy.tied) fail('/interpretations/tied', policy.tied, tied);
+}
+
 export function comparePublicEntryPoints(item, document, engine) {
   const failures = [];
   const checks = {};
@@ -491,7 +535,7 @@ export function comparePublicEntryPoints(item, document, engine) {
           if (error?.status !== 'ambiguous' || error?.code !== 'AMBIGUOUS_MEANING') {
             add(api, 'refusal', 'typed semantic ambiguity', error?.code ?? meaning);
           }
-          for (const failure of compareCase(item, error?.result, {engine}).failures) {
+          for (const failure of compareCase(item, error?.result, {engine, analysisOnly:true}).failures) {
             add(api, failure.path, failure.expected, failure.actual);
           }
         } else if (!error || error.status !== item.expected.status ||
@@ -508,7 +552,7 @@ export function comparePublicEntryPoints(item, document, engine) {
         for (const failure of compareCase(item, value, {engine}).failures) {
           add(api, failure.path, failure.expected, failure.actual);
         }
-        for (const field of ['status','text','meaning','alternatives','informationLoss','uncertainties']) {
+        for (const field of ['status','text','meaning','alternatives','informationLoss','uncertainties','interpretations','previewId']) {
           if (!sameJson(value?.[field], document?.[field])) {
             add(api, field, document?.[field], value?.[field]);
           }

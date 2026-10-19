@@ -38,6 +38,10 @@ Opcjonalne `expected.uncertainties:{required,allowUnexpected}` sprawdza rodzaj, 
 
 `input.context` może zawierać jawne `topics` i `senses`. Różne konteksty są różnymi żądaniami, a kolejność kluczy lub tematów nie tworzy nowego przypadku. Taki przypadek ma `cliSmoke:false`, dopóki CLI nie udostępnia wejścia kontekstowego; nie przypisujemy mu niewykonanego sprawdzenia CLI.
 
+`expected.interpretations` sprawdza znaczenie i status każdego odczytania, kompletne teksty realizacji, liczbę założeń, identyfikatory reguł, pozycję i remis oraz tekst dostępnego podglądu. Runner zawsze sprawdza unikalność ID i powiązania realizacji z odczytaniem. Dane są zapisane w `matrix.json`. `analyze` jest sprawdzany wobec źródłowego znaczenia/odmowy; realizacje docelowe sprawdzają `translate`, `tryTranslate` i serwis.
+
+`input.search.maxReadings` (1–16) pozwala sprawdzić kontrolowane przekroczenie budżetu na prawdziwym zdaniu. Budżet jest częścią tożsamości żądania. Takie przypadki także mają `cliSmoke:false`, dopóki CLI nie udostępnia tego parametru. Przypadki `proposed` nadal są eksploracyjne nawet po pozytywnym wykonaniu; nie zwiększają zatwierdzonego pokrycia.
+
 `expected.graph` jest opcjonalną projekcją sprawdzaną po tekście i MeaningGraph przez tę samą produkcyjną `Engine.projectMeaningGraph`. Ma wymagane `requiredEdges[]`, `forbiddenEdges[]` i `allowUnexpected`; każda krawędź zapisuje `fromPath` (JSON Pointer źródła MeaningGraph), `relation` i kanoniczny `toConcept`. Walidator sprawdza źródło, cel i sygnaturę relacji na skompilowanym CORE przed uruchomieniem zdań. Brak projekcji lub niekompletne `sourcePaths` to INFRA; brak/nadmiar krawędzi to FAIL. Nierozwiązane fragmenty projekcji nie przechodzą asercji grafowej.
 
 Dla `unsupported|invalid|resource_limit` wymagane są `text:null`, `meaning:null`, puste alternatywy i lista wymaganych kodów diagnostyki. Dla `ambiguous` wymagany jest zbiór co najmniej dwóch odrębnych sensów (porównywane znaczeń, nie tylko liczby) oraz kod `AMBIGUOUS_MEANING`; runner nie wybiera arbitralnego tekstu.

@@ -158,7 +158,7 @@ function checkDuplicateRequiredInputs(cases, issues) {
       normalizeInput(item.input.text, item.input.from),
       [...(item.input.context?.topics ?? [])].sort(),
       Object.fromEntries(Object.entries(item.input.context?.senses ?? {}).sort(([a], [b]) =>
-        a < b ? -1 : a > b ? 1 : 0))]);
+        a < b ? -1 : a > b ? 1 : 0)), item.input.search?.maxReadings ?? 16]);
     const first = seen.get(key);
     if (first) {
       issues.push({kind: 'duplicate-input', file: item.file, id: item.id, severity: 'error',
@@ -182,9 +182,9 @@ function checkCaseRules(item, issues, ontology) {
       message: 'This matrix only accepts single-sentence cases.'});
   }
   const review = item.review;
-  if (item.input?.context !== undefined && item.cliSmoke === true) {
+  if ((item.input?.context !== undefined || item.input?.search !== undefined) && item.cliSmoke === true) {
     issues.push({kind: 'input', file: item.file, id, severity: 'error',
-      message: 'Context-bearing cases cannot claim CLI smoke before CLI context input is supported.'});
+      message: 'Context/search cases cannot claim CLI smoke before those CLI inputs are supported.'});
   }
   if (item.tier === 'required' && review.status !== 'approved') {
     issues.push({kind: 'review', file: item.file, id, severity: 'error',
