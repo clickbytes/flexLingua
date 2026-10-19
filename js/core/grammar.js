@@ -2105,7 +2105,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
     ['@verb',...seq.filter(step=>step!=='@verb'&&step!=='theme'),'theme']);
   const normalizedWord=value=>value.toLocaleLowerCase(grammar.language);
   const questionBudget=counter=>searchBudget(counter);
-  const auxiliaryQuestionVariants=questions?.yesNo?[
+  const auxiliaryQuestionVariants=questions?.yesNo?.auxiliaries?[
     {word:questions.yesNo.auxiliaries.past,tense:'past',when:null},
     {word:questions.yesNo.auxiliaries.presentFirst,tense:'present',when:{'subject.person':'first'}},
     {word:questions.yesNo.auxiliaries.presentSecond,tense:'present',when:{'subject.person':'second'}},
@@ -2133,7 +2133,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
   }
   let progressiveVerbEntriesByPrefix;
   function progressiveVerbEntries(prefix) {
-    if(!questions?.yesNo)return [];
+    if(!questions?.yesNo?.auxiliaries)return [];
     if(!progressiveVerbEntriesByPrefix) {
       progressiveVerbEntriesByPrefix=new Map();
       for(const entry of verbForms) {
