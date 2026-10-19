@@ -197,7 +197,7 @@ export function createMorphology(spec, dictionary, featureSpec, options={}) {
       return bindings.get(lexemeId).cells.map(output);
     },
     describe(){return {language:spec.language,lexemes:bindings.size,paradigms:resolved.size,
-      forms:[...bindings.values()].reduce((sum,b)=>sum+b.forms.length,0),featuresVersion:registry.version,
+      forms:compiledCount,featuresVersion:registry.version,
       ...(featureProfile?{featureProfile}: {})};}
   });
   RUNTIME_PARADIGMS.set(provider,runtimeViews);

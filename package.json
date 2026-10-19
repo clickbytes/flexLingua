@@ -13,7 +13,7 @@
     "compile:pl": "node tools/compile-language.mjs pl",
     "compile:en": "node tools/compile-language.mjs en",
     "compile:ar": "node tools/compile-language.mjs ar",
-    "test": "npm run test:ci",
+    "test": "node tests/run.mjs --all",
     "test:validate": "node tests/run.mjs --validate",
     "test:matrix": "node tests/run.mjs --matrix",
     "test:cli": "node tests/run.mjs --cli",

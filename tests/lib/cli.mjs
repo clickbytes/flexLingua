@@ -1,7 +1,7 @@
 /**
  * Batched CLI verifier for cliSmoke-tagged cases. One case exercises the shipped
  * process entry point; the remaining cases reuse the same CLI command function
- * and a runtime per direction.
+ * and a runtime per language set.
  */
 
 import {execFile} from 'node:child_process';
@@ -45,11 +45,11 @@ export async function runCliSmoke({cases, serviceDocuments, engine, repoRoot, on
   }
 
   async function runtimeFor(item) {
-    const key = `${item.input.from}->${item.input.to}`;
+    const pluginCodes = [...new Set([item.input.from, item.input.to])].sort();
+    const key = pluginCodes.join(',');
     let runtimePromise = runtimes.get(key);
     if (!runtimePromise) {
-      runtimePromise = createAppRuntime({root: repoRoot,
-        pluginCodes: [...new Set([item.input.from, item.input.to])]});
+      runtimePromise = createAppRuntime({root: repoRoot, pluginCodes});
       runtimes.set(key, runtimePromise);
     }
     return runtimePromise;
