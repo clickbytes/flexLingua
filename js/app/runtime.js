@@ -21,9 +21,8 @@ export async function listLanguages(root = DEFAULT_PROJECT_ROOT) {
       Object.keys(registry.plugins).length === 0) {
     throw new Error('Invalid language registry.');
   }
-  const languages = [];
-  for (const [code, directory] of Object.entries(registry.plugins).sort(([a], [b]) =>
-    a.localeCompare(b))) {
+  const entries=Object.entries(registry.plugins).sort(([a], [b])=>a.localeCompare(b));
+  return Promise.all(entries.map(async ([code,directory])=>{
     if (!CODE.test(code) || directory !== code) throw new Error(`Invalid registry entry for ${code}.`);
     try {
       const manifest = await readJson(join(root, 'languages', directory, 'manifest.json'));
@@ -35,16 +34,15 @@ export async function listLanguages(root = DEFAULT_PROJECT_ROOT) {
               !DIRECTION.test(direction))))) {
         throw new Error('Invalid manifest identity, status, capabilities, or directions.');
       }
-      languages.push({code, status: manifest.status, capabilities: manifest.capabilities,
+      return {code, status: manifest.status, capabilities: manifest.capabilities,
         ...(manifest.directions === undefined ? {} : {directions: manifest.directions}),
-        diagnostics: []});
+        diagnostics: []};
     } catch (error) {
-      languages.push({code, status: 'unavailable', capabilities: [],
+      return {code, status: 'unavailable', capabilities: [],
         diagnostics: [{code: 'PLUGIN_PACKAGE_UNAVAILABLE',
-          message: `Cannot inspect ${code} package: ${error.message}`}]});
+          message: `Cannot inspect ${code} package: ${error.message}`}]};
     }
-  }
-  return languages;
+  }));
 }
 
 /** Build one shared CORE, PluginRegistry, and Engine for application services. */

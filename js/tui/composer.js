@@ -1,6 +1,15 @@
-import {codePointCount, cursorIndexAtOrAfter, graphemes, layoutText, sanitizeText, textWidth} from './text.js';
+import {codePointCount, graphemes, layoutText, sanitizeText, textWidth} from './text.js';
 
 export const MAX_DRAFT_CODE_POINTS = 4000;
+const draftSegmentCache = new WeakMap();
+
+function draftSegments(state, draft = String(state.draft ?? '')) {
+  const cached = draftSegmentCache.get(state);
+  if (cached?.draft === draft) return cached.items;
+  const items = graphemes(draft);
+  draftSegmentCache.set(state, {draft, items});
+  return items;
+}
 
 function clampCursor(state, count) {
   state.cursor = Math.max(0, Math.min(Number.isFinite(state.cursor) ? state.cursor : 0, count));
@@ -8,12 +17,25 @@ function clampCursor(state, count) {
 }
 
 function setCursorFromPointOffset(state, draft, pointOffset) {
-  state.cursor = cursorIndexAtOrAfter(draft, pointOffset);
+  const items = draftSegments(state, draft);
+  const target = Math.max(0, Number.isFinite(pointOffset) ? pointOffset : 0);
+  let points = 0;
+  state.cursor = items.length;
+  for (let index = 0; index < items.length; index++) {
+    if (points >= target) {
+      state.cursor = index;
+      break;
+    }
+    points += codePointCount(items[index]);
+    if (points >= target) {
+      state.cursor = index + 1;
+      break;
+    }
+  }
   state.preferredColumn = null;
 }
 
-function deleteAt(state, start, end) {
-  const items = graphemes(state.draft);
+function deleteAt(state, start, end, items = draftSegments(state)) {
   const prefix = items.slice(0, start).join('');
   const next = prefix + items.slice(end).join('');
   state.draft = next;
@@ -32,7 +54,7 @@ export function insertDraftText(state, value, {maxCodePoints = MAX_DRAFT_CODE_PO
     return {accepted: false, changed: false, reason: 'too_many_code_points'};
   }
 
-  const items = graphemes(draft);
+  const items = draftSegments(state, draft);
   const cursor = clampCursor(state, items.length);
   const prefix = items.slice(0, cursor).join('');
   const suffix = items.slice(cursor).join('');
@@ -46,9 +68,8 @@ export function insertDraftText(state, value, {maxCodePoints = MAX_DRAFT_CODE_PO
 }
 
 function moveVertical(state, direction, availableWidth) {
-  const items = graphemes(state.draft);
   const layout = layoutText(state.draft, availableWidth);
-  const cursor = clampCursor(state, items.length);
+  const cursor = clampCursor(state, layout.graphemeCount);
   const position = layout.cursorPositions[cursor] ?? {row: 0, column: 0};
   const targetRowIndex = position.row + direction;
   if (targetRowIndex < 0 || targetRowIndex >= layout.rows.length) return false;
@@ -66,8 +87,7 @@ function moveVertical(state, direction, availableWidth) {
   return true;
 }
 
-function moveToLogicalLineBoundary(state, end) {
-  const items = graphemes(state.draft);
+function moveToLogicalLineBoundary(state, end, items) {
   const cursor = clampCursor(state, items.length);
   const previousLineFeed = items.lastIndexOf('\n', cursor - 1);
   const nextLineFeed = items.indexOf('\n', cursor);
@@ -78,15 +98,20 @@ function moveToLogicalLineBoundary(state, end) {
 export function editDraft(state, action, {width = 40, promptPrefix = '› '} = {}) {
   const prefixWidth = textWidth(promptPrefix);
   const availableWidth = Math.max(1, width - prefixWidth);
-  const items = graphemes(state.draft);
-  const cursor = clampCursor(state, items.length);
   if (action.type === 'text') return insertDraftText(state, action.value);
+  if (action.type === 'cursor_up' || action.type === 'cursor_down') {
+    moveVertical(state, action.type === 'cursor_up' ? -1 : 1, availableWidth);
+    state.composerViewportTop ??= 0;
+    return {accepted: true, changed: false};
+  }
+  const items = draftSegments(state);
+  const cursor = clampCursor(state, items.length);
   if (action.type === 'backspace' && cursor > 0) {
-    deleteAt(state, cursor - 1, cursor);
+    deleteAt(state, cursor - 1, cursor, items);
     return {accepted: true, changed: true};
   }
   if (action.type === 'delete' && cursor < items.length) {
-    deleteAt(state, cursor, cursor + 1);
+    deleteAt(state, cursor, cursor + 1, items);
     return {accepted: true, changed: true};
   }
   if (action.type === 'cursor_left') {
@@ -96,13 +121,9 @@ export function editDraft(state, action, {width = 40, promptPrefix = '› '} = {
     state.cursor = Math.min(items.length, cursor + 1);
     state.preferredColumn = null;
   } else if (action.type === 'cursor_home') {
-    moveToLogicalLineBoundary(state, false);
+    moveToLogicalLineBoundary(state, false, items);
   } else if (action.type === 'cursor_end') {
-    moveToLogicalLineBoundary(state, true);
-  } else if (action.type === 'cursor_up') {
-    moveVertical(state, -1, availableWidth);
-  } else if (action.type === 'cursor_down') {
-    moveVertical(state, 1, availableWidth);
+    moveToLogicalLineBoundary(state, true, items);
   }
   state.composerViewportTop ??= 0;
   return {accepted: true, changed: false};

@@ -58,7 +58,7 @@ Dla `unsupported|invalid|resource_limit` wymagane są `text:null`, `meaning:null
 ```sh
 npm run test:validate           # tylko schematy i reguły krzyżowe (bez wykonania)
 npm run test:matrix             # macierz + coverage + raporty
-npm run test:cli                # macierz + coverage + smoke procesu CLI + raporty
+npm run test:cli                # macierz + coverage + batchowy smoke CLI + raporty
 npm run test:report             # odtworzenie Markdown/JUnit z istniejącego matrix.json
 npm run test:ci                 # pełny gate: validate + matrix + coverage + CLI smoke + raporty
 npm test                        # ten sam pełny gate co test:ci i GitHub Actions
@@ -66,7 +66,7 @@ npm test                        # ten sam pełny gate co test:ci i GitHub Action
 
 Kody zakończenia: `0` — wszystkie wykonane gate zielone; `1` — wymagany FAIL/INFRA, niepoprawne lub niekompletne dane macierzy albo brak wymaganej próbki CLI; `2` — błąd argumentów; `3` — `--report` bez poprawnego, istniejącego `matrix.json`. `--report` nie uruchamia translacji. Błędy infrastruktury (wyjątek, status `error`, exit 1 CLI) są zawsze czerwone i nigdy nie trafiają do kategorii odmów.
 
-Macierz wykonuje zdania kolejno na jednej instancji produkcyjnego serwisu. Smoke CLI uruchamia osobny proces dla każdego oznaczonego przypadku, równolegle do `min(8, availableParallelism(), liczba przypadków)` procesów. Zachowuje kolejność wyników z macierzy, limit 30 sekund na proces oraz porównanie pełnego dokumentu CLI z wynikiem serwisu uzyskanym w macierzy. Timeout, awaria procesu i błędny JSON pozostają INFRA.
+Macierz wykonuje zdania kolejno na jednej instancji produkcyjnego serwisu. Smoke CLI uruchamia prawdziwy proces `tools/translate.mjs` dla jednego przypadku, a resztę wykonuje w paczce przez tę samą funkcję CLI i ponownie używane runtime’y dla danego zestawu języków (np. EN→PL i PL→EN współdzielą jedną instancję). Każdy wynik zachowuje kontrolę oczekiwanego kodu wyjścia i pełnego dokumentu względem macierzy. Prawdziwy proces nadal sprawdza pojedynczy dokument JSON na stdout, stderr i limit 30 sekund; timeout, awaria procesu i błędny JSON pozostają INFRA.
 
 Raporty po `test:matrix`, `test:cli` i pełnym przebiegu: `tests/.reports/{matrix.json, summary.md, junit.xml}` (git-ignored). JSON zawiera SHA, tryb, expected, observed i różnice dla każdego przypadku, w tym projekcję typed graph, jeśli przypadek jej oczekuje. Coverage pokazuje CORE ID/type/edge counts, unikalne lemmy NFC + casefold, senses oraz odrębne `dataOnly`, `morphologyReady` (rzeczywiste formy providera) i `sentenceLicensed` (lemma powierzchniowo obecne w udanym, zatwierdzonym required case EN↔PL). Pokazuje osobno liczbę przypadków A1 dla EN↔PL oraz required cases innych kierunków. Podaje liczniki dla każdego kierunku: total, tłumaczenia, odmowy, ambiguity, FAIL/INFRA/NOT RUN, unikalne wejścia i ramy znaczenia. Te liczniki są obserwacją aktualnej bazy, nie zaliczeniem docelowych 1000/500. `test:report` odtwarza dwie prezentacje z tego JSON bez zmiany wyników i bez ponownego wywołania Engine. W akcji repozytorium runner dopisuje `summary.md` do `$GITHUB_STEP_SUMMARY`, a workflow `translation-matrix` publikuje raporty jako artefakt.
 

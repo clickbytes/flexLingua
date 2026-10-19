@@ -26,8 +26,8 @@ const USAGE = `Usage: node tests/run.mjs [--validate|--matrix|--cli|--all] [--he
   --validate   load and validate schemas, catalog, required-ids, gaps, cross rules
   --matrix     validate, execute the matrix, account for coverage and write reports
                through the production createTranslationService
-  --cli        matrix, coverage and the CLI subprocess smoke for cliSmoke-tagged cases
-               (documented exit-code policy, single JSON document, no stacks)
+  --cli        matrix, coverage and batched CLI smoke for cliSmoke-tagged cases
+               (one success-path process check, shared command path, exit codes)
   --report     regenerate summary.md and junit.xml from an existing matrix.json
                without translating; without matrix.json it exits 3
   --all        validate + matrix + coverage accounting + CLI smoke + reports
@@ -244,8 +244,8 @@ async function main() {
       cliFailed = true;
       notRunLabels.push('CLI smoke: no cliSmoke-tagged cases');
     } else {
-      console.log(`CLI SMOKE (${smokeCases.length} tagged cases): exit-code policy ` +
-        '(ok→0; unsupported/invalid/ambiguous/resource_limit→2), single JSON document, no node:internal stacks');
+      console.log(`CLI SMOKE (${smokeCases.length} tagged cases, batched): exit-code policy ` +
+        '(ok→0; unsupported/invalid/ambiguous/resource_limit→2), one process success check, no node:internal stacks');
       const serviceDocuments = new Map(outcomes.map(({item, document}) => [item.id, document]));
       cliResults = await runCliSmoke({cases: smokeCases, serviceDocuments,
         engine: runtime.engine, repoRoot: REPO_ROOT,

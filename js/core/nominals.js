@@ -164,6 +164,7 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms, fe
     adjectiveEntries.push(entry);
   }
   const adjectives = verifySurfaceInventory(adjectiveEntries, 'adjective');
+  const indefiniteArticleForms = [...new Set(adjectives.map(lexeme => lexeme.indefiniteArticle).filter(Boolean))];
   function adjectiveForms(lexeme) {
     const lexemeId=adjectiveMorphologyIds.get(lexeme.id)||
       (morphology?.has(lexeme.id)?lexeme.id:null);
@@ -392,6 +393,25 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms, fe
   function read(tokens, index, grammaticalCase, { allowBare = false } = {}) {
     const found = [];
     let visited = 0;
+    const determinerCache = new WeakMap();
+    function determinerOptionsFor(noun, number) {
+      let byNumber = determinerCache.get(noun);
+      const cached = byNumber?.get(number);
+      if (cached) return cached;
+      const entries = Object.entries(nounPhrase.determiners[number] || {}).map(([definiteness, mapping]) => {
+        const marker = markerFor(noun, mapping);
+        const candidates = qualified.articleFromFirstModifier && definiteness === 'indefinite' && marker ?
+          [...new Set([marker, ...indefiniteArticleForms])] : [marker];
+        return {definiteness, marker, candidates};
+      });
+      const result = {entries, zeroWidthMarker: entries.some(item => item.marker === null)};
+      if (!byNumber) {
+        byNumber = new Map();
+        determinerCache.set(noun, byNumber);
+      }
+      byNumber.set(number, result);
+      return result;
+    }
     // Modifier parsing depends on position and agreement, not noun identity.
     // Keep results within this read so neither tokens nor returned graphs can
     // leak into another request. Noun/layout traversal still counts every state.
@@ -466,21 +486,14 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms, fe
             if(len)advance(at+len,{classifier:required.id});
           }
         } else if (step === 'determiner') {
-          const maps = nounPhrase.determiners[number] || {};
+          const {entries, zeroWidthMarker} = determinerOptionsFor(noun, number);
           // A mapping whose marker is null (indefiniteness expressed by marker
           // omission, e.g. unmarked English plurals) already licenses a
           // determiner-marked reading of the unmarked surface string. The
           // separate unknown-definiteness bare advance would realize the same
           // string, so it is suppressed for such nouns.
-          const zeroWidthMarker = Object.values(maps).some(mapping =>
-            markerFor(noun, mapping) === null);
-          for (const [definiteness, mapping] of Object.entries(maps)) {
-            const marker = markerFor(noun, mapping);
+          for (const {definiteness, marker, candidates} of entries) {
             if (marker === undefined) continue;
-            let candidates = [marker];
-            if (qualified.articleFromFirstModifier && definiteness === 'indefinite' && marker) {
-              candidates = [...new Set([marker, ...adjectives.map(lex => lex.indefiniteArticle).filter(Boolean)])];
-            }
             for (const item of candidates) {
               const len = item ? matchesTokens(tokens, at, item) : 0;
               if (!item || len) advance(at + len, { definiteness, marker: item, determinerChosen: true });

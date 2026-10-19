@@ -10,6 +10,7 @@ const MAX_PROJECTED_EDGES = 256;
 const MAX_GRAPH_EXPANSION_DEPTH = 8;
 const MAX_CACHED_PROJECTIONS = 256;
 const PROJECTED_GRAPH_CACHE = new WeakMap();
+const SYMMETRIC_RELATION_SOURCES = new WeakMap();
 const DEFINITION_RELATIONS = new Set([
   'domain', 'material', 'color', 'purpose', 'has_part', 'contains', 'located_in',
   'adjacent_to', 'associated_with'
@@ -294,6 +295,29 @@ export class Ontology {
         }
       }
     }
+    const reverseRelations = new Map();
+    const conceptOrder = new Map();
+    let order = 0;
+    for (const [id, concept] of Object.entries(this.concepts)) {
+      conceptOrder.set(id, order++);
+      for (const [relation, targets] of Object.entries(concept.relations || {})) {
+        if (!this.relationTypes[relation].symmetric) continue;
+        let byTarget = reverseRelations.get(relation);
+        if (!byTarget) {
+          byTarget = new Map();
+          reverseRelations.set(relation, byTarget);
+        }
+        for (const target of targets) {
+          let sources = byTarget.get(target);
+          if (!sources) {
+            sources = [];
+            byTarget.set(target, sources);
+          }
+          sources.push(id);
+        }
+      }
+    }
+    SYMMETRIC_RELATION_SOURCES.set(this, {byRelation: reverseRelations, conceptOrder});
     Object.freeze(this);
   }
 
@@ -413,9 +437,14 @@ export class Ontology {
     const sources = inherit ? [id, ...this.ancestors(id)] : [id];
     const results = new Set(sources.flatMap(source => this.get(source).relations?.[relation] || []));
     if (this.relationTypes[relation].symmetric) {
-      for (const [candidate, record] of Object.entries(this.concepts)) {
-        if ((record.relations?.[relation] || []).some(value => sources.includes(value))) results.add(candidate);
+      const {byRelation, conceptOrder} = SYMMETRIC_RELATION_SOURCES.get(this);
+      const byTarget = byRelation.get(relation);
+      const candidates = new Set();
+      for (const source of sources) {
+        for (const candidate of byTarget?.get(source) || []) candidates.add(candidate);
       }
+      for (const candidate of [...candidates].sort((left, right) =>
+        conceptOrder.get(left) - conceptOrder.get(right))) results.add(candidate);
     }
     return [...results];
   }

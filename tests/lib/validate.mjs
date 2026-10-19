@@ -39,9 +39,12 @@ async function readJsonFile(path, label) {
   }
 }
 
+function createAjv() {
+  return new Ajv2020({allErrors: true, allowUnionTypes: true});
+}
+
 /** Compile one JSON Schema 2020-12 validator; compile failures become issues. */
-function makeValidator(schema) {
-  const ajv = new Ajv2020({allErrors: true, allowUnionTypes: true});
+function makeValidator(schema, ajv = createAjv()) {
   try {
     return {validate: ajv.compile(schema)};
   } catch (error) {
@@ -415,6 +418,7 @@ export async function loadMatrix({testsRoot = TESTS_ROOT, ontology = null} = {})
   issues.push(...discovery.issues.map(message => ({...message, severity: 'error'})));
 
   const validators = new Map();
+  const ajv = createAjv();
   for (const name of ['case.schema.json', 'catalog.schema.json']) {
     const schemaFile = await readJsonFile(join(testsRoot, 'schemas', name), name);
     if (!schemaFile.value) {
@@ -422,7 +426,7 @@ export async function loadMatrix({testsRoot = TESTS_ROOT, ontology = null} = {})
         message: schemaFile.error ?? 'Unknown schema load failure.'});
       continue;
     }
-    const built = makeValidator(schemaFile.value);
+    const built = makeValidator(schemaFile.value, ajv);
     if (built.broken) {
       issues.push({kind: 'schema', file: `tests/schemas/${name}`, id: undefined, severity: 'error',
         message: `Schema itself does not compile: ${built.broken.message}`});

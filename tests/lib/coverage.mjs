@@ -63,8 +63,7 @@ function stableJson(value) {
   return value;
 }
 
-function addSurface(surfaceIndex, surface, language, lemmaKey) {
-  const key = normalizeLemma(surface, language);
+function addSurface(surfaceIndex, key, lemmaKey) {
   if (!key) return;
   if (!surfaceIndex.has(key)) surfaceIndex.set(key, new Set());
   surfaceIndex.get(key).add(lemmaKey);
@@ -194,9 +193,10 @@ export async function buildInventoryCoverage({runtime, outcomes, requiredCaseIds
           surfaces.push(...generated.map(form => form.text));
         }
         for (const surface of new Set(surfaces)) {
-          addSurface(surfaceIndex, surface, language, lemmaKey);
+          const surfaceKey = normalizeLemma(surface, language);
+          addSurface(surfaceIndex, surfaceKey, lemmaKey);
           maxSurfaceWords = Math.max(maxSurfaceWords,
-            normalizeLemma(surface, language).split(/\s+/u).length);
+            surfaceKey.split(/\s+/u).length);
         }
       }
     }
