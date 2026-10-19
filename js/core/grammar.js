@@ -65,6 +65,19 @@ function boundedAnalyses(readings) {
   if (readings.length > MAX_ANALYSES) resourceLimit('Grammar analysis exceeded its reading budget.');
   return readings;
 }
+function defaultLinearizationId(sequence, count, reservedIds = new Set()) {
+  const signature=JSON.stringify(sequence);
+  const hashOf=value=>{
+    let hash=2166136261;
+    for(const character of value)hash=Math.imul(hash^character.charCodeAt(0),16777619);
+    return (hash>>>0).toString(16).padStart(8,'0');
+  };
+  if(count===1&&!reservedIds.has('default'))return 'default';
+  let salt=0,id;
+  do { id=`default-${hashOf(salt?`${signature}:${salt}`:signature)}`; salt++; }
+  while(reservedIds.has(id));
+  return id;
+}
 const LEXEME_ID = /^[a-zA-Z][a-zA-Z0-9_]*(?:\.[a-zA-Z0-9_]+)*$/u;
 const PLACEHOLDER = /^\{([a-zA-Z][a-zA-Z0-9_]*)\}$/u;
 const LITERAL = /^@[\p{L}]+$/u;
@@ -72,6 +85,7 @@ const MAX_LINEARIZATIONS_PER_FRAME = 8;
 const MAX_LINEARIZATION_SLOTS = 16;
 const VARIANT_ID = /^[a-z][a-z0-9.-]{0,63}$/u;
 const FORBIDDEN_VARIANT_PARTS = new Set(['constructor','prototype']);
+const MAX_SURFACE_VARIANTS = 32;
 const LEGACY_CASE_VALUES = ['nom','gen','dat','acc','loc'];
 const DEICTIC_FUNCTION = 'grammar.deictic_pronoun';
 const STATE_ROLES = Object.freeze({
@@ -1090,14 +1104,27 @@ function createGrammarInterpreter(sourceDictionary, rules,
   }
   const eventParserLinearizations=new WeakMap();
   const stateParserLinearizations=new WeakMap();
-  function parserLinearizations(kind, frameId, frame) {
+  function parserLinearizationPlans(kind, frameId, frame) {
     const cache=kind==='event'?eventParserLinearizations:stateParserLinearizations;
     if(cache.has(frame))return cache.get(frame);
     const sourceFrame=kind==='event'?rules.frames?.[frameId]:rules.states?.frames?.[frameId];
-    if(!record(sourceFrame)||!Array.isArray(sourceFrame.linearizations))return frame.linearizations;
+    if(!record(sourceFrame)||!Array.isArray(sourceFrame.linearizations)) {
+      const defaults=frame.linearizations.map(sequence=>[...sequence]);
+      const plans=defaults.map(sequence=>({sequence,id:null,surfaceEnabled:false}));
+      cache.set(frame,plans);
+      return plans;
+    }
     const declared=normalizeLinearizations(sourceFrame.linearizations,`${kind} frame ${frameId}`);
-    const sequences=frame.linearizations.map(sequence=>[...sequence]);
-    const seen=new Set(sequences.map(sequence=>JSON.stringify(sequence)));
+    const surfaceEnabled=declared.variants.length>0;
+    const defaults=frame.linearizations.map(sequence=>[...sequence]);
+    const reservedIds=new Set(declared.variants.map(variant=>variant.variantId));
+    const plans=defaults.map(sequence=>{
+      const id=surfaceEnabled?defaultLinearizationId(sequence,defaults.length,reservedIds):null;
+      if(id)reservedIds.add(id);
+      return {sequence,id,surfaceEnabled};
+    });
+    const seen=new Set(plans.map(plan=>JSON.stringify(plan.sequence)));
+    const seenIds=new Set(plans.flatMap(plan=>plan.id?[plan.id]:[]));
     if(declared.variants.length) {
       const transfers=compiledPlan.transferPlans.filter(transfer=>kind==='event'
         ?transfer.conceptId===frameId:transfer.stateKind===frameId);
@@ -1112,16 +1139,32 @@ function createGrammarInterpreter(sourceDictionary, rules,
               JSON.stringify(compiled.sequence)!==JSON.stringify(variant.sequence)) {
             throw new Error(`Missing or inconsistent compiled variant ${variant.variantId} for ${kind} frame ${frameId}.`);
           }
-          const key=JSON.stringify(compiled.sequence);
-          if(!seen.has(key)) {
-            seen.add(key);
-            sequences.push([...compiled.sequence]);
-          }
+        }
+        const key=JSON.stringify(variant.sequence);
+        if(seenIds.has(variant.variantId))throw new Error(`Duplicate surface variant ID ${variant.variantId}.`);
+        seenIds.add(variant.variantId);
+        if(!seen.has(key)) {
+          seen.add(key);
+          plans.push({sequence:[...variant.sequence],id:variant.variantId,surfaceEnabled:true});
         }
       }
     }
-    cache.set(frame,sequences);
-    return sequences;
+    cache.set(frame,plans);
+    return plans;
+  }
+  function parserLinearizations(kind,frameId,frame) {
+    return parserLinearizationPlans(kind,frameId,frame).map(plan=>plan.sequence);
+  }
+  function mergeSurfaceVariants(former,candidate) {
+    const selected=candidate.score>former.score?candidate:former;
+    const variants=[...(former.surfaceVariants||[]),...(candidate.surfaceVariants||[])];
+    if(!variants.length)return selected;
+    const unique=new Map(variants.map(variant=>[JSON.stringify(variant),variant]));
+    if(unique.size>MAX_SURFACE_VARIANTS)
+      throw new EngineError('GRAMMAR_SEARCH_LIMIT','Surface parse evidence exceeded its bounded variant limit.');
+    const ordered=[...unique.entries()].sort(([left],[right])=>left<right?-1:left>right?1:0)
+      .map(([,variant])=>variant);
+    return {...selected,surfaceVariants:ordered};
   }
   function agreementContextForTransfer(meaning, transfer) {
     if (!record(transfer) || !Array.isArray(transfer.arguments) ||
@@ -1588,18 +1631,20 @@ function createGrammarInterpreter(sourceDictionary, rules,
       if(stateGrammar.pastPredication==='positive_statement' && base.features.tense==='past' &&
           (base.kind!=='predication' || options.question))continue;
       if(options.gap && (base.kind!=='location' || options.gap!=='location'))continue;
-      const linearizations=parserLinearizations('state',base.kind,frame).flatMap(sequence=>{
+      const linearizationPlans=parserLinearizationPlans('state',base.kind,frame).flatMap(plan=>{
+        let sequence=[...plan.sequence];
         if(frame.existentialMarker && sequence.includes('@'+frame.existentialMarker) &&
             (!frame.existentialTenses.includes(base.features.tense) || options.gap ||
               options.omitVerb || options.doSupport))return [];
         if(options.gap==='location') {
           const reduced=sequence.filter(step=>step!=='location' &&
             !(step.startsWith('@')&&step!=='@verb'));
-          return [options.invert ? [reduced[1],reduced[0]] : reduced];
+          sequence=options.invert ? [reduced[1],reduced[0]] : reduced;
         }
         if(options.omitVerb)sequence=sequence.filter(step=>step!=='@verb');
-        if(!frame.allowImplicitDeicticSubject||!sequence.includes(frame.subjectRole))return [sequence];
-        return [sequence,sequence.filter(step=>step!==frame.subjectRole)];
+        const sequences=!frame.allowImplicitDeicticSubject||!sequence.includes(frame.subjectRole)
+          ?[sequence]:[sequence,sequence.filter(step=>step!==frame.subjectRole)];
+        return sequences.map(sequence=>({...plan,sequence}));
       });
       for (const polarity of polarities) {
         if(stateGrammar.pastPredication==='positive_statement' && base.features.tense==='past' &&
@@ -1608,23 +1653,28 @@ function createGrammarInterpreter(sourceDictionary, rules,
         if(polarity==='negative'&&negativeStrategy==='do-support'&&!options.doSupport)continue;
         const postverbal=polarity==='negative'&&negativeStrategy==='postverbal';
         const doSupport=polarity==='negative'&&negativeStrategy==='do-support'&&options.doSupport;
-        const stateLinearizations=doSupport?linearizations.map(sequence=>sequence.flatMap(step=>
-          step==='@verb'?['@doAux','@negator','@verb']:[step])):
-          postverbal?linearizations.map(sequence=>sequence.flatMap(step=>
-            step==='@verb'?['@verb','@negator']:[step])):linearizations;
+        const statePlans=doSupport?linearizationPlans.map(plan=>({...plan,sequence:plan.sequence.flatMap(step=>
+          step==='@verb'?['@doAux','@negator','@verb']:[step])})):
+          postverbal?linearizationPlans.map(plan=>({...plan,sequence:plan.sequence.flatMap(step=>
+            step==='@verb'?['@verb','@negator']:[step])})):linearizationPlans;
         const replacement=polarity==='negative'?frame.negativeVerbForms?.[base.features.number]:null;
         const entry = {...base,...(replacement?{text:replacement}:{}),rule:{...base.rule,polarity,
           prefix:polarity==='negative'&&!postverbal&&!doSupport&&negativeStrategy!=='replacement'
             ?[stateGrammar.negator]:[]}};
         if (!options.omitVerb && !options.doSupport && !hasStateVerb(tokens,entry)) continue;
         const features={tense:entry.features.tense,polarity};
-        for(const sequence of stateLinearizations){
+        for(const orderPlan of statePlans){
+          const sequence=orderPlan.sequence;
           const implicitSubject=!sequence.includes(frame.subjectRole)
             ?implicitStateSubject(entry.features):null;
           if(!sequence.includes(frame.subjectRole)&&!implicitSubject)continue;
           const initialRoles=implicitSubject
             ?{[frame.subjectRole]:{value:implicitSubject}}:{};
-          function search(position,index,parsedRoles,relation=null) {
+          const sourceRange=(start,end)=>{
+            const first=tokens.sourceSpans?.[start],last=tokens.sourceSpans?.[end-1];
+            return first&&last?{start:first.start,end:last.end}:null;
+          };
+          function search(position,index,parsedRoles,relation=null,surfaceSlots=[]) {
             if (++budget.counter.visited > MAX_SEARCH_NODES) {
               throw new EngineError('GRAMMAR_SEARCH_LIMIT',
                 'Sentence analysis exceeded the bounded search limit.');
@@ -1654,20 +1704,28 @@ function createGrammarInterpreter(sourceDictionary, rules,
               }
               const candidate={interlingua:meaning,lexicalSenses,
                 score:(entry.lexeme.priority||0)+Object.values(parsedRoles)
-                  .reduce((score,parsed)=>score+(parsed.noun?.priority||parsed.priority||0),0)};
+                  .reduce((score,parsed)=>score+(parsed.noun?.priority||parsed.priority||0),0),
+                ...(orderPlan.surfaceEnabled?{surfaceVariants:[{id:orderPlan.id,
+                  slots:surfaceSlots.slice().sort((left,right)=>left.start-right.start ||
+                    left.end-right.end || (left.name<right.name?-1:left.name>right.name?1:0)),
+                  markedness:'unknown'}]}:{})};
               const key=JSON.stringify(meaning),former=readings.get(key);
-              if(!former||candidate.score>former.score)readings.set(key,candidate);
+              if(!former)readings.set(key,candidate);
+              else readings.set(key,mergeSurfaceVariants(former,candidate));
               return;
             }
             const step=sequence[position];
             if(step==='@verb') {
               const next=options.omitVerb?index:matchVerb(tokens,index,entry);
-              if(next!==null)search(position+1,next,parsedRoles,relation);
+              const span=!options.omitVerb&&next!==null?sourceRange(index,next):null;
+              const slots=orderPlan.surfaceEnabled&&span?
+                [...surfaceSlots,{name:'@verb',...span}]:surfaceSlots;
+              if(next!==null)search(position+1,next,parsedRoles,relation,slots);
               return;
             }
             if(step==='@negator') {
               const length=matchesTokens(tokens,index,stateGrammar.negator);
-              if(length)search(position+1,index+length,parsedRoles,relation);
+              if(length)search(position+1,index+length,parsedRoles,relation,surfaceSlots);
               return;
             }
             if(step==='@doAux') {
@@ -1680,13 +1738,16 @@ function createGrammarInterpreter(sourceDictionary, rules,
                 person==='second'?auxiliaries?.presentSecond:
                 number==='singular'?auxiliaries?.presentThirdSingular:auxiliaries?.presentThirdPlural;
               const length=auxiliary?matchesTokens(tokens,index,auxiliary):0;
-              if(length)search(position+1,index+length,parsedRoles,relation);
+              const span=length?sourceRange(index,index+length):null;
+              const slots=orderPlan.surfaceEnabled&&span?
+                [...surfaceSlots,{name:'@auxiliary',...span}]:surfaceSlots;
+              if(length)search(position+1,index+length,parsedRoles,relation,slots);
               return;
             }
             if(step.startsWith('@')) {
               const count=matchesTokens(tokens,index,step.slice(1));
               if(count)search(position+1,index+count,parsedRoles,
-                frame.prepositions?.[step.slice(1)] || relation);
+                frame.prepositions?.[step.slice(1)] || relation,surfaceSlots);
               return;
             }
             let phrases;
@@ -1711,7 +1772,10 @@ function createGrammarInterpreter(sourceDictionary, rules,
                     ...readStateSubjectPronouns(tokens,index)]:[])];
             }
             for(const parsed of phrases) {
-              search(position+1,parsed.next,{...parsedRoles,[step]:parsed},relation);
+              const span=sourceRange(index,parsed.next);
+              const slots=orderPlan.surfaceEnabled&&span?
+                [...surfaceSlots,{name:step,...span}]:surfaceSlots;
+              search(position+1,parsed.next,{...parsedRoles,[step]:parsed},relation,slots);
             }
           }
           search(0,0,initialRoles);
@@ -1968,13 +2032,15 @@ function createGrammarInterpreter(sourceDictionary, rules,
       const frameAgreement=agreementForFrame(frame);
       const entries=matchingEntriesByConcept.get(concept)
         .sort((left,right)=>left.order-right.order).map(candidate=>candidate.entry);
-      const parserSequences=parserLinearizations('event',concept,frame);
+      const parserPlans=parserLinearizationPlans('event',concept,frame);
+      const parserSequences=parserPlans.map(plan=>plan.sequence);
       const sequences = linearizations ? linearizations(frame,concept,parserSequences) : parserSequences;
       if (sequences.length > MAX_ANALYSES) {
         throw new EngineError('GRAMMAR_SEARCH_LIMIT',
           'Sentence analysis exceeded the bounded search limit.');
       }
       for (const sequence of sequences) {
+        const orderPlan=parserPlans.find(plan=>JSON.stringify(plan.sequence)===JSON.stringify(sequence));
         if (gap && !sequence.includes(gap)) continue;
         for (const entry of entries) {
           const roleRules=new Map();
@@ -1995,7 +2061,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
             const initialRoles=gap?{[gap]:antecedent}:variant.implicitSubject
               ?{[subjectRole]:{value:variant.implicitSubject,noun:null,senseId:null,priority:0,
                 implicit:true}}:{};
-            function search(position, index, parsedRoles, sourceTrace=[]) {
+            function search(position, index, parsedRoles, sourceTrace=[],surfaceSlots=[]) {
               if (++budget.counter.visited > MAX_SEARCH_NODES) {
                 throw new EngineError('GRAMMAR_SEARCH_LIMIT',
                   'Sentence analysis exceeded the bounded search limit.');
@@ -2031,32 +2097,39 @@ function createGrammarInterpreter(sourceDictionary, rules,
                   sourceSegments:[...sourceTrace,...roleSources],
                   score: (entry.lexeme.priority || 0) + Object.entries(parsedRoles)
                     .filter(([role]) => role !== gap)
-                    .reduce((score, [, parsed]) => score + (parsed.noun?.priority || parsed.priority || 0), 0) };
+                    .reduce((score, [, parsed]) => score + (parsed.noun?.priority || parsed.priority || 0), 0),
+                  ...(orderPlan?.surfaceEnabled?{surfaceVariants:[{id:orderPlan.id,
+                    slots:surfaceSlots.slice().sort((left,right)=>left.start-right.start ||
+                      left.end-right.end || (left.name<right.name?-1:left.name>right.name?1:0)),
+                    markedness:'unknown'}]}:{}) };
                 const key = JSON.stringify(meaning);
                 const former = readings.get(key);
-                if (!former || candidate.score > former.score) readings.set(key, candidate);
+                if (!former) readings.set(key,candidate);
+                else readings.set(key,mergeSurfaceVariants(former,candidate));
                 return;
               }
               const step = parseSequence[position];
-              if (step === gap) { search(position + 1, index, parsedRoles,sourceTrace); return; }
+              if (step === gap) { search(position + 1, index, parsedRoles,sourceTrace,surfaceSlots); return; }
               if (step === '@verb') {
                 const next = matchVerb(tokens, index, entry);
                 if (next !== null) {
                   const span=sourceRange(index,next);
                   const paths=['#/concept','#/features'];
+                  const slots=orderPlan?.surfaceEnabled&&span?
+                    [...surfaceSlots,{name:'@verb',...span}]:surfaceSlots;
                   search(position + 1, next, parsedRoles,[...sourceTrace,...paths.map(path=>
-                    ({path,...(span?{span}:{status:'unavailable',reason:'source-span-unavailable'})}))]);
+                    ({path,...(span?{span}:{status:'unavailable',reason:'source-span-unavailable'})}))],slots);
                 }
                 return;
               }
               if (step.startsWith('@')) {
                 const literal=step==='@expletive'?frame.formalSubject.surface:step.slice(1);
                 if(literal===skipPreposition) {
-                  search(position+1,index,parsedRoles,sourceTrace);
+                  search(position+1,index,parsedRoles,sourceTrace,surfaceSlots);
                   return;
                 }
                 const count = matchesTokens(tokens, index, literal);
-                if (count) search(position + 1, index + count, parsedRoles,sourceTrace);
+                if (count) search(position + 1, index + count, parsedRoles,sourceTrace,surfaceSlots);
                 return;
               }
               let roleRule=roleRules.get(step);
@@ -2092,7 +2165,9 @@ function createGrammarInterpreter(sourceDictionary, rules,
                       features: { ...parsed.value.features, definiteness: implied } };
                   }
                   const sourced={...parsed,sourceSpan:sourceRange(index,parsed.next)};
-                  search(position + 1, parsed.next, { ...parsedRoles, [step]: sourced },sourceTrace);
+                  const slots=orderPlan?.surfaceEnabled&&sourced.sourceSpan?
+                    [...surfaceSlots,{name:step,...sourced.sourceSpan}]:surfaceSlots;
+                  search(position + 1, parsed.next, { ...parsedRoles, [step]: sourced },sourceTrace,slots);
                 }
               }
             }

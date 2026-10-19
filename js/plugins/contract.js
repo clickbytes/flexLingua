@@ -342,7 +342,7 @@ export function normalizeAnalysisResult(result) {
 }
 
 function validateAnalysisMetadata(value) {
-  const allowed = ['lexicalSenses','score','transfer','sourceSegments','surfaceParses'];
+  const allowed = ['lexicalSenses','score','transfer','sourceSegments','surface'];
   if (!isRecord(value) || Object.keys(value).some(key => !allowed.includes(key))) {
     invalidResult('Analysis metadata contains an unsupported field.');
   }
@@ -357,7 +357,7 @@ function validateAnalysisMetadata(value) {
     normalized.transfer = value.transfer;
   }
   if (owns(value,'sourceSegments')) normalized.sourceSegments = validateSourceSegments(value.sourceSegments);
-  if (owns(value,'surfaceParses')) normalized.surfaceParses = validateSurfaceParses(value.surfaceParses);
+  if (owns(value,'surface')) normalized.surface = validateSurface(value.surface);
   return normalized;
 }
 
@@ -396,33 +396,44 @@ function validateSourceSegments(value) {
   });
 }
 
-function validateSurfaceParses(value) {
-  if (!Array.isArray(value) || value.length < 2 || value.length > MAX_EVIDENCE) {
-    invalidResult('Surface parse evidence must contain two or more bounded traces.');
+function safeSurfaceId(value) {
+  return typeof value === 'string' && value.length <= 64 && SYMBOL.test(value) &&
+    !value.split(/[._-]/u).some(part => ['constructor','prototype','__proto__'].includes(part));
+}
+
+function validateSurface(value) {
+  if (!hasExactKeys(value,['variants']) || !Array.isArray(value.variants) ||
+      value.variants.length < 1 || value.variants.length > MAX_EVIDENCE) {
+    invalidResult('Analysis surface evidence requires a bounded variants array.');
   }
-  const traces = Array.from(value, item => {
-    if (!hasExactKeys(item,['sourceSegments'],['construction','lexicalSenses','score'])) {
-      invalidResult('Surface parse evidence contains unsupported fields.');
+  const variants = Array.from(value.variants,item => {
+    if (!hasExactKeys(item,['id','construction','slots'],['markedness']) ||
+        !safeSurfaceId(item.id) || !safeSurfaceId(item.construction) ||
+        (owns(item,'markedness') && item.markedness !== 'unknown') || !Array.isArray(item.slots) ||
+        item.slots.length > 16) {
+      invalidResult('Analysis surface variant contains invalid or unsupported fields.');
     }
-    const normalized = {sourceSegments:validateSourceSegments(item.sourceSegments)};
-    if (owns(item,'construction')) {
-      if (typeof item.construction !== 'string' || !SYMBOL.test(item.construction)) {
-        invalidResult('Surface parse construction is invalid.');
+    const slots = Array.from(item.slots,slot => {
+      if (!hasExactKeys(slot,['name','start','end']) ||
+          !(safeSurfaceId(slot.name) || ['@verb','@auxiliary'].includes(slot.name))) {
+        invalidResult('Analysis surface slot is invalid.');
       }
-      normalized.construction = item.construction;
+      const span = validateSpan({start:slot.start,end:slot.end},'Analysis surface slot span');
+      return {name:slot.name,...span};
+    }).sort((left,right)=>left.start-right.start || left.end-right.end ||
+      (left.name<right.name?-1:left.name>right.name?1:0));
+    for (let index=1; index<slots.length; index++) {
+      if (slots[index].start < slots[index-1].end) {
+        invalidResult('Analysis surface slots cannot overlap.');
+      }
     }
-    if (owns(item,'lexicalSenses')) normalized.lexicalSenses = validateLexicalSenses(item.lexicalSenses);
-    if (owns(item,'score')) {
-      if (!Number.isFinite(item.score)) invalidResult('Surface parse score must be finite.');
-      normalized.score = item.score;
-    }
-    return normalized;
+    return {id:item.id,construction:item.construction,slots,
+      ...(owns(item,'markedness')?{markedness:item.markedness}:{})};
   });
-  const unique = [...new Map(traces.map(trace => [meaningKey(trace),trace])).entries()]
-    .sort(([left],[right]) => left < right ? -1 : left > right ? 1 : 0)
-    .map(([,trace]) => trace);
-  if (unique.length < 2) invalidResult('Surface parse evidence cannot contain duplicates.');
-  return unique;
+  const unique = [...new Map(variants.map(variant=>[meaningKey(variant),variant]))]
+    .sort(([left],[right])=>left<right?-1:left>right?1:0).map(([,variant])=>variant);
+  if (unique.length !== variants.length) invalidResult('Analysis surface variants cannot repeat.');
+  return {variants:unique};
 }
 
 function validateInformationLoss(value) {

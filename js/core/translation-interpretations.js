@@ -135,6 +135,7 @@ export function realizeInterpretations(engine, candidates, options) {
       }
     }
     return {id, meaning, lexicalSenses:candidate.lexicalSenses, score, reasons,
+      ...(candidate.surface ? {surface:candidate.surface} : {}),
       ...(candidate.contextReport ? {contextReport:candidate.contextReport} : {}),
       ruleIds:[...new Set(reasons.map(reason => reason.ruleId))],
       status:error ? translationErrorStatus(error) : 'ok',
