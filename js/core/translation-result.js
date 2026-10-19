@@ -1,10 +1,14 @@
 import {isResourceLimitError} from './errors.js';
+import {snapshotBoundedJsonGraph} from './bounded-json.js';
 
 const domainStatuses = new Set(['unsupported', 'invalid', 'ambiguous', 'resource_limit']);
 const stable = value => Array.isArray(value) ? value.map(stable)
   : value && typeof value === 'object'
     ? Object.fromEntries(Object.keys(value).sort().map(key => [key, stable(value[key])])) : value;
-export const meaningKey = value => JSON.stringify(stable(value));
+export const meaningKey = value => {
+  const {value: safeValue} = snapshotBoundedJsonGraph(value);
+  return JSON.stringify(stable(safeValue));
+};
 const keyOf = meaningKey;
 const uniqueValues = values => [...new Map(values.map(value => [keyOf(value), value]))]
   .sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0).map(([, value]) => value);

@@ -1,5 +1,7 @@
 import {PluginError} from './errors.js';
 import {meaningKey} from '../core/translation-result.js';
+import {RESOURCE_LIMITS} from '../core/resource-limits.js';
+import {snapshotBoundedJsonGraph} from '../core/bounded-json.js';
 
 export const LANGUAGE_PLUGIN_CONTRACT_VERSION = '1.0';
 export const PLUGIN_RESULT_STATUSES = Object.freeze([
@@ -49,8 +51,24 @@ function invalid(message, cause) {
   fail('PLUGIN_INVALID', message, cause);
 }
 
-function invalidResult(message) {
-  fail('PLUGIN_RESULT_INVALID', message);
+function invalidResult(message, cause) {
+  fail('PLUGIN_RESULT_INVALID', message, cause);
+}
+
+function validatePluginResultGraph(value, operation) {
+  try {
+    const limits = operation === 'analysis' ? {
+      maxDepth: RESOURCE_LIMITS.interlinguaDepth + 3,
+      maxNodes: RESOURCE_LIMITS.interlinguaNodes + MAX_READINGS * 3 + MAX_DIAGNOSTICS,
+      maxBytes: RESOURCE_LIMITS.jsonGraphBytes
+    } : undefined;
+    return snapshotBoundedJsonGraph(value, limits);
+  } catch (error) {
+    if (error?.status === 'resource_limit') {
+      fail('PLUGIN_RESOURCE_LIMIT', `Plugin ${operation} result exceeds its safety budget.`, error);
+    }
+    invalidResult(`Plugin ${operation} result is not a safe JSON-like graph.`, error);
+  }
 }
 
 function syncCall(fn, name) {
@@ -302,6 +320,7 @@ function validateRealizations(value) {
 
 /** Validate and normalize the single public analysis result shape. */
 export function normalizeAnalysisResult(result) {
+  ({value: result} = validatePluginResultGraph(result, 'analysis'));
   if (!hasExactKeys(result, ['status', 'readings', 'diagnostics']) ||
       !PLUGIN_RESULT_STATUSES.includes(result.status) || !Array.isArray(result.readings) ||
       result.readings.length > MAX_READINGS) {
@@ -317,7 +336,15 @@ export function normalizeAnalysisResult(result) {
     if (owns(reading, 'analysis')) normalized.analysis = validateAnalysisMetadata(reading.analysis);
     return normalized;
   });
-  const meaningKeys = readings.map(reading => meaningKey(reading.meaning));
+  let meaningKeys;
+  try {
+    meaningKeys = readings.map(reading => meaningKey(reading.meaning));
+  } catch (error) {
+    if (error?.status === 'resource_limit') {
+      fail('PLUGIN_RESOURCE_LIMIT', 'Plugin analysis meaning exceeds its safety budget.', error);
+    }
+    invalidResult('Plugin analysis meaning is not a safe JSON-like graph.', error);
+  }
   if (new Set(meaningKeys).size !== meaningKeys.length) {
     invalidResult('Analysis readings must represent distinct MeaningGraphs.');
   }
@@ -454,6 +481,7 @@ function validateInformationLoss(value) {
 
 /** Validate and normalize the single public realization result shape. */
 export function normalizeRealizationResult(result) {
+  ({value: result} = validatePluginResultGraph(result, 'realization'));
   if (!hasExactKeys(result, ['status', 'text', 'alternatives', 'warnings',
       'informationLoss', 'diagnostics'], ['realizations']) ||
       !PLUGIN_RESULT_STATUSES.includes(result.status) ||
