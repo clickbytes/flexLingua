@@ -1,17 +1,13 @@
 /**
- * CLI subprocess verifier for cliSmoke-tagged cases.
- *
- * The shipped command-line entry point (`node tools/translate.mjs --json`) must
- * agree with the in-process service: same approved expectations, the documented
- * exit-code policy (0 for ok, 2 for unsupported/invalid/ambiguous/resource_limit),
- * a single parseable JSON document on stdout, and no leaked `node:internal`
- * stack traces. Infrastructure failures (timeout, crash, unparseable output)
- * are reported as INFRA and never reinterpreted as expected refusals.
+ * Batched CLI verifier for cliSmoke-tagged cases. One case exercises the shipped
+ * process entry point; the remaining cases reuse the same CLI command function
+ * and a runtime per direction.
  */
 
 import {execFile} from 'node:child_process';
-import {availableParallelism} from 'node:os';
 import {join} from 'node:path';
+import {createAppRuntime} from '../../js/app/runtime.js';
+import {executeCli} from '../../tools/translate.mjs';
 import {compareCase} from './assertions.mjs';
 
 const CLI_TIMEOUT_MS = 30_000;
@@ -40,9 +36,40 @@ function clip(value, limit = 240) {
  */
 export async function runCliSmoke({cases, serviceDocuments, engine, repoRoot, onProgress}) {
   const results = new Array(cases.length);
-  let nextIndex = 0;
+  const runtimes = new Map();
   let completed = 0;
-  async function runCase(item) {
+
+  function argumentsFor(item) {
+    return ['--from', item.input.from, '--to', item.input.to,
+      '--text', item.input.text, '--json'];
+  }
+
+  async function runtimeFor(item) {
+    const key = `${item.input.from}->${item.input.to}`;
+    let runtimePromise = runtimes.get(key);
+    if (!runtimePromise) {
+      runtimePromise = createAppRuntime({root: repoRoot,
+        pluginCodes: [...new Set([item.input.from, item.input.to])]});
+      runtimes.set(key, runtimePromise);
+    }
+    return runtimePromise;
+  }
+
+  async function runProcess(item) {
+    return new Promise(resolve => {
+      execFile(process.execPath,
+        [join(repoRoot, 'tools', 'translate.mjs'), ...argumentsFor(item)],
+        {cwd: repoRoot, encoding: 'utf8', timeout: CLI_TIMEOUT_MS,
+          maxBuffer: CLI_MAX_BUFFER, shell: false},
+        (error, stdout, stderr) => resolve({stdout, stderr,
+          status: error ? (Number.isInteger(error.code) ? error.code : null) : 0,
+          signal: error?.signal,
+          error: error && (error.killed || error.signal || !Number.isInteger(error.code))
+            ? error : null}));
+    });
+  }
+
+  async function runCase(item, {processSmoke = false} = {}) {
     const started = Date.now();
     const result = {
       id: item.id,
@@ -56,18 +83,18 @@ export async function runCliSmoke({cases, serviceDocuments, engine, repoRoot, on
       if (!serviceDocuments.has(item.id) || serviceDocuments.get(item.id) == null) {
         throw new Error(`Missing matrix service document for ${item.id}`);
       }
-      const run = await new Promise(resolve => {
-        execFile(process.execPath,
-          [join(repoRoot, 'tools', 'translate.mjs'), '--from', item.input.from,
-            '--to', item.input.to, '--text', item.input.text, '--json'],
-          {cwd: repoRoot, encoding: 'utf8', timeout: CLI_TIMEOUT_MS,
-            maxBuffer: CLI_MAX_BUFFER, shell: false},
-          (error, stdout, stderr) => resolve({stdout, stderr,
-            status: error ? (Number.isInteger(error.code) ? error.code : null) : 0,
-            signal: error?.signal,
-            error: error && (error.killed || error.signal || !Number.isInteger(error.code))
-              ? error : null}));
+
+      const command = processSmoke ? null : await executeCli(argumentsFor(item), {
+        runtime: await runtimeFor(item)
       });
+      const run = processSmoke ? await runProcess(item) : {
+        document: command.document,
+        status: command.exitCode,
+        signal: null,
+        error: null,
+        stderr: '',
+        json: command.options?.json === true
+      };
       result.durationMs = Date.now() - started;
 
       if (run.error || run.signal) {
@@ -87,14 +114,19 @@ export async function runCliSmoke({cases, serviceDocuments, engine, repoRoot, on
         result.lines.push('stderr leaks node:internal stack traces in the product path');
       }
 
-      let document = null;
-      try {
-        document = JSON.parse((run.stdout ?? '').trim());
-      } catch {
-        result.kind = 'infra';
-        result.lines.push('CLI INFRA: stdout is not a single parseable JSON document ' +
-          `("${clip(run.stdout ?? '', 160)}")`);
-        return result;
+      let document;
+      if (processSmoke) {
+        try {
+          document = JSON.parse((run.stdout ?? '').trim());
+        } catch {
+          result.kind = 'infra';
+          result.lines.push('CLI INFRA: stdout is not a single parseable JSON document ' +
+            `("${clip(run.stdout ?? '', 160)}")`);
+          return result;
+        }
+      } else {
+        document = run.document;
+        if (!run.json) result.lines.push('batch CLI request did not select JSON output');
       }
 
       const comparison = compareCase(item, document, {engine});
@@ -103,7 +135,7 @@ export async function runCliSmoke({cases, serviceDocuments, engine, repoRoot, on
         result.kind = run.status === 1 || run.status === undefined || run.status === null
           ? 'infra' : comparison.kind;
         if (result.kind === 'infra') {
-          result.lines.push(`CLI INFRA: subprocess exited ${String(run.status)} instead of the documented ${expectedExit}`);
+          result.lines.push(`CLI INFRA: command exited ${String(run.status)} instead of the documented ${expectedExit}`);
         }
       }
       for (const failure of comparison.failures) {
@@ -111,7 +143,6 @@ export async function runCliSmoke({cases, serviceDocuments, engine, repoRoot, on
           `observed ${clip(failure.actual)}`);
       }
 
-      /* Compare with the same input already executed by the matrix service. */
       const serviceDocument = serviceDocuments.get(item.id);
       if (JSON.stringify(stable(serviceDocument)) !== JSON.stringify(stable(document))) {
         result.lines.push('document differs between CLI and the in-process service');
@@ -127,14 +158,12 @@ export async function runCliSmoke({cases, serviceDocuments, engine, repoRoot, on
     result.durationMs = Date.now() - started;
     return result;
   }
-  async function worker() {
-    while (nextIndex < cases.length) {
-      const index = nextIndex++;
-      results[index] = await runCase(cases[index]);
-      completed += 1;
-      onProgress?.(completed, cases.length);
-    }
+
+  const processSmokeIndex = Math.max(0, cases.findIndex(item => item.expected?.status === 'ok'));
+  for (let index = 0; index < cases.length; index += 1) {
+    results[index] = await runCase(cases[index], {processSmoke: index === processSmokeIndex});
+    completed += 1;
+    onProgress?.(completed, cases.length);
   }
-  await Promise.all(Array.from({length: Math.min(8, availableParallelism(), cases.length)}, worker));
   return results;
 }

@@ -1,5 +1,7 @@
 import {createAppRuntime, listLanguages} from '../js/app/runtime.js';
 import {createTranslationService} from '../js/app/translation-service.js';
+import {resolve} from 'node:path';
+import {pathToFileURL} from 'node:url';
 
 const USAGE = 'Usage: node tools/translate.mjs --languages [--json] | --from CODE --to CODE --text "sentence" [--json | --show-core]';
 const CODE = /^[a-z]{2,8}$/u;
@@ -67,35 +69,44 @@ function print(document, {json = false, showCore = false} = {}) {
   }
 }
 
-async function main() {
+export async function executeCli(argv, {runtime} = {}) {
   let options;
   try {
-    options = parseArgs(process.argv.slice(2));
-  } catch (error) {
+    options = parseArgs(argv);
+  } catch {
     const document = refusal('invalid', 'INVALID_ARGUMENTS', `Invalid command-line arguments.\n${USAGE}`,
       {from: null, to: null, input: null, text: null, meaning: null, alternatives: []});
-    print(document, {json: process.argv.includes('--json')});
-    process.exitCode = 2;
-    return;
+    return {document, exitCode: 2, options: null};
   }
   try {
     let document;
     if (options.languages) {
       document = {status: 'ok', languages: await listLanguages()};
     } else {
-      const runtime = await createAppRuntime({pluginCodes: [...new Set([options.from, options.to])]});
-      document = createTranslationService(runtime).translate({from: options.from, to: options.to,
+      const selectedRuntime = runtime ?? await createAppRuntime({
+        pluginCodes: [...new Set([options.from, options.to])]
+      });
+      document = createTranslationService(selectedRuntime).translate({from: options.from, to: options.to,
         text: options.text});
     }
-    print(document, options);
-    process.exitCode = ['ok'].includes(document.status) ? 0 : 2;
+    return {document, exitCode: document.status === 'ok' ? 0 : 2, options};
   } catch (error) {
     const document = refusal('error', 'INFRASTRUCTURE_ERROR', 'Translation infrastructure failed.',
       {from: options.from ?? null, to: options.to ?? null, input: options.text ?? null,
         text: null, meaning: null, alternatives: []});
-    print(document, options);
-    process.exitCode = 1;
+    return {document, exitCode: 1, options};
   }
 }
 
-await main();
+async function main() {
+  const result = await executeCli(process.argv.slice(2));
+  print(result.document, {
+    json: result.options?.json ?? process.argv.includes('--json'),
+    showCore: result.options?.showCore
+  });
+  process.exitCode = result.exitCode;
+}
+
+if (process.argv[1] && pathToFileURL(resolve(process.argv[1])).href === import.meta.url) {
+  await main();
+}
