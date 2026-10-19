@@ -529,21 +529,33 @@ export async function loadMatrix({testsRoot = TESTS_ROOT, ontology = null} = {})
         issues, 'semantic-relation')) {
         surfaceEquivalence = relationFile.value;
         const groupIds = new Set();
-        const caseIds = new Set();
+        /* CR-34: membership may repeat across groups (A~B and A≠C with a shared member
+           is a legal layout); duplicates are illegal per group and per identical content. */
+        const inGroup = new Map();
+        const memberPairRelations = new Map();
         for (const group of surfaceEquivalence.groups) {
           const problem = message => issues.push({kind: 'semantic-relation',
             file: 'tests/catalog/surface-equivalence.json', id: group.id,
             severity: 'error', message});
           if (groupIds.has(group.id)) problem(`Duplicate semantic relation group id '${group.id}'.`);
           groupIds.add(group.id);
+          const groupMembers = [...group.caseIds].sort().join('|');
+          const contentKey = `${group.direction}|${group.relation}|${groupMembers}`;
+          if (inGroup.has(contentKey)) {
+            problem(`Semantic relation group '${group.id}' duplicates group '${inGroup.get(contentKey)}' ` +
+              `(same direction, relation and member set).`);
+          } else {
+            inGroup.set(contentKey, group.id);
+          }
           const members = [];
           let valid = true;
+          const idsInGroup = new Set();
           for (const id of group.caseIds) {
-            if (caseIds.has(id)) {
-              problem(`Case '${id}' appears in more than one semantic relation group.`);
+            if (idsInGroup.has(id)) {
+              problem(`Case '${id}' appears more than once inside semantic relation group '${group.id}'.`);
               valid = false;
             }
-            caseIds.add(id);
+            idsInGroup.add(id);
             const item = caseIndex.get(id);
             if (!item) {
               problem(`Unknown case id '${id}'.`);
@@ -559,6 +571,21 @@ export async function loadMatrix({testsRoot = TESTS_ROOT, ontology = null} = {})
                 item.expected?.status !== 'ok' || !item.expected?.meaning) {
               problem(`Case '${id}' must be an approved required case with expected status 'ok' and a MeaningGraph.`);
               valid = false;
+            }
+          }
+          /* A member pair claimed by two groups must agree on the relation. */
+          if (valid && members.length === group.caseIds.length) {
+            for (let first = 0; first < members.length; first++) {
+              for (let second = first + 1; second < members.length; second++) {
+                const pairKey = [members[first].id, members[second].id].sort().join('|');
+                const prior = memberPairRelations.get(pairKey);
+                if (prior && prior.relation !== group.relation) {
+                  problem(`Member pair '${pairKey.split('|').join(', ')}' is declared '${prior.relation}' by ` +
+                    `group '${prior.groupId}' and '${group.relation}' by this group.`);
+                } else if (!prior) {
+                  memberPairRelations.set(pairKey, {relation: group.relation, groupId: group.id});
+                }
+              }
             }
           }
           if (valid && members.length === group.caseIds.length) {
