@@ -1,6 +1,6 @@
 # ADR: warianty szyku sterowane cechami i równoważność semantyczna
 
-- **Status:** Proposed; właściciel jawnie uchylił niezależny review na potrzeby implementacji, więc ADR pozostaje niezaakceptowany.
+- **Status:** Accepted by owner for the bounded FWO-07 opt-in in #460; independent review was explicitly waived.
 - **Data:** 2026-10-19
 - **Zakres:** bounded, opt-in warianty szyku w istniejących pakietach LanguagePlugin; bez zmian runtime w tym ADR.
 
@@ -84,7 +84,7 @@ Jedyną deklaracją szyku pozostaje frame.linearizations w istniejącym grammar.
 }
 ~~~
 
-FWO-02 implements validation and compiled-plan output for this RFC. No checked-in language package opts into an object variant yet, so current language capabilities and translation outcomes are unchanged. The compiled plan stores the explicit variants as an immutable construction index:
+FWO-02 implements validation and compiled-plan output for this RFC. FWO-07 opts into the `ovs-theme-verb-agent` variant for the existing Polish `event.visual_perception` and `event.read` frames. This adds only those bounded Polish input forms; it does not change manifest capabilities or the default SVO realization. English has no opt-in object variants. The compiled plan stores explicit variants as an immutable construction index:
 
 ~~~json
 {

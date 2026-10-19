@@ -1010,7 +1010,16 @@
           "agent",
           "@verb",
           "theme"
-        ]
+        ],
+        {
+          "variantId": "ovs-theme-verb-agent",
+          "sequence": [
+            "theme",
+            "@verb",
+            "agent"
+          ],
+          "realizationPreference": 20
+        }
       ]
     },
     "event.visual_attention": {
@@ -1098,7 +1107,16 @@
           "agent",
           "@verb",
           "theme"
-        ]
+        ],
+        {
+          "variantId": "ovs-theme-verb-agent",
+          "sequence": [
+            "theme",
+            "@verb",
+            "agent"
+          ],
+          "realizationPreference": 20
+        }
       ]
     },
     "event.help": {
