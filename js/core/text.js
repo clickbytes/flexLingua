@@ -34,6 +34,11 @@ export function createTextProfile(locale, options = {}) {
 }
 
 export function validateTextProfile(profile, {locale} = {}) {
+  // The requested locale guards even cached profiles: a profile validated for
+  // one language must not silently pass a strict-check for another.
+  if (record(profile) && locale !== undefined && profile.locale !== locale) {
+    throw new Error('Invalid or unsupported text profile.');
+  }
   if (record(profile) && VALIDATED_TEXT_PROFILES.has(profile)) return profile;
   if (!record(profile) || Object.keys(profile).sort().join(',') !==
       'caseFold,locale,normalization,segmentation,version' ||
