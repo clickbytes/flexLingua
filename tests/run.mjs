@@ -265,10 +265,12 @@ async function main() {
   }
   if (hasErrors) {
     console.log('MATRIX: NOT RUN (invalid matrix data; required gate cannot be trusted)');
-    const semanticRelations = evaluateSemanticRelations(matrix.surfaceEquivalence?.groups, []);
+    const semanticRelations = evaluateSemanticRelations(matrix.surfaceEquivalence?.groups, [],
+      {requiredIds: matrix.requiredIds?.requiredRelationIds});
+    const relationsGate = relationGate(semanticRelations);
     await writeReports({testsRoot: RUNNER_DIR, sha, matrix, outcomes: [], coverage: null,
       cliSmoke: null, gates: {matrix: 'RED', coverage: 'NOT RUN', cli: 'NOT RUN',
-        semanticRelations: 'NOT RUN'},
+        semanticRelations: relationsGate},
       semanticRelations,
       notRun: ['matrix: invalid input', 'coverage', 'CLI smoke'],
       durationMs: Date.now() - started, mode: flags.all ? 'all' : flags.cli ? 'cli' : 'matrix'});
@@ -285,10 +287,12 @@ async function main() {
     console.log('MATRIX: INCOMPLETE — no approved required cases exist yet ' +
       `(cases ${matrix.cases.length}, requiredCaseIds ${declaredRequiredCases.length}); ` +
       'zero cases are never reported as PASS');
-    const semanticRelations = evaluateSemanticRelations(matrix.surfaceEquivalence?.groups, []);
+    const semanticRelations = evaluateSemanticRelations(matrix.surfaceEquivalence?.groups, [],
+      {requiredIds: matrix.requiredIds?.requiredRelationIds});
+    const relationsGate = relationGate(semanticRelations);
     await writeReports({testsRoot: RUNNER_DIR, sha, matrix, outcomes: [], coverage: null,
       cliSmoke: null, gates: {matrix: 'RED', coverage: 'NOT RUN', cli: 'NOT RUN',
-        semanticRelations: 'NOT RUN'},
+        semanticRelations: relationsGate},
       semanticRelations,
       notRun: ['matrix: incomplete required cases', 'coverage', 'CLI smoke'],
       durationMs: Date.now() - started, mode: flags.all ? 'all' : flags.cli ? 'cli' : 'matrix'});
@@ -371,14 +375,24 @@ async function main() {
     }
   }
 
-  const semanticRelations = evaluateSemanticRelations(matrix.surfaceEquivalence?.groups, outcomes);
+  const semanticRelations = evaluateSemanticRelations(matrix.surfaceEquivalence?.groups, outcomes,
+    {requiredIds: matrix.requiredIds?.requiredRelationIds});
   console.log('');
   if (!semanticRelations.declared) {
     console.log('SEMANTIC RELATIONS: NOT RUN — no groups declared.');
     console.log('GATE (semantic relations): NOT RUN — no relation coverage is claimed.');
+    if (semanticRelations.required && semanticRelations.required.status === 'RED') {
+      console.log('GATE: RED — protected semantic relation group(s) missing from the matrix: ' +
+        `${semanticRelations.required.missingIds.join(', ')}.`);
+    }
   } else {
     console.log(`SEMANTIC RELATIONS: ${semanticRelations.passed}/${semanticRelations.declared} PASS, ` +
       `${semanticRelations.failed} FAIL, ${semanticRelations.notRun} NOT RUN.`);
+    if (semanticRelations.required && semanticRelations.required.declared) {
+      console.log(`PROTECTED RELATIONS: ${semanticRelations.required.passed}/` +
+        `${semanticRelations.required.declared} PASS for protected group ids (+${semanticRelations.required.notRun} NOT RUN, ` +
+        `${semanticRelations.required.failed} FAIL).`);
+    }
     for (const group of semanticRelations.groups.filter(entry => entry.status !== 'PASS')) {
       console.log(`  RELATION-${group.status} ${group.id} (${group.relation}): ` +
         `${group.reason ?? group.differences.slice(0, 4).map(entry =>
@@ -448,19 +462,23 @@ async function main() {
   }
 
   const failedRequired = counts.fail.required + counts.infra.required;
-  const semanticRelationFailed = semanticRelations.declared > 0 &&
-    (semanticRelations.failed > 0 || semanticRelations.notRun > 0);
+  const relationsGate = relationGate(semanticRelations);
+  const semanticRelationFailed = semanticRelations.failed > 0 ||
+    semanticRelations.notRun > 0 || relationsGate === 'RED';
   const matrixRed = failedRequired > 0 || semanticRelationFailed;
   const gates = {
     matrix: matrixRed ? 'RED' : 'GREEN',
     coverage: coverageFailed ? 'RED' : 'GREEN',
     cli: (flags.cli || flags.all) ? (cliFailed ? 'RED' : 'GREEN') : 'NOT RUN',
-    semanticRelations: !semanticRelations.declared ? 'NOT RUN' :
-      semanticRelationFailed ? 'RED' : 'GREEN'
+    semanticRelations: relationsGate
   };
   if (matrixRed) {
+    const missingProtected = semanticRelations.required && semanticRelations.required.status === 'RED'
+      ? `; protected semantic relation group(s) missing from the matrix: ${semanticRelations.required.missingIds.join(', ')}`
+      : '';
     console.log(`GATE: RED — ${failedRequired} required case(s) did not pass; ` +
-      `${semanticRelations.failed} semantic relation(s) FAIL, ${semanticRelations.notRun} NOT RUN. ` +
+      `${semanticRelations.failed} semantic relation(s) FAIL, ${semanticRelations.notRun} NOT RUN` +
+      `${missingProtected}. ` +
       'Merge to main stays blocked.');
   } else {
     console.log(`GATE (matrix): GREEN — ${outcomes.length} executed case(s), required (${declaredRequiredCases.length}) all PASS.`);
@@ -483,6 +501,19 @@ async function main() {
 
   process.exitCode = matrixRed || coverageFailed || cliFailed ? 1 : 0;
   console.log(`Duration: ${Date.now() - started} ms.`);
+}
+
+/**
+ * Semantic relation gate: NOT RUN when the matrix declares no relation groups and
+ * required-ids.json protects none, RED when a declared relation failed, did not run,
+ * or a protected required relation id is missing, GREEN only when all declared
+ * relations (protected or advisory) executed and passed.
+ */
+function relationGate(semanticRelations) {
+  if (!semanticRelations) return 'NOT RUN';
+  if (semanticRelations.required && semanticRelations.required.status === 'RED') return 'RED';
+  return !semanticRelations.declared ? 'NOT RUN' :
+    (semanticRelations.failed > 0 || semanticRelations.notRun > 0) ? 'RED' : 'GREEN';
 }
 
 /** Live declared sentence tuples: manifest direction limits ∩ (source analyze ∩ target realize). */

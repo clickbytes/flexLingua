@@ -138,11 +138,12 @@ export function compareSemanticRelation(relation, entries, options = {}) {
 }
 
 /** Evaluate matrix groups without conflating semantic failures with sentence failures. */
-export function evaluateSemanticRelations(groups, outcomes) {
+export function evaluateSemanticRelations(groups, outcomes, options = {}) {
   const declared = Array.isArray(groups) ? groups : [];
   if (!declared.length) {
     return {status: 'NOT RUN', declared: 0, passed: 0, failed: 0, notRun: 0,
-      reason: 'No semantic relation groups are declared; no relation PASS is claimed.', groups: []};
+      reason: 'No semantic relation groups are declared; no relation PASS is claimed.',
+      groups: [], required: requiredRelationStatus([], options.requiredIds)};
   }
   const byId = new Map((Array.isArray(outcomes) ? outcomes : []).map(entry => [entry.item?.id, entry]));
   const results = declared.map(group => {
@@ -165,7 +166,25 @@ export function evaluateSemanticRelations(groups, outcomes) {
   const failed = results.filter(group => group.status === 'FAIL').length;
   const notRun = results.filter(group => group.status === 'NOT RUN').length;
   return {status: failed ? 'FAIL' : notRun ? 'NOT RUN' : 'PASS', declared: results.length,
-    passed, failed, notRun, reason: null, groups: results};
+    passed, failed, notRun, reason: null, groups: results,
+    required: requiredRelationStatus(results, options.requiredIds)};
+}
+
+/** Protected relation ids must each resolve to a declared, executed, passing group. */
+function requiredRelationStatus(results, requiredIds) {
+  const ids = Array.isArray(requiredIds) ? requiredIds : [];
+  const byId = new Map(results.map(entry => {
+    return [entry.id, entry];
+  }));
+  const declaredRows = ids.map(id => byId.get(id)).filter(entry => entry !== undefined);
+  const missingIds = ids.filter(id => !byId.has(id));
+  const status = ids.length === 0 ? 'NOT RUN' :
+    missingIds.length || declaredRows.some(entry => entry.status !== 'PASS') ? 'RED' : 'GREEN';
+  return {status, declared: ids.length,
+    passed: declaredRows.filter(entry => entry.status === 'PASS').length,
+    failed: declaredRows.filter(entry => entry.status === 'FAIL').length,
+    notRun: declaredRows.filter(entry => entry.status === 'NOT RUN').length,
+    missingIds};
 }
 
 function featureMismatch(wanted, got) {
