@@ -59,12 +59,20 @@ export const MAX_DIALOGUE_ACTS = 32;
 export const MAX_CLAUSE_DEPTH = 5;
 
 /** Bounded presentation choice for a transfer event. It is not a truth-conditional CORE field. */
-export function createInformationStructure(event, {topic='agent',focus}={}) {
+export function createInformationStructure(event, options={}) {
+  if(!record(options)||Object.keys(options).some(key=>!['topic','focus'].includes(key))) {
+    throw new EngineError('INVALID_INPUT','Invalid information structure.',{status:'invalid'});
+  }
+  const topic=options.topic===undefined?'agent':options.topic;
+  const {focus}=options;
   if(event?.type!=='event' || event.concept!=='event.transfer_possession' ||
       !event.roles?.agent || !event.roles?.recipient || !event.roles?.theme ||
       topic!=='agent' || !['theme','recipient'].includes(focus) ||
-      Object.keys(event.roles).length!==3)
-    throw new Error('Unsupported information structure for event.');
+      Object.keys(event.roles).length!==3) {
+    const code='INFORMATION_STRUCTURE_UNSUPPORTED';
+    const message='Information structure is unsupported for this event.';
+    throw new EngineError(code,message,{status:'unsupported',diagnostics:[{code,message}]});
+  }
   return {topic,focus};
 }
 

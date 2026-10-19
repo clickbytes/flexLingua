@@ -554,9 +554,12 @@ export class Engine {
       throw new EngineError('INVALID_INPUT','Invalid segment request.',{status:'invalid'});
     validateMeaningGraph(interlingua, this.ontology, this.features);
     if(informationStructure!==undefined) {
+      if(!record(informationStructure)||Object.keys(informationStructure).length!==2||
+          !hasOwn(informationStructure,'topic')||!hasOwn(informationStructure,'focus')) {
+        throw new EngineError('INVALID_INPUT','Invalid information structure.',{status:'invalid'});
+      }
       const expected=createInformationStructure(interlingua,informationStructure);
-      if(Object.keys(informationStructure).length!==2 ||
-          informationStructure.topic!==expected.topic ||
+      if(informationStructure.topic!==expected.topic ||
           informationStructure.focus!==expected.focus)
         throw new EngineError('INVALID_INPUT','Invalid information structure.',{status:'invalid'});
     }
