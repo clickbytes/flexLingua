@@ -46,9 +46,13 @@ Aktualne kierunki są zapisane w manifestach i widoczne przez `node tools/transl
 
 ## Deklaracje gramatyki
 
+Bounded warianty w istniejącym frame.linearizations, ich stabilne ID oraz rozdział surface evidence od MeaningGraph opisuje [ADR wariantów szyku](adr/feature-driven-word-order.md). Rozszerzenie jest opt-in i nie zmienia gramatyki pakietów, które używają obecnych tablic slotów.
+
 Ograniczenia i kolejność słów należą do grammar.json; wspólny interpreter korzysta z deklaracji pakietu bez rozgałęzień według kodu języka. states.supportedTensesByPolarity może zawęzić dostępne czasy dla danej polaryzacji. questions.wh.destination.order przyjmuje frame albo verb_first; brak pola zachowuje kolejność ramy zdania.
 
 ## Niepewność w publicznym wyniku
+
+Przyszłe, opcjonalne analysis.surface może dodać ID rozpoznanej konstrukcji/wariantu, mapowanie slotów, zakresy źródłowe i dowody składniowe. Jest to trace pluginu, a nie pole MeaningGraph ani obowiązkowa część interfejsu 1.0; brak trace nie oznacza wariantu domyślnego ani topic/focus.
 
 `Engine.translate()` i serwis aplikacji zachowują wszystkie odrębne znaczenia. Gdy pozostaje więcej niż jedno, zwracają `status:"ambiguous"`, `text:null`, `meaning:null` i `interlingua:null`, a odczytania pozostają w `alternatives`. Różne wyniki punktowe nie rozstrzygają znaczenia. Jawne ograniczenie `context.senses` może zawężać zbiór; `context.topics` jedynie zmienia kolejność. Serwis sprawdza dodatkowo dostępność pakietów, kierunków i capabilities.
 

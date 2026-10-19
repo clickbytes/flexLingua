@@ -16,6 +16,8 @@ Migracja jest opt-in. Istniejące adaptery i dokumenty CORE v1.0 pozostają czyt
 i działają bez nowych pól. Samo wystąpienie wartości w rejestrze nie oznacza, że
 jakiś język potrafi ją przeanalizować, wygenerować lub zachować w transferze.
 
+Szczegółowy kontrakt ograniczonych wariantów szyku opisuje [ADR wariantów szyku i równoważności semantycznej](feature-driven-word-order.md). Rozszerza on wyłącznie deklaracje linearization w istniejących ramach; nie zmienia tego rozdziału między rolą CORE, funkcją składniową, przypadkiem i cechą formy ani nie dodaje cech do globalnego CORE.
+
 ## Słownik i typy
 
 | Pojęcie | Znaczenie kontraktowe |

@@ -18,6 +18,8 @@ CLI rozwiązuje pakiety przez registry. Plugin źródłowy analizuje zdanie do n
 
 CORE definiuje stabilne koncepty i ich opcjonalne, typowane grafy znaczenia. Ontology wiąże te definicje z `coreRef`; MeaningGraph zachowuje role zdania, referenty i cechy. Ten graf semantyczny jest odrębny od LanguageGraph, który opisuje połączenia modułów w pakiecie języka. Kontrakt grafu opisuje [ADR typowanego grafu definicji konceptu](adr/typed-semantic-graph.md); jego walidacja i projekcja są ograniczonymi capability, a nie deklaracją pełnego pokrycia języka.
 
+Analiza źródłowa może zachować bounded surface evidence w LanguagePlugin, po czym istniejący bridge mapuje rozpoznane sloty do walidowanego MeaningGraph; plugin docelowy realizuje ten graf według własnej licencjonowanej kolejności. Ślad szyku pozostaje poza CORE i sam nie określa topic/focus. Szczegóły opisuje [ADR wariantów szyku](adr/feature-driven-word-order.md).
+
 ## Własność warstw
 
 ```text
