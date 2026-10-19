@@ -1,7 +1,27 @@
 {
   "schemaVersion": "1.0",
-  "purpose": "Relational assertions over existing approved sentence cases; groups never copy or replace their expected MeaningGraphs.",
+  "purpose": "Relational assertions over existing approved sentence cases; groups never copy or replace their expected MeaningGraphs. A case id may belong to several groups (for example the shared A in a same-core A~B group and a different-core A~C group).",
   "groups": [
+    {
+      "id": "FWO-PL-0009",
+      "direction": "pl-en",
+      "relation": "same-core",
+      "caseIds": [
+        "A1-PL-EN-DEIXIS-0001",
+        "A1-PL-EN-DEIXIS-0003"
+      ],
+      "comparison": "strict-core"
+    },
+    {
+      "id": "FWO-PL-0010",
+      "direction": "pl-en",
+      "relation": "different-core",
+      "caseIds": [
+        "A1-PL-EN-DEIXIS-0001",
+        "A1-PL-EN-DEIXIS-0002"
+      ],
+      "comparison": "strict-core"
+    },
     {
       "id": "FWO-PL-0001",
       "direction": "pl-en",
