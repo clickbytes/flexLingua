@@ -14386,6 +14386,11 @@
       "id": "pl.isc.1",
       "lemma": "iść",
       "aspect": "imperfective",
+      "capabilities": {
+        "roles": {
+          "agent": "person"
+        }
+      },
       "forms": {
         "present": {
           "thirdSingular": "idzie",
@@ -14420,6 +14425,25 @@
           "coreRef": {
             "kind": "concept",
             "id": "event.movement.to_destination"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pl.jechac.1",
+      "lemma": "jechać",
+      "aspect": "imperfective",
+      "capabilities": {
+        "roles": {
+          "agent": "object.car"
+        }
+      },
+      "senses": [
+        {
+          "id": "pl.jechac.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.movement"
           }
         }
       ]

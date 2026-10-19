@@ -159,6 +159,13 @@
           "source": "Adds a usage note to the existing Polish dziewczynka lexeme; no lexical entry, sense, or inflection was copied or replaced.",
           "license": "Project-authored for internal flexLingua use; this repository declares no separate SPDX data license.",
           "scope": "Marks the dziewczynka realization as potentially narrowing person.girl to a child, so it is shown only as an explicit additional-assumption variant."
+        },
+        {
+          "issue": "#461",
+          "author": "Codex (project-authored bounded lexical entry; linguistic oracle pending owner review)",
+          "source": "Project-authored jechać sense and present third-person singular form; the WSJP PAN entry for jechać with a means of transport was consulted for semantic distinction, but no definition text or corpus example was copied.",
+          "license": "Project-authored for internal flexLingua use; external reference text is not included and the repository declares no separate SPDX data license.",
+          "scope": "Adds only jechać/jedzie for present singular movement by object.car; pl.isc.1 remains iść and is selectionally bounded to person agents. Reference: https://wsjp.pl/haslo/podglad/19013/jechac/5048584/samochodem"
         }
       ],
       "migratedFrom": "data/pl.json"

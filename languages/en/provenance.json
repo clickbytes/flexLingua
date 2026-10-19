@@ -145,6 +145,13 @@
           "source": "Original project-authored residence and apartment lexical mappings and inflection data; Polish preferred neutral dziewczyna synonym requested by owner. No external dictionary was copied.",
           "license": "Project-authored; the repository declares no separate SPDX data license.",
           "scope": "Controlled present-tense residence construction; 13 independent sentence expectations approved under explicit owner delegation recorded in issue #438."
+        },
+        {
+          "issue": "#461",
+          "author": "Codex (project-authored bounded lexical entry; linguistic oracle pending owner review)",
+          "source": "Project-authored English move lexeme with an explicit progressive form; Cambridge Dictionary grammar was consulted to check the present continuous form and current-event reading, but no definition text or example was copied.",
+          "license": "Project-authored for internal flexLingua use; external reference text is not included and the repository declares no separate SPDX data license.",
+          "scope": "Adds moving only for the bounded present vehicle-movement witness; en.go.1 remains go with person-agent selection. Reference: https://dictionary.cambridge.org/uk/grammar/british-grammar/present-continuous-i-am-working"
         }
       ],
       "migratedFrom": "data/en.json"

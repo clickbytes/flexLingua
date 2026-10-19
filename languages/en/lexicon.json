@@ -12012,7 +12012,33 @@
         "present3sg": "goes",
         "present3pl": "go",
         "past": "went"
+      },
+      "capabilities": {
+        "roles": {
+          "agent": "person"
+        }
       }
+    },
+    {
+      "id": "en.move.1",
+      "lemma": "move",
+      "forms": {
+        "progressive": "moving"
+      },
+      "capabilities": {
+        "roles": {
+          "agent": "object.car"
+        }
+      },
+      "senses": [
+        {
+          "id": "en.move.1.sense.1",
+          "coreRef": {
+            "kind": "concept",
+            "id": "event.movement"
+          }
+        }
+      ]
     },
     {
       "id": "en.look_at.1",

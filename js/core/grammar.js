@@ -1049,10 +1049,13 @@ export function createRuleAdapter(plan, options = {}) {
       !['lexicon','syntax','morphology','signal'].every(layer=>Array.isArray(plan.layers[layer]))) {
     throw new Error('Invalid compiled grammar plan.');
   }
-  if(!record(options)||Object.keys(options).some(key=>!['morphology','lexicon'].includes(key))) {
+  if(!record(options)||Object.keys(options).some(key=>!['morphology','lexicon','core'].includes(key))) {
     throw new Error('Invalid compiled grammar runtime options.');
   }
-  const {morphology,lexicon}=options;
+  const {morphology,lexicon,core}=options;
+  if(!core?.ontology||typeof core.ontology.get!=='function'||typeof core.ontology.isA!=='function') {
+    throw new Error('Compiled grammar requires the CORE ontology for lexical role constraints.');
+  }
   const dictionary=planModule(plan,'lexicon',data=>
     record(data)&&data.language===plan.language&&Array.isArray(data.nouns));
   const grammar=planModule(plan,'syntax',data=>
@@ -1066,13 +1069,19 @@ export function createRuleAdapter(plan, options = {}) {
   return createGrammarInterpreter(dictionary,grammar,{
     morphology,
     lexicon,
+    core,
     featureProfile,
     ...(signal?{textProfile:textProfileForSignal(signal,plan.language)}:{})
   },plan);
 }
 
 function createGrammarInterpreter(sourceDictionary, rules,
-  {morphology,lexicon:sharedLexicon,featureProfile:rawFeatureProfile,textProfile:rawTextProfile}, compiledPlan) {
+  {morphology,lexicon:sharedLexicon,core:coreLanguage,
+    featureProfile:rawFeatureProfile,textProfile:rawTextProfile}, compiledPlan) {
+  const ontology=coreLanguage?.ontology;
+  if(!ontology||typeof ontology.get!=='function'||typeof ontology.isA!=='function') {
+    throw new Error('Grammar requires the CORE ontology for lexical role constraints.');
+  }
   const featureProfile=rawFeatureProfile===undefined?undefined:
     createLanguageFeatureProfile(rawFeatureProfile,{language:sourceDictionary.language});
   const textProfile=rawTextProfile===undefined?createTextProfile(sourceDictionary.language):
@@ -1278,6 +1287,33 @@ function createGrammarInterpreter(sourceDictionary, rules,
   const hasMorphologyForms=lexeme=>!!morphologyForLexeme(lexeme);
   const nouns = expandLexemes(dictionary.nouns, dictionary.language, 'noun', hasMorphologyForms);
   const expandedVerbs = expandLexemes(dictionary.verbs, dictionary.language, 'verb', hasMorphologyForms);
+  function validateRoleCapabilities(lexeme) {
+    const roles=lexeme.capabilities?.roles;
+    if(roles===undefined)return;
+    const semanticFrame=ontology.get(lexeme.concept);
+    if(!record(roles)||!semanticFrame||!Array.isArray(semanticFrame.roles)||
+        !record(semanticFrame.roleTypes)||Object.keys(roles).length===0||Object.keys(roles).length>8) {
+      throw new Error(`Invalid semantic role capabilities for ${lexeme.id}.`);
+    }
+    for(const [role,concept] of Object.entries(roles)) {
+      if(!safeName(role)||!semanticFrame.roles.includes(role)||!ontology.get(concept)||
+          !ontology.isA(concept,semanticFrame.roleTypes[role])) {
+        throw new Error(`Invalid semantic role capability for ${lexeme.id}.${role}.`);
+      }
+    }
+  }
+  for(const lexeme of expandedVerbs)validateRoleCapabilities(lexeme);
+  function matchesRoleCapabilities(lexeme, roles) {
+    for(const [role,expected] of Object.entries(lexeme.capabilities?.roles||{})) {
+      const ref=roles[role]?.value||roles[role];
+      if(typeof ref?.concept!=='string') {
+        if(ontology.get(expected)?.type==='category')continue;
+        return false;
+      }
+      if(!ontology.isA(ref.concept,expected))return false;
+    }
+    return true;
+  }
   if(morphology){
     for(const lexeme of [...nouns,...expandedVerbs]){
       const generated=morphologyForLexeme(lexeme);
@@ -1999,6 +2035,8 @@ function createGrammarInterpreter(sourceDictionary, rules,
     const results = [...comparisonReadings,...stateReadings,...parseClause(tokens, null, null, 0, budget,
       {allowImplicitSubject:true})];
     if (results.length) return boundedAnalyses(results);
+    if(budget.selectionalFailed)throw new EngineError('UNSUPPORTED_CONSTRUCTION',
+      'No lexical predicate supports the semantic roles in this sentence.',{status:'unsupported'});
     if (budget.agreementFailed) unsupported(grammar.messages?.agreement ||
       'Verb form does not agree with subject.');
     unsupported('Sentence does not match a supported grammatical construction (subject noun phrase, roles, verb or word order).');
@@ -2085,6 +2123,10 @@ function createGrammarInterpreter(sourceDictionary, rules,
                 if (index !== tokens.length) return;
                 const context = contextFor(parsedRoles, features,subjectRole,
                   {formalSubject:parseSequence.includes('@expletive')?frame.formalSubject:null});
+                if(!matchesRoleCapabilities(entry.lexeme,parsedRoles)) {
+                  budget.selectionalFailed=true;
+                  return;
+                }
                 if (!matchesConditions(context, entry.rule.when || {}) ||
                     !matchesAgreement(entry.bindings, frameAgreement, context) ||
                     !matchesMorphologyFeatures(entry,context,features,frameAgreement)) {
@@ -2866,6 +2908,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
       (verbGrammar.aspectSource !== 'lexeme' || meaning.features.aspect === 'unknown' ||
         entry.lexeme.aspect === meaning.features.aspect) &&
       matchesConditions(context, entry.rule.when || {}) &&
+      matchesRoleCapabilities(entry.lexeme,roles) &&
       matchesAgreement(entry.bindings, agreementForFrame(frame), context) &&
       matchesMorphologyFeatures(entry,context,meaning.features,agreementForFrame(frame)));
     if (!candidates.length) unsupported(`No ${dictionary.language} verb form supports ${meaning.concept}, ` +
