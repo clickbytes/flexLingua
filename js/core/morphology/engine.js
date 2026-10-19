@@ -55,13 +55,17 @@ export function createMorphology(spec, dictionary, featureSpec, options={}) {
     const parent=source.extends?resolve(source.extends):null;
     if(parent && parent.pos!==source.pos)throw new Error('Paradigm POS inheritance conflict.');
     const slots=new Map(parent?.slots||[]);
+    const localCellKeys=new Set();
     for(const slot of source.slots){
       if (!record(slot)||!record(slot.features)||!Array.isArray(slot.steps)||
           (slot.path!==undefined && (!Array.isArray(slot.path)||slot.path.some(v=>!safeName(v)))) ||
           !Object.keys(slot.features).length)throw new Error(`Invalid paradigm slot in ${id}.`);
       registry.supports(slot.features);
       validateOperations(slot.steps);
-      slots.set(key(slot.features),clone(slot));
+      const cellKey=key(slot.features);
+      if(localCellKeys.has(cellKey))throw new Error(`Duplicate paradigm cell ${cellKey} in ${id}.`);
+      localCellKeys.add(cellKey);
+      slots.set(cellKey,clone(slot));
     }
     if(!slots.size||slots.size>MAX_SLOTS)throw new Error('Invalid inherited paradigm slot count.');
     const paradigm={id,pos:source.pos,slots};resolved.set(id,paradigm);states.set(id,2);return paradigm;
