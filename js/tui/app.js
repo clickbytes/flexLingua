@@ -25,6 +25,8 @@ import {createFormsView} from './views/forms.js';
 
 const SMALL_TERMINAL_MESSAGE = 'Za mały terminal. Powiększ do co najmniej 40 kolumn i 12 wierszy.';
 
+const transcriptRowCache = new WeakMap();
+
 function positiveSize(value, fallback) {
   return Number.isFinite(value) && value > 0 ? Math.floor(value) : fallback;
 }
@@ -56,10 +58,31 @@ function composerLineCountFor(view, focus, width, state = view.state) {
 }
 
 function transcriptRowsFor(view, focus, width) {
-  return buildTranscript(view, {focus, width}).flatMap(item =>
-    wrapText(item.text, width).map((text, index) => ({text, tone: item.tone ?? 'neutral',
-      entryId: item.entryId ?? null,
-      candidateIndex: index === 0 ? item.candidateIndex ?? null : null})));
+  const state = view.state;
+  const entries = state.entries ?? [];
+  const statusText = view.statusLine?.()?.text ?? null;
+  const cache = transcriptRowCache.get(view);
+  const canCache = entries.length > 0 && !(view.id === 'chat' && state.confirmReset);
+  let current = canCache && cache?.width === width && cache.entries === entries &&
+    cache.historyRevision === (state.historyRevision ?? 0) &&
+    cache.removedEntryCount === (state.removedEntryCount ?? 0) &&
+    cache.statusText === statusText && cache.selectedIndex === state.selectedIndex &&
+    cache.searchEntryId === state.searchEntryId && cache.resultStatus === state.result?.status;
+  if (!current) {
+    const rows = buildTranscript(view, {focus, width}).flatMap(item =>
+      wrapText(item.text, width).map((text, index) => ({text, tone: item.tone ?? 'neutral',
+        entryId: item.entryId ?? null,
+        candidateIndex: index === 0 ? item.candidateIndex ?? null : null})));
+    if (canCache) {
+      transcriptRowCache.set(view, {width, entries,
+        historyRevision: state.historyRevision ?? 0,
+        removedEntryCount: state.removedEntryCount ?? 0, statusText,
+        selectedIndex: state.selectedIndex, searchEntryId: state.searchEntryId,
+        resultStatus: state.result?.status,rows});
+    }
+    return canCache ? rows.slice() : rows;
+  }
+  return cache.rows.slice();
 }
 
 function anchorAt(rows, requestedIndex) {
@@ -312,6 +335,7 @@ export function createTui({runtime, terminal, output = process.stdout, services 
 
     drawHeader(view, focus, width);
     let historyRows;
+    let transcriptRows = false;
     const overlayType = workspaceState.overlay?.type;
     const panelOverlayType = overlayType;
     if (panelOverlayType === 'command_palette') {
@@ -338,10 +362,13 @@ export function createTui({runtime, terminal, output = process.stdout, services 
       historyRows = settingsLines(workspaceState.overlay, runtime.capabilityCatalog);
     } else {
       historyRows = transcriptRowsFor(view, focus, width);
+      transcriptRows = true;
     }
-    historyRows = historyRows.flatMap(item => wrapText(item.text, width).map((text, index) =>
-      ({text, tone: item.tone ?? 'neutral', entryId: item.entryId ?? null,
-        candidateIndex: index === 0 ? item.candidateIndex ?? null : null})));
+    if (!transcriptRows) {
+      historyRows = historyRows.flatMap(item => wrapText(item.text, width).map((text, index) =>
+        ({text, tone: item.tone ?? 'neutral', entryId: item.entryId ?? null,
+          candidateIndex: index === 0 ? item.candidateIndex ?? null : null})));
+    }
     if (!commandPaletteOpen && view.state.editorNotice) {
       historyRows.push(...wrapText(view.state.editorNotice, width).map(text =>
         ({text, tone: 'warning', entryId: null})));

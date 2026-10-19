@@ -9,6 +9,7 @@ function createModeState() {
     status: '',
     settings: {},
     entries: [],
+    historyRevision: 0,
     selectedEntryId: null,
     viewportAnchor: null,
     followLatest: true,
@@ -16,6 +17,10 @@ function createModeState() {
     removedEntryCount: 0,
     scrollTop: 0
   };
+}
+
+function bumpHistoryRevision(state) {
+  state.historyRevision = (Number.isSafeInteger(state.historyRevision) ? state.historyRevision : 0) + 1;
 }
 
 export function createWorkspaceState({activeMode = 'translate'} = {}) {
@@ -108,6 +113,7 @@ export function appendOperation(state, mode, operation, token = null) {
     target.viewportAnchor = {entryId: id, offset: 0};
     target.scrollTop = Number.MAX_SAFE_INTEGER;
   }
+  bumpHistoryRevision(target);
   return entry;
 }
 
@@ -115,9 +121,17 @@ export function updateOperation(state, mode, id, patch) {
   const target = state?.modes?.[mode];
   const entry = target?.entries.find(item => item.id === id);
   if (!entry || !patch || typeof patch !== 'object') return null;
+  let changed = false;
   for (const key of ['status', 'accepted', 'output', 'rawResult', 'events']) {
-    if (Object.hasOwn(patch, key)) entry[key] = key === 'events' && !Array.isArray(patch[key]) ? [] : patch[key];
+    if (Object.hasOwn(patch, key)) {
+      const value = key === 'events' && !Array.isArray(patch[key]) ? [] : patch[key];
+      if (entry[key] !== value) {
+        entry[key] = value;
+        changed = true;
+      }
+    }
   }
+  if (changed) bumpHistoryRevision(target);
   return entry;
 }
 
@@ -125,6 +139,7 @@ export function clearModeEntries(state, mode, {resetRemovedEntryCount = true} = 
   const target = state?.modes?.[mode];
   if (!target) return false;
   target.entries = [];
+  bumpHistoryRevision(target);
   target.selectedEntryId = null;
   target.viewportAnchor = null;
   target.unseenCount = 0;

@@ -10,6 +10,11 @@ const RUNTIME_PARADIGMS=new WeakMap();
 const key=features=>JSON.stringify(Object.entries(features).sort(([a],[b])=>a.localeCompare(b)));
 const matches=(pattern,query)=>Object.entries(pattern).every(([k,v])=>query[k]===v);
 const safeText=text=>typeof text==='string' && text.length>0 && text.length<128 && !/[<>\x00-\x1f]/u.test(text);
+function freezeRuntimeValue(value) {
+  if (!value || typeof value !== 'object' || Object.isFrozen(value)) return value;
+  for (const child of Object.values(value)) freezeRuntimeValue(child);
+  return Object.freeze(value);
+}
 
 /** Return immutable parser-only forms without crossing the public clone boundary. */
 export function getMorphologyRuntimeView(provider,lexemeId) {
@@ -75,7 +80,8 @@ export function createMorphology(spec, dictionary, featureSpec, options={}) {
     const canonicalPos={nouns:'NOUN',verbs:'VERB',adjectives:'ADJ'}[lex.category];
     if(canonicalPos!==paradigm.pos)throw new Error(`Morphology POS mismatch: ${item.lexemeId}`);
     for(const stem of Object.values(item.stems))if(!safeText(stem))throw new Error('Invalid morphology stem.');
-    const forms=[];
+    const forms=[],formsByCell=new Map(),featuresByCell=new Map();
+    const coreRefs=freezeRuntimeValue(lex.senses.map(s=>clone(s.coreRef)));
     const overrides=item.overrides||[];
     const blockedCells=new Set();
     const overridesByCell=new Map();
@@ -100,6 +106,8 @@ export function createMorphology(spec, dictionary, featureSpec, options={}) {
       if(override.mode==='block')blockedCells.add(cell);
     }
     for (const [featuresKey,slot] of paradigm.slots){
+      const cellFeatures=Object.freeze(clone(slot.features));
+      featuresByCell.set(featuresKey,cellFeatures);
       const form=executeOperations({stem:item.stems.base,stems:item.stems,steps:slot.steps});
       let variants=[{text:form.text,source:'rule',trace:form.trace}];
       for(const override of overridesByCell.get(featuresKey)||[]){
@@ -112,32 +120,35 @@ export function createMorphology(spec, dictionary, featureSpec, options={}) {
       for(const variant of variants){
         if(seen.has(variant.text))continue;
         seen.add(variant.text);
-        const entry={lexemeId:item.lexemeId,lemma:lex.lemma,text:variant.text,features:clone(slot.features),
+        const entry={lexemeId:item.lexemeId,lemma:lex.lemma,text:variant.text,features:cellFeatures,
           path:slot.path?.join('.')||null,source:variant.source,trace:variant.trace,
-          variant:variant.variant||'standard',coreRefs:lex.senses.map(s=>clone(s.coreRef)),paradigmId:item.paradigmId,
+          variant:variant.variant||'standard',coreRefs,paradigmId:item.paradigmId,
           provenance};
         if(++compiledCount>MAX_COMPILED_FORMS)throw new Error('Morphology compilation exceeds form limit.');
         forms.push(entry);
+        if(!formsByCell.has(featuresKey))formsByCell.set(featuresKey,[]);
+        formsByCell.get(featuresKey).push(entry);
         const normalized=entry.text.toLocaleLowerCase(spec.language).normalize('NFC');
         if(!inverse.has(normalized))inverse.set(normalized,[]);
         inverse.get(normalized).push(entry);
       }
     }
     const cells=[...paradigm.slots].map(([featuresKey,slot])=>({
-      features:clone(slot.features),path:slot.path?.join('.')||null,
+      features:featuresByCell.get(featuresKey),path:slot.path?.join('.')||null,
       blocked:blockedCells.has(featuresKey)
     }));
     const runtimeForms=Object.freeze(forms.map(form=>Object.freeze({
-      lexemeId:form.lexemeId,text:form.text,features:Object.freeze(form.features),
+      lexemeId:form.lexemeId,text:form.text,features:form.features,
       path:form.path,source:form.source,variant:form.variant,
-      coreRefs:Object.freeze(form.coreRefs.map(ref=>Object.freeze(ref)))
+      coreRefs:form.coreRefs
     })));
     const runtimeCells=Object.freeze(cells.map(cell=>Object.freeze({
-      features:Object.freeze(cell.features),path:cell.path,blocked:cell.blocked
+      features:cell.features,path:cell.path,blocked:cell.blocked
     })));
     runtimeViews.set(item.lexemeId,Object.freeze({forms:runtimeForms,cells:runtimeCells,
       supported:forms.length>0}));
-    bindings.set(item.lexemeId,Object.freeze({lexeme:lex,paradigmId:item.paradigmId,forms,cells}));
+    bindings.set(item.lexemeId,Object.freeze({lexeme:lex,paradigmId:item.paradigmId,
+      forms,formsByCell,cells}));
   }
   const output=entry=>clone(entry);
   const provider=Object.freeze({language:spec.language,version:'1.11',
@@ -151,8 +162,8 @@ export function createMorphology(spec, dictionary, featureSpec, options={}) {
       let query;
       try{query=flattenMorphFeatures(features,registry);}
       catch(error){return {supported:false,reason:error?.code||'invalid_feature_value'};}
-      const found=binding.forms.some(form=>matches(query,form.features)&&
-        (!exact||Object.keys(query).length===Object.keys(form.features).length));
+      const found=exact?binding.formsByCell.has(key(query)):
+        binding.forms.some(form=>matches(query,form.features));
       return found?{supported:true,reason:null}:
         {supported:false,reason:'missing_or_blocked_cell'};
     },
@@ -160,8 +171,8 @@ export function createMorphology(spec, dictionary, featureSpec, options={}) {
       const binding=bindings.get(lexemeId);
       if(!binding)throw new Error(`Unsupported morphology lexeme: ${lexemeId}`);
       const query=flattenMorphFeatures(features,registry);
-      const matchesForm=binding.forms.filter(form=>
-        matches(query,form.features)&&(exact?Object.keys(query).length===Object.keys(form.features).length:true));
+      const matchesForm=exact?(binding.formsByCell.get(key(query))||[]):binding.forms.filter(form=>
+        matches(query,form.features));
       if(!matchesForm.length){
         const error=new Error(`Missing or blocked morphology cell for ${lexemeId}.`);
         error.code='MORPHOLOGY_CELL_UNAVAILABLE';

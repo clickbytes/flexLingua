@@ -193,8 +193,7 @@ async function loadOne(languageRoot, entry, core, registry) {
   let plugin = module.default;
   if (typeof plugin === 'function') {
     try {
-      plugin = await plugin({core, manifest: structuredClone(manifest),
-        graph: structuredClone(graph), provenance: structuredClone(provenance)});
+      plugin = await plugin({core, manifest: structuredClone(manifest), graph, provenance});
     } catch (error) {
       fail('PLUGIN_LOAD_FAILED', `Plugin factory failed for ${entry.code}.`, error);
     }

@@ -25,7 +25,23 @@ import {
 const GRAMMAR_VERSIONS = new Set(['0.6', '1.0']);
 const MAX_ANALYSES = RESOURCE_LIMITS.grammarAnalyses;
 const MAX_SEARCH_NODES = RESOURCE_LIMITS.grammarSearchNodes;
-const searchBudget = counter => ({counter,memo:new Map(),nounPhraseMemo:new WeakMap()});
+const searchBudget = counter => ({counter,memo:new Map(),nounPhraseMemo:new WeakMap(),
+  jsonSignatures:new WeakMap(),relativeCommaIndexes:new WeakMap()});
+function jsonSignature(value,budget) {
+  if (!value || typeof value !== 'object') return value;
+  if (budget.jsonSignatures.has(value)) return budget.jsonSignatures.get(value);
+  const signature=JSON.stringify(value);
+  budget.jsonSignatures.set(value,signature);
+  return signature;
+}
+function commaIndexes(tokens,budget) {
+  let indexes=budget.relativeCommaIndexes.get(tokens);
+  if(indexes)return indexes;
+  indexes=[];
+  for(let index=0;index<tokens.length;index++)if(tokens[index]===',')indexes.push(index);
+  budget.relativeCommaIndexes.set(tokens,indexes);
+  return indexes;
+}
 function freezeCachedGraph(value, seen = new WeakSet()) {
   if (!value || typeof value !== 'object' || seen.has(value)) return value;
   seen.add(value);
@@ -1126,6 +1142,8 @@ function createGrammarInterpreter(sourceDictionary, rules,
   }));
   // These private candidate arrays are stable, including cached modal variants.
   const verbEntryIndexes=new WeakMap();
+  const frontedVerbEntriesCache=new WeakMap();
+  const auxiliaryVerbEntriesCache=new WeakMap();
   function indexVerbEntries(entries,includeConcepts=false) {
     let indexes=verbEntryIndexes.get(entries);
     if(indexes)return indexes;
@@ -1163,6 +1181,20 @@ function createGrammarInterpreter(sourceDictionary, rules,
     return indexes;
   }
   const verbFormsByConcept=indexVerbEntries(verbForms,true).byConcept;
+  function frontedVerbEntries(entries,frame,concept=null) {
+    let byFrame=frontedVerbEntriesCache.get(entries);
+    if(!byFrame){byFrame=new WeakMap();frontedVerbEntriesCache.set(entries,byFrame);}
+    let byConcept=byFrame.get(frame);
+    if(!byConcept){byConcept=new Map();byFrame.set(frame,byConcept);}
+    if(byConcept.has(concept))return byConcept.get(concept);
+    const selected=concept===null?entries:entries.filter(entry=>entry.lexeme.concept===concept);
+    const result=selected.flatMap(entry=>{
+      const text=withoutGovernedPreposition(entry.text,frame);
+      return text?[{...entry,text}]:[];
+    });
+    byConcept.set(concept,result);
+    return result;
+  }
   const stateGrammar = grammar.states || null;
   const stateVerbForms = stateGrammar ? stateVerbs.flatMap(lexeme => {
     const kinds = [].concat(stateGrammar.verbs[lexeme.stateFunction]);
@@ -1740,8 +1772,8 @@ function createGrammarInterpreter(sourceDictionary, rules,
   function parseClause(tokens, gap, antecedent, depth, budget, options = {}) {
     const {verbEntries=verbForms,linearizations=null,omitGap=false,skipPreposition=null,
       allowImplicitSubject=false} = options;
-    const memoKey = JSON.stringify([tokens,gap,antecedent?.noun?.id,
-      antecedent?.value,depth,omitGap,linearizations?'question':'declarative',skipPreposition,
+    const memoKey = JSON.stringify([jsonSignature(tokens,budget),gap,antecedent?.noun?.id,
+      jsonSignature(antecedent?.value,budget),depth,omitGap,linearizations?'question':'declarative',skipPreposition,
       allowImplicitSubject]);
     if (budget.memo.has(memoKey)) return budget.memo.get(memoKey);
     const readings = new Map();
@@ -1773,6 +1805,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
       .sort((left,right)=>frameOrder.get(left)-frameOrder.get(right));
     for (const concept of orderedConcepts) {
       const frame=frames[concept];
+      const frameAgreement=agreementForFrame(frame);
       const entries=matchingEntriesByConcept.get(concept)
         .sort((left,right)=>left.order-right.order).map(candidate=>candidate.entry);
       const sequences = linearizations ? linearizations(frame) : frame.linearizations;
@@ -1783,6 +1816,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
       for (const sequence of sequences) {
         if (gap && !sequence.includes(gap)) continue;
         for (const entry of entries) {
+          const roleRules=new Map();
           if (++budget.counter.visited > MAX_SEARCH_NODES) {
             throw new EngineError('GRAMMAR_SEARCH_LIMIT',
               'Sentence analysis exceeded the bounded search limit.');
@@ -1809,8 +1843,8 @@ function createGrammarInterpreter(sourceDictionary, rules,
                 const context = contextFor(parsedRoles, features,subjectRole,
                   {formalSubject:parseSequence.includes('@expletive')?frame.formalSubject:null});
                 if (!matchesConditions(context, entry.rule.when || {}) ||
-                    !matchesAgreement(entry.bindings, agreementForFrame(frame), context) ||
-                    !matchesMorphologyFeatures(entry,context,features,agreementForFrame(frame))) {
+                    !matchesAgreement(entry.bindings, frameAgreement, context) ||
+                    !matchesMorphologyFeatures(entry,context,features,frameAgreement)) {
                   budget.agreementFailed = true;
                   return;
                 }
@@ -1852,9 +1886,21 @@ function createGrammarInterpreter(sourceDictionary, rules,
                 if (count) search(position + 1, index + count, parsedRoles);
                 return;
               }
-              const caseRule = compiledCases.get(frame)?.has(step)?null:frame.cases?.[step];
-              const cases = record(caseRule) ? [...new Set(Object.values(caseRule))] :
-                [roleCase(frame, step, features)];
+              let roleRule=roleRules.get(step);
+              if(!roleRule) {
+                const caseRule=compiledCases.get(frame)?.has(step)?null:frame.cases?.[step];
+                const cases=record(caseRule)?[...new Set(Object.values(caseRule))]:
+                  [roleCase(frame,step,features)];
+                const impliedByCase=new Map();
+                if(record(caseRule))for(const key of Object.keys(caseRule)) {
+                  const grammaticalCase=caseRule[key];
+                  if(key!=='unknown'&&!impliedByCase.has(grammaticalCase))
+                    impliedByCase.set(grammaticalCase,key);
+                }
+                roleRule={caseRule,cases,impliedByCase};
+                roleRules.set(step,roleRule);
+              }
+              const {caseRule,cases,impliedByCase}=roleRule;
               for (const grammaticalCase of cases) {
                 const phrases=[...readNounPhrases(tokens,index,grammaticalCase,depth,budget,
                   {allowBare:frame.bareRoles?.includes(step) === true}),
@@ -1865,8 +1911,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
                   if (parsed.bare && frame.bareRoleConcepts?.[step] &&
                       !bareRoleAllows(frame,step,parsed.noun.concept)) continue;
                   if (record(caseRule)) {
-                    const implied = Object.keys(caseRule).find(key => key !== 'unknown' &&
-                      caseRule[key] === grammaticalCase);
+                    const implied = impliedByCase.get(grammaticalCase);
                     if (!implied) continue;
                     if (parsed.value.features.definiteness !== 'unknown' &&
                         parsed.value.features.definiteness !== implied) continue;
@@ -1985,11 +2030,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
           noun:{id:'question_gap'},senseId:null};
         for(const modal of modals)for(const mode of ['positive','negative']){
           for(const person of ['first','second','third']) for(const number of ['singular','plural']){
-            const entries=modalEntries(modal,mode,person,number).filter(e=>
-              e.lexeme.concept===concept).flatMap(e=>{
-              const text=withoutGovernedPreposition(e.text,frame);
-              return text?[{...e,text}]:[];
-            });
+            const entries=frontedVerbEntries(modalEntries(modal,mode,person,number),frame,concept);
             const readings=parseClause(tokens.slice(2),'theme',gap,0,questionBudget(counter),{
               verbEntries:entries,omitGap:true,linearizations:themeOrder
             });
@@ -2064,6 +2105,48 @@ function createGrammarInterpreter(sourceDictionary, rules,
     ['@verb',...seq.filter(step=>step!=='@verb'&&step!=='theme'),'theme']);
   const normalizedWord=value=>value.toLocaleLowerCase(grammar.language);
   const questionBudget=counter=>searchBudget(counter);
+  const auxiliaryQuestionVariants=questions?.yesNo?[
+    {word:questions.yesNo.auxiliaries.past,tense:'past',when:null},
+    {word:questions.yesNo.auxiliaries.presentFirst,tense:'present',when:{'subject.person':'first'}},
+    {word:questions.yesNo.auxiliaries.presentSecond,tense:'present',when:{'subject.person':'second'}},
+    {word:questions.yesNo.auxiliaries.presentThirdSingular,tense:'present',when:{
+      'subject.person':'third','subject.number':'singular'}},
+    {word:questions.yesNo.auxiliaries.presentThirdPlural,tense:'present',when:{
+      'subject.person':'third','subject.number':'plural'}}
+  ]:[];
+  function auxiliaryVerbEntries(variant,polarity) {
+    let byPolarity=auxiliaryVerbEntriesCache.get(variant);
+    if(!byPolarity){byPolarity=new Map();auxiliaryVerbEntriesCache.set(variant,byPolarity);}
+    if(byPolarity.has(polarity))return byPolarity.get(polarity);
+    const yesNo=questions.yesNo;
+    const entries=verbForms.filter(entry=>
+      entry.rule.tense===variant.tense && entry.rule.polarity===polarity &&
+      entry.rule.aspect===undefined &&
+      (!variant.when || Object.entries(variant.when).every(([key,value])=>
+        entry.rule.when?.[key]===value)))
+      .flatMap(entry=>formsAtLexeme(entry.lexeme,yesNo.baseVerbPath).map(base=>({
+        ...entry,text:base.text,rule:{...entry.rule,
+          prefix:polarity==='negative'?[yesNo.negator]:[]}
+      })));
+    byPolarity.set(polarity,entries);
+    return entries;
+  }
+  let progressiveVerbEntriesByPrefix;
+  function progressiveVerbEntries(prefix) {
+    if(!questions?.yesNo)return [];
+    if(!progressiveVerbEntriesByPrefix) {
+      progressiveVerbEntriesByPrefix=new Map();
+      for(const entry of verbForms) {
+        if(entry.rule.tense!=='present'||entry.rule.aspect!=='imperfective'||
+            entry.rule.path!=='forms.progressive'||!entry.rule.prefix.length)continue;
+        const key=normalizedWord(entry.rule.prefix[0]);
+        if(!progressiveVerbEntriesByPrefix.has(key))progressiveVerbEntriesByPrefix.set(key,[]);
+        progressiveVerbEntriesByPrefix.get(key).push({
+          ...entry,rule:{...entry.rule,prefix:entry.rule.prefix.slice(1)}});
+      }
+    }
+    return progressiveVerbEntriesByPrefix.get(prefix)||[];
+  }
 
   /** Only a declared governed preposition may move with the queried role. */
   function withoutGovernedPreposition(surface, frame) {
@@ -2085,10 +2168,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
           tokens[1]!==normalizedWord(questions.wh.theme.marker))continue;
       const syntacticGap={value:{features:{number:'singular'}},
         noun:{id:'question_gap'},senseId:null};
-      const entries=verbForms.filter(entry=>entry.lexeme.concept===concept).flatMap(entry=>{
-        const text=withoutGovernedPreposition(entry.text,frame);
-        return text?[{...entry,text}]:[];
-      });
+      const entries=frontedVerbEntries(verbFormsByConcept.get(concept)||[],frame);
       readings.push(...parseClause(tokens.slice(2),'theme',syntacticGap,0,questionBudget(counter),{
         verbEntries:entries,omitGap:true,linearizations:themeOrder
       }));
@@ -2097,38 +2177,17 @@ function createGrammarInterpreter(sourceDictionary, rules,
   }
 
   function analyzeAuxiliaryQuestion(tokens,gap,antecedent,counter,options={}) {
-    const yesNo=questions.yesNo;
-    const variants=[
-      {word:yesNo.auxiliaries.past,tense:'past',when:null},
-      {word:yesNo.auxiliaries.presentFirst,tense:'present',when:{'subject.person':'first'}},
-      {word:yesNo.auxiliaries.presentSecond,tense:'present',when:{'subject.person':'second'}},
-      {word:yesNo.auxiliaries.presentThirdSingular,tense:'present',when:{
-        'subject.person':'third','subject.number':'singular'}},
-      {word:yesNo.auxiliaries.presentThirdPlural,tense:'present',when:{
-        'subject.person':'third','subject.number':'plural'}}
-    ];
     const results=[];
-    for(const variant of variants) {
+    for(const variant of auxiliaryQuestionVariants) {
       if(tokens[0]!==normalizedWord(variant.word))continue;
       for(const polarity of ['positive','negative']) {
-        const verbEntries=verbForms.filter(entry=>
-          entry.rule.tense===variant.tense && entry.rule.polarity===polarity &&
-          entry.rule.aspect===undefined &&
-          (!variant.when || Object.entries(variant.when).every(([key,value])=>
-            entry.rule.when?.[key]===value)))
-          .flatMap(entry=>formsAtLexeme(entry.lexeme,yesNo.baseVerbPath).map(base=>({
-            ...entry,text:base.text,rule:{...entry.rule,
-              prefix:polarity==='negative'?[yesNo.negator]:[]}
-          })));
+        const verbEntries=auxiliaryVerbEntries(variant,polarity);
         results.push(...parseClause(tokens.slice(1),gap,antecedent,0,questionBudget(counter),{
           verbEntries,omitGap:!!gap,...options
         }));
       }
     }
-    const progressiveEntries=verbForms.filter(entry=>entry.rule.tense==='present'&&
-      entry.rule.aspect==='imperfective'&&entry.rule.path==='forms.progressive'&&
-      entry.rule.prefix.length>0&&normalizedWord(entry.rule.prefix[0])===tokens[0])
-      .map(entry=>({...entry,rule:{...entry.rule,prefix:entry.rule.prefix.slice(1)}}));
+    const progressiveEntries=progressiveVerbEntries(tokens[0]);
     if(progressiveEntries.length)results.push(...parseClause(tokens.slice(1),gap,antecedent,0,
       questionBudget(counter),{verbEntries:progressiveEntries,omitGap:!!gap,...options}));
     return results;
@@ -2296,7 +2355,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
   function readNounPhrases(tokens, index, grammaticalCase, depth, budget, options = {}) {
     let byPosition=budget.nounPhraseMemo.get(tokens);
     if(!byPosition){byPosition=new Map();budget.nounPhraseMemo.set(tokens,byPosition);}
-    const cacheKey=JSON.stringify([index,grammaticalCase,depth,options]);
+    const cacheKey=JSON.stringify([index,grammaticalCase,depth,options.allowBare===true]);
     if(byPosition.has(cacheKey))return cloneNounPhraseCandidates(byPosition.get(cacheKey));
     const bare = nominal.read(tokens, index, grammaticalCase, options);
     for(const entry of possessives)for(const form of entry.forms){
@@ -2328,12 +2387,18 @@ function createGrammarInterpreter(sourceDictionary, rules,
       const length = matchesTokens(tokens, begin, marker.text);
       if (!length) continue;
       const first = begin + length;
-      // Search possible relative endings; only successful frame parses count.
-      for (let end = first + 1; end <= tokens.length; end++) {
-        // A comma may close both an inner and an outer relative clause.
-        // Reusing one boundary matches written Polish: ..., który ..., dała ...
+      // Search only punctuation boundaries when commas delimit relatives.
+      // A comma can close either an inner or an outer clause, so both adjacent
+      // endpoints remain candidates in the same order as the bounded scan.
+      const ends=commas?new Set():null;
+      if(commas)for(const comma of commaIndexes(tokens,budget)) {
+        if(comma>first)ends.add(comma);
+        if(comma+1>first)ends.add(comma+1);
+      }
+      const possibleEnds=commas?[...ends].filter(end=>end<=tokens.length).sort((a,b)=>a-b):
+        Array.from({length:Math.max(0,tokens.length-first)},(_,index)=>first+index+1);
+      for (const end of possibleEnds) {
         const closingConsumed = commas && tokens[end - 1] === ',';
-        if (commas && tokens[end] !== ',' && !closingConsumed) continue;
         const span = tokens.slice(first, end);
         const candidates = parseClause(span, marker.gap, base, depth + 1, budget);
         for (const item of candidates) {

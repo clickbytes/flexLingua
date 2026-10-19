@@ -146,7 +146,21 @@ function normalizeObservedGraph(observed, ontology) {
   const orderedEdges = edges.sort((left,right) => compare(left.from,right.from) ||
     compare(left.relation,right.relation) || compare(left.target,right.target) ||
     compare(left.constraint,right.constraint) || (left.weight ?? 0) - (right.weight ?? 0));
-  return {root: observed.root, nodes: orderedNodes, edges: orderedEdges};
+  const edgesBySourceAndRelation = new Map();
+  for (const edge of orderedEdges) {
+    let byRelation = edgesBySourceAndRelation.get(edge.from);
+    if (!byRelation) {
+      byRelation = new Map();
+      edgesBySourceAndRelation.set(edge.from, byRelation);
+    }
+    let matches = byRelation.get(edge.relation);
+    if (!matches) {
+      matches = [];
+      byRelation.set(edge.relation, matches);
+    }
+    matches.push(edge);
+  }
+  return {root: observed.root, nodes: orderedNodes, edges: orderedEdges, edgesBySourceAndRelation};
 }
 
 function sameOrSubtype(ontology, actual, expected) {
@@ -171,7 +185,7 @@ function candidateResult(conceptId, graph, observed, ontology) {
   const projectedEdges = graph.edges.filter(edge => edge.relation !== 'is_a');
   for (const edge of projectedEdges) {
     const from = rootSources.has(edge.from) ? observed.root : edge.from;
-    const possible = observed.edges.filter(item => item.from === from && item.relation === edge.relation);
+    const possible = observed.edgesBySourceAndRelation.get(from)?.get(edge.relation) ?? [];
     if (edge.constraint === 'required') {
       const asserted = possible.filter(item => item.constraint === 'required');
       const compatible = asserted.find(item => sameOrSubtype(ontology, item.target, edge.target));
