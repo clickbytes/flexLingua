@@ -66,10 +66,14 @@ function normalizeSense(sense, category, lexeme, strict) {
   } else if (ref.kind !== 'concept') {
     throw new Error(`Expected concept CORE mapping for ${sense.id}`);
   }
+  const effective = sense.priority ?? (lexeme.priority === undefined || lexeme.priority === null ? 0 : lexeme.priority);
+  if (!Number.isInteger(effective) || Math.abs(effective) > 100) {
+    throw new Error(`Invalid effective priority for sense ${sense.id} of lexeme ${lexeme.id}`);
+  }
   return {
     ...sense, coreRef: structuredClone(ref),
     ...(ref.kind === 'concept' ? {concept: ref.id} : {}),
-    priority: sense.priority ?? (lexeme.priority || 0)
+    priority: effective
   };
 }
 
