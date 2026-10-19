@@ -13,7 +13,7 @@ export const ALLOWED_DIRECTIONS = Object.freeze(new Set([
 
 export const DISCOVERY_LIMITS = Object.freeze({
   maxDirectories: 32,
-  maxFiles: 68,
+  maxFiles: 70,
   maxFileBytes: 131072,
   maxTotalBytes: 2621440,
   maxCases: 600
