@@ -68,6 +68,10 @@ function boundedAnalyses(readings) {
 const LEXEME_ID = /^[a-zA-Z][a-zA-Z0-9_]*(?:\.[a-zA-Z0-9_]+)*$/u;
 const PLACEHOLDER = /^\{([a-zA-Z][a-zA-Z0-9_]*)\}$/u;
 const LITERAL = /^@[\p{L}]+$/u;
+const MAX_LINEARIZATIONS_PER_FRAME = 8;
+const MAX_LINEARIZATION_SLOTS = 16;
+const VARIANT_ID = /^[a-z][a-z0-9.-]{0,63}$/u;
+const FORBIDDEN_VARIANT_PARTS = new Set(['constructor','prototype']);
 const LEGACY_CASE_VALUES = ['nom','gen','dat','acc','loc'];
 const DEICTIC_FUNCTION = 'grammar.deictic_pronoun';
 const STATE_ROLES = Object.freeze({
@@ -122,6 +126,103 @@ function implicitEventSubject(rule) {
 
 function own(obj, key) {
   return hasOwn(obj, key) ? obj[key] : undefined;
+}
+
+/** Validate and normalize the old slot arrays and opt-in variant descriptors. */
+export function normalizeLinearizations(entries, label = 'frame') {
+  if (!Array.isArray(entries) || entries.length < 1 ||
+      entries.length > MAX_LINEARIZATIONS_PER_FRAME) {
+    throw new Error(`Invalid linearization count for ${label}.`);
+  }
+  const defaultSequences = [];
+  const variants = [];
+  const seenIds = new Set();
+  const seenSequences = new Set();
+  for (const entry of entries) {
+    const descriptor = !Array.isArray(entry);
+    let sequence;
+    let variantId;
+    let realizationPreference;
+    if (!descriptor) {
+      sequence = entry;
+    } else {
+      const prototype = entry && typeof entry === 'object' ? Object.getPrototypeOf(entry) : undefined;
+      if (!record(entry) || (prototype !== Object.prototype && prototype !== null) ||
+          Object.keys(entry).sort().join(',') !== 'realizationPreference,sequence,variantId') {
+        throw new Error(`Invalid linearization variant descriptor for ${label}.`);
+      }
+      ({sequence,variantId,realizationPreference} = entry);
+      const idParts = typeof variantId === 'string' ? variantId.split(/[.-]/u) : [];
+      if (typeof variantId !== 'string' || !VARIANT_ID.test(variantId) ||
+          idParts.some(part => FORBIDDEN_VARIANT_PARTS.has(part)) || seenIds.has(variantId) ||
+          !Number.isInteger(realizationPreference) || realizationPreference < 1 ||
+          realizationPreference > 100) {
+        throw new Error(`Invalid or duplicate linearization variant ID or preference for ${label}.`);
+      }
+      seenIds.add(variantId);
+    }
+    if (!Array.isArray(sequence) || sequence.length < 1 ||
+        sequence.length > MAX_LINEARIZATION_SLOTS) {
+      throw new Error(`Invalid linearization sequence length for ${label}.`);
+    }
+    const normalizedSequence = Array.from(sequence);
+    if (normalizedSequence.some(step => typeof step !== 'string' ||
+        !(safeName(step) || step === '@verb' || LITERAL.test(step))) ||
+        normalizedSequence.filter(step => step === '@verb').length !== 1) {
+      throw new Error(`Invalid linearization slot or @verb count for ${label}.`);
+    }
+    const roles = normalizedSequence.filter(step => !step.startsWith('@'));
+    if (new Set(roles).size !== roles.length) {
+      throw new Error(`Duplicate role slot in linearization for ${label}.`);
+    }
+    const sequenceKey = JSON.stringify(normalizedSequence);
+    if (seenSequences.has(sequenceKey)) {
+      throw new Error(`Duplicate linearization sequence for ${label}.`);
+    }
+    seenSequences.add(sequenceKey);
+    if (descriptor) {
+      variants.push({variantId,sequence:normalizedSequence,realizationPreference});
+    } else {
+      defaultSequences.push(normalizedSequence);
+    }
+  }
+  if (variants.length && !defaultSequences.length) {
+    throw new Error(`Linearization variants require an existing array default for ${label}.`);
+  }
+  // Keep every existing array first so the first array remains the default.
+  return {
+    sequences:[...defaultSequences,...variants.map(variant=>variant.sequence)],
+    defaultSequences,
+    variants
+  };
+}
+
+function normalizeGrammarLinearizations(grammar) {
+  if (!record(grammar)) return grammar;
+  const normalizeFrames = (frames, label) => {
+    if (!record(frames)) return frames;
+    const normalized = Object.create(null);
+    for (const [id, frame] of Object.entries(frames)) {
+      if (!record(frame) || !Array.isArray(frame.linearizations)) {
+        normalized[id] = frame;
+        continue;
+      }
+      normalized[id] = {
+        ...frame,
+        linearizations:normalizeLinearizations(frame.linearizations, `${label} ${id}`).sequences
+      };
+    }
+    return normalized;
+  };
+  const result = {...grammar};
+  if (record(grammar.frames)) result.frames = normalizeFrames(grammar.frames, 'event frame');
+  if (record(grammar.states) && record(grammar.states.frames)) {
+    result.states = {
+      ...grammar.states,
+      frames:normalizeFrames(grammar.states.frames, 'state frame')
+    };
+  }
+  return result;
 }
 
 function pathParts(path) {
@@ -215,13 +316,15 @@ function validateConditions(when) {
   }
 }
 
-function validateGrammar(dictionary, grammar, featureProfile) {
+function validateGrammar(dictionary, sourceGrammar, featureProfile) {
   const caseValues=featureProfile ? (featureProfile.syntactic.case || []) : LEGACY_CASE_VALUES;
   const hasSyntacticCases=caseValues.length>0;
-  if (!record(dictionary) || !record(grammar) || dictionary.language !== grammar.language ||
-      !GRAMMAR_VERSIONS.has(grammar.version) || dictionary.version !== grammar.version) {
+  if (!record(dictionary) || !record(sourceGrammar) ||
+      dictionary.language !== sourceGrammar.language ||
+      !GRAMMAR_VERSIONS.has(sourceGrammar.version) || dictionary.version !== sourceGrammar.version) {
     throw new Error('Dictionary/grammar mismatch or unsupported grammar version.');
   }
+  const grammar=normalizeGrammarLinearizations(sourceGrammar);
   if (!safeName(dictionary.language) || !Array.isArray(dictionary.nouns) ||
       !Array.isArray(dictionary.verbs) || !record(grammar.frames) ||
       !record(grammar.nounPhrase) || !record(grammar.verb) || !record(grammar.sentence)) {
