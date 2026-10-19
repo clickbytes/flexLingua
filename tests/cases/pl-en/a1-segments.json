@@ -265,7 +265,7 @@
       "direction": "pl-en",
       "family": "temporal_realization",
       "construction": "event.visual_perception",
-      "tier": "exploratory",
+      "tier": "required",
       "priority": 4,
       "cliSmoke": false,
       "tags": {
@@ -381,9 +381,9 @@
         }
       },
       "review": {
-        "status": "proposed",
-        "source": "Expected event meaning, surface form, and temporal role were authored independently in issue #496 before implementation and CLI execution; owner approval for this exact case ID is pending.",
-        "author": "Codex (proposal; not owner approved)",
+        "status": "approved",
+        "source": "Independent linguistic review, delegation, case meanings and span rationale: https://github.com/clickbytes/flexLingua/issues/496#issuecomment-6279213602. Approval independent of matrix output.",
+        "author": "Codex agent (project-owner-delegated linguistic reviewer)",
         "reviewedAt": "2026-10-20",
         "issue": "#496"
       },
@@ -400,7 +400,7 @@
       "direction": "pl-en",
       "family": "temporal_realization",
       "construction": "event.visual_perception",
-      "tier": "exploratory",
+      "tier": "required",
       "priority": 4,
       "cliSmoke": false,
       "tags": {
@@ -520,9 +520,9 @@
         }
       },
       "review": {
-        "status": "proposed",
-        "source": "Expected event meaning, surface form, and temporal role were authored independently in issue #496 before implementation and CLI execution; owner approval for this exact case ID is pending.",
-        "author": "Codex (proposal; not owner approved)",
+        "status": "approved",
+        "source": "Independent linguistic review, delegation, case meanings and span rationale: https://github.com/clickbytes/flexLingua/issues/496#issuecomment-6279213602. Approval independent of matrix output.",
+        "author": "Codex agent (project-owner-delegated linguistic reviewer)",
         "reviewedAt": "2026-10-20",
         "issue": "#496"
       },
@@ -539,7 +539,7 @@
       "direction": "pl-en",
       "family": "temporal_realization",
       "construction": "event.visual_perception",
-      "tier": "exploratory",
+      "tier": "required",
       "priority": 4,
       "cliSmoke": false,
       "tags": {
@@ -661,9 +661,9 @@
         }
       },
       "review": {
-        "status": "proposed",
-        "source": "Expected event meaning, surface form, and temporal role were authored independently in issue #496 before implementation and CLI execution; owner approval for this exact case ID is pending.",
-        "author": "Codex (proposal; not owner approved)",
+        "status": "approved",
+        "source": "Independent linguistic review, delegation, case meanings and span rationale: https://github.com/clickbytes/flexLingua/issues/496#issuecomment-6279213602. Approval independent of matrix output.",
+        "author": "Codex agent (project-owner-delegated linguistic reviewer)",
         "reviewedAt": "2026-10-20",
         "issue": "#496"
       },
