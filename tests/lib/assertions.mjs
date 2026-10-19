@@ -583,14 +583,36 @@ function compareFeatures(want, actual, path, fail, {extraAllowed, exact}) {
 }
 
 function compareModifiers(wantModifiers, actual, path, fail, {exact}) {
-  const wanted = wantModifiers.map(entry => nfc(entry.concept)).sort().join(',');
-  const got = (Array.isArray(actual?.modifiers) ? actual.modifiers : [])
-    .map(entry => nfc(entry?.concept)).sort().join(',');
-  if (got !== wanted) {
-    fail(`${path}/modifiers`, wanted, got || 'none');
+  const gotList = Array.isArray(actual?.modifiers) ? actual.modifiers : [];
+  compareModifierTrees(wantModifiers, gotList, path, fail, MODIFIER_COMPARE_DEPTH);
+  if (exact && gotList.length !== wantModifiers.length) {
+    fail(`${path}/modifiers (exact)`, wantModifiers.length, gotList.length);
   }
-  if (exact && (Array.isArray(actual?.modifiers) ? actual.modifiers.length : 0) !== wantModifiers.length) {
-    fail(`${path}/modifiers (exact)`, wantModifiers.length, got ? got.split(',').length : 0);
+}
+
+/** Published modifier nodes are depth-bounded trees ({concept, modifiers}); a
+ * node's nested scopes carry meaning, so compare every level as an
+ * order-insensitive multiset keyed by concept, stopping at the same depth
+ * limit the MeaningGraph validator enforces. */
+const MODIFIER_COMPARE_DEPTH = 4;
+function compareModifierTrees(wantList, gotList, path, fail, depth) {
+  const wanted = Array.isArray(wantList) ? wantList : [];
+  const remaining = (Array.isArray(gotList) ? gotList : []).map(entry => entry ?? null);
+  for (const wantEntry of wanted) {
+    const wantConcept = nfc(wantEntry?.concept);
+    const match = remaining.findIndex(entry => entry !== null && nfc(entry?.concept) === wantConcept);
+    if (match === -1) {
+      fail(`${path}/modifier`, wantConcept, 'absent');
+      continue;
+    }
+    if (depth > 1) {
+      compareModifierTrees(wantEntry?.modifiers, gotList[match]?.modifiers,
+        `${path}/modifier:${wantConcept}`, fail, depth - 1);
+    }
+    remaining[match] = null;
+  }
+  for (const entry of remaining) {
+    if (entry !== null) fail(`${path}/modifier`, 'absent', nfc(entry?.concept));
   }
 }
 
@@ -613,6 +635,10 @@ function compareParticipant(want, actual, path, fail, meaning) {
   }
   if (Array.isArray(want.modifiers)) {
     compareModifiers(want.modifiers, actual, path, fail, {exact: meaning.modifiersExact === true});
+  } else if (meaning.modifiersExact === true) {
+    if (Array.isArray(actual?.modifiers) && actual.modifiers.length) {
+      fail(`${path}/modifiers (exact)`, 'no modifiers declared', 'present');
+    }
   }
   if (want.quantity !== undefined) {
     if (actual?.quantity?.kind !== want.quantity.kind || actual?.quantity?.value !== want.quantity.value) {
