@@ -3,6 +3,11 @@ import {record} from './features.js';
 export const MEMORY_STORE_VERSION=1;
 const DEFAULT_KEY='flexlingua.session-memory';
 const MAX_BYTES=262144;
+// Language snapshot sources store the historical session language code; the
+// shape mirrors the LanguagePlugin language-code contract (contract.js,
+// registry.js) so future plugin codes stay valid without implying runtime
+// availability.
+const LANGUAGE_CODE = /^[a-z]{2,8}$/u;
 const keys=(value,expected)=>record(value) &&
   Object.keys(value).length===expected.length && expected.every(key=>Object.hasOwn(value,key));
 
@@ -24,7 +29,7 @@ export function validateMemorySnapshot(snapshot) {
         !record(fact.proposition) || !['event','state'].includes(fact.proposition.type) ||
         !keys(fact.source,['turnId','language','text']) ||
         !/^t[1-9][0-9]*$/u.test(fact.source.turnId) ||
-        !['pl','en','tr'].includes(fact.source.language) ||
+        !LANGUAGE_CODE.test(fact.source.language) ||
         typeof fact.source.text!=='string' ||
         typeof fact.recordedAt!=='string' || !Number.isFinite(Date.parse(fact.recordedAt)) ||
         fact.scope!=='session' || !record(fact.correction) ||
