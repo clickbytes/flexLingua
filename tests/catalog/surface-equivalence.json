@@ -23,6 +23,16 @@
       "comparison": "strict-core"
     },
     {
+      "id": "FWO-PL-0011",
+      "direction": "pl-en",
+      "relation": "same-core",
+      "caseIds": [
+        "A1-PL-EN-MOTION-0001",
+        "A1-PL-EN-MOTION-0002"
+      ],
+      "comparison": "strict-core"
+    },
+    {
       "id": "FWO-PL-0001",
       "direction": "pl-en",
       "relation": "same-core",
