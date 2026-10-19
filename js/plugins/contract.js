@@ -501,9 +501,20 @@ export function normalizeRealizationResult(result) {
       invalidResult('Successful realization cannot contain refusal diagnostics.');
     }
     if (alternatives.includes(text)) invalidResult('Primary realization is duplicated as an alternative.');
+    if (realizations !== undefined) {
+      if (!realizations.length) {
+        invalidResult('Successful realization with segments must include its primary realization.');
+      }
+      if (realizations[0].text !== text) {
+        invalidResult('Primary realization text must match the realization result text.');
+      }
+    }
   } else {
     if (text !== null || !diagnostics.length) {
       invalidResult('Realization refusal must not contain text and must include diagnostics.');
+    }
+    if (realizations !== undefined) {
+      invalidResult('Realization refusal must not include realizations.');
     }
     if (result.status === 'ambiguous' && alternatives.length < 2) {
       invalidResult('Ambiguous realization must include at least two alternatives.');
