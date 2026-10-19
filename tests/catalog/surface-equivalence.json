@@ -31,6 +31,96 @@
         "A1-PL-EN-VISUALROLES-0002"
       ],
       "comparison": "strict-core"
+    },
+    {
+      "id": "FWO-PL-0004",
+      "direction": "pl-en",
+      "relation": "same-core",
+      "caseIds": [
+        "A1-PL-EN-ORDER-0001",
+        "A1-PL-EN-ORDER-0002"
+      ],
+      "comparison": "strict-core"
+    },
+    {
+      "id": "FWO-PL-0005",
+      "direction": "pl-en",
+      "relation": "same-core",
+      "caseIds": [
+        "A1-PL-EN-ORDER-0003",
+        "A1-PL-EN-ORDER-0004"
+      ],
+      "comparison": "strict-core"
+    },
+    {
+      "id": "FWO-PL-0006",
+      "direction": "pl-en",
+      "relation": "same-core",
+      "caseIds": [
+        "A1-PL-EN-ORDER-0005",
+        "A1-PL-EN-ORDER-0006"
+      ],
+      "comparison": "strict-core"
+    },
+    {
+      "id": "FWO-PL-0007",
+      "direction": "pl-en",
+      "relation": "same-core",
+      "caseIds": [
+        "A1-PL-EN-ORDER-0007",
+        "A1-PL-EN-ORDER-0008"
+      ],
+      "comparison": "strict-core"
+    },
+    {
+      "id": "FWO-PL-0008",
+      "direction": "pl-en",
+      "relation": "same-core",
+      "caseIds": [
+        "A1-PL-EN-LEXICON-0005",
+        "A1-PL-EN-ORDER-0009"
+      ],
+      "comparison": "strict-core"
+    },
+    {
+      "id": "FWO-EN-0001",
+      "direction": "en-pl",
+      "relation": "different-core",
+      "caseIds": [
+        "A1-EN-PL-ORDER-0001",
+        "A1-EN-PL-ORDER-0002"
+      ],
+      "comparison": "strict-core"
+    },
+    {
+      "id": "FWO-EN-0002",
+      "direction": "en-pl",
+      "relation": "different-core",
+      "caseIds": [
+        "A1-EN-PL-ORDER-0003",
+        "A1-EN-PL-ORDER-0004"
+      ],
+      "comparison": "strict-core"
+    },
+    {
+      "id": "FWO-EN-0003",
+      "direction": "en-pl",
+      "relation": "different-core",
+      "caseIds": [
+        "A1-EN-PL-ORDER-0005",
+        "A1-EN-PL-ORDER-0006"
+      ],
+      "comparison": "strict-core"
+    },
+    {
+      "id": "FWO-EN-0004",
+      "direction": "en-pl",
+      "relation": "different-core",
+      "caseIds": [
+        "A1-EN-PL-ORDER-0007",
+        "A1-EN-PL-ORDER-0008"
+      ],
+      "comparison": "strict-core"
     }
   ]
 }

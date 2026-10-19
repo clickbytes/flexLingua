@@ -20,6 +20,8 @@ CORE definiuje stabilne koncepty i ich opcjonalne, typowane grafy znaczenia. Ont
 
 Analiza źródłowa może zachować bounded surface evidence w LanguagePlugin, po czym istniejący bridge mapuje rozpoznane sloty do walidowanego MeaningGraph; plugin docelowy realizuje ten graf według własnej licencjonowanej kolejności. Ślad szyku pozostaje poza CORE i sam nie określa topic/focus. Szczegóły opisuje [ADR wariantów szyku](adr/feature-driven-word-order.md).
 
+Macierz wiąże zatwierdzone powierzchnie relacjami `same-core` i `different-core`: para polskich SVO/OVS powinna zachować te same role dzięki przypadkom, a angielskie SVO z zamienionymi uczestnikami powinno utworzyć inny MeaningGraph. To sprawdza mapowanie slotów dla zadeklarowanych konstrukcji; nie upoważnia do dowolnych permutacji, wnioskowania topic/focus ani do zmiany kolejności realizacji po stronie celu. Oczekiwane role, cechy, kontrolowane odmowy i straty informacji należą do niezależnie zatwierdzonych cases w [macierzy zdań](../tests/README.md).
+
 ## Własność warstw
 
 ```text

@@ -71,6 +71,10 @@ Dla `unsupported|invalid|resource_limit` wymagane są `text:null`, `meaning:null
 
 `tests/catalog/surface-equivalence.json` wiąże istniejące przypadki w grupy `same-core` albo `different-core`. Nie tworzy kopii oczekiwanego znaczenia ani nowych przypadków. Każda grupa ma unikalne ID, jeden kierunek, od 2 do 8 unikalnych case ID i `comparison:"strict-core"`. Case ID może należeć tylko do jednej grupy; wskazany przypadek musi istnieć, mieć ten sam kierunek, `tier:"required"`, `review.status:"approved"`, `expected.status:"ok"` i expected MeaningGraph. Walidator odrzuca także grupę sprzeczną z już zatwierdzonymi expected MeaningGraphs.
 
+Zatwierdzone przypadki FWO-10 pokazują obie strony tej relacji: `Kobieta widzi mamę.` i `Mamę widzi kobieta.` mają ten sam MeaningGraph, bo polski biernik nadal wskazuje `theme`, a mianownik `agent`; `The woman sees the dog.` i `The dog sees the woman.` mają różne grafy, bo angielski szyk SVO zamienia role. PL→EN jawnie zachowuje nieokreśloność źródłowych rzeczowników i stratę aspektu niedostępnego w angielskim czasie prostym. EN→PL zapisuje stratę rodzajnika określonego, której polski rzeczownik nie oznacza. Odmowa dla angielskiego szyku z wysuniętym dopełnieniem dotyczy ograniczenia tego prototypu, nie gramatyczności angielskiego; `The child sees a bank.` zachowuje oba odczytania (`place.financial_institution` i `place.riverbank`) bez zgadywania.
+
+Nowe expected meanings należy niezależnie uzasadnić i zatwierdzić przed ich uruchomieniem. CLI służy potem do sprawdzenia oracle, ról, cech, informacji utraconej, diagnostyk i kodu wyjścia; zgodny output nie jest samodzielną akceptacją. Przed scaleniem raport PR porównuje `matrix.json` z ostatnim zielonym artefaktem `main`, w tym zmiany ID, oczekiwań, klas wyników, inventory i relacji.
+
 Przykład:
 
 ```json
