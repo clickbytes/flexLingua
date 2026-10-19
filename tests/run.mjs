@@ -12,7 +12,7 @@ import {fileURLToPath} from 'node:url';
 import {createAppRuntime} from '../js/app/runtime.js';
 import {createTranslationService} from '../js/app/translation-service.js';
 import {runCliSmoke} from './lib/cli.mjs';
-import {compareCase} from './lib/assertions.mjs';
+import {compareCase, comparePublicEntryPoints} from './lib/assertions.mjs';
 import {ALLOWED_DIRECTIONS} from './lib/discover.mjs';
 import {buildCoverage, buildInventoryCoverage} from './lib/coverage.mjs';
 import {regenerateReports, writeReports} from './lib/report.mjs';
@@ -165,7 +165,7 @@ async function main() {
     let document = null;
     let threw = null;
     try {
-      document = service.translate({from: item.input.from, to: item.input.to, text: item.input.text});
+      document = service.translate(item.input);
     } catch (error) {
       threw = error;
     }
@@ -178,6 +178,13 @@ async function main() {
       outcome = compareCase(item, document, {engine: runtime.engine});
       if (document?.status === 'error') {
         outcome.kind = 'infra';
+      }
+      if (item.verifyEngine === true) {
+        const api = comparePublicEntryPoints(item, document, runtime.engine);
+        outcome.observed.publicEntryPoints = api.checks;
+        outcome.failures.push(...api.failures);
+        if (api.failures.length) outcome.pass = false;
+        if (api.infra) outcome.kind = 'infra';
       }
     }
     outcomes.push({item, outcome, document, durationMs: Date.now() - startedAt});

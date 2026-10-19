@@ -34,6 +34,10 @@ W `expected` dla `status:"ok"` wymagane są: `text.accepted[]` (dokładne, ogran
 
 Uczestnik zaimkowy może mieć `target:{kind:"deictic",anchor}` i `agreement:{person,number}` albo `target:{kind:"anaphoric",resolution:"unresolved"}` i `agreement:{person:"third",number:"singular",gender:"feminine"|"masculine"}`. Asercje sprawdzają dokładny kształt referencji i zgodności, w tym rodzaj, bez wymyślania poprzednika zaimka.
 
+Opcjonalne `expected.uncertainties:{required,allowUnexpected}` sprawdza rodzaj, ścieżkę znaczenia, możliwości i przyczynę niepewności. Każdy wynik serwisu ma tablicę `uncertainties`, niezależnie od tego, czy przypadek wymienia dodatkowe asercje. `verifyEngine:true` uruchamia w tym samym runnerze publiczne `Engine.translate`, `tryTranslate` i `analyze` wobec tego samego niezależnego oracle; wynik przeglądu każdego wejścia jest zachowany w `matrix.json`. Nie powstaje osobny runner ani zbiór oczekiwań.
+
+`input.context` może zawierać jawne `topics` i `senses`. Różne konteksty są różnymi żądaniami, a kolejność kluczy lub tematów nie tworzy nowego przypadku. Taki przypadek ma `cliSmoke:false`, dopóki CLI nie udostępnia wejścia kontekstowego; nie przypisujemy mu niewykonanego sprawdzenia CLI.
+
 `expected.graph` jest opcjonalną projekcją sprawdzaną po tekście i MeaningGraph przez tę samą produkcyjną `Engine.projectMeaningGraph`. Ma wymagane `requiredEdges[]`, `forbiddenEdges[]` i `allowUnexpected`; każda krawędź zapisuje `fromPath` (JSON Pointer źródła MeaningGraph), `relation` i kanoniczny `toConcept`. Walidator sprawdza źródło, cel i sygnaturę relacji na skompilowanym CORE przed uruchomieniem zdań. Brak projekcji lub niekompletne `sourcePaths` to INFRA; brak/nadmiar krawędzi to FAIL. Nierozwiązane fragmenty projekcji nie przechodzą asercji grafowej.
 
 Dla `unsupported|invalid|resource_limit` wymagane są `text:null`, `meaning:null`, puste alternatywy i lista wymaganych kodów diagnostyki. Dla `ambiguous` wymagany jest zbiór co najmniej dwóch odrębnych sensów (porównywane znaczeń, nie tylko liczby) oraz kod `AMBIGUOUS_MEANING`; runner nie wybiera arbitralnego tekstu.

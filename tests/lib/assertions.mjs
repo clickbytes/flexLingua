@@ -1,4 +1,4 @@
-/** Assertion engine for the canonical sentence-translation matrix. Never executes translation logic itself. */
+/** Canonical sentence assertions and checks of the production public entry points. */
 
 const STATUS_KIND = Object.freeze({
   ok: 'translation',
@@ -375,6 +375,15 @@ export function compareCase(item, document, {engine} = {}) {
     informationLossCount: Array.isArray(document?.informationLoss) ? document.informationLoss.length : 0
   };
 
+  if (!Array.isArray(document?.uncertainties)) {
+    fail('/uncertainties', 'an uncertainty array', document?.uncertainties);
+  } else if (expected.uncertainties) {
+    compareMultiset(expected.uncertainties.required, document.uncertainties,
+      (wanted, got) => isRecord(got) && Object.entries(wanted)
+        .every(([key, value]) => sameJson(value, got[key])),
+      fail, '/uncertainties', {allowUnexpected: expected.uncertainties.allowUnexpected});
+  }
+
   if (nfc(document?.status) !== nfc(expected.status)) {
     fail('status', expected.status, document?.status ?? 'none');
     return {pass: false,
@@ -449,4 +458,70 @@ export function compareCase(item, document, {engine} = {}) {
   return {pass: failures.length === 0,
     kind: graphKind ?? (document?.status === 'error' ? 'infra' : (STATUS_KIND[expected.status] ?? 'unknown')),
     failures, observed};
+}
+
+/** Exercise actual public APIs with the same independently authored sentence oracle. */
+const sameJson = (left, right) => JSON.stringify(canonical(left)) === JSON.stringify(canonical(right));
+function canonical(value) {
+  if (typeof value === 'string') return value.normalize('NFC');
+  if (Array.isArray(value)) return value.map(canonical);
+  if (isRecord(value)) return Object.fromEntries(Object.keys(value).sort()
+    .map(key => [key, canonical(value[key])]));
+  return value;
+}
+
+export function comparePublicEntryPoints(item, document, engine) {
+  const failures = [];
+  const checks = {};
+  let infra = false;
+  const add = (api, path, expected, actual) => failures.push({path: `api/${api}/${path}`,
+    expected: JSON.stringify(expected), actual: JSON.stringify(actual) ?? 'none'});
+  for (const api of ['translate', 'tryTranslate', 'analyze']) {
+    const before = failures.length;
+    try {
+      if (api === 'analyze') {
+        let meaning;
+        let error;
+        try { meaning = engine.analyze(item.input); } catch (caught) { error = caught; }
+        if (item.expected.status === 'ok') {
+          if (error) throw error;
+          compareMeaning(item.expected.meaning, meaning,
+            (path, expected, actual) => add(api, path, expected, actual));
+        } else if (item.expected.status === 'ambiguous') {
+          if (error?.status !== 'ambiguous' || error?.code !== 'AMBIGUOUS_MEANING') {
+            add(api, 'refusal', 'typed semantic ambiguity', error?.code ?? meaning);
+          }
+          for (const failure of compareCase(item, error?.result, {engine}).failures) {
+            add(api, failure.path, failure.expected, failure.actual);
+          }
+        } else if (!error || error.status !== item.expected.status ||
+          !item.expected.diagnostics.required.some(entry => entry.code === error.code)) {
+          if (error && !error.status) throw error;
+          add(api, 'refusal', item.expected.status, error?.status ?? meaning);
+        }
+      } else {
+        const response = engine[api](item.input);
+        const value = api === 'tryTranslate' ? response.value : response;
+        if (api === 'tryTranslate' && response.ok !== (item.expected.status === 'ok')) {
+          add(api, 'ok', item.expected.status === 'ok', response.ok);
+        }
+        for (const failure of compareCase(item, value, {engine}).failures) {
+          add(api, failure.path, failure.expected, failure.actual);
+        }
+        for (const field of ['status','text','meaning','alternatives','informationLoss','uncertainties']) {
+          if (!sameJson(value?.[field], document?.[field])) {
+            add(api, field, document?.[field], value?.[field]);
+          }
+        }
+        if (!sameJson(value?.interlingua, value?.meaning)) {
+          add(api, 'interlingua', value?.meaning, value?.interlingua);
+        }
+      }
+    } catch (error) {
+      infra = true;
+      add(api, 'exception', 'a domain result', error?.message ?? String(error));
+    }
+    checks[api] = failures.length === before ? 'PASS' : infra ? 'INFRA' : 'FAIL';
+  }
+  return {failures, checks, infra};
 }

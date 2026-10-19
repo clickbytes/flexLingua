@@ -259,6 +259,136 @@
         "coverageTargetId": "construction.event.visual_perception",
         "capability": "Return a controlled unsupported result for an invalid agent or missing lexeme; do not guess."
       }
+    },
+    {
+      "id": "A1-PL-EN-UNCERTAINTY-0001",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "uncertainty",
+      "construction": "event.residence",
+      "tier": "required",
+      "priority": 4,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "first",
+        "number": "plural",
+        "reference": "deictic",
+        "quantity": "none"
+      },
+      "purpose": "Preserve plural speaker residence, imperfective aspect and unknown source definiteness. Distinguish the missing article information from the target display assumption; retain the a/the alternative.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Mieszkamy w mieszkaniu."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "We live in a flat."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.residence",
+          "roleSet": [
+            "agent",
+            "location"
+          ],
+          "roles": {
+            "agent": {
+              "target": {
+                "kind": "deictic",
+                "anchor": "speaker"
+              },
+              "agreement": {
+                "person": "first",
+                "number": "plural"
+              }
+            },
+            "location": {
+              "concept": "structure.apartment",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              },
+              "modifiers": []
+            }
+          },
+          "roleFeaturesExact": true,
+          "modifiersExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "assert": {}
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "We live in the flat."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/location/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "uncertainties": {
+          "required": [
+            {
+              "kind": "missing_information",
+              "path": "#/roles/location/features/definiteness",
+              "options": [],
+              "reason": "source-unspecified"
+            },
+            {
+              "kind": "additional_assumption",
+              "path": "#/roles/location/features/definiteness",
+              "options": [
+                "We live in a flat.",
+                "We live in the flat."
+              ],
+              "reason": "source-definiteness-unspecified-target-default"
+            }
+          ],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Authored independently before runtime edits from source meanings and approved residence/bank contracts. Explicit owner delegation and agent linguistic approval for this exact ID and meaning were recorded before promotion in https://github.com/clickbytes/flexLingua/issues/441; not inferred from matching output.",
+        "author": "Codex (linguistic reviewer under explicit owner delegation)",
+        "reviewedAt": "2026-10-19",
+        "issue": "#441"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.residence",
+        "capability": "Shared uncertainty report and public engine/service semantic parity"
+      },
+      "verifyEngine": true
     }
   ]
 }

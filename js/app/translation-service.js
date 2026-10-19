@@ -1,30 +1,4 @@
-const DOMAIN_STATUSES = new Set(['unsupported', 'invalid', 'ambiguous', 'resource_limit']);
-
-function safeStatusMessage(status) {
-  return {
-    unsupported: 'The requested translation is unsupported.',
-    invalid: 'The request is invalid.',
-    ambiguous: 'The source has multiple possible meanings.',
-    resource_limit: 'The request exceeds supported resource limits.'
-  }[status] ?? 'The translation request could not be completed.';
-}
-
-function refusal(status, code, message, extra = {}) {
-  const {diagnostics: suppliedDiagnostics, ...details} = extra;
-  return {status, ...details,
-    alternatives: details.alternatives ?? [],
-    informationLoss: details.informationLoss ?? [],
-    diagnostics: suppliedDiagnostics?.length ? suppliedDiagnostics : [{code, message}]};
-}
-
-function statusFor(error) {
-  if (DOMAIN_STATUSES.has(error?.status)) return error.status;
-  if (error?.code === 'PLUGIN_NOT_FOUND' || error?.code === 'PLUGIN_CAPABILITY_UNAVAILABLE') {
-    return 'unsupported';
-  }
-  if (error?.code === 'INVALID_INPUT') return 'invalid';
-  return null;
-}
+import {translationRefusal as refusal} from '../core/translation-result.js';
 
 /** Thin translation facade. Domain refusals remain results; unexpected failures still throw. */
 export function createTranslationService(runtime) {
@@ -33,7 +7,7 @@ export function createTranslationService(runtime) {
   }
   const {engine, languages} = runtime;
 
-  function translate({from, to, text} = {}) {
+  function translate({from, to, text, context} = {}) {
     const base = {from: from ?? null, to: to ?? null, input: text ?? null,
       text: null, meaning: null, alternatives: []};
     const source = languages.find(item => item.code === from);
@@ -64,24 +38,7 @@ export function createTranslationService(runtime) {
         `Sentence translation ${from} → ${to} is unsupported by declared capabilities.`, base);
     }
 
-    try {
-      const readings = engine.analyzeCandidates({text, from});
-      if (readings.length !== 1) {
-        return refusal('ambiguous', 'AMBIGUOUS_MEANING',
-          `Source has ${readings.length} distinct semantic readings.`,
-          {...base, alternatives: readings.map(item => ({meaning: item.interlingua,
-            lexicalSenses: item.lexicalSenses, score: item.score}))});
-      }
-      const meaning = readings[0].interlingua;
-      const result = engine.realize({interlingua: meaning, to});
-      return {status: 'ok', ...base, text: result.text, meaning,
-        alternatives: result.alternatives ?? [], diagnostics: result.diagnostics ?? [],
-        warnings: result.warnings ?? [], informationLoss: result.informationLoss ?? []};
-    } catch (error) {
-      const status = statusFor(error);
-      if (!status) throw error;
-      return refusal(status, error.code ?? 'INVALID_INPUT', safeStatusMessage(status), base);
-    }
+    return {...base, ...engine.translate({text, from, to, context})};
   }
 
   return Object.freeze({translate});

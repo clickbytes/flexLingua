@@ -47,3 +47,11 @@ Aktualne kierunki są zapisane w manifestach i widoczne przez `node tools/transl
 ## Deklaracje gramatyki
 
 Ograniczenia i kolejność słów należą do grammar.json; wspólny interpreter korzysta z deklaracji pakietu bez rozgałęzień według kodu języka. states.supportedTensesByPolarity może zawęzić dostępne czasy dla danej polaryzacji. questions.wh.destination.order przyjmuje frame albo verb_first; brak pola zachowuje kolejność ramy zdania.
+
+## Niepewność w publicznym wyniku
+
+`Engine.translate()` i serwis aplikacji zachowują wszystkie odrębne znaczenia. Gdy pozostaje więcej niż jedno, zwracają `status:"ambiguous"`, `text:null`, `meaning:null` i `interlingua:null`, a odczytania pozostają w `alternatives`. Różne wyniki punktowe nie rozstrzygają znaczenia. Jawne ograniczenie `context.senses` może zawężać zbiór; `context.topics` jedynie zmienia kolejność. Serwis sprawdza dodatkowo dostępność pakietów, kierunków i capabilities.
+
+Wynik zawiera `uncertainties`: rekordy `{id,kind,path,options,reason}`. `path` jest wskaźnikiem fragmentu MeaningGraph (`#` oznacza całość), `options` wymienia możliwości bez procentowej pewności, a `reason` podaje stabilną przyczynę. Rodzaje to `semantic_ambiguity`, `missing_information`, `equivalent_expression`, `additional_assumption` oraz `unsupported`; ograniczenie zasobów jest osobnym `search_limit`. Nieznany aspekt, niepodana określoność i nierozwiązany poprzednik pozostają nieznane w CORE. Wybór przedimka przez politykę wyświetlania jest dodatkowym założeniem, a nie ustaleniem faktu. Dotychczasowe `informationLoss` pozostaje osobnym raportem.
+
+`Engine.analyze()` zwraca MeaningGraph tylko dla jednego znaczenia. Przy niejednoznaczności zgłasza `EngineError` z kodem `AMBIGUOUS_MEANING`, statusem `ambiguous` i dokumentem w `error.result`. `Engine.tryTranslate()` zachowuje kopertę `{ok,value,error}`: odmowa domenowa ma `ok:false` i pełny dokument w `value`; nieoczekiwana awaria ma `error.status:"error"` oraz `INFRASTRUCTURE_ERROR` i nie udaje odmowy językowej.
