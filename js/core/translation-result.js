@@ -165,5 +165,21 @@ export function translationFailure(error) {
     invalid: 'The request is invalid.', ambiguous: 'The source has multiple possible meanings.',
     resource_limit: 'The request exceeds supported resource limits.'}[status];
   return translationRefusal(status, error.code ?? 'INVALID_INPUT', message,
-    error.contextReport ? {contextReport:error.contextReport} : {});
+    {...(error.contextReport ? {contextReport:error.contextReport} : {}),
+      ...(failureDiagnostics(error) ? {diagnostics:failureDiagnostics(error)} : {})});
+}
+
+/** Keep validated domain diagnostics across the failure boundary: stable
+ * {code,message} pairs in source order, bounded, with no stack or cause data. */
+const FAILURE_DIAGNOSTIC_CODE = /^[A-Z][A-Z0-9_]{0,63}$/u;
+const MAX_FAILURE_DIAGNOSTICS = 64;
+function failureDiagnostics(error) {
+  const value = error?.diagnostics;
+  if (!Array.isArray(value)) return undefined;
+  const diagnostics = value.slice(0, MAX_FAILURE_DIAGNOSTICS)
+    .filter(item => item && typeof item === 'object' && !Array.isArray(item) &&
+        typeof item.code === 'string' && FAILURE_DIAGNOSTIC_CODE.test(item.code) &&
+        typeof item.message === 'string' && item.message.trim() && item.message.length <= 1024)
+    .map(item => ({code: item.code, message: item.message}));
+  return diagnostics.length ? diagnostics : undefined;
 }
