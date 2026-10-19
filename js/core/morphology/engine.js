@@ -108,13 +108,22 @@ export function createMorphology(spec, dictionary, featureSpec, options={}) {
     for (const [featuresKey,slot] of paradigm.slots){
       const cellFeatures=Object.freeze(clone(slot.features));
       featuresByCell.set(featuresKey,cellFeatures);
-      const form=executeOperations({stem:item.stems.base,stems:item.stems,steps:slot.steps});
-      let variants=[{text:form.text,source:'rule',trace:form.trace}];
-      for(const override of overridesByCell.get(featuresKey)||[]){
-        const injected=override.forms.map(x=>({text:x.text,source:'exception',trace:[{op:'override',mode:override.mode}],variant:x.variant||'standard'}));
-        if(override.mode==='block')variants=[];
-        if(override.mode==='replace')variants=injected;
-        if(override.mode==='addVariant')variants=[...variants,...injected];
+      const cellOverrides=overridesByCell.get(featuresKey)||[];
+      // Exceptions take precedence over generation: a blocked cell never uses
+      // its rule, a full replace cannot need it, and addVariant still requires
+      // the rule to produce the base form.
+      if(cellOverrides.some(override=>override.mode==='block'))continue;
+      let variants=[];
+      if(cellOverrides.length && cellOverrides.every(override=>override.mode==='replace')) {
+        variants=cellOverrides.flatMap(override=>override.forms.map(x=>
+          ({text:x.text,source:'exception',trace:[{op:'override',mode:override.mode}],variant:x.variant||'standard'})));
+      } else {
+        const form=executeOperations({stem:item.stems.base,stems:item.stems,steps:slot.steps});
+        variants=[{text:form.text,source:'rule',trace:form.trace}];
+        for(const override of cellOverrides){
+          const injected=override.forms.map(x=>({text:x.text,source:'exception',trace:[{op:'override',mode:override.mode}],variant:x.variant||'standard'}));
+          if(override.mode==='addVariant')variants=[...variants,...injected];
+        }
       }
       const seen=new Set();
       for(const variant of variants){
