@@ -25,7 +25,7 @@
         "referent":{"type":"string","minLength":1},
         "proposition":{"type":"object"},
         "source":{"type":"object","additionalProperties":false,"required":["turnId","language","text"],
-          "properties":{"turnId":{"type":"string"},"language":{"enum":["pl","en","tr"]},"text":{"type":"string"}}},
+          "properties":{"turnId":{"type":"string"},"language":{"type":"string","pattern":"^[a-z]{2,8}$"},"text":{"type":"string"}}},
         "recordedAt":{"type":"string","format":"date-time"},
         "scope":{"const":"session"},
         "correction":{"type":"object","required":["policy","supersedes"],
