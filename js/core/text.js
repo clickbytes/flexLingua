@@ -229,14 +229,23 @@ export function parseConstructions(tokens, start, constructions, readRole) {
   throw new Error('Sentence does not match a supported grammatical construction.');
 }
 
-/** Multiple independent sentences form a discourse; no implicit coreference. */
+/** Multiple independent sentences form a discourse; no implicit coreference.
+ * Bounded A1 splitting recognizes the [.!] terminators the sentence body parser
+ * already supports: each sentence keeps its original terminator, bare separator
+ * gaps refuse as empty discourse sentences, and '?' is not a boundary here. */
 export function splitSentences(text, limit = RESOURCE_LIMITS.discourseEvents) {
   requireBoundedText(text);
-  const parts = text.trim().split('.');
-  if (parts.at(-1) === '') parts.pop();
-  if (parts.some(part => !part.trim())) throw new Error('Empty discourse sentence.');
-  if (parts.length > limit) {
+  const sentences = [];
+  for (const part of text.trim().split(/(?<=[.!])/u)) {
+    const trimmed = part.trim();
+    if (!trimmed) continue;
+    if (!trimmed.replace(/[.!]+$/u, '').trim()) {
+      throw new Error('Empty discourse sentence.');
+    }
+    sentences.push(trimmed);
+  }
+  if (sentences.length > limit) {
     throw new EngineError('DISCOURSE_EVENT_LIMIT', `Discourse exceeds ${limit} events.`);
   }
-  return parts.map(part => `${part.trim()}.`);
+  return sentences;
 }
