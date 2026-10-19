@@ -12,6 +12,7 @@ export const TESTS_ROOT = join(LIB_DIR, '..');
 
 const GAPS_ID = /^GAP-[A-Z0-9-]{2,64}$/u;
 const CASE_ID_SHAPE = /^A1-[A-Z]{2}-[A-Z]{2}-[A-Z]+-[0-9]{4}$/u;
+const RELATION_ID_SHAPE = /^FWO-[A-Z]{2,8}-[0-9]{4}$/u;
 const TARGET_ID_SHAPE = /^(?:concept\.[a-z][a-z0-9_]*(?:\.[a-z][a-z0-9_]*)*|construction\.(?:question\.yes-no|[a-z][a-z0-9_]*(?:\.[a-z][a-z0-9_]*)*))$/u;
 const SHA40 = /^[0-9a-f]{40}$/u;
 const ISSUE_KIND = /^[a-z][a-zA-Z0-9_-]{0,63}$/u;
@@ -322,6 +323,23 @@ function checkRequiredIds(requiredIds, catalogById, caseIndex, issues) {
       severity: 'error', message: 'Every required-ids entry must be a stable concept.* / construction.* target id or an A1-* case id.'});
     return;
   }
+  if (!Array.isArray(requiredIds.requiredRelationIds)) {
+    issues.push({kind: 'required-ids', file: 'tests/catalog/required-ids.json', id: undefined,
+      severity: 'error', message: 'required-ids.json must hold the requiredRelationIds array of protected semantic relation group ids.'});
+  } else if (requiredIds.requiredRelationIds.length === 0) {
+    issues.push({kind: 'required-ids', file: 'tests/catalog/required-ids.json', id: undefined,
+      severity: 'error', message: 'Required relation list must be non-empty; an empty list deletes the protected relation gate.'});
+  } else {
+    const relations = requiredIds.requiredRelationIds;
+    if (new Set(relations).size !== relations.length) {
+      issues.push({kind: 'required-ids', file: 'tests/catalog/required-ids.json', id: undefined,
+        severity: 'error', message: 'Required relation ids must be unique.'});
+    }
+    if (!relations.every(id => typeof id === 'string' && RELATION_ID_SHAPE.test(id))) {
+      issues.push({kind: 'required-ids', file: 'tests/catalog/required-ids.json', id: undefined,
+        severity: 'error', message: 'Every required relation id must be a stable FWO-* group id.'});
+    }
+  }
   const declaredTargets = new Set(targets);
   for (const id of targets) {
     const target = catalogById.get(id);
@@ -552,6 +570,14 @@ export async function loadMatrix({testsRoot = TESTS_ROOT, ontology = null} = {})
               problem(`Expected '${group.relation}' relation is not satisfied at ${first?.path ?? '#/meaning'} ` +
                 `(${first?.caseIds?.join(' / ') ?? 'cases'}).`);
             }
+          }
+        }
+        const requiredRelationIds = Array.isArray(requiredIds?.requiredRelationIds) ?
+          requiredIds.requiredRelationIds : [];
+        for (const id of requiredRelationIds) {
+          if (!groupIds.has(id)) {
+            issues.push({kind: 'required-ids', file: 'tests/catalog/required-ids.json', id,
+              severity: 'error', message: `Protected semantic relation group '${id}' is required-ids listed but the semantic relation catalog does not declare it.`});
           }
         }
       }

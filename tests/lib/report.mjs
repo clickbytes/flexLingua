@@ -63,7 +63,8 @@ function caseRecord({item, outcome, durationMs, document}) {
 
 function semanticRelationResults(report) {
   return report.semanticRelations ?? {status: 'NOT RUN', declared: 0, passed: 0, failed: 0,
-    notRun: 0, reason: 'No semantic relation results were recorded.', groups: []};
+    notRun: 0, reason: 'No semantic relation results were recorded.', groups: [],
+    required: {status: 'NOT RUN', declared: 0, passed: 0, failed: 0, notRun: 0, missingIds: []}};
 }
 
 function junit(report) {
@@ -87,8 +88,13 @@ function junit(report) {
   const relationSummary = `${semanticRelations.status} (${semanticRelations.passed}/` +
     `${semanticRelations.declared} PASS, ${semanticRelations.failed} FAIL, ` +
     `${semanticRelations.notRun} NOT RUN)`;
+  const requiredSummary = semanticRelations.required && semanticRelations.required.declared ?
+    `; protected ids ${semanticRelations.required.status} (${semanticRelations.required.passed}/` +
+    `${semanticRelations.required.declared} PASS` +
+    `${semanticRelations.required.missingIds.length ? `, missing ${semanticRelations.required.missingIds.join(', ')}` : ''})` :
+    '';
   lines.push(`  <properties><property name="semantic-relations" ` +
-    `value="${escapeXml(relationSummary)}"/></properties>`);
+    `value="${escapeXml(relationSummary + requiredSummary)}"/></properties>`);
   for (const entry of cases) {
     lines.push(`  <testcase id="${escapeXml(entry.id)}" ` +
       `classname="${escapeXml(`${entry.direction}.${entry.construction ?? entry.family ?? ''}`)}" ` +
@@ -145,6 +151,12 @@ function summaryMarkdown(report) {
     `INFRA ${totals.infra.required} required / ${totals.infra.exploratory} exploratory`);
   lines.push(`- Semantic relations: ${semanticRelations.passed}/${semanticRelations.declared} PASS, ` +
     `${semanticRelations.failed} FAIL, ${semanticRelations.notRun} NOT RUN`);
+  if (semanticRelations.required?.declared) {
+    lines.push(`- Protected semantic relations: ${semanticRelations.required.status} — ` +
+      `${semanticRelations.required.passed}/${semanticRelations.required.declared} PASS for protected ids` +
+      `${semanticRelations.required.missingIds.length ? `; MISSING ${semanticRelations.required.missingIds.map(id =>
+        safeMarkdown(id)).join(', ')}` : ''}`);
+  }
   for (const group of semanticRelations.groups) {
     lines.push(`  - ${group.status} ${safeMarkdown(group.id)} (${safeMarkdown(group.relation)}): ` +
       `${group.caseIds.map(id => safeMarkdown(id)).join(', ')}`);
@@ -285,7 +297,8 @@ export async function writeReports({testsRoot, sha, matrix, outcomes, coverage, 
     valid: !matrix.issues.some(issue => issue.severity === 'error'),
     gates,
     semanticRelations: semanticRelations ?? {status: 'NOT RUN', declared: 0, passed: 0,
-      failed: 0, notRun: 0, reason: 'No semantic relation results were recorded.', groups: []},
+      failed: 0, notRun: 0, reason: 'No semantic relation results were recorded.', groups: [],
+      required: {status: 'NOT RUN', declared: 0, passed: 0, failed: 0, notRun: 0, missingIds: []}},
     validationIssues: matrix.issues.map(issue => ({severity: issue.severity, kind: issue.kind,
       file: issue.file ?? null, id: issue.id ?? null, message: clip(issue.message)})),
     cases: outcomes.map(caseRecord),

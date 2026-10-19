@@ -757,5 +757,19 @@
     "A1-EN-PL-ORDER-0010",
     "A1-EN-PL-ORDER-0011",
     "A1-EN-PL-ORDER-0012"
+  ],
+  "requiredRelationIds": [
+    "FWO-PL-0001",
+    "FWO-PL-0002",
+    "FWO-PL-0003",
+    "FWO-PL-0004",
+    "FWO-PL-0005",
+    "FWO-PL-0006",
+    "FWO-PL-0007",
+    "FWO-PL-0008",
+    "FWO-EN-0001",
+    "FWO-EN-0002",
+    "FWO-EN-0003",
+    "FWO-EN-0004"
   ]
 }
