@@ -5,7 +5,7 @@ import {join, dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import Ajv2020 from 'ajv/dist/2020.js';
 import {ALLOWED_DIRECTIONS, discoverCases} from './discover.mjs';
-import {compareSemanticRelation} from './assertions.mjs';
+import {compareSemanticRelation, inspectSemanticOracle} from './assertions.mjs';
 
 const LIB_DIR = dirname(fileURLToPath(import.meta.url));
 export const TESTS_ROOT = join(LIB_DIR, '..');
@@ -222,6 +222,16 @@ function checkCaseRules(item, issues, ontology) {
       return;
     }
     const meaning = expected.meaning;
+    const oracle = inspectSemanticOracle(meaning);
+    for (const problem of oracle.problems) {
+      issues.push({kind: 'semantic-oracle', file: item.file, id, severity: 'error',
+        message: `Semantic assertion contradicts its expected MeaningGraph at ${problem.path} ` +
+          `(expected ${problem.expected}, asserted ${problem.observed}).`});
+    }
+    for (const unresolved of oracle.unresolved) {
+      issues.push({kind: 'semantic-oracle', file: item.file, id, severity: 'error',
+        message: `Semantic assertion cannot be projected at ${unresolved.path} (${unresolved.reason}).`});
+    }
     const accepted = new Set((expected.text?.accepted ?? []).map(value => value.normalize('NFC')));
     if (accepted.size !== (expected.text?.accepted ?? []).length) {
       issues.push({kind: 'text', file: item.file, id, severity: 'error',
@@ -594,8 +604,8 @@ export async function loadMatrix({testsRoot = TESTS_ROOT, ontology = null} = {})
             })), {oracle: true});
             if (!expected.pass) {
               const first = expected.differences[0];
-              problem(`Expected '${group.relation}' relation is not satisfied at ${first?.path ?? '#/meaning'} ` +
-                `(${first?.caseIds?.join(' / ') ?? 'cases'}).`);
+              problem(`Expected '${group.relation}' relation is ${expected.status ?? 'FAIL'} at ` +
+                `${first?.path ?? '#/meaning'} (${first?.caseIds?.join(' / ') ?? 'cases'}).`);
             }
           }
         }

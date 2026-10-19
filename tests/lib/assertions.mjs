@@ -46,7 +46,9 @@ export function resolvePointer(root, pointer) {
 }
 
 const PRESENTATION_MEANING_KEYS = new Set(['surface', 'surfaceTrace', 'presentation']);
-const ORACLE_MEANING_KEYS = new Set(['roleSet', 'roleFeaturesExact', 'featuresAllowExtra', 'assert']);
+const ORACLE_MEANING_KEYS = new Set([
+  'roleSet', 'roleFeaturesExact', 'modifiersExact', 'featuresAllowExtra', 'assert'
+]);
 
 function materialMeaning(value, {oracle = false} = {}) {
   if (Array.isArray(value)) return value.map(item => materialMeaning(item, {oracle}));
@@ -108,14 +110,369 @@ export function compareSemanticMeanings(left, right, options = {}) {
   return {equal: differences.length === 0, differences};
 }
 
-/** Check a declared same-core or different-core relation over complete material meanings. */
+const ORACLE_TYPES = new Set([
+  'event', 'state', 'discourse', 'dialogue_act', 'comparison', 'coordination',
+  'scope', 'complement', 'modality', 'conditional', 'question'
+]);
+
+function pointerSegment(value) {
+  return String(value).replace(/~/gu, '~0').replace(/\//gu, '~1');
+}
+
+function oraclePath(parent, segment) {
+  return `${parent}/${pointerSegment(segment)}`;
+}
+
+function addOracleFact(facts, path, value, problems) {
+  if (facts.has(path) && !oracleValueEqual(facts.get(path), value)) {
+    problems.push({path, expected: meaningValue(facts.get(path)), observed: meaningValue(value)});
+    return;
+  }
+  facts.set(path, value);
+}
+
+function oracleValueEqual(left, right) {
+  if (typeof left === 'string' && typeof right === 'string') return left.normalize('NFC') === right.normalize('NFC');
+  if (Array.isArray(left) || Array.isArray(right)) {
+    return Array.isArray(left) && Array.isArray(right) && left.length === right.length &&
+      left.every((value, index) => oracleValueEqual(value, right[index]));
+  }
+  if (isRecord(left) || isRecord(right)) {
+    if (!isRecord(left) || !isRecord(right)) return false;
+    const leftKeys = Object.keys(left).sort(), rightKeys = Object.keys(right).sort();
+    return leftKeys.length === rightKeys.length && leftKeys.every((key, index) =>
+      key === rightKeys[index] && oracleValueEqual(left[key], right[key]));
+  }
+  return left === right;
+}
+
+function flattenOracleValue(value, path, facts, problems) {
+  if (Array.isArray(value)) {
+    if (!value.length) addOracleFact(facts, path, [], problems);
+    value.forEach((entry, index) => flattenOracleValue(entry, oraclePath(path, index), facts, problems));
+    return;
+  }
+  if (isRecord(value)) {
+    for (const key of Object.keys(value).sort()) {
+      flattenOracleValue(value[key], oraclePath(path, key), facts, problems);
+    }
+    return;
+  }
+  addOracleFact(facts, path, nfc(value), problems);
+}
+
+function projectOracleParticipant(participant, path, unresolved) {
+  if (!isRecord(participant)) {
+    unresolved.push({path, reason: 'Expected a participant object.'});
+    return null;
+  }
+  const projected = {};
+  if (typeof participant.concept === 'string') projected.concept = nfc(participant.concept);
+  if (isRecord(participant.target)) projected.target = materialMeaning(participant.target);
+  if (isRecord(participant.agreement)) projected.agreement = materialMeaning(participant.agreement);
+  if (isRecord(participant.features)) projected.features = materialMeaning(participant.features);
+  if (Array.isArray(participant.modifiers)) {
+    projected.modifiers = materialMeaning(participant.modifiers).sort((left, right) => {
+      const leftConcept = String(left?.concept ?? ''), rightConcept = String(right?.concept ?? '');
+      return leftConcept < rightConcept ? -1 : leftConcept > rightConcept ? 1 : 0;
+    });
+  }
+  if (isRecord(participant.quantity)) projected.quantity = materialMeaning(participant.quantity);
+  const known = new Set(['concept', 'target', 'agreement', 'features', 'modifiers', 'quantity']);
+  for (const key of Object.keys(participant)) {
+    if (!known.has(key)) unresolved.push({path: oraclePath(path, key), reason: 'Unsupported participant field.'});
+  }
+  if (Object.hasOwn(participant, 'concept') === Object.hasOwn(participant, 'target')) {
+    unresolved.push({path, reason: 'Participant must declare exactly one of concept or target.'});
+  } else {
+    projected.participantKind = Object.hasOwn(participant, 'concept') ? 'concept' : 'target';
+  }
+  return projected;
+}
+
+function projectOracleMeaning(meaning, path, unresolved) {
+  if (!isRecord(meaning) || !ORACLE_TYPES.has(meaning.type)) {
+    unresolved.push({path, reason: 'Meaning type is not supported by the semantic oracle.'});
+    return null;
+  }
+  const projected = {type: meaning.type};
+  if (meaning.type === 'question') {
+    if (typeof meaning.questionType === 'string') projected.questionType = meaning.questionType;
+    projected.proposition = projectOracleMeaning(meaning.proposition, oraclePath(path, 'proposition'), unresolved);
+    const known = new Set(['type', 'questionType', 'proposition', 'assert']);
+    for (const key of Object.keys(meaning)) {
+      if (!known.has(key) && !PRESENTATION_MEANING_KEYS.has(key) && key !== 'version') {
+        unresolved.push({path: oraclePath(path, key), reason: 'Unsupported question field.'});
+      }
+    }
+    return projected;
+  }
+  if (meaning.concept !== undefined) projected.concept = nfc(meaning.concept);
+  if (meaning.kind !== undefined) projected.kind = nfc(meaning.kind);
+  if (isRecord(meaning.roles)) {
+    const roles = {};
+    for (const role of Object.keys(meaning.roles).sort()) {
+      roles[role] = projectOracleParticipant(meaning.roles[role], oraclePath(oraclePath(path, 'roles'), role), unresolved);
+    }
+    projected.roles = roles;
+  }
+  if (isRecord(meaning.features)) projected.features = materialMeaning(meaning.features);
+  const known = new Set([
+    'type', 'concept', 'kind', 'roleSet', 'roles', 'roleFeaturesExact',
+    'modifiersExact', 'features', 'featuresAllowExtra', 'assert'
+  ]);
+  for (const key of Object.keys(meaning)) {
+    if (!known.has(key) && !PRESENTATION_MEANING_KEYS.has(key) && key !== 'version') {
+      unresolved.push({path: oraclePath(path, key), reason: 'Unsupported meaning field.'});
+    }
+  }
+  return projected;
+}
+
+function decodeOraclePointer(pointer) {
+  if (typeof pointer !== 'string' || !pointer.startsWith('#/')) return null;
+  const raw = pointer.slice(2).split('/');
+  if (raw.some(segment => /~(?![01])/u.test(segment))) return null;
+  return raw.map(segment => segment.replace(/~1/gu, '/').replace(/~0/gu, '~'));
+}
+
+function normalizeOracleAssertionSegments(meaning, segments) {
+  const normalized = [...segments];
+  if (normalized[0] === 'proposition' && meaning?.type === 'question') {
+    return ['proposition', ...normalizeOracleAssertionSegments(meaning.proposition, normalized.slice(1))];
+  }
+  if (normalized[0] === 'roles' && normalized[2] === 'referent' &&
+      isRecord(meaning?.roles?.[normalized[1]]) && Object.hasOwn(meaning.roles[normalized[1]], 'target')) {
+    normalized[2] = 'target';
+  }
+  return normalized;
+}
+
+function oraclePointer(segments) {
+  return `#/${segments.map(pointerSegment).join('/')}`;
+}
+
+function knownOracleAssertionPath(meaning, segments) {
+  if (!segments.length || !isRecord(meaning)) return false;
+  const [head, ...tail] = segments;
+  if (head === 'version') return true;
+  if (head === 'proposition') {
+    return meaning.type === 'question' && knownOracleAssertionPath(meaning.proposition, tail);
+  }
+  if (head === 'type') return tail.length === 0;
+  if (meaning.type === 'question') return head === 'questionType' && tail.length === 0;
+  if ((head === 'concept' || head === 'kind') && tail.length === 0) return true;
+  if (head === 'features') return tail.length === 1;
+  if (head !== 'roles' || tail.length < 2) return false;
+  const [role, field, ...rest] = tail;
+  const participant = meaning.roles?.[role];
+  if (!isRecord(participant)) return false;
+  if (field === 'concept') return rest.length === 0 && !Object.hasOwn(participant, 'target');
+  if (field === 'target') return rest.length === 1 && ['kind', 'anchor', 'resolution'].includes(rest[0]) &&
+    (isRecord(participant.target) || !Object.hasOwn(participant, 'concept'));
+  if (field === 'features') return rest.length === 1;
+  if (field === 'agreement') return rest.length === 1 && ['person', 'number'].includes(rest[0]);
+  if (field === 'quantity') return rest.length === 1 && ['kind', 'value'].includes(rest[0]);
+  if (field === 'modifiers') return rest.length === 2 && /^\d+$/u.test(rest[0]) && rest[1] === 'concept';
+  return false;
+}
+
+function incompatibleOracleAssertionPath(meaning, segments) {
+  if (isRecord(meaning) && segments[0] === 'proposition' && meaning.type === 'question') {
+    return incompatibleOracleAssertionPath(meaning.proposition, segments.slice(1));
+  }
+  if (!isRecord(meaning) || segments.length < 3 || segments[0] !== 'roles') return false;
+  const participant = meaning.roles?.[segments[1]];
+  if (!isRecord(participant)) return true;
+  if (segments[2] === 'concept' && Object.hasOwn(participant, 'target')) return true;
+  if (segments[2] === 'target' && Object.hasOwn(participant, 'concept')) return true;
+  if (segments[2] === 'referent' && Object.hasOwn(participant, 'concept')) return true;
+  return false;
+}
+
+function assertionEntries(meaning, prefix = '#') {
+  if (!isRecord(meaning)) return [];
+  const entries = Object.entries(isRecord(meaning.assert) ? meaning.assert : {})
+    .map(([pointer, value]) => ({pointer, value, prefix}));
+  if (meaning.type === 'question') {
+    entries.push(...assertionEntries(meaning.proposition, oraclePath(prefix, 'proposition')));
+  }
+  return entries;
+}
+
+function modifierMembershipAssertion(meaning, segments, value, prefix) {
+  if (!Array.isArray(segments) || segments.length !== 5 || segments[0] !== 'roles' ||
+      segments[2] !== 'modifiers' || !/^\d+$/u.test(segments[3]) || segments[4] !== 'concept' ||
+      typeof value !== 'string') return null;
+  const participant = meaning?.roles?.[segments[1]];
+  if (!isRecord(participant)) return null;
+  const modifiers = participant.modifiers;
+  if (Array.isArray(modifiers) && !modifiers.some(entry => entry?.concept === value)) {
+    return {conflict: true, path: `${prefix}/roles/${pointerSegment(segments[1])}/modifiers`,
+      expected: meaningValue(modifiers.map(entry => entry?.concept).filter(Boolean).sort()),
+      observed: meaningValue(value)};
+  }
+  return {path: `${prefix}/roles/${pointerSegment(segments[1])}/modifiers/$contains/${pointerSegment(value)}`};
+}
+
+/** Build semantic facts from the typed expected shape and check its scalar assertions. */
+export function inspectSemanticOracle(meaning) {
+  const unresolved = [];
+  const problems = [];
+  const projection = projectOracleMeaning(meaning, '#', unresolved);
+  const facts = new Map();
+  if (projection) {
+    flattenOracleValue(projection, '#', facts, problems);
+    if (isRecord(projection.roles)) {
+      addOracleFact(facts, '#/roles/$members', Object.keys(projection.roles).sort(), problems);
+      for (const [role, participant] of Object.entries(projection.roles)) {
+        for (const modifier of participant?.modifiers ?? []) {
+          if (typeof modifier?.concept === 'string') {
+            addOracleFact(facts, `#/roles/${pointerSegment(role)}/modifiers/$contains/${pointerSegment(modifier.concept)}`,
+              true, problems);
+          }
+        }
+      }
+    }
+  }
+
+  for (const entry of assertionEntries(meaning)) {
+    const segments = decodeOraclePointer(entry.pointer);
+    if (!segments) {
+      unresolved.push({path: entry.pointer, reason: 'Assertion pointer cannot be projected.'});
+      continue;
+    }
+    if (segments.length === 1 && segments[0] === 'version') continue;
+    const assertionMeaning = entry.prefix === '#' ? meaning : meaning?.proposition;
+    const normalizedSegments = normalizeOracleAssertionSegments(assertionMeaning, segments);
+    const normalizedPointer = oraclePointer(normalizedSegments);
+    const canonicalPath = `${entry.prefix}${normalizedPointer.slice(1)}`;
+    const known = knownOracleAssertionPath(assertionMeaning, normalizedSegments);
+    const resolved = resolvePointer(assertionMeaning, normalizedPointer);
+    if (!known) {
+      if (incompatibleOracleAssertionPath(assertionMeaning, segments)) {
+        problems.push({path: canonicalPath,
+          expected: 'a compatible semantic field', observed: meaningValue(entry.value)});
+        continue;
+      }
+      if (!resolved.missing && (isRecord(resolved.value) || Array.isArray(resolved.value))) {
+        problems.push({path: canonicalPath, expected: 'a scalar semantic field', observed: meaningValue(resolved.value)});
+        continue;
+      }
+      unresolved.push({path: canonicalPath,
+        reason: 'Assertion path is outside the typed semantic oracle.'});
+      continue;
+    }
+    const modifierAssertion = modifierMembershipAssertion(assertionMeaning, normalizedSegments, entry.value, entry.prefix);
+    if (modifierAssertion?.conflict) {
+      problems.push({path: modifierAssertion.path, expected: modifierAssertion.expected,
+        observed: modifierAssertion.observed});
+      continue;
+    }
+    if (modifierAssertion) {
+      addOracleFact(facts, modifierAssertion.path, true, problems);
+      continue;
+    }
+    if (!resolved.missing && (isRecord(resolved.value) || Array.isArray(resolved.value))) {
+      problems.push({path: canonicalPath, expected: 'a scalar semantic field', observed: meaningValue(resolved.value)});
+      continue;
+    }
+    if (!resolved.missing && !deepScalarEqual(resolved.value, entry.value)) {
+      problems.push({path: canonicalPath, expected: meaningValue(resolved.value), observed: meaningValue(entry.value)});
+      continue;
+    }
+    addOracleFact(facts, canonicalPath, entry.value, problems);
+  }
+  return {facts, problems, unresolved};
+}
+
+function compareOraclePair(left, right) {
+  let different = false;
+  let incomplete = false;
+  const differences = [];
+  const paths = [...new Set([...left.facts.keys(), ...right.facts.keys()])].sort();
+  for (const path of paths) {
+    const hasLeft = left.facts.has(path), hasRight = right.facts.has(path);
+    if (!hasLeft || !hasRight) {
+      if (path === '#/roles/$members') {
+        different = true;
+        differences.push({path, expected: meaningValue(left.facts.get(path)), observed: meaningValue(right.facts.get(path))});
+      } else if (roleMembershipDifferenceExplains(path, left, right)) {
+        continue;
+      } else {
+        incomplete = true;
+        differences.push({path, expected: meaningValue(left.facts.get(path)), observed: meaningValue(right.facts.get(path)), unresolved: true});
+      }
+      continue;
+    }
+    if (!oracleValueEqual(left.facts.get(path), right.facts.get(path))) {
+      different = true;
+      differences.push({path, expected: meaningValue(left.facts.get(path)), observed: meaningValue(right.facts.get(path))});
+    }
+  }
+  return {different, incomplete, differences};
+}
+
+function roleMembershipDifferenceExplains(path, left, right) {
+  const segments = decodeOraclePointer(path);
+  if (!segments) return false;
+  for (let index = 0; index < segments.length - 2; index++) {
+    if (segments[index] !== 'roles' || segments[index + 1] === '$members') continue;
+    const membershipPath = oraclePointer([...segments.slice(0, index + 1), '$members']);
+    const leftRoles = left.facts.get(membershipPath);
+    const rightRoles = right.facts.get(membershipPath);
+    return Array.isArray(leftRoles) && Array.isArray(rightRoles) &&
+      leftRoles.includes(segments[index + 1]) !== rightRoles.includes(segments[index + 1]);
+  }
+  return false;
+}
+
+function compareSemanticOracles(relation, entries) {
+  const inspected = entries.map(entry => ({id: entry.id, ...inspectSemanticOracle(entry.meaning)}));
+  const problems = inspected.flatMap(entry => entry.problems.map(problem => ({caseIds: [entry.id], ...problem})));
+  if (problems.length) return {pass: false, status: 'FAIL', differences: problems.slice(0, 64)};
+  const unresolved = inspected.flatMap(entry => entry.unresolved.map(item => ({caseIds: [entry.id],
+    path: item.path, expected: 'typed semantic assertion', observed: item.reason, unresolved: true})));
+  if (unresolved.length) return {pass: false, status: 'NOT RUN', differences: unresolved.slice(0, 64)};
+
+  const differences = [];
+  let failed = false;
+  let notRun = false;
+  for (let leftIndex = 0; leftIndex < inspected.length; leftIndex++) {
+    for (let rightIndex = leftIndex + 1; rightIndex < inspected.length; rightIndex++) {
+      const left = inspected[leftIndex], right = inspected[rightIndex];
+      const comparison = compareOraclePair(left, right);
+      if (relation === 'same-core') {
+        if (comparison.different) failed = true;
+        if (comparison.incomplete) notRun = true;
+        if (comparison.different || comparison.incomplete) {
+          for (const item of comparison.differences) differences.push({caseIds: [left.id, right.id], ...item});
+        }
+      } else if (comparison.incomplete) {
+        notRun = true;
+        differences.push({caseIds: [left.id, right.id], path: '#/meaning',
+          expected: 'complete semantic facts with an explicit difference',
+          observed: 'incomplete semantic facts', unresolved: true});
+      } else if (!comparison.different) {
+        failed = true;
+        differences.push({caseIds: [left.id, right.id], path: '#/meaning',
+          expected: 'a distinct explicit semantic fact', observed: 'same semantic facts'});
+      }
+    }
+  }
+  const status = failed ? 'FAIL' : notRun ? 'NOT RUN' : 'PASS';
+  return {pass: status === 'PASS', status, differences: differences.slice(0, 64)};
+}
+
+/** Check a declared relation over runtime meanings or typed expected semantic oracles. */
 export function compareSemanticRelation(relation, entries, options = {}) {
   const differences = [];
   if (!Array.isArray(entries) || entries.length < 2 ||
       !['same-core', 'different-core'].includes(relation)) {
-    return {pass: false, differences: [{caseIds: [], path: '#/meaning',
+    return {pass: false, status: 'FAIL', differences: [{caseIds: [], path: '#/meaning',
       expected: 'at least two meanings and a supported relation', observed: 'invalid relation input'}]};
   }
+  if (options.oracle === true) return compareSemanticOracles(relation, entries);
   if (relation === 'same-core') {
     const [first, ...rest] = entries;
     for (const entry of rest) {
@@ -134,7 +491,8 @@ export function compareSemanticRelation(relation, entries, options = {}) {
       }
     }
   }
-  return {pass: differences.length === 0, differences: differences.slice(0, 64)};
+  return {pass: differences.length === 0, status: differences.length ? 'FAIL' : 'PASS',
+    differences: differences.slice(0, 64)};
 }
 
 /** Evaluate matrix groups without conflating semantic failures with sentence failures. */
@@ -159,7 +517,7 @@ export function evaluateSemanticRelations(groups, outcomes, options = {}) {
       id: row.item.id, meaning: row.document.meaning
     })));
     return {id: group.id, direction: group.direction, relation: group.relation,
-      caseIds: [...group.caseIds], status: checked.pass ? 'PASS' : 'FAIL',
+      caseIds: [...group.caseIds], status: checked.status ?? (checked.pass ? 'PASS' : 'FAIL'),
       differences: checked.differences, reason: null};
   });
   const passed = results.filter(group => group.status === 'PASS').length;
