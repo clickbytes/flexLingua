@@ -61,6 +61,10 @@ function unsupported(message) {
 function resourceLimit(message) {
   throw new EngineError('LANGUAGE_CONSTRUCTION_LIMIT', message, {status:'resource_limit'});
 }
+function boundedAnalyses(readings) {
+  if (readings.length > MAX_ANALYSES) resourceLimit('Grammar analysis exceeded its reading budget.');
+  return readings;
+}
 const LEXEME_ID = /^[a-zA-Z][a-zA-Z0-9_]*(?:\.[a-zA-Z0-9_]+)*$/u;
 const PLACEHOLDER = /^\{([a-zA-Z][a-zA-Z0-9_]*)\}$/u;
 const LITERAL = /^@[\p{L}]+$/u;
@@ -1265,6 +1269,10 @@ function createGrammarInterpreter(sourceDictionary, rules,
     const grammaticalNumber=grammaticalNumberFor(ref);
     const surfaceCase=count===null?gramCase:nominal.surfaceCaseForQuantity(count,gramCase);
     const forms = nounFormsByLexeme.get(noun) || [];
+    if (!forms.length && Object.keys(noun.forms ?? {}).length === 0) {
+      throw new EngineError('TARGET_NOUN_FORMS_UNAVAILABLE',
+        `Target noun ${noun.lemma} has no declared or generated forms.`, {status:'unsupported'});
+    }
     const form = forms.find(candidate => candidate.bindings.number === grammaticalNumber &&
       (candidate.bindings.case === undefined || candidate.bindings.case === surfaceCase));
     if (!form) throw new Error(`Missing ${grammaticalNumber}/${surfaceCase || '-'} noun form for ${noun.lemma}.`);
@@ -1561,7 +1569,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
         }
       }
     }
-    return [...readings.values()].sort((a,b)=>b.score-a.score).slice(0,MAX_ANALYSES);
+    return boundedAnalyses([...readings.values()].sort((a,b)=>b.score-a.score));
   }
 
   function parseComparisonCandidates(tokens,budget) {
@@ -1594,7 +1602,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
         }
       }
     }
-    return results.sort((a,b)=>b.score-a.score).slice(0,MAX_ANALYSES);
+    return boundedAnalyses(results.sort((a,b)=>b.score-a.score));
   }
 
   function parseRequestCandidates(tokens,counter) {
@@ -1688,8 +1696,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
         }
       }
     }
-    return [...readings.values()].sort((left,right)=>right.score-left.score)
-      .slice(0,MAX_ANALYSES);
+    return boundedAnalyses([...readings.values()].sort((left,right)=>right.score-left.score));
   }
 
   /** Bounded chart-like enumeration for complete clauses or clauses with one semantic gap.
@@ -1763,7 +1770,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
       ...analyzeNegativeStateStatement(tokens,budget)];
     const results = [...comparisonReadings,...stateReadings,...parseClause(tokens, null, null, 0, budget,
       {allowImplicitSubject:true})];
-    if (results.length) return results.slice(0, MAX_ANALYSES);
+    if (results.length) return boundedAnalyses(results);
     if (budget.agreementFailed) unsupported(grammar.messages?.agreement ||
       'Verb form does not agree with subject.');
     unsupported('Sentence does not match a supported grammatical construction (subject noun phrase, roles, verb or word order).');
@@ -1927,7 +1934,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
         }
       }
     }
-    const results = [...readings.values()].sort((a, b) => b.score - a.score).slice(0, MAX_ANALYSES);
+    const results = boundedAnalyses([...readings.values()].sort((a, b) => b.score - a.score));
     if (budget.memo.size < 1000) budget.memo.set(memoKey, results);
     return results;
   }
@@ -1994,7 +2001,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
         });
         for (const reading of variants) {
           readings.push(wrapModalReading(reading,modal,mode));
-          if (readings.length >= MAX_ANALYSES) return readings;
+          boundedAnalyses(readings);
         }
       }
     }
@@ -2093,7 +2100,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
       (frames[modalParts(item.interlingua.proposition)?.event?.concept]?.whTheme!==false &&
       (!frames[modalParts(item.interlingua.proposition)?.event?.concept]?.whTheme?.frontPreposition ||
        tokens[0]===normalizedWord(frames[modalParts(item.interlingua.proposition)?.event?.concept].whTheme.frontPreposition))));
-    return safe.sort((a,b)=>(b.score||0)-(a.score||0)).slice(0,MAX_ANALYSES);
+    return boundedAnalyses(safe.sort((a,b)=>(b.score||0)-(a.score||0)));
   }
 
   /** No semantic entity is used for an unanswered role.  This temporary
@@ -2336,7 +2343,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
       (!frames[item.interlingua.proposition.concept]?.whTheme?.frontPreposition ||
        tokens[0]===normalizedWord(frames[item.interlingua.proposition.concept].whTheme.frontPreposition))));
     if(!safe.length) unsupported('Unsupported WH construction for this verb frame.');
-    return safe.sort((a,b)=>(b.score||0)-(a.score||0)).slice(0,MAX_ANALYSES);
+    return boundedAnalyses(safe.sort((a,b)=>(b.score||0)-(a.score||0)));
   }
 
   function readDeicticNounPhrases(tokens,index,grammaticalCase) {
@@ -2447,7 +2454,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
           content: tail + '.', senseId: lex.id });
       }
     }
-    return answers.slice(0, MAX_ANALYSES);
+    return boundedAnalyses(answers);
   }
 
   function realizeComplement(node, contentText) {

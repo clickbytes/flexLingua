@@ -108,6 +108,262 @@
         "coverageTargetId": "construction.event.visual_attention",
         "capability": "en.analyze controlled refusal: subject-verb number disagreement"
       }
+    },
+    {
+      "id": "A1-EN-FI-INTERPRETATIONS-0001",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-fi",
+      "family": "interpretations",
+      "construction": "event.residence",
+      "tier": "required",
+      "priority": 4,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "second",
+        "number": "mixed",
+        "reference": "deictic",
+        "quantity": "none"
+      },
+      "purpose": "Retain both addressee-number readings when Finnish residence realization is unavailable. Each reading records unsupported diagnostics; there is no preview or inferred unique meaning.",
+      "input": {
+        "from": "en",
+        "to": "fi",
+        "text": "You live in a flat."
+      },
+      "expected": {
+        "status": "ambiguous",
+        "text": null,
+        "meaning": null,
+        "diagnostics": {
+          "required": [
+            {
+              "code": "AMBIGUOUS_MEANING"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            {
+              "meaning": {
+                "type": "event",
+                "concept": "event.residence",
+                "roleSet": [
+                  "agent",
+                  "location"
+                ],
+                "roles": {
+                  "agent": {
+                    "target": {
+                      "kind": "deictic",
+                      "anchor": "addressee"
+                    },
+                    "agreement": {
+                      "person": "second",
+                      "number": "singular"
+                    }
+                  },
+                  "location": {
+                    "concept": "structure.apartment",
+                    "features": {
+                      "number": "singular",
+                      "definiteness": "indefinite"
+                    },
+                    "modifiers": []
+                  }
+                },
+                "roleFeaturesExact": true,
+                "modifiersExact": true,
+                "features": {
+                  "tense": "present",
+                  "polarity": "positive",
+                  "aspect": "unknown"
+                },
+                "assert": {}
+              }
+            },
+            {
+              "meaning": {
+                "type": "event",
+                "concept": "event.residence",
+                "roleSet": [
+                  "agent",
+                  "location"
+                ],
+                "roles": {
+                  "agent": {
+                    "target": {
+                      "kind": "deictic",
+                      "anchor": "addressee"
+                    },
+                    "agreement": {
+                      "person": "second",
+                      "number": "plural"
+                    }
+                  },
+                  "location": {
+                    "concept": "structure.apartment",
+                    "features": {
+                      "number": "singular",
+                      "definiteness": "indefinite"
+                    },
+                    "modifiers": []
+                  }
+                },
+                "roleFeaturesExact": true,
+                "modifiersExact": true,
+                "features": {
+                  "tense": "present",
+                  "polarity": "positive",
+                  "aspect": "unknown"
+                },
+                "assert": {}
+              }
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "uncertainties": {
+          "required": [
+            {
+              "kind": "missing_information",
+              "path": "#/features/aspect",
+              "options": [],
+              "reason": "source-unspecified"
+            },
+            {
+              "kind": "semantic_ambiguity",
+              "path": "#/roles/agent/agreement/number",
+              "options": [
+                "plural",
+                "singular"
+              ],
+              "reason": "distinct-source-readings"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "interpretations": {
+          "required": [
+            {
+              "meaning": {
+                "type": "event",
+                "concept": "event.residence",
+                "roleSet": [
+                  "agent",
+                  "location"
+                ],
+                "roles": {
+                  "agent": {
+                    "target": {
+                      "kind": "deictic",
+                      "anchor": "addressee"
+                    },
+                    "agreement": {
+                      "person": "second",
+                      "number": "singular"
+                    }
+                  },
+                  "location": {
+                    "concept": "structure.apartment",
+                    "features": {
+                      "number": "singular",
+                      "definiteness": "indefinite"
+                    },
+                    "modifiers": []
+                  }
+                },
+                "roleFeaturesExact": true,
+                "modifiersExact": true,
+                "features": {
+                  "tense": "present",
+                  "polarity": "positive",
+                  "aspect": "unknown"
+                },
+                "assert": {}
+              },
+              "status": "unsupported",
+              "texts": [],
+              "diagnosticCodes": [
+                "PLUGIN_CAPABILITY_UNAVAILABLE"
+              ],
+              "ruleIds": [
+                "source.lexical-preference"
+              ]
+            },
+            {
+              "meaning": {
+                "type": "event",
+                "concept": "event.residence",
+                "roleSet": [
+                  "agent",
+                  "location"
+                ],
+                "roles": {
+                  "agent": {
+                    "target": {
+                      "kind": "deictic",
+                      "anchor": "addressee"
+                    },
+                    "agreement": {
+                      "person": "second",
+                      "number": "plural"
+                    }
+                  },
+                  "location": {
+                    "concept": "structure.apartment",
+                    "features": {
+                      "number": "singular",
+                      "definiteness": "indefinite"
+                    },
+                    "modifiers": []
+                  }
+                },
+                "roleFeaturesExact": true,
+                "modifiersExact": true,
+                "features": {
+                  "tense": "present",
+                  "polarity": "positive",
+                  "aspect": "unknown"
+                },
+                "assert": {}
+              },
+              "status": "unsupported",
+              "texts": [],
+              "diagnosticCodes": [
+                "PLUGIN_CAPABILITY_UNAVAILABLE"
+              ],
+              "ruleIds": [
+                "source.lexical-preference"
+              ]
+            }
+          ],
+          "allowUnexpected": false,
+          "preview": null,
+          "tied": true
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent source/realization expectations authored before runtime edits. Owner authorization and agent linguistic reasoning, including the pre-approval Polish pro-drop correction, recorded before promotion: https://github.com/clickbytes/flexLingua/issues/443#issuecomment-6263919097. No protected oracle changed.",
+        "author": "Codex (linguistic reviewer under explicit owner authorization)",
+        "reviewedAt": "2026-10-19",
+        "issue": "#443"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.residence",
+        "capability": "Bounded complete interpretation realizations, explained ranking and preview without semantic resolution"
+      },
+      "verifyEngine": true
     }
   ]
 }

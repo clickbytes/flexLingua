@@ -15,8 +15,26 @@ import {matchConceptGraphs} from './typed-graph-match.js';
 import {composeMeaningGraph} from './semantic-composition.js';
 import {ambiguousTranslation, distinctReadings, translationFailure, withUncertainties}
   from './translation-result.js';
+import {realizeInterpretations} from './translation-interpretations.js';
 
 const MAX_CANDIDATES = 16;
+
+function searchLimit(search = {}) {
+  const maxReadings = search?.maxReadings === undefined ? MAX_CANDIDATES : search.maxReadings;
+  if (!record(search) || Object.keys(search).some(key => key !== 'maxReadings') ||
+      !Number.isSafeInteger(maxReadings) || maxReadings < 1 || maxReadings > MAX_CANDIDATES) {
+    throw new EngineError('INVALID_INPUT', 'Invalid semantic search budget.', {status:'invalid'});
+  }
+  return maxReadings;
+}
+
+function boundedCandidates(candidates, limit) {
+  if (candidates.length > limit) {
+    throw new EngineError('SEMANTIC_SEARCH_LIMIT',
+      'Semantic search exceeded its reading budget; uniqueness is unknown.', {status:'resource_limit'});
+  }
+  return candidates;
+}
 
 /**
  * The natural-language discourse composer uses null-prototype dictionaries for
@@ -324,6 +342,7 @@ export class Engine {
       return result.readings.map(reading => ({
         interlingua: reading.meaning,
         lexicalSenses: reading.analysis?.lexicalSenses || {},
+        lexicalPreference: Number.isFinite(reading.analysis?.score) ? reading.analysis.score : 0,
         score: Number.isFinite(reading.analysis?.score) ? reading.analysis.score : 0
       }));
     } catch (error) {
@@ -354,7 +373,8 @@ export class Engine {
    * Returns distinct meanings, never just spelling variants. Context is explicit:
    * {senses: {theme: 'place.riverbank'}} filters; {topics:['place.river']} boosts.
    */
-  analyzeCandidates({ text, from, context = {} }) {
+  analyzeCandidates({ text, from, context = {}, search }) {
+    const limit = searchLimit(search);
     const settings = this.validateContext(context);
     if (from === 'core') {
       if (typeof text !== 'string') {
@@ -411,7 +431,8 @@ export class Engine {
           (settings.topics||[]).reduce((sum,topic)=>sum+
             participantsOf(candidate.interlingua).filter(ref=>ref.concept).filter(ref=>
               this.ontology.relatedToTopic(ref.concept,topic)).length*10,0)}))
-        .sort((a,b)=>b.score-a.score).slice(0,MAX_CANDIDATES);
+        .sort((a,b)=>b.score-a.score);
+      boundedCandidates(candidates, limit);
       if(!candidates.length)throw new Error('No semantic question reading matches context constraints.');
       return candidates.map(candidate=>{
         validateMeaningGraph(candidate.interlingua,this.ontology,this.features);
@@ -438,7 +459,7 @@ export class Engine {
       if (!candidates.length) {
         throw new Error('No semantic reading matches the context constraints.');
       }
-      return candidates.sort((a, b) => b.score - a.score).slice(0, MAX_CANDIDATES);
+      return boundedCandidates(candidates.sort((a, b) => b.score - a.score), limit);
     });
     if (scored.length === 1) {
       return scored[0].map(candidate => {
@@ -460,10 +481,8 @@ export class Engine {
         throw new Error('Unknown earlier discourse coreference target role: '+link.target+'.');
       }
     }
-    // Filter incompatible candidate combinations BEFORE the top-16 beam.
-    // Otherwise a single incompatible sense could abort the entire discourse
-    // even when another semantically consistent reading is available.
-    let combinations = [{ events: [], senses: {}, score: 0 }];
+    // Check hard compatibility before the bound; never silently discard viable paths.
+    let combinations = [{ events: [], senses: {}, score: 0, lexicalPreference:0 }];
     for (const [index, candidates] of scored.entries()) {
       const matchingLinks=links.filter(link=>link.sourceIndex===index);
       combinations = combinations.flatMap(combination => candidates.flatMap(candidate => {
@@ -476,9 +495,11 @@ export class Engine {
         return [{
           events,
           senses:{...combination.senses,[`e${index + 1}`]:candidate.lexicalSenses},
-          score:combination.score+(candidate.score||0)
+          score:combination.score+(candidate.score||0),
+          lexicalPreference:combination.lexicalPreference+(candidate.lexicalPreference||0)
         }];
-      })).sort((a,b)=>b.score-a.score).slice(0,MAX_CANDIDATES);
+      })).sort((a,b)=>b.score-a.score);
+      boundedCandidates(combinations, limit);
       if (!combinations.length) {
         throw new Error('No semantic reading satisfies explicit coreference links: '+
           links.map(link=>link.source+' → '+link.target).join(', ')+'.');
@@ -490,13 +511,14 @@ export class Engine {
           relations:(settings.eventRelations||[]).map(edge=>
             createEventRelation(edge.type,edge.from,edge.to))});
       validateMeaningGraph(interlingua, this.ontology, this.features);
-      return { interlingua, lexicalSenses: combination.senses, score: combination.score };
+      return { interlingua, lexicalSenses: combination.senses, score: combination.score,
+        lexicalPreference:combination.lexicalPreference };
     });
   }
 
   /** Return a meaning only when analysis uniquely identifies it. */
-  analyze({ text, from, context }) {
-    const readings = distinctReadings(this.analyzeCandidates({text, from, context}));
+  analyze({ text, from, context, search }) {
+    const readings = distinctReadings(this.analyzeCandidates({text, from, context, search}));
     if (readings.length !== 1) {
       const result = ambiguousTranslation(readings);
       const error = new EngineError('AMBIGUOUS_MEANING', result.diagnostics[0].message,
@@ -603,16 +625,20 @@ export class Engine {
     }
   }
 
-  translate({ text, from, to, context, pronounRealization='repeat', profile,
+  translate({ text, from, to, context, search, pronounRealization='repeat', profile,
     lexicalRegister='neutral',informationStructure } = {}) {
     try {
-      const candidates = distinctReadings(this.analyzeCandidates({text, from, context}));
-      if (candidates.length !== 1) return ambiguousTranslation(candidates);
+      const candidates = distinctReadings(this.analyzeCandidates({text, from, context, search}));
+      const bundle = realizeInterpretations(this, candidates, {to, context,
+        pronounRealization, profile, lexicalRegister, informationStructure});
+      const attach = result => ({...result, interpretations:bundle.interpretations,
+        previewId:bundle.previewId});
+      if (bundle.limitError) return attach(translationFailure(bundle.limitError));
+      if (candidates.length !== 1) return attach(ambiguousTranslation(candidates));
       const candidate = candidates[0];
       const meaning = candidate.interlingua;
-      const output = this.realize({interlingua: meaning, to,
-        pronounRealization, profile, lexicalRegister, informationStructure,
-        construction: context?.construction});
+      const {output, error} = bundle.outputs[0];
+      if (error) return attach(translationFailure(error));
       const warnings = [...(output.warnings ?? [])];
       const anaphoraItems = candidate.anaphoraTrace ||
         (candidate.anaphora ? [{...candidate.anaphora, event: 2}] : []);
@@ -623,8 +649,8 @@ export class Engine {
             '; target repeats the noun phrase (safe pronoun realization was not selected or licensed).');
         }
       }
-      return withUncertainties({...output, status: 'ok', meaning, warnings,
-        lexicalSenses: candidate.lexicalSenses, semanticAlternatives: []});
+      return attach(withUncertainties({...output, status: 'ok', meaning, warnings,
+        lexicalSenses: candidate.lexicalSenses, semanticAlternatives: []}));
     } catch (error) {
       return translationFailure(error);
     }

@@ -389,6 +389,195 @@
         "capability": "Shared uncertainty report and public engine/service semantic parity"
       },
       "verifyEngine": true
+    },
+    {
+      "id": "A1-PL-EN-INTERPRETATIONS-0001",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "interpretations",
+      "construction": "event.residence",
+      "tier": "required",
+      "priority": 4,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "second",
+        "number": "singular",
+        "reference": "deictic",
+        "quantity": "none"
+      },
+      "purpose": "Translate one singular addressee meaning into complete a/the English variants. Both article choices require an additional assumption; the source meaning stays unknown for definiteness.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Ty mieszkasz w mieszkaniu."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "You live in a flat."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.residence",
+          "roleSet": [
+            "agent",
+            "location"
+          ],
+          "roles": {
+            "agent": {
+              "target": {
+                "kind": "deictic",
+                "anchor": "addressee"
+              },
+              "agreement": {
+                "person": "second",
+                "number": "singular"
+              }
+            },
+            "location": {
+              "concept": "structure.apartment",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              },
+              "modifiers": []
+            }
+          },
+          "roleFeaturesExact": true,
+          "modifiersExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "assert": {}
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "You live in the flat."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/location/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "uncertainties": {
+          "required": [
+            {
+              "kind": "missing_information",
+              "path": "#/roles/location/features/definiteness",
+              "options": [],
+              "reason": "source-unspecified"
+            },
+            {
+              "kind": "additional_assumption",
+              "path": "#/roles/location/features/definiteness",
+              "options": [
+                "You live in a flat.",
+                "You live in the flat."
+              ],
+              "reason": "source-definiteness-unspecified-target-default"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "interpretations": {
+          "required": [
+            {
+              "meaning": {
+                "type": "event",
+                "concept": "event.residence",
+                "roleSet": [
+                  "agent",
+                  "location"
+                ],
+                "roles": {
+                  "agent": {
+                    "target": {
+                      "kind": "deictic",
+                      "anchor": "addressee"
+                    },
+                    "agreement": {
+                      "person": "second",
+                      "number": "singular"
+                    }
+                  },
+                  "location": {
+                    "concept": "structure.apartment",
+                    "features": {
+                      "number": "singular",
+                      "definiteness": "unknown"
+                    },
+                    "modifiers": []
+                  }
+                },
+                "roleFeaturesExact": true,
+                "modifiersExact": true,
+                "features": {
+                  "tense": "present",
+                  "polarity": "positive",
+                  "aspect": "imperfective"
+                },
+                "assert": {}
+              },
+              "status": "ok",
+              "texts": [
+                "You live in a flat.",
+                "You live in the flat."
+              ],
+              "assumptions": 1,
+              "rank": 1,
+              "ruleIds": [
+                "target.additional-assumption"
+              ]
+            }
+          ],
+          "allowUnexpected": false,
+          "preview": {
+            "accepted": [
+              "You live in a flat."
+            ]
+          },
+          "tied": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent source/realization expectations authored before runtime edits. Owner authorization and agent linguistic reasoning, including the pre-approval Polish pro-drop correction, recorded before promotion: https://github.com/clickbytes/flexLingua/issues/443#issuecomment-6263919097. No protected oracle changed.",
+        "author": "Codex (linguistic reviewer under explicit owner authorization)",
+        "reviewedAt": "2026-10-19",
+        "issue": "#443"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.residence",
+        "capability": "Bounded complete interpretation realizations, explained ranking and preview without semantic resolution"
+      },
+      "verifyEngine": true
     }
   ]
 }

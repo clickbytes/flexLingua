@@ -7,7 +7,7 @@ export function createTranslationService(runtime) {
   }
   const {engine, languages} = runtime;
 
-  function translate({from, to, text, context} = {}) {
+  function translate({from, to, text, context, search} = {}) {
     const base = {from: from ?? null, to: to ?? null, input: text ?? null,
       text: null, meaning: null, alternatives: []};
     const source = languages.find(item => item.code === from);
@@ -38,7 +38,7 @@ export function createTranslationService(runtime) {
         `Sentence translation ${from} → ${to} is unsupported by declared capabilities.`, base);
     }
 
-    return {...base, ...engine.translate({text, from, to, context})};
+    return {...base, ...engine.translate({text, from, to, context, search})};
   }
 
   return Object.freeze({translate});

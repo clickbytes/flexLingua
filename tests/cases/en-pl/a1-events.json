@@ -143,6 +143,606 @@
         "coverageTargetId": "construction.event.read",
         "capability": "sentence en.analyze(event.read) -> pl.realize"
       }
+    },
+    {
+      "id": "A1-EN-PL-INTERPRETATIONS-0001",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "interpretations",
+      "construction": "event.residence",
+      "tier": "required",
+      "priority": 4,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "second",
+        "number": "mixed",
+        "reference": "deictic",
+        "quantity": "none"
+      },
+      "purpose": "Keep both addressee numbers and translate each complete residence construction. A tied preview is provisional; it does not resolve English you.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "You live in the flat."
+      },
+      "expected": {
+        "status": "ambiguous",
+        "text": null,
+        "meaning": null,
+        "diagnostics": {
+          "required": [
+            {
+              "code": "AMBIGUOUS_MEANING"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            {
+              "meaning": {
+                "type": "event",
+                "concept": "event.residence",
+                "roleSet": [
+                  "agent",
+                  "location"
+                ],
+                "roles": {
+                  "agent": {
+                    "target": {
+                      "kind": "deictic",
+                      "anchor": "addressee"
+                    },
+                    "agreement": {
+                      "person": "second",
+                      "number": "singular"
+                    }
+                  },
+                  "location": {
+                    "concept": "structure.apartment",
+                    "features": {
+                      "number": "singular",
+                      "definiteness": "definite"
+                    },
+                    "modifiers": []
+                  }
+                },
+                "roleFeaturesExact": true,
+                "modifiersExact": true,
+                "features": {
+                  "tense": "present",
+                  "polarity": "positive",
+                  "aspect": "unknown"
+                },
+                "assert": {}
+              }
+            },
+            {
+              "meaning": {
+                "type": "event",
+                "concept": "event.residence",
+                "roleSet": [
+                  "agent",
+                  "location"
+                ],
+                "roles": {
+                  "agent": {
+                    "target": {
+                      "kind": "deictic",
+                      "anchor": "addressee"
+                    },
+                    "agreement": {
+                      "person": "second",
+                      "number": "plural"
+                    }
+                  },
+                  "location": {
+                    "concept": "structure.apartment",
+                    "features": {
+                      "number": "singular",
+                      "definiteness": "definite"
+                    },
+                    "modifiers": []
+                  }
+                },
+                "roleFeaturesExact": true,
+                "modifiersExact": true,
+                "features": {
+                  "tense": "present",
+                  "polarity": "positive",
+                  "aspect": "unknown"
+                },
+                "assert": {}
+              }
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "uncertainties": {
+          "required": [
+            {
+              "kind": "missing_information",
+              "path": "#/features/aspect",
+              "options": [],
+              "reason": "source-unspecified"
+            },
+            {
+              "kind": "semantic_ambiguity",
+              "path": "#/roles/agent/agreement/number",
+              "options": [
+                "plural",
+                "singular"
+              ],
+              "reason": "distinct-source-readings"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "interpretations": {
+          "required": [
+            {
+              "meaning": {
+                "type": "event",
+                "concept": "event.residence",
+                "roleSet": [
+                  "agent",
+                  "location"
+                ],
+                "roles": {
+                  "agent": {
+                    "target": {
+                      "kind": "deictic",
+                      "anchor": "addressee"
+                    },
+                    "agreement": {
+                      "person": "second",
+                      "number": "singular"
+                    }
+                  },
+                  "location": {
+                    "concept": "structure.apartment",
+                    "features": {
+                      "number": "singular",
+                      "definiteness": "definite"
+                    },
+                    "modifiers": []
+                  }
+                },
+                "roleFeaturesExact": true,
+                "modifiersExact": true,
+                "features": {
+                  "tense": "present",
+                  "polarity": "positive",
+                  "aspect": "unknown"
+                },
+                "assert": {}
+              },
+              "status": "ok",
+              "texts": [
+                "Mieszkasz w mieszkaniu."
+              ],
+              "assumptions": 0,
+              "rank": 1,
+              "ruleIds": [
+                "source.lexical-preference",
+                "target.no-additional-assumption"
+              ]
+            },
+            {
+              "meaning": {
+                "type": "event",
+                "concept": "event.residence",
+                "roleSet": [
+                  "agent",
+                  "location"
+                ],
+                "roles": {
+                  "agent": {
+                    "target": {
+                      "kind": "deictic",
+                      "anchor": "addressee"
+                    },
+                    "agreement": {
+                      "person": "second",
+                      "number": "plural"
+                    }
+                  },
+                  "location": {
+                    "concept": "structure.apartment",
+                    "features": {
+                      "number": "singular",
+                      "definiteness": "definite"
+                    },
+                    "modifiers": []
+                  }
+                },
+                "roleFeaturesExact": true,
+                "modifiersExact": true,
+                "features": {
+                  "tense": "present",
+                  "polarity": "positive",
+                  "aspect": "unknown"
+                },
+                "assert": {}
+              },
+              "status": "ok",
+              "texts": [
+                "Mieszkacie w mieszkaniu."
+              ],
+              "assumptions": 0,
+              "rank": 1,
+              "ruleIds": [
+                "source.lexical-preference",
+                "target.no-additional-assumption"
+              ]
+            }
+          ],
+          "allowUnexpected": false,
+          "preview": {
+            "accepted": [
+              "Mieszkasz w mieszkaniu.",
+              "Mieszkacie w mieszkaniu."
+            ]
+          },
+          "tied": true
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent source/realization expectations authored before runtime edits. Owner authorization and agent linguistic reasoning, including the pre-approval Polish pro-drop correction, recorded before promotion: https://github.com/clickbytes/flexLingua/issues/443#issuecomment-6263919097. No protected oracle changed.",
+        "author": "Codex (linguistic reviewer under explicit owner authorization)",
+        "reviewedAt": "2026-10-19",
+        "issue": "#443"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.residence",
+        "capability": "Bounded complete interpretation realizations, explained ranking and preview without semantic resolution"
+      },
+      "verifyEngine": true
+    },
+    {
+      "id": "A1-EN-PL-INTERPRETATIONS-0002",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "interpretations",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 3,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "first",
+        "number": "plural",
+        "reference": "deictic",
+        "quantity": "none"
+      },
+      "purpose": "Translate both bank meanings; explain the river-topic preference using an ontology link while preserving semantic ambiguity.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "We see a bank.",
+        "context": {
+          "topics": [
+            "place.river"
+          ]
+        }
+      },
+      "expected": {
+        "status": "ambiguous",
+        "text": null,
+        "meaning": null,
+        "diagnostics": {
+          "required": [
+            {
+              "code": "AMBIGUOUS_MEANING"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            {
+              "meaning": {
+                "type": "event",
+                "concept": "event.visual_perception",
+                "roleSet": [
+                  "agent",
+                  "theme"
+                ],
+                "roles": {
+                  "agent": {
+                    "target": {
+                      "kind": "deictic",
+                      "anchor": "speaker"
+                    },
+                    "agreement": {
+                      "person": "first",
+                      "number": "plural"
+                    }
+                  },
+                  "theme": {
+                    "concept": "place.financial_institution",
+                    "features": {
+                      "number": "singular",
+                      "definiteness": "indefinite"
+                    }
+                  }
+                },
+                "features": {
+                  "tense": "present",
+                  "polarity": "positive",
+                  "aspect": "unknown"
+                },
+                "assert": {}
+              }
+            },
+            {
+              "meaning": {
+                "type": "event",
+                "concept": "event.visual_perception",
+                "roleSet": [
+                  "agent",
+                  "theme"
+                ],
+                "roles": {
+                  "agent": {
+                    "target": {
+                      "kind": "deictic",
+                      "anchor": "speaker"
+                    },
+                    "agreement": {
+                      "person": "first",
+                      "number": "plural"
+                    }
+                  },
+                  "theme": {
+                    "concept": "place.riverbank",
+                    "features": {
+                      "number": "singular",
+                      "definiteness": "indefinite"
+                    }
+                  }
+                },
+                "features": {
+                  "tense": "present",
+                  "polarity": "positive",
+                  "aspect": "unknown"
+                },
+                "assert": {}
+              }
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "uncertainties": {
+          "required": [
+            {
+              "kind": "missing_information",
+              "path": "#/features/aspect",
+              "options": [],
+              "reason": "source-unspecified"
+            },
+            {
+              "kind": "semantic_ambiguity",
+              "path": "#/roles/theme/concept",
+              "options": [
+                "place.financial_institution",
+                "place.riverbank"
+              ],
+              "reason": "distinct-source-readings"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "interpretations": {
+          "required": [
+            {
+              "meaning": {
+                "type": "event",
+                "concept": "event.visual_perception",
+                "roleSet": [
+                  "agent",
+                  "theme"
+                ],
+                "roles": {
+                  "agent": {
+                    "target": {
+                      "kind": "deictic",
+                      "anchor": "speaker"
+                    },
+                    "agreement": {
+                      "person": "first",
+                      "number": "plural"
+                    }
+                  },
+                  "theme": {
+                    "concept": "place.financial_institution",
+                    "features": {
+                      "number": "singular",
+                      "definiteness": "indefinite"
+                    }
+                  }
+                },
+                "features": {
+                  "tense": "present",
+                  "polarity": "positive",
+                  "aspect": "unknown"
+                },
+                "assert": {}
+              },
+              "status": "ok",
+              "texts": [
+                "My widzimy bank."
+              ],
+              "assumptions": 0,
+              "rank": 2,
+              "ruleIds": [
+                "source.lexical-preference"
+              ]
+            },
+            {
+              "meaning": {
+                "type": "event",
+                "concept": "event.visual_perception",
+                "roleSet": [
+                  "agent",
+                  "theme"
+                ],
+                "roles": {
+                  "agent": {
+                    "target": {
+                      "kind": "deictic",
+                      "anchor": "speaker"
+                    },
+                    "agreement": {
+                      "person": "first",
+                      "number": "plural"
+                    }
+                  },
+                  "theme": {
+                    "concept": "place.riverbank",
+                    "features": {
+                      "number": "singular",
+                      "definiteness": "indefinite"
+                    }
+                  }
+                },
+                "features": {
+                  "tense": "present",
+                  "polarity": "positive",
+                  "aspect": "unknown"
+                },
+                "assert": {}
+              },
+              "status": "ok",
+              "texts": [
+                "My widzimy brzeg."
+              ],
+              "assumptions": 0,
+              "rank": 1,
+              "ruleIds": [
+                "ontology.topic-link"
+              ]
+            }
+          ],
+          "allowUnexpected": false,
+          "preview": {
+            "accepted": [
+              "My widzimy brzeg."
+            ]
+          },
+          "tied": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent source/realization expectations authored before runtime edits. Owner authorization and agent linguistic reasoning, including the pre-approval Polish pro-drop correction, recorded before promotion: https://github.com/clickbytes/flexLingua/issues/443#issuecomment-6263919097. No protected oracle changed.",
+        "author": "Codex (linguistic reviewer under explicit owner authorization)",
+        "reviewedAt": "2026-10-19",
+        "issue": "#443"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "Bounded complete interpretation realizations, explained ranking and preview without semantic resolution"
+      },
+      "verifyEngine": true
+    },
+    {
+      "id": "A1-EN-PL-INTERPRETATIONS-0003",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "interpretations",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 3,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "first",
+        "number": "plural",
+        "reference": "deictic",
+        "quantity": "none"
+      },
+      "purpose": "A one-reading search budget cannot establish a unique bank sense. Return a controlled limit with no text, meaning or preview.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "We see the bank.",
+        "search": {
+          "maxReadings": 1
+        }
+      },
+      "expected": {
+        "status": "resource_limit",
+        "text": null,
+        "meaning": null,
+        "diagnostics": {
+          "required": [
+            {
+              "code": "SEMANTIC_SEARCH_LIMIT"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "uncertainties": {
+          "required": [
+            {
+              "kind": "search_limit",
+              "path": "#",
+              "options": [],
+              "reason": "SEMANTIC_SEARCH_LIMIT"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "interpretations": {
+          "required": [],
+          "allowUnexpected": false,
+          "preview": null,
+          "tied": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent source/realization expectations authored before runtime edits. Owner authorization and agent linguistic reasoning, including the pre-approval Polish pro-drop correction, recorded before promotion: https://github.com/clickbytes/flexLingua/issues/443#issuecomment-6263919097. No protected oracle changed.",
+        "author": "Codex (linguistic reviewer under explicit owner authorization)",
+        "reviewedAt": "2026-10-19",
+        "issue": "#443"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "Bounded complete interpretation realizations, explained ranking and preview without semantic resolution"
+      },
+      "verifyEngine": true
     }
   ]
 }
