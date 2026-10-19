@@ -9,7 +9,7 @@
       "direction": "en-pl",
       "family": "coherent_segments",
       "construction": "event.visual_perception",
-      "tier": "exploratory",
+      "tier": "required",
       "priority": 4,
       "cliSmoke": true,
       "tags": {
@@ -25,7 +25,7 @@
       "input": {
         "from": "en",
         "to": "pl",
-        "text": "The girl sees the dog.",
+        "text": "A girl sees the dog.",
         "includeSegments": true
       },
       "expected": {
@@ -47,7 +47,7 @@
               "concept": "person.girl",
               "features": {
                 "number": "singular",
-                "definiteness": "definite"
+                "definiteness": "indefinite"
               }
             },
             "theme": {
@@ -118,7 +118,7 @@
                     "concept": "person.girl",
                     "features": {
                       "number": "singular",
-                      "definiteness": "definite"
+                      "definiteness": "indefinite"
                     }
                   },
                   "theme": {
@@ -191,7 +191,7 @@
                 "status": "aligned",
                 "span": {
                   "start": 0,
-                  "end": 8
+                  "end": 6
                 }
               }
             },
@@ -205,8 +205,8 @@
               "source": {
                 "status": "aligned",
                 "span": {
-                  "start": 9,
-                  "end": 13
+                  "start": 7,
+                  "end": 11
                 }
               }
             },
@@ -220,8 +220,8 @@
               "source": {
                 "status": "aligned",
                 "span": {
-                  "start": 14,
-                  "end": 21
+                  "start": 12,
+                  "end": 19
                 }
               }
             }
@@ -230,9 +230,9 @@
         }
       },
       "review": {
-        "status": "proposed",
-        "source": "Independent behavior contract and expected meanings were recorded in the project-owner-authored ACTIVE epic assignment before implementation: https://github.com/clickbytes/flexLingua/issues/447#issuecomment-6264560342. Linguistic review and approval are pending.",
-        "author": "Codex (proposed independent oracle; linguistic review pending)",
+        "status": "approved",
+        "source": "Delegation, expected meanings and reviewer authorship: https://github.com/clickbytes/flexLingua/issues/447#issuecomment-6265117692. Case input/meaning correction: https://github.com/clickbytes/flexLingua/issues/447#issuecomment-6265141227. Segment-span review: https://github.com/clickbytes/flexLingua/issues/447#issuecomment-6265153247. Approval independent of matrix output.",
+        "author": "Codex agent (project-owner-delegated linguistic reviewer)",
         "reviewedAt": "2026-10-19",
         "issue": "#447"
       },
@@ -249,7 +249,7 @@
       "direction": "en-pl",
       "family": "coherent_segments",
       "construction": "event.visual_perception",
-      "tier": "exploratory",
+      "tier": "required",
       "priority": 4,
       "cliSmoke": true,
       "tags": {
@@ -479,9 +479,9 @@
         }
       },
       "review": {
-        "status": "proposed",
-        "source": "Independent behavior contract and expected meanings were recorded in the project-owner-authored ACTIVE epic assignment before implementation: https://github.com/clickbytes/flexLingua/issues/447#issuecomment-6264560342. Linguistic review and approval are pending.",
-        "author": "Codex (proposed independent oracle; linguistic review pending)",
+        "status": "approved",
+        "source": "Delegation, expected meanings and reviewer authorship: https://github.com/clickbytes/flexLingua/issues/447#issuecomment-6265117692. Case input/meaning correction: https://github.com/clickbytes/flexLingua/issues/447#issuecomment-6265141227. Segment-span review: https://github.com/clickbytes/flexLingua/issues/447#issuecomment-6265153247. Approval independent of matrix output.",
+        "author": "Codex agent (project-owner-delegated linguistic reviewer)",
         "reviewedAt": "2026-10-19",
         "issue": "#447"
       },
@@ -498,7 +498,7 @@
       "direction": "en-pl",
       "family": "coherent_segments",
       "construction": "event.visual_perception",
-      "tier": "exploratory",
+      "tier": "required",
       "priority": 4,
       "cliSmoke": true,
       "tags": {
@@ -728,9 +728,9 @@
         }
       },
       "review": {
-        "status": "proposed",
-        "source": "Independent behavior contract and expected meanings were recorded in the project-owner-authored ACTIVE epic assignment before implementation: https://github.com/clickbytes/flexLingua/issues/447#issuecomment-6264560342. Linguistic review and approval are pending.",
-        "author": "Codex (proposed independent oracle; linguistic review pending)",
+        "status": "approved",
+        "source": "Delegation, expected meanings and reviewer authorship: https://github.com/clickbytes/flexLingua/issues/447#issuecomment-6265117692. Case input/meaning correction: https://github.com/clickbytes/flexLingua/issues/447#issuecomment-6265141227. Segment-span review: https://github.com/clickbytes/flexLingua/issues/447#issuecomment-6265153247. Approval independent of matrix output.",
+        "author": "Codex agent (project-owner-delegated linguistic reviewer)",
         "reviewedAt": "2026-10-19",
         "issue": "#447"
       },
@@ -747,7 +747,7 @@
       "direction": "en-pl",
       "family": "coherent_segments",
       "construction": "event.visual_perception",
-      "tier": "exploratory",
+      "tier": "required",
       "priority": 4,
       "cliSmoke": true,
       "tags": {
@@ -1054,9 +1054,9 @@
         }
       },
       "review": {
-        "status": "proposed",
-        "source": "Independent behavior contract and expected meanings were recorded in the project-owner-authored ACTIVE epic assignment before implementation: https://github.com/clickbytes/flexLingua/issues/447#issuecomment-6264560342. Linguistic review and approval are pending.",
-        "author": "Codex (proposed independent oracle; linguistic review pending)",
+        "status": "approved",
+        "source": "Delegation, expected meanings and reviewer authorship: https://github.com/clickbytes/flexLingua/issues/447#issuecomment-6265117692. Case input/meaning correction: https://github.com/clickbytes/flexLingua/issues/447#issuecomment-6265141227. Segment-span review: https://github.com/clickbytes/flexLingua/issues/447#issuecomment-6265153247. Approval independent of matrix output.",
+        "author": "Codex agent (project-owner-delegated linguistic reviewer)",
         "reviewedAt": "2026-10-19",
         "issue": "#447"
       },
