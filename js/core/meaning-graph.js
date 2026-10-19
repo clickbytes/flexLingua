@@ -10,6 +10,7 @@ import { validateFeatureBundle, record, safeName, hasOwn } from './features.js';
 import { STATE_FRAME_VERSION } from './ontology.js';
 import {EngineError} from './errors.js';
 import {RESOURCE_LIMITS} from './resource-limits.js';
+import {snapshotBoundedJsonGraph} from './bounded-json.js';
 import {meaningKey} from './translation-result.js';
 
 export const INTERLINGUA_VERSION = '0.2';
@@ -328,19 +329,12 @@ export function validateCoreferenceMap(coreference, eventCount = null) {
 }
 
 /** Order of JS object keys does not change a semantic referent's identity. */
-function referentFingerprint(value, budget = {count:0}, depth = 0) {
-  if (++budget.count > 256 || depth > 12)
-    throw new Error('Explicit coreference referent exceeds structural complexity limit.');
-  if (Array.isArray(value))
-    return '[' + value.map(item=>referentFingerprint(item,budget,depth+1)).join(',') + ']';
-  if (record(value))
-    return '{' + Object.keys(value).sort().map(k =>
-      JSON.stringify(k) + ':' + referentFingerprint(value[k],budget,depth+1)).join(',') + '}';
-  return JSON.stringify(value);
-}
 export function sameDiscourseReferent(left, right) {
-  return record(left) && record(right) &&
-    referentFingerprint(left) === referentFingerprint(right);
+  if (!record(left) || !record(right)) return false;
+  const limits = {maxDepth:12,maxNodes:256,maxBytes:RESOURCE_LIMITS.jsonGraphBytes};
+  const safeLeft = snapshotBoundedJsonGraph(left, limits).value;
+  const safeRight = snapshotBoundedJsonGraph(right, limits).value;
+  return meaningKey(safeLeft) === meaningKey(safeRight);
 }
 export function createEventRelation(type, from, to) {
   const relationType=typeof type==='string' && type.startsWith('event_relation.') ?
@@ -1045,40 +1039,31 @@ function validateClauseTree(node, ontology, registry, depth = 0, gap = null) {
 }
 
 function assertBoundedMeaningGraph(root) {
-  const active = new WeakSet();
-  const stack = [{value:root,depth:0,exit:false}];
-  let visited = 0;
-  while (stack.length) {
-    const item = stack.pop();
-    if (item.exit) {
-      active.delete(item.value);
-      continue;
-    }
-    if (++visited > RESOURCE_LIMITS.interlinguaNodes) {
-      throw new EngineError('INTERLINGUA_NODE_LIMIT',
-        `Interlingua graph exceeds ${RESOURCE_LIMITS.interlinguaNodes} values.`);
-    }
-    if (item.depth > RESOURCE_LIMITS.interlinguaDepth) {
-      throw new EngineError('INTERLINGUA_DEPTH_LIMIT',
-        `Interlingua graph exceeds nesting depth ${RESOURCE_LIMITS.interlinguaDepth}.`);
-    }
-    if (!item.value || typeof item.value !== 'object') continue;
-    if (active.has(item.value)) {
-      throw new EngineError('INTERLINGUA_CYCLE', 'Interlingua graph must not contain cycles.');
-    }
-    active.add(item.value);
-    stack.push({...item,exit:true});
-    const keys = Object.keys(item.value);
-    for (let index=keys.length-1; index>=0; index--) {
-      stack.push({value:item.value[keys[index]],depth:item.depth+1,exit:false});
-    }
+  try {
+    return snapshotBoundedJsonGraph(root, {maxDepth:RESOURCE_LIMITS.interlinguaDepth,
+      maxNodes:RESOURCE_LIMITS.interlinguaNodes, maxBytes:RESOURCE_LIMITS.jsonGraphBytes}).value;
+  } catch (error) {
+    const mapping = {
+      JSON_GRAPH_CYCLE: ['INTERLINGUA_CYCLE', 'Interlingua graph must not contain cycles.'],
+      JSON_GRAPH_DEPTH_LIMIT: ['INTERLINGUA_DEPTH_LIMIT',
+        `Interlingua graph exceeds nesting depth ${RESOURCE_LIMITS.interlinguaDepth}.`],
+      JSON_GRAPH_NODE_LIMIT: ['INTERLINGUA_NODE_LIMIT',
+        `Interlingua graph exceeds ${RESOURCE_LIMITS.interlinguaNodes} values.`],
+      JSON_GRAPH_SIZE_LIMIT: ['INTERLINGUA_SIZE_LIMIT',
+        `Interlingua graph exceeds ${RESOURCE_LIMITS.jsonGraphBytes} UTF-8 bytes.`],
+      JSON_GRAPH_UNSAFE_KEY: ['INTERLINGUA_UNSAFE_KEY', 'Interlingua graph contains an unsafe object key.']
+    };
+    const [code, message] = mapping[error?.code] ?? ['INTERLINGUA_INVALID_GRAPH',
+      'Interlingua graph must contain only bounded JSON-like values.'];
+    throw new EngineError(code, message, {cause:error,
+      status:error?.status === 'resource_limit' ? 'resource_limit' : 'invalid'});
   }
 }
 
 export function validateMeaningGraph(node, ontology, registry) {
   try {
-    assertBoundedMeaningGraph(node);
-    return validateMeaningGraphDocument(node, ontology, registry);
+    const safeNode = assertBoundedMeaningGraph(node);
+    return validateMeaningGraphDocument(safeNode, ontology, registry);
   } catch (error) {
     if (error instanceof EngineError) throw error;
     if (error?.status === 'unsupported') {
