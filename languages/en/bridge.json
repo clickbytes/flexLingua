@@ -1,6 +1,23 @@
 {
   "transfers": [
     {
+      "construction": "event.movement",
+      "conceptId": "event.movement",
+      "arguments": [
+        {
+          "role": "agent",
+          "argument": "subject",
+          "syntacticFunction": "subject",
+          "agreementControllers": [
+            {
+              "argument": "subject",
+              "feature": "number"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "construction": "event.visual_perception",
       "conceptId": "event.visual_perception",
       "arguments": [

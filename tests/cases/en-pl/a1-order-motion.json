@@ -1,0 +1,307 @@
+{
+  "schemaVersion": "1.0",
+  "cases": [
+    {
+      "id": "A1-EN-PL-MOTION-0001",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "motion",
+      "construction": "event.movement",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "indefinite",
+        "quantity": "none"
+      },
+      "purpose": "Positive EN progressive witness with indefinite agent; Polish preserves present imperfective movement but does not mark definiteness.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "A car is moving."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "Samochód jedzie."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.movement",
+          "roleSet": [
+            "agent"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "object.car",
+              "features": {
+                "number": "singular",
+                "definiteness": "indefinite"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": true,
+          "assert": {
+            "#/roles/agent/concept": "object.car",
+            "#/roles/agent/features/number": "singular",
+            "#/roles/agent/features/definiteness": "indefinite",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "imperfective"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": true
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "unavoidable"
+            }
+          ],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Owner delegation and independent linguistic rationale recorded before CLI in #461 comment 6274068488; WSJP PAN and Cambridge references are linked there.",
+        "author": "Codex (linguistic review delegated by @clickbytes)",
+        "reviewedAt": "2026-10-19",
+        "issue": "#461"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.movement",
+        "capability": "sentence en.analyze(event.movement) -> pl.realize"
+      }
+    },
+    {
+      "id": "A1-EN-PL-MOTION-0002",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "motion",
+      "construction": "event.movement",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "definite",
+        "quantity": "none"
+      },
+      "purpose": "Positive EN progressive witness with definite agent; Polish realization records unavoidable article loss.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "The car is moving."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "Samochód jedzie."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.movement",
+          "roleSet": [
+            "agent"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "object.car",
+              "features": {
+                "number": "singular",
+                "definiteness": "definite"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": true,
+          "assert": {
+            "#/roles/agent/concept": "object.car",
+            "#/roles/agent/features/number": "singular",
+            "#/roles/agent/features/definiteness": "definite",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "imperfective"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": true
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "unavoidable"
+            }
+          ],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Owner delegation and independent linguistic rationale recorded before CLI in #461 comment 6274068488; WSJP PAN and Cambridge references are linked there.",
+        "author": "Codex (linguistic review delegated by @clickbytes)",
+        "reviewedAt": "2026-10-19",
+        "issue": "#461"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.movement",
+        "capability": "sentence en.analyze(event.movement) -> pl.realize"
+      }
+    },
+    {
+      "id": "A1-EN-PL-MOTION-0003",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "motion",
+      "construction": "event.movement",
+      "tier": "required",
+      "priority": 2,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "unknown",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "Controlled scope refusal: simple present may express habitual movement and has no licensed form for this current-motion witness.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "A car moves."
+      },
+      "expected": {
+        "status": "unsupported",
+        "text": null,
+        "meaning": null,
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": true
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Owner delegation and independent linguistic rationale recorded before CLI in #461 comment 6274068488; WSJP PAN and Cambridge references are linked there.",
+        "author": "Codex (linguistic review delegated by @clickbytes)",
+        "reviewedAt": "2026-10-19",
+        "issue": "#461"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.movement",
+        "capability": "sentence en.analyze(event.movement) -> pl.realize"
+      }
+    },
+    {
+      "id": "A1-EN-PL-MOTION-0004",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "motion",
+      "construction": "event.movement",
+      "tier": "required",
+      "priority": 2,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "definite",
+        "quantity": "none"
+      },
+      "purpose": "Controlled scope refusal: the movement witness is restricted to object.car agents; this does not claim the English sentence is ungrammatical.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "The dog is moving."
+      },
+      "expected": {
+        "status": "unsupported",
+        "text": null,
+        "meaning": null,
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": true
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Owner delegation and independent linguistic rationale recorded before CLI in #461 comment 6274068488; WSJP PAN and Cambridge references are linked there.",
+        "author": "Codex (linguistic review delegated by @clickbytes)",
+        "reviewedAt": "2026-10-19",
+        "issue": "#461"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.movement",
+        "capability": "sentence en.analyze(event.movement) -> pl.realize"
+      }
+    }
+  ]
+}

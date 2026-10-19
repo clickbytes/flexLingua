@@ -256,6 +256,13 @@
       "module": "grammar",
       "path": "grammar.json",
       "capability": "event.residence"
+    },
+    {
+      "id": "pl.syntax.movement",
+      "type": "syntax",
+      "module": "grammar",
+      "path": "grammar.json",
+      "capability": "event.movement"
     }
   ],
   "edges": [
@@ -893,6 +900,26 @@
       "from": "pl.syntax.residence",
       "to": "pl.morphology",
       "relation": "licenses"
+    },
+    {
+      "from": "pl.bridge",
+      "to": "pl.syntax.movement",
+      "relation": "maps-to"
+    },
+    {
+      "from": "pl.syntax.movement",
+      "to": "pl.lexicon",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.syntax.movement",
+      "to": "pl.morphology",
+      "relation": "licenses"
+    },
+    {
+      "from": "pl.evidence",
+      "to": "pl.syntax.movement",
+      "relation": "evidences"
     }
   ]
 }

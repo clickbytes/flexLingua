@@ -4953,6 +4953,28 @@
       ]
     },
     {
+      "lexemeId": "pl.jechac.1",
+      "paradigmId": "pl.verb.present3sg_only",
+      "stems": {
+        "base": "jechać"
+      },
+      "overrides": [
+        {
+          "when": {
+            "tense": "present",
+            "number": "singular",
+            "person": "third"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "jedzie"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "lexemeId": "pl.pisac.1",
       "paradigmId": "pl.verb.personal_esz",
       "stems": {

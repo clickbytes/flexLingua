@@ -157,7 +157,7 @@ Wariant opisuje kolejność powierzchniową, a nie temat, focus, subject ani rol
 
 Expected MeaningGraph jest niezależnym oracle zapisanym wyłącznie w tests/cases/**. Review oczekiwanego znaczenia poprzedza uruchomienie silnika; output silnika nie zatwierdza sam siebie. FWO-09 może grupować zatwierdzone przypadki jako same-core albo different-core, porównując pełne znaczenie i wskazując różniące się ścieżki. Presentation trace jest osobnym świadectwem; nie osłabia porównania ani ochrony istniejących goldów. ambiguous, unsupported, znane luki, INFRA i NOT RUN raportuje się oddzielnie.
 
-Migracja jest opt-in. Nie zmienia się obecnych wpisów tablicowych, manifestów, LanguagePlugin 1.0, globalnego CORE ani schematu profilu cech. Kompilator późniejszego zadania ma normalizować oba wpisy w jednej ramie i sprawdzać ich sloty względem istniejącej gramatyki oraz bridge. Samo dodanie wariantu nie aktywuje capability; do tego potrzebny jest działający analyze/realize, most ról i niezależne świadectwo. Obecne przykłady ruchu nie dowodzą obsługi „Samochód jedzie” ani EN odpowiednika.
+Migracja jest opt-in. Nie zmienia się obecnych wpisów tablicowych, manifestów, LanguagePlugin 1.0, globalnego CORE ani schematu profilu cech. Kompilator późniejszego zadania ma normalizować oba wpisy w jednej ramie i sprawdzać ich sloty względem istniejącej gramatyki oraz bridge. Samo dodanie wariantu nie aktywuje capability; do tego potrzebny jest działający analyze/realize, most ról i niezależne świadectwo. FWO-08 dostarcza ograniczony dowód ruchu: polskie „Samochód jedzie” i „Jedzie samochód” oraz angielskie „A car is moving” / „The car is moving”, wyłącznie dla `object.car`, 3. osoby liczby pojedynczej, czasu teraźniejszego i niedokonanego `jechać` oraz angielskiego present progressive. Polszczyzna nie koduje tu określoności, więc przekład PL→EN zachowuje alternatywy rodzajnika i jawnie raportuje utratę informacji. Nie wynika z tego obsługa innych sprawców, liczby mnogiej, angielskiego simple present ani nieograniczonego `event.movement`.
 
 FWO-01 nie zmienia runtime, danych, schematów ani testów. Kompilacja i matrix dla tego zadania nie są uruchamiane; weryfikacją jest review ADR i zgodności RFC z aktualnymi grammar.json, bridge.json i profilem językowym.
 
@@ -171,7 +171,7 @@ Opisany kontrakt daje ograniczony punkt wejścia dla sekwencji FWO bez migracji 
 - FWO-05 przekazuje opcjonalne `analysis.surface` przez LanguagePlugin i Engine bez nowego wymaganego interfejsu.
 - FWO-06 realizuje domyślną kolejność docelową niezależnie od kolejności źródłowej. Jawny, obsługiwany wybór presentation pozostaje osobnym żądaniem.
 - FWO-07 dodaje tylko lingwistycznie zatwierdzone warianty PL w już wspieranych ramach i zachowuje przypadek/agreement.
-- FWO-08 utrzymuje ograniczenia EN; ruch pojazdu staje się dostępny dopiero z poprawnym leksykalnym sensem, formami morfologicznymi, działającym bridge i dowodem capability.
+- FWO-08 utrzymuje ograniczenia EN; ruch pojazdu jest obsługiwany wyłącznie dla `object.car`, EN present progressive i PL `jechać/jedzie`, z działającym bridge, wariantem polskiego szyku S-V/V-S oraz zatwierdzonym dowodem capability.
 - FWO-09 porównuje wyłącznie niezależnie zatwierdzone przypadki przez relacje same-core i different-core. Różnica presentation nie tworzy trzeciego semantycznego comparatora.
 - FWO-10 może rozszerzyć macierz o wymagane przypadki i grupy, ale każdy expected MeaningGraph i każda decyzja o odmowie wymagają osobnego review. Sam kontrakt nie dowodzi realizacji DoD ani minimalnej liczby przypadków.
 

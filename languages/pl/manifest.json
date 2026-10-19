@@ -8,6 +8,38 @@
     {
       "operation": "analyze",
       "channel": "sentence",
+      "construction": "event.movement",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-pl-en-motion-0001"
+        },
+        {
+          "kind": "manual-sentence",
+          "id": "a1-pl-en-motion-0002"
+        }
+      ]
+    },
+    {
+      "operation": "realize",
+      "channel": "sentence",
+      "construction": "event.movement",
+      "status": "implemented",
+      "evidence": [
+        {
+          "kind": "manual-sentence",
+          "id": "a1-en-pl-motion-0001"
+        },
+        {
+          "kind": "manual-sentence",
+          "id": "a1-en-pl-motion-0002"
+        }
+      ]
+    },
+    {
+      "operation": "analyze",
+      "channel": "sentence",
       "construction": "event.visual_perception",
       "status": "implemented",
       "evidence": [
