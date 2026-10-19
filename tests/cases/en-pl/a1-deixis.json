@@ -204,7 +204,7 @@
       "direction": "en-pl",
       "family": "residence",
       "construction": "event.residence",
-      "tier": "exploratory",
+      "tier": "required",
       "priority": 4,
       "cliSmoke": true,
       "tags": {
@@ -216,7 +216,7 @@
         "reference": "deictic",
         "quantity": "none"
       },
-      "purpose": "Proposed residence meaning: preserve resident identity, dwelling location, small-size modifier, tense, polarity and number. No invented antecedent or addressee number.",
+      "purpose": "Residence meaning: preserve resident identity, dwelling location, small-size modifier, tense, polarity and number. No invented antecedent or addressee number.",
       "input": {
         "from": "en",
         "to": "pl",
@@ -292,9 +292,9 @@
         }
       },
       "review": {
-        "status": "proposed",
-        "source": "Independent residence and lexical expectations recorded before implementation in #438 and the owner conversation. Agent-authored; pending explicit linguistic approval.",
-        "author": "Codex",
+        "status": "approved",
+        "source": "Independently authored before implementation in #438; linguistic review by a fresh-context Codex agent under explicit owner delegation on 2026-10-19. Meanings, roles, agreement, ambiguity, loss and refusal reasoning approved before promotion: https://github.com/clickbytes/flexLingua/issues/438#issuecomment-6263303455.",
+        "author": "Codex (delegated fresh-context linguistic reviewer)",
         "reviewedAt": "2026-10-19",
         "issue": "#438"
       },
@@ -311,7 +311,7 @@
       "direction": "en-pl",
       "family": "residence",
       "construction": "event.residence",
-      "tier": "exploratory",
+      "tier": "required",
       "priority": 4,
       "cliSmoke": true,
       "tags": {
@@ -323,7 +323,7 @@
         "reference": "deictic",
         "quantity": "none"
       },
-      "purpose": "Proposed residence meaning: preserve resident identity, dwelling location, small-size modifier, tense, polarity and number. No invented antecedent or addressee number.",
+      "purpose": "Residence meaning: preserve resident identity, dwelling location, small-size modifier, tense, polarity and number. No invented antecedent or addressee number.",
       "input": {
         "from": "en",
         "to": "pl",
@@ -440,9 +440,9 @@
         }
       },
       "review": {
-        "status": "proposed",
-        "source": "Independent residence and lexical expectations recorded before implementation in #438 and the owner conversation. Agent-authored; pending explicit linguistic approval.",
-        "author": "Codex",
+        "status": "approved",
+        "source": "Independently authored before implementation in #438; linguistic review by a fresh-context Codex agent under explicit owner delegation on 2026-10-19. Meanings, roles, agreement, ambiguity, loss and refusal reasoning approved before promotion: https://github.com/clickbytes/flexLingua/issues/438#issuecomment-6263303455.",
+        "author": "Codex (delegated fresh-context linguistic reviewer)",
         "reviewedAt": "2026-10-19",
         "issue": "#438"
       },
@@ -459,7 +459,7 @@
       "direction": "en-pl",
       "family": "residence",
       "construction": "event.residence",
-      "tier": "exploratory",
+      "tier": "required",
       "priority": 4,
       "cliSmoke": true,
       "tags": {
@@ -471,7 +471,7 @@
         "reference": "anaphoric",
         "quantity": "none"
       },
-      "purpose": "Proposed residence meaning: preserve resident identity, dwelling location, small-size modifier, tense, polarity and number. No invented antecedent or addressee number.",
+      "purpose": "Residence meaning: preserve resident identity, dwelling location, small-size modifier, tense, polarity and number. No invented antecedent or addressee number.",
       "input": {
         "from": "en",
         "to": "pl",
@@ -548,9 +548,9 @@
         }
       },
       "review": {
-        "status": "proposed",
-        "source": "Independent residence and lexical expectations recorded before implementation in #438 and the owner conversation. Agent-authored; pending explicit linguistic approval.",
-        "author": "Codex",
+        "status": "approved",
+        "source": "Independently authored before implementation in #438; linguistic review by a fresh-context Codex agent under explicit owner delegation on 2026-10-19. Meanings, roles, agreement, ambiguity, loss and refusal reasoning approved before promotion: https://github.com/clickbytes/flexLingua/issues/438#issuecomment-6263303455.",
+        "author": "Codex (delegated fresh-context linguistic reviewer)",
         "reviewedAt": "2026-10-19",
         "issue": "#438"
       },
@@ -567,7 +567,7 @@
       "direction": "en-pl",
       "family": "residence",
       "construction": "event.residence",
-      "tier": "exploratory",
+      "tier": "required",
       "priority": 4,
       "cliSmoke": true,
       "tags": {
@@ -579,7 +579,7 @@
         "reference": "nominal",
         "quantity": "none"
       },
-      "purpose": "Proposed residence meaning: preserve resident identity, dwelling location, small-size modifier, tense, polarity and number. No invented antecedent or addressee number.",
+      "purpose": "Residence meaning: preserve resident identity, dwelling location, small-size modifier, tense, polarity and number. No invented antecedent or addressee number.",
       "input": {
         "from": "en",
         "to": "pl",
@@ -658,9 +658,9 @@
         }
       },
       "review": {
-        "status": "proposed",
-        "source": "Independent residence and lexical expectations recorded before implementation in #438 and the owner conversation. Agent-authored; pending explicit linguistic approval.",
-        "author": "Codex",
+        "status": "approved",
+        "source": "Independently authored before implementation in #438; linguistic review by a fresh-context Codex agent under explicit owner delegation on 2026-10-19. Meanings, roles, agreement, ambiguity, loss and refusal reasoning approved before promotion: https://github.com/clickbytes/flexLingua/issues/438#issuecomment-6263303455.",
+        "author": "Codex (delegated fresh-context linguistic reviewer)",
         "reviewedAt": "2026-10-19",
         "issue": "#438"
       },
@@ -677,7 +677,7 @@
       "direction": "en-pl",
       "family": "residence",
       "construction": "event.residence",
-      "tier": "exploratory",
+      "tier": "required",
       "priority": 4,
       "cliSmoke": true,
       "tags": {
@@ -689,7 +689,7 @@
         "reference": "deictic",
         "quantity": "none"
       },
-      "purpose": "Proposed residence meaning: preserve resident identity, dwelling location, small-size modifier, tense, polarity and number. No invented antecedent or addressee number.",
+      "purpose": "Residence meaning: preserve resident identity, dwelling location, small-size modifier, tense, polarity and number. No invented antecedent or addressee number.",
       "input": {
         "from": "en",
         "to": "pl",
@@ -765,9 +765,9 @@
         }
       },
       "review": {
-        "status": "proposed",
-        "source": "Independent residence and lexical expectations recorded before implementation in #438 and the owner conversation. Agent-authored; pending explicit linguistic approval.",
-        "author": "Codex",
+        "status": "approved",
+        "source": "Independently authored before implementation in #438; linguistic review by a fresh-context Codex agent under explicit owner delegation on 2026-10-19. Meanings, roles, agreement, ambiguity, loss and refusal reasoning approved before promotion: https://github.com/clickbytes/flexLingua/issues/438#issuecomment-6263303455.",
+        "author": "Codex (delegated fresh-context linguistic reviewer)",
         "reviewedAt": "2026-10-19",
         "issue": "#438"
       },
@@ -784,7 +784,7 @@
       "direction": "en-pl",
       "family": "residence",
       "construction": "event.residence",
-      "tier": "exploratory",
+      "tier": "required",
       "priority": 4,
       "cliSmoke": true,
       "tags": {
@@ -824,9 +824,9 @@
         }
       },
       "review": {
-        "status": "proposed",
-        "source": "Independent residence and lexical expectations recorded before implementation in #438 and the owner conversation. Agent-authored; pending explicit linguistic approval.",
-        "author": "Codex",
+        "status": "approved",
+        "source": "Independently authored before implementation in #438; linguistic review by a fresh-context Codex agent under explicit owner delegation on 2026-10-19. Meanings, roles, agreement, ambiguity, loss and refusal reasoning approved before promotion: https://github.com/clickbytes/flexLingua/issues/438#issuecomment-6263303455.",
+        "author": "Codex (delegated fresh-context linguistic reviewer)",
         "reviewedAt": "2026-10-19",
         "issue": "#438"
       },
@@ -843,7 +843,7 @@
       "direction": "en-pl",
       "family": "residence",
       "construction": "event.residence",
-      "tier": "exploratory",
+      "tier": "required",
       "priority": 4,
       "cliSmoke": true,
       "tags": {
@@ -883,9 +883,9 @@
         }
       },
       "review": {
-        "status": "proposed",
-        "source": "Independent residence and lexical expectations recorded before implementation in #438 and the owner conversation. Agent-authored; pending explicit linguistic approval.",
-        "author": "Codex",
+        "status": "approved",
+        "source": "Independently authored before implementation in #438; linguistic review by a fresh-context Codex agent under explicit owner delegation on 2026-10-19. Meanings, roles, agreement, ambiguity, loss and refusal reasoning approved before promotion: https://github.com/clickbytes/flexLingua/issues/438#issuecomment-6263303455.",
+        "author": "Codex (delegated fresh-context linguistic reviewer)",
         "reviewedAt": "2026-10-19",
         "issue": "#438"
       },
@@ -902,7 +902,7 @@
       "direction": "en-pl",
       "family": "residence",
       "construction": "event.residence",
-      "tier": "exploratory",
+      "tier": "required",
       "priority": 4,
       "cliSmoke": true,
       "tags": {
@@ -942,9 +942,9 @@
         }
       },
       "review": {
-        "status": "proposed",
-        "source": "Independent residence and lexical expectations recorded before implementation in #438 and the owner conversation. Agent-authored; pending explicit linguistic approval.",
-        "author": "Codex",
+        "status": "approved",
+        "source": "Independently authored before implementation in #438; linguistic review by a fresh-context Codex agent under explicit owner delegation on 2026-10-19. Meanings, roles, agreement, ambiguity, loss and refusal reasoning approved before promotion: https://github.com/clickbytes/flexLingua/issues/438#issuecomment-6263303455.",
+        "author": "Codex (delegated fresh-context linguistic reviewer)",
         "reviewedAt": "2026-10-19",
         "issue": "#438"
       },

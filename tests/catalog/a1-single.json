@@ -4225,13 +4225,13 @@
       "domain": "daily_activity",
       "kind": "event",
       "concept": "event.residence",
-      "tier": "planned",
+      "tier": "required",
       "witnessKind": "positive",
       "directions": [
         "en-pl",
         "pl-en"
       ],
-      "note": "Issue #438; proposed sentence expectations pending linguistic approval."
+      "note": "Issue #438; independently reviewed sentence expectations approved under explicit owner delegation."
     },
     {
       "targetId": "concept.structure.apartment",
@@ -4241,13 +4241,13 @@
       "domain": "places",
       "kind": "entity",
       "concept": "structure.apartment",
-      "tier": "planned",
+      "tier": "required",
       "witnessKind": "positive",
       "directions": [
         "en-pl",
         "pl-en"
       ],
-      "note": "Issue #438; proposed sentence expectations pending linguistic approval."
+      "note": "Issue #438; independently reviewed sentence expectations approved under explicit owner delegation."
     }
   ]
 }
