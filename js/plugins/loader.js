@@ -214,10 +214,10 @@ export async function loadPluginRegistry(root = DEFAULT_PROJECT_ROOT, options = 
     fail('PLUGIN_INVALID', 'Loader options may contain only core and codes.');
   }
   const {core, codes} = options;
-  if (codes !== undefined && (!Array.isArray(codes) || codes.length < 1 ||
+  if (codes !== undefined && (!Array.isArray(codes) ||
       codes.length > 128 || codes.some(code => typeof code !== 'string' ||
         !LANGUAGE_CODE.test(code)) || new Set(codes).size !== codes.length)) {
-    fail('PLUGIN_INVALID', 'Loader codes must be a non-empty list of distinct language codes.');
+    fail('PLUGIN_INVALID', 'Loader codes must be a list of distinct language codes.');
   }
   let projectRoot;
   try {

@@ -1,7 +1,7 @@
 import { participant, modifier, MAX_ENTITY_MODIFIERS, MAX_MODIFIER_DEPTH } from './meaning-graph.js';
 import { EngineError } from './errors.js';
 import { record, safeName, hasOwn } from './features.js';
-import { matchesTokens } from './text.js';
+import { createTextProfile, matchesTokens, tokenize, validateTextProfile } from './text.js';
 
 const WORDS = /^[\p{L}]+(?:\s+[\p{L}]+)*$/u;
 const LEXEME = /^[a-zA-Z][a-zA-Z0-9_]*(?:\.[a-zA-Z0-9_]+)*$/u;
@@ -64,6 +64,16 @@ function matchingForms(lexeme, features, forms=lexeme.forms) {
     .every(([key, value]) => features[key] === value));
 }
 
+function addSurfaceEntry(index, text, entry, profile) {
+  const firstToken=tokenize(text,profile)[0];
+  if(!index.has(firstToken))index.set(firstToken,[]);
+  index.get(firstToken).push(entry);
+}
+
+function matchesConditions(conditions, features) {
+  return conditions.every(([key,value])=>features[key]===value);
+}
+
 function formFor(lexeme, features, forms=lexeme.forms) {
   return matchingForms(lexeme, features, forms)[0]?.text;
 }
@@ -72,7 +82,14 @@ function formFor(lexeme, features, forms=lexeme.forms) {
  * Shared, bounded noun-phrase interpreter. JSON provides agreement-specific surface
  * forms and slot order; no adapter implements adjective/quantifier morphology.
  */
-export function createNominalInterpreter({ dictionary, nounPhrase, nounForms, featureProfile, morphology }) {
+export function createNominalInterpreter({ dictionary, nounPhrase, nounForms, featureProfile, morphology, textProfile }) {
+  textProfile=textProfile===undefined?createTextProfile(dictionary.language):validateTextProfile(textProfile);
+  const nounFormsByFirstToken=new Map();
+  let nounFormOrder=0;
+  for(const {noun,forms} of nounForms)for(const form of forms) {
+    addSurfaceEntry(nounFormsByFirstToken,form.text,
+      {noun,form,order:nounFormOrder++},textProfile);
+  }
   const qualified = nounPhrase.qualified || {};
   const quantityModel=nounPhrase.quantity;
   const quantityClassifiers=quantityModel?.classifiers||[];
@@ -132,6 +149,22 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms, fe
   }
   const degrees = verifySurfaceInventory(dictionary.degrees || [], 'degree');
   const quantifiers = verifySurfaceInventory(dictionary.quantifiers || [], 'quantifier');
+  const adjectiveFormsByFirstToken=new Map();
+  const degreeFormsByFirstToken=new Map();
+  const comparativeFormsByFirstToken=new Map();
+  for(const lexeme of adjectives)for(const form of adjectiveForms(lexeme)) {
+    addSurfaceEntry(adjectiveFormsByFirstToken,form.text,
+      {lexeme,form,conditions:Object.entries(form.when||form.features||{})},textProfile);
+  }
+  for(const lexeme of degrees)for(const form of lexeme.forms) {
+    addSurfaceEntry(degreeFormsByFirstToken,form.text,
+      {lexeme,form,conditions:Object.entries(form.when||form.features||{})},textProfile);
+  }
+  for(const lexeme of adjectives)for(const relation of Object.keys(lexeme.comparativeForms||{}))
+    for(const form of lexeme.comparativeForms[relation]) {
+      addSurfaceEntry(comparativeFormsByFirstToken,form.text,
+        {lexeme,relation,form,conditions:Object.entries(form.when||{})},textProfile);
+    }
   const agreementFeatures = qualified.adjectiveAgreementFeatures || [...AGREEMENT_KEYS];
   const adjectivePlacement=qualified.adjectivePlacement ?? qualified.adjectiveOrder ?? 'layout';
   const degreePlacement=qualified.degreePlacement ?? qualified.degreeOrder ?? 'before';
@@ -241,7 +274,8 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms, fe
       const chains=[{next:start,degrees:[]}];
       function walk(position,chain) {
         if(chain.length>=maxDegreeDepth)return;
-        for(const lex of degrees)for(const form of matchingForms(lex,context)) {
+        for(const {lexeme:lex,form,conditions} of degreeFormsByFirstToken.get(tokens[position])||[]) {
+          if(!matchesConditions(conditions,context))continue;
           const length=matchesTokens(tokens,position,form.text);
           if(!length)continue;
           const next={next:position+length,degrees:[...chain,lex]};
@@ -269,13 +303,15 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms, fe
         if(results.length>128)throw new Error('Qualified noun phrase exceeded parsing limit.');
       };
       if(degreePlacement==='before') {
-        for(const prefix of degreeChains(index))for(const lex of adjectives)
-          for(const form of matchingForms(lex,context,adjectiveForms(lex))) {
+        for(const prefix of degreeChains(index))
+          for(const {lexeme:lex,form,conditions} of adjectiveFormsByFirstToken.get(tokens[prefix.next])||[]) {
+            if(!matchesConditions(conditions,context))continue;
             const length=matchesTokens(tokens,prefix.next,form.text);
             if(length)append(lex,prefix.next+length,prefix.degrees);
           }
       } else {
-        for(const lex of adjectives)for(const form of matchingForms(lex,context,adjectiveForms(lex))) {
+        for(const {lexeme:lex,form,conditions} of adjectiveFormsByFirstToken.get(tokens[index])||[]) {
+          if(!matchesConditions(conditions,context))continue;
           const length=matchesTokens(tokens,index,form.text);
           if(!length)continue;
           for(const suffix of degreeChains(index+length))append(lex,suffix.next,suffix.degrees);
@@ -288,25 +324,22 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms, fe
 
   function readProperty(tokens, at, context) {
     const found = [];
-    for (const lexeme of adjectives) {
-      for (const form of matchingForms(lexeme, context, adjectiveForms(lexeme))) {
-        const length = matchesTokens(tokens, at, form.text);
-        if (length) found.push({value: lexeme.concept, senseId: lexeme.senseId || lexeme.id,
-          priority: lexeme.priority || 0, next: at + length});
-      }
+    for(const {lexeme,form,conditions} of adjectiveFormsByFirstToken.get(tokens[at])||[]) {
+      if(!matchesConditions(conditions,context))continue;
+      const length=matchesTokens(tokens,at,form.text);
+      if(length)found.push({value:lexeme.concept,senseId:lexeme.senseId||lexeme.id,
+        priority:lexeme.priority||0,next:at+length});
     }
     return found;
   }
 
   function readComparative(tokens,at,context) {
     const found=[];
-    for(const lexeme of adjectives)for(const relation of Object.keys(lexeme.comparativeForms||{})) {
-      for(const form of lexeme.comparativeForms[relation]) {
-        if(!Object.entries(form.when||{}).every(([key,value])=>context[key]===value))continue;
-        const length=matchesTokens(tokens,at,form.text);
-        if(length)found.push({value:lexeme.concept,relation,senseId:lexeme.senseId||lexeme.id,
-          priority:lexeme.priority||0,next:at+length});
-      }
+    for(const {lexeme,relation,form,conditions} of comparativeFormsByFirstToken.get(tokens[at])||[]) {
+      if(!matchesConditions(conditions,context))continue;
+      const length=matchesTokens(tokens,at,form.text);
+      if(length)found.push({value:lexeme.concept,relation,senseId:lexeme.senseId||lexeme.id,
+        priority:lexeme.priority||0,next:at+length});
     }
     return found;
   }
@@ -339,7 +372,12 @@ export function createNominalInterpreter({ dictionary, nounPhrase, nounForms, fe
     const possibleCases=new Set([grammaticalCase,
       ...(quantityModel?.caseOverrides||[]).filter(rule=>rule.from.includes(grammaticalCase))
         .map(rule=>rule.to)]);
-    for (const { noun, forms } of nounForms) for (const form of forms) for (const [layoutIndex, layout] of layouts.entries()) {
+    const matchingNounForms=new Map();
+    for(let at=index;at<tokens.length;at++)for(const candidate of nounFormsByFirstToken.get(tokens[at])||[]) {
+      if(matchesTokens(tokens,at,candidate.form.text))matchingNounForms.set(candidate.order,candidate);
+    }
+    const nounCandidates=[...matchingNounForms.values()].sort((left,right)=>left.order-right.order);
+    for (const {noun,form} of nounCandidates) for (const [layoutIndex, layout] of layouts.entries()) {
       if (form.bindings.case !== undefined && !possibleCases.has(form.bindings.case)) continue;
       const number = form.bindings.number;
       if (!number) continue;

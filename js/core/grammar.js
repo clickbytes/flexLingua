@@ -23,7 +23,7 @@ import {
 const GRAMMAR_VERSIONS = new Set(['0.6', '1.0']);
 const MAX_ANALYSES = RESOURCE_LIMITS.grammarAnalyses;
 const MAX_SEARCH_NODES = RESOURCE_LIMITS.grammarSearchNodes;
-const searchBudget = counter => ({counter,memo:new Map()});
+const searchBudget = counter => ({counter,memo:new Map(),nounPhraseMemo:new WeakMap()});
 function unsupported(message) {
   throw new EngineError('LANGUAGE_CONSTRUCTION_UNSUPPORTED', message, {status:'unsupported'});
 }
@@ -886,10 +886,10 @@ export function createRuleAdapter(plan, options = {}) {
       !['lexicon','syntax','morphology','signal'].every(layer=>Array.isArray(plan.layers[layer]))) {
     throw new Error('Invalid compiled grammar plan.');
   }
-  if(!record(options)||Object.keys(options).some(key=>key!=='morphology')) {
+  if(!record(options)||Object.keys(options).some(key=>!['morphology','lexicon'].includes(key))) {
     throw new Error('Invalid compiled grammar runtime options.');
   }
-  const {morphology}=options;
+  const {morphology,lexicon}=options;
   const dictionary=planModule(plan,'lexicon',data=>
     record(data)&&data.language===plan.language&&Array.isArray(data.nouns));
   const grammar=planModule(plan,'syntax',data=>
@@ -902,18 +902,22 @@ export function createRuleAdapter(plan, options = {}) {
   const signal=plan.layers.signal.length?planModule(plan,'signal',data=>record(data)&&data.channel==='written'):null;
   return createGrammarInterpreter(dictionary,grammar,{
     morphology,
+    lexicon,
     featureProfile,
     ...(signal?{textProfile:textProfileForSignal(signal,plan.language)}:{})
   },plan);
 }
 
 function createGrammarInterpreter(sourceDictionary, rules,
-  {morphology,featureProfile:rawFeatureProfile,textProfile:rawTextProfile}, compiledPlan) {
+  {morphology,lexicon:sharedLexicon,featureProfile:rawFeatureProfile,textProfile:rawTextProfile}, compiledPlan) {
   const featureProfile=rawFeatureProfile===undefined?undefined:
     createLanguageFeatureProfile(rawFeatureProfile,{language:sourceDictionary.language});
   const textProfile=rawTextProfile===undefined?createTextProfile(sourceDictionary.language):
     validateTextProfile(rawTextProfile);
-  const lexicon = createLexicon(sourceDictionary);
+  const lexicon = sharedLexicon ?? createLexicon(sourceDictionary);
+  if (lexicon.language !== sourceDictionary.language) {
+    throw new Error('Shared grammar lexicon does not match its dictionary.');
+  }
   // A compatibility view lets existing declarative grammar use the normalized
   // meaning inventory while the canonical source always points through CORE.
   const dictionary = lexicon.dictionary;
@@ -1038,7 +1042,9 @@ function createGrammarInterpreter(sourceDictionary, rules,
   const stateVerbs = expandedVerbs.filter(lexeme =>
     hasOwn(grammar.states?.verbs || {},lexeme.stateFunction));
   const nounForms = nouns.map(noun => ({ noun, forms: formsAtLexeme(noun, nounPhrase.path) }));
-  const nominal = createNominalInterpreter({ dictionary, nounPhrase, nounForms, featureProfile, morphology });
+  const nounFormsByLexeme=new Map(nounForms.map(item=>[item.noun,item.forms]));
+  const nominal = createNominalInterpreter({ dictionary, nounPhrase, nounForms,
+    featureProfile, morphology, textProfile });
   const exactQuantityValue=ref=>{
     const value=ref?.quantity||ref?.quantifier;
     return value?.kind==='exact'?value.value:null;
@@ -1089,6 +1095,19 @@ function createGrammarInterpreter(sourceDictionary, rules,
       ? rule.path.replace(/^forms\./u,'negativeForms.') : rule.path;
     return formsAtLexeme(lexeme,path).map(form => ({ ...form, lexeme, rule }));
   }));
+  const verbFormsByConcept=new Map();
+  const verbFormsByFirstToken=new Map();
+  const verbFirstTokenByEntry=new WeakMap();
+  for(const entry of verbForms) {
+    if(!verbFormsByConcept.has(entry.lexeme.concept))verbFormsByConcept.set(entry.lexeme.concept,[]);
+    verbFormsByConcept.get(entry.lexeme.concept).push(entry);
+    const literal=entry.rule.prefix[0]||entry.text;
+    const firstToken=tokenize(literal)[0];
+    if(!firstToken)continue;
+    verbFirstTokenByEntry.set(entry,firstToken);
+    if(!verbFormsByFirstToken.has(firstToken))verbFormsByFirstToken.set(firstToken,[]);
+    verbFormsByFirstToken.get(firstToken).push(entry);
+  }
   const stateGrammar = grammar.states || null;
   const stateVerbForms = stateGrammar ? stateVerbs.flatMap(lexeme => {
     const kinds = [].concat(stateGrammar.verbs[lexeme.stateFunction]);
@@ -1157,7 +1176,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
     const count=exactQuantityValue(ref);
     const grammaticalNumber=grammaticalNumberFor(ref);
     const surfaceCase=count===null?gramCase:nominal.surfaceCaseForQuantity(count,gramCase);
-    const forms = nounForms.find(item => item.noun === noun)?.forms || [];
+    const forms = nounFormsByLexeme.get(noun) || [];
     const form = forms.find(candidate => candidate.bindings.number === grammaticalNumber &&
       (candidate.bindings.case === undefined || candidate.bindings.case === surfaceCase));
     if (!form) throw new Error(`Missing ${grammaticalNumber}/${surfaceCase || '-'} noun form for ${noun.lemma}.`);
@@ -1640,14 +1659,28 @@ function createGrammarInterpreter(sourceDictionary, rules,
       allowImplicitSubject]);
     if (budget.memo.has(memoKey)) return budget.memo.get(memoKey);
     const readings = new Map();
-    const matchedVerbEntries = new Map();
-    for (const [concept, frame] of Object.entries(frames)) {
-      let entries = matchedVerbEntries.get(concept);
-      if (!entries) {
-        entries = verbEntries.filter(entry => entry.lexeme.concept === concept &&
-          tokens.some((_, i) => matchVerb(tokens, i, entry) !== null));
-        matchedVerbEntries.set(concept, entries);
+    let entriesByConcept=verbFormsByConcept;
+    let entriesByFirstToken=verbFormsByFirstToken;
+    if(verbEntries!==verbForms) {
+      entriesByConcept=new Map();
+      entriesByFirstToken=new Map();
+      for(const entry of verbEntries) {
+        if(!entriesByConcept.has(entry.lexeme.concept))entriesByConcept.set(entry.lexeme.concept,[]);
+        entriesByConcept.get(entry.lexeme.concept).push(entry);
+        const firstToken=verbFirstTokenByEntry.get(entry)||tokenize(entry.rule.prefix[0]||entry.text)[0];
+        if(!firstToken)continue;
+        if(!entriesByFirstToken.has(firstToken))entriesByFirstToken.set(firstToken,[]);
+        entriesByFirstToken.get(firstToken).push(entry);
       }
+    }
+    const matchingVerbEntries=new Set();
+    for(let at=0;at<tokens.length;at++)for(const entry of entriesByFirstToken.get(tokens[at])||[]) {
+      if(!matchingVerbEntries.has(entry)&&matchVerb(tokens,at,entry)!==null)
+        matchingVerbEntries.add(entry);
+    }
+    for (const [concept, frame] of Object.entries(frames)) {
+      const entries=(entriesByConcept.get(concept)||[]).filter(entry=>matchingVerbEntries.has(entry));
+      if(!entries.length)continue;
       const sequences = linearizations ? linearizations(frame) : frame.linearizations;
       if (sequences.length > MAX_ANALYSES) {
         throw new EngineError('GRAMMAR_SEARCH_LIMIT',
@@ -2152,6 +2185,11 @@ function createGrammarInterpreter(sourceDictionary, rules,
   }
 
   function readNounPhrases(tokens, index, grammaticalCase, depth, budget, options = {}) {
+    let byPosition=budget.nounPhraseMemo.get(tokens);
+    if(!byPosition){byPosition=new Map();budget.nounPhraseMemo.set(tokens,byPosition);}
+    const cacheKey=JSON.stringify([index,grammaticalCase,depth,options]);
+    const cloneCandidates=items=>items.map(item=>({...item,value:structuredClone(item.value)}));
+    if(byPosition.has(cacheKey))return cloneCandidates(byPosition.get(cacheKey));
     const bare = nominal.read(tokens, index, grammaticalCase, options);
     for(const entry of possessives)for(const form of entry.forms){
       const length=matchesTokens(tokens,index,form.text);
@@ -2169,7 +2207,10 @@ function createGrammarInterpreter(sourceDictionary, rules,
           agreement:{person:entry.person,number:entry.number}}},next:parsed.next});
       }
     }
-    if (depth >= relativeGrammar.maxDepth) return bare;
+    if (depth >= relativeGrammar.maxDepth) {
+      byPosition.set(cacheKey,bare);
+      return cloneCandidates(bare);
+    }
     const enriched = [...bare];
     for (const base of bare) for (const marker of relativeGrammar.markers) {
       if (!relativeMarker(marker, base.noun, base.value)) continue;
@@ -2196,7 +2237,8 @@ function createGrammarInterpreter(sourceDictionary, rules,
         }
       }
     }
-    return enriched;
+    byPosition.set(cacheKey,enriched);
+    return cloneCandidates(enriched);
   }
 
   function analyze(text) { return analyzeCandidates(text)[0].interlingua; }
@@ -2372,7 +2414,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
       }
       context[argument] = {...context[argument], ...features};
     }
-    const candidates = verbForms.filter(entry => entry.lexeme.concept === meaning.concept &&
+    const candidates = (verbFormsByConcept.get(meaning.concept)||[]).filter(entry =>
       entry.rule.tense === meaning.features.tense && entry.rule.polarity === meaning.features.polarity &&
       (verbGrammar.aspectSource !== 'lexeme' || meaning.features.aspect === 'unknown' ||
         entry.lexeme.aspect === meaning.features.aspect) &&

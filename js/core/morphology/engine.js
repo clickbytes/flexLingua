@@ -15,7 +15,7 @@ const safeText=text=>typeof text==='string' && text.length>0 && text.length<128 
  * all lexeme/feature readings, including homography. It is not an HFST compiler.
  */
 export function createMorphology(spec, dictionary, featureSpec, options={}) {
-  const {core}=options;
+  const {core,lexicon:sharedLexicon}=options;
   if (!record(spec) || !record(dictionary) || !record(featureSpec) ||
       spec.version!=='1.11' || !safeName(spec.language) ||
       !record(spec.paradigms) || !Array.isArray(spec.bindings) ||
@@ -26,8 +26,12 @@ export function createMorphology(spec, dictionary, featureSpec, options={}) {
   const featureProfile=rawProfile===undefined?undefined:
     createLanguageFeatureProfile(rawProfile,{language:spec.language});
   const registry=createMorphFeatureRegistry(featureSpec,featureProfile);
-  const lexical=createLexicon(dictionary,{strict:dictionary.lexicalModel==='1.01'});
-  if (core) lexical.validateCore(core);
+  const lexical=sharedLexicon ?? createLexicon(dictionary,{strict:dictionary.lexicalModel==='1.01'});
+  if (sharedLexicon && (sharedLexicon.dictionary !== dictionary ||
+      sharedLexicon.language !== spec.language)) {
+    throw new Error('Shared morphology lexicon does not match its dictionary.');
+  }
+  if (core && !sharedLexicon) lexical.validateCore(core);
   const resolved=new Map(),states=new Map();
   const resolve=id=>{
     if(resolved.has(id))return resolved.get(id);
@@ -66,30 +70,33 @@ export function createMorphology(spec, dictionary, featureSpec, options={}) {
     if(canonicalPos!==paradigm.pos)throw new Error(`Morphology POS mismatch: ${item.lexemeId}`);
     for(const stem of Object.values(item.stems))if(!safeText(stem))throw new Error('Invalid morphology stem.');
     const forms=[];
-    const blockedCells=new Set((item.overrides||[]).filter(override=>override?.mode==='block'&&record(override.when))
-      .map(override=>key(override.when)));
+    const overrides=item.overrides||[];
+    const blockedCells=new Set();
+    const overridesByCell=new Map();
     const overrideModes=new Map();
-    for(const override of item.overrides||[]){
-      if(!record(override.when))throw new Error('Malformed morphology override.');
+    for(const override of overrides){
+      if(!record(override)||!record(override.when)||
+          !['replace','addVariant','block'].includes(override.mode)||
+          !Array.isArray(override.forms)||override.forms.length>8||
+          (override.mode==='block'&&override.forms.length)||
+          override.forms.some(x=>!safeText(x.text)))throw new Error(`Invalid form override for ${item.lexemeId}`);
+      registry.supports(override.when);
       const cell=key(override.when),previous=overrideModes.get(cell)||[];
       if ((['replace','block'].includes(override.mode) && previous.length) ||
         previous.some(mode=>['replace','block'].includes(mode))) {
         throw new Error(`Conflicting morphology override for ${item.lexemeId}.`);
       }
-      overrideModes.set(cell,[...previous,override.mode]);
+      previous.push(override.mode);
+      overrideModes.set(cell,previous);
+      if(!paradigm.slots.has(cell))throw new Error('Override targets nonexistent paradigm cell.');
+      if(!overridesByCell.has(cell))overridesByCell.set(cell,[]);
+      overridesByCell.get(cell).push(override);
+      if(override.mode==='block')blockedCells.add(cell);
     }
     for (const [featuresKey,slot] of paradigm.slots){
       const form=executeOperations({stem:item.stems.base,stems:item.stems,steps:slot.steps});
       let variants=[{text:form.text,source:'rule',trace:form.trace}];
-      for(const override of item.overrides||[]){
-        if(!record(override)||!record(override.when)||
-            !['replace','addVariant','block'].includes(override.mode)||
-            !Array.isArray(override.forms)||override.forms.length>8||
-            (override.mode==='block'&&override.forms.length)||
-            override.forms.some(x=>!safeText(x.text)))throw new Error(`Invalid form override for ${item.lexemeId}`);
-        registry.supports(override.when);
-        if(!paradigm.slots.has(key(override.when)))throw new Error('Override targets nonexistent paradigm cell.');
-        if(key(override.when)!==featuresKey)continue;
+      for(const override of overridesByCell.get(featuresKey)||[]){
         const injected=override.forms.map(x=>({text:x.text,source:'exception',trace:[{op:'override',mode:override.mode}],variant:x.variant||'standard'}));
         if(override.mode==='block')variants=[];
         if(override.mode==='replace')variants=injected;

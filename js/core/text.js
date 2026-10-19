@@ -7,6 +7,7 @@ const TEXT_SEGMENTATION = 'unicode-whitespace-v1';
 const TOKEN_PATTERN = /[\p{L}\d][\p{L}\p{M}\d]*(?:['’ʼ\-:][\p{L}\d][\p{L}\p{M}\d]*)*|,/uy;
 const VALIDATED_TEXT_PROFILES = new WeakSet();
 const PHRASE_TOKENS_BY_PROFILE = new WeakMap();
+const GRAPHEME_SEGMENTERS_BY_PROFILE = new WeakMap();
 const MAX_CACHED_PHRASES = 4096;
 
 function record(value) {
@@ -83,14 +84,19 @@ function bodyRange(text) {
   return {start,end};
 }
 
-function appendNormalized(source, sourceOffset, locale) {
+function appendNormalized(source, sourceOffset, profile) {
   if (typeof Intl.Segmenter !== 'function') {
     throw new EngineError('SOURCE_SEGMENTER_UNAVAILABLE',
       'Unicode grapheme segmentation is unavailable.');
   }
+  const {locale}=profile;
   let text = '';
   const sourceMap = [];
-  const segmenter = new Intl.Segmenter(locale, {granularity:'grapheme'});
+  let segmenter=GRAPHEME_SEGMENTERS_BY_PROFILE.get(profile);
+  if(!segmenter) {
+    segmenter=new Intl.Segmenter(locale,{granularity:'grapheme'});
+    GRAPHEME_SEGMENTERS_BY_PROFILE.set(profile,segmenter);
+  }
   for (const item of segmenter.segment(source)) {
     const normalized = item.segment.normalize('NFC')
       .toLocaleLowerCase(locale).normalize('NFC');
@@ -111,7 +117,7 @@ export function tokenizeDetailed(text, rawProfile = DEFAULT_TEXT_PROFILE) {
       'Control, format, private-use, and unassigned characters are unsupported.');
   }
   const {start,end} = bodyRange(text);
-  const {text:normalized,sourceMap} = appendNormalized(text.slice(start,end),start,profile.locale);
+  const {text:normalized,sourceMap} = appendNormalized(text.slice(start,end),start,profile);
   const tokens = [], spans = [];
   let index = 0;
   while (index < normalized.length) {

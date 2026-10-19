@@ -8,6 +8,8 @@ const MAX_DEFINITION_EDGES = 16;
 const MAX_PROJECTED_NODES = 128;
 const MAX_PROJECTED_EDGES = 256;
 const MAX_GRAPH_EXPANSION_DEPTH = 8;
+const MAX_CACHED_PROJECTIONS = 256;
+const PROJECTED_GRAPH_CACHE = new WeakMap();
 const DEFINITION_RELATIONS = new Set([
   'domain', 'material', 'color', 'purpose', 'has_part', 'contains', 'located_in',
   'adjacent_to', 'associated_with'
@@ -333,6 +335,11 @@ export class Ontology {
       throw graphError('INVALID_GRAPH_OPTIONS', 'Invalid concept graph projection options.');
     }
 
+    let cache=PROJECTED_GRAPH_CACHE.get(this);
+    if(!cache){cache=new Map();PROJECTED_GRAPH_CACHE.set(this,cache);}
+    const cacheKey=JSON.stringify([conceptId,includeTypical,maxEdges]);
+    if(cache.has(cacheKey))return cache.get(cacheKey);
+
     const nodes = new Map();
     const edges = [];
     const visited = new Set();
@@ -374,7 +381,10 @@ export class Ontology {
       compare(left.from, right.from) || compare(left.relation, right.relation) ||
       compare(left.target, right.target) || compare(left.constraint, right.constraint) ||
       (left.weight ?? 0) - (right.weight ?? 0));
-    return freezeDeep({root: conceptId, nodes: orderedNodes, edges: orderedEdges});
+    const projection=freezeDeep({root: conceptId, nodes: orderedNodes, edges: orderedEdges});
+    cache.set(cacheKey,projection);
+    if(cache.size>MAX_CACHED_PROJECTIONS)cache.delete(cache.keys().next().value);
+    return projection;
   }
 
   frameRoles(id) {
