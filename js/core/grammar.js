@@ -1110,7 +1110,8 @@ function createGrammarInterpreter(sourceDictionary, rules,
     const sourceFrame=kind==='event'?rules.frames?.[frameId]:rules.states?.frames?.[frameId];
     if(!record(sourceFrame)||!Array.isArray(sourceFrame.linearizations)) {
       const defaults=frame.linearizations.map(sequence=>[...sequence]);
-      const plans=defaults.map(sequence=>({sequence,id:null,surfaceEnabled:false}));
+      const plans=defaults.map(sequence=>({sequence,id:null,surfaceEnabled:false,
+        isDefault:true,realizationPreference:null}));
       cache.set(frame,plans);
       return plans;
     }
@@ -1121,7 +1122,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
     const plans=defaults.map(sequence=>{
       const id=surfaceEnabled?defaultLinearizationId(sequence,defaults.length,reservedIds):null;
       if(id)reservedIds.add(id);
-      return {sequence,id,surfaceEnabled};
+      return {sequence,id,surfaceEnabled,isDefault:true,realizationPreference:null};
     });
     const seen=new Set(plans.map(plan=>JSON.stringify(plan.sequence)));
     const seenIds=new Set(plans.flatMap(plan=>plan.id?[plan.id]:[]));
@@ -1145,7 +1146,8 @@ function createGrammarInterpreter(sourceDictionary, rules,
         seenIds.add(variant.variantId);
         if(!seen.has(key)) {
           seen.add(key);
-          plans.push({sequence:[...variant.sequence],id:variant.variantId,surfaceEnabled:true});
+          plans.push({sequence:[...variant.sequence],id:variant.variantId,surfaceEnabled:true,
+            isDefault:false,realizationPreference:variant.realizationPreference});
         }
       }
     }
@@ -1154,6 +1156,19 @@ function createGrammarInterpreter(sourceDictionary, rules,
   }
   function parserLinearizations(kind,frameId,frame) {
     return parserLinearizationPlans(kind,frameId,frame).map(plan=>plan.sequence);
+  }
+  /** Keep the first declared legacy sequence as the target default. Explicitly requested
+   * variants use a matching legacy sequence first, then the lowest declared opt-in
+   * realizationPreference with variant ID as a stable tie-breaker. */
+  function preferredLinearization(kind,frameId,frame,accepts=()=>true) {
+    if(!frame)return undefined;
+    const plans=parserLinearizationPlans(kind,frameId,frame);
+    const defaultPlan=plans.find(plan=>plan.isDefault&&accepts(plan.sequence));
+    if(defaultPlan)return defaultPlan.sequence;
+    const variants=plans.filter(plan=>!plan.isDefault&&accepts(plan.sequence))
+      .sort((left,right)=>left.realizationPreference-right.realizationPreference||
+        (left.id<right.id?-1:left.id>right.id?1:0));
+    return variants[0]?.sequence;
   }
   function mergeSurfaceVariants(former,candidate) {
     const selected=candidate.score>former.score?candidate:former;
@@ -2822,8 +2837,10 @@ function createGrammarInterpreter(sourceDictionary, rules,
   function renderEvent(meaning, fallback, depth = 0, relative = null, options = {}) {
     const frame = own(frames, meaning.concept);
     if (!frame) unsupported(`Missing frame for ${meaning.concept}.`);
+    const sequence=options.sequence || preferredLinearization('event',meaning.concept,frame);
+    if(!sequence)unsupported(`No ${dictionary.language} realization variant for ${meaning.concept}.`);
     if (options.subjectPronoun && (relative ||
-        frame.linearizations[0][0] !== subjectRole ||
+        sequence[0] !== subjectRole ||
         options.subjectPronoun !== subjectPronounFor(meaning.roles[subjectRole]))) {
       unsupported('Unsupported subject pronoun realization for this event.');
     }
@@ -2836,7 +2853,6 @@ function createGrammarInterpreter(sourceDictionary, rules,
       return [role, { value: ref, noun: isDeicticReferent(ref) ? null : selected }];
     }));
     if (relative) roles[relative.gap] = relative.antecedent;
-    const sequence=options.sequence || frame.linearizations[0];
     const context = contextFor(roles, meaning.features,subjectRole,
       {formalSubject:sequence.includes('@expletive')?frame.formalSubject:null});
     for (const [argument, features] of Object.entries(options.agreementControllers || {})) {
@@ -2962,6 +2978,11 @@ function createGrammarInterpreter(sourceDictionary, rules,
       return plainNoun(ref,noun,gramCase,categoryRole?'indefinite':nounPhrase.defaultDefiniteness,
         categoryRole&&nounPhrase.allowBare);
     };
+    const spatial=['location','existence'].includes(meaning.kind);
+    const stateSequence=preferredLinearization('state',meaning.kind,frame,sequence=>!spatial||
+      sequence.some(step=>step.startsWith('@')&&
+        frame.prepositions?.[step.slice(1)]===meaning.relation));
+    if(!stateSequence)unsupported(`Unsupported ${dictionary.language} spatial relation.`);
     if(polarity==='negative'&&negativeStrategy==='do-support') {
       const auxiliaries=questions?.yesNo?.auxiliaries;
       const auxiliary=person==='first'?auxiliaries?.presentFirst:
@@ -2969,19 +2990,14 @@ function createGrammarInterpreter(sourceDictionary, rules,
         number==='singular'?auxiliaries?.presentThirdSingular:auxiliaries?.presentThirdPlural;
       const base=formsAtLexeme(verb.lexeme,questions?.yesNo?.baseVerbPath||'');
       if(!auxiliary||base.length!==1)unsupported('Missing negative state do-support form.');
-      const parts=frame.linearizations[0].flatMap(step=>
+      const parts=stateSequence.flatMap(step=>
         step===frame.subjectRole?[surface(step)]:step==='@verb'?
           [auxiliary,stateGrammar.negator,base[0].text]:step.startsWith('@')?
             [step.slice(1)]:[surface(step)]);
       return {text:sentenceText([parts.join(' ')],sentence.terminator),warnings:[],alternatives:[]};
     }
-    const baseSequence=['location','existence'].includes(meaning.kind)
-      ?frame.linearizations.find(item=>item.some(step=>step.startsWith('@') &&
-        frame.prepositions?.[step.slice(1)]===meaning.relation))
-      :frame.linearizations[0];
     const sequence=polarity==='negative'&&negativeStrategy==='postverbal'
-      ?baseSequence.flatMap(step=>step==='@verb'?['@verb','@negator']:[step]):baseSequence;
-    if(!sequence)unsupported(`Unsupported ${dictionary.language} spatial relation.`);
+      ?stateSequence.flatMap(step=>step==='@verb'?['@verb','@negator']:[step]):stateSequence;
     const parts=sequence.flatMap(step=>{
       if(step==='@verb')return [...prefix,
         polarity==='negative'&&frame.negativeVerbForms?.[number]
@@ -3058,7 +3074,9 @@ function createGrammarInterpreter(sourceDictionary, rules,
     const frame=frames[action.concept];
     if(!selected||!frame)unsupported(`No ${dictionary.language} request frame for ${action.concept}.`);
     const fallback=Object.keys(nounPhrase.determiners).length?nounPhrase.defaultDefiniteness:undefined;
-    const words=frame.linearizations[0].flatMap(step=>{
+    const sequence=preferredLinearization('event',action.concept,frame);
+    if(!sequence)unsupported(`No ${dictionary.language} request frame for ${action.concept}.`);
+    const words=sequence.flatMap(step=>{
       if(step===subjectRole)return [];
       if(step==='@verb')return [selected.text];
       if(step.startsWith('@'))return [step.slice(1)];
@@ -3118,9 +3136,12 @@ function createGrammarInterpreter(sourceDictionary, rules,
       unsupported('Unsupported modal subject number.');
     const modalText=modal.forms[mode][modalAgreementKey(person,number)];
     if(!modalText)unsupported('Missing modal inflection for subject agreement.');
+    const defaultSequence=preferredLinearization('event',event.concept,frame);
+    if(!defaultSequence)unsupported(`No ${dictionary.language} realization variant for ${event.concept}.`);
     const renderAt=def=>{
       const sequence=question?.questionType==='wh'&&role==='theme'&&
-        modality.questionStrategy==='prefix' ? themeOrder(frame)[0] : frame.linearizations[0];
+        modality.questionStrategy==='prefix'
+          ?themeOrder(frame,event.concept,[defaultSequence])[0]:defaultSequence;
       const inverted=question && modality.questionStrategy==='front' &&
         (question.questionType==='yes_no'||role==='theme');
       const words=sequence.flatMap(step=>{
@@ -3177,7 +3198,8 @@ function createGrammarInterpreter(sourceDictionary, rules,
     let sequence;
     if(informationStructure!==undefined) {
       const {focus}=createInformationStructure(meaning,informationStructure);
-      sequence=frames[meaning.concept]?.linearizations.find(item=>item.at(-1)===focus);
+      sequence=preferredLinearization('event',meaning.concept,frames[meaning.concept],
+        item=>item.at(-1)===focus);
       if(!sequence)unsupported(`No ${dictionary.language} information-structure variant for ${focus}.`);
     }
     const agreementControllers = agreementContextForTransfer(meaning, semanticTransfer);
@@ -3333,7 +3355,8 @@ function createGrammarInterpreter(sourceDictionary, rules,
     };
     if(question.questionType==='wh' && question.targetRole==='destination') {
       const frame=frames[clause.concept];
-      const sequence=frame?.linearizations.find(item=>item.includes('destination'));
+      const sequence=preferredLinearization('event',clause.concept,frame,
+        item=>item.includes('destination'));
       if(!sequence || clause.features.polarity!=='positive' ||
          !['present','past'].includes(clause.features.tense)) {
         unsupported('Unsupported destination WH question for this event.');
@@ -3514,10 +3537,10 @@ function createGrammarInterpreter(sourceDictionary, rules,
         return plainNoun(ref,nounByConcept(ref.concept),stateRoleCase(frame,role,clause.features.polarity),
           nounPhrase.defaultDefiniteness);
       };
-      const questionSequence=['location','existence'].includes(clause.kind)
-        ?frame.linearizations.find(item=>item.some(step=>step.startsWith('@') &&
-          frame.prepositions?.[step.slice(1)]===clause.relation))
-        :frame.linearizations[0];
+      const spatial=['location','existence'].includes(clause.kind);
+      const questionSequence=preferredLinearization('state',clause.kind,frame,item=>!spatial||
+        item.some(step=>step.startsWith('@')&&
+          frame.prepositions?.[step.slice(1)]===clause.relation));
       if(!questionSequence)unsupported(`Unsupported ${dictionary.language} spatial relation.`);
       const remainder=questionSequence.filter(step=>step!=='@verb')
         .flatMap(step=>step.startsWith('@')?[step.slice(1)]:[surface(step)]);
