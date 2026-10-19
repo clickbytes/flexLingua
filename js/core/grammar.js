@@ -15,6 +15,8 @@ import {
   createFeatureRegistry, createLanguageFeatureProfile,
   matchesAgreement, matchesConditions
 } from './features.js';
+import {isCapabilityId, isLexemeId, isRoleId, isSenseId, isVariantId}
+  from './identifiers.js';
 
 /**
  * Shared grammar interpreter v0.6 (compositional clauses and qualified noun phrases).
@@ -83,13 +85,10 @@ function defaultLinearizationId(sequence, reservedIds = new Set(), primary = fal
   while(reservedIds.has(id));
   return id;
 }
-const LEXEME_ID = /^[a-zA-Z][a-zA-Z0-9_]*(?:\.[a-zA-Z0-9_]+)*$/u;
 const PLACEHOLDER = /^\{([a-zA-Z][a-zA-Z0-9_]*)\}$/u;
 const LITERAL = /^@[\p{L}]+$/u;
 const MAX_LINEARIZATIONS_PER_FRAME = 8;
 const MAX_LINEARIZATION_SLOTS = 16;
-const VARIANT_ID = /^[a-z][a-z0-9.-]{0,63}$/u;
-const FORBIDDEN_VARIANT_PARTS = new Set(['constructor','prototype']);
 const MAX_SURFACE_VARIANTS = 32;
 const LEGACY_CASE_VALUES = ['nom','gen','dat','acc','loc'];
 const DEICTIC_FUNCTION = 'grammar.deictic_pronoun';
@@ -171,9 +170,7 @@ export function normalizeLinearizations(entries, label = 'frame') {
         throw new Error(`Invalid linearization variant descriptor for ${label}.`);
       }
       ({sequence,variantId,realizationPreference} = entry);
-      const idParts = typeof variantId === 'string' ? variantId.split(/[.-]/u) : [];
-      if (typeof variantId !== 'string' || !VARIANT_ID.test(variantId) ||
-          idParts.some(part => FORBIDDEN_VARIANT_PARTS.has(part)) || seenIds.has(variantId) ||
+      if (!isVariantId(variantId) || seenIds.has(variantId) ||
           !Number.isInteger(realizationPreference) || realizationPreference < 1 ||
           realizationPreference > 100) {
         throw new Error(`Invalid or duplicate linearization variant ID or preference for ${label}.`);
@@ -186,7 +183,7 @@ export function normalizeLinearizations(entries, label = 'frame') {
     }
     const normalizedSequence = Array.from(sequence);
     if (normalizedSequence.some(step => typeof step !== 'string' ||
-        !(safeName(step) || step === '@verb' || LITERAL.test(step))) ||
+        !(isRoleId(step) || step === '@verb' || LITERAL.test(step))) ||
         normalizedSequence.filter(step => step === '@verb').length !== 1) {
       throw new Error(`Invalid linearization slot or @verb count for ${label}.`);
     }
@@ -412,7 +409,7 @@ function validateGrammar(dictionary, sourceGrammar, featureProfile) {
       !['lemma','forms.base'].includes(grammar.request.actionPath))) {
     throw new Error('Invalid polite request grammar configuration.');
   }
-  if (!safeName(grammar.sentence.subjectRole) ||
+  if (!isRoleId(grammar.sentence.subjectRole) ||
       grammar.sentence.terminator !== '.') {
     throw new Error('Invalid sentence configuration.');
   }
@@ -480,7 +477,7 @@ function validateGrammar(dictionary, sourceGrammar, featureProfile) {
       if(!record(classifier)||Object.keys(classifier).sort().join(',')!==
           'concepts,forms,id,required,when'||!safeName(classifier.id)||classifierIds.has(classifier.id)||
           !Array.isArray(classifier.concepts)||!classifier.concepts.length||classifier.concepts.length>16||
-          classifier.concepts.some(concept=>!LEXEME_ID.test(concept))||
+          classifier.concepts.some(concept=>!isLexemeId(concept))||
           new Set(classifier.concepts).size!==classifier.concepts.length||
           !validQuantityConditions(classifier.when)||typeof classifier.required!=='boolean'||
           !Array.isArray(classifier.forms)||!classifier.forms.length||classifier.forms.length>16||
@@ -543,7 +540,7 @@ function validateGrammar(dictionary, sourceGrammar, featureProfile) {
       const found=senses.get(entry?.senseId);
       const key=JSON.stringify([entry?.referent?.anchor,entry?.person,entry?.number,entry?.case]);
       if(!record(entry) || Object.keys(entry).sort().join(',')!=='case,number,person,referent,senseId' ||
-          !LEXEME_ID.test(entry.senseId||'') || !found ||
+          !isSenseId(entry.senseId) || !found ||
           found.sense.coreRef?.kind!=='grammaticalFunction' ||
           found.sense.coreRef.id!==DEICTIC_FUNCTION ||
           !record(entry.referent) || Object.keys(entry.referent).sort().join(',')!=='anchor,kind' ||
@@ -591,7 +588,7 @@ function validateGrammar(dictionary, sourceGrammar, featureProfile) {
     const legalWord=value=>typeof value==='string' &&
       /^[\p{L}]+(?:\s+[\p{L}]+)*$/u.test(value);
     for (const item of dictionary.modals) {
-      if (!LEXEME_ID.test(item.id || '') || !record(item.forms) ||
+      if (!isLexemeId(item.id) || !record(item.forms) ||
           !Array.isArray(item.senses) || item.senses.length !== 1 ||
           item.senses[0].coreRef?.kind !== 'operator' ||
           !['modality.ability','modality.obligation','modality.intention'].includes(item.senses[0].coreRef.id) ||
@@ -686,7 +683,7 @@ function validateGrammar(dictionary, sourceGrammar, featureProfile) {
   const deicticCases=grammar.nounPhrase.deicticCases;
   if (deicticCases!==undefined && (!record(deicticCases) ||
       Object.entries(deicticCases).some(([role,value])=>
-        !safeName(role) || !(value===null&&!hasSyntacticCases) && !caseValues.includes(value)))) {
+        !isRoleId(role) || !(value===null&&!hasSyntacticCases) && !caseValues.includes(value)))) {
     throw new Error('Invalid deictic pronoun case profile.');
   }
   if (!record(grammar.nounPhrase.determiners)) throw new Error('Invalid determiner mappings.');
@@ -792,16 +789,16 @@ function validateGrammar(dictionary, sourceGrammar, featureProfile) {
           typeof implicitSubject.realization!=='boolean' ||
           (!implicitSubject.analysis&&!implicitSubject.realization))) ||
         (frame.bareRoles !== undefined && (!Array.isArray(frame.bareRoles) ||
-          !frame.bareRoles.every(safeName) || new Set(frame.bareRoles).size !== frame.bareRoles.length)) ||
+          !frame.bareRoles.every(isRoleId) || new Set(frame.bareRoles).size !== frame.bareRoles.length)) ||
         (frame.bareRoleConcepts !== undefined && (!record(frame.bareRoleConcepts) ||
-          Object.entries(frame.bareRoleConcepts).some(([role, ids]) => !safeName(role) ||
+          Object.entries(frame.bareRoleConcepts).some(([role, ids]) => !isRoleId(role) ||
             !Array.isArray(ids) || !ids.length || !ids.every(id=>
               typeof id==='string' && /^[a-z][a-z0-9_.-]*$/u.test(id)) ||
             new Set(ids).size !== ids.length))) ||
         !Array.isArray(frame.linearizations) || !frame.linearizations.length ||
         !frame.linearizations.every(sequence => Array.isArray(sequence) && sequence.length &&
           sequence.every(step => typeof step === 'string' &&
-            (safeName(step) || step === '@verb' || LITERAL.test(step))))) {
+            (isRoleId(step) || step === '@verb' || LITERAL.test(step))))) {
       throw new Error(`Invalid linearizations for ${concept}.`);
     }
     if(frame.agreement!==undefined){
@@ -876,14 +873,14 @@ function validateGrammar(dictionary, sourceGrammar, featureProfile) {
   const unsupportedFunctions=states.unsupportedVerbs || [];
   const declaredFunctions=[...configuredFunctions,...unsupportedFunctions];
   if (new Set(declaredFunctions).size!==declaredFunctions.length ||
-      unsupportedFunctions.some(coreFunction=>!LEXEME_ID.test(coreFunction)) ||
+      unsupportedFunctions.some(coreFunction=>!isCapabilityId(coreFunction)) ||
       JSON.stringify(declaredFunctions.slice().sort()) !== JSON.stringify(actualFunctions)) {
     throw new Error('State grammar and state-verb lexicon do not match.');
   }
   const stateKinds = new Set();
   for (const [coreFunction, configuredKinds] of Object.entries(states.verbs)) {
     const kinds=Array.isArray(configuredKinds)?configuredKinds:[configuredKinds];
-    if (!LEXEME_ID.test(coreFunction) || !kinds.length || new Set(kinds).size!==kinds.length ||
+    if (!isCapabilityId(coreFunction) || !kinds.length || new Set(kinds).size!==kinds.length ||
         kinds.some(kind=>!['identity','predication','classification','possession','location','existence'].includes(kind) ||
           !hasOwn(states.frames,kind))) {
       throw new Error(`Invalid state verb mapping: ${coreFunction}`);
@@ -904,7 +901,7 @@ function validateGrammar(dictionary, sourceGrammar, featureProfile) {
           'allowImplicitDeicticSubject','existentialMarker','existentialTenses',
           ...(hasPredicate ? ['predicateRole','predicateCase'] : [])].includes(key)) ||
         !['subjectRole','cases','linearizations'].every(key => hasOwn(frame,key)) ||
-        (hasPredicate && (frame.predicateRole !== 'predicate' || !safeName(frame.predicateRole) ||
+        (hasPredicate && (frame.predicateRole !== 'predicate' || !isRoleId(frame.predicateRole) ||
           (hasSyntacticCases?!safeName(frame.predicateCase):frame.predicateCase!==null) ||
           frame.allowImplicitDeicticSubject === true)) ||
         (frame.allowImplicitDeicticSubject !== undefined &&
@@ -978,7 +975,7 @@ function expandLexemes(lexemes, language, partOfSpeech, hasMorphologyForms = () 
     // original vocabulary; forms are never guessed from the lemma.
     const hasStoredForms = lexeme?.forms !== undefined;
     if (!hasStoredForms && !hasMorphologyForms(lexeme)) continue;
-    if (!record(lexeme) || !LEXEME_ID.test(lexeme.id || '') ||
+    if (!record(lexeme) || !isLexemeId(lexeme.id) ||
         lexemeIds.has(lexeme.id) ||
         typeof lexeme.lemma !== 'string' || !lexeme.lemma.trim() ||
         (hasStoredForms && !record(lexeme.forms))) {
@@ -1007,9 +1004,9 @@ function expandLexemes(lexemes, language, partOfSpeech, hasMorphologyForms = () 
         (sense.coreRef?.kind === 'concept' ? sense.coreRef.id : null)) : null;
       const stateFunction = record(sense) && sense.coreRef?.kind === 'grammaticalFunction'
         ? sense.coreRef.id : null;
-      if (!record(sense) || !LEXEME_ID.test(sense.id || '') ||
+      if (!record(sense) || !isSenseId(sense.id) ||
           senseIds.has(sense.id) ||
-          !(LEXEME_ID.test(concept || '') ||
+          !(isLexemeId(concept) ||
         (partOfSpeech === 'verb' &&
               ['grammar.state_copula','grammar.state_possession','grammar.state_location'].includes(stateFunction))) ||
           !Number.isInteger(sense.priority ?? 0) || Math.abs(sense.priority ?? 0) > 100) {
@@ -1203,7 +1200,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
     const argumentIds = new Set();
     for (const argument of transfer.arguments) {
       if (!record(argument) || !safeName(argument.argument) ||
-          !safeName(argument.semanticRole) || !safeName(argument.syntacticFunction) ||
+          !isRoleId(argument.semanticRole) || !safeName(argument.syntacticFunction) ||
           !Array.isArray(argument.agreementControllers) || argumentIds.has(argument.argument)) {
         throw new Error('Invalid realization argument transfer.');
       }
@@ -1312,7 +1309,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
       throw new Error(`Invalid semantic role capabilities for ${lexeme.id}.`);
     }
     for(const [role,concept] of Object.entries(roles)) {
-      if(!safeName(role)||!semanticFrame.roles.includes(role)||!ontology.get(concept)||
+      if(!isRoleId(role)||!semanticFrame.roles.includes(role)||!ontology.get(concept)||
           !ontology.isA(concept,semanticFrame.roleTypes[role])) {
         throw new Error(`Invalid semantic role capability for ${lexeme.id}.${role}.`);
       }
@@ -1378,7 +1375,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
     Object.keys(value).every(key => ['masculine','feminine','neuter','virile','nonvirile'].includes(key) &&
       matrixWord(value[key])));
   for (const lex of matrixLexemes) {
-    if (!LEXEME_ID.test(lex.id || '') || !LEXEME_ID.test(lex.concept || '') ||
+    if (!isLexemeId(lex.id) || !isLexemeId(lex.concept) ||
         typeof lex.lemma !== 'string' || !record(lex.forms) ||
         !['present','past'].every(t => record(lex.forms[t]) &&
           ['singular','plural'].every(n => matrixNumberForms(lex.forms[t][n])))) {

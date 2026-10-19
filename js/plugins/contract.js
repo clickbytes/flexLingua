@@ -2,6 +2,10 @@ import {PluginError} from './errors.js';
 import {meaningKey} from '../core/translation-result.js';
 import {RESOURCE_LIMITS} from '../core/resource-limits.js';
 import {snapshotBoundedJsonGraph} from '../core/bounded-json.js';
+import {
+  isCapabilityId, isConstructionId, isEvidenceId, isRoleId,
+  isRolePathId, isSenseId, isVariantId
+} from '../core/identifiers.js';
 
 export const LANGUAGE_PLUGIN_CONTRACT_VERSION = '1.0';
 export const PLUGIN_RESULT_STATUSES = Object.freeze([
@@ -10,7 +14,6 @@ export const PLUGIN_RESULT_STATUSES = Object.freeze([
 
 const LANGUAGE_CODE = /^[a-z]{2,8}$/u;
 const VERSION = /^\d+(?:\.\d+){0,2}$/u;
-const SYMBOL = /^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*$/u;
 const DIAGNOSTIC_CODE = /^[A-Z][A-Z0-9_]{0,63}$/u;
 const CHANNEL_OPERATIONS = Object.freeze({
   sentence: new Set(['analyze', 'realize']),
@@ -107,7 +110,7 @@ export function validateCapability(capability) {
       typeof capability.operation !== 'string' ||
       !CHANNEL_OPERATIONS[capability.channel].has(capability.operation) ||
       typeof capability.construction !== 'string' ||
-      !SYMBOL.test(capability.construction) || capability.construction === 'all' ||
+      !isCapabilityId(capability.construction) ||
       !['implemented', 'unsupported'].includes(capability.status) ||
       !Array.isArray(capability.evidence) || capability.evidence.length < 1 ||
       capability.evidence.length > MAX_EVIDENCE) {
@@ -119,7 +122,7 @@ export function validateCapability(capability) {
   for (const item of Array.from(capability.evidence)) {
     if (!hasExactKeys(item, ['kind', 'id']) ||
         !['manual-sentence', 'manual-refusal'].includes(item.kind) ||
-        typeof item.id !== 'string' || !SYMBOL.test(item.id)) {
+        !isEvidenceId(item.id)) {
       invalid('Plugin capability evidence must have a valid kind and stable ID.');
     }
     const key = `${item.kind}\u0000${item.id}`;
@@ -394,10 +397,10 @@ function validateLexicalSenses(value) {
   }
   return Object.fromEntries(Object.entries(value).sort(([left],[right]) => left < right ? -1 : left > right ? 1 : 0)
     .map(([role,sense]) => {
-      if (!SYMBOL.test(role) || !(sense === null ||
-          (typeof sense === 'string' && sense.length <= 128 && SYMBOL.test(sense)) ||
+      if (!isRolePathId(role) || !(sense === null ||
+          isSenseId(sense) ||
           (Array.isArray(sense) && sense.length <= MAX_EVIDENCE && sense.every(item =>
-            item === null || (typeof item === 'string' && item.length <= 128 && SYMBOL.test(item)))))) {
+            item === null || isSenseId(item))))) {
         invalidResult('Analysis lexical sense entry is invalid.');
       }
       return [role, Array.isArray(sense) ? [...sense] : sense];
@@ -423,11 +426,6 @@ function validateSourceSegments(value) {
   });
 }
 
-function safeSurfaceId(value) {
-  return typeof value === 'string' && value.length <= 64 && SYMBOL.test(value) &&
-    !value.split(/[._-]/u).some(part => ['constructor','prototype','__proto__'].includes(part));
-}
-
 function validateSurface(value) {
   if (!hasExactKeys(value,['variants']) || !Array.isArray(value.variants) ||
       value.variants.length < 1 || value.variants.length > MAX_EVIDENCE) {
@@ -435,14 +433,14 @@ function validateSurface(value) {
   }
   const variants = Array.from(value.variants,item => {
     if (!hasExactKeys(item,['id','construction','slots'],['markedness']) ||
-        !safeSurfaceId(item.id) || !safeSurfaceId(item.construction) ||
+        !isVariantId(item.id) || !isConstructionId(item.construction) ||
         (owns(item,'markedness') && item.markedness !== 'unknown') || !Array.isArray(item.slots) ||
         item.slots.length > 16) {
       invalidResult('Analysis surface variant contains invalid or unsupported fields.');
     }
     const slots = Array.from(item.slots,slot => {
       if (!hasExactKeys(slot,['name','start','end']) ||
-          !(safeSurfaceId(slot.name) || ['@verb','@auxiliary'].includes(slot.name))) {
+          !(isRoleId(slot.name) || ['@verb','@auxiliary'].includes(slot.name))) {
         invalidResult('Analysis surface slot is invalid.');
       }
       const span = validateSpan({start:slot.start,end:slot.end},'Analysis surface slot span');
