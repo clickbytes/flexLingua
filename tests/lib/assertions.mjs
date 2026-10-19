@@ -369,6 +369,8 @@ export function compareCase(item, document, {engine, analysisOnly = false} = {})
   const observed = {
     status: document?.status ?? null,
     text: document?.text ?? null,
+    previewId:document?.previewId??null,
+    previewText:document?.preview?.text??null,
     alternativeCount: Array.isArray(document?.alternatives) ? document.alternatives.length : 0,
     diagnosticCodes: (Array.isArray(document?.diagnostics) ? document.diagnostics : [])
       .map(entry => entry?.code).filter(code => typeof code === 'string').sort(),
@@ -385,6 +387,7 @@ export function compareCase(item, document, {engine, analysisOnly = false} = {})
   }
   if (!analysisOnly) compareInterpretations(expected.interpretations, document, fail);
   if (!analysisOnly && expected.context) compareContext(expected.context, document.contextReport, fail);
+  if(!analysisOnly&&expected.segments)compareSegments(expected.segments,document,fail);
 
   if (nfc(document?.status) !== nfc(expected.status)) {
     fail('status', expected.status, document?.status ?? 'none');
@@ -503,6 +506,17 @@ function compareInterpretations(policy, document, fail) {
       (wanted.assumptions === undefined || (actual.score.assumptions === wanted.assumptions &&
         actual.realizations.every(item => item.assumptions.length === wanted.assumptions &&
           item.kind === (wanted.assumptions ? 'additional_assumption' : 'equivalent_expression')))) &&
+      (!wanted.realizations||(()=>{
+        const remaining=[...actual.realizations];
+        return wanted.realizations.every(required=>{
+          const index=remaining.findIndex(item=>item.text.normalize('NFC')===required.text.normalize('NFC')&&
+            item.kind===required.kind&&sameJson((item.assumptions||[]).map(({path,feature})=>({path,feature})),
+              required.assumptions));
+          if(index<0)return false;
+          remaining.splice(index,1);
+          return true;
+        });
+      })()) &&
       (wanted.ruleIds ?? []).every(id => actual.ruleIds.includes(id) && actual.reasons.some(reason => reason.ruleId === id)) &&
       (wanted.diagnosticCodes === undefined || sameJson(wanted.diagnosticCodes.slice().sort(), actual.diagnostics.map(item => item.code).sort()));
   }, fail, '/interpretations', {allowUnexpected:policy.allowUnexpected});
@@ -513,6 +527,25 @@ function compareInterpretations(policy, document, fail) {
   }
   const tied = interpretations.length > 1 && interpretations[0].rank === interpretations[1].rank;
   if (tied !== policy.tied) fail('/interpretations/tied', policy.tied, tied);
+}
+
+function compareSegments(policy,document,fail) {
+  const segments=document?.preview?.segments;
+  if(!Array.isArray(segments)){
+    fail('/preview/segments','an on-demand segment array',segments);
+    return;
+  }
+  if(policy.previewText&&!policy.previewText.map(nfc).includes(nfc(document?.preview?.text)))
+    fail('/preview/text',policy.previewText,document?.preview?.text);
+  compareMultiset(policy.required,segments,(wanted,actual)=>{
+    if(!isRecord(actual)||nfc(actual.text)!==nfc(wanted.text)||
+        !sameJson(actual.targetSpan,wanted.targetSpan)||
+        !actual.meaningPaths?.includes(wanted.meaningPath))return false;
+    const source=actual.sources?.find(item=>item.meaningPath===wanted.meaningPath);
+    return sameJson(wanted.source,source&&wanted.source.status==='aligned'?
+      {status:source.status,span:source.span}:
+      source?{status:source.status,reason:source.reason}:null);
+  },fail,'/preview/segments',{allowUnexpected:policy.allowUnexpected});
 }
 
 function compareContext(policy, report, fail) {
@@ -577,7 +610,7 @@ export function comparePublicEntryPoints(item, document, engine) {
         for (const failure of compareCase(item, value, {engine}).failures) {
           add(api, failure.path, failure.expected, failure.actual);
         }
-        for (const field of ['status','text','meaning','alternatives','informationLoss','uncertainties','interpretations','previewId','contextReport']) {
+        for (const field of ['status','text','meaning','alternatives','informationLoss','uncertainties','interpretations','previewId','preview','contextReport']) {
           if (!sameJson(value?.[field], document?.[field])) {
             add(api, field, document?.[field], value?.[field]);
           }

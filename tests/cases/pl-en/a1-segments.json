@@ -1,0 +1,261 @@
+{
+  "schemaVersion": "1.0",
+  "cases": [
+    {
+      "id": "A1-PL-EN-SEGMENTS-0001",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "coherent_segments",
+      "construction": "event.visual_perception",
+      "tier": "exploratory",
+      "priority": 4,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "Polish preserves speaker singular and unknown definiteness; English a/the realizations are complete variants that expose their article assumption, while the implicit subject has no fabricated source span.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Widzę bank.",
+        "includeSegments": true
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "I see a bank."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "target": {
+                "kind": "deictic",
+                "anchor": "speaker"
+              },
+              "agreement": {
+                "person": "first",
+                "number": "singular"
+              }
+            },
+            "theme": {
+              "concept": "place.financial_institution",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": true,
+          "assert": {}
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "I see the bank."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "uncertainties": {
+          "required": [
+            {
+              "kind": "additional_assumption",
+              "path": "#/roles/theme/features/definiteness",
+              "options": [
+                "I see a bank.",
+                "I see the bank."
+              ],
+              "reason": "source-definiteness-unspecified-target-default"
+            },
+            {
+              "kind": "missing_information",
+              "path": "#/roles/theme/features/definiteness",
+              "options": [],
+              "reason": "source-unspecified"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "interpretations": {
+          "required": [
+            {
+              "meaning": {
+                "type": "event",
+                "concept": "event.visual_perception",
+                "roleSet": [
+                  "agent",
+                  "theme"
+                ],
+                "roles": {
+                  "agent": {
+                    "target": {
+                      "kind": "deictic",
+                      "anchor": "speaker"
+                    },
+                    "agreement": {
+                      "person": "first",
+                      "number": "singular"
+                    }
+                  },
+                  "theme": {
+                    "concept": "place.financial_institution",
+                    "features": {
+                      "number": "singular",
+                      "definiteness": "unknown"
+                    }
+                  }
+                },
+                "roleFeaturesExact": true,
+                "features": {
+                  "tense": "present",
+                  "polarity": "positive",
+                  "aspect": "imperfective"
+                },
+                "featuresAllowExtra": true,
+                "assert": {}
+              },
+              "status": "ok",
+              "texts": [
+                "I see a bank.",
+                "I see the bank."
+              ],
+              "rank": 1,
+              "ruleIds": [
+                "source.lexical-preference",
+                "target.additional-assumption"
+              ],
+              "realizations": [
+                {
+                  "text": "I see a bank.",
+                  "kind": "additional_assumption",
+                  "assumptions": [
+                    {
+                      "path": "#/roles/theme/features/definiteness",
+                      "feature": "definiteness"
+                    }
+                  ]
+                },
+                {
+                  "text": "I see the bank.",
+                  "kind": "additional_assumption",
+                  "assumptions": [
+                    {
+                      "path": "#/roles/theme/features/definiteness",
+                      "feature": "definiteness"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "allowUnexpected": false,
+          "preview": {
+            "accepted": [
+              "I see a bank."
+            ]
+          },
+          "tied": false
+        },
+        "segments": {
+          "previewText": [
+            "I see a bank."
+          ],
+          "required": [
+            {
+              "meaningPath": "#/roles/agent",
+              "text": "I",
+              "targetSpan": {
+                "start": 0,
+                "end": 1
+              },
+              "source": {
+                "status": "unavailable",
+                "reason": "implicit-source-subject"
+              }
+            },
+            {
+              "meaningPath": "#/roles/agent",
+              "text": "see",
+              "targetSpan": {
+                "start": 2,
+                "end": 5
+              },
+              "source": {
+                "status": "unavailable",
+                "reason": "implicit-source-subject"
+              }
+            },
+            {
+              "meaningPath": "#/roles/theme",
+              "text": "a bank",
+              "targetSpan": {
+                "start": 6,
+                "end": 12
+              },
+              "source": {
+                "status": "aligned",
+                "span": {
+                  "start": 6,
+                  "end": 10
+                }
+              }
+            }
+          ],
+          "allowUnexpected": true
+        }
+      },
+      "review": {
+        "status": "proposed",
+        "source": "Independent behavior contract and expected meanings were recorded in the project-owner-authored ACTIVE epic assignment before implementation: https://github.com/clickbytes/flexLingua/issues/447#issuecomment-6264560342. Linguistic review and approval are pending.",
+        "author": "Codex (proposed independent oracle; linguistic review pending)",
+        "reviewedAt": "2026-10-19",
+        "issue": "#447"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "Meaning-linked source and target segments with coherent complete-sentence alternatives through CLI"
+      }
+    }
+  ]
+}

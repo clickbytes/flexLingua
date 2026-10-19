@@ -152,6 +152,13 @@
           "source": "Original project-authored residence and apartment lexical mappings and inflection data; Polish preferred neutral dziewczyna synonym requested by owner. No external dictionary was copied.",
           "license": "Project-authored; the repository declares no separate SPDX data license.",
           "scope": "Controlled present-tense residence construction; 13 independent sentence expectations approved under explicit owner delegation recorded in issue #438."
+        },
+        {
+          "issue": "#447",
+          "author": "Codex (project-authored lexical metadata; linguistic review pending)",
+          "source": "Adds a usage note to the existing Polish dziewczynka lexeme; no lexical entry, sense, or inflection was copied or replaced.",
+          "license": "Project-authored for internal flexLingua use; this repository declares no separate SPDX data license.",
+          "scope": "Marks the dziewczynka realization as potentially narrowing person.girl to a child, so it is shown only as an explicit additional-assumption variant."
         }
       ],
       "migratedFrom": "data/pl.json"

@@ -1,0 +1,1069 @@
+{
+  "schemaVersion": "1.0",
+  "cases": [
+    {
+      "id": "A1-EN-PL-SEGMENTS-0001",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "coherent_segments",
+      "construction": "event.visual_perception",
+      "tier": "exploratory",
+      "priority": 4,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "One person.girl reading stays neutral; the diminutive alternative suggests a child without changing the CORE meaning, and all target segments link to source spans.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "The girl sees the dog.",
+        "includeSegments": true
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "Dziewczyna widzi psa."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "definite"
+              }
+            },
+            "theme": {
+              "concept": "animal.dog",
+              "features": {
+                "number": "singular",
+                "definiteness": "definite"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "unknown"
+          },
+          "featuresAllowExtra": true,
+          "assert": {}
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "unavoidable"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "uncertainties": {
+          "required": [
+            {
+              "kind": "missing_information",
+              "path": "#/features/aspect",
+              "options": [],
+              "reason": "source-unspecified"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "interpretations": {
+          "required": [
+            {
+              "meaning": {
+                "type": "event",
+                "concept": "event.visual_perception",
+                "roleSet": [
+                  "agent",
+                  "theme"
+                ],
+                "roles": {
+                  "agent": {
+                    "concept": "person.girl",
+                    "features": {
+                      "number": "singular",
+                      "definiteness": "definite"
+                    }
+                  },
+                  "theme": {
+                    "concept": "animal.dog",
+                    "features": {
+                      "number": "singular",
+                      "definiteness": "definite"
+                    }
+                  }
+                },
+                "roleFeaturesExact": true,
+                "features": {
+                  "tense": "present",
+                  "polarity": "positive",
+                  "aspect": "unknown"
+                },
+                "featuresAllowExtra": true,
+                "assert": {}
+              },
+              "status": "ok",
+              "texts": [
+                "Dziewczyna widzi psa.",
+                "Dziewczynka widzi psa."
+              ],
+              "rank": 1,
+              "ruleIds": [
+                "source.lexical-preference",
+                "target.no-additional-assumption"
+              ],
+              "realizations": [
+                {
+                  "text": "Dziewczyna widzi psa.",
+                  "kind": "equivalent_expression",
+                  "assumptions": []
+                },
+                {
+                  "text": "Dziewczynka widzi psa.",
+                  "kind": "additional_assumption",
+                  "assumptions": [
+                    {
+                      "path": "#/roles/agent/features/age",
+                      "feature": "age"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "allowUnexpected": false,
+          "preview": {
+            "accepted": [
+              "Dziewczyna widzi psa."
+            ]
+          },
+          "tied": false
+        },
+        "segments": {
+          "previewText": [
+            "Dziewczyna widzi psa."
+          ],
+          "required": [
+            {
+              "meaningPath": "#/roles/agent",
+              "text": "Dziewczyna",
+              "targetSpan": {
+                "start": 0,
+                "end": 10
+              },
+              "source": {
+                "status": "aligned",
+                "span": {
+                  "start": 0,
+                  "end": 8
+                }
+              }
+            },
+            {
+              "meaningPath": "#/concept",
+              "text": "widzi",
+              "targetSpan": {
+                "start": 11,
+                "end": 16
+              },
+              "source": {
+                "status": "aligned",
+                "span": {
+                  "start": 9,
+                  "end": 13
+                }
+              }
+            },
+            {
+              "meaningPath": "#/roles/theme",
+              "text": "psa",
+              "targetSpan": {
+                "start": 17,
+                "end": 20
+              },
+              "source": {
+                "status": "aligned",
+                "span": {
+                  "start": 14,
+                  "end": 21
+                }
+              }
+            }
+          ],
+          "allowUnexpected": true
+        }
+      },
+      "review": {
+        "status": "proposed",
+        "source": "Independent behavior contract and expected meanings were recorded in the project-owner-authored ACTIVE epic assignment before implementation: https://github.com/clickbytes/flexLingua/issues/447#issuecomment-6264560342. Linguistic review and approval are pending.",
+        "author": "Codex (proposed independent oracle; linguistic review pending)",
+        "reviewedAt": "2026-10-19",
+        "issue": "#447"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "Meaning-linked source and target segments with coherent complete-sentence alternatives through CLI"
+      }
+    },
+    {
+      "id": "A1-EN-PL-SEGMENTS-0002",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "coherent_segments",
+      "construction": "event.visual_perception",
+      "tier": "exploratory",
+      "priority": 4,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "A referent-scoped singular addressee fact selects the second-person singular Polish verb and links its omitted subject to the source pronoun.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "You see the dog.",
+        "includeSegments": true,
+        "context": {
+          "bindings": [
+            {
+              "path": "#/roles/agent",
+              "referentId": "addressee"
+            }
+          ],
+          "facts": [
+            {
+              "id": "addressee-number-singular",
+              "referentId": "addressee",
+              "feature": "number",
+              "value": "singular",
+              "source": {
+                "kind": "request",
+                "id": "addressee-number-singular"
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "Widzisz psa."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "target": {
+                "kind": "deictic",
+                "anchor": "addressee"
+              },
+              "agreement": {
+                "person": "second",
+                "number": "singular"
+              }
+            },
+            "theme": {
+              "concept": "animal.dog",
+              "features": {
+                "number": "singular",
+                "definiteness": "definite"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "unknown"
+          },
+          "featuresAllowExtra": true,
+          "assert": {}
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "unavoidable"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "uncertainties": {
+          "required": [
+            {
+              "kind": "missing_information",
+              "path": "#/features/aspect",
+              "options": [],
+              "reason": "source-unspecified"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "context": {
+          "bindings": [
+            {
+              "path": "#/roles/agent",
+              "referentId": "addressee",
+              "status": "confirmed"
+            }
+          ],
+          "appliedFactIds": [
+            "addressee-number-singular"
+          ],
+          "ignoredFactIds": [],
+          "conflictFactIds": []
+        },
+        "interpretations": {
+          "required": [
+            {
+              "meaning": {
+                "type": "event",
+                "concept": "event.visual_perception",
+                "roleSet": [
+                  "agent",
+                  "theme"
+                ],
+                "roles": {
+                  "agent": {
+                    "target": {
+                      "kind": "deictic",
+                      "anchor": "addressee"
+                    },
+                    "agreement": {
+                      "person": "second",
+                      "number": "singular"
+                    }
+                  },
+                  "theme": {
+                    "concept": "animal.dog",
+                    "features": {
+                      "number": "singular",
+                      "definiteness": "definite"
+                    }
+                  }
+                },
+                "roleFeaturesExact": true,
+                "features": {
+                  "tense": "present",
+                  "polarity": "positive",
+                  "aspect": "unknown"
+                },
+                "featuresAllowExtra": true,
+                "assert": {}
+              },
+              "status": "ok",
+              "texts": [
+                "Widzisz psa."
+              ],
+              "rank": 1,
+              "ruleIds": [
+                "context.explicit-fact",
+                "source.lexical-preference",
+                "target.no-additional-assumption"
+              ],
+              "realizations": [
+                {
+                  "text": "Widzisz psa.",
+                  "kind": "equivalent_expression",
+                  "assumptions": []
+                }
+              ]
+            }
+          ],
+          "allowUnexpected": false,
+          "preview": {
+            "accepted": [
+              "Widzisz psa."
+            ]
+          },
+          "tied": false
+        },
+        "segments": {
+          "previewText": [
+            "Widzisz psa."
+          ],
+          "required": [
+            {
+              "meaningPath": "#/roles/agent",
+              "text": "Widzisz",
+              "targetSpan": {
+                "start": 0,
+                "end": 7
+              },
+              "source": {
+                "status": "aligned",
+                "span": {
+                  "start": 0,
+                  "end": 3
+                }
+              }
+            },
+            {
+              "meaningPath": "#/roles/theme",
+              "text": "psa",
+              "targetSpan": {
+                "start": 8,
+                "end": 11
+              },
+              "source": {
+                "status": "aligned",
+                "span": {
+                  "start": 8,
+                  "end": 15
+                }
+              }
+            }
+          ],
+          "allowUnexpected": true
+        }
+      },
+      "review": {
+        "status": "proposed",
+        "source": "Independent behavior contract and expected meanings were recorded in the project-owner-authored ACTIVE epic assignment before implementation: https://github.com/clickbytes/flexLingua/issues/447#issuecomment-6264560342. Linguistic review and approval are pending.",
+        "author": "Codex (proposed independent oracle; linguistic review pending)",
+        "reviewedAt": "2026-10-19",
+        "issue": "#447"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "Meaning-linked source and target segments with coherent complete-sentence alternatives through CLI"
+      }
+    },
+    {
+      "id": "A1-EN-PL-SEGMENTS-0003",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "coherent_segments",
+      "construction": "event.visual_perception",
+      "tier": "exploratory",
+      "priority": 4,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "A referent-scoped plural addressee fact selects the second-person plural Polish verb while preserving the dog phrase and the whole-sentence agreement.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "You see the dog.",
+        "includeSegments": true,
+        "context": {
+          "bindings": [
+            {
+              "path": "#/roles/agent",
+              "referentId": "addressee"
+            }
+          ],
+          "facts": [
+            {
+              "id": "addressee-number-plural",
+              "referentId": "addressee",
+              "feature": "number",
+              "value": "plural",
+              "source": {
+                "kind": "request",
+                "id": "addressee-number-plural"
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "Widzicie psa."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "target": {
+                "kind": "deictic",
+                "anchor": "addressee"
+              },
+              "agreement": {
+                "person": "second",
+                "number": "plural"
+              }
+            },
+            "theme": {
+              "concept": "animal.dog",
+              "features": {
+                "number": "singular",
+                "definiteness": "definite"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "unknown"
+          },
+          "featuresAllowExtra": true,
+          "assert": {}
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-mark-definiteness",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "unavoidable"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "uncertainties": {
+          "required": [
+            {
+              "kind": "missing_information",
+              "path": "#/features/aspect",
+              "options": [],
+              "reason": "source-unspecified"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "context": {
+          "bindings": [
+            {
+              "path": "#/roles/agent",
+              "referentId": "addressee",
+              "status": "confirmed"
+            }
+          ],
+          "appliedFactIds": [
+            "addressee-number-plural"
+          ],
+          "ignoredFactIds": [],
+          "conflictFactIds": []
+        },
+        "interpretations": {
+          "required": [
+            {
+              "meaning": {
+                "type": "event",
+                "concept": "event.visual_perception",
+                "roleSet": [
+                  "agent",
+                  "theme"
+                ],
+                "roles": {
+                  "agent": {
+                    "target": {
+                      "kind": "deictic",
+                      "anchor": "addressee"
+                    },
+                    "agreement": {
+                      "person": "second",
+                      "number": "plural"
+                    }
+                  },
+                  "theme": {
+                    "concept": "animal.dog",
+                    "features": {
+                      "number": "singular",
+                      "definiteness": "definite"
+                    }
+                  }
+                },
+                "roleFeaturesExact": true,
+                "features": {
+                  "tense": "present",
+                  "polarity": "positive",
+                  "aspect": "unknown"
+                },
+                "featuresAllowExtra": true,
+                "assert": {}
+              },
+              "status": "ok",
+              "texts": [
+                "Widzicie psa."
+              ],
+              "rank": 1,
+              "ruleIds": [
+                "context.explicit-fact",
+                "source.lexical-preference",
+                "target.no-additional-assumption"
+              ],
+              "realizations": [
+                {
+                  "text": "Widzicie psa.",
+                  "kind": "equivalent_expression",
+                  "assumptions": []
+                }
+              ]
+            }
+          ],
+          "allowUnexpected": false,
+          "preview": {
+            "accepted": [
+              "Widzicie psa."
+            ]
+          },
+          "tied": false
+        },
+        "segments": {
+          "previewText": [
+            "Widzicie psa."
+          ],
+          "required": [
+            {
+              "meaningPath": "#/roles/agent",
+              "text": "Widzicie",
+              "targetSpan": {
+                "start": 0,
+                "end": 8
+              },
+              "source": {
+                "status": "aligned",
+                "span": {
+                  "start": 0,
+                  "end": 3
+                }
+              }
+            },
+            {
+              "meaningPath": "#/roles/theme",
+              "text": "psa",
+              "targetSpan": {
+                "start": 9,
+                "end": 12
+              },
+              "source": {
+                "status": "aligned",
+                "span": {
+                  "start": 8,
+                  "end": 15
+                }
+              }
+            }
+          ],
+          "allowUnexpected": true
+        }
+      },
+      "review": {
+        "status": "proposed",
+        "source": "Independent behavior contract and expected meanings were recorded in the project-owner-authored ACTIVE epic assignment before implementation: https://github.com/clickbytes/flexLingua/issues/447#issuecomment-6264560342. Linguistic review and approval are pending.",
+        "author": "Codex (proposed independent oracle; linguistic review pending)",
+        "reviewedAt": "2026-10-19",
+        "issue": "#447"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "Meaning-linked source and target segments with coherent complete-sentence alternatives through CLI"
+      }
+    },
+    {
+      "id": "A1-EN-PL-SEGMENTS-0004",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "coherent_segments",
+      "construction": "event.visual_perception",
+      "tier": "exploratory",
+      "priority": 4,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "A place topic promotes the riverbank reading but does not resolve bank: both complete readings remain, and alternatives retain distinct meanings.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "The girl sees a bank.",
+        "includeSegments": true,
+        "context": {
+          "topics": [
+            "place.riverbank"
+          ]
+        }
+      },
+      "expected": {
+        "status": "ambiguous",
+        "text": null,
+        "meaning": null,
+        "diagnostics": {
+          "required": [
+            {
+              "code": "AMBIGUOUS_MEANING"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            {
+              "meaning": {
+                "type": "event",
+                "concept": "event.visual_perception",
+                "roleSet": [
+                  "agent",
+                  "theme"
+                ],
+                "roles": {
+                  "agent": {
+                    "concept": "person.girl",
+                    "features": {
+                      "number": "singular",
+                      "definiteness": "definite"
+                    }
+                  },
+                  "theme": {
+                    "concept": "place.riverbank",
+                    "features": {
+                      "number": "singular",
+                      "definiteness": "indefinite"
+                    }
+                  }
+                },
+                "roleFeaturesExact": true,
+                "features": {
+                  "tense": "present",
+                  "polarity": "positive",
+                  "aspect": "unknown"
+                },
+                "featuresAllowExtra": true,
+                "assert": {}
+              }
+            },
+            {
+              "meaning": {
+                "type": "event",
+                "concept": "event.visual_perception",
+                "roleSet": [
+                  "agent",
+                  "theme"
+                ],
+                "roles": {
+                  "agent": {
+                    "concept": "person.girl",
+                    "features": {
+                      "number": "singular",
+                      "definiteness": "definite"
+                    }
+                  },
+                  "theme": {
+                    "concept": "place.financial_institution",
+                    "features": {
+                      "number": "singular",
+                      "definiteness": "indefinite"
+                    }
+                  }
+                },
+                "roleFeaturesExact": true,
+                "features": {
+                  "tense": "present",
+                  "polarity": "positive",
+                  "aspect": "unknown"
+                },
+                "featuresAllowExtra": true,
+                "assert": {}
+              }
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "uncertainties": {
+          "required": [
+            {
+              "kind": "missing_information",
+              "path": "#/features/aspect",
+              "options": [],
+              "reason": "source-unspecified"
+            },
+            {
+              "kind": "semantic_ambiguity",
+              "path": "#/roles/theme/concept",
+              "options": [
+                "place.financial_institution",
+                "place.riverbank"
+              ],
+              "reason": "distinct-source-readings"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "interpretations": {
+          "required": [
+            {
+              "meaning": {
+                "type": "event",
+                "concept": "event.visual_perception",
+                "roleSet": [
+                  "agent",
+                  "theme"
+                ],
+                "roles": {
+                  "agent": {
+                    "concept": "person.girl",
+                    "features": {
+                      "number": "singular",
+                      "definiteness": "definite"
+                    }
+                  },
+                  "theme": {
+                    "concept": "place.riverbank",
+                    "features": {
+                      "number": "singular",
+                      "definiteness": "indefinite"
+                    }
+                  }
+                },
+                "roleFeaturesExact": true,
+                "features": {
+                  "tense": "present",
+                  "polarity": "positive",
+                  "aspect": "unknown"
+                },
+                "featuresAllowExtra": true,
+                "assert": {}
+              },
+              "status": "ok",
+              "texts": [
+                "Dziewczyna widzi brzeg.",
+                "Dziewczynka widzi brzeg."
+              ],
+              "rank": 1,
+              "ruleIds": [
+                "ontology.topic-link",
+                "source.lexical-preference",
+                "target.no-additional-assumption"
+              ],
+              "realizations": [
+                {
+                  "text": "Dziewczyna widzi brzeg.",
+                  "kind": "equivalent_expression",
+                  "assumptions": []
+                },
+                {
+                  "text": "Dziewczynka widzi brzeg.",
+                  "kind": "additional_assumption",
+                  "assumptions": [
+                    {
+                      "path": "#/roles/agent/features/age",
+                      "feature": "age"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "meaning": {
+                "type": "event",
+                "concept": "event.visual_perception",
+                "roleSet": [
+                  "agent",
+                  "theme"
+                ],
+                "roles": {
+                  "agent": {
+                    "concept": "person.girl",
+                    "features": {
+                      "number": "singular",
+                      "definiteness": "definite"
+                    }
+                  },
+                  "theme": {
+                    "concept": "place.financial_institution",
+                    "features": {
+                      "number": "singular",
+                      "definiteness": "indefinite"
+                    }
+                  }
+                },
+                "roleFeaturesExact": true,
+                "features": {
+                  "tense": "present",
+                  "polarity": "positive",
+                  "aspect": "unknown"
+                },
+                "featuresAllowExtra": true,
+                "assert": {}
+              },
+              "status": "ok",
+              "texts": [
+                "Dziewczyna widzi bank.",
+                "Dziewczynka widzi bank."
+              ],
+              "rank": 2,
+              "ruleIds": [
+                "source.lexical-preference",
+                "target.no-additional-assumption"
+              ],
+              "realizations": [
+                {
+                  "text": "Dziewczyna widzi bank.",
+                  "kind": "equivalent_expression",
+                  "assumptions": []
+                },
+                {
+                  "text": "Dziewczynka widzi bank.",
+                  "kind": "additional_assumption",
+                  "assumptions": [
+                    {
+                      "path": "#/roles/agent/features/age",
+                      "feature": "age"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "allowUnexpected": false,
+          "preview": {
+            "accepted": [
+              "Dziewczyna widzi brzeg."
+            ]
+          },
+          "tied": false
+        },
+        "segments": {
+          "previewText": [
+            "Dziewczyna widzi brzeg."
+          ],
+          "required": [
+            {
+              "meaningPath": "#/roles/agent",
+              "text": "Dziewczyna",
+              "targetSpan": {
+                "start": 0,
+                "end": 10
+              },
+              "source": {
+                "status": "aligned",
+                "span": {
+                  "start": 0,
+                  "end": 8
+                }
+              }
+            },
+            {
+              "meaningPath": "#/roles/theme",
+              "text": "brzeg",
+              "targetSpan": {
+                "start": 17,
+                "end": 22
+              },
+              "source": {
+                "status": "aligned",
+                "span": {
+                  "start": 14,
+                  "end": 20
+                }
+              }
+            }
+          ],
+          "allowUnexpected": true
+        }
+      },
+      "review": {
+        "status": "proposed",
+        "source": "Independent behavior contract and expected meanings were recorded in the project-owner-authored ACTIVE epic assignment before implementation: https://github.com/clickbytes/flexLingua/issues/447#issuecomment-6264560342. Linguistic review and approval are pending.",
+        "author": "Codex (proposed independent oracle; linguistic review pending)",
+        "reviewedAt": "2026-10-19",
+        "issue": "#447"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "Meaning-linked source and target segments with coherent complete-sentence alternatives through CLI"
+      }
+    }
+  ]
+}

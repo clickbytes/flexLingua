@@ -37,11 +37,42 @@ export function createTranslateView({runtime, translationService, state: modeSta
     return directionStatus(state.to, state.from).status === 'available';
   }
 
+  function activeEntry() {
+    return state.entries.find(entry=>entry.id===state.selectedEntryId)||state.entries.at(-1)||null;
+  }
+
+  function completeRealizations(entry=activeEntry()) {
+    return (entry?.rawResult?.interpretations||[]).flatMap(interpretation=>
+      (interpretation.realizations||[]).map(realization=>({...realization,
+        meaning:interpretation.meaning})));
+  }
+
+  function cyclePreview(step) {
+    const entry=activeEntry();
+    const rows=completeRealizations(entry);
+    if(!entry||rows.length<2)return false;
+    const result=entry.rawResult||{};
+    const former=rows.findIndex(item=>item.id===result.previewId);
+    const selected=rows[(Math.max(0,former)+step+rows.length)%rows.length];
+    entry.rawResult={...result,previewId:selected.id,preview:{
+      id:selected.id,interpretationId:selected.interpretationId,meaning:selected.meaning,
+      text:selected.text,kind:selected.kind,assumptions:selected.assumptions,
+      informationLoss:selected.informationLoss,
+      ...(Array.isArray(selected.segments)?{segments:selected.segments}:{})}};
+    state.result=entry.rawResult;
+    state.status=entry.status;
+    if(workspaceState?.modes?.translate)
+      workspaceState.modes.translate.historyRevision++;
+    return true;
+  }
+
   function focusTargets() {
     const items = [{id: 'source', type: 'input', label: 'Source text'}];
     if (languages.length) items.push({id: 'from', type: 'selector', label: 'Source language'});
     if (languages.length) items.push({id: 'to', type: 'selector', label: 'Target language'});
     if (canSwap()) items.push({id: 'swap', type: 'action', label: 'Swap direction'});
+    if(completeRealizations().length>1)
+      items.push({id:'preview',type:'action',label:'Pełne warianty zdania'});
     if (state.entries.length) items.push({id: 'details', type: 'action', label: 'Details'});
     return items;
   }
@@ -94,7 +125,7 @@ export function createTranslateView({runtime, translationService, state: modeSta
     const to = state.to;
     let result;
     try {
-      result = await translationService.translate({from, to, text: input});
+      result = await translationService.translate({from,to,text:input,includeSegments:true});
     } catch (error) {
       result = {status: 'error', text: null, meaning: null, alternatives: [],
         informationLoss: [], diagnostics: [{code: error?.code ?? 'TRANSLATION_SERVICE_ERROR',
@@ -127,6 +158,9 @@ export function createTranslateView({runtime, translationService, state: modeSta
     if (focus?.id === 'swap' && action.type === 'submit') {
       swapDirection();
       return true;
+    }
+    if(focus?.id==='preview'&&['cursor_left','cursor_right','submit'].includes(action.type)){
+      return cyclePreview(action.type==='cursor_left'?-1:1);
     }
     if (focus?.id === 'details' && (action.type === 'submit' ||
         (action.type === 'text' && action.value.toLowerCase() === 'i'))) {

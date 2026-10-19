@@ -40,8 +40,13 @@ export async function runCliSmoke({cases, serviceDocuments, engine, repoRoot, on
   let completed = 0;
 
   function argumentsFor(item) {
-    return ['--from', item.input.from, '--to', item.input.to,
-      '--text', item.input.text, '--json'];
+    const args=['--from',item.input.from,'--to',item.input.to,
+      '--text',item.input.text,'--json'];
+    if(item.input.context!==undefined)args.push('--context-json',JSON.stringify(item.input.context));
+    if(item.input.search!==undefined)args.push('--search-json',JSON.stringify(item.input.search));
+    if(item.input.includeSegments===true)args.push('--segments');
+    if(item.input.previewId!==undefined)args.push('--preview',item.input.previewId);
+    return args;
   }
 
   async function runtimeFor(item) {

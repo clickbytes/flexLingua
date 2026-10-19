@@ -123,10 +123,15 @@ export function translatePresentationLines(entry) {
   const lines = [
     {text: `#${id} Ty · ${entry.from ?? '?'}`, tone: 'muted', entryId: entry.id},
     {text: entry.input || '(puste wejście)', tone: 'neutral', entryId: entry.id},
-    {text: `#${id} Wynik · ${entry.to ?? '?'} · ${operationStatusLabel(entry.status)}`,
+    {text: `#${id} Wynik · ${entry.to ?? '?'} · ${operationStatusLabel(entry.status)}`+
+      (result.previewId?` · podgląd ${result.previewId}`:''),
       tone: entry.status === 'ok' ? 'accent' : 'warning', entryId: entry.id}
   ];
-  if (typeof entry.output === 'string' && entry.output.length) {
+  if(typeof result.preview?.text==='string'&&result.preview.text.length){
+    lines.push({text:result.preview.text,tone:'neutral',entryId:entry.id});
+    if(entry.status==='ambiguous')lines.push({text:'Oznaczony podgląd; znaczenie pozostaje nierozstrzygnięte.',
+      tone:'warning',entryId:entry.id});
+  } else if (typeof entry.output === 'string' && entry.output.length) {
     lines.push({text: entry.output, tone: 'neutral', entryId: entry.id});
   } else if (entry.status !== 'ok') {
     lines.push({text: 'Brak tekstu wynikowego.', tone: 'muted', entryId: entry.id});
@@ -139,6 +144,32 @@ export function translatePresentationLines(entry) {
   const warnings = result.warnings?.length ?? 0;
   lines.push({text: `Straty: ${losses} · Ostrzeżenia: ${warnings} · Alternatywy: ${alternatives} · /details ${id}`,
     tone: losses || warnings || alternatives ? 'warning' : 'muted', entryId: entry.id});
+
+  const complete=(result.interpretations||[]).flatMap(interpretation=>
+    (interpretation.realizations||[]).map(realization=>({...realization,
+      meaning:interpretation.meaning,rank:interpretation.rank})));
+  if(complete.length>1){
+    lines.push({text:'Pełne warianty · fokus „Pełne warianty zdania”, ←/→ wybiera całe zdanie.',
+      tone:'muted',entryId:entry.id});
+    for(const realization of complete.slice(0,16)){
+      const label=realization.kind==='additional_assumption'?'dodatkowe założenie':'inne sformułowanie';
+      const meaning=semanticSummary(realization.meaning);
+      const assumptions=(realization.assumptions||[]).map(item=>`${item.feature}: ${item.reason}`).join('; ');
+      lines.push({text:`${realization.id}${realization.id===result.previewId?' · podgląd':''} · ${label}`+
+        `${assumptions?` (${assumptions})`:''} · ${realization.text}${meaning?` · ${meaning}`:''}`,
+        tone:realization.id===result.previewId?'accent':'muted',entryId:entry.id});
+    }
+    if(complete.length>16)lines.push({text:`Pozostałe warianty: ${complete.length-16} · dostępne akcją „Pełne warianty zdania”.`,
+      tone:'muted',entryId:entry.id});
+  }
+  for(const segment of result.preview?.segments||[]){
+    const start=segment.targetSpan?.start,end=segment.targetSpan?.end;
+    const source=segment.sources?.map(item=>item.status==='aligned'?
+      `${item.meaningPath} ${item.span.start}:${item.span.end}`:
+      `${item.meaningPath} (${item.reason})`).join(' · ')||'bez powiązania źródłowego';
+    lines.push({text:`Segment ${segment.text} · cel ${start}:${end} · ${segment.meaningPaths.join(', ')||'fraza'} · decyzja ${segment.decision.kind}:${segment.decision.id} · źródło ${source}`,
+      tone:'muted',entryId:entry.id});
+  }
 
   for (const item of result.diagnostics ?? []) {
     lines.push({text: diagnosticPresentation(item), tone: 'warning', entryId: entry.id});

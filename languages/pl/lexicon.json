@@ -38,6 +38,16 @@
       },
       "pluralClass": "nonvirile",
       "animacy": "animate",
+      "realizationProfile": {
+        "kind": "additional_assumption",
+        "assumptions": [
+          {
+            "feature": "age",
+            "value": "child",
+            "reason": "Dziewczynka can suggest a child; the source meaning person.girl does not specify age."
+          }
+        ]
+      },
       "senses": [
         {
           "id": "pl.dziewczynka.1.sense.1",
