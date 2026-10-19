@@ -24,6 +24,7 @@ const RUNNER_DIR = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = dirname(RUNNER_DIR);
 
 const USAGE = `Usage: node tests/run.mjs [--validate|--matrix|--cli|--all] [--help]
+       [--verbosity=normal|verbose|quiet] [--color=auto|always|never]
 
   --validate   load and validate schemas, catalog, required-ids, gaps, cross rules
   --matrix     validate, execute the matrix, account for coverage and write reports
@@ -34,6 +35,9 @@ const USAGE = `Usage: node tests/run.mjs [--validate|--matrix|--cli|--all] [--he
                without translating; without matrix.json it exits 3
   --all        validate + matrix + coverage accounting + CLI smoke + reports
                (this is what npm test and GitHub Actions run)
+  --verbosity  normal (default) prints full source and observed target sentences;
+               verbose adds expected/observed details; quiet shows totals and failures
+  --color      auto (default; TTY only, disabled by NO_COLOR), always, or never
 
 Exit codes: 0 all green gates; 1 required FAIL/INFRA, invalid or incomplete
 matrix; 2 usage error; 3 --report invoked without a saved matrix. Infrastructure
@@ -60,14 +64,24 @@ function readSha() {
 
 function parseFlags(argv) {
   const flags = {validate: false, matrix: false, cli: false, all: false,
-    report: false, help: false};
-  for (const arg of argv) {
+    report: false, help: false, verbosity: 'normal', color: 'auto'};
+  for (let index = 0; index < argv.length; index += 1) {
+    const arg = argv[index];
     if (arg === '--validate') flags.validate = true;
     else if (arg === '--matrix') flags.matrix = true;
     else if (arg === '--cli') flags.cli = true;
     else if (arg === '--report') flags.report = true;
     else if (arg === '--all') flags.all = true;
     else if (arg === '--help' || arg === '-h') flags.help = true;
+    else if (arg === '--verbosity' || arg.startsWith('--verbosity=')) {
+      const value = arg === '--verbosity' ? argv[++index] : arg.slice('--verbosity='.length);
+      if (!['normal', 'verbose', 'quiet'].includes(value)) return null;
+      flags.verbosity = value;
+    } else if (arg === '--color' || arg.startsWith('--color=')) {
+      const value = arg === '--color' ? argv[++index] : arg.slice('--color='.length);
+      if (!['auto', 'always', 'never'].includes(value)) return null;
+      flags.color = value;
+    }
     else return null;
   }
   if (flags.all) { flags.validate = true; flags.matrix = true; flags.cli = true; flags.report = true; }
@@ -79,6 +93,121 @@ function parseFlags(argv) {
 function clip(value, limit = TRIM) {
   const text = typeof value === 'string' ? value : String(value ?? 'none');
   return text.length <= limit ? text : `${text.slice(0, limit - 1)}…`;
+}
+
+function createColorizer(mode) {
+  const enabled = mode === 'always' ||
+    (mode === 'auto' && Boolean(process.stdout.isTTY) && !Object.hasOwn(process.env, 'NO_COLOR'));
+  return (text, code) => enabled ? `\u001B[${code}m${text}\u001B[0m` : text;
+}
+
+function quotedSentence(value) {
+  return typeof value === 'string' ? `“${value}”` : '(no sentence)';
+}
+
+function printVerboseCase({item, outcome, document, colorize}) {
+  const expected = {
+    status: item.expected?.status ?? null,
+    text: item.expected?.text ?? null,
+    meaning: item.expected?.meaning ?? null,
+    graph: item.expected?.graph ?? null,
+    context: item.expected?.context ?? null,
+    alternatives: item.expected?.alternatives ?? null,
+    diagnostics: item.expected?.diagnostics ?? null,
+    informationLoss: item.expected?.informationLoss ?? null
+  };
+  const observed = {
+    status: document?.status ?? outcome.observed?.status ?? null,
+    text: document?.text ?? null,
+    meaning: document?.meaning ?? null,
+    typedGraph: outcome.observed?.typedGraph ?? null,
+    context: outcome.observed?.context ?? null,
+    alternatives: document?.alternatives ?? [],
+    diagnostics: document?.diagnostics ?? [],
+    informationLoss: document?.informationLoss ?? [],
+    uncertainties: document?.uncertainties ?? [],
+    interpretations: (document?.interpretations ?? []).map(interpretation => ({
+      id: interpretation.id,
+      status: interpretation.status,
+      realizations: (interpretation.realizations ?? []).map(realization => ({
+        id: realization.id,
+        text: realization.text,
+        kind: realization.kind,
+        assumptions: realization.assumptions ?? []
+      }))
+    }))
+  };
+  console.log(`    ${colorize('expected:', '1')} ${JSON.stringify(expected)}`);
+  console.log(`    ${colorize('observed:', '1')} ${JSON.stringify(observed)}`);
+}
+
+function printInterpretations(document, colorize) {
+  const interpretations = Array.isArray(document?.interpretations) ? document.interpretations : [];
+  let realizationCount = 0;
+  for (const interpretation of interpretations) {
+    const realizations = Array.isArray(interpretation.realizations) ? interpretation.realizations : [];
+    if (!realizations.length) {
+      console.log(`    ${interpretation.id ?? 'reading'}: no target realization (${interpretation.status ?? 'unavailable'})`);
+    }
+    for (const realization of realizations) {
+      realizationCount += 1;
+      const preview = realization.id === document?.previewId ? 'Preview' : 'Alternative';
+      const style = preview === 'Preview' ? '1;36' : '2';
+      const kindLabel = realization.kind ? ` [${realization.kind}]` : '';
+      console.log(colorize(`    ${preview} ${realization.id}: ${quotedSentence(realization.text)}${kindLabel}`, style));
+    }
+  }
+  if (!interpretations.length || realizationCount === 0) console.log('    No complete target sentence is available.');
+}
+
+function printCaseOutcome({item, outcome, document, durationMs, verbosity, colorize}) {
+  const direction = item.direction.replace('-', ' -> ').toUpperCase();
+  const kind = KIND_LABEL[outcome.kind] ?? outcome.kind ?? 'unknown';
+  const label = outcome.pass ? `PASS [${kind}]` : outcome.kind === 'infra' ? 'INFRA' : `FAIL [${kind}]`;
+  const color = !outcome.pass ? (outcome.kind === 'infra' ? '35;1' : '31;1')
+    : outcome.kind === 'translation' ? '32'
+      : outcome.kind === 'ambiguity' ? '33' : '36';
+  const suffix = verbosity === 'verbose' ? ` (${durationMs} ms)` : '';
+  const header = `${label} ${item.id} | ${direction} | ${quotedSentence(item.input.text)}`;
+
+  if (!outcome.pass) {
+    const observed = typeof document?.text === 'string' ? ` -> ${quotedSentence(document.text)}`
+      : document?.status === 'ambiguous'
+        ? ` -> ambiguous (${document.interpretations?.length ?? 0} readings; no resolved target)`
+        : ` -> no target text (${document?.status ?? 'no service document'})`;
+    console.log(colorize(`${header}${observed}${suffix}`, color));
+    printFailures(outcome.failures, colorize);
+    if (document?.status === 'ambiguous') printInterpretations(document, colorize);
+    else if (Array.isArray(document?.diagnostics)) {
+      for (const diagnostic of document.diagnostics) {
+        console.log(`    Diagnostic: ${diagnostic.code ?? 'UNKNOWN'}${diagnostic.message ? ` — ${diagnostic.message}` : ''}`);
+      }
+    }
+    if (verbosity === 'verbose') printVerboseCase({item, outcome, document, colorize});
+    return;
+  }
+  if (verbosity === 'quiet') return;
+
+  if (outcome.kind === 'translation') {
+    const target = typeof document?.text === 'string' ? quotedSentence(document.text) : '(no target text observed)';
+    console.log(colorize(`${header} -> ${target}${suffix}`, color));
+  } else if (outcome.kind === 'ambiguity') {
+    const interpretations = Array.isArray(document?.interpretations) ? document.interpretations : [];
+    console.log(colorize(`${header} -> ambiguous (${interpretations.length} readings; no resolved target)${suffix}`, color));
+    printInterpretations(document, colorize);
+  } else {
+    console.log(colorize(`${header} -> no target text (controlled refusal)${suffix}`, color));
+    const diagnostics = Array.isArray(document?.diagnostics) ? document.diagnostics : [];
+    if (diagnostics.length) {
+      for (const diagnostic of diagnostics) {
+        console.log(`    Diagnostic: ${diagnostic.code ?? 'UNKNOWN'}${diagnostic.message ? ` — ${diagnostic.message}` : ''}`);
+      }
+    } else {
+      console.log(`    Diagnostic: ${document?.status ?? 'no diagnostic returned'}`);
+    }
+  }
+
+  if (verbosity === 'verbose') printVerboseCase({item, outcome, document, colorize});
 }
 
 function printIssues(issues) {
@@ -119,6 +248,7 @@ async function main() {
     process.exitCode = 2;
     return;
   }
+  const colorize = createColorizer(flags.color);
   const started = Date.now();
   const sha = readSha();
   console.log(`translation-matrix at ${sha} (node ${process.version}, ${process.platform})`);
@@ -207,7 +337,8 @@ async function main() {
       }
     }
     outcomes.push({item, outcome, document, durationMs: Date.now() - startedAt});
-    if (outcomes.length % 25 === 0 || outcomes.length === matrix.cases.length) {
+    if (flags.verbosity === 'verbose' &&
+        (outcomes.length % 25 === 0 || outcomes.length === matrix.cases.length)) {
       console.log(`MATRIX progress: ${outcomes.length}/${matrix.cases.length}`);
     }
   }
@@ -215,19 +346,10 @@ async function main() {
   const counts = {translation: {pass: 0, run: 0}, refusal: {pass: 0, run: 0},
     ambiguity: {pass: 0, run: 0}, fail: {required: 0, exploratory: 0},
     infra: {required: 0, exploratory: 0}};
-  for (const {item, outcome, durationMs} of outcomes) {
+  for (const {item, outcome, document, durationMs} of outcomes) {
     const kind = outcome.kind in KIND_LABEL ? outcome.kind : null;
-    if (outcome.pass) {
-      console.log(`PASS [${outcome.kind}] ${item.id} (${item.direction}, ${durationMs} ms) ` +
-        `"${clip(item.input.text, 48)}" -> ${outcome.observed.status}`);
-    } else if (outcome.kind === 'infra') {
-      console.log(`INFRA ${item.id} (${item.direction}) — infrastructure failure, never reinterpreted:`);
-      printFailures(outcome.failures);
-    } else {
-      console.log(`FAIL [${outcome.kind}] ${item.id} (${item.direction}) ` +
-        `"${clip(item.input.text, 48)}":`);
-      printFailures(outcome.failures);
-    }
+    printCaseOutcome({item, outcome, document, durationMs,
+      verbosity: flags.verbosity, colorize});
     if (item.tier === 'required') {
       if (kind) {
         counts[kind].run += 1;
@@ -245,12 +367,14 @@ async function main() {
 
   const gapCount = Array.isArray(matrix.gaps?.gaps) ? matrix.gaps.gaps.length : 0;
   console.log('');
-  console.log(`Totals: translation ${counts.translation.pass}/${counts.translation.run}, ` +
+  const hasMatrixErrors = counts.fail.required + counts.fail.exploratory +
+    counts.infra.required + counts.infra.exploratory > 0;
+  console.log(colorize(`Totals: translation ${counts.translation.pass}/${counts.translation.run}, ` +
     `refusal ${counts.refusal.pass}/${counts.refusal.run}, ` +
     `ambiguity ${counts.ambiguity.pass}/${counts.ambiguity.run}, ` +
     `FAIL ${counts.fail.required} required / ${counts.fail.exploratory} exploratory, ` +
     `INFRA ${counts.infra.required} required / ${counts.infra.exploratory} exploratory, ` +
-    `matrix cases NOT-RUN 0`);
+    `matrix cases NOT-RUN 0`, hasMatrixErrors ? '31;1' : '32'));
   console.log(`Known gaps registered: ${gapCount} (reported separately, never counted as PASS)`);
 
   const notRunLabels = flags.cli ? [] : ['CLI smoke (run --cli or --all)'];
@@ -276,7 +400,7 @@ async function main() {
       cliResults = await runCliSmoke({cases: smokeCases, serviceDocuments,
         engine: runtime.engine, repoRoot: REPO_ROOT,
         onProgress(completed, total) {
-          if (completed % 25 === 0 || completed === total) {
+          if (flags.verbosity === 'verbose' && (completed % 25 === 0 || completed === total)) {
             console.log(`CLI progress: ${completed}/${total}`);
           }
         }});
@@ -284,14 +408,17 @@ async function main() {
       for (const result of cliResults) {
         if (result.pass) {
           smokePassed += 1;
-          console.log(`CLI-PASS [${result.kind}] ${result.id} (${result.durationMs} ms)`);
+          if (flags.verbosity === 'verbose') {
+            console.log(colorize(`CLI-PASS [${result.kind}] ${result.id} (${result.durationMs} ms)`, '32'));
+          }
         } else {
-          console.log(`${result.kind === 'infra' ? 'CLI-INFRA' : 'CLI-FAIL'} ${result.id} ` +
-            `(${result.durationMs} ms):`);
-          for (const line of result.lines) console.log(`    - ${line}`);
+          console.log(colorize(`${result.kind === 'infra' ? 'CLI-INFRA' : 'CLI-FAIL'} ${result.id} ` +
+            `(${result.durationMs} ms):`, result.kind === 'infra' ? '35;1' : '31;1'));
+          for (const line of result.lines) console.log(colorize(`    - ${line}`, '31'));
         }
       }
-      console.log(`CLI smoke: ${smokePassed}/${cliResults.length} passed.`);
+      console.log(colorize(`CLI smoke: ${smokePassed}/${cliResults.length} passed.`,
+        smokePassed === cliResults.length ? '32' : '31;1'));
       cliFailed = smokePassed !== cliResults.length;
     }
   }
@@ -438,9 +565,9 @@ function printCoverage({runtime, matrix, outcomes, gapCount, notRunLabels = [], 
   return coverage;
 }
 
-function printFailures(failures) {
+function printFailures(failures, colorize = text => text) {
   for (const failure of failures) {
-    console.log(`    - ${failure.path}: expected ${clip(failure.expected)}; observed ${clip(failure.actual)}`);
+    console.log(colorize(`    - ${failure.path}: expected ${clip(failure.expected)}; observed ${clip(failure.actual)}`, '31'));
   }
 }
 
