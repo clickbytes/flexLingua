@@ -742,6 +742,622 @@
         "capability": "Explicit referent-scoped facts, source uncertainty and context provenance"
       },
       "verifyEngine": true
+    },
+    {
+      "id": "A1-PL-EN-OVSVISUAL-0001",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "visual_perception",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 2,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "Approved OVS positive case: nominative agent and accusative theme retain the independently recorded MeaningGraph under a bounded Polish order variant.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Psa widzi dziewczynka."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "A girl sees a dog."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            },
+            "theme": {
+              "concept": "animal.dog",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": true,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/aspect": "imperfective",
+            "#/features/polarity": "positive"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": true
+        },
+        "alternatives": {
+          "required": [
+            "The girl sees the dog."
+          ],
+          "allowUnexpected": true
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "ambiguous"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "animal"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent expected MeaningGraph authored before engine run; project-owner delegation, exact ID, and review reasoning recorded in #460 comments #6272663626 and #6272596295. Codex reviewed 2026-10-19: accusative theme and nominative agent preserve the stated CORE roles; aspect and unspecified definiteness remain explicit as in the approved SVO oracle.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-19",
+        "issue": "#460"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "sentence pl.analyze(event.visual_perception) -> en.realize"
+      }
+    },
+    {
+      "id": "A1-PL-EN-OVSREAD-0001",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "reading",
+      "construction": "event.read",
+      "tier": "required",
+      "priority": 2,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "Approved OVS positive case: nominative agent and accusative theme retain the independently recorded MeaningGraph under a bounded Polish order variant.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Książkę czyta dziewczynka."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "A girl reads a book."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.read",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            },
+            "theme": {
+              "concept": "object.book",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": true,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/aspect": "imperfective",
+            "#/features/polarity": "positive"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": true
+        },
+        "alternatives": {
+          "required": [
+            "The girl reads the book."
+          ],
+          "allowUnexpected": true
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "ambiguous"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent expected MeaningGraph authored before engine run; project-owner delegation, exact ID, and review reasoning recorded in #460 comments #6272663626 and #6272596295. Codex reviewed 2026-10-19: accusative theme and nominative agent preserve the stated CORE roles; aspect and unspecified definiteness remain explicit as in the approved SVO oracle.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-19",
+        "issue": "#460"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.read",
+        "capability": "sentence pl.analyze(event.read) -> en.realize"
+      }
+    },
+    {
+      "id": "A1-PL-EN-VISUALROLES-0001",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "visual_perception",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 3,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "Approved role contrast: nominative agent and accusative theme determine the roles; exchanging the nouns changes the MeaningGraph.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Kot widzi psa."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "A cat sees a dog."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "animal.cat",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            },
+            "theme": {
+              "concept": "animal.dog",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": true,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/aspect": "imperfective",
+            "#/features/polarity": "positive"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": true
+        },
+        "alternatives": {
+          "required": [
+            "The cat sees the dog."
+          ],
+          "allowUnexpected": true
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "ambiguous"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "animal"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "animal"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent expected MeaningGraph authored before engine run; project-owner delegation, exact ID, and review reasoning recorded in #460 comments #6272663626 and #6272596295. Codex reviewed 2026-10-19: accusative theme and nominative agent preserve the stated CORE roles; aspect and unspecified definiteness remain explicit as in the approved SVO oracle.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-19",
+        "issue": "#460"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "sentence pl.analyze(event.visual_perception) -> en.realize"
+      }
+    },
+    {
+      "id": "A1-PL-EN-VISUALROLES-0002",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "visual_perception",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 3,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "Approved role contrast: nominative agent and accusative theme determine the roles; exchanging the nouns changes the MeaningGraph.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Pies widzi kota."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "A dog sees a cat."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "animal.dog",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            },
+            "theme": {
+              "concept": "animal.cat",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              }
+            }
+          },
+          "roleFeaturesExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": true,
+          "assert": {
+            "#/roles/agent/features/number": "singular",
+            "#/roles/theme/features/number": "singular",
+            "#/features/tense": "present",
+            "#/features/aspect": "imperfective",
+            "#/features/polarity": "positive"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": true
+        },
+        "alternatives": {
+          "required": [
+            "The dog sees the cat."
+          ],
+          "allowUnexpected": true
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "ambiguous"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "animal"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "entity"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "animal"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "entity"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent expected MeaningGraph authored before engine run; project-owner delegation, exact ID, and review reasoning recorded in #460 comments #6272663626 and #6272596295. Codex reviewed 2026-10-19: accusative theme and nominative agent preserve the stated CORE roles; aspect and unspecified definiteness remain explicit as in the approved SVO oracle.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-19",
+        "issue": "#460"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "sentence pl.analyze(event.visual_perception) -> en.realize"
+      }
+    },
+    {
+      "id": "A1-PL-EN-ORDERSOV-0001",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 4,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "Controlled refusal: this bounded PL frame declares SVO and OVS, but does not declare SOV; this does not claim SOV is ungrammatical in Polish.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Dziewczynka psa widzi."
+      },
+      "expected": {
+        "status": "unsupported",
+        "text": null,
+        "meaning": null,
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": true
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent unsupported expectation authored before engine run; project-owner delegation and rationale recorded in #460 comments #6272663626 and #6272596295. Codex reviewed 2026-10-19: this unlisted order is outside the bounded grammar and must not infer roles; this does not claim SOV is ungrammatical in Polish.",
+        "author": "Codex (linguistic review delegated by project owner)",
+        "reviewedAt": "2026-10-19",
+        "issue": "#460"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "Return a controlled unsupported result for an invalid agent or missing lexeme; do not guess."
+      }
     }
   ]
 }
