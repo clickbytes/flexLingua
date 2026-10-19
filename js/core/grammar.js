@@ -8,7 +8,7 @@ import { createTextProfile, matchesTokens as matchTokenPhrase,
   tokenize as tokenizeText, validateTextProfile,
   textProfileForSignal } from './text.js';
 import {EngineError} from './errors.js';
-import {distinctReadings, ambiguousTranslation} from './translation-result.js';
+import {distinctReadings, ambiguousTranslation, meaningKey} from './translation-result.js';
 import {RESOURCE_LIMITS} from './resource-limits.js';
 import {
   record, hasOwn, safeName, unifyFeatures, featureSource, GRAMMATICAL_PERSON,
@@ -2172,7 +2172,8 @@ function createGrammarInterpreter(sourceDictionary, rules,
                     slots:surfaceSlots.slice().sort((left,right)=>left.start-right.start ||
                       left.end-right.end || (left.name<right.name?-1:left.name>right.name?1:0)),
                     markedness:'unknown'}]}:{}) };
-                const key = JSON.stringify(meaning);
+                // Slot order controls object insertion order, not semantic identity.
+                const key = meaningKey(meaning);
                 const former = readings.get(key);
                 if (!former) readings.set(key,candidate);
                 else readings.set(key,mergeSurfaceVariants(former,candidate));
