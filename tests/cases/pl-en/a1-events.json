@@ -149,6 +149,116 @@
         "coverageTargetId": "construction.event.read",
         "capability": "sentence pl.analyze(event.read) -> en.realize"
       }
+    },
+    {
+      "id": "A1-PL-EN-TGW-0826",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 4,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "Controlled refusal for a non-person visual agent.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Wyspa widzi królika."
+      },
+      "expected": {
+        "status": "unsupported",
+        "text": null,
+        "meaning": null,
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": true
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent expected meanings and surface forms were recorded in the approved W8 candidate ledger before CLI or matrix execution: https://github.com/clickbytes/flexLingua/issues/411#issuecomment-6261607407.",
+        "author": "Codex (linguistic curation and independent expected review delegated by project owner)",
+        "reviewedAt": "2026-10-19",
+        "issue": "#411"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "Return a controlled unsupported result for an invalid agent or missing lexeme; do not guess."
+      }
+    },
+    {
+      "id": "A1-PL-EN-TGW-0827",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 4,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "Controlled refusal for an absent lexeme and concept.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Dziewczynka widzi jednorożca."
+      },
+      "expected": {
+        "status": "unsupported",
+        "text": null,
+        "meaning": null,
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": true
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent expected meanings and surface forms were recorded in the approved W8 candidate ledger before CLI or matrix execution: https://github.com/clickbytes/flexLingua/issues/411#issuecomment-6261607407.",
+        "author": "Codex (linguistic curation and independent expected review delegated by project owner)",
+        "reviewedAt": "2026-10-19",
+        "issue": "#411"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "Return a controlled unsupported result for an invalid agent or missing lexeme; do not guess."
+      }
     }
   ]
 }

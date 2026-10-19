@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "reviewedAt": "2026-10-18",
+  "reviewedAt": "2026-10-19",
   "policy": "This manifest covers shared CORE packages only. Language plugin provenance is maintained in languages/<code>/provenance.json.",
   "packages": [
     {
@@ -129,6 +129,16 @@
           "source": "Project-authored English and Polish property senses, inflected forms, and typed color/material effects; independently authored expected readings were recorded in the approved candidate batch before runtime checks. No external corpus or dictionary data copied.",
           "license": "Project-authored; this repository declares no separate SPDX data license.",
           "scope": "Adds 11 color category nodes, 89 property concepts, 100 distinct English and Polish lemmas, 25 morphology-ready adjective pairs, 75 data-only lemma pairs, typed color/material effects, and 56 bidirectional matrix witnesses."
+        },
+        {
+          "issue": "#411",
+          "author": "Codex (linguistic curation and independent expected review delegated by project owner)",
+          "reviewer": "Codex agent (linguistic review delegated by project owner; no per-ID manual owner review is claimed)",
+          "reviewedAt": "2026-10-19",
+          "version": "1.0",
+          "source": "Project-authored bilingual CORE labels, lexical senses, bounded inflection cells and sentence expectations from delegated linguistic curation; no external corpus, dictionary, ontology, protected list or imported vocabulary was copied.",
+          "license": "Project-authored for internal flexLingua use; this repository declares no separate SPDX data license.",
+          "scope": "Adds exactly 70 typed entity concepts with existing category parents; 69 unique bilingual base lemmas."
         }
       ]
     },

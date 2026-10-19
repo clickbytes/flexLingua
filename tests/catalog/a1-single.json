@@ -3871,6 +3871,351 @@
         "en-pl",
         "pl-en"
       ]
+    },
+    {
+      "targetId": "concept.animal.rabbit",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "animal.rabbit",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.animal.horse",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "animal.horse",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.animal.cow",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "animal.cow",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.animal.sheep",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "animal.sheep",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.animal.goat",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "animal.goat",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.animal.pig",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "animal.pig",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.animal.chicken",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "animal.chicken",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.animal.deer",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "animal.deer",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.animal.lion",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "animal.lion",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.animal.tiger",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "animal.tiger",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.animal.dolphin",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "animal.dolphin",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.animal.shark",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "animal.shark",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.animal.bee",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "animal.bee",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.animal.butterfly",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "animal.butterfly",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.animal.spider",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "animal.spider",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.animal.seal",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "animal.seal",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "Planned: W8 has an approved PL-EN positive witness only; no EN-PL witness is included in this wave."
+    },
+    {
+      "targetId": "concept.animal.camel",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "animal.camel",
+      "tier": "planned",
+      "witnessKind": "positive",
+      "directions": [
+        "pl-en"
+      ],
+      "note": "Planned: W8 has an approved PL-EN positive witness only; no EN-PL witness is included in this wave."
+    },
+    {
+      "targetId": "concept.animal.ant",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "animal.ant",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.animal.crab",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "animal.crab",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.animal.octopus",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "animal.octopus",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.animal.whale",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "animal.whale",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.animal.donkey",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "animal.donkey",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
+    },
+    {
+      "targetId": "concept.animal.koala",
+      "revision": "current",
+      "historicalId": null,
+      "unitType": "concept",
+      "domain": "objects",
+      "kind": "entity",
+      "concept": "animal.koala",
+      "tier": "required",
+      "witnessKind": "positive",
+      "directions": [
+        "en-pl",
+        "pl-en"
+      ]
     }
   ]
 }

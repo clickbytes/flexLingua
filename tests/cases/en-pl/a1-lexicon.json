@@ -604,6 +604,134 @@
         "coverageTargetId": "construction.event.visual_perception",
         "capability": "en.analyze unknown-word controlled refusal"
       }
+    },
+    {
+      "id": "A1-EN-PL-TGW-0822",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "lexical_ambiguity",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 4,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "indefinite",
+        "quantity": "none"
+      },
+      "purpose": "Preserve both existing bank senses in the visual-perception theme.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "A girl sees a bank."
+      },
+      "expected": {
+        "status": "ambiguous",
+        "text": null,
+        "meaning": null,
+        "diagnostics": {
+          "required": [
+            {
+              "code": "AMBIGUOUS_MEANING"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            {
+              "meaning": {
+                "type": "event",
+                "concept": "event.visual_perception",
+                "roleSet": [
+                  "agent",
+                  "theme"
+                ],
+                "roles": {
+                  "agent": {
+                    "concept": "person.girl",
+                    "features": {
+                      "number": "singular",
+                      "definiteness": "indefinite"
+                    },
+                    "modifiers": []
+                  },
+                  "theme": {
+                    "concept": "place.financial_institution",
+                    "features": {
+                      "number": "singular",
+                      "definiteness": "indefinite"
+                    },
+                    "modifiers": []
+                  }
+                },
+                "features": {
+                  "tense": "present",
+                  "polarity": "positive",
+                  "aspect": "unknown"
+                },
+                "assert": {}
+              }
+            },
+            {
+              "meaning": {
+                "type": "event",
+                "concept": "event.visual_perception",
+                "roleSet": [
+                  "agent",
+                  "theme"
+                ],
+                "roles": {
+                  "agent": {
+                    "concept": "person.girl",
+                    "features": {
+                      "number": "singular",
+                      "definiteness": "indefinite"
+                    },
+                    "modifiers": []
+                  },
+                  "theme": {
+                    "concept": "place.riverbank",
+                    "features": {
+                      "number": "singular",
+                      "definiteness": "indefinite"
+                    },
+                    "modifiers": []
+                  }
+                },
+                "features": {
+                  "tense": "present",
+                  "polarity": "positive",
+                  "aspect": "unknown"
+                },
+                "assert": {}
+              }
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [],
+          "allowUnexpected": false
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent expected meanings and the distinct input surface were recorded before rerunning the matrix; the two bank readings remain unresolved. https://github.com/clickbytes/flexLingua/issues/411#issuecomment-6261791324.",
+        "author": "Codex (linguistic curation and independent expected review delegated by project owner)",
+        "reviewedAt": "2026-10-19",
+        "issue": "#411"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "Preserve both lexical readings for event.visual_perception without ranking either to one meaning."
+      }
     }
   ]
 }

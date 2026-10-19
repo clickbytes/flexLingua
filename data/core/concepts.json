@@ -6341,6 +6341,356 @@
       "appliesTo": [
         "entity"
       ]
+    },
+    "animal.rabbit": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "rabbit"
+    },
+    "animal.horse": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "horse"
+    },
+    "animal.cow": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "cow"
+    },
+    "animal.sheep": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "sheep"
+    },
+    "animal.goat": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "goat"
+    },
+    "animal.pig": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "pig"
+    },
+    "animal.chicken": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "chicken"
+    },
+    "animal.deer": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "deer"
+    },
+    "animal.lion": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "lion"
+    },
+    "animal.tiger": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "tiger"
+    },
+    "animal.dolphin": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "dolphin"
+    },
+    "animal.shark": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "shark"
+    },
+    "animal.bee": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "bee"
+    },
+    "animal.butterfly": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "butterfly"
+    },
+    "animal.spider": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "spider"
+    },
+    "animal.seal": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "seal"
+    },
+    "animal.camel": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "camel"
+    },
+    "animal.ant": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "ant"
+    },
+    "animal.crab": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "crab"
+    },
+    "animal.octopus": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "octopus"
+    },
+    "animal.whale": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "whale"
+    },
+    "animal.donkey": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "donkey"
+    },
+    "animal.koala": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "koala"
+    },
+    "animal.crane": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "crane"
+    },
+    "machine.crane": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "crane"
+    },
+    "animal.rhinoceros": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "rhinoceros"
+    },
+    "animal.hippopotamus": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "hippopotamus"
+    },
+    "animal.gorilla": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "gorilla"
+    },
+    "animal.chimpanzee": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "chimpanzee"
+    },
+    "animal.panda": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "panda"
+    },
+    "animal.bat": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "bat"
+    },
+    "animal.rat": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "rat"
+    },
+    "animal.hamster": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "hamster"
+    },
+    "animal.guinea_pig": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "guinea pig"
+    },
+    "animal.falcon": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "falcon"
+    },
+    "animal.walrus": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "walrus"
+    },
+    "animal.lemur": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "lemur"
+    },
+    "animal.hyena": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "hyena"
+    },
+    "animal.flamingo": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "flamingo"
+    },
+    "animal.raccoon": {
+      "type": "entity",
+      "parent": "animal",
+      "label": "raccoon"
+    },
+    "food.mushroom": {
+      "type": "entity",
+      "parent": "food",
+      "label": "mushroom"
+    },
+    "food.cabbage": {
+      "type": "entity",
+      "parent": "food",
+      "label": "cabbage"
+    },
+    "food.lettuce": {
+      "type": "entity",
+      "parent": "food",
+      "label": "lettuce"
+    },
+    "food.spinach": {
+      "type": "entity",
+      "parent": "food",
+      "label": "spinach"
+    },
+    "food.celery": {
+      "type": "entity",
+      "parent": "food",
+      "label": "celery"
+    },
+    "food.beetroot": {
+      "type": "entity",
+      "parent": "food",
+      "label": "beetroot"
+    },
+    "food.radish": {
+      "type": "entity",
+      "parent": "food",
+      "label": "radish"
+    },
+    "food.raspberry": {
+      "type": "entity",
+      "parent": "food",
+      "label": "raspberry"
+    },
+    "food.cranberry": {
+      "type": "entity",
+      "parent": "food",
+      "label": "cranberry"
+    },
+    "food.walnut": {
+      "type": "entity",
+      "parent": "food",
+      "label": "walnut"
+    },
+    "object.umbrella": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "umbrella"
+    },
+    "object.helmet": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "helmet"
+    },
+    "object.flashlight": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "flashlight"
+    },
+    "object.waste_bin": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "waste bin"
+    },
+    "object.mailbox": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "mailbox"
+    },
+    "object.fire_extinguisher": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "fire extinguisher"
+    },
+    "object.kettle": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "kettle"
+    },
+    "object.toaster": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "toaster"
+    },
+    "object.dishwasher": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "dishwasher"
+    },
+    "object.alarm_clock": {
+      "type": "entity",
+      "parent": "physical_object",
+      "label": "alarm clock"
+    },
+    "place.museum": {
+      "type": "entity",
+      "parent": "place",
+      "label": "museum"
+    },
+    "place.cinema": {
+      "type": "entity",
+      "parent": "place",
+      "label": "cinema"
+    },
+    "place.theater": {
+      "type": "entity",
+      "parent": "place",
+      "label": "theater"
+    },
+    "place.zoo": {
+      "type": "entity",
+      "parent": "place",
+      "label": "zoo"
+    },
+    "place.playground": {
+      "type": "entity",
+      "parent": "place",
+      "label": "playground"
+    },
+    "place.swimming_pool": {
+      "type": "entity",
+      "parent": "place",
+      "label": "swimming pool"
+    },
+    "place.farm": {
+      "type": "entity",
+      "parent": "place",
+      "label": "farm"
+    },
+    "place.post_office": {
+      "type": "entity",
+      "parent": "place",
+      "label": "post office"
+    },
+    "place.fire_station": {
+      "type": "entity",
+      "parent": "place",
+      "label": "fire station"
+    },
+    "place.police_station": {
+      "type": "entity",
+      "parent": "place",
+      "label": "police station"
     }
   },
   "relationTypes": {

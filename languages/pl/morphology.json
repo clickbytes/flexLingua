@@ -3135,6 +3135,33 @@
           ]
         }
       ]
+    },
+    "pl.noun.w8_singular_nom_acc": {
+      "pos": "NOUN",
+      "slots": [
+        {
+          "features": {
+            "number": "singular",
+            "case": "nom"
+          },
+          "steps": [],
+          "path": [
+            "singular",
+            "nom"
+          ]
+        },
+        {
+          "features": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "steps": [],
+          "path": [
+            "singular",
+            "acc"
+          ]
+        }
+      ]
     }
   },
   "bindings": [
@@ -18246,6 +18273,512 @@
         "virile": "pust"
       },
       "overrides": []
+    },
+    {
+      "lexemeId": "pl.krolik.1",
+      "paradigmId": "pl.noun.w8_singular_nom_acc",
+      "stems": {
+        "base": "królik",
+        "lemma": "królik"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "królika"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.kon.1",
+      "paradigmId": "pl.noun.w8_singular_nom_acc",
+      "stems": {
+        "base": "koń",
+        "lemma": "koń"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "konia"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.krowa.1",
+      "paradigmId": "pl.noun.w8_singular_nom_acc",
+      "stems": {
+        "base": "krowa",
+        "lemma": "krowa"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "krowę"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.owca.1",
+      "paradigmId": "pl.noun.w8_singular_nom_acc",
+      "stems": {
+        "base": "owca",
+        "lemma": "owca"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "owcę"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.koza.1",
+      "paradigmId": "pl.noun.w8_singular_nom_acc",
+      "stems": {
+        "base": "koza",
+        "lemma": "koza"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kozę"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.swinia.1",
+      "paradigmId": "pl.noun.w8_singular_nom_acc",
+      "stems": {
+        "base": "świnia",
+        "lemma": "świnia"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "świnię"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.kura.1",
+      "paradigmId": "pl.noun.w8_singular_nom_acc",
+      "stems": {
+        "base": "kura",
+        "lemma": "kura"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kurę"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.jelen.1",
+      "paradigmId": "pl.noun.w8_singular_nom_acc",
+      "stems": {
+        "base": "jeleń",
+        "lemma": "jeleń"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "jelenia"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.lew.1",
+      "paradigmId": "pl.noun.w8_singular_nom_acc",
+      "stems": {
+        "base": "lew",
+        "lemma": "lew"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "lwa"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.tygrys.1",
+      "paradigmId": "pl.noun.w8_singular_nom_acc",
+      "stems": {
+        "base": "tygrys",
+        "lemma": "tygrys"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "tygrysa"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.delfin.1",
+      "paradigmId": "pl.noun.w8_singular_nom_acc",
+      "stems": {
+        "base": "delfin",
+        "lemma": "delfin"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "delfina"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.rekin.1",
+      "paradigmId": "pl.noun.w8_singular_nom_acc",
+      "stems": {
+        "base": "rekin",
+        "lemma": "rekin"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "rekina"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.pszczola.1",
+      "paradigmId": "pl.noun.w8_singular_nom_acc",
+      "stems": {
+        "base": "pszczoła",
+        "lemma": "pszczoła"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "pszczołę"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.motyl.1",
+      "paradigmId": "pl.noun.w8_singular_nom_acc",
+      "stems": {
+        "base": "motyl",
+        "lemma": "motyl"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "motyla"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.pajak.1",
+      "paradigmId": "pl.noun.w8_singular_nom_acc",
+      "stems": {
+        "base": "pająk",
+        "lemma": "pająk"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "pająka"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.foka.1",
+      "paradigmId": "pl.noun.w8_singular_nom_acc",
+      "stems": {
+        "base": "foka",
+        "lemma": "foka"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "fokę"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.wielblad.1",
+      "paradigmId": "pl.noun.w8_singular_nom_acc",
+      "stems": {
+        "base": "wielbłąd",
+        "lemma": "wielbłąd"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "wielbłąda"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.mrowka.1",
+      "paradigmId": "pl.noun.w8_singular_nom_acc",
+      "stems": {
+        "base": "mrówka",
+        "lemma": "mrówka"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "mrówkę"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.krab.1",
+      "paradigmId": "pl.noun.w8_singular_nom_acc",
+      "stems": {
+        "base": "krab",
+        "lemma": "krab"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "kraba"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.osmiornica.1",
+      "paradigmId": "pl.noun.w8_singular_nom_acc",
+      "stems": {
+        "base": "ośmiornica",
+        "lemma": "ośmiornica"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "ośmiornicę"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.wieloryb.1",
+      "paradigmId": "pl.noun.w8_singular_nom_acc",
+      "stems": {
+        "base": "wieloryb",
+        "lemma": "wieloryb"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "wieloryba"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.osiol.1",
+      "paradigmId": "pl.noun.w8_singular_nom_acc",
+      "stems": {
+        "base": "osioł",
+        "lemma": "osioł"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "osła"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexemeId": "pl.koala.1",
+      "paradigmId": "pl.noun.w8_singular_nom_acc",
+      "stems": {
+        "base": "koala",
+        "lemma": "koala"
+      },
+      "overrides": [
+        {
+          "when": {
+            "number": "singular",
+            "case": "acc"
+          },
+          "mode": "replace",
+          "forms": [
+            {
+              "text": "koalę"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

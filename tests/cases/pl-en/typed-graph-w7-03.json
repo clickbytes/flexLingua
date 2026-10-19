@@ -1082,6 +1082,441 @@
         "coverageTargetId": "construction.event.visual_perception",
         "capability": "pl-en.analyze unsupported construction -> controlled refusal"
       }
+    },
+    {
+      "id": "A1-PL-EN-TGW-0821",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "W8 positive witness: animal.whale is the exact theme of event.visual_perception with girl agent; expected roles, features, surface form and graph ancestry were recorded before runtime checks.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Dziewczynka widzi wieloryba."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "A girl sees a whale."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              },
+              "modifiers": []
+            },
+            "theme": {
+              "concept": "animal.whale",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              },
+              "modifiers": []
+            }
+          },
+          "roleFeaturesExact": true,
+          "modifiersExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/concept": "person.girl",
+            "#/roles/agent/features/number": "singular",
+            "#/roles/agent/features/definiteness": "unknown",
+            "#/roles/theme/concept": "animal.whale",
+            "#/roles/theme/features/number": "singular",
+            "#/roles/theme/features/definiteness": "unknown",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "imperfective"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "The girl sees the whale."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "ambiguous"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "animal"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": true
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent expected meanings and surface forms were recorded in the approved W8 candidate ledger before CLI or matrix execution: https://github.com/clickbytes/flexLingua/issues/411#issuecomment-6261607407.",
+        "author": "Codex (linguistic curation and independent expected review delegated by project owner)",
+        "reviewedAt": "2026-10-19",
+        "issue": "#411"
+      },
+      "requirements": {
+        "coverageTargetId": "concept.animal.whale",
+        "capability": "pl.analyze(event.visual_perception, theme=animal.whale) -> en.realize"
+      }
+    },
+    {
+      "id": "A1-PL-EN-TGW-0822",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "W8 positive witness: animal.donkey is the exact theme of event.visual_perception with girl agent; expected roles, features, surface form and graph ancestry were recorded before runtime checks.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Dziewczynka widzi osła."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "A girl sees a donkey."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              },
+              "modifiers": []
+            },
+            "theme": {
+              "concept": "animal.donkey",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              },
+              "modifiers": []
+            }
+          },
+          "roleFeaturesExact": true,
+          "modifiersExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/concept": "person.girl",
+            "#/roles/agent/features/number": "singular",
+            "#/roles/agent/features/definiteness": "unknown",
+            "#/roles/theme/concept": "animal.donkey",
+            "#/roles/theme/features/number": "singular",
+            "#/roles/theme/features/definiteness": "unknown",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "imperfective"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "The girl sees the donkey."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "ambiguous"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "animal"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": true
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent expected meanings and surface forms were recorded in the approved W8 candidate ledger before CLI or matrix execution: https://github.com/clickbytes/flexLingua/issues/411#issuecomment-6261607407.",
+        "author": "Codex (linguistic curation and independent expected review delegated by project owner)",
+        "reviewedAt": "2026-10-19",
+        "issue": "#411"
+      },
+      "requirements": {
+        "coverageTargetId": "concept.animal.donkey",
+        "capability": "pl.analyze(event.visual_perception, theme=animal.donkey) -> en.realize"
+      }
+    },
+    {
+      "id": "A1-PL-EN-TGW-0823",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "pl-en",
+      "family": "typed_graph",
+      "construction": "event.visual_perception",
+      "tier": "required",
+      "priority": 1,
+      "cliSmoke": true,
+      "tags": {
+        "tense": "present",
+        "aspect": "imperfective",
+        "polarity": "positive",
+        "person": "third",
+        "number": "singular",
+        "reference": "unknown",
+        "quantity": "none"
+      },
+      "purpose": "W8 positive witness: animal.koala is the exact theme of event.visual_perception with girl agent; expected roles, features, surface form and graph ancestry were recorded before runtime checks.",
+      "input": {
+        "from": "pl",
+        "to": "en",
+        "text": "Dziewczynka widzi koalę."
+      },
+      "expected": {
+        "status": "ok",
+        "text": {
+          "accepted": [
+            "A girl sees a koala."
+          ]
+        },
+        "meaning": {
+          "type": "event",
+          "concept": "event.visual_perception",
+          "roleSet": [
+            "agent",
+            "theme"
+          ],
+          "roles": {
+            "agent": {
+              "concept": "person.girl",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              },
+              "modifiers": []
+            },
+            "theme": {
+              "concept": "animal.koala",
+              "features": {
+                "number": "singular",
+                "definiteness": "unknown"
+              },
+              "modifiers": []
+            }
+          },
+          "roleFeaturesExact": true,
+          "modifiersExact": true,
+          "features": {
+            "tense": "present",
+            "polarity": "positive",
+            "aspect": "imperfective"
+          },
+          "featuresAllowExtra": false,
+          "assert": {
+            "#/roles/agent/concept": "person.girl",
+            "#/roles/agent/features/number": "singular",
+            "#/roles/agent/features/definiteness": "unknown",
+            "#/roles/theme/concept": "animal.koala",
+            "#/roles/theme/features/number": "singular",
+            "#/roles/theme/features/definiteness": "unknown",
+            "#/features/tense": "present",
+            "#/features/polarity": "positive",
+            "#/features/aspect": "imperfective"
+          }
+        },
+        "diagnostics": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [
+            "The girl sees the koala."
+          ],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [
+            {
+              "cause": "target-grammar-does-not-encode-aspect",
+              "feature": "aspect",
+              "path": "#/features/aspect",
+              "status": "unavoidable"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/agent/features/definiteness",
+              "status": "ambiguous"
+            },
+            {
+              "cause": "source-definiteness-unspecified-target-default",
+              "feature": "definiteness",
+              "path": "#/roles/theme/features/definiteness",
+              "status": "ambiguous"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "graph": {
+          "requiredEdges": [
+            {
+              "fromPath": "#/concept",
+              "relation": "is_a",
+              "toConcept": "event.perception"
+            },
+            {
+              "fromPath": "#/roles/agent",
+              "relation": "is_a",
+              "toConcept": "person"
+            },
+            {
+              "fromPath": "#/roles/theme",
+              "relation": "is_a",
+              "toConcept": "animal"
+            }
+          ],
+          "forbiddenEdges": [],
+          "allowUnexpected": true
+        }
+      },
+      "review": {
+        "status": "approved",
+        "source": "Independent expected meanings and surface forms were recorded in the approved W8 candidate ledger before CLI or matrix execution: https://github.com/clickbytes/flexLingua/issues/411#issuecomment-6261607407.",
+        "author": "Codex (linguistic curation and independent expected review delegated by project owner)",
+        "reviewedAt": "2026-10-19",
+        "issue": "#411"
+      },
+      "requirements": {
+        "coverageTargetId": "concept.animal.koala",
+        "capability": "pl.analyze(event.visual_perception, theme=animal.koala) -> en.realize"
+      }
     }
   ]
 }
