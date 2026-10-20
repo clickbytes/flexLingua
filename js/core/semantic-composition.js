@@ -1,5 +1,6 @@
 import {EngineError} from './errors.js';
 import {record} from './features.js';
+import {MAX_ENTITY_MODIFIERS,MAX_MODIFIER_DEPTH} from './meaning-graph.js';
 import {RESOURCE_LIMITS} from './resource-limits.js';
 import {TYPED_GRAPH_MATCH_LIMITS} from './typed-graph-match.js';
 
@@ -102,6 +103,27 @@ export function composeMeaningGraph({meaning,core,limits} = {}) {
   const meaningRoots=new Set();
   const unresolved=[];
   const active=new WeakSet();
+  const countedInputNodes=new WeakSet();
+  const inputEdges=new WeakMap();
+  let inputNodeCount=0,inputEdgeCount=0;
+
+  function reserveInputNode(value) {
+    if (!value || typeof value!=='object' || countedInputNodes.has(value)) return;
+    countedInputNodes.add(value);
+    if (++inputNodeCount>RESOURCE_LIMITS.interlinguaNodes) {
+      resourceLimit('MeaningGraph projection input node limit exceeded.');
+    }
+  }
+
+  function reserveInputEdge(parent,key) {
+    let keys=inputEdges.get(parent);
+    if (!keys) inputEdges.set(parent,keys=new Set());
+    if (keys.has(key)) return;
+    keys.add(key);
+    if (++inputEdgeCount>RESOURCE_LIMITS.interlinguaNodes) {
+      resourceLimit('MeaningGraph projection input edge limit exceeded.');
+    }
+  }
 
   function addNode(id,conceptId,sourcePath) {
     const concept=ontology.get(conceptId);
@@ -189,39 +211,82 @@ export function composeMeaningGraph({meaning,core,limits} = {}) {
       constraint:'required'},path);
   }
 
-  function applyModifier(node,path,participantRootId,participantConceptId,topLevel) {
+  function applyModifier(node,path,participantRootId,participantConceptId,topLevel,
+      modifierDepth,inputDepth,state) {
+    if (node && typeof node==='object' && active.has(node)) {
+      fail('TYPED_GRAPH_INVALID','MeaningGraph contains a reference cycle.');
+    }
     if (!record(node) || typeof node.concept!=='string') {
       fail('TYPED_GRAPH_INVALID',`Invalid modifier in semantic graph at ${path}.`);
     }
-    const property=resolveConcept(node.concept);
-    if (!['property','degree'].includes(property.type)) {
-      fail('TYPED_GRAPH_INVALID',`Modifier ${node.concept} is not a property or degree.`);
+    if (modifierDepth>MAX_MODIFIER_DEPTH || inputDepth>RESOURCE_LIMITS.interlinguaDepth) {
+      resourceLimit('MeaningGraph modifier depth limit exceeded.');
     }
-    if (!topLevel) {
-      unresolvedAt(path,node.concept,'NESTED_MODIFIER_SCOPE_UNSUPPORTED');
-    } else {
-      applyEffect(property,node.concept,participantRootId,participantConceptId,path);
+    reserveInputNode(node);
+    if (!state.nodes.has(node)) {
+      state.nodes.add(node);
+      if (++state.count>MAX_ENTITY_MODIFIERS*MAX_ENTITY_MODIFIERS) {
+        resourceLimit('MeaningGraph modifier node limit exceeded for a referent.');
+      }
     }
-    if (node.modifiers!==undefined) {
-      if (!Array.isArray(node.modifiers)) fail('TYPED_GRAPH_INVALID',`Invalid nested modifiers at ${path}.`);
-      node.modifiers.forEach((child,index)=>applyModifier(child,pointer(pointer(path,'modifiers'),index),
-        participantRootId,participantConceptId,false));
+    active.add(node);
+    try {
+      const property=resolveConcept(node.concept);
+      if (!['property','degree'].includes(property.type)) {
+        fail('TYPED_GRAPH_INVALID',`Modifier ${node.concept} is not a property or degree.`);
+      }
+      if (!topLevel) {
+        unresolvedAt(path,node.concept,'NESTED_MODIFIER_SCOPE_UNSUPPORTED');
+      } else {
+        applyEffect(property,node.concept,participantRootId,participantConceptId,path);
+      }
+      if (node.modifiers!==undefined) {
+        if (!Array.isArray(node.modifiers)) {
+          fail('TYPED_GRAPH_INVALID',`Invalid nested modifiers at ${path}.`);
+        }
+        if (node.modifiers.length>MAX_ENTITY_MODIFIERS) {
+          resourceLimit('MeaningGraph modifier breadth limit exceeded.');
+        }
+        reserveInputNode(node.modifiers);
+        reserveInputEdge(node,'modifiers');
+        if (active.has(node.modifiers)) {
+          fail('TYPED_GRAPH_INVALID','MeaningGraph contains a reference cycle.');
+        }
+        active.add(node.modifiers);
+        try {
+          node.modifiers.forEach((child,index)=>{
+            reserveInputEdge(node.modifiers,index);
+            applyModifier(child,pointer(pointer(path,'modifiers'),index),
+              participantRootId,participantConceptId,false,modifierDepth+1,inputDepth+2,state);
+          });
+        } finally {
+          active.delete(node.modifiers);
+        }
+      }
+    } finally {
+      active.delete(node);
     }
   }
 
-  function visit(value,path,depth) {
+  function visit(value,path,depth,parent=null,key=null) {
     if (depth>RESOURCE_LIMITS.interlinguaDepth) {
       resourceLimit('MeaningGraph projection nesting limit exceeded.');
     }
+    if (parent) reserveInputEdge(parent,key);
     if (Array.isArray(value)) {
       if (active.has(value)) fail('TYPED_GRAPH_INVALID','MeaningGraph contains a reference cycle.');
+      reserveInputNode(value);
       active.add(value);
-      value.forEach((item,index)=>visit(item,pointer(path,index),depth+1));
-      active.delete(value);
+      try {
+        value.forEach((item,index)=>visit(item,pointer(path,index),depth+1,value,index));
+      } finally {
+        active.delete(value);
+      }
       return;
     }
     if (!record(value)) return;
     if (active.has(value)) fail('TYPED_GRAPH_INVALID','MeaningGraph contains a reference cycle.');
+    reserveInputNode(value);
     active.add(value);
 
     const hasConcept=Object.hasOwn(value,'concept');
@@ -244,8 +309,25 @@ export function composeMeaningGraph({meaning,core,limits} = {}) {
       meaningRoots.add(path);
       addConceptGraph(value.concept,path,path);
       if (Array.isArray(value.modifiers)) {
-        value.modifiers.forEach((item,index)=>applyModifier(item,pointer(pointer(path,'modifiers'),index),
-          path,value.concept,true));
+        if (value.modifiers.length>MAX_ENTITY_MODIFIERS) {
+          resourceLimit('MeaningGraph modifier breadth limit exceeded.');
+        }
+        reserveInputNode(value.modifiers);
+        reserveInputEdge(value,'modifiers');
+        if (active.has(value.modifiers)) {
+          fail('TYPED_GRAPH_INVALID','MeaningGraph contains a reference cycle.');
+        }
+        active.add(value.modifiers);
+        const modifierState={nodes:new WeakSet(),count:0};
+        try {
+          value.modifiers.forEach((item,index)=>{
+            reserveInputEdge(value.modifiers,index);
+            applyModifier(item,pointer(pointer(path,'modifiers'),index),
+              path,value.concept,true,1,depth+2,modifierState);
+          });
+        } finally {
+          active.delete(value.modifiers);
+        }
       }
     } else if (isEvent) {
       const rootId=pointer(path,'concept');
@@ -273,7 +355,7 @@ export function composeMeaningGraph({meaning,core,limits} = {}) {
 
     for (const [key,item] of Object.entries(value)) {
       if (key==='features' || key==='concept' || (isParticipant && key==='modifiers')) continue;
-      visit(item,pointer(path,key),depth+1);
+      visit(item,pointer(path,key),depth+1,value,key);
     }
     active.delete(value);
   }
