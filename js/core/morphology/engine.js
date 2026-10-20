@@ -4,7 +4,8 @@ import { createMorphFeatureRegistry, flattenMorphFeatures } from './features.js'
 import { executeOperations, validateOperations } from './operations.js';
 
 const ID=/^[A-Za-z][A-Za-z0-9_]*(?:\.[A-Za-z0-9_]+)*$/u;
-const MAX_SLOTS=256,MAX_LEXEMES=30000,MAX_ANALYSES=64,MAX_COMPILED_FORMS=300000;
+const MAX_SLOTS=256,MAX_LEXEMES=30000,MAX_ANALYSES=64,MAX_COMPILED_FORMS=300000,
+  MAX_INHERITANCE_DEPTH=64;
 const clone=structuredClone;
 const RUNTIME_PARADIGMS=new WeakMap();
 /** Published Map shapes are read-only facades: lookups and iteration only. */
@@ -54,33 +55,60 @@ export function createMorphology(spec, dictionary, featureSpec, options={}) {
     throw new Error('Shared morphology lexicon does not match its dictionary.');
   }
   if (core && !sharedLexicon) lexical.validateCore(core);
-  const resolved=new Map(),states=new Map();
+  const resolved=new Map(),inheritanceDepths=new Map();
+  const inheritanceLimit=id=>{
+    const error=new Error(`Morphology paradigm inheritance exceeds ${MAX_INHERITANCE_DEPTH} levels at ${id}.`);
+    error.code='PLUGIN_RESOURCE_LIMIT';
+    error.status='resource_limit';
+    throw error;
+  };
   const resolve=id=>{
     if(resolved.has(id))return resolved.get(id);
-    if(!ID.test(id)||!hasOwn(spec.paradigms,id))throw new Error(`Unknown morphology paradigm: ${id}`);
-    if(states.get(id)===1)throw new Error(`Cyclic morphology paradigm inheritance: ${id}`);
-    states.set(id,1);
-    const source=spec.paradigms[id];
-    if (!record(source)|| !['NOUN','VERB','ADJ'].includes(source.pos) ||
-        !Array.isArray(source.slots)||source.slots.length>MAX_SLOTS)throw new Error(`Invalid paradigm ${id}`);
-    const parent=source.extends?resolve(source.extends):null;
-    if(parent && parent.pos!==source.pos)throw new Error('Paradigm POS inheritance conflict.');
-    const slots=new Map(parent?.slots||[]);
-    const localCellKeys=new Set();
-    for(const slot of source.slots){
-      if (!record(slot)||!record(slot.features)||!Array.isArray(slot.steps)||
-          (slot.path!==undefined && (!Array.isArray(slot.path)||slot.path.some(v=>!safeName(v)))) ||
-          !Object.keys(slot.features).length)throw new Error(`Invalid paradigm slot in ${id}.`);
-      registry.supports(slot.features);
-      validateOperations(slot.steps);
-      const cellKey=key(slot.features);
-      if(localCellKeys.has(cellKey))throw new Error(`Duplicate paradigm cell ${cellKey} in ${id}.`);
-      localCellKeys.add(cellKey);
-      slots.set(cellKey,clone(slot));
+    const path=[],seen=new Set();
+    let current=id,parent=null;
+    while(!resolved.has(current)) {
+      if(!ID.test(current)||!hasOwn(spec.paradigms,current))
+        throw new Error(`Unknown morphology paradigm: ${current}`);
+      if(seen.has(current))throw new Error(`Cyclic morphology paradigm inheritance: ${current}`);
+      seen.add(current);
+      const source=spec.paradigms[current];
+      if (!record(source)|| !['NOUN','VERB','ADJ'].includes(source.pos) ||
+          !Array.isArray(source.slots)||source.slots.length>MAX_SLOTS)
+        throw new Error(`Invalid paradigm ${current}`);
+      path.push({id:current,source});
+      if(!source.extends)break;
+      if(path.length>=MAX_INHERITANCE_DEPTH && !resolved.has(source.extends))
+        inheritanceLimit(source.extends);
+      if(resolved.has(source.extends) &&
+          path.length+inheritanceDepths.get(source.extends)>MAX_INHERITANCE_DEPTH)
+        inheritanceLimit(current);
+      current=source.extends;
     }
-    if(!slots.size||slots.size>MAX_SLOTS)throw new Error('Invalid inherited paradigm slot count.');
-    const paradigm=Object.freeze({id,pos:source.pos,slots:readOnlyMap(slots)});
-    resolved.set(id,paradigm);states.set(id,2);return paradigm;
+    if(resolved.has(current))parent=resolved.get(current);
+    let depth=resolved.has(current)?inheritanceDepths.get(current):0;
+    for(let index=path.length-1;index>=0;index--) {
+      const {id:paradigmId,source}=path[index];
+      if(++depth>MAX_INHERITANCE_DEPTH)inheritanceLimit(paradigmId);
+      if(parent && parent.pos!==source.pos)throw new Error('Paradigm POS inheritance conflict.');
+      const slots=new Map(parent?.slots||[]);
+      const localCellKeys=new Set();
+      for(const slot of source.slots){
+        if (!record(slot)||!record(slot.features)||!Array.isArray(slot.steps)||
+            (slot.path!==undefined && (!Array.isArray(slot.path)||slot.path.some(v=>!safeName(v)))) ||
+            !Object.keys(slot.features).length)throw new Error(`Invalid paradigm slot in ${paradigmId}.`);
+        registry.supports(slot.features);
+        validateOperations(slot.steps);
+        const cellKey=key(slot.features);
+        if(localCellKeys.has(cellKey))throw new Error(`Duplicate paradigm cell ${cellKey} in ${paradigmId}.`);
+        localCellKeys.add(cellKey);
+        slots.set(cellKey,clone(slot));
+      }
+      if(!slots.size||slots.size>MAX_SLOTS)throw new Error('Invalid inherited paradigm slot count.');
+      parent=Object.freeze({id:paradigmId,pos:source.pos,slots:readOnlyMap(slots)});
+      resolved.set(paradigmId,parent);
+      inheritanceDepths.set(paradigmId,depth);
+    }
+    return resolved.get(id);
   };
   for(const id of Object.keys(spec.paradigms))resolve(id);
   const bindings=new Map(),inverse=new Map(),runtimeViews=new Map();

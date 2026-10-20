@@ -4,7 +4,7 @@
 **Data:** 2026-10-17.  
 **Baseline:** `main@b080d59357c5f26a5b0e1335aef046f52bcc84aa`.  
 **Zakres:** benchmark ograniczonych paradygmatów, aktualne limity i kryteria powrotu do wyboru backendu.  
-**Poza zakresem:** zmiana runtime, podniesienie limitów, pełny FST, SLA dla dowolnego sprzętu.
+**Poza zakresem:** pełny FST, SLA dla dowolnego sprzętu.
 
 ## Decyzja
 
@@ -24,6 +24,7 @@ Limity są stałymi wewnątrz silnika morfologicznego, nie w `js/core/resource-l
 | Powiązane leksemy | 30 000 | większy pakiet jest odrzucany |
 | Formy wygenerowane łącznie | 300 000 | tworzenie odmawia przy pierwszej formie ponad limit |
 | Odczytania jednej formy | 64 | inverse analysis odmawia przy 65. odczytaniu |
+| Poziomy dziedziczenia paradygmatów | 64 | głębszy łańcuch zwraca `PLUGIN_RESOURCE_LIMIT` (`resource_limit`) przez kontrakt LanguagePlugin |
 | Kroki operacji w komórce | 16 | operacja odrzuca dłuższą listę |
 | Długość tekstu operacji/formy | 120 znaków | niebezpieczny lub nadmierny wynik jest odrzucany |
 
