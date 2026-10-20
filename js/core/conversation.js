@@ -11,6 +11,18 @@ import {createPersonalityProfile} from './personality.js';
 import {SessionMemory} from './memory.js';
 import {parseMemoryDocument,serializeMemory} from './memory-store.js';
 
+const trustedSessionContexts = new WeakSet();
+export const isTrustedSessionContext = context =>
+  context !== null && typeof context === 'object' && trustedSessionContexts.has(context);
+
+function freezeContext(value) {
+  if(value && typeof value==='object') {
+    for(const child of Object.values(value))freezeContext(child);
+    Object.freeze(value);
+  }
+  return value;
+}
+
 function isDeictic(ref) {
   return record(ref) && record(ref.referent) && ref.referent.kind === 'deictic';
 }
@@ -156,7 +168,7 @@ export class ConversationContext {
 
   /** Only explicitly remembered facts with a matching current source turn may bind translation. */
   translationContext(context = {}) {
-    this.#engine.validateContext(context);
+    const external=this.#engine.validateContext(context);
     const facts = [];
     for (const fact of this.#memory.snapshot().facts.filter(item => item.status === 'active')) {
       const turn = this.#turns.find(item => item.id === fact.source.turnId);
@@ -174,8 +186,12 @@ export class ConversationContext {
           source:{kind:'session',id:fact.id,...fact.source,recordedAt:fact.recordedAt}});
       }
     }
-    if (!facts.length && context.facts === undefined) return context;
-    return this.#engine.validateContext({...context, facts:[...(context.facts ?? []), ...facts]});
+    if (!facts.length && external.facts === undefined) return external;
+    const combined={...external, facts:[...(external.facts ?? []), ...facts]};
+    trustedSessionContexts.add(combined);
+    const validated=freezeContext(this.#engine.validateContext(combined));
+    trustedSessionContexts.add(validated);
+    return validated;
   }
 
   /** Explicitly approve a source-turn assertion for bounded session memory. */

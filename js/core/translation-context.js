@@ -12,7 +12,7 @@ const fail = (code, message, contextReport) => {
 };
 
 /** Validate caller-supplied evidence without inventing source facts or identities. */
-export function validateReferentContext(context, ontology) {
+export function validateReferentContext(context, ontology, {allowSession=false}={}) {
   if (!record(context)) fail('INVALID_INPUT','Invalid analysis context.');
   const bindings = context.bindings === undefined ? [] : context.bindings;
   const facts = context.facts === undefined ? [] : context.facts;
@@ -30,7 +30,8 @@ export function validateReferentContext(context, ontology) {
         ids.has(fact.id) || !id(fact.referentId) || !['number','concept'].includes(fact.feature) ||
         (fact.feature === 'number' ? !['singular','plural'].includes(fact.value)
           : ontology.get(fact.value)?.type !== 'entity') || !record(fact.source) ||
-        !['request','session'].includes(fact.source.kind) || !id(fact.source.id) ||
+        !['request','session'].includes(fact.source.kind) ||
+        (fact.source.kind==='session' && !allowSession) || !id(fact.source.id) ||
         Object.keys(fact.source).some(key => !['kind','id','turnId','recordedAt','language','text'].includes(key))) {
       fail('INVALID_INPUT','Invalid context fact or provenance.');
     }
