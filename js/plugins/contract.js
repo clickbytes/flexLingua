@@ -300,7 +300,7 @@ function validateRealizations(value) {
   if(!Array.isArray(value)||value.length>MAX_REALIZATIONS)
     invalidResult('Realizations must be a bounded array.');
   return Array.from(value,item=>{
-    if(!hasExactKeys(item,['text','kind','assumptions','informationLoss','segments'])||
+    if(!hasExactKeys(item,['text','kind','assumptions','informationLoss'],['segments'])||
         typeof item.text!=='string'||!item.text.trim()||item.text.length>4096||
         !['equivalent_expression','additional_assumption'].includes(item.kind)||
         !Array.isArray(item.assumptions)||item.assumptions.length>16)
@@ -314,10 +314,11 @@ function validateRealizations(value) {
       return {path:assumption.path,feature:assumption.feature,reason:assumption.reason};
     });
     const informationLoss=validateInformationLoss(item.informationLoss);
-    const segments=validateRealizationSegments(item.segments,item.text);
+    const segments=owns(item,'segments')?validateRealizationSegments(item.segments,item.text):undefined;
     if(item.kind==='additional_assumption'&&!assumptions.length&&!informationLoss.some(loss=>loss.status==='ambiguous'))
       invalidResult('An additional-assumption realization must explain its assumption.');
-    return {text:item.text,kind:item.kind,assumptions,informationLoss,segments};
+    return {text:item.text,kind:item.kind,assumptions,informationLoss,
+      ...(segments===undefined?{}:{segments})};
   });
 }
 
