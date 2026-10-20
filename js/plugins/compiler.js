@@ -349,7 +349,7 @@ function compileTransfers(graph, modules, core, senseIds, capabilities, featureD
   });
 }
 
-function compileLinearizationPlans(graph, modules, transferPlans) {
+function compileLinearizationPlans(graph, modules, transferPlans, core) {
   const declarations = [];
   const seenSyntaxModules = new Set();
   const addFrames = (frames, kind, moduleName) => {
@@ -357,18 +357,40 @@ function compileLinearizationPlans(graph, modules, transferPlans) {
     for (const [frameId, frame] of Object.entries(frames).sort(([left],[right]) =>
       left < right ? -1 : left > right ? 1 : 0)) {
       if (!isRecord(frame) || !Array.isArray(frame.linearizations)) continue;
+      const transfers = transferPlans.filter(item => kind === 'event'
+        ? item.conceptId === frameId : item.stateKind === frameId);
       let normalized;
       try {
         normalized = normalizeLinearizations(frame.linearizations, `${moduleName}.${frameId}`);
       } catch (error) {
-        fail('PLUGIN_GRAPH_INVALID', `Invalid linearizations for ${moduleName}.${frameId}.`, error);
+        fail('PLUGIN_GRAPH_INVALID',
+          `Invalid linearizations for ${moduleName}.${frameId} (${transfers.map(item=>
+            item.construction).join(', ') || 'no transfer'}): ${error.message}`, error);
       }
-      if (!normalized.variants.length) continue;
-      const transfers = transferPlans.filter(item => kind === 'event'
-        ? item.conceptId === frameId : item.stateKind === frameId);
       if (!transfers.length) {
-        fail('PLUGIN_CAPABILITY_UNAVAILABLE',
+        if (normalized.variants.length) fail('PLUGIN_CAPABILITY_UNAVAILABLE',
           `No implemented semantic transfer licenses variants for ${moduleName}.${frameId}.`);
+        continue;
+      }
+      for (const transfer of transfers) {
+        const semanticFrame = kind === 'event' ? core.ontology.get(frameId)
+          : core.ontology.stateFrames[frameId];
+        const requiredRoles = (semanticFrame?.roles ?? []).filter(role =>
+          !(semanticFrame?.optionalRoles ?? []).includes(role));
+        const mappedRoles = new Set(transfer.arguments.map(argument => argument.semanticRole));
+        for (const [index, sequence] of normalized.sequences.entries()) {
+          const variantId = index < normalized.defaultSequences.length
+            ? `default:${index + 1}`
+            : normalized.variants[index - normalized.defaultSequences.length].variantId;
+          const label = `${transfer.construction}/${variantId} (${moduleName}.${frameId})`;
+          const slots = sequence.filter(step => !step.startsWith('@'));
+          if (slots.some(role => !mappedRoles.has(role)) ||
+              requiredRoles.some(role => slots.filter(slot => slot === role).length !== 1) ||
+              new Set(slots).size !== slots.length ||
+              sequence.filter(step => step === '@verb').length !== 1) {
+            fail('PLUGIN_GRAPH_INVALID', `Linearization roles do not match transfer at ${label}.`);
+          }
+        }
       }
       for (const variant of normalized.variants) {
         const slots = JSON.stringify(variant.sequence.slice().sort());
@@ -467,7 +489,7 @@ export function compileLanguageGraph(input = {}) {
   const transferPlans = compileTransfers(normalizedGraph, normalizedModules, core,
     senseIds, capabilities, featureDimensions);
   const linearizationPlans = compileLinearizationPlans(normalizedGraph,
-    normalizedModules, transferPlans);
+    normalizedModules, transferPlans, core);
   const layers = Object.create(null);
   for (const layer of LAYERS) {
     layers[layer] = normalizedGraph.nodes.filter(node => node.type === layer)
