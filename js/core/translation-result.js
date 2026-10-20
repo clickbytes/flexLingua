@@ -199,6 +199,11 @@ export function ambiguousTranslation(readings) {
       ...(item.surface ? {surface:item.surface} : {})}))});
 }
 
+/** A reading set is not complete when the plugin reported unsupported alternatives. */
+export function hasIncompleteAnalysis(readings) {
+  return readings.some(item => item.incompleteDiagnostics?.length > 0);
+}
+
 /** A supported preview may coexist with an unsupported source reading. */
 export function incompleteTranslation(readings) {
   const evidence=[...new Map(readings.flatMap(item=>item.incompleteDiagnostics||[])
