@@ -6713,47 +6713,56 @@
     "adjacent_to": {
       "subject": "geographical_feature",
       "object": "geographical_feature",
-      "symmetric": true
+      "symmetric": true,
+      "functional": false
     },
     "associated_with": {
       "subject": "entity",
       "object": "entity",
-      "symmetric": false
+      "symmetric": false,
+      "functional": false
     },
     "domain": {
       "subject": "entity",
       "object": "domain",
-      "symmetric": false
+      "symmetric": false,
+      "functional": true
     },
     "material": {
       "subject": "entity",
       "object": "material",
-      "symmetric": false
+      "symmetric": false,
+      "functional": false
     },
     "color": {
       "subject": "entity",
       "object": "color",
-      "symmetric": false
+      "symmetric": false,
+      "functional": false
     },
     "purpose": {
       "subject": "entity",
       "object": "purpose",
-      "symmetric": false
+      "symmetric": false,
+      "functional": false
     },
     "has_part": {
       "subject": "entity",
       "object": "entity",
-      "symmetric": false
+      "symmetric": false,
+      "functional": false
     },
     "contains": {
       "subject": "entity",
       "object": "entity",
-      "symmetric": false
+      "symmetric": false,
+      "functional": false
     },
     "located_in": {
       "subject": "entity",
       "object": "place",
-      "symmetric": false
+      "symmetric": false,
+      "functional": false
     }
   },
   "stateFrameVersion": "1.3",

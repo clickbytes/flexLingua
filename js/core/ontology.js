@@ -156,12 +156,17 @@ export class Ontology {
 
     const relationTypes = spec.relationTypes ?? {};
     if (!record(relationTypes)) throw graphError('INVALID_RELATION_TYPE', 'Invalid relation type registry.');
-    this.relationTypes = freezeDeep(JSON.parse(JSON.stringify(relationTypes)));
+    const normalizedRelationTypes=JSON.parse(JSON.stringify(relationTypes));
+    for (const definition of Object.values(normalizedRelationTypes)) {
+      if (record(definition) && !hasOwn(definition,'functional')) definition.functional=false;
+    }
+    this.relationTypes = freezeDeep(normalizedRelationTypes);
     for (const [relation, definition] of Object.entries(this.relationTypes)) {
       if (!DEFINITION_RELATIONS.has(relation) || !safeName(relation) || relation.length > 64 ||
-          !record(definition) || !exactKeys(definition, ['subject', 'object', 'symmetric']) ||
+          !record(definition) || !exactKeys(definition, ['subject', 'object', 'symmetric','functional']) ||
           !validConceptId(definition.subject) || !validConceptId(definition.object) ||
           typeof definition.symmetric !== 'boolean' ||
+          typeof definition.functional !== 'boolean' ||
           !hasOwn(this.concepts, definition.subject) || !hasOwn(this.concepts, definition.object)) {
         throw graphError('INVALID_RELATION_TYPE', `Invalid relation type: ${relation}`);
       }

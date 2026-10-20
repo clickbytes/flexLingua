@@ -37,19 +37,19 @@ The example shows the two shapes; `semanticEffect` belongs on a property concept
 
 The relation target IDs below are category roots in CORE. The domain roots and their child concepts are added only with reviewed CORE data and provenance. Relation direction is significant except for the existing symmetric relation.
 
-| Relation | Subject type | Object type | Meaning |
-| --- | --- | --- | --- |
-| `domain` | `entity` | `domain` category | Subject's domain, such as finance |
-| `material` | `entity` | `material` category | Material the subject is made of |
-| `color` | `entity` | `color` category | Color of the subject |
-| `purpose` | `entity` | `purpose` category | Intended function of the subject |
-| `has_part` | `entity` | `entity` | Component belonging to the subject |
-| `contains` | `entity` | `entity` | Contents held by the subject |
-| `located_in` | `entity` | `entity` | Location of the subject |
-| `adjacent_to` | `geographical_feature` | `geographical_feature` | Existing symmetric adjacency relation |
-| `associated_with` | `entity` | `entity` | Existing directed association relation |
+| Relation | Subject type | Object type | Cardinality | Meaning |
+| --- | --- | --- | --- | --- |
+| `domain` | `entity` | `domain` category | Functional | Subject's domain, such as finance |
+| `material` | `entity` | `material` category | Multi-valued | Material the subject is made of |
+| `color` | `entity` | `color` category | Multi-valued | Color of the subject |
+| `purpose` | `entity` | `purpose` category | Multi-valued | Intended function of the subject |
+| `has_part` | `entity` | `entity` | Multi-valued | Component belonging to the subject |
+| `contains` | `entity` | `entity` | Multi-valued | Contents held by the subject |
+| `located_in` | `entity` | `entity` | Multi-valued | Location of the subject |
+| `adjacent_to` | `geographical_feature` | `geographical_feature` | Multi-valued | Existing symmetric adjacency relation |
+| `associated_with` | `entity` | `entity` | Multi-valued | Existing directed association relation |
 
-Every relation name must exist in `relationTypes`. A relation target must be an existing canonical CORE ID whose type is compatible with the relation's object signature. A concept root must satisfy the subject signature. Unknown IDs, wrong types, malformed records, duplicate semantic edges, and exceeded budgets are explicit validation failures. Relation edges are not ownership or sentence-state records.
+Every relation name must exist in `relationTypes`. A relation target must be an existing canonical CORE ID whose type is compatible with the relation's object signature. A concept root must satisfy the subject signature. `functional` declares whether each subject can have at most one target for a relation; a missing field in older ontology input defaults to `false`. Current CORE data declares every relation's cardinality explicitly. Unknown IDs, wrong types, malformed records, duplicate semantic edges, and exceeded budgets are explicit validation failures. Relation edges are not ownership or sentence-state records.
 
 ## Required and typical edges
 
@@ -67,9 +67,9 @@ The effect changes the graph of the correct participant; it does not change that
 
 ## Matching, ambiguity, and unknown context
 
-Matching first enforces valid IDs, relation direction, root and target types, and required edges. An explicit contradictory type or relation rejects that candidate. An unmentioned relation is unknown and does not count as contradiction. Typical edges can order the still-compatible alternatives, but cannot remove them. If more than one meaning remains compatible, return `ambiguous` with the alternatives. Do not choose the first ID or the highest typical weight as a substitute for evidence. Unsupported grammar remains `unsupported`; exceeded budgets return `resource_limit`.
+Matching first enforces valid IDs, relation direction, root and target types, and required edges. An observed incompatible sibling target contradicts a required edge for a functional relation and rejects that candidate. For a multi-valued relation, the same observation does not rule out another required target; it remains unresolved evidence. An unmentioned relation is unknown and does not count as contradiction. Typical edges can order the still-compatible alternatives, but cannot remove them. If more than one meaning remains compatible, return `ambiguous` with the alternatives. Do not choose the first ID or the highest typical weight as a substitute for evidence. Unsupported grammar remains `unsupported`; exceeded budgets return `resource_limit`.
 
-`matchConceptGraphs({observed,candidates,ontology,maxCandidates})` is the bounded deterministic candidate matcher. `observed` is a canonical projection-shaped object (`root`, `nodes`, and `edges`) whose root names the most specific observed CORE type for the focus; each node and typed edge is validated against the same Ontology signatures and graph budgets. A candidate root must be a subtype of the observed root. A required candidate relation that is explicitly contradicted by a sibling target is rejected; missing or broader evidence remains unresolved. The default candidate limit is 16, and overflow returns `resource_limit` without truncation. Results retain every compatible candidate, expose matched relations, hard violations, unresolved edges, and a typical-only score. `status` is `matched` only for one hard-compatible candidate, `ambiguous` for multiple candidates, and `unsupported` when none remain. `conceptGraphSignature` sorts a validated observation into a stable JSON signature.
+`matchConceptGraphs({observed,candidates,ontology,maxCandidates})` is the bounded deterministic candidate matcher. `observed` is a canonical projection-shaped object (`root`, `nodes`, and `edges`) whose root names the most specific observed CORE type for the focus; each node and typed edge is validated against the same Ontology signatures and graph budgets. A candidate root must be a subtype of the observed root. A required candidate relation with an incompatible sibling target is rejected only when the relation is functional; for a multi-valued relation it remains unresolved alongside the observed target. Missing or broader evidence remains unresolved. The default candidate limit is 16, and overflow returns `resource_limit` without truncation. Results retain every compatible candidate, expose matched relations, hard violations, unresolved edges, and a typical-only score. `status` is `matched` only for one hard-compatible candidate, `ambiguous` for multiple candidates, and `unsupported` when none remain. `conceptGraphSignature` sorts a validated observation into a stable JSON signature.
 
 `Engine.resolveWord` accepts this graph only as the explicit `context.typedGraph` option. It runs after the existing form and lexical analysis, filters only hard-incompatible concept senses, and returns graph evidence with each remaining reading. An ambiguous result retains every compatible sense. The graph does not feed sentence parsing or translation until a later MeaningGraph projection supplies validated observations.
 
