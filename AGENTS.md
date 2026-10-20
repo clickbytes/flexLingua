@@ -1,19 +1,5 @@
 @C:\Users\ppotepa\.codex\RTK.md
 
-## Global code intelligence
-
-- When a repository contains `.codegraph`, use CodeGraph for symbol lookup and code relationships before broad text searches.
-- Prefer `codegraph status`, `query`, `callers`, `callees`, `impact`, and `affected` when they answer the question.
-- If no index exists, use scoped text search. Indexing is the user's decision; run `codegraph sync` only when an existing index is stale.
-
-## GitHub repository identity guard
-
-- Before creating commits or performing authenticated GitHub writes such as push, run `& "$env:USERPROFILE\.codex\scripts\repo-check.ps1"` from the repository.
-- For SSH remotes, add `-CheckRemoteAuth` to identify the account represented by the active SSH key. For deliberate selection, use `ppotepa.ps1` or `clickbytes.ps1`.
-- If the helper reports MISMATCH, stop before committing or writing to GitHub. Do not switch accounts or change Git identity or credentials automatically.
-- If it reports REVIEW, explain which identity check is incomplete before committing. Do not treat a GitHub CLI login as proof of HTTPS Git auth unless the Git credential helper uses GitHub CLI.
-- The helper is read-only. Configure expected commit names and emails in `repo-profiles.json`; never put tokens or passwords there.
-
 # flexLingua agent instructions
 
 ## Epic gate: one ACTIVE epic across all agents (mandatory)
@@ -28,9 +14,9 @@ Before **any implementation**, inspect the repo's currently open GitHub issues t
 
 ## Single worktree, issue, PR and identity gate (mandatory)
 
-- Use **exactly one existing primary local Git worktree** at `/mnt/d/Git/flexLingua`. Run `git worktree list` and `git status --short` before local implementation. Never create a second worktree or a parallel clone. Preserve user changes; if the primary worktree is dirty, do not clean or overwrite it. Use an issue branch within this worktree while implementing. Keep the worktree on `main` when idle, and return it to refreshed `main` after each PR merge before starting the next issue.
+- Use **exactly one existing primary local Git worktree** at `D:\Git\flexLingua` (native Windows). Run `git worktree list` and `git status --short` before local implementation. Never create a second worktree or a parallel clone. Preserve user changes; if the primary worktree is dirty, do not clean or overwrite it. Use an issue branch within this worktree while implementing. Keep the worktree on `main` when idle, and return it to refreshed `main` after each PR merge before starting the next issue.
 - Work on **one active issue and one open implementation PR repository-wide**. Assign an owner and comment on the issue with epic, exact file scope, latest `main` SHA, dependencies, and independent expected behavior before editing; also record the active assignment on that epic. Start the next issue only after the current PR is reviewed, required checks pass and it is merged. Refresh `main`, re-check conflicts, and record every new base SHA.
-- Before any local commit/push, run the existing `repo-check.ps1` identity guard below. A MISMATCH stops all authenticated writes. Never silently switch accounts or change identity. For GitHub **connector-only** operations without a local repository, verify the explicitly selected linked account, repository, permissions, target branch and latest ref **before remote writes**. Do not claim `repo-check.ps1`, `git worktree list`, local tests, or local checks ran through the connector; record them as NOT RUN. A connector-created remote branch does not create or validate a local worktree.
+- For GitHub **connector-only** operations without a local repository, verify the explicitly selected linked account, repository, permissions, target branch and latest ref **before remote writes**. Do not claim `repo-check.ps1`, `git worktree list`, local tests, or local checks ran through the connector; record them as NOT RUN. A connector-created remote branch does not create or validate a local worktree.
 - Every implementation PR must reference exactly one task and its ACTIVE epic. Review changed files, semantic impact, conflict status, provenance and the existing `translation-matrix` required check before merge; maintain an independently authored and explicitly approved `tests/cases/**` oracle. The project owner may explicitly delegate linguistic review of named cases to an agent; record the delegation, exact IDs and expected meanings, review reasoning, and agent authorship in a GitHub issue comment before setting `review.status:"approved"`. Delegation does not cover deletion or weakening of protected cases, data rights, or candidate approvals governed by a wave issue unless the owner explicitly includes them. Do not bypass these gates by editing expected output to match regressions. Record actual commands, SHAs, PASS/FAIL/INFRA/NOT RUN and limitations.
 - After each merge, update that epic's checklist and free its assignment before starting its next issue. Plan-only child issues may remain open; they are not evidence of implemented functionality.
 
