@@ -6,7 +6,7 @@ import {compileLanguageGraph} from './compiler.js';
 import {createSemanticBridge} from './semantic-bridge.js';
 import {createSignalProviders} from './signal.js';
 import {normalizeAnalysisResult, normalizeRealizationResult} from './contract.js';
-import {distinctReadings} from '../core/translation-result.js';
+import {distinctReadings, meaningKey} from '../core/translation-result.js';
 
 const isRecord = value => {
   if (value === null || typeof value !== 'object' || Array.isArray(value)) return false;
@@ -272,32 +272,59 @@ export function defineDeclarativeLanguagePlugin({manifest, graph, modules, core}
           fail('PLUGIN_CAPABILITY_UNAVAILABLE', 'No declared sentence analysis is available.');
         }
         if (candidates.length > 32) fail('PLUGIN_RESOURCE_LIMIT', 'Sentence analysis exceeded its reading limit.');
-        const readings = candidates.map(candidate => {
-          const transfer = semanticBridge.transferFor(candidate.interlingua, context.construction);
-          if (!availableForTransfer(capabilities, 'analyze', transfer)) {
-            fail('PLUGIN_CAPABILITY_UNAVAILABLE',
-              `Analysis is unsupported for construction ${transfer.construction} or its proposition.`);
+        const readings = [], unsupported = new Map();
+        for (const [index,candidate] of candidates.entries()) {
+          if (!isRecord(candidate) || !isRecord(candidate.interlingua)) {
+            fail('PLUGIN_RESULT_INVALID', 'Parser returned an invalid semantic reading.');
           }
-          const reading = semanticBridge.validateReading(candidate, transfer);
-          const runtimeTransfer = semanticBridge.projectMeaning(
-            reading.meaning, transfer, reading.lexicalSenses);
-          return {meaning: reading.meaning, analysis: {
-            lexicalSenses: reading.lexicalSenses, score: reading.score,
-            transfer: runtimeTransfer,
-            ...(Array.isArray(candidate.sourceSegments)?{sourceSegments:candidate.sourceSegments}: {}),
-            ...(Array.isArray(candidate.surfaceVariants)&&candidate.surfaceVariants.length?{
-              surface:{variants:candidate.surfaceVariants.map(variant=>({
-                id:variant.id,construction:runtimeTransfer.construction,
-                slots:variant.slots,markedness:variant.markedness
-              }))}
-            }: {})
-          }};
-        });
+          const key=meaningKey(candidate.interlingua);
+          try {
+            const transfer = semanticBridge.transferFor(candidate.interlingua, context.construction);
+            if (!availableForTransfer(capabilities, 'analyze', transfer)) {
+              fail('PLUGIN_CAPABILITY_UNAVAILABLE',
+                `Analysis is unsupported for construction ${transfer.construction} or its proposition.`);
+            }
+            const reading = semanticBridge.validateReading(candidate, transfer);
+            const runtimeTransfer = semanticBridge.projectMeaning(
+              reading.meaning, transfer, reading.lexicalSenses);
+            readings.push({meaning: reading.meaning, analysis: {
+              lexicalSenses: reading.lexicalSenses, score: reading.score,
+              transfer: runtimeTransfer,
+              ...(Array.isArray(candidate.sourceSegments)?{sourceSegments:candidate.sourceSegments}: {}),
+              ...(Array.isArray(candidate.surfaceVariants)&&candidate.surfaceVariants.length?{
+                surface:{variants:candidate.surfaceVariants.map(variant=>({
+                  id:variant.id,construction:runtimeTransfer.construction,
+                  slots:variant.slots,markedness:variant.markedness
+                }))}
+              }: {})
+            }});
+          } catch (error) {
+            if (error?.status !== 'unsupported' || INTERNAL_PLUGIN_FAILURE_CODES.has(error?.code)) {
+              throw error;
+            }
+            const meaning=candidate.interlingua;
+            const label=String(meaning.type==='question'?
+              meaning.proposition?.concept||meaning.questionType:
+              meaning.concept||meaning.kind||meaning.type||'unknown')
+              .replace(/\s+/gu,' ').slice(0,96);
+            unsupported.set(key,{code:'PLUGIN_ANALYSIS_READING_UNSUPPORTED',
+              message:`Reading ${index+1} (${label}) is unsupported: `+
+                String(error.message||'No semantic transfer.').slice(0,400)});
+          }
+        }
         const distinct = distinctReadings(readings);
+        const licensed=new Set(distinct.map(reading=>meaningKey(reading.meaning)));
+        const missing=[...unsupported.entries()].filter(([key])=>!licensed.has(key))
+          .map(([,diagnostic])=>diagnostic);
+        if (!distinct.length) {
+          fail('PLUGIN_CAPABILITY_UNAVAILABLE','No supported semantic reading is available.');
+        }
         const ambiguous = distinct.length > 1;
-        return normalizeAnalysisResult({status: ambiguous ? 'ambiguous' : 'ok', readings: distinct,
-          diagnostics: ambiguous ? [{code: 'PLUGIN_ANALYSIS_AMBIGUOUS',
-            message: 'More than one meaning fits the input.'}] : []});
+        const incomplete=missing.length>0;
+        return normalizeAnalysisResult({status:incomplete?'incomplete':ambiguous?'ambiguous':'ok',
+          readings:distinct,diagnostics:incomplete?missing:ambiguous
+            ?[{code:'PLUGIN_ANALYSIS_AMBIGUOUS',message:'More than one meaning fits the input.'}]
+            :[]});
       } catch (error) {
         return refusalAnalysis(normalizeUnsupportedQuestion(error, input?.text, capabilities));
       }

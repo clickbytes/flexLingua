@@ -321,11 +321,14 @@ function validateRealizations(value) {
   });
 }
 
-/** Validate and normalize the single public analysis result shape. */
+/** `incomplete` preserves licensed readings while diagnostics account for
+ * distinct unsupported readings. A consumer must not treat one such reading
+ * as a unique source meaning. Realization results do not use this status. */
 export function normalizeAnalysisResult(result) {
   ({value: result} = validatePluginResultGraph(result, 'analysis'));
   if (!hasExactKeys(result, ['status', 'readings', 'diagnostics']) ||
-      !PLUGIN_RESULT_STATUSES.includes(result.status) || !Array.isArray(result.readings) ||
+      !(PLUGIN_RESULT_STATUSES.includes(result.status) || result.status === 'incomplete') ||
+      !Array.isArray(result.readings) ||
       result.readings.length > MAX_READINGS) {
     invalidResult('Invalid language analysis result shape or status.');
   }
@@ -361,8 +364,12 @@ export function normalizeAnalysisResult(result) {
   if (result.status === 'ambiguous' && readings.length < 2) {
     invalidResult('Ambiguous analysis must contain at least two readings.');
   }
-  if (result.status !== 'ok' && (!diagnostics.length ||
-      (result.status !== 'ambiguous' && readings.length !== 0))) {
+  if (result.status === 'incomplete' && (!readings.length ||
+      !diagnostics.some(item=>item.code==='PLUGIN_ANALYSIS_READING_UNSUPPORTED'))) {
+    invalidResult('Incomplete analysis needs a licensed reading and unsupported-reading evidence.');
+  }
+  if (result.status !== 'ok' && result.status !== 'incomplete' &&
+      (!diagnostics.length || (result.status !== 'ambiguous' && readings.length !== 0))) {
     invalidResult('Analysis refusal must include diagnostics and no successful readings.');
   }
   if (result.status === 'ambiguous' && !diagnostics.length) {

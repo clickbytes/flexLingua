@@ -14,7 +14,7 @@ import {LANGUAGE_PLUGIN_CONTRACT_VERSION, normalizeAnalysisResult, normalizeReal
   from '../plugins/contract.js';
 import {matchConceptGraphs} from './typed-graph-match.js';
 import {composeMeaningGraph} from './semantic-composition.js';
-import {ambiguousTranslation, distinctReadings, translationFailure, withUncertainties}
+import {ambiguousTranslation, incompleteTranslation, distinctReadings, translationFailure, withUncertainties}
   from './translation-result.js';
 import {realizeInterpretations} from './translation-interpretations.js';
 import {validateReferentContext, applyReferentContext} from './translation-context.js';
@@ -355,13 +355,14 @@ export class Engine {
           {status: 'unsupported'});
       }
       const result = normalizeAnalysisResult(plugin.analyze({text, context}));
-      if (!['ok', 'ambiguous'].includes(result.status)) {
+      if (!['ok', 'ambiguous', 'incomplete'].includes(result.status)) {
         throw pluginResultError(result, 'analysis');
       }
       return distinctReadings(result.readings.map(reading => ({
         interlingua: reading.meaning,
         lexicalSenses: reading.analysis?.lexicalSenses || {},
         sourceSegments:reading.analysis?.sourceSegments||[],
+        ...(result.status==='incomplete'?{incompleteDiagnostics:result.diagnostics}:{}),
         ...(reading.analysis?.surface ? {surface:reading.analysis.surface} : {}),
         lexicalPreference: Number.isFinite(reading.analysis?.score) ? reading.analysis.score : 0,
         score: Number.isFinite(reading.analysis?.score) ? reading.analysis.score : 0
@@ -522,7 +523,7 @@ export class Engine {
     }
     // Check hard compatibility before the bound; never silently discard viable paths.
     let combinations = [{ events: [], senses: {}, score: 0, lexicalPreference:0,
-      sourceSegments:[] }];
+      sourceSegments:[],incompleteDiagnostics:[] }];
     for (const [index, candidates] of scored.entries()) {
       const matchingLinks=links.filter(link=>link.sourceIndex===index);
       combinations = combinations.flatMap(combination => candidates.flatMap(candidate => {
@@ -537,6 +538,9 @@ export class Engine {
           senses:{...combination.senses,[`e${index + 1}`]:candidate.lexicalSenses},
           score:combination.score+(candidate.score||0),
           lexicalPreference:combination.lexicalPreference+(candidate.lexicalPreference||0),
+          incompleteDiagnostics:[...combination.incompleteDiagnostics,
+            ...(candidate.incompleteDiagnostics||[]).map(item=>({...item,
+              message:`Event ${index+1}: ${item.message}`}))],
           sourceSegments:[...combination.sourceSegments,...(candidate.sourceSegments||[]).map(item=>({
             ...item,path:`#/events/${index}${item.path.slice(1)}`
           }))]
@@ -555,13 +559,22 @@ export class Engine {
             createEventRelation(edge.type,edge.from,edge.to))});
       validateMeaningGraph(interlingua, this.ontology, this.features);
       return { interlingua, lexicalSenses: combination.senses, score: combination.score,
-        lexicalPreference:combination.lexicalPreference,sourceSegments:combination.sourceSegments };
+        lexicalPreference:combination.lexicalPreference,sourceSegments:combination.sourceSegments,
+        ...(combination.incompleteDiagnostics.length
+          ?{incompleteDiagnostics:combination.incompleteDiagnostics}:{}) };
     });
   }
 
   /** Return a meaning only when analysis uniquely identifies it. */
   analyze({ text, from, context, search }) {
     const readings = distinctReadings(this.analyzeCandidates({text, from, context, search}));
+    if (readings.some(item=>item.incompleteDiagnostics?.length)) {
+      const result=incompleteTranslation(readings);
+      const error=new EngineError('SOURCE_ANALYSIS_INCOMPLETE',result.diagnostics[0].message,
+        {status:'ambiguous',diagnostics:result.diagnostics});
+      error.result=result;
+      throw error;
+    }
     if (readings.length !== 1) {
       const result = ambiguousTranslation(readings);
       const error = new EngineError('AMBIGUOUS_MEANING', result.diagnostics[0].message,
@@ -707,6 +720,9 @@ export class Engine {
         previewId:bundle.previewId,preview:bundle.preview,
         ...(candidates[0]?.contextReport ? {contextReport:candidates[0].contextReport} : {})});
       if (bundle.limitError) return attach(translationFailure(bundle.limitError));
+      if (candidates.some(item=>item.incompleteDiagnostics?.length)) {
+        return attach(incompleteTranslation(candidates));
+      }
       if (candidates.length !== 1) return attach(ambiguousTranslation(candidates));
       const candidate = candidates[0];
       const meaning = candidate.interlingua;
