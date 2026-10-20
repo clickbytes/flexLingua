@@ -15,7 +15,7 @@ import {
   createFeatureRegistry, createLanguageFeatureProfile,
   matchesAgreement, matchesConditions
 } from './features.js';
-import {isCapabilityId, isLexemeId, isRoleId, isSenseId}
+import {isCapabilityId, isLexemeId, isRoleId, isSenseId, isVariantId}
   from './identifiers.js';
 
 /**
@@ -660,10 +660,16 @@ function validateGrammar(dictionary, sourceGrammar, featureProfile, framePlans) 
   }
   const seen = new Set();
   for (const rule of grammar.verb.rules) {
+    const surfaceUse=rule.surfaceUse;
     if (!safeName(rule.tense) || !safeName(rule.polarity) ||
         (rule.aspect!==undefined && !['perfective','imperfective','unknown'].includes(rule.aspect)) ||
         !Array.isArray(rule.prefix) ||
-        !rule.prefix.every(word => typeof word === 'string' && /^[\p{L}]+$/u.test(word))) {
+        !rule.prefix.every(word => typeof word === 'string' && /^[\p{L}]+$/u.test(word)) ||
+        (surfaceUse!==undefined && (!record(surfaceUse) ||
+          Object.keys(surfaceUse).sort().join(',')!=='markerId,questionAuxiliary,realization' ||
+          surfaceUse.realization!=='alternate' ||
+          surfaceUse.questionAuxiliary!=='frontable' ||
+          !isVariantId(surfaceUse.markerId) || !rule.prefix.length))) {
       throw new Error('Invalid declarative verb rule.');
     }
     if (formPlaceholders(rule.path).some(part => !hasOwn(grammar.verb.agreement, part))) {
@@ -1127,8 +1133,8 @@ function createGrammarInterpreter(sourceDictionary, rules,
         entry.rule.polarity===meaning.features?.polarity &&
         matchesRoleCapabilities(entry.lexeme,meaning.roles))
       :[];
-    const preferredForms=availableForms.some(entry=>entry.rule.path!=='forms.progressive')
-      ?availableForms.filter(entry=>entry.rule.path!=='forms.progressive')
+    const preferredForms=availableForms.some(entry=>entry.rule.surfaceUse?.realization!=='alternate')
+      ?availableForms.filter(entry=>entry.rule.surfaceUse?.realization!=='alternate')
       :availableForms;
     const aspectFormExists=preferredForms.some(entry=>
       entry.rule.aspect===meaning.features?.aspect);
@@ -2321,21 +2327,22 @@ function createGrammarInterpreter(sourceDictionary, rules,
     byPolarity.set(polarity,entries);
     return entries;
   }
-  let progressiveVerbEntriesByPrefix;
-  function progressiveVerbEntries(prefix) {
+  let frontableVerbEntriesByPrefix;
+  function frontableVerbEntries(prefix) {
     if(!questions?.yesNo?.auxiliaries)return [];
-    if(!progressiveVerbEntriesByPrefix) {
-      progressiveVerbEntriesByPrefix=new Map();
+    if(!frontableVerbEntriesByPrefix) {
+      frontableVerbEntriesByPrefix=new Map();
       for(const entry of verbForms) {
         if(entry.rule.tense!=='present'||entry.rule.aspect!=='imperfective'||
-            entry.rule.path!=='forms.progressive'||!entry.rule.prefix.length)continue;
+            entry.rule.surfaceUse?.questionAuxiliary!=='frontable'||
+            !entry.rule.prefix.length)continue;
         const key=normalizedWord(entry.rule.prefix[0]);
-        if(!progressiveVerbEntriesByPrefix.has(key))progressiveVerbEntriesByPrefix.set(key,[]);
-        progressiveVerbEntriesByPrefix.get(key).push({
+        if(!frontableVerbEntriesByPrefix.has(key))frontableVerbEntriesByPrefix.set(key,[]);
+        frontableVerbEntriesByPrefix.get(key).push({
           ...entry,rule:{...entry.rule,prefix:entry.rule.prefix.slice(1)}});
       }
     }
-    return progressiveVerbEntriesByPrefix.get(prefix)||[];
+    return frontableVerbEntriesByPrefix.get(prefix)||[];
   }
 
   /** Only a declared governed preposition may move with the queried role. */
@@ -2377,9 +2384,9 @@ function createGrammarInterpreter(sourceDictionary, rules,
         }));
       }
     }
-    const progressiveEntries=progressiveVerbEntries(tokens[0]);
-    if(progressiveEntries.length)results.push(...parseClause(tokens.slice(1),gap,antecedent,0,
-      questionBudget(counter),{verbEntries:progressiveEntries,omitGap:!!gap,...options}));
+    const frontableEntries=frontableVerbEntries(tokens[0]);
+    if(frontableEntries.length)results.push(...parseClause(tokens.slice(1),gap,antecedent,0,
+      questionBudget(counter),{verbEntries:frontableEntries,omitGap:!!gap,...options}));
     return results;
   }
 
@@ -2491,7 +2498,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
     } else if(mode==='auxiliary' && (
         Object.values(questions.yesNo.auxiliaries).some(word=>tokens[0]===normalizedWord(word)) ||
         verbForms.some(entry=>entry.rule.tense==='present'&&entry.rule.aspect==='imperfective'&&
-          entry.rule.path==='forms.progressive'&&entry.rule.prefix.length>0&&
+          entry.rule.surfaceUse?.questionAuxiliary==='frontable'&&entry.rule.prefix.length>0&&
           tokens[0]===normalizedWord(entry.rule.prefix[0]))
       )) {
       add(analyzeAuxiliaryQuestion(tokens,null,null,counter),'yes_no');
@@ -2808,10 +2815,11 @@ function createGrammarInterpreter(sourceDictionary, rules,
       matchesMorphologyFeatures(entry,context,meaning.features,agreementForFrame(frame)));
     if (!candidates.length) unsupported(`No ${dictionary.language} verb form supports ${meaning.concept}, ` +
       `${meaning.features.tense}, ${meaning.features.polarity}, ${meaning.features.aspect}.`);
-    const simpleCandidates = candidates.filter(entry => entry.rule.path !== 'forms.progressive');
-    const preferencePool = simpleCandidates.length ? simpleCandidates : candidates;
+    const primaryCandidates = candidates.filter(entry =>
+      entry.rule.surfaceUse?.realization!=='alternate');
+    const preferencePool = primaryCandidates.length ? primaryCandidates : candidates;
     const preferredAspect = verbGrammar.preferredAspects?.[meaning.concept];
-    // CORE aspect does not distinguish English progressive from simple present.
+    // A language's surface preference never changes the CORE aspect.
     const preferred = preferencePool.find(v => v.lexeme.aspect === preferredAspect) || preferencePool[0];
     function linearizeParts(entry, def, lexicalOverrides=options.lexicalOverrides||{}) {
       const parts = sequence.flatMap(step => {
@@ -3449,13 +3457,13 @@ function createGrammarInterpreter(sourceDictionary, rules,
       if(question.questionType==='yes_no') {
         if(built.preferred.rule.tense==='present'&&
            built.preferred.rule.aspect==='imperfective'&&
-           built.preferred.rule.path==='forms.progressive') {
+           built.preferred.rule.surfaceUse?.questionAuxiliary==='frontable') {
           const prefix=built.preferred.rule.prefix;
           const fronted=prefix?.[0];
-          if(!fronted)unsupported('Missing progressive auxiliary for question.');
+          if(!fronted)unsupported('Missing frontable auxiliary for question.');
           entry={...built.preferred,rule:{...built.preferred.rule,prefix:prefix.slice(1)}};
           prefixParts=[{text:fronted,meaningPaths:['#/features'],
-            decision:{kind:'question-marker',id:`${grammar.language}.progressive-auxiliary`}}];
+            decision:{kind:'question-marker',id:`${grammar.language}.${built.preferred.rule.surfaceUse.markerId}`}}];
         } else {
           entry=auxiliaryEntry();
           prefixParts=[{text:auxiliary(),meaningPaths:['#/features'],
