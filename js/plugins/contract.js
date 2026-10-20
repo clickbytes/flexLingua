@@ -340,7 +340,8 @@ export function normalizeAnalysisResult(result) {
       invalidResult('Analysis readings require an object meaning and optional object analysis.');
     }
     const normalized = {meaning: reading.meaning};
-    if (owns(reading, 'analysis')) normalized.analysis = validateAnalysisMetadata(reading.analysis);
+    if (owns(reading, 'analysis')) normalized.analysis = validateAnalysisMetadata(
+      reading.analysis,reading.meaning);
     return normalized;
   });
   let meaningKeys;
@@ -379,7 +380,105 @@ export function normalizeAnalysisResult(result) {
   return {status: result.status, readings, diagnostics};
 }
 
-function validateAnalysisMetadata(value) {
+function transferEvidence(value, meaning) {
+  if(!isRecord(value)||!isRecord(meaning)||!isConstructionId(value.construction))
+    invalidResult('Analysis transfer does not match its reading MeaningGraph.');
+  // Engine normalizes a plugin result a second time; the public projection must
+  // satisfy the same contract without reintroducing private runtime fields.
+  if(!owns(value,'meaning')) {
+    if(value.kind==='question') {
+      if(!hasExactKeys(value,['kind','construction','questionType',
+          'propositionConstruction','policyId','propositionTransfer'])||
+          value.questionType!=='yes_no'||!isConstructionId(value.propositionConstruction)||
+          !isConstructionId(value.policyId)||!isRecord(meaning.proposition))
+        invalidResult('Invalid projected question transfer evidence.');
+      const propositionTransfer=transferEvidence(value.propositionTransfer,meaning.proposition);
+      if(propositionTransfer.construction!==value.propositionConstruction)
+        invalidResult('Projected question transfer proposition does not match its construction.');
+      return Object.freeze({kind:'question',construction:value.construction,
+        questionType:value.questionType,
+        propositionConstruction:value.propositionConstruction,policyId:value.policyId,
+        propositionTransfer});
+    }
+    const event=owns(value,'conceptId'),state=owns(value,'stateKind');
+    if(event===state||!hasExactKeys(value,['construction',event?'conceptId':'stateKind','roles'])||
+        !isConstructionId(event?value.conceptId:value.stateKind)||
+        (event?value.conceptId!==meaning.concept:value.stateKind!==meaning.kind)||
+        !Array.isArray(value.roles)||value.roles.length>32)
+      invalidResult('Invalid projected transfer evidence.');
+    const roles=new Set(),argumentsById=new Set();
+    const mapped=value.roles.map(item=>{
+      if(!hasExactKeys(item,['semanticRole','argument','syntacticFunction'])||
+          !isRoleId(item.semanticRole)||!isRoleId(item.argument)||
+          !isRoleId(item.syntacticFunction)||roles.has(item.semanticRole)||
+          argumentsById.has(item.argument)||!Object.hasOwn(meaning.roles??{},item.semanticRole))
+        invalidResult('Projected transfer has an invalid role mapping.');
+      roles.add(item.semanticRole);argumentsById.add(item.argument);
+      return Object.freeze({semanticRole:item.semanticRole,argument:item.argument,
+        syntacticFunction:item.syntacticFunction});
+    });
+    return Object.freeze({construction:value.construction,
+      ...(event?{conceptId:value.conceptId}:{stateKind:value.stateKind}),
+      roles:Object.freeze(mapped)});
+  }
+  if(!isRecord(value.meaning)||meaningKey(value.meaning)!==meaningKey(meaning))
+    invalidResult('Analysis transfer does not match its reading MeaningGraph.');
+  if(value.kind==='question') {
+    if(!hasExactKeys(value,['kind','construction','questionType',
+        'propositionConstruction','policyId','meaning','propositionTransfer'])||
+        value.questionType!=='yes_no'||!isConstructionId(value.propositionConstruction)||
+        !isConstructionId(value.policyId)||!isRecord(meaning.proposition))
+      invalidResult('Invalid question transfer evidence.');
+    const propositionTransfer=transferEvidence(value.propositionTransfer,meaning.proposition);
+    if(propositionTransfer.construction!==value.propositionConstruction)
+      invalidResult('Question transfer proposition does not match its construction.');
+    return Object.freeze({kind:'question',construction:value.construction,
+      questionType:value.questionType,propositionConstruction:value.propositionConstruction,
+      policyId:value.policyId,propositionTransfer});
+  }
+  const event=owns(value,'conceptId'),state=owns(value,'stateKind');
+  if(event===state||!hasExactKeys(value,['construction',event?'conceptId':'stateKind',
+      'meaning','features','arguments'])||
+      !isConstructionId(event?value.conceptId:value.stateKind)||
+      (event?value.conceptId!==meaning.concept:value.stateKind!==meaning.kind)||
+      !isRecord(value.features)||meaningKey(value.features)!==meaningKey(meaning.features)||
+      !Array.isArray(value.arguments)||value.arguments.length>32)
+    invalidResult('Invalid event or state transfer evidence.');
+  const roles=new Set(),argumentsById=new Set();
+  const mapped=value.arguments.map(item=>{
+    if(!hasExactKeys(item,['argument','semanticRole','syntacticFunction',
+        'caseExponent','participant','lexicalSense','agreementControllers'])||
+        !isRoleId(item.argument)||!isRoleId(item.semanticRole)||
+        !isRoleId(item.syntacticFunction)||roles.has(item.semanticRole)||
+        argumentsById.has(item.argument)||!Object.hasOwn(meaning.roles??{},item.semanticRole)||
+        !isRecord(item.participant)||
+        meaningKey(item.participant)!==meaningKey(meaning.roles[item.semanticRole])||
+        !Array.isArray(item.agreementControllers)||item.agreementControllers.length>16)
+      invalidResult('Analysis transfer has an invalid role mapping.');
+    if(item.caseExponent!==null&&(!hasExactKeys(item.caseExponent,['kind','value'])||
+        !['case','adposition','position','zero'].includes(item.caseExponent.kind)||
+        (item.caseExponent.kind==='zero'?item.caseExponent.value!==null:
+          typeof item.caseExponent.value!=='string')))
+      invalidResult('Analysis transfer has an invalid case exponent.');
+    if(item.lexicalSense!==null&&(!isRecord(item.lexicalSense)||
+        typeof item.lexicalSense.kind!=='string'||typeof item.lexicalSense.id!=='string'))
+      invalidResult('Analysis transfer has an invalid lexical reference.');
+    for(const controller of item.agreementControllers)if(!hasExactKeys(controller,
+        ['argument','feature','value'])||!isRoleId(controller.argument)||
+        !isRoleId(controller.feature)||
+        !(controller.value===null||typeof controller.value==='string'||
+          Number.isFinite(controller.value)))
+      invalidResult('Analysis transfer has an invalid agreement controller.');
+    roles.add(item.semanticRole);argumentsById.add(item.argument);
+    return Object.freeze({semanticRole:item.semanticRole,argument:item.argument,
+      syntacticFunction:item.syntacticFunction});
+  });
+  return Object.freeze({construction:value.construction,
+    ...(event?{conceptId:value.conceptId}:{stateKind:value.stateKind}),
+    roles:Object.freeze(mapped)});
+}
+
+function validateAnalysisMetadata(value, meaning) {
   const allowed = ['lexicalSenses','score','transfer','sourceSegments','surface'];
   if (!isRecord(value) || Object.keys(value).some(key => !allowed.includes(key))) {
     invalidResult('Analysis metadata contains an unsupported field.');
@@ -391,8 +490,7 @@ function validateAnalysisMetadata(value) {
     normalized.score = value.score;
   }
   if (owns(value,'transfer')) {
-    if (!isRecord(value.transfer)) invalidResult('Analysis transfer must be an object.');
-    normalized.transfer = value.transfer;
+    normalized.transfer = transferEvidence(value.transfer,meaning);
   }
   if (owns(value,'sourceSegments')) normalized.sourceSegments = validateSourceSegments(value.sourceSegments);
   if (owns(value,'surface')) normalized.surface = validateSurface(value.surface);
