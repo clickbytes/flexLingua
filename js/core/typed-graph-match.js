@@ -189,17 +189,17 @@ function candidateResult(conceptId, graph, observed, ontology) {
     if (edge.constraint === 'required') {
       const asserted = possible.filter(item => item.constraint === 'required');
       const compatible = asserted.find(item => sameOrSubtype(ontology, item.target, edge.target));
-      if (compatible) {
+      const relation = ontology.relationTypes?.[edge.relation];
+      const conflict = relation?.functional === true
+        ? asserted.find(item => targetConflict(ontology,item.target,edge.target)) : null;
+      if (conflict) {
+        hardViolations.push({kind:'relation_target', from:edge.from, relation:edge.relation,
+          expected:edge.target, observed:conflict.target});
+      } else if (compatible) {
         matchedRelations.push({from: edge.from, relation: edge.relation, target: edge.target,
           observedTarget: compatible.target, constraint:'required'});
       } else {
-        const conflict = asserted.find(item => targetConflict(ontology, item.target, edge.target));
-        if (conflict) {
-          hardViolations.push({kind:'relation_target', from:edge.from, relation:edge.relation,
-            expected:edge.target, observed:conflict.target});
-        } else {
-          unresolved.push({from:edge.from, relation:edge.relation, target:edge.target});
-        }
+        unresolved.push({from:edge.from, relation:edge.relation, target:edge.target});
       }
       continue;
     }
