@@ -553,8 +553,16 @@ function meaningPathExists(meaning, path) {
   for (const part of path.slice(2).split('/')) {
     if (/~(?![01])/u.test(part)) return false;
     const key = part.replace(/~1/gu,'/').replace(/~0/gu,'~');
-    if (!isRecord(current) || !owns(current,key)) return false;
-    current = current[key];
+    if (['__proto__','prototype','constructor'].includes(key)) return false;
+    if (Array.isArray(current)) {
+      if (!/^(0|[1-9][0-9]*)$/u.test(key)) return false;
+      const index=Number(key);
+      if (!Number.isSafeInteger(index) || index>=current.length || !owns(current,index)) return false;
+      current=current[index];
+    } else {
+      if (!isRecord(current) || !owns(current,key)) return false;
+      current=current[key];
+    }
   }
   return true;
 }
