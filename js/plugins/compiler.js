@@ -221,6 +221,9 @@ function compileTransfers(graph, modules, core, senseIds, capabilities, featureD
       const concept = hasConcept ? resolveConcept(core, transfer.conceptId, label) : null;
       const semanticRoles = stateFrame?.roles ?? concept?.roles;
       const transferTarget = hasState ? `state:${transfer.stateKind}` : transfer.conceptId;
+      const syntaxFrame = graph.nodes.filter(item => item.type === 'syntax')
+        .map(item => hasState ? modules[item.module]?.states?.frames?.[transfer.stateKind]
+          : modules[item.module]?.frames?.[transfer.conceptId]).find(isRecord);
       const duplicateKey = `${transfer.construction}\u0000${transferTarget}`;
       if (seen.has(duplicateKey)) fail('PLUGIN_GRAPH_INVALID', `Duplicate transfer plan at ${label}.`);
       seen.add(duplicateKey);
@@ -250,6 +253,21 @@ function compileTransfers(graph, modules, core, senseIds, capabilities, featureD
         if (caseExponent?.kind === 'case' &&
             !featureDimensions.get('case')?.includes(caseExponent.value)) {
           fail('PLUGIN_GRAPH_INVALID', `Unknown grammatical case exponent at ${at}.`);
+        }
+        if (caseExponent?.kind === 'adposition') {
+          fail('PLUGIN_CAPABILITY_UNAVAILABLE',
+            `Adposition case exponent has no compiled parse/realize strategy at ${at}.`);
+        }
+        if (caseExponent?.kind === 'position') {
+          const sequences = syntaxFrame?.linearizations;
+          if (caseExponent.value !== argument.syntacticFunction ||
+              !Array.isArray(sequences) || !sequences.length ||
+              sequences.some(sequence => !Array.isArray(sequence) ||
+                !sequence.includes(argument.role)) ||
+              hasOwn(syntaxFrame.cases ?? {}, argument.role)) {
+            fail('PLUGIN_GRAPH_INVALID',
+              `Position case exponent is not licensed by the syntax frame at ${at}.`);
+          }
         }
         const rawControllers = hasOwn(argument, 'agreementControllers')
           ? argument.agreementControllers : [];
