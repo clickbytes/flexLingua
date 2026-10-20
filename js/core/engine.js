@@ -361,7 +361,9 @@ export class Engine {
       return distinctReadings(result.readings.map(reading => ({
         interlingua: reading.meaning,
         lexicalSenses: reading.analysis?.lexicalSenses || {},
+        transferSourceId:reading.analysis?.transfer?.construction ?? null,
         sourceSegments:reading.analysis?.sourceSegments||[],
+        ...(reading.analysis?.evidence ? {evidence:reading.analysis.evidence} : {}),
         ...(result.status==='incomplete'?{incompleteDiagnostics:result.diagnostics}:{}),
         ...(reading.analysis?.surface ? {surface:reading.analysis.surface} : {}),
         lexicalPreference: Number.isFinite(reading.analysis?.score) ? reading.analysis.score : 0,

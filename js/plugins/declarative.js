@@ -339,6 +339,25 @@ export function defineDeclarativeLanguagePlugin({manifest, graph, modules, core}
               lexicalSenses: reading.lexicalSenses, score: reading.score,
               transfer: runtimeTransfer,
               ...(Array.isArray(candidate.sourceSegments)?{sourceSegments:candidate.sourceSegments}: {}),
+              ...(Array.isArray(candidate.evidence) && candidate.evidence.length > 1 ? {
+                evidence:candidate.evidence.map(item => {
+                  const checked = semanticBridge.validateReading({
+                    interlingua:reading.meaning,lexicalSenses:item.lexicalSenses,
+                    score:item.score},transfer);
+                  if (item.surfaceVariant) validateSurfacePlan({
+                    ...candidate,surfaceVariants:[item.surfaceVariant],
+                    sourceSegments:item.sourceSegments},transfer,plan,input.text);
+                  return {lexicalSenses:checked.lexicalSenses,score:checked.score,
+                    transferSourceId:runtimeTransfer.construction,
+                    sourceSegments:(item.sourceSegments || []).map(segment =>
+                      candidate.interlingua.type === 'question' &&
+                      !segment.path.startsWith('#/proposition/')
+                        ? {...segment,path:`#/proposition${segment.path.slice(1)}`}
+                        : segment),
+                    ...(item.surfaceVariant ? {surfaceVariant:{...item.surfaceVariant,
+                      construction:runtimeTransfer.construction}} : {})};
+                })
+              } : {}),
               ...(Array.isArray(candidate.surfaceVariants)&&candidate.surfaceVariants.length?{
                 surface:{variants:candidate.surfaceVariants.map(variant=>({
                   id:variant.id,construction:runtimeTransfer.construction,

@@ -11,10 +11,36 @@ export const meaningKey = value => {
 const keyOf = meaningKey;
 const uniqueValues = values => [...new Map(values.map(value => [keyOf(value), value]))]
   .sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0).map(([, value]) => value);
+const MAX_READING_EVIDENCE = 32;
 
 function surfaceEvidence(reading) {
-  const existing = reading.surface?.variants ?? reading.analysis?.surface?.variants;
+  const existing = reading.surfaceVariants ?? reading.surface?.variants ??
+    reading.analysis?.surface?.variants;
   return Array.isArray(existing) ? existing : [];
+}
+
+function readingEvidence(reading) {
+  const existing = reading.evidence ?? reading.analysis?.evidence;
+  if (Array.isArray(existing)) return existing;
+  const variants = surfaceEvidence(reading);
+  const values = variants.length ? variants : [null];
+  return values.map(surfaceVariant => ({
+    lexicalSenses:reading.lexicalSenses ?? reading.analysis?.lexicalSenses ?? {},
+    score:reading.score ?? reading.analysis?.score ?? 0,
+    transferSourceId:reading.transferSourceId ?? reading.analysis?.transfer?.construction ?? null,
+    sourceSegments:reading.sourceSegments ?? reading.analysis?.sourceSegments ?? [],
+    ...(surfaceVariant ? {surfaceVariant} : {})
+  }));
+}
+
+function mergeEvidence(target, evidence) {
+  for (const item of evidence) {
+    target.set(meaningKey(item),stable(item));
+    if (target.size > MAX_READING_EVIDENCE) {
+      throw Object.assign(new Error('Distinct reading evidence exceeds its limit.'),
+        {code:'READING_EVIDENCE_LIMIT',status:'resource_limit'});
+    }
+  }
 }
 
 function representativeOrder(left, right) {
@@ -51,6 +77,14 @@ function attachSurface(reading, variants) {
   return {...reading,surface:{variants:ordered}};
 }
 
+function attachEvidence(reading, evidence) {
+  if (evidence.size < 2) return reading;
+  const ordered = [...evidence.entries()].sort(([left],[right]) =>
+    left < right ? -1 : left > right ? 1 : 0).map(([,item]) => item);
+  if (reading.analysis) return {...reading,analysis:{...reading.analysis,evidence:ordered}};
+  return {...reading,evidence:ordered};
+}
+
 /** Group surface analyses by their complete MeaningGraph without losing parse traces. */
 export function distinctReadings(readings) {
   const groups = new Map();
@@ -60,19 +94,23 @@ export function distinctReadings(readings) {
     const former = groups.get(key);
     const traces = surfaceEvidence(reading);
     if (!former) {
-      groups.set(key, {reading, traces: new Map(traces.map(trace => [meaningKey(trace), trace]))});
+      const evidence=new Map();
+      mergeEvidence(evidence,readingEvidence(reading));
+      groups.set(key, {reading, traces: new Map(traces.map(trace => [meaningKey(trace), trace])),
+        evidence});
       continue;
     }
     for (const trace of traces) former.traces.set(meaningKey(trace), trace);
+    mergeEvidence(former.evidence,readingEvidence(reading));
     if (representativeOrder(reading, former.reading) < 0) former.reading = reading;
   }
   return [...groups.entries()].sort(([left], [right]) => left < right ? -1 : left > right ? 1 : 0)
     .map(([, group]) => {
       const hasSurface = Array.isArray(group.reading.surface?.variants) ||
         Array.isArray(group.reading.analysis?.surface?.variants);
-      if (group.traces.size < 2 && !hasSurface) return group.reading;
+      if (group.traces.size < 2 && !hasSurface) return attachEvidence(group.reading,group.evidence);
       const representative = stable(group.reading);
-      return attachSurface(representative,group.traces);
+      return attachEvidence(attachSurface(representative,group.traces),group.evidence);
     });
 }
 
@@ -157,6 +195,7 @@ export function ambiguousTranslation(readings) {
     `Source has ${readings.length} distinct semantic readings.`,
     {alternatives: readings.map(item => ({meaning: item.interlingua,
       lexicalSenses: item.lexicalSenses, score: item.score,
+      ...(item.evidence?.length > 1 ? {evidence:item.evidence} : {}),
       ...(item.surface ? {surface:item.surface} : {})}))});
 }
 
@@ -170,6 +209,7 @@ export function incompleteTranslation(readings) {
       message:'Source analysis is incomplete; an unsupported alternative reading remains.'},
     ...evidence],alternatives:readings.map(item=>({meaning:item.interlingua,
       lexicalSenses:item.lexicalSenses,score:item.score,
+      ...(item.evidence?.length > 1 ? {evidence:item.evidence} : {}),
       ...(item.surface?{surface:item.surface}:{})}))});
 }
 

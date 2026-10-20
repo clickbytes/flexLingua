@@ -479,7 +479,7 @@ function transferEvidence(value, meaning) {
 }
 
 function validateAnalysisMetadata(value, meaning) {
-  const allowed = ['lexicalSenses','score','transfer','sourceSegments','surface'];
+  const allowed = ['lexicalSenses','score','transfer','sourceSegments','surface','evidence'];
   if (!isRecord(value) || Object.keys(value).some(key => !allowed.includes(key))) {
     invalidResult('Analysis metadata contains an unsupported field.');
   }
@@ -495,7 +495,40 @@ function validateAnalysisMetadata(value, meaning) {
   if (owns(value,'sourceSegments')) normalized.sourceSegments = validateSourceSegments(value.sourceSegments,meaning);
   if (owns(value,'surface')) normalized.surface = validateSurface(
     value.surface,normalized.transfer?.construction);
+  if (owns(value,'evidence')) normalized.evidence = validateAnalysisEvidence(
+    value.evidence,meaning,normalized.transfer?.construction,normalized.surface?.variants);
   return normalized;
+}
+
+function validateAnalysisEvidence(value, meaning, construction, surfaceVariants) {
+  if (!Array.isArray(value) || value.length < 2 || value.length > MAX_EVIDENCE) {
+    invalidResult('Analysis evidence must contain two to 32 distinct traces.');
+  }
+  const traces=value.map(item => {
+    if (!hasExactKeys(item,['lexicalSenses','score','transferSourceId','sourceSegments'],
+        ['surfaceVariant']) || !Number.isFinite(item.score) ||
+        !(item.transferSourceId === null ||
+          (isConstructionId(item.transferSourceId) &&
+            (construction === undefined || item.transferSourceId === construction)))) {
+      invalidResult('Analysis evidence contains an invalid trace.');
+    }
+    const normalized={lexicalSenses:validateLexicalSenses(item.lexicalSenses),
+      score:item.score,transferSourceId:item.transferSourceId,
+      sourceSegments:validateSourceSegments(item.sourceSegments,meaning)};
+    if (owns(item,'surfaceVariant')) {
+      normalized.surfaceVariant =
+        validateSurface({variants:[item.surfaceVariant]},construction).variants[0];
+      if (surfaceVariants && !surfaceVariants.some(variant =>
+          meaningKey(variant) === meaningKey(normalized.surfaceVariant))) {
+        invalidResult('Analysis evidence surface variant is not in the reading surface.');
+      }
+    }
+    return normalized;
+  });
+  const unique=new Map(traces.map(item=>[meaningKey(item),item]));
+  if(unique.size!==traces.length)invalidResult('Analysis evidence repeats a trace.');
+  return [...unique.entries()].sort(([left],[right])=>left<right?-1:left>right?1:0)
+    .map(([,item])=>item);
 }
 
 function validateLexicalSenses(value) {
