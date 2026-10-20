@@ -10,6 +10,7 @@ import {splitSentences} from './text.js';
 import {createPersonalityProfile} from './personality.js';
 import {SessionMemory} from './memory.js';
 import {parseMemoryDocument,serializeMemory} from './memory-store.js';
+import {EngineError} from './errors.js';
 
 const trustedSessionContexts = new WeakSet();
 export const isTrustedSessionContext = context =>
@@ -162,7 +163,17 @@ export class ConversationContext {
 
   exportMemory(){return serializeMemory(this.#memory.snapshot());}
 
-  importMemory(text){return this.#memory.restore(parseMemoryDocument(text));}
+  importMemory(text){
+    try {
+      const snapshot=parseMemoryDocument(text);
+      return this.#memory.restore(snapshot,{validateProposition:proposition=>
+        validateMeaningGraph(proposition,this.#engine.ontology,this.#engine.features)});
+    } catch(error) {
+      if(error?.status)throw error;
+      throw new EngineError(error?.code||'MEMORY_DOCUMENT_INVALID',
+        error?.message||'Invalid or unsupported memory document.',{cause:error,status:'invalid'});
+    }
+  }
 
   clearMemory(){return this.#memory.reset();}
 
