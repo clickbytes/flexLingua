@@ -14,7 +14,7 @@ import {LANGUAGE_PLUGIN_CONTRACT_VERSION, normalizeAnalysisResult, normalizeReal
   from '../plugins/contract.js';
 import {matchConceptGraphs} from './typed-graph-match.js';
 import {composeMeaningGraph} from './semantic-composition.js';
-import {ambiguousTranslation, incompleteTranslation, distinctReadings, translationFailure, withUncertainties}
+import {ambiguousTranslation, hasIncompleteAnalysis, incompleteTranslation, distinctReadings, translationFailure, withUncertainties}
   from './translation-result.js';
 import {realizeInterpretations} from './translation-interpretations.js';
 import {validateReferentContext, applyReferentContext} from './translation-context.js';
@@ -758,7 +758,7 @@ export class Engine {
         ...(!bundle.limitError&&bundle.truncation?{truncation:bundle.truncation}:{}),
         ...(candidates[0]?.contextReport ? {contextReport:candidates[0].contextReport} : {})});
       if (bundle.limitError) return attach(translationFailure(bundle.limitError));
-      if (candidates.some(item=>item.incompleteDiagnostics?.length)) {
+      if (hasIncompleteAnalysis(candidates)) {
         return attach(incompleteTranslation(candidates));
       }
       if (candidates.length !== 1) return attach(ambiguousTranslation(candidates));

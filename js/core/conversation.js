@@ -11,6 +11,7 @@ import {createPersonalityProfile} from './personality.js';
 import {SessionMemory} from './memory.js';
 import {parseMemoryDocument,serializeMemory} from './memory-store.js';
 import {EngineError} from './errors.js';
+import {hasIncompleteAnalysis,incompleteTranslation} from './translation-result.js';
 
 const trustedSessionContexts = new WeakSet();
 export const isTrustedSessionContext = context =>
@@ -360,8 +361,9 @@ export class ConversationContext {
     const sourceText=text.trim();
 
     if(sourceText.includes('?')) {
-      const readings=this.#engine.analyzeCandidates({text:sourceText,from,context:settings})
-        .filter(item=>item.interlingua?.type==='question');
+      const candidates=this.#engine.analyzeCandidates({text:sourceText,from,context:settings});
+      requireCompleteSourceAnalysis(candidates);
+      const readings=candidates.filter(item=>item.interlingua?.type==='question');
       const unique=[];
       for(const reading of readings) {
         if(!unique.some(item=>sameQuestion(item.interlingua,reading.interlingua)))
@@ -403,8 +405,9 @@ export class ConversationContext {
       antecedent=matches[0];
       parsedText=adapter.expandSubjectPronoun(source,antecedent.ref);
     }
-    const readings=this.#engine.analyzeCandidates({text:parsedText,from,context:settings})
-      .filter(item=>item.interlingua?.type==='event' &&
+    const candidates=this.#engine.analyzeCandidates({text:parsedText,from,context:settings});
+    requireCompleteSourceAnalysis(candidates);
+    const readings=candidates.filter(item=>item.interlingua?.type==='event' &&
         (!antecedent || item.interlingua.roles?.[adapter.subjectRole]?.concept===
           antecedent.ref.concept));
     if(!readings.length)throw new Error('Conversation event has no supported semantic reading.');
@@ -473,6 +476,7 @@ export class ConversationContext {
         structuredClone(error.diagnostics):[{code,message:error.message}];
       return {ok:false,error:{code,message:error.message,
         ...(error?.status?{status:error.status}:{}),
+        ...(Array.isArray(error?.alternatives)?{alternatives:structuredClone(error.alternatives)}:{}),
         diagnostics},diagnostics};
     }
   }
@@ -489,6 +493,15 @@ function canonicalJson(value) {
 
 function sameQuestion(left, right) {
   return canonicalJson(left) === canonicalJson(right);
+}
+
+function requireCompleteSourceAnalysis(readings) {
+  if (!hasIncompleteAnalysis(readings)) return;
+  const refusal=incompleteTranslation(readings);
+  const error=new EngineError(refusal.diagnostics[0].code,refusal.diagnostics[0].message,
+    {status:refusal.status,diagnostics:refusal.diagnostics});
+  error.alternatives=refusal.alternatives;
+  throw error;
 }
 
 /**
