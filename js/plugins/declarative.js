@@ -250,6 +250,8 @@ export function defineDeclarativeLanguagePlugin({manifest, graph, modules, core}
         core, lexicon: lexical, ...(featureProfile ? {featureProfile} : {})
       });
     } catch (error) {
+      if(error?.code==='PLUGIN_RESOURCE_LIMIT' || error?.status==='resource_limit')
+        fail('PLUGIN_RESOURCE_LIMIT', 'Morphology paradigm inheritance exceeds its supported depth.', error);
       fail('PLUGIN_PACKAGE_INVALID', 'Cannot build the declared morphology provider.', error);
     }
   }
