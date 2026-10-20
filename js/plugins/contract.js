@@ -492,8 +492,9 @@ function validateAnalysisMetadata(value, meaning) {
   if (owns(value,'transfer')) {
     normalized.transfer = transferEvidence(value.transfer,meaning);
   }
-  if (owns(value,'sourceSegments')) normalized.sourceSegments = validateSourceSegments(value.sourceSegments);
-  if (owns(value,'surface')) normalized.surface = validateSurface(value.surface);
+  if (owns(value,'sourceSegments')) normalized.sourceSegments = validateSourceSegments(value.sourceSegments,meaning);
+  if (owns(value,'surface')) normalized.surface = validateSurface(
+    value.surface,normalized.transfer?.construction);
   return normalized;
 }
 
@@ -513,13 +514,27 @@ function validateLexicalSenses(value) {
     }));
 }
 
-function validateSourceSegments(value) {
+function meaningPathExists(meaning, path) {
+  if (!path.startsWith('#/') || path.length > 512) return false;
+  let current = meaning;
+  for (const part of path.slice(2).split('/')) {
+    if (/~(?![01])/u.test(part)) return false;
+    const key = part.replace(/~1/gu,'/').replace(/~0/gu,'~');
+    if (!isRecord(current) || !owns(current,key)) return false;
+    current = current[key];
+  }
+  return true;
+}
+
+function validateSourceSegments(value, meaning) {
   if (!Array.isArray(value) || value.length > MAX_SEGMENTS) {
     invalidResult('Analysis source segments must be a bounded array.');
   }
   return Array.from(value, item => {
-    if (!isRecord(item) || typeof item.path !== 'string' || !item.path.startsWith('#/') ||
-        item.path.length > 512) invalidResult('Analysis source segment path is invalid.');
+    if (!isRecord(item) || typeof item.path !== 'string' ||
+        !meaningPathExists(meaning,item.path)) {
+      invalidResult('Analysis source segment path does not resolve in MeaningGraph.');
+    }
     if (owns(item,'span')) {
       if (!hasExactKeys(item,['path','span'])) invalidResult('Aligned source segments require a path and span.');
       return {path:item.path,span:validateSpan(item.span,'Analysis source span')};
@@ -532,7 +547,7 @@ function validateSourceSegments(value) {
   });
 }
 
-function validateSurface(value) {
+function validateSurface(value, construction) {
   if (!hasExactKeys(value,['variants']) || !Array.isArray(value.variants) ||
       value.variants.length < 1 || value.variants.length > MAX_EVIDENCE) {
     invalidResult('Analysis surface evidence requires a bounded variants array.');
@@ -540,8 +555,9 @@ function validateSurface(value) {
   const variants = Array.from(value.variants,item => {
     if (!hasExactKeys(item,['id','construction','slots'],['markedness']) ||
         !isVariantId(item.id) || !isConstructionId(item.construction) ||
+        (construction !== undefined && item.construction !== construction) ||
         (owns(item,'markedness') && item.markedness !== 'unknown') || !Array.isArray(item.slots) ||
-        item.slots.length > 16) {
+        item.slots.length < 1 || item.slots.length > 16) {
       invalidResult('Analysis surface variant contains invalid or unsupported fields.');
     }
     const slots = Array.from(item.slots,slot => {
@@ -553,6 +569,9 @@ function validateSurface(value) {
       return {name:slot.name,...span};
     }).sort((left,right)=>left.start-right.start || left.end-right.end ||
       (left.name<right.name?-1:left.name>right.name?1:0));
+    if (new Set(slots.map(slot=>slot.name)).size !== slots.length) {
+      invalidResult('Analysis surface variant repeats a slot.');
+    }
     for (let index=1; index<slots.length; index++) {
       if (slots[index].start < slots[index-1].end) {
         invalidResult('Analysis surface slots cannot overlap.');

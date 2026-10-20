@@ -67,6 +67,53 @@ function availableForTransfer(capabilities, operation, transfer) {
     availableFor(capabilities, operation, transfer.propositionConstruction);
 }
 
+function validateSurfacePlan(candidate, transfer, plan, text) {
+  if (candidate.surfaceVariants === undefined) return;
+  if (!Array.isArray(candidate.surfaceVariants)) {
+    fail('PLUGIN_RESULT_INVALID', 'Analysis surface variants must be a bounded list.');
+  }
+  if (!candidate.surfaceVariants.length) return;
+  const proposition = transfer.kind === 'question' ? transfer.propositionTransfer : transfer;
+  const frameKey = proposition.stateKind === undefined
+    ? `event:${proposition.conceptId}` : `state:${proposition.stateKind}`;
+  const plans = plan.linearizationPlans.frames[frameKey] || [];
+  const meaning = candidate.interlingua.type === 'question'
+    ? candidate.interlingua.proposition : candidate.interlingua;
+  for (const variant of candidate.surfaceVariants) {
+    const licensed = plans.find(item => item.surfaceEnabled && item.id === variant?.id);
+    if (!licensed || !Array.isArray(variant.slots) || !variant.slots.length) {
+      fail('PLUGIN_RESULT_INVALID', 'Analysis surface variant has no compiled plan or slots.');
+    }
+    const names = new Set();
+    for (const slot of variant.slots) {
+      if (!isRecord(slot) || typeof slot.name !== 'string' || names.has(slot.name) ||
+          !(licensed.sequence.includes(slot.name) ||
+            (transfer.kind === 'question' && slot.name === '@auxiliary')) ||
+          (!slot.name.startsWith('@') && !Object.hasOwn(meaning.roles || {},slot.name)) ||
+          !Number.isSafeInteger(slot.start) || !Number.isSafeInteger(slot.end) ||
+          slot.start < 0 || slot.end <= slot.start || slot.end > text.length ||
+          (slot.start > 0 && /[\uD800-\uDBFF]/u.test(text[slot.start-1]) &&
+            /[\uDC00-\uDFFF]/u.test(text[slot.start])) ||
+          (slot.end > 0 && /[\uD800-\uDBFF]/u.test(text[slot.end-1]) &&
+            /[\uDC00-\uDFFF]/u.test(text[slot.end]))) {
+        fail('PLUGIN_RESULT_INVALID', 'Analysis surface slot does not match its plan, meaning, or text.');
+      }
+      names.add(slot.name);
+    }
+    for (const role of licensed.sequence.filter(step => !step.startsWith('@'))) {
+      if (Object.hasOwn(meaning.roles || {},role) && !names.has(role)) {
+        const path = candidate.interlingua.type === 'question'
+          ? `#/proposition/roles/${role}` : `#/roles/${role}`;
+        const unavailable = candidate.sourceSegments?.some(item =>
+          item.path === path && item.status === 'unavailable');
+        if (!unavailable) {
+          fail('PLUGIN_RESULT_INVALID', `Analysis surface lacks the declared ${role} slot.`);
+        }
+      }
+    }
+  }
+}
+
 function normalizeUnsupportedQuestion(error, text, capabilities) {
   if (typeof text !== 'string' || !text.trim().endsWith('?') ||
       error?.status !== 'unsupported' || INTERNAL_PLUGIN_FAILURE_CODES.has(error?.code) ||
@@ -287,6 +334,7 @@ export function defineDeclarativeLanguagePlugin({manifest, graph, modules, core}
             const reading = semanticBridge.validateReading(candidate, transfer);
             const runtimeTransfer = semanticBridge.projectMeaning(
               reading.meaning, transfer, reading.lexicalSenses);
+            validateSurfacePlan(candidate, transfer, plan, input.text);
             readings.push({meaning: reading.meaning, analysis: {
               lexicalSenses: reading.lexicalSenses, score: reading.score,
               transfer: runtimeTransfer,
