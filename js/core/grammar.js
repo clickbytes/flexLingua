@@ -2574,7 +2574,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
         /[.?!]/u.test(text.trim().slice(0,-1))) {
       unsupported('Unsupported question construction or punctuation.');
     }
-    const tokens=tokenize(text.trim().slice(0,-1)+'.');
+    const tokens=tokenize(text);
     if(tokens.length<2)unsupported('Unsupported question construction.');
     const counter={visited:0};
     const modalReadings=parseModalQuestionCandidates(tokens,counter);
@@ -2584,8 +2584,11 @@ function createGrammarInterpreter(sourceDictionary, rules,
       for(const item of readings) {
         const question=createQuestion(item.interlingua,kind==='wh'
           ? {questionType:'wh',targetRole} : {questionType:'yes_no'});
+        const sourceSegments=(item.sourceSegments||[]).map(source=>({
+          ...source,path:`#/proposition${source.path.slice(1)}`
+        }));
         if(!results.some(candidate=>JSON.stringify(candidate.interlingua)===JSON.stringify(question))){
-          results.push({...item,interlingua:question});
+          results.push({...item,interlingua:question,sourceSegments});
         }
       }
     };
@@ -3264,8 +3267,44 @@ function createGrammarInterpreter(sourceDictionary, rules,
     return {text,warnings,alternatives:alternative&&alternative!==text?[alternative]:[]};
   }
 
+  function segmentsForParts(text,parts,sourceSegments=[],{
+    meaningPathPrefix='',firstCase='upper'
+  }={}) {
+    const sources=new Map(sourceSegments.map(item=>[item.path,item]));
+    let cursor=0,first=true;
+    const segments=[];
+    for(const part of parts) {
+      const normalized=part.text.normalize('NFC').replace(/\s+/gu,' ')
+        .replace(/\s+,/gu,',').trim();
+      if(!normalized)continue;
+      let displayed=normalized;
+      if(first) {
+        const chars=Array.from(displayed);
+        if(firstCase==='upper')displayed=(chars[0]?.toLocaleUpperCase(grammar.language)||'')+
+          chars.slice(1).join('');
+        else if(firstCase==='lower')displayed=(chars[0]?.toLocaleLowerCase(grammar.language)||'')+
+          chars.slice(1).join('');
+        first=false;
+      }
+      const start=text.indexOf(displayed,cursor);
+      const end=start<0?-1:start+displayed.length;
+      const meaningPaths=(part.meaningPaths||[]).map(path=>meaningPathPrefix&&path.startsWith('#/')
+        ?`${meaningPathPrefix}${path.slice(1)}`:path);
+      const sourceLinks=meaningPaths.map(path=>{
+        const source=sources.get(path);
+        return source?.span?{meaningPath:path,status:'aligned',span:source.span}:
+          {meaningPath:path,status:'unavailable',reason:source?.reason||'source-span-unavailable'};
+      });
+      segments.push({text:displayed,targetSpan:start<0?null:{start,end},meaningPaths,
+        sources:sourceLinks,decision:part.decision});
+      if(end>=0)cursor=end;
+    }
+    return segments;
+  }
+
   function realize(meaning, {subjectPronoun=null,lexicalRegister='neutral',informationStructure,
-    semanticTransfer,includeSegments=false,sourceSegments=[],omitDeicticSubject=false} = {}) {
+    semanticTransfer,includeSegments=false,sourceSegments=[],omitDeicticSubject=false,
+    meaningPathPrefix=''} = {}) {
     if(!['neutral','formal','plain'].includes(lexicalRegister))
       unsupported('Unsupported lexical register.');
     if(subjectPronoun && (meaning?.type!=='event' ||
@@ -3277,15 +3316,19 @@ function createGrammarInterpreter(sourceDictionary, rules,
     // uniform validation instead of silently dropping unsupported options.
     const structuredPath=meaning?.type==='question'||meaning?.type==='comparison'||meaning?.type==='state'||
         meaning?.voice==='passive'||modalParts(meaning);
+    const questionSegmentsSupported=meaning?.type==='question'&&
+      meaning.proposition?.type==='event'&&!modalParts(meaning.proposition);
     if(typeof includeSegments!=='boolean'||!Array.isArray(sourceSegments)||sourceSegments.length>64||
         typeof omitDeicticSubject!=='boolean')
       unsupported('Invalid segment request.');
-    if(structuredPath&&(informationStructure!==undefined||includeSegments===true||
-        sourceSegments.length>0||omitDeicticSubject===true))
+    if(structuredPath&&(informationStructure!==undefined||
+        ((includeSegments===true||sourceSegments.length>0)&&!questionSegmentsSupported)||
+        omitDeicticSubject===true))
       unsupported(`Unsupported realize option for ${meaning?.type==='question'?'question':
         meaning?.type==='comparison'?'comparison':meaning?.type==='state'?'state':
-        meaning?.voice==='passive'?'passive':'modal'} realization; information structure, segments and deictic-subject omission are supported by plain events only.`);
-    if(meaning?.type==='question')return realizeQuestion(meaning,{semanticTransfer});
+        meaning?.voice==='passive'?'passive':'modal'} realization; information structure and deictic-subject omission are supported by plain events only; source segments are supported for event questions.`);
+    if(meaning?.type==='question')return realizeQuestion(meaning,
+      {semanticTransfer,includeSegments,sourceSegments});
     if(meaning?.type==='comparison')return realizeComparison(meaning);
     if(meaning?.type==='state')return realizeState(meaning);
     if(meaning?.voice==='passive')return realizePassive(meaning);
@@ -3325,30 +3368,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
       const parts=renderer.linearizeParts(entry,def,lexicalOverrides);
       const text=sentenceText([parts.map(part=>part.text)],sentence.terminator,grammar.language);
       if(!includeSegments){const result={text};renderCache.set(key,result);return result;}
-      const sources=new Map(sourceSegments.map(item=>[item.path,item]));
-      let cursor=0,first=true;
-      const segments=[];
-      for(const part of parts){
-        const normalized=part.text.normalize('NFC').replace(/\s+/gu,' ')
-          .replace(/\s+,/gu,',').trim();
-        if(!normalized)continue;
-        let displayed=normalized;
-        if(first){const chars=Array.from(displayed);
-          displayed=(chars[0]?.toLocaleUpperCase(grammar.language)||'')+chars.slice(1).join('');
-          first=false;
-        }
-        const start=text.indexOf(displayed,cursor);
-        const end=start<0?-1:start+displayed.length;
-        const sourceLinks=(part.meaningPaths||[]).map(path=>{
-          const source=sources.get(path);
-          return source?.span?{meaningPath:path,status:'aligned',span:source.span}:
-            {meaningPath:path,status:'unavailable',reason:source?.reason||'source-span-unavailable'};
-        });
-        segments.push({text:displayed,
-          targetSpan:start<0?null:{start,end},meaningPaths:part.meaningPaths||[],
-          sources:sourceLinks,decision:part.decision});
-        if(end>=0)cursor=end;
-      }
+      const segments=segmentsForParts(text,parts,sourceSegments,{meaningPathPrefix});
       renderCache.set(key,{text,segments});
       return {text,segments};
     };
@@ -3423,7 +3443,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
 
   /** Reuse existing inflection and nominal rules; interrogative strategies
    * remain in each language's declarative grammar configuration. */
-  function realizeQuestion(question, {semanticTransfer} = {}) {
+  function realizeQuestion(question, {semanticTransfer,includeSegments=false,sourceSegments=[]} = {}) {
     if(!questions)unsupported('Unsupported question construction in this language.');
     const q=questions,clause=question.proposition;
     const propositionTransfer=semanticTransfer?.kind==='question'
@@ -3464,7 +3484,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
       const relative={gap:'destination',antecedent:{value:{features:{number:'singular'}},
         noun:{id:'question_gap'},senseId:null}};
       const built=renderEvent(clause,fallback,0,relative,{sequence:linearization,returnBuilder:true});
-      let text;
+      let text,parts;
       if(q.yesNo.mode==='auxiliary') {
         const subject=clause.roles[subjectRole];
         const person=subject?.agreement?.person||'third';
@@ -3477,17 +3497,41 @@ function createGrammarInterpreter(sourceDictionary, rules,
         const base=formsAtLexeme(built.preferred.lexeme,q.yesNo.baseVerbPath);
         if(!auxiliary || base.length!==1)unsupported('Missing destination WH auxiliary or verb form.');
         const entry={...built.preferred,text:base[0].text,rule:{...built.preferred.rule,prefix:[]}};
-        text=`${q.wh.destination.marker} ${auxiliary} ${built.linearize(entry,fallback)}`;
+        parts=[{text:q.wh.destination.marker,meaningPaths:[],decision:{kind:'question-marker',
+          id:`${grammar.language}.wh-destination`}},{text:auxiliary,meaningPaths:['#/features'],
+          decision:{kind:'question-marker',id:`${grammar.language}.question-auxiliary`}},
+        ...built.linearizeParts(entry,fallback)];
       } else {
-        text=`${q.wh.destination.marker} ${built.linearize(built.preferred,fallback)}`;
+        parts=[{text:q.wh.destination.marker,meaningPaths:[],decision:{kind:'question-marker',
+          id:`${grammar.language}.wh-destination`}},...built.linearizeParts(built.preferred,fallback)];
       }
-      return {text:wrap(text),warnings:[],alternatives:[]};
+      text=wrap(parts.map(part=>part.text).filter(Boolean).join(' '));
+      return {text,warnings:[],alternatives:[],...(includeSegments?{realizations:[{text,
+        kind:'equivalent_expression',assumptions:[],informationLoss:[],
+        segments:segmentsForParts(text,parts,sourceSegments,{meaningPathPrefix:'#/proposition'})}]}:{})};
     }
     if(question.questionType==='yes_no'&&q.yesNo.mode==='prefix'){
-      const rendered=realize(clause,{semanticTransfer:propositionTransfer});
+      const rendered=realize(clause,{semanticTransfer:propositionTransfer,includeSegments,
+        sourceSegments,meaningPathPrefix:'#/proposition'});
       const prefix=text=>wrap(q.yesNo.marker+' '+lowerFirst(withoutPeriod(text)));
+      const addPrefix=(row)=>{
+        const text=prefix(row.text);
+        const offset=(q.yesNo.marker+' ').length;
+        const displayMarker=Array.from(q.yesNo.marker).map((character,index)=>index===0
+          ?character.toLocaleUpperCase(grammar.language):character).join('');
+        const markerSegment={text:displayMarker,targetSpan:{start:0,end:displayMarker.length},
+          meaningPaths:[],sources:[],decision:{kind:'question-marker',
+            id:`${grammar.language}.yes-no-prefix`}};
+        const segments=[markerSegment,...(row.segments||[]).map((segment,index)=>({...segment,
+          ...(index===0?{text:lowerFirst(segment.text)}:{}),
+          targetSpan:segment.targetSpan?{start:segment.targetSpan.start+offset,
+            end:segment.targetSpan.end+offset}:null}))];
+        return {...row,text,...(includeSegments?{segments}:{})};
+      };
+      const realizations=includeSegments?(rendered.realizations||[]).map(addPrefix):undefined;
       return {...rendered,text:prefix(rendered.text),
-        alternatives:rendered.alternatives.map(prefix)};
+        alternatives:rendered.alternatives.map(prefix),
+        ...(includeSegments?{realizations}:{})};
     }
     const frame=frames[clause.concept];
     if(!frame)unsupported('Unsupported question event frame.');
@@ -3531,6 +3575,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
       }};
     };
     const renderAt=def=>{
+      let prefixParts=[],entry=built.preferred;
       if(question.questionType==='yes_no') {
         if(built.preferred.rule.tense==='present'&&
            built.preferred.rule.aspect==='imperfective'&&
@@ -3538,29 +3583,41 @@ function createGrammarInterpreter(sourceDictionary, rules,
           const prefix=built.preferred.rule.prefix;
           const fronted=prefix?.[0];
           if(!fronted)unsupported('Missing progressive auxiliary for question.');
-          const entry={...built.preferred,rule:{...built.preferred.rule,prefix:prefix.slice(1)}};
-          return wrap(fronted+' '+built.linearize(entry,def));
+          entry={...built.preferred,rule:{...built.preferred.rule,prefix:prefix.slice(1)}};
+          prefixParts=[{text:fronted,meaningPaths:['#/features'],
+            decision:{kind:'question-marker',id:`${grammar.language}.progressive-auxiliary`}}];
+        } else {
+          entry=auxiliaryEntry();
+          prefixParts=[{text:auxiliary(),meaningPaths:['#/features'],
+            decision:{kind:'question-marker',id:`${grammar.language}.question-auxiliary`}}];
         }
-        return wrap(auxiliary()+' '+built.linearize(auxiliaryEntry(),def));
-      }
-      if(question.questionType!=='wh')unsupported('Unsupported question kind.');
-      if(question.targetRole==='agent') {
-        return wrap(q.wh.agent.marker+' '+built.linearize(built.preferred,def));
-      }
-      if(question.targetRole==='theme') {
+      } else if(question.questionType==='wh'&&question.targetRole==='agent') {
+        prefixParts=[{text:q.wh.agent.marker,meaningPaths:[],
+          decision:{kind:'question-marker',id:`${grammar.language}.wh-agent`}}];
+      } else if(question.questionType==='wh'&&question.targetRole==='theme') {
         const gramCase=roleCase(frame,'theme',clause.features,null);
         const marker=q.wh.theme.caseMarkers?.[gramCase]||q.wh.theme.marker;
-        const content=q.wh.theme.order==='auxiliary'
-          ? auxiliary()+' '+built.linearize(auxiliaryEntry(),def)
-          : built.linearize(whEntry,def);
-        const governed=frame.whTheme?.frontPreposition
-          ? frame.whTheme.frontPreposition+' ':'';
-        return wrap(governed+marker+' '+content);
-      }
-      unsupported('Unsupported WH target role.');
+        prefixParts=[{text:marker,meaningPaths:[],
+          decision:{kind:'question-marker',id:`${grammar.language}.wh-theme`}}];
+        if(q.wh.theme.order==='auxiliary') {
+          prefixParts.push({text:auxiliary(),meaningPaths:['#/features'],
+            decision:{kind:'question-marker',id:`${grammar.language}.question-auxiliary`}});
+          entry=auxiliaryEntry();
+        } else entry=whEntry;
+        const governed=frame.whTheme?.frontPreposition;
+        if(governed)prefixParts.unshift({text:governed,meaningPaths:[],
+          decision:{kind:'question-marker',id:`${grammar.language}.wh-preposition`}});
+      } else unsupported('Unsupported WH target role.');
+      if(question.questionType!=='yes_no'&&question.questionType!=='wh')
+        unsupported('Unsupported question kind.');
+      const parts=[...prefixParts,...built.linearizeParts(entry,def)];
+      const text=wrap(parts.map(part=>part.text).filter(Boolean).join(' '));
+      return {text,segments:includeSegments?segmentsForParts(text,parts,sourceSegments,
+        {meaningPathPrefix:'#/proposition'}):undefined};
     };
-    const text=renderAt(fallback);
-    const alternative=alternate?renderAt(alternate):null;
+    const primary=renderAt(fallback),other=alternate?renderAt(alternate):null;
+    const text=primary.text;
+    const alternative=other?.text;
     const warnings=[];
     if(hasArticles&&unspecified.length) {
       warnings.push(formatMessage(grammar.messages?.definitenessUnknown||
@@ -3572,7 +3629,9 @@ function createGrammarInterpreter(sourceDictionary, rules,
       warnings.push(grammar.messages?.aspectUnknown||
         'Source does not specify aspect; target aspect was selected by default.');
     }
-    return {text,warnings,alternatives:alternative&&alternative!==text?[alternative]:[]};
+    return {text,warnings,alternatives:alternative&&alternative!==text?[alternative]:[],
+      ...(includeSegments?{realizations:[{text,kind:'equivalent_expression',assumptions:[],
+        informationLoss:[],segments:primary.segments}]}:{})};
   }
 
   function realizeStateQuestion(clause,question) {
