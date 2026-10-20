@@ -325,7 +325,9 @@ export class Engine {
 
   validateContext(context = {}) {
     const allowSession=isTrustedSessionContext(context);
-    context = assertSafeContextGraph(context);
+    // A session context is already a bounded, frozen snapshot created by
+    // ConversationContext. Preserve its WeakSet identity across revalidation.
+    if (!allowSession) context = assertSafeContextGraph(context);
     validateReferentContext(context, this.ontology,{allowSession});
     if (context.topics !== undefined && (!Array.isArray(context.topics) || context.topics.length > 8 ||
         context.topics.some(topic => !this.ontology.get(topic)))) {
