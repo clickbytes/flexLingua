@@ -84,9 +84,6 @@ function contextBoundAddresseeNumber(meaning,context) {
 export function realizeInterpretations(engine, candidates, options) {
   const context = options.context ?? {};
   const requestedPreviewId=options.previewId;
-  if(requestedPreviewId!==undefined&&
-      (typeof requestedPreviewId!=='string'||!/^i[1-9][0-9]*\.r[1-9][0-9]*$/u.test(requestedPreviewId)))
-    throw new EngineError('INVALID_PREVIEW_ID','Preview ID is invalid.',{status:'invalid'});
   const ids = new Map([...candidates].sort((a,b) => compare(meaningKey(a.interlingua), meaningKey(b.interlingua)))
     .map((candidate, index) => [candidate, `i${index + 1}`]));
   const outputs = [];
@@ -167,6 +164,12 @@ export function realizeInterpretations(engine, candidates, options) {
   const allRealizations=interpretations.flatMap(item=>item.realizations.map(realization=>({
     ...realization,meaning:item.meaning
   })));
+  // Incomplete semantic search cannot authorize any preview, even when the
+  // caller names a realization that happened to finish before the limit.
+  if(limitError)return {interpretations,outputs,limitError,previewId:null,preview:null};
+  if(requestedPreviewId!==undefined&&
+      (typeof requestedPreviewId!=='string'||!/^i[1-9][0-9]*\.r[1-9][0-9]*$/u.test(requestedPreviewId)))
+    throw new EngineError('INVALID_PREVIEW_ID','Preview ID is invalid.',{status:'invalid'});
   if(requestedPreviewId!==undefined&&!allRealizations.some(item=>item.id===requestedPreviewId))
     throw new EngineError('INVALID_PREVIEW_ID','The requested complete realization was not found.',
       {status:'invalid'});
