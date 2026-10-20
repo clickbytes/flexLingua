@@ -1,5 +1,6 @@
 import {meaningKey, translationErrorStatus, withUncertainties} from './translation-result.js';
 import {EngineError} from './errors.js';
+import {personalityBaseInformationLoss,selectedPersonalityAlternative} from './personality.js';
 
 const compare = (left, right) => left < right ? -1 : left > right ? 1 : 0;
 const vector = score => [score.assumptions ?? Infinity, -score.contextRules,
@@ -87,6 +88,7 @@ export function realizeInterpretations(engine, candidates, options) {
   const ids = new Map([...candidates].sort((a,b) => compare(meaningKey(a.interlingua), meaningKey(b.interlingua)))
     .map((candidate, index) => [candidate, `i${index + 1}`]));
   const outputs = [];
+  const personalityRows = new Map();
   let limitError;
   const interpretations = candidates.map(candidate => {
     const id = ids.get(candidate), meaning = candidate.interlingua;
@@ -111,16 +113,18 @@ export function realizeInterpretations(engine, candidates, options) {
       if (status === 'resource_limit') limitError ??= caught;
     }
     outputs.push({candidate, output, error});
+    if (output && selectedPersonalityAlternative(output)) personalityRows.set(id,`${id}.r1`);
     const realizations = [];
     if (output) {
+      const baseInformationLoss=personalityBaseInformationLoss(output);
       const usesRealizationRows=Array.isArray(output.realizations)&&output.realizations.length>0;
       const rows=usesRealizationRows?
         output.realizations:[...new Set([output.text,...(output.alternatives||[])])]
           .map(text=>({text,kind:'equivalent_expression',assumptions:[],informationLoss:[]}));
       for (const [index, row] of rows.entries()) {
         const text=row.text;
-        const informationLoss=[...(output.informationLoss??[]),...(row.informationLoss??[])];
-        const details=realizationAssumptions(output.informationLoss??[],row.informationLoss??[],
+        const informationLoss=[...baseInformationLoss,...(row.informationLoss??[])];
+        const details=realizationAssumptions(baseInformationLoss,row.informationLoss??[],
           row.assumptions??[]);
         const assumptions=details.map(({path,feature,reason})=>({path,feature,reason}));
         const assumptionReasons=details.length?details.map(item=>({
@@ -165,6 +169,7 @@ export function realizeInterpretations(engine, candidates, options) {
     item.rank = rank;
   });
   const defaultPreviewId=limitError?null:
+    interpretations.map(item=>personalityRows.get(item.id)).find(Boolean) ??
     interpretations.find(item=>item.realizations.length)?.realizations[0].id??null;
   const allRealizations=interpretations.flatMap(item=>item.realizations.map(realization=>({
     ...realization,meaning:item.meaning

@@ -21,6 +21,12 @@ export const DEFAULT_PERSONALITY_PROFILE = freezeDeep({
 const PROFILE_KEYS = ['version','id','realization'];
 const REALIZATION_KEYS = ['pronounRealization','outputVariant'];
 const STYLE_LANGUAGES=['pl','en'];
+const selectedAlternatives = new WeakSet();
+const baseLosses = new WeakMap();
+
+export const selectedPersonalityAlternative = output => selectedAlternatives.has(output);
+export const personalityBaseInformationLoss = output =>
+  baseLosses.get(output) ?? output.informationLoss ?? [];
 
 export function createPersonalityProfile(input=DEFAULT_PERSONALITY_PROFILE) {
   if (!record(input) || Object.keys(input).length !== PROFILE_KEYS.length ||
@@ -57,10 +63,22 @@ export function applyPersonalityProfile(output, profile) {
   const validated=createPersonalityProfile(profile);
   if (validated.realization.outputVariant !== 'first_alternative') return output;
   const alternatives=Array.isArray(output.alternatives) ? output.alternatives : [];
-  if (!alternatives.length) {
+  const rows=Array.isArray(output.realizations) ? output.realizations : [];
+  const selected=alternatives.map(text=>rows.find(row=>row.text===text))
+    .find(row=>row && row.text!==output.text);
+  if (!selected) {
     return {...output,warnings:[...(output.warnings || []),
-      'The profile requested an alternate wording, but this realization has no alternatives; preferred wording was kept.']};
+      'The profile requested an alternate wording, but no complete alternate realization is available; preferred wording was kept.']};
   }
-  return {...output,text:alternatives[0],
-    alternatives:[output.text,...alternatives.slice(1)]};
+  const reordered=[selected,...rows.filter(row=>row!==selected)];
+  const result={...output,text:selected.text,realizations:reordered,
+    assumptions:selected.assumptions,
+    informationLoss:[...(output.informationLoss ?? []),...(selected.informationLoss ?? [])],
+    alternatives:[...new Set([output.text,...alternatives])]
+      .filter(text=>text!==selected.text)};
+  if (Array.isArray(selected.segments)) result.segments=selected.segments;
+  else delete result.segments;
+  selectedAlternatives.add(result);
+  baseLosses.set(result,output.informationLoss ?? []);
+  return result;
 }
