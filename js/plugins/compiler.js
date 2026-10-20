@@ -1,7 +1,7 @@
 import {PluginError} from './errors.js';
 import {validateLanguageGraph} from './graph.js';
 import {safeName} from '../core/features.js';
-import {normalizeLinearizations} from '../core/grammar.js';
+import {normalizeLinearizations, defaultLinearizationId} from '../core/linearization.js';
 
 const IDENTIFIER = /^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*$/u;
 const REFERENCE_ID = /^[A-Za-z][A-Za-z0-9_]*(?:\.[A-Za-z0-9_]+)*$/u;
@@ -350,7 +350,8 @@ function compileTransfers(graph, modules, core, senseIds, capabilities, featureD
 }
 
 function compileLinearizationPlans(graph, modules, transferPlans, core) {
-  const declarations = [];
+  const framePlans = Object.create(null);
+  const constructions = Object.create(null);
   const seenSyntaxModules = new Set();
   const addFrames = (frames, kind, moduleName) => {
     if (!isRecord(frames)) return;
@@ -367,6 +368,21 @@ function compileLinearizationPlans(graph, modules, transferPlans, core) {
           `Invalid linearizations for ${moduleName}.${frameId} (${transfers.map(item=>
             item.construction).join(', ') || 'no transfer'}): ${error.message}`, error);
       }
+      const surfaceEnabled=normalized.variants.length>0;
+      const reservedIds=new Set(normalized.variants.map(variant=>variant.variantId));
+      const defaults=normalized.defaultSequences.map((sequence,index)=>{
+        const id=surfaceEnabled?defaultLinearizationId(sequence,reservedIds,index===0):null;
+        if(id)reservedIds.add(id);
+        return {sequence,id,surfaceEnabled,isDefault:true,realizationPreference:null};
+      });
+      const variants=normalized.variants.slice().sort((left,right)=>
+        left.variantId<right.variantId?-1:left.variantId>right.variantId?1:0)
+        .map(variant=>({sequence:variant.sequence,id:variant.variantId,
+          surfaceEnabled:true,isDefault:false,
+          realizationPreference:variant.realizationPreference}));
+      const frameKey=`${kind}:${frameId}`;
+      const plans=[...defaults,...variants];
+      framePlans[frameKey]=plans;
       if (!transfers.length) {
         if (normalized.variants.length) fail('PLUGIN_CAPABILITY_UNAVAILABLE',
           `No implemented semantic transfer licenses variants for ${moduleName}.${frameId}.`);
@@ -407,13 +423,15 @@ function compileLinearizationPlans(graph, modules, transferPlans, core) {
             fail('PLUGIN_GRAPH_INVALID',
               `Variant ${variant.variantId} has no bridge mapping for ${frameId}.${unmappedRole}.`);
           }
-          declarations.push({
-            construction:transfer.construction,
-            variantId:variant.variantId,
-            sequence:variant.sequence,
-            realizationPreference:variant.realizationPreference
-          });
         }
+      }
+      for(const transfer of transfers) {
+        const byFrame=constructions[transfer.construction] ??
+          (constructions[transfer.construction]=Object.create(null));
+        if(hasOwn(byFrame,frameKey))fail('PLUGIN_GRAPH_INVALID',
+          `Duplicate linearization frame for ${transfer.construction}: ${frameKey}.`);
+        byFrame[frameKey]={byVariant:Object.fromEntries(plans.flatMap((plan,index)=>
+          plan.id?[ [plan.id,index] ]:[]))};
       }
     }
   };
@@ -427,23 +445,7 @@ function compileLinearizationPlans(graph, modules, transferPlans, core) {
     addFrames(grammar.states?.frames, 'state', node.module);
   }
 
-  declarations.sort((left,right) =>
-    left.construction < right.construction ? -1 : left.construction > right.construction ? 1 :
-      left.variantId < right.variantId ? -1 : left.variantId > right.variantId ? 1 : 0);
-  const plans = Object.create(null);
-  for (const declaration of declarations) {
-    const byVariant = plans[declaration.construction] ||
-      (plans[declaration.construction] = Object.create(null));
-    if (hasOwn(byVariant, declaration.variantId)) {
-      fail('PLUGIN_GRAPH_INVALID',
-        `Duplicate linearization variant ID ${declaration.variantId} for ${declaration.construction}.`);
-    }
-    byVariant[declaration.variantId] = {
-      sequence:[...declaration.sequence],
-      realizationPreference:declaration.realizationPreference
-    };
-  }
-  return plans;
+  return {frames:framePlans,constructions};
 }
 
 /** Compile validated graph declarations and independent module data into an immutable runtime plan. */
