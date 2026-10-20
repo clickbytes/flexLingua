@@ -167,6 +167,7 @@ function checkDuplicateRequiredInputs(cases, issues) {
     const key = JSON.stringify([item.input.from, item.input.to,
       normalizeInput(item.input.text, item.input.from),
       canonicalContext(item.input.context ?? {}), item.input.search?.maxReadings ?? 16,
+      item.input.includeSegments ?? false, item.input.previewId ?? null,
       canonicalContext(item.session ?? null)]);
     const first = seen.get(key);
     if (first) {
