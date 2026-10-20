@@ -141,6 +141,22 @@ function checkGraphExpected(item, issues, ontology) {
       }
     }
   }
+  for (const assertion of policy.unresolved?.required ?? []) {
+    const conceptAtPath = meaningConceptAtPath(item.expected.meaning, assertion.path);
+    if (conceptAtPath === null) {
+      issue(`unresolved path '${assertion.path}' does not resolve to a MeaningGraph concept.`);
+      continue;
+    }
+    if (!ontology.get(conceptAtPath)) {
+      issue(`unresolved path '${assertion.path}' points to unknown CORE concept '${conceptAtPath}'.`);
+    }
+    if (assertion.conceptId !== undefined && assertion.conceptId !== conceptAtPath) {
+      issue(`unresolved conceptId '${assertion.conceptId}' does not match its MeaningGraph path.`);
+    }
+    if (assertion.conceptId !== undefined && !ontology.get(assertion.conceptId)) {
+      issue(`unresolved conceptId '${assertion.conceptId}' is not a known CORE concept.`);
+    }
+  }
   if (item.tier === 'required' && item.review?.status !== 'approved') {
     issue('A required graph expectation needs an approved human review before it can enter the gate.');
   }

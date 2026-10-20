@@ -925,7 +925,12 @@ function compareTypedGraph(policy, document, engine, fail, observed) {
       fail(`/graph/forbiddenEdges/${index}`, 'edge absent', assertion);
     }
   });
-  if (graph.unresolved.length) {
+  if (policy.unresolved) {
+    compareMultiset(policy.unresolved.required, graph.unresolved, (requiredItem, actualItem) =>
+      isRecord(actualItem) && Object.entries(requiredItem).every(([key, value]) =>
+        sameJson(value, actualItem[key])), fail, '/graph/unresolved',
+    {allowUnexpected: policy.unresolved.allowUnexpected});
+  } else if (graph.unresolved.length) {
     fail('/graph/unresolved', 'no unresolved semantic graph paths', graph.unresolved);
   }
   if (!policy.allowUnexpected) {
