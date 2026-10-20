@@ -1489,7 +1489,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
   function roleCase(frame, role, features, ref) {
     const rolePlan=compiledCases.get(frame);
     const planned=rolePlan?.get(role);
-    if(planned && !['case','zero'].includes(planned.kind))
+    if(planned && !['case','position','zero'].includes(planned.kind))
       throw new Error(`Unsupported case exponent: ${planned.kind}.`);
     const mapping = rolePlan?.has(role)?(planned?.kind==='case'?planned.value:null):
       frame.cases?.[role] ?? (role === subjectRole ? nounPhrase.subjectCase : undefined);
