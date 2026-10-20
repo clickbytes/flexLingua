@@ -18,6 +18,7 @@ import {ambiguousTranslation, incompleteTranslation, distinctReadings, translati
   from './translation-result.js';
 import {realizeInterpretations} from './translation-interpretations.js';
 import {validateReferentContext, applyReferentContext} from './translation-context.js';
+import {isTrustedSessionContext} from './conversation.js';
 
 const MAX_CANDIDATES = 16;
 
@@ -323,8 +324,9 @@ export class Engine {
   }
 
   validateContext(context = {}) {
+    const allowSession=isTrustedSessionContext(context);
     context = assertSafeContextGraph(context);
-    validateReferentContext(context, this.ontology);
+    validateReferentContext(context, this.ontology,{allowSession});
     if (context.topics !== undefined && (!Array.isArray(context.topics) || context.topics.length > 8 ||
         context.topics.some(topic => !this.ontology.get(topic)))) {
       throw new EngineError('INVALID_INPUT','Invalid semantic context topics.',{status:'invalid'});
