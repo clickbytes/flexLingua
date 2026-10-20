@@ -3256,9 +3256,11 @@ function createGrammarInterpreter(sourceDictionary, rules,
     const seen = new Set([text]);
     const realizationRows=[];
     const realizationSeen=new Set();
+    let alternativesTruncated=false,realizationsTruncated=false;
     const addRealization=(entry,def,lexicalOverrides={},informationLoss=[])=>{
       const rendered=renderDetail(entry,def,lexicalOverrides);
       if(realizationSeen.has(rendered.text))return;
+      if(realizationRows.length>=32){realizationsTruncated=true;return;}
       realizationSeen.add(rendered.text);
       realizationRows.push({text:rendered.text,
         kind:informationLoss.length?'additional_assumption':'equivalent_expression',
@@ -3267,15 +3269,18 @@ function createGrammarInterpreter(sourceDictionary, rules,
     };
     addRealization(preferred,fallback);
     const ordered = [preferred, ...candidates.filter(v => v !== preferred)];
-    for (const choice of ordered) {
+    choices: for (const choice of ordered) {
       for (const def of [fallback, otherFallback]) {
         if (def === undefined && def !== fallback) continue;
         const variant = render(choice, def);
+        if(!seen.has(variant)&&alternatives.length>=7){
+          alternativesTruncated=true;
+          realizationsTruncated=true;
+          break choices;
+        }
         addRealization(choice,def);
         if (!seen.has(variant)) { seen.add(variant); alternatives.push(variant); }
-        if (alternatives.length >= 7) break;
       }
-      if (alternatives.length >= 7) break;
     }
     for(const [role,ref] of Object.entries(meaning.roles)){
       if(isDeicticReferent(ref))continue;
@@ -3286,9 +3291,9 @@ function createGrammarInterpreter(sourceDictionary, rules,
           path:`#/roles/${role.replace(/~/gu,'~0').replace(/\//gu,'~1')}/features/${item.feature}`,
           feature:item.feature,cause:item.reason,status:'ambiguous'}));
         addRealization(preferred,fallback,{[role]:noun.id},losses);
-        if(realizationRows.length>=32)break;
+        if(realizationsTruncated)break;
       }
-      if(realizationRows.length>=32)break;
+      if(realizationsTruncated)break;
     }
     const warnings = [];
     if(lexicalRegister!=='neutral')for(const ref of Object.values(meaning.roles)) {
@@ -3312,7 +3317,9 @@ function createGrammarInterpreter(sourceDictionary, rules,
       warnings.push(grammar.messages?.aspectUnknown ||
         'Source does not specify aspect; target aspect was selected by default.');
     }
-    return { text, warnings, alternatives, realizations:realizationRows };
+    return { text, warnings, alternatives, realizations:realizationRows,
+      ...(alternativesTruncated||realizationsTruncated?{truncation:{
+        alternatives:alternativesTruncated,realizations:realizationsTruncated}}:{}) };
   }
 
 
