@@ -104,12 +104,27 @@ function validateSurfacePlan(candidate, transfer, plan, text) {
       if (Object.hasOwn(meaning.roles || {},role) && !names.has(role)) {
         const path = candidate.interlingua.type === 'question'
           ? `#/proposition/roles/${role}` : `#/roles/${role}`;
-        const unavailable = candidate.sourceSegments?.some(item =>
-          item.path === path && item.status === 'unavailable');
-        if (!unavailable) {
+        const implicit = candidate.sourceSegments?.some(item=>
+          item.path===path&&item.status==='unavailable'&&
+          item.reason==='implicit-source-subject');
+        if (!implicit) {
           fail('PLUGIN_RESULT_INVALID', `Analysis surface lacks the declared ${role} slot.`);
         }
       }
+    }
+    const ordered=variant.slots.slice().sort((left,right)=>left.start-right.start||left.end-right.end)
+      .map(slot=>slot.name);
+    let sequenceIndex=0;
+    for(const name of ordered) {
+      if(transfer.kind==='question'&&name==='@auxiliary')continue;
+      const found=licensed.sequence.indexOf(name,sequenceIndex);
+      if(found<0)fail('PLUGIN_RESULT_INVALID',
+        'Analysis surface slot order does not match its licensed plan.');
+      sequenceIndex=found+1;
+    }
+    if(licensed.sequence.includes('@verb')&&!names.has('@verb')&&
+        !(transfer.kind==='question'&&names.has('@auxiliary'))) {
+      fail('PLUGIN_RESULT_INVALID','Analysis surface lacks the declared @verb slot.');
     }
   }
 }
