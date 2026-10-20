@@ -11,6 +11,29 @@ const FIRST_TOKENS_BY_PROFILE = new WeakMap();
 const GRAPHEME_SEGMENTERS_BY_PROFILE = new WeakMap();
 const MAX_CACHED_PHRASES = 4096;
 
+class TokenStream extends Array {
+  constructor(tokens, {sourceText,sourceSpans,textProfile}) {
+    super(...tokens);
+    Object.defineProperties(this, {
+      sourceText:{value:sourceText,enumerable:false},
+      sourceSpans:{value:Object.freeze(sourceSpans.map(span=>Object.freeze({...span}))),
+        enumerable:false},
+      textProfile:{value:textProfile,enumerable:false}
+    });
+    Object.freeze(this);
+  }
+
+  static get [Symbol.species]() { return Array; }
+
+  slice(start, end) {
+    return new TokenStream(Array.prototype.slice.call(this,start,end), {
+      sourceText:this.sourceText,
+      sourceSpans:Array.prototype.slice.call(this.sourceSpans,start,end),
+      textProfile:this.textProfile
+    });
+  }
+}
+
 function record(value) {
   return value !== null && typeof value === 'object' && !Array.isArray(value);
 }
@@ -84,7 +107,7 @@ function requireBoundedText(text) {
 function bodyRange(text) {
   let start = text.length - text.trimStart().length;
   let end = text.trimEnd().length;
-  if (/[.!]$/u.test(text.slice(start,end))) end--;
+  if (/[.!?]$/u.test(text.slice(start,end))) end--;
   while (end > start && /\s/u.test(text[end-1])) end--;
   if (start >= end) throw new EngineError('SOURCE_TEXT_INVALID', 'Enter a sentence.');
   return {start,end};
@@ -150,11 +173,8 @@ export function tokenizeDetailed(text, rawProfile = DEFAULT_TEXT_PROFILE) {
     }
   }
   if (!tokens.length) throw new EngineError('SOURCE_TEXT_INVALID', 'Enter a sentence.');
-  Object.defineProperties(tokens, {
-    sourceSpans:{value:spans,enumerable:false},
-    textProfile:{value:profile,enumerable:false}
-  });
-  return {tokens,spans,normalizedText:normalized,profile};
+  const stream=new TokenStream(tokens,{sourceText:text,sourceSpans:spans,textProfile:profile});
+  return {tokens:stream,spans:stream.sourceSpans,normalizedText:normalized,profile};
 }
 
 /** Strict tokenizer: unsupported punctuation is never silently discarded. */
@@ -233,19 +253,31 @@ export function parseConstructions(tokens, start, constructions, readRole) {
  * Bounded A1 splitting recognizes the [.!] terminators the sentence body parser
  * already supports: each sentence keeps its original terminator, bare separator
  * gaps refuse as empty discourse sentences, and '?' is not a boundary here. */
-export function splitSentences(text, limit = RESOURCE_LIMITS.discourseEvents) {
+export function splitSentencesWithSpans(text, limit = RESOURCE_LIMITS.discourseEvents) {
   requireBoundedText(text);
   const sentences = [];
-  for (const part of text.trim().split(/(?<=[.!])/u)) {
-    const trimmed = part.trim();
-    if (!trimmed) continue;
+  let start=0;
+  const append=(end)=>{
+    const part=text.slice(start,end);
+    const trimmed=part.trim();
+    if(!trimmed)return;
     if (!trimmed.replace(/[.!]+$/u, '').trim()) {
       throw new Error('Empty discourse sentence.');
     }
-    sentences.push(trimmed);
+    sentences.push({text:part,start,end});
+    start=end;
+  };
+  for(const match of text.matchAll(/[.!]/gu)) {
+    append(match.index+match[0].length);
   }
+  append(text.length);
   if (sentences.length > limit) {
     throw new EngineError('DISCOURSE_EVENT_LIMIT', `Discourse exceeds ${limit} events.`);
   }
   return sentences;
+}
+
+/** Strictly split discourse while keeping each sentence's original UTF-16 range. */
+export function splitSentences(text, limit = RESOURCE_LIMITS.discourseEvents) {
+  return splitSentencesWithSpans(text,limit).map(sentence=>sentence.text.trim());
 }

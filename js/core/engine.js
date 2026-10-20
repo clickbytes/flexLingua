@@ -1,7 +1,7 @@
 import { createDiscourse, createEventRelation, createInformationStructure, materializeEvent, validateMeaningGraph, MAX_DISCOURSE_EVENTS, QUESTION_VERSION, MODALITY_VERSION, STATE_VERSION, DIALOGUE_ACT_VERSION, PASSIVE_VERSION, CONDITIONAL_VERSION, validateCoreferenceMap, sameDiscourseReferent } from './meaning-graph.js';
 import { createFeatureRegistry, record, safeName, hasOwn } from './features.js';
 import { createCoreLanguage } from './core-language.js';
-import { splitSentences } from './text.js';
+import { splitSentencesWithSpans } from './text.js';
 import {EngineError, isResourceLimitError, toEngineError, pluginResultError} from './errors.js';
 import {RESOURCE_LIMITS} from './resource-limits.js';
 import {snapshotBoundedJsonGraph, utf8ByteLength} from './bounded-json.js';
@@ -392,7 +392,7 @@ export class Engine {
   }
 
   analyzeSentence(sentence, plugin, pluginContext = {}) {
-    return this.pluginAnalysisCandidates(plugin, sentence.trim(), pluginContext);
+    return this.pluginAnalysisCandidates(plugin, sentence, pluginContext);
   }
 
   /**
@@ -470,7 +470,7 @@ export class Engine {
         return candidate;
       });
     }
-    const sentences = splitSentences(text, MAX_DISCOURSE_EVENTS);
+    const sentences = splitSentencesWithSpans(text, MAX_DISCOURSE_EVENTS);
     if (sentences.length > 1 && (settings.bindings !== undefined || settings.facts !== undefined)) {
       throw new EngineError('INVALID_INPUT','Referent context currently requires one sentence.',{status:'invalid'});
     }
@@ -481,12 +481,15 @@ export class Engine {
     if (sentences.length > 1 && Object.keys(settings.senses || {}).length) {
       throw new Error('Role-specific sense constraints currently require a single sentence.');
     }
-    const scored = sentences.map(sentence => {
+    const scored = sentences.map(({text:sentence,start:sourceOffset}) => {
       const raw = this.analyzeSentence(sentence, plugin,
         settings.construction ? {construction: settings.construction} : {});
       const candidates = raw.filter(candidate => Object.entries(settings.senses || {})
         .every(([role, concept]) => eventWithin(candidate.interlingua)?.roles?.[role]?.concept === concept))
-        .map(candidate => ({ ...candidate, score: (candidate.score || 0) +
+        .map(candidate => ({ ...candidate,
+          sourceSegments:(candidate.sourceSegments||[]).map(item=>item.span?{...item,
+            span:{start:item.span.start+sourceOffset,end:item.span.end+sourceOffset}}:item),
+          score: (candidate.score || 0) +
           (settings.topics || []).reduce((sum, topic) => sum +
             participantsOf(candidate.interlingua).filter(ref => ref.concept).filter(ref =>
               this.ontology.relatedToTopic(ref.concept, topic)).length * 10, 0) }));
@@ -518,7 +521,8 @@ export class Engine {
       }
     }
     // Check hard compatibility before the bound; never silently discard viable paths.
-    let combinations = [{ events: [], senses: {}, score: 0, lexicalPreference:0 }];
+    let combinations = [{ events: [], senses: {}, score: 0, lexicalPreference:0,
+      sourceSegments:[] }];
     for (const [index, candidates] of scored.entries()) {
       const matchingLinks=links.filter(link=>link.sourceIndex===index);
       combinations = combinations.flatMap(combination => candidates.flatMap(candidate => {
@@ -532,7 +536,10 @@ export class Engine {
           events,
           senses:{...combination.senses,[`e${index + 1}`]:candidate.lexicalSenses},
           score:combination.score+(candidate.score||0),
-          lexicalPreference:combination.lexicalPreference+(candidate.lexicalPreference||0)
+          lexicalPreference:combination.lexicalPreference+(candidate.lexicalPreference||0),
+          sourceSegments:[...combination.sourceSegments,...(candidate.sourceSegments||[]).map(item=>({
+            ...item,path:`#/events/${index}${item.path.slice(1)}`
+          }))]
         }];
       })).sort((a,b)=>b.score-a.score);
       boundedCandidates(combinations, limit);
@@ -548,7 +555,7 @@ export class Engine {
             createEventRelation(edge.type,edge.from,edge.to))});
       validateMeaningGraph(interlingua, this.ontology, this.features);
       return { interlingua, lexicalSenses: combination.senses, score: combination.score,
-        lexicalPreference:combination.lexicalPreference };
+        lexicalPreference:combination.lexicalPreference,sourceSegments:combination.sourceSegments };
     });
   }
 
@@ -605,17 +612,37 @@ export class Engine {
     } catch(error) {
       if(interlingua.type!=='discourse' || error?.status!=='unsupported')throw error;
     }
-    const parts=interlingua.events.map(event=>this.pluginRealization(plugin,
-      materializeEvent(interlingua,event),context,{includeSegments,sourceSegments,omitDeicticSubject}));
+    const parts=interlingua.events.map((event,index)=>{
+      const prefix=`#/events/${index}`;
+      const eventSourceSegments=sourceSegments.filter(item=>
+        typeof item.path==='string'&&item.path.startsWith(`${prefix}/`)).map(item=>({
+          ...item,path:`#${item.path.slice(prefix.length)}`
+        }));
+      return this.pluginRealization(plugin,materializeEvent(interlingua,event),context,
+        {includeSegments,sourceSegments:eventSourceSegments,omitDeicticSubject});
+    });
     const warnings=parts.flatMap((part,index)=>(part.warnings||[])
       .map(warning=>'Event '+(index+1)+': '+warning));
     const diagnostics=parts.flatMap(part=>part.diagnostics||[]);
     if(pronounRealization==='safe' && interlingua.events.length>1) {
       warnings.push('Safe discourse pronouns are not declared by this plugin; noun phrases were repeated.');
     }
-    return applyPersonalityProfile({status:'ok',
-      text:parts.map(part=>part.text).join(' '),interlingua,warnings,alternatives:[],
-      informationLoss:parts.flatMap(part=>part.informationLoss||[]),diagnostics},personality);
+    const text=parts.map(part=>part.text).join(' ');
+    const segments=[];
+    if(includeSegments) {
+      let targetOffset=0;
+      for(const part of parts) {
+        for(const segment of part.segments||part.realizations?.[0]?.segments||[]) {
+          segments.push({...segment,targetSpan:segment.targetSpan?{
+            start:segment.targetSpan.start+targetOffset,end:segment.targetSpan.end+targetOffset
+          }:null});
+        }
+        targetOffset+=part.text.length+1;
+      }
+    }
+    return applyPersonalityProfile({status:'ok',text,interlingua,warnings,alternatives:[],
+      informationLoss:parts.flatMap(part=>part.informationLoss||[]),diagnostics,
+      ...(includeSegments?{segments}: {})},personality);
   }
 
   /** Stable discovery view built from registered LanguagePlugins and their providers. */
