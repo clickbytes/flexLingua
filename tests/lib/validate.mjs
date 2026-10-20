@@ -195,6 +195,28 @@ function checkCaseRules(item, issues, ontology) {
     issues.push({kind:'input',file:item.file,id,severity:'error',
       message:'Expected segment assertions require input.includeSegments=true.'});
   }
+  if(item.expected?.surface){
+    if(item.expected.status!=='ok')issues.push({kind:'surface',file:item.file,id,severity:'error',
+      message:'Surface assertions require an ok sentence reading.'});
+    if(item.input?.includeSegments!==true||item.verifyEngine!==true)
+      issues.push({kind:'surface',file:item.file,id,severity:'error',
+        message:'Surface assertions require includeSegments and verifyEngine.'});
+    if(item.tier==='required'&&item.surfaceReview?.status!=='approved')
+      issues.push({kind:'surface',file:item.file,id,severity:'error',
+        message:'Required surface assertions need an independent approved surfaceReview.'});
+    if(item.surfaceReview?.status==='approved'&&
+        (typeof item.surfaceReview.source!=='string'||item.surfaceReview.source.trim().length<10))
+      issues.push({kind:'surface',file:item.file,id,severity:'error',
+        message:'Approved surfaceReview must explain its independent source.'});
+    for(const variant of item.expected.surface.variants??[]) {
+      if(variant.construction!==item.construction)
+        issues.push({kind:'surface',file:item.file,id,severity:'error',
+          message:'Surface construction must match the case construction.'});
+      if(new Set(variant.slots.map(slot=>slot.name)).size!==variant.slots.length)
+        issues.push({kind:'surface',file:item.file,id,severity:'error',
+          message:'Surface variant slot names must be unique.'});
+    }
+  }
   if (item.tier === 'required' && review.status !== 'approved') {
     issues.push({kind: 'review', file: item.file, id, severity: 'error',
       message: 'Required-tier case must carry review.status=approved.'});

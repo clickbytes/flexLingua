@@ -25,7 +25,8 @@
       "input": {
         "from": "en",
         "to": "pl",
-        "text": "The woman sees the dog."
+        "text": "The woman sees the dog.",
+        "includeSegments": true
       },
       "expected": {
         "status": "ok",
@@ -125,6 +126,9 @@
           ],
           "forbiddenEdges": [],
           "allowUnexpected": false
+        },
+        "surface": {
+          "state": "absent"
         }
       },
       "review": {
@@ -137,6 +141,14 @@
       "requirements": {
         "coverageTargetId": "construction.event.visual_perception",
         "capability": "en-pl: bounded English SVO assigns agent and theme before Polish case-marked realization"
+      },
+      "verifyEngine": true,
+      "surfaceReview": {
+        "status": "approved",
+        "source": "Independent surface review authored by GPT under explicit project-owner delegation recorded in https://github.com/clickbytes/flexLingua/issues/519#issuecomment-6286450979. Reviewed against the literal source, Polish case marking, the existing approved meaning/text oracle, and declared compiler linearizations before runtime observation.",
+        "author": "GPT (surface review delegated by project owner)",
+        "reviewedAt": "2026-10-20",
+        "issue": "#519"
       }
     },
     {

@@ -25,7 +25,8 @@
       "input": {
         "from": "pl",
         "to": "en",
-        "text": "Samochód jedzie."
+        "text": "Samochód jedzie.",
+        "includeSegments": true
       },
       "expected": {
         "status": "ok",
@@ -85,6 +86,36 @@
             }
           ],
           "allowUnexpected": false
+        },
+        "surface": {
+          "state": "present",
+          "variants": [
+            {
+              "id": "default",
+              "construction": "event.movement",
+              "slots": [
+                {
+                  "name": "agent",
+                  "path": "#/roles/agent",
+                  "text": "Samochód",
+                  "span": {
+                    "start": 0,
+                    "end": 8
+                  }
+                },
+                {
+                  "name": "@verb",
+                  "path": "#/concept",
+                  "text": "jedzie",
+                  "span": {
+                    "start": 9,
+                    "end": 15
+                  }
+                }
+              ]
+            }
+          ],
+          "allowUnexpected": false
         }
       },
       "review": {
@@ -97,6 +128,14 @@
       "requirements": {
         "coverageTargetId": "construction.event.movement",
         "capability": "sentence pl.analyze(event.movement) -> en.realize"
+      },
+      "verifyEngine": true,
+      "surfaceReview": {
+        "status": "approved",
+        "source": "Independent surface review authored by GPT under explicit project-owner delegation recorded in https://github.com/clickbytes/flexLingua/issues/519#issuecomment-6286450979. Reviewed against the literal source, Polish case marking, the existing approved meaning/text oracle, and declared compiler linearizations before runtime observation.",
+        "author": "GPT (surface review delegated by project owner)",
+        "reviewedAt": "2026-10-20",
+        "issue": "#519"
       }
     },
     {
@@ -123,7 +162,8 @@
       "input": {
         "from": "pl",
         "to": "en",
-        "text": "Jedzie samochód."
+        "text": "Jedzie samochód.",
+        "includeSegments": true
       },
       "expected": {
         "status": "ok",
@@ -183,6 +223,36 @@
             }
           ],
           "allowUnexpected": false
+        },
+        "surface": {
+          "state": "present",
+          "variants": [
+            {
+              "id": "verb-first-agent",
+              "construction": "event.movement",
+              "slots": [
+                {
+                  "name": "@verb",
+                  "path": "#/concept",
+                  "text": "Jedzie",
+                  "span": {
+                    "start": 0,
+                    "end": 6
+                  }
+                },
+                {
+                  "name": "agent",
+                  "path": "#/roles/agent",
+                  "text": "samochód",
+                  "span": {
+                    "start": 7,
+                    "end": 15
+                  }
+                }
+              ]
+            }
+          ],
+          "allowUnexpected": false
         }
       },
       "review": {
@@ -195,6 +265,14 @@
       "requirements": {
         "coverageTargetId": "construction.event.movement",
         "capability": "sentence pl.analyze(event.movement) -> en.realize"
+      },
+      "verifyEngine": true,
+      "surfaceReview": {
+        "status": "approved",
+        "source": "Independent surface review authored by GPT under explicit project-owner delegation recorded in https://github.com/clickbytes/flexLingua/issues/519#issuecomment-6286450979. Reviewed against the literal source, Polish case marking, the existing approved meaning/text oracle, and declared compiler linearizations before runtime observation.",
+        "author": "GPT (surface review delegated by project owner)",
+        "reviewedAt": "2026-10-20",
+        "issue": "#519"
       }
     },
     {
