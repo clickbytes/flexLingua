@@ -738,8 +738,17 @@ export class Engine {
             '; target repeats the noun phrase (safe pronoun realization was not selected or licensed).');
         }
       }
-      return attach(withUncertainties({...output, status: 'ok', meaning, warnings,
-        lexicalSenses: candidate.lexicalSenses, semanticAlternatives: []}));
+      const selected=bundle.preview;
+      const selectedText=selected?.text??output.text;
+      const alternatives=selectedText===output.text?output.alternatives:
+        [...new Set([output.text,...(output.alternatives??[])])].filter(item=>item!==selectedText);
+      const annotated=withUncertainties({...output,status:'ok',meaning,warnings,
+        text:selectedText,alternatives,
+        informationLoss:selectedText===output.text?output.informationLoss:selected.informationLoss,
+        assumptions:selected?.assumptions??[],lexicalSenses:candidate.lexicalSenses,
+        semanticAlternatives:[]});
+      delete annotated.assumptions;
+      return attach(annotated);
     } catch (error) {
       return translationFailure(error);
     }

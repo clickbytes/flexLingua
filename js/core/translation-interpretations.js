@@ -13,6 +13,22 @@ function compareScore(left, right) {
   return 0;
 }
 
+function realizationAssumptions(baseLosses, rowLosses, explicit) {
+  const unique=new Map();
+  const add=(item,source)=>{
+    const assumption={path:item.path,feature:item.feature,
+      reason:item.reason??item.cause};
+    unique.set(JSON.stringify([assumption.path,assumption.feature,assumption.reason]),
+      {...assumption,source});
+  };
+  for(const loss of baseLosses)if(loss.status==='ambiguous')
+    add(loss,'LanguagePlugin.informationLoss');
+  for(const loss of rowLosses)if(loss.status==='ambiguous')
+    add(loss,'LanguagePlugin.realization.informationLoss');
+  for(const assumption of explicit)add(assumption,'LanguagePlugin.realization.assumptions');
+  return [...unique.entries()].sort(([left],[right])=>compare(left,right)).map(([,item])=>item);
+}
+
 function contextEvidence(meaning, context, ontology) {
   const evidence = [];
   let senseMeaning = meaning;
@@ -100,39 +116,37 @@ export function realizeInterpretations(engine, candidates, options) {
     outputs.push({candidate, output, error});
     const realizations = [];
     if (output) {
-      const baseAssumptions = (output.informationLoss ?? []).filter(loss => loss.status === 'ambiguous');
-      score.assumptions = baseAssumptions.length;
-      const assumptionReasons = baseAssumptions.map(loss => ({ruleId:'target.additional-assumption',
-        path:loss.path, feature:loss.feature, cause:loss.cause, source:'LanguagePlugin.informationLoss'}));
-      if (!baseAssumptions.length) assumptionReasons.push({ruleId:'target.no-additional-assumption',
-        source:'LanguagePlugin.informationLoss'});
-      reasons.push(...assumptionReasons);
       const usesRealizationRows=Array.isArray(output.realizations)&&output.realizations.length>0;
       const rows=usesRealizationRows?
         output.realizations:[...new Set([output.text,...(output.alternatives||[])])]
           .map(text=>({text,kind:'equivalent_expression',assumptions:[],informationLoss:[]}));
       const availableTexts=rows.map(row=>row.text);
-      const baseAssumptionPaths=new Set(baseAssumptions.map(loss=>loss.path));
       for (const [index, row] of rows.entries()) {
         const text=row.text;
         const informationLoss=[...(output.informationLoss??[]),...(row.informationLoss??[])];
-        const assumptions=informationLoss.filter(loss=>loss.status==='ambiguous');
-        const variantReasons=assumptions.map(loss=>({ruleId:'target.additional-assumption',
-          path:loss.path,feature:loss.feature,cause:loss.cause,
-          source:baseAssumptionPaths.has(loss.path)?'LanguagePlugin.informationLoss':
-            'LanguagePlugin.realization'}));
+        const details=realizationAssumptions(output.informationLoss??[],row.informationLoss??[],
+          row.assumptions??[]);
+        const assumptions=details.map(({path,feature,reason})=>({path,feature,reason}));
+        const assumptionReasons=details.length?details.map(item=>({
+          ruleId:'target.additional-assumption',path:item.path,feature:item.feature,
+          cause:item.reason,source:item.source})): [{ruleId:'target.no-additional-assumption',
+          source:'LanguagePlugin.informationLoss'}];
         realizations.push({id:`${id}.r${index + 1}`, interpretationId:id, text,
           kind:assumptions.length?'additional_assumption':row.kind||'equivalent_expression',
-          assumptions:assumptions.map(loss=>({path:loss.path,feature:loss.feature,reason:loss.cause})),
+          assumptions,
           informationLoss, diagnostics:output.diagnostics ?? [],
           warnings:output.warnings ?? [], score:{...score,assumptions:assumptions.length},
-          reasons:[...(assumptions.length?variantReasons:assumptionReasons),{ruleId:'target.lexical-order',
+          reasons:[...assumptionReasons,{ruleId:'target.lexical-order',
             source:'LanguagePlugin.realize', value:index}],
           uncertainties:withUncertainties({...output,text,status:'ok',meaning,
-            informationLoss,alternatives:usesRealizationRows?
+            informationLoss,assumptions,alternatives:usesRealizationRows?
               availableTexts.filter(candidate=>candidate!==text):output.alternatives??[]}).uncertainties,
           ...(Array.isArray(row.segments)?{segments:row.segments}:{})});
       }
+      const best=realizations.reduce((current,row)=>!current||
+        compareScore(row.score,current.score)<0?row:current,null);
+      score.assumptions=best.score.assumptions;
+      reasons.push(...best.reasons.filter(reason=>reason.ruleId!=='target.lexical-order'));
     }
     return {id, meaning, lexicalSenses:candidate.lexicalSenses, score, reasons,
       ...(candidate.surface ? {surface:candidate.surface} : {}),
@@ -148,7 +162,8 @@ export function realizeInterpretations(engine, candidates, options) {
     item.rank = rank;
   });
   const defaultPreviewId=limitError?null:
-    interpretations.find(item=>item.realizations.length)?.realizations[0].id??null;
+    interpretations.find(item=>item.realizations.length)?.realizations.reduce((best,row)=>
+      compareScore(row.score,best.score)<0?row:best).id??null;
   const allRealizations=interpretations.flatMap(item=>item.realizations.map(realization=>({
     ...realization,meaning:item.meaning
   })));

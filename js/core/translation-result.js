@@ -109,9 +109,18 @@ export function describeUncertainties(document, meanings = []) {
   }
   const texts = uniqueValues([document.text, ...(document.alternatives ?? [])]
     .filter(value => typeof value === 'string'));
-  const assumptions = (document.informationLoss ?? []).filter(loss => loss.status === 'ambiguous');
-  for (const loss of assumptions) {
-    add('additional_assumption', loss.path ?? '#', texts, loss.cause);
+  const explicit=document.assumptions??document.realizations?.find(row=>
+    row.text===document.text)?.assumptions??[];
+  const assumptionMap=new Map();
+  const include=(path,feature,reason)=>assumptionMap.set(JSON.stringify([path,feature,reason]),
+    {path,feature,reason});
+  for (const loss of document.informationLoss ?? []) {
+    if(loss.status==='ambiguous')include(loss.path,loss.feature,loss.cause);
+  }
+  for (const item of explicit)include(item.path,item.feature,item.reason);
+  const assumptions=[...assumptionMap.values()];
+  for (const assumption of assumptions) {
+    add('additional_assumption', assumption.path ?? '#', texts, assumption.reason);
   }
   if (document.status === 'ok' && texts.length > 1 && assumptions.length === 0) {
     add('equivalent_expression', '#', texts, 'equivalent-target-expression');
