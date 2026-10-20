@@ -267,7 +267,12 @@
         "prefix": [
           "am"
         ],
-        "path": "forms.progressive"
+        "path": "forms.progressive",
+        "surfaceUse": {
+          "realization": "alternate",
+          "questionAuxiliary": "frontable",
+          "markerId": "progressive-auxiliary"
+        }
       },
       {
         "tense": "present",
@@ -280,7 +285,12 @@
         "prefix": [
           "are"
         ],
-        "path": "forms.progressive"
+        "path": "forms.progressive",
+        "surfaceUse": {
+          "realization": "alternate",
+          "questionAuxiliary": "frontable",
+          "markerId": "progressive-auxiliary"
+        }
       },
       {
         "tense": "present",
@@ -293,7 +303,12 @@
         "prefix": [
           "is"
         ],
-        "path": "forms.progressive"
+        "path": "forms.progressive",
+        "surfaceUse": {
+          "realization": "alternate",
+          "questionAuxiliary": "frontable",
+          "markerId": "progressive-auxiliary"
+        }
       },
       {
         "tense": "present",
@@ -306,7 +321,12 @@
         "prefix": [
           "are"
         ],
-        "path": "forms.progressive"
+        "path": "forms.progressive",
+        "surfaceUse": {
+          "realization": "alternate",
+          "questionAuxiliary": "frontable",
+          "markerId": "progressive-auxiliary"
+        }
       },
       {
         "tense": "present",
@@ -319,7 +339,12 @@
         "prefix": [
           "are"
         ],
-        "path": "forms.progressive"
+        "path": "forms.progressive",
+        "surfaceUse": {
+          "realization": "alternate",
+          "questionAuxiliary": "frontable",
+          "markerId": "progressive-auxiliary"
+        }
       },
       {
         "tense": "present",
@@ -332,7 +357,12 @@
         "prefix": [
           "are"
         ],
-        "path": "forms.progressive"
+        "path": "forms.progressive",
+        "surfaceUse": {
+          "realization": "alternate",
+          "questionAuxiliary": "frontable",
+          "markerId": "progressive-auxiliary"
+        }
       },
       {
         "tense": "present",
@@ -346,7 +376,12 @@
           "am",
           "not"
         ],
-        "path": "forms.progressive"
+        "path": "forms.progressive",
+        "surfaceUse": {
+          "realization": "alternate",
+          "questionAuxiliary": "frontable",
+          "markerId": "progressive-auxiliary"
+        }
       },
       {
         "tense": "present",
@@ -360,7 +395,12 @@
           "are",
           "not"
         ],
-        "path": "forms.progressive"
+        "path": "forms.progressive",
+        "surfaceUse": {
+          "realization": "alternate",
+          "questionAuxiliary": "frontable",
+          "markerId": "progressive-auxiliary"
+        }
       },
       {
         "tense": "present",
@@ -374,7 +414,12 @@
           "is",
           "not"
         ],
-        "path": "forms.progressive"
+        "path": "forms.progressive",
+        "surfaceUse": {
+          "realization": "alternate",
+          "questionAuxiliary": "frontable",
+          "markerId": "progressive-auxiliary"
+        }
       },
       {
         "tense": "present",
@@ -388,7 +433,12 @@
           "are",
           "not"
         ],
-        "path": "forms.progressive"
+        "path": "forms.progressive",
+        "surfaceUse": {
+          "realization": "alternate",
+          "questionAuxiliary": "frontable",
+          "markerId": "progressive-auxiliary"
+        }
       },
       {
         "tense": "present",
@@ -402,7 +452,12 @@
           "are",
           "not"
         ],
-        "path": "forms.progressive"
+        "path": "forms.progressive",
+        "surfaceUse": {
+          "realization": "alternate",
+          "questionAuxiliary": "frontable",
+          "markerId": "progressive-auxiliary"
+        }
       },
       {
         "tense": "present",
@@ -416,7 +471,12 @@
           "are",
           "not"
         ],
-        "path": "forms.progressive"
+        "path": "forms.progressive",
+        "surfaceUse": {
+          "realization": "alternate",
+          "questionAuxiliary": "frontable",
+          "markerId": "progressive-auxiliary"
+        }
       },
       {
         "tense": "past",
