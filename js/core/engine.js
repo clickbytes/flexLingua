@@ -646,6 +646,14 @@ export class Engine {
       return applyPersonalityProfile({...output,interlingua},personality);
     } catch(error) {
       if(interlingua.type!=='discourse' || error?.status!=='unsupported')throw error;
+      if(interlingua.relations.some(relation=>relation.type!=='precedes')) {
+        const code='DISCOURSE_RELATIONS_REALIZATION_UNSUPPORTED';
+        const message='Target cannot preserve explicit discourse relations in event fallback.';
+        const refusal=new EngineError(code,message,{status:'unsupported',
+          diagnostics:[{code,message}]});
+        refusal.interlingua=interlingua;
+        throw refusal;
+      }
     }
     const parts=interlingua.events.map((event,index)=>{
       const prefix=`#/events/${index}`;
@@ -765,7 +773,14 @@ export class Engine {
       const candidate = candidates[0];
       const meaning = candidate.interlingua;
       const {output, error} = bundle.outputs[0];
-      if (error) return attach(translationFailure(error));
+      if (error) {
+        const refusal=translationFailure(error);
+        if(error.interlingua) {
+          return attach(withUncertainties({...refusal,
+            alternatives:[{meaning:error.interlingua}]}));
+        }
+        return attach(refusal);
+      }
       const warnings = [...(output.warnings ?? [])];
       const anaphoraItems = candidate.anaphoraTrace ||
         (candidate.anaphora ? [{...candidate.anaphora, event: 2}] : []);
