@@ -21,11 +21,11 @@ function realizationAssumptions(baseLosses, rowLosses, explicit) {
     unique.set(JSON.stringify([assumption.path,assumption.feature,assumption.reason]),
       {...assumption,source});
   };
+  for(const assumption of explicit)add(assumption,'LanguagePlugin.realization.assumptions');
   for(const loss of baseLosses)if(loss.status==='ambiguous')
     add(loss,'LanguagePlugin.informationLoss');
   for(const loss of rowLosses)if(loss.status==='ambiguous')
-    add(loss,'LanguagePlugin.realization.informationLoss');
-  for(const assumption of explicit)add(assumption,'LanguagePlugin.realization.assumptions');
+    add(loss,'LanguagePlugin.realization');
   return [...unique.entries()].sort(([left],[right])=>compare(left,right)).map(([,item])=>item);
 }
 
