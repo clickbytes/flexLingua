@@ -64,12 +64,59 @@ export function validateMemorySnapshot(snapshot,{validateProposition}={}) {
         !['active','superseded'].includes(fact.status))invalid();
     ids.add(fact.id);
   });
+  const byId=new Map(safe.facts.map(fact=>[fact.id,fact]));
+  const successor=new Map();
   for(const fact of safe.facts) {
+    if(!Array.isArray(fact.correction.supersedes) ||
+        new Set(fact.correction.supersedes).size!==fact.correction.supersedes.length)invalid();
     if(fact.status==='active' && Object.hasOwn(fact,'supersededBy'))invalid();
     if(fact.status==='superseded' &&
         (!ids.has(fact.supersededBy) || fact.supersededBy===fact.id))invalid();
-    if(fact.correction.supersedes.some(id=>!ids.has(id) || id===fact.id))invalid();
+    for(const priorId of fact.correction.supersedes) {
+      const prior=byId.get(priorId);
+      if(!prior || prior.id===fact.id || prior.supersededBy!==fact.id || prior.status!=='superseded' ||
+          Number(prior.id.slice(1))>=Number(fact.id.slice(1)) || successor.has(priorId))invalid();
+      successor.set(priorId,fact.id);
+    }
   }
+  for(const fact of safe.facts) {
+    if(fact.status==='superseded' && successor.get(fact.id)!==fact.supersededBy)invalid();
+  }
+  // Successor links form a functional graph. Walk each component iteratively
+  // so untrusted snapshots cannot consume the JavaScript call stack.
+  const complete=new Set();
+  for(const fact of safe.facts) {
+    if(complete.has(fact.id))continue;
+    const path=[],positions=new Set();
+    let current=fact.id;
+    while(current && !complete.has(current)) {
+      if(positions.has(current))invalid();
+      positions.add(current);
+      path.push(current);
+      current=successor.get(current);
+    }
+    for(const id of path)complete.add(id);
+  }
+  const componentOf=new Map();
+  let component=0;
+  for(const fact of safe.facts) {
+    if(componentOf.has(fact.id))continue;
+    component++;
+    const queue=[fact.id];
+    componentOf.set(fact.id,component);
+    for(let index=0;index<queue.length;index++) {
+      const id=queue[index],item=byId.get(id);
+      const neighbors=[...(item.correction.supersedes||[]),...(successor.has(id)?[successor.get(id)]:[])];
+      for(const neighbor of neighbors)if(!componentOf.has(neighbor)) {
+        componentOf.set(neighbor,component);
+        queue.push(neighbor);
+      }
+    }
+  }
+  const heads=new Map();
+  for(const fact of safe.facts)if(fact.status==='active')
+    heads.set(componentOf.get(fact.id),(heads.get(componentOf.get(fact.id))||0)+1);
+  for(const id of componentOf.values())if(heads.get(id)!==1)invalid();
   if(validateProposition)for(const fact of safe.facts)validateProposition(fact.proposition);
   return safe;
 }
