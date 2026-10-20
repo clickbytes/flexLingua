@@ -911,6 +911,7 @@ export function compareCase(item, document, {engine, analysisOnly = false} = {})
       .map(entry => entry?.code).filter(code => typeof code === 'string').sort(),
     informationLossCount: Array.isArray(document?.informationLoss) ? document.informationLoss.length : 0
   };
+  if (expected.surface) observed.surface = document?.interpretations?.[0]?.surface ?? null;
 
   if (!Array.isArray(document?.uncertainties)) {
     fail('/uncertainties', 'an uncertainty array', document?.uncertainties);
@@ -923,6 +924,7 @@ export function compareCase(item, document, {engine, analysisOnly = false} = {})
   if (!analysisOnly) compareInterpretations(expected.interpretations, document, fail);
   if (!analysisOnly && expected.context) compareContext(expected.context, document.contextReport, fail);
   if(!analysisOnly&&expected.segments)compareSegments(expected.segments,document,fail);
+  if(!analysisOnly&&expected.surface)compareSurface(expected.surface,item,document,fail);
 
   if (nfc(document?.status) !== nfc(expected.status)) {
     fail('status', expected.status, document?.status ?? 'none');
@@ -1081,6 +1083,53 @@ function compareSegments(policy,document,fail) {
       {status:source.status,span:source.span}:
       source?{status:source.status,reason:source.reason}:null);
   },fail,'/preview/segments',{allowUnexpected:policy.allowUnexpected});
+}
+
+function compareSurface(policy,item,document,fail) {
+  const reading=document?.interpretations?.[0];
+  const surface=reading?.surface;
+  if(policy.state==='absent') {
+    if(surface!==undefined)fail('/interpretations/0/surface','absent',surface);
+    return;
+  }
+  if(!isRecord(surface)||!Array.isArray(surface.variants)) {
+    fail('/interpretations/0/surface','validated variants',surface);
+    return;
+  }
+  const unused=[...surface.variants];
+  for(const wanted of policy.variants) {
+    const index=unused.findIndex(actual=>actual.id===wanted.id &&
+      actual.construction===wanted.construction);
+    if(index<0) {
+      fail('/interpretations/0/surface/variants',
+        `${wanted.construction}/${wanted.id}`,'missing');
+      continue;
+    }
+    const [actual]=unused.splice(index,1);
+    const slots=[...(actual.slots??[])];
+    for(const required of wanted.slots) {
+      const slotIndex=slots.findIndex(slot=>slot.name===required.name);
+      if(slotIndex<0) {
+        fail(`/surface/${wanted.id}/slots/${required.name}`,'declared source slot','missing');
+        continue;
+      }
+      const [slot]=slots.splice(slotIndex,1);
+      const path=required.name.startsWith('@')?'#/concept':`#/roles/${required.name}`;
+      if(required.path!==path)fail(`/surface/${wanted.id}/slots/${required.name}/path`,path,required.path);
+      const resolved=resolvePointer(reading.meaning,required.path);
+      if(resolved.missing)fail(`/surface/${wanted.id}/slots/${required.name}/path`,
+        'existing MeaningGraph path',required.path);
+      if(!sameJson({start:slot.start,end:slot.end},required.span))
+        fail(`/surface/${wanted.id}/slots/${required.name}/span`,required.span,slot);
+      const sourceText=item.input.text.slice(slot.start,slot.end);
+      if(sourceText!==required.text)fail(`/surface/${wanted.id}/slots/${required.name}/text`,
+        required.text,sourceText);
+    }
+    if(!policy.allowUnexpected&&slots.length)
+      fail(`/surface/${wanted.id}/slots (unexpected)`,'no extra slots',slots);
+  }
+  if(!policy.allowUnexpected&&unused.length)
+    fail('/interpretations/0/surface/variants (unexpected)','no extra variants',unused);
 }
 
 function compareContext(policy, report, fail) {
