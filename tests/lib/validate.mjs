@@ -5,7 +5,7 @@ import {join, dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import Ajv2020 from 'ajv/dist/2020.js';
 import {ALLOWED_DIRECTIONS, discoverCases} from './discover.mjs';
-import {compareSemanticRelation, inspectSemanticOracle} from './assertions.mjs';
+import {compareSemanticMeanings, compareSemanticRelation, inspectSemanticOracle} from './assertions.mjs';
 
 const LIB_DIR = dirname(fileURLToPath(import.meta.url));
 export const TESTS_ROOT = join(LIB_DIR, '..');
@@ -236,6 +236,14 @@ function checkCaseRules(item, issues, ontology) {
       message: 'review.status=proposed is only allowed for tier=exploratory cases.'});
   }
   const expected = item.expected;
+  const requiredDiagnostics = Array.isArray(expected.diagnostics?.required)
+    ? expected.diagnostics.required : [];
+  const incompleteSourceDiagnostic = requiredDiagnostics.some(entry =>
+    entry?.code === 'SOURCE_ANALYSIS_INCOMPLETE');
+  if (incompleteSourceDiagnostic && expected.status !== 'ambiguous') {
+    issues.push({kind: 'expected', file: item.file, id, severity: 'error',
+      message: 'SOURCE_ANALYSIS_INCOMPLETE requires an ambiguous public result.'});
+  }
   checkGraphExpected(item, issues, ontology);
   if (expected.status === 'ok') {
     if (expected.text === null || expected.meaning === null) {
@@ -290,8 +298,40 @@ function checkCaseRules(item, issues, ontology) {
         message: `status ${expected.status} requires text:null and meaning:null (refusals never invent meaning).`});
     }
     if (expected.status === 'ambiguous') {
-      const semantic = (expected.alternatives?.required ?? []).filter(entry => isRecord(entry));
-      if (semantic.length < 2) {
+      const alternatives = Array.isArray(expected.alternatives?.required)
+        ? expected.alternatives.required : [];
+      const semantic = alternatives.filter(entry => isRecord(entry));
+      if (semantic.some((entry, index) => semantic.slice(0, index).some(previous =>
+          compareSemanticMeanings(entry.meaning, previous.meaning, {oracle: true}).equal))) {
+        issues.push({kind: 'expected', file: item.file, id, severity: 'error',
+          message: 'Ambiguous cases must declare distinct semantic meanings.'});
+      }
+      if (incompleteSourceDiagnostic) {
+        if (semantic.length < 1 || semantic.length !== alternatives.length) {
+          issues.push({kind: 'expected', file: item.file, id, severity: 'error',
+            message: 'Incomplete analysis must require at least one semantic reading and no surface-only alternatives.'});
+        }
+        if (!requiredDiagnostics.some(entry =>
+            entry?.code === 'PLUGIN_ANALYSIS_READING_UNSUPPORTED')) {
+          issues.push({kind: 'expected', file: item.file, id, severity: 'error',
+            message: 'Incomplete analysis must require unsupported-reading diagnostic evidence.'});
+        }
+        const policy = expected.interpretations;
+        if (!policy || !Array.isArray(policy.required) ||
+            policy.required.length !== semantic.length || policy.allowUnexpected !== false) {
+          issues.push({kind: 'expected', file: item.file, id, severity: 'error',
+            message: 'Incomplete analysis must enumerate every available interpretation with no unexpected readings.'});
+        } else if (semantic.some(entry => !policy.required.some(interpretation =>
+            isRecord(interpretation) && isRecord(interpretation.meaning) &&
+            compareSemanticMeanings(entry.meaning, interpretation.meaning, {oracle: true}).equal))) {
+          issues.push({kind: 'expected', file: item.file, id, severity: 'error',
+            message: 'Incomplete analysis alternatives and interpretation expectations must contain the same available meanings.'});
+        }
+        if (expected.alternatives?.allowUnexpected !== false) {
+          issues.push({kind: 'expected', file: item.file, id, severity: 'error',
+            message: 'Incomplete analysis must account for every available semantic alternative.'});
+        }
+      } else if (semantic.length < 2) {
         issues.push({kind: 'expected', file: item.file, id, severity: 'error',
           message: 'ambiguous cases must declare at least two distinct expected meanings.'});
       }
