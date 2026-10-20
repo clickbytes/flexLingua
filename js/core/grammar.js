@@ -15,7 +15,7 @@ import {
   createFeatureRegistry, createLanguageFeatureProfile,
   matchesAgreement, matchesConditions
 } from './features.js';
-import {isCapabilityId, isLexemeId, isRoleId, isSenseId, isVariantId}
+import {isCapabilityId, isLexemeId, isRoleId, isSenseId}
   from './identifiers.js';
 
 /**
@@ -68,27 +68,8 @@ function boundedAnalyses(readings) {
   if (readings.length > MAX_ANALYSES) resourceLimit('Grammar analysis exceeded its reading budget.');
   return readings;
 }
-/** Deterministic ID for an implicit linearization plan. The canonical default
- * (first declared sequence) keeps the published `default` identifier regardless
- * of how many other layouts exist; every further implicit layout fingerprints
- * its own sequence, so adding or reordering layouts never renames one. */
-function defaultLinearizationId(sequence, reservedIds = new Set(), primary = false) {
-  if(primary&&!reservedIds.has('default'))return 'default';
-  const signature=JSON.stringify(sequence);
-  const hashOf=value=>{
-    let hash=2166136261;
-    for(const character of value)hash=Math.imul(hash^character.charCodeAt(0),16777619);
-    return (hash>>>0).toString(16).padStart(8,'0');
-  };
-  let salt=0,id;
-  do { id=`default-${hashOf(salt?`${signature}:${salt}`:signature)}`; salt++; }
-  while(reservedIds.has(id));
-  return id;
-}
 const PLACEHOLDER = /^\{([a-zA-Z][a-zA-Z0-9_]*)\}$/u;
 const LITERAL = /^@[\p{L}]+$/u;
-const MAX_LINEARIZATIONS_PER_FRAME = 8;
-const MAX_LINEARIZATION_SLOTS = 16;
 const MAX_SURFACE_VARIANTS = 32;
 const LEGACY_CASE_VALUES = ['nom','gen','dat','acc','loc'];
 const DEICTIC_FUNCTION = 'grammar.deictic_pronoun';
@@ -146,76 +127,9 @@ function own(obj, key) {
   return hasOwn(obj, key) ? obj[key] : undefined;
 }
 
-/** Validate and normalize the old slot arrays and opt-in variant descriptors. */
-export function normalizeLinearizations(entries, label = 'frame') {
-  if (!Array.isArray(entries) || entries.length < 1 ||
-      entries.length > MAX_LINEARIZATIONS_PER_FRAME) {
-    throw new Error(`Invalid linearization count for ${label}.`);
-  }
-  const defaultSequences = [];
-  const variants = [];
-  const seenIds = new Set();
-  const seenSequences = new Set();
-  for (const entry of entries) {
-    const descriptor = !Array.isArray(entry);
-    let sequence;
-    let variantId;
-    let realizationPreference;
-    if (!descriptor) {
-      sequence = entry;
-    } else {
-      const prototype = entry && typeof entry === 'object' ? Object.getPrototypeOf(entry) : undefined;
-      if (!record(entry) || (prototype !== Object.prototype && prototype !== null) ||
-          Object.keys(entry).sort().join(',') !== 'realizationPreference,sequence,variantId') {
-        throw new Error(`Invalid linearization variant descriptor for ${label}.`);
-      }
-      ({sequence,variantId,realizationPreference} = entry);
-      if (!isVariantId(variantId) || seenIds.has(variantId) ||
-          !Number.isInteger(realizationPreference) || realizationPreference < 1 ||
-          realizationPreference > 100) {
-        throw new Error(`Invalid or duplicate linearization variant ID or preference for ${label}.`);
-      }
-      seenIds.add(variantId);
-    }
-    if (!Array.isArray(sequence) || sequence.length < 1 ||
-        sequence.length > MAX_LINEARIZATION_SLOTS) {
-      throw new Error(`Invalid linearization sequence length for ${label}.`);
-    }
-    const normalizedSequence = Array.from(sequence);
-    if (normalizedSequence.some(step => typeof step !== 'string' ||
-        !(isRoleId(step) || step === '@verb' || LITERAL.test(step))) ||
-        normalizedSequence.filter(step => step === '@verb').length !== 1) {
-      throw new Error(`Invalid linearization slot or @verb count for ${label}.`);
-    }
-    const roles = normalizedSequence.filter(step => !step.startsWith('@'));
-    if (new Set(roles).size !== roles.length) {
-      throw new Error(`Duplicate role slot in linearization for ${label}.`);
-    }
-    const sequenceKey = JSON.stringify(normalizedSequence);
-    if (seenSequences.has(sequenceKey)) {
-      throw new Error(`Duplicate linearization sequence for ${label}.`);
-    }
-    seenSequences.add(sequenceKey);
-    if (descriptor) {
-      variants.push({variantId,sequence:normalizedSequence,realizationPreference});
-    } else {
-      defaultSequences.push(normalizedSequence);
-    }
-  }
-  if (variants.length && !defaultSequences.length) {
-    throw new Error(`Linearization variants require an existing array default for ${label}.`);
-  }
-  // Keep every existing array first so the first array remains the default.
-  return {
-    sequences:[...defaultSequences,...variants.map(variant=>variant.sequence)],
-    defaultSequences,
-    variants
-  };
-}
-
-function normalizeGrammarLinearizations(grammar) {
+function normalizeGrammarLinearizations(grammar, framePlans) {
   if (!record(grammar)) return grammar;
-  const normalizeFrames = (frames, label) => {
+  const normalizeFrames = (frames, kind) => {
     if (!record(frames)) return frames;
     const normalized = Object.create(null);
     for (const [id, frame] of Object.entries(frames)) {
@@ -223,19 +137,21 @@ function normalizeGrammarLinearizations(grammar) {
         normalized[id] = frame;
         continue;
       }
+      const plans=framePlans[`${kind}:${id}`];
+      if(!Array.isArray(plans))throw new Error(`Missing compiled ${kind} linearizations for ${id}.`);
       normalized[id] = {
         ...frame,
-        linearizations:normalizeLinearizations(frame.linearizations, `${label} ${id}`).defaultSequences
+        linearizations:plans.filter(plan=>plan.isDefault).map(plan=>plan.sequence)
       };
     }
     return normalized;
   };
   const result = {...grammar};
-  if (record(grammar.frames)) result.frames = normalizeFrames(grammar.frames, 'event frame');
+  if (record(grammar.frames)) result.frames = normalizeFrames(grammar.frames, 'event');
   if (record(grammar.states) && record(grammar.states.frames)) {
     result.states = {
       ...grammar.states,
-      frames:normalizeFrames(grammar.states.frames, 'state frame')
+      frames:normalizeFrames(grammar.states.frames, 'state')
     };
   }
   return result;
@@ -332,7 +248,7 @@ function validateConditions(when) {
   }
 }
 
-function validateGrammar(dictionary, sourceGrammar, featureProfile) {
+function validateGrammar(dictionary, sourceGrammar, featureProfile, framePlans) {
   const caseValues=featureProfile ? (featureProfile.syntactic.case || []) : LEGACY_CASE_VALUES;
   const hasSyntacticCases=caseValues.length>0;
   if (!record(dictionary) || !record(sourceGrammar) ||
@@ -340,7 +256,7 @@ function validateGrammar(dictionary, sourceGrammar, featureProfile) {
       !GRAMMAR_VERSIONS.has(sourceGrammar.version) || dictionary.version !== sourceGrammar.version) {
     throw new Error('Dictionary/grammar mismatch or unsupported grammar version.');
   }
-  const grammar=normalizeGrammarLinearizations(sourceGrammar);
+  const grammar=normalizeGrammarLinearizations(sourceGrammar,framePlans);
   if (!safeName(dictionary.language) || !Array.isArray(dictionary.nouns) ||
       !Array.isArray(dictionary.verbs) || !record(grammar.frames) ||
       !record(grammar.nounPhrase) || !record(grammar.verb) || !record(grammar.sentence)) {
@@ -1095,7 +1011,8 @@ function createGrammarInterpreter(sourceDictionary, rules,
   // A compatibility view lets existing declarative grammar use the normalized
   // meaning inventory while the canonical source always points through CORE.
   const dictionary = lexicon.dictionary;
-  const grammar = validateGrammar(dictionary, rules, featureProfile);
+  const grammar = validateGrammar(dictionary, rules, featureProfile,
+    compiledPlan.linearizationPlans.frames);
   const { nounPhrase, sentence, verb: verbGrammar, frames } = grammar;
   const frameOrder = new Map(Object.keys(frames).map((concept,index)=>[concept,index]));
   const compiledCases=new WeakMap();
@@ -1113,56 +1030,9 @@ function createGrammarInterpreter(sourceDictionary, rules,
       roles.set(argument.semanticRole,exponent);
     }
   }
-  const eventParserLinearizations=new WeakMap();
-  const stateParserLinearizations=new WeakMap();
-  function parserLinearizationPlans(kind, frameId, frame) {
-    const cache=kind==='event'?eventParserLinearizations:stateParserLinearizations;
-    if(cache.has(frame))return cache.get(frame);
-    const sourceFrame=kind==='event'?rules.frames?.[frameId]:rules.states?.frames?.[frameId];
-    if(!record(sourceFrame)||!Array.isArray(sourceFrame.linearizations)) {
-      const defaults=frame.linearizations.map(sequence=>[...sequence]);
-      const plans=defaults.map(sequence=>({sequence,id:null,surfaceEnabled:false,
-        isDefault:true,realizationPreference:null}));
-      cache.set(frame,plans);
-      return plans;
-    }
-    const declared=normalizeLinearizations(sourceFrame.linearizations,`${kind} frame ${frameId}`);
-    const surfaceEnabled=declared.variants.length>0;
-    const defaults=frame.linearizations.map(sequence=>[...sequence]);
-    const reservedIds=new Set(declared.variants.map(variant=>variant.variantId));
-    const plans=defaults.map((sequence,index)=>{
-      const id=surfaceEnabled?defaultLinearizationId(sequence,reservedIds,index===0):null;
-      if(id)reservedIds.add(id);
-      return {sequence,id,surfaceEnabled,isDefault:true,realizationPreference:null};
-    });
-    const seen=new Set(plans.map(plan=>JSON.stringify(plan.sequence)));
-    const seenIds=new Set(plans.flatMap(plan=>plan.id?[plan.id]:[]));
-    if(declared.variants.length) {
-      const transfers=compiledPlan.transferPlans.filter(transfer=>kind==='event'
-        ?transfer.conceptId===frameId:transfer.stateKind===frameId);
-      if(!transfers.length)throw new Error(`No compiled transfer for ${kind} frame ${frameId}.`);
-      const variants=declared.variants.slice().sort((left,right)=>
-        left.variantId<right.variantId?-1:left.variantId>right.variantId?1:0);
-      for(const variant of variants) {
-        for(const transfer of transfers) {
-          const compiled=compiledPlan.linearizationPlans[transfer.construction]?.[variant.variantId];
-          if(!record(compiled)||!Array.isArray(compiled.sequence)||
-              compiled.realizationPreference!==variant.realizationPreference||
-              JSON.stringify(compiled.sequence)!==JSON.stringify(variant.sequence)) {
-            throw new Error(`Missing or inconsistent compiled variant ${variant.variantId} for ${kind} frame ${frameId}.`);
-          }
-        }
-        const key=JSON.stringify(variant.sequence);
-        if(seenIds.has(variant.variantId))throw new Error(`Duplicate surface variant ID ${variant.variantId}.`);
-        seenIds.add(variant.variantId);
-        if(!seen.has(key)) {
-          seen.add(key);
-          plans.push({sequence:[...variant.sequence],id:variant.variantId,surfaceEnabled:true,
-            isDefault:false,realizationPreference:variant.realizationPreference});
-        }
-      }
-    }
-    cache.set(frame,plans);
+  function parserLinearizationPlans(kind, frameId) {
+    const plans=compiledPlan.linearizationPlans.frames[`${kind}:${frameId}`];
+    if(!Array.isArray(plans))throw new Error(`Missing compiled ${kind} linearizations for ${frameId}.`);
     return plans;
   }
   function parserLinearizations(kind,frameId,frame) {
