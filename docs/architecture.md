@@ -16,6 +16,8 @@ flowchart LR
 
 CLI rozwiązuje pakiety przez registry. Plugin źródłowy analizuje zdanie do neutralnego znaczenia, a plugin docelowy realizuje to znaczenie w swoim zakresie. Wynik zawiera tekst albo jawną odmowę, CORE i diagnostykę. Obecność leksemu lub reguły w danych nie dowodzi obsługi całej konstrukcji.
 
+Import snapshotu pamięci sesji jest ograniczony rozmiarem i strukturą, a każda zapisana propozycja jest ponownie walidowana względem ontologii i rejestru cech aktywnego Engine. Cały snapshot przechodzi walidację przed zastąpieniem pamięci; niepoprawne znaczenie lub graf pozostawia dotychczasowy stan sesji bez zmian.
+
 CORE definiuje stabilne koncepty i ich opcjonalne, typowane grafy znaczenia. Ontology wiąże te definicje z `coreRef`; MeaningGraph zachowuje role zdania, referenty i cechy. Ten graf semantyczny jest odrębny od LanguageGraph, który opisuje połączenia modułów w pakiecie języka. Kontrakt grafu opisuje [ADR typowanego grafu definicji konceptu](adr/typed-semantic-graph.md); jego walidacja i projekcja są ograniczonymi capability, a nie deklaracją pełnego pokrycia języka.
 
 Analiza źródłowa może zachować bounded surface evidence w LanguagePlugin, po czym istniejący bridge mapuje rozpoznane sloty do walidowanego MeaningGraph; plugin docelowy realizuje ten graf według własnej licencjonowanej kolejności. Ślad szyku pozostaje poza CORE i sam nie określa topic/focus. Szczegóły opisuje [ADR wariantów szyku](adr/feature-driven-word-order.md).

@@ -44,8 +44,8 @@ export class SessionMemory {
 
   reset() {this.#facts=[];this.#nextId=1;return this.snapshot();}
 
-  restore(snapshot) {
-    const verified=validateMemorySnapshot(snapshot);
+  restore(snapshot,{validateProposition}={}) {
+    const verified=validateMemorySnapshot(snapshot,{validateProposition});
     if(verified.maxFacts!==this.#maxFacts)
       fail('MEMORY_LIMIT_MISMATCH','Imported memory limit differs from this session.');
     this.#facts=verified.facts;
