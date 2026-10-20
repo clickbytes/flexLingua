@@ -582,6 +582,55 @@ function compareFeatures(want, actual, path, fail, {extraAllowed, exact}) {
   }
 }
 
+const TEMPORAL_OBJECT_FIELDS = Object.freeze({
+  clockTime: Object.freeze(['hour', 'minute']),
+  calendarDate: Object.freeze(['year', 'month', 'day'])
+});
+
+/** Compare explicit time fields. Strict meanings reject unrequested time; partial
+ * readings compare only requested time while still requiring each requested value. */
+function compareTemporalMeaning(want, actual, fail, {partial}) {
+  for (const key of ['timeReference', 'clockTime', 'calendarDate']) {
+    const expectedHas = Object.hasOwn(want, key);
+    const actualHas = Object.hasOwn(actual, key);
+    const path = `#/${key}`;
+    if (!expectedHas) {
+      if (!partial && actualHas) fail(path, 'absent', actual[key]);
+      continue;
+    }
+    if (!actualHas) {
+      fail(path, want[key], 'none');
+      continue;
+    }
+    if (key === 'timeReference') {
+      if (!deepScalarEqual(actual[key], want[key])) fail(path, want[key], actual[key]);
+      continue;
+    }
+    const expected = want[key], observed = actual[key];
+    if (!isRecord(expected) || !isRecord(observed)) {
+      if (!deepScalarEqual(observed, expected)) fail(path, expected, observed);
+      continue;
+    }
+    const fields = TEMPORAL_OBJECT_FIELDS[key];
+    for (const field of fields) {
+      const expectedField = Object.hasOwn(expected, field);
+      const actualField = Object.hasOwn(observed, field);
+      const fieldPath = `${path}/${field}`;
+      if (expectedField && !actualField) fail(fieldPath, expected[field], 'none');
+      else if (expectedField && !deepScalarEqual(observed[field], expected[field])) {
+        fail(fieldPath, expected[field], observed[field]);
+      } else if (!partial && !expectedField && actualField) {
+        fail(fieldPath, 'absent', observed[field]);
+      }
+    }
+    if (!partial) {
+      for (const field of Object.keys(observed)) {
+        if (!fields.includes(field)) fail(`${path}/${pointerSegment(field)}`, 'absent', observed[field]);
+      }
+    }
+  }
+}
+
 function compareModifiers(wantModifiers, actual, path, fail, {exact}) {
   const gotList = Array.isArray(actual?.modifiers) ? actual.modifiers : [];
   compareModifierTrees(wantModifiers, gotList, path, fail, MODIFIER_COMPARE_DEPTH);
@@ -700,6 +749,7 @@ function compareMeaning(want, actual, fail, {partial = false} = {}) {
   if (want.kind !== undefined && nfc(actual.kind) !== nfc(want.kind)) {
     fail('#/kind', want.kind, actual.kind ?? 'none');
   }
+  compareTemporalMeaning(want, actual, fail, {partial});
   const roleKeys = Object.keys(actual.roles ?? {});
   const declared = (want.roleSet ?? []).slice();
   if (partial) {
