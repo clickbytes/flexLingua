@@ -3265,32 +3265,30 @@ function createGrammarInterpreter(sourceDictionary, rules,
         assumptions:informationLoss.map(item=>({path:item.path,feature:item.feature,
           reason:item.cause})),informationLoss,...(includeSegments?{segments:rendered.segments}:{})});
     };
-    if(includeSegments)addRealization(preferred,fallback);
+    addRealization(preferred,fallback);
     const ordered = [preferred, ...candidates.filter(v => v !== preferred)];
     for (const choice of ordered) {
       for (const def of [fallback, otherFallback]) {
         if (def === undefined && def !== fallback) continue;
         const variant = render(choice, def);
-        if(includeSegments)addRealization(choice,def);
+        addRealization(choice,def);
         if (!seen.has(variant)) { seen.add(variant); alternatives.push(variant); }
         if (alternatives.length >= 7) break;
       }
       if (alternatives.length >= 7) break;
     }
-    if(includeSegments){
-      for(const [role,ref] of Object.entries(meaning.roles)){
-        if(isDeicticReferent(ref))continue;
-        const preferredNoun=nounByConcept(ref.concept,lexicalRegister);
-        for(const noun of nounIndex.get(ref.concept)||[]){
-          if(noun.id===preferredNoun.id||!noun.realizationProfile)continue;
-          const losses=noun.realizationProfile.assumptions.map(item=>({
-            path:`#/roles/${role.replace(/~/gu,'~0').replace(/\//gu,'~1')}/features/${item.feature}`,
-            feature:item.feature,cause:item.reason,status:'ambiguous'}));
-          addRealization(preferred,fallback,{[role]:noun.id},losses);
-          if(realizationRows.length>=32)break;
-        }
+    for(const [role,ref] of Object.entries(meaning.roles)){
+      if(isDeicticReferent(ref))continue;
+      const preferredNoun=nounByConcept(ref.concept,lexicalRegister);
+      for(const noun of nounIndex.get(ref.concept)||[]){
+        if(noun.id===preferredNoun.id||!noun.realizationProfile)continue;
+        const losses=noun.realizationProfile.assumptions.map(item=>({
+          path:`#/roles/${role.replace(/~/gu,'~0').replace(/\//gu,'~1')}/features/${item.feature}`,
+          feature:item.feature,cause:item.reason,status:'ambiguous'}));
+        addRealization(preferred,fallback,{[role]:noun.id},losses);
         if(realizationRows.length>=32)break;
       }
+      if(realizationRows.length>=32)break;
     }
     const warnings = [];
     if(lexicalRegister!=='neutral')for(const ref of Object.values(meaning.roles)) {
@@ -3314,8 +3312,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
       warnings.push(grammar.messages?.aspectUnknown ||
         'Source does not specify aspect; target aspect was selected by default.');
     }
-    return { text, warnings, alternatives,
-      ...(includeSegments?{realizations:realizationRows}: {}) };
+    return { text, warnings, alternatives, realizations:realizationRows };
   }
 
 
@@ -3384,9 +3381,10 @@ function createGrammarInterpreter(sourceDictionary, rules,
           id:`${grammar.language}.wh-destination`}},...built.linearizeParts(built.preferred,fallback)];
       }
       text=wrap(parts.map(part=>part.text).filter(Boolean).join(' '));
-      return {text,warnings:[],alternatives:[],...(includeSegments?{realizations:[{text,
+      return {text,warnings:[],alternatives:[],realizations:[{text,
         kind:'equivalent_expression',assumptions:[],informationLoss:[],
-        segments:segmentsForParts(text,parts,sourceSegments,{meaningPathPrefix:'#/proposition'})}]}:{})};
+        ...(includeSegments?{segments:segmentsForParts(text,parts,sourceSegments,
+          {meaningPathPrefix:'#/proposition'})}:{})}]};
     }
     if(question.questionType==='yes_no'&&q.yesNo.mode==='prefix'){
       const rendered=realize(clause,{semanticTransfer:propositionTransfer,includeSegments,
@@ -3406,10 +3404,10 @@ function createGrammarInterpreter(sourceDictionary, rules,
             end:segment.targetSpan.end+offset}:null}))];
         return {...row,text,...(includeSegments?{segments}:{})};
       };
-      const realizations=includeSegments?(rendered.realizations||[]).map(addPrefix):undefined;
+      const realizations=rendered.realizations.map(addPrefix);
       return {...rendered,text:prefix(rendered.text),
         alternatives:rendered.alternatives.map(prefix),
-        ...(includeSegments?{realizations}:{})};
+        realizations};
     }
     const frame=frames[clause.concept];
     if(!frame)unsupported('Unsupported question event frame.');
@@ -3508,8 +3506,11 @@ function createGrammarInterpreter(sourceDictionary, rules,
         'Source does not specify aspect; target aspect was selected by default.');
     }
     return {text,warnings,alternatives:alternative&&alternative!==text?[alternative]:[],
-      ...(includeSegments?{realizations:[{text,kind:'equivalent_expression',assumptions:[],
-        informationLoss:[],segments:primary.segments}]}:{})};
+      realizations:[{text,kind:'equivalent_expression',assumptions:[],informationLoss:[],
+        ...(includeSegments?{segments:primary.segments}:{})},
+      ...(alternative&&alternative!==text?[{text:alternative,kind:'equivalent_expression',
+        assumptions:[],informationLoss:[],
+        ...(includeSegments?{segments:other.segments}:{})}]:[])]};
   }
 
   function realizeStateQuestion(clause,question) {
