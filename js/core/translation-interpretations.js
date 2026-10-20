@@ -117,7 +117,6 @@ export function realizeInterpretations(engine, candidates, options) {
       const rows=usesRealizationRows?
         output.realizations:[...new Set([output.text,...(output.alternatives||[])])]
           .map(text=>({text,kind:'equivalent_expression',assumptions:[],informationLoss:[]}));
-      const availableTexts=rows.map(row=>row.text);
       for (const [index, row] of rows.entries()) {
         const text=row.text;
         const informationLoss=[...(output.informationLoss??[]),...(row.informationLoss??[])];
@@ -137,7 +136,11 @@ export function realizeInterpretations(engine, candidates, options) {
             source:'LanguagePlugin.realize', value:index}],
           uncertainties:withUncertainties({...output,text,status:'ok',meaning,
             informationLoss,assumptions,alternatives:usesRealizationRows?
-              availableTexts.filter(candidate=>candidate!==text):output.alternatives??[]}).uncertainties,
+              rows.filter(candidate=>candidate!==row &&
+                candidate.kind!=='additional_assumption' &&
+                !(candidate.assumptions??[]).length &&
+                !(candidate.informationLoss??[]).some(loss=>loss.status==='ambiguous'))
+                .map(candidate=>candidate.text):output.alternatives??[]}).uncertainties,
           ...(Array.isArray(row.segments)?{segments:row.segments}:{})});
       }
       const best=realizations.reduce((current,row)=>!current||
