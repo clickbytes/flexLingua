@@ -9,16 +9,20 @@ const MAX_SLOTS=256,MAX_LEXEMES=30000,MAX_ANALYSES=64,MAX_COMPILED_FORMS=300000,
 const clone=structuredClone;
 const RUNTIME_PARADIGMS=new WeakMap();
 /** Published Map shapes are read-only facades: lookups and iteration only. */
-const readOnlyMap=map=>Object.freeze({
+const readOnlyMap=map=>{
+  let facade;
+  facade=Object.freeze({
   has:key=>map.has(key),
   get:key=>map.get(key),
   get size(){return map.size;},
   keys:()=>[...map.keys()],
   values:()=>[...map.values()],
   entries:()=>[...map.entries()],
-  forEach:(visit)=>map.forEach((value,mapKey)=>visit(value,mapKey,map)),
+  forEach:(visit)=>map.forEach((value,mapKey)=>visit(value,mapKey,facade)),
   [Symbol.iterator]:()=>map.entries()
-});
+  });
+  return facade;
+};
 const key=features=>JSON.stringify(Object.entries(features).sort(([a],[b])=>a.localeCompare(b)));
 const matches=(pattern,query)=>Object.entries(pattern).every(([k,v])=>query[k]===v);
 const safeText=text=>typeof text==='string' && text.length>0 && text.length<128 && !/[<>\x00-\x1f]/u.test(text);
@@ -101,7 +105,7 @@ export function createMorphology(spec, dictionary, featureSpec, options={}) {
         const cellKey=key(slot.features);
         if(localCellKeys.has(cellKey))throw new Error(`Duplicate paradigm cell ${cellKey} in ${paradigmId}.`);
         localCellKeys.add(cellKey);
-        slots.set(cellKey,clone(slot));
+        slots.set(cellKey,freezeRuntimeValue(clone(slot)));
       }
       if(!slots.size||slots.size>MAX_SLOTS)throw new Error('Invalid inherited paradigm slot count.');
       parent=Object.freeze({id:paradigmId,pos:source.pos,slots:readOnlyMap(slots)});
