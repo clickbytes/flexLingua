@@ -57,6 +57,15 @@ Do not add TypeScript, compatibility adapters, old language paths, unit-test sui
 - Keep changes within the issue. Preserve user changes, language data, and licensing/provenance sources unless the issue explicitly names them.
 - Keep README and roadmap focused on durable product behavior. Record task progress, exact command results, and SHAs in the issue or PR.
 
+### Implementation and validation sequence
+
+- Before editing, identify required owner approvals, direct dependencies, expected behavior, file scope, and acceptance checks. Obtain any required approval for protected sentence expectations before changing those expectations or making completion depend on them.
+- Finish the intended implementation and its supporting test or documentation changes before running the full applicable local suite. Do not use repeated full-suite runs as feedback after each small edit.
+- After implementation is complete, review the diff and run the issue-specific checks and applicable local acceptance suite. Keep every required CI check and artifact comparison; this sequence does not reduce acceptance requirements.
+- Rerun a failed check after fixing its cause. Rerun a previously passing check only when a later change can affect its result. Documentation-only changes do not require repeating the local sentence matrix when they cannot affect it; required PR checks still apply.
+- Batch independent read-only inspections and checks. Avoid re-reading unchanged status and duplicating the same evidence across comments; keep the detailed validation record in the PR and link to it from the issue or epic.
+- Record actual commands, base and result SHAs, PASS/FAIL/INFRA/NOT RUN, and limitations. Do not infer a check result from a related run or from elapsed time.
+
 ## Acceptance
 
 The sentence CLI is the manual acceptance path for language behavior:
