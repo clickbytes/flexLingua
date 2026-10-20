@@ -847,6 +847,87 @@
       "verifyEngine": true
     },
     {
+      "id": "A1-EN-PL-INTERPRETATIONS-0004",
+      "schemaVersion": "1.0",
+      "level": "A1",
+      "mode": "single-sentence",
+      "direction": "en-pl",
+      "family": "interpretations",
+      "construction": "event.visual_perception",
+      "tier": "exploratory",
+      "priority": 3,
+      "cliSmoke": false,
+      "tags": {
+        "tense": "present",
+        "aspect": "not-marked",
+        "polarity": "positive",
+        "person": "first",
+        "number": "plural",
+        "reference": "deictic",
+        "quantity": "none"
+      },
+      "purpose": "Even when a complete preview ID is supplied, a one-reading semantic budget cannot certify a unique meaning; text, meaning and preview remain null.",
+      "input": {
+        "from": "en",
+        "to": "pl",
+        "text": "We see the bank.",
+        "search": {
+          "maxReadings": 1
+        },
+        "previewId": "i1.r1"
+      },
+      "expected": {
+        "status": "resource_limit",
+        "text": null,
+        "meaning": null,
+        "diagnostics": {
+          "required": [
+            {
+              "code": "SEMANTIC_SEARCH_LIMIT"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "alternatives": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "informationLoss": {
+          "required": [],
+          "allowUnexpected": false
+        },
+        "uncertainties": {
+          "required": [
+            {
+              "kind": "search_limit",
+              "path": "#",
+              "options": [],
+              "reason": "SEMANTIC_SEARCH_LIMIT"
+            }
+          ],
+          "allowUnexpected": false
+        },
+        "interpretations": {
+          "required": [],
+          "allowUnexpected": false,
+          "preview": null,
+          "tied": false
+        }
+      },
+      "review": {
+        "status": "proposed",
+        "source": "Independent invariant from CR-25 #512: incomplete semantic search cannot authorize a selected reading; pending owner oracle approval.",
+        "author": "Codex",
+        "reviewedAt": "2026-10-20",
+        "issue": "#512"
+      },
+      "requirements": {
+        "coverageTargetId": "construction.event.visual_perception",
+        "capability": "Bounded complete interpretation realizations, explained ranking and preview without semantic resolution"
+      },
+      "verifyEngine": true
+    },
+    {
       "id": "A1-EN-PL-CONTEXT-0001",
       "schemaVersion": "1.0",
       "level": "A1",
