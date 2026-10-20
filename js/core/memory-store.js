@@ -75,6 +75,7 @@ export function validateMemorySnapshot(snapshot,{validateProposition}={}) {
     for(const priorId of fact.correction.supersedes) {
       const prior=byId.get(priorId);
       if(!prior || prior.id===fact.id || prior.supersededBy!==fact.id || prior.status!=='superseded' ||
+          prior.referent!==fact.referent ||
           Number(prior.id.slice(1))>=Number(fact.id.slice(1)) || successor.has(priorId))invalid();
       successor.set(priorId,fact.id);
     }
