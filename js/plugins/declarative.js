@@ -369,6 +369,7 @@ export function defineDeclarativeLanguagePlugin({manifest, graph, modules, core}
             const loss = informationLoss.find(candidate => candidate.path === item.path);
             return loss ? [loss] : [];
           }), diagnostics: [],
+          ...(result.truncation?{truncation:result.truncation}:{}),
           ...(Array.isArray(result.realizations)?{realizations:result.realizations}: {})});
       } catch (error) {
         return refusalRealization(error);

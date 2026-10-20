@@ -489,7 +489,7 @@ function validateInformationLoss(value) {
 export function normalizeRealizationResult(result) {
   ({value: result} = validatePluginResultGraph(result, 'realization'));
   if (!hasExactKeys(result, ['status', 'text', 'alternatives', 'warnings',
-      'informationLoss', 'diagnostics'], ['realizations']) ||
+      'informationLoss', 'diagnostics'], ['realizations','truncation']) ||
       !PLUGIN_RESULT_STATUSES.includes(result.status) ||
       (result.text !== null && typeof result.text !== 'string')) {
     invalidResult('Invalid language realization result shape or status.');
@@ -499,6 +499,11 @@ export function normalizeRealizationResult(result) {
   const warnings = validateStringList(result.warnings, 'warnings', MAX_DIAGNOSTICS);
   const informationLoss = validateInformationLoss(result.informationLoss);
   const realizations=owns(result,'realizations')?validateRealizations(result.realizations):undefined;
+  const truncation=result.truncation;
+  if(truncation!==undefined&&(!hasExactKeys(truncation,['alternatives','realizations'])||
+      typeof truncation.alternatives!=='boolean'||typeof truncation.realizations!=='boolean'||
+      (!truncation.alternatives&&!truncation.realizations)))
+    invalidResult('Invalid realization truncation metadata.');
   const text = result.text;
 
   if (result.status === 'ok') {
@@ -524,6 +529,7 @@ export function normalizeRealizationResult(result) {
     if (realizations !== undefined) {
       invalidResult('Realization refusal must not include realizations.');
     }
+    if(truncation!==undefined)invalidResult('Realization refusal cannot truncate alternatives.');
     if (result.status === 'ambiguous' && alternatives.length < 2) {
       invalidResult('Ambiguous realization must include at least two alternatives.');
     }
@@ -535,5 +541,7 @@ export function normalizeRealizationResult(result) {
     }
   }
   return {status: result.status, text, alternatives, warnings, informationLoss, diagnostics,
-    ...(realizations?{realizations}:{})};
+    ...(realizations?{realizations}:{}),
+    ...(truncation?{truncation:{alternatives:truncation.alternatives,
+      realizations:truncation.realizations}}:{})};
 }

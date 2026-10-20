@@ -154,6 +154,7 @@ export function realizeInterpretations(engine, candidates, options) {
       ruleIds:[...new Set(reasons.map(reason => reason.ruleId))],
       status:error ? translationErrorStatus(error) : 'ok',
       diagnostics:error ? [{code:error.code, message:'No complete target realization is available for this reading.'}] : [],
+      ...(output?.truncation?{truncation:output.truncation}:{}),
       realizations};
   }).sort((a,b) => compareScore(a.score,b.score) || compare(a.id,b.id));
   let rank = 1;
@@ -178,9 +179,14 @@ export function realizeInterpretations(engine, candidates, options) {
       {status:'invalid'});
   const previewId=requestedPreviewId??defaultPreviewId;
   const selected=allRealizations.find(item=>item.id===previewId);
+  const selectedInterpretation=interpretations.find(item=>item.id===selected?.interpretationId);
   const preview=selected?{id:selected.id,interpretationId:selected.interpretationId,
     meaning:selected.meaning,text:selected.text,kind:selected.kind,assumptions:selected.assumptions,
     informationLoss:selected.informationLoss,
+    ...(selectedInterpretation?.truncation?{truncation:selectedInterpretation.truncation}:{}),
     ...(Array.isArray(selected.segments)?{segments:selected.segments}:{})}:null;
-  return {interpretations,outputs,limitError,previewId,preview};
+  const truncation=interpretations.some(item=>item.truncation)?{
+    alternatives:interpretations.some(item=>item.truncation?.alternatives===true),
+    realizations:interpretations.some(item=>item.truncation?.realizations===true)}:null;
+  return {interpretations,outputs,limitError,previewId,preview,truncation};
 }

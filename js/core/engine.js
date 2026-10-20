@@ -736,6 +736,7 @@ export class Engine {
         pronounRealization, profile, lexicalRegister, informationStructure,includeSegments,previewId});
       const attach = result => ({...result, interpretations:bundle.interpretations,
         previewId:bundle.previewId,preview:bundle.preview,
+        ...(!bundle.limitError&&bundle.truncation?{truncation:bundle.truncation}:{}),
         ...(candidates[0]?.contextReport ? {contextReport:candidates[0].contextReport} : {})});
       if (bundle.limitError) return attach(translationFailure(bundle.limitError));
       if (candidates.some(item=>item.incompleteDiagnostics?.length)) {
