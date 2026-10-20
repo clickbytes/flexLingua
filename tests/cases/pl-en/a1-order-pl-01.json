@@ -25,7 +25,8 @@
       "input": {
         "from": "pl",
         "to": "en",
-        "text": "Kobieta widzi mamę."
+        "text": "Kobieta widzi mamę.",
+        "includeSegments": true
       },
       "expected": {
         "status": "ok",
@@ -135,6 +136,45 @@
           ],
           "forbiddenEdges": [],
           "allowUnexpected": true
+        },
+        "surface": {
+          "state": "present",
+          "variants": [
+            {
+              "id": "default",
+              "construction": "event.visual_perception",
+              "slots": [
+                {
+                  "name": "agent",
+                  "path": "#/roles/agent",
+                  "text": "Kobieta",
+                  "span": {
+                    "start": 0,
+                    "end": 7
+                  }
+                },
+                {
+                  "name": "@verb",
+                  "path": "#/concept",
+                  "text": "widzi",
+                  "span": {
+                    "start": 8,
+                    "end": 13
+                  }
+                },
+                {
+                  "name": "theme",
+                  "path": "#/roles/theme",
+                  "text": "mamę",
+                  "span": {
+                    "start": 14,
+                    "end": 18
+                  }
+                }
+              ]
+            }
+          ],
+          "allowUnexpected": false
         }
       },
       "review": {
@@ -147,6 +187,14 @@
       "requirements": {
         "coverageTargetId": "construction.event.visual_perception",
         "capability": "pl-en: licensed Polish case marking preserves agent and theme across word order"
+      },
+      "verifyEngine": true,
+      "surfaceReview": {
+        "status": "approved",
+        "source": "Independent surface review authored by GPT under explicit project-owner delegation recorded in https://github.com/clickbytes/flexLingua/issues/519#issuecomment-6286450979. Reviewed against the literal source, Polish case marking, the existing approved meaning/text oracle, and declared compiler linearizations before runtime observation.",
+        "author": "GPT (surface review delegated by project owner)",
+        "reviewedAt": "2026-10-20",
+        "issue": "#519"
       }
     },
     {
@@ -173,7 +221,8 @@
       "input": {
         "from": "pl",
         "to": "en",
-        "text": "Mamę widzi kobieta."
+        "text": "Mamę widzi kobieta.",
+        "includeSegments": true
       },
       "expected": {
         "status": "ok",
@@ -283,6 +332,45 @@
           ],
           "forbiddenEdges": [],
           "allowUnexpected": true
+        },
+        "surface": {
+          "state": "present",
+          "variants": [
+            {
+              "id": "ovs-theme-verb-agent",
+              "construction": "event.visual_perception",
+              "slots": [
+                {
+                  "name": "theme",
+                  "path": "#/roles/theme",
+                  "text": "Mamę",
+                  "span": {
+                    "start": 0,
+                    "end": 4
+                  }
+                },
+                {
+                  "name": "@verb",
+                  "path": "#/concept",
+                  "text": "widzi",
+                  "span": {
+                    "start": 5,
+                    "end": 10
+                  }
+                },
+                {
+                  "name": "agent",
+                  "path": "#/roles/agent",
+                  "text": "kobieta",
+                  "span": {
+                    "start": 11,
+                    "end": 18
+                  }
+                }
+              ]
+            }
+          ],
+          "allowUnexpected": false
         }
       },
       "review": {
@@ -295,6 +383,14 @@
       "requirements": {
         "coverageTargetId": "construction.event.visual_perception",
         "capability": "pl-en: licensed Polish case marking preserves agent and theme across word order"
+      },
+      "verifyEngine": true,
+      "surfaceReview": {
+        "status": "approved",
+        "source": "Independent surface review authored by GPT under explicit project-owner delegation recorded in https://github.com/clickbytes/flexLingua/issues/519#issuecomment-6286450979. Reviewed against the literal source, Polish case marking, the existing approved meaning/text oracle, and declared compiler linearizations before runtime observation.",
+        "author": "GPT (surface review delegated by project owner)",
+        "reviewedAt": "2026-10-20",
+        "issue": "#519"
       }
     },
     {

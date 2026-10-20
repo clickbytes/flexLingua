@@ -25,7 +25,8 @@
       "input": {
         "from": "en",
         "to": "pl",
-        "text": "A car is moving."
+        "text": "A car is moving.",
+        "includeSegments": true
       },
       "expected": {
         "status": "ok",
@@ -83,6 +84,9 @@
             }
           ],
           "allowUnexpected": false
+        },
+        "surface": {
+          "state": "absent"
         }
       },
       "review": {
@@ -95,6 +99,14 @@
       "requirements": {
         "coverageTargetId": "construction.event.movement",
         "capability": "sentence en.analyze(event.movement) -> pl.realize"
+      },
+      "verifyEngine": true,
+      "surfaceReview": {
+        "status": "approved",
+        "source": "Independent surface review authored by GPT under explicit project-owner delegation recorded in https://github.com/clickbytes/flexLingua/issues/519#issuecomment-6286450979. Reviewed against the literal source, Polish case marking, the existing approved meaning/text oracle, and declared compiler linearizations before runtime observation.",
+        "author": "GPT (surface review delegated by project owner)",
+        "reviewedAt": "2026-10-20",
+        "issue": "#519"
       }
     },
     {
