@@ -405,7 +405,8 @@ export class Engine {
     const settings = this.validateContext(context);
     if (from === 'core') {
       if (typeof text !== 'string') {
-        throw new EngineError('CORE_JSON_TYPE_INVALID','CORE JSON input must be a string.');
+        throw new EngineError('CORE_JSON_TYPE_INVALID','CORE JSON input must be a string.',
+          {status:'invalid'});
       }
       if (text.length > RESOURCE_LIMITS.coreJsonCodeUnits) {
         throw new EngineError('CORE_JSON_SIZE_LIMIT','Invalid CORE JSON document size.', {status:'resource_limit'});
@@ -416,26 +417,30 @@ export class Engine {
       }
       if (settings.coreference !== undefined) {
         throw new EngineError('INVALID_COREFERENCE',
-          'Explicit coreference cannot be applied to a CORE JSON document.');
+          'Explicit coreference cannot be applied to a CORE JSON document.',{status:'invalid'});
       }
       if(settings.eventRelations?.length)
         throw new EngineError('CORE_JSON_CONTEXT_INVALID',
-          'Event relations are part of the CORE document, not analysis context.');
+          'Event relations are part of the CORE document, not analysis context.',
+          {status:'invalid'});
       if (Object.keys(settings.senses || {}).length || (settings.topics || []).length) {
         throw new EngineError('CORE_JSON_CONTEXT_INVALID',
-          'CORE documents do not need source-language sense disambiguation.');
+          'CORE documents do not need source-language sense disambiguation.',
+          {status:'invalid'});
       }
       assertCoreJsonDepth(text);
       let meaning;
       try { meaning = JSON.parse(text); }
       catch (error) {
-        throw new EngineError('CORE_JSON_INVALID','Invalid CORE JSON document.',{cause:error});
+        throw new EngineError('CORE_JSON_INVALID','Invalid CORE JSON document.',
+          {cause:error,status:'invalid'});
       }
       meaning = assertSafeCoreJsonGraph(meaning);
       try { validateMeaningGraph(meaning, this.ontology, this.features); }
       catch (error) {
         if(isResourceLimitError(error))throw error;
-        throw new EngineError('CORE_SCHEMA_INVALID',error.message,{cause:error});
+        throw new EngineError('CORE_SCHEMA_INVALID',error.message,
+          {cause:error,status:'invalid'});
       }
       // JSON serialization drops null prototypes; restore the canonical wire graph.
       meaning = canonicalizeParsedCoreDocument(meaning);
@@ -448,9 +453,12 @@ export class Engine {
     const plugin = this.plugin(from);
     if(typeof text==='string'&&text.includes('?')) {
       if (settings.coreference !== undefined)
-        throw new Error('Explicit discourse coreference is not supported in questions.');
+        throw new EngineError('QUESTION_COREFERENCE_UNSUPPORTED',
+          'Explicit discourse coreference is not supported in questions.',{status:'unsupported'});
       if(!/^[^.!?]+\?$/u.test(text.trim())) {
-        throw new Error('Only simple sentences with a single final question mark are supported; mixed question discourse or punctuation is unsupported.');
+        throw new EngineError('QUESTION_DISCOURSE_UNSUPPORTED',
+          'Only simple sentences with a single final question mark are supported; mixed question discourse or punctuation is unsupported.',
+          {status:'unsupported'});
       }
       const readings=this.pluginAnalysisCandidates(plugin,text,
         settings.construction ? {construction: settings.construction} : {});
@@ -465,7 +473,8 @@ export class Engine {
         .sort((a,b)=>b.score-a.score),settings,this.ontology));
       candidates.sort((a,b)=>b.score-a.score);
       boundedCandidates(candidates, limit);
-      if(!candidates.length)throw new Error('No semantic question reading matches context constraints.');
+      if(!candidates.length)throw new EngineError('CONTEXT_NO_MATCH',
+        'No semantic question reading matches context constraints.',{status:'unsupported'});
       return candidates.map(candidate=>{
         validateMeaningGraph(candidate.interlingua,this.ontology,this.features);
         return candidate;
@@ -476,11 +485,15 @@ export class Engine {
       throw new EngineError('INVALID_INPUT','Referent context currently requires one sentence.',{status:'invalid'});
     }
     if(settings.eventRelations?.length && sentences.length<2)
-      throw new Error('Explicit event relations require a multi-event discourse.');
+      throw new EngineError('INVALID_EVENT_RELATIONS',
+        'Explicit event relations require a multi-event discourse.',{status:'invalid'});
     if (settings.coreference !== undefined && sentences.length === 1)
-      throw new Error('Explicit coreference requires at least two discourse sentences.');
+      throw new EngineError('INVALID_COREFERENCE',
+        'Explicit coreference requires at least two discourse sentences.',{status:'invalid'});
     if (sentences.length > 1 && Object.keys(settings.senses || {}).length) {
-      throw new Error('Role-specific sense constraints currently require a single sentence.');
+      throw new EngineError('DISCOURSE_SENSE_CONTEXT_UNSUPPORTED',
+        'Role-specific sense constraints currently require a single sentence.',
+        {status:'unsupported'});
     }
     const scored = sentences.map(({text:sentence,start:sourceOffset}) => {
       const raw = this.analyzeSentence(sentence, plugin,
@@ -495,7 +508,8 @@ export class Engine {
             participantsOf(candidate.interlingua).filter(ref => ref.concept).filter(ref =>
               this.ontology.relatedToTopic(ref.concept, topic)).length * 10, 0) }));
       if (!candidates.length) {
-        throw new Error('No semantic reading matches the context constraints.');
+        throw new EngineError('CONTEXT_NO_MATCH',
+          'No semantic reading matches the context constraints.',{status:'unsupported'});
       }
       const contextual=distinctReadings(applyReferentContext(
         candidates.sort((a, b) => b.score - a.score),settings,this.ontology));
@@ -508,17 +522,20 @@ export class Engine {
       });
     }
     if (scored.some(candidates => candidates.some(c => c.interlingua.type !== 'event'))) {
-      throw new Error('Mixed multi-sentence coordination is not supported in v0.6.');
+      throw new EngineError('MIXED_DISCOURSE_UNSUPPORTED',
+        'Mixed multi-sentence coordination is not supported.',{status:'unsupported'});
     }
     const links=validateCoreferenceMap(settings.coreference || {},scored.length);
     // Check role identifiers before semantic search to distinguish a typo from
     // a genuine conflict between distinct interpretations of a known noun.
     for (const link of links) {
       if (!scored[link.sourceIndex].some(c=>hasOwn(c.interlingua.roles,link.sourceRole))) {
-        throw new Error('Unknown discourse coreference source role: '+link.source+'.');
+        throw new EngineError('INVALID_COREFERENCE',
+          'Unknown discourse coreference source role: '+link.source+'.',{status:'invalid'});
       }
       if (!scored[link.targetIndex].some(c=>hasOwn(c.interlingua.roles,link.targetRole))) {
-        throw new Error('Unknown earlier discourse coreference target role: '+link.target+'.');
+        throw new EngineError('INVALID_COREFERENCE',
+          'Unknown earlier discourse coreference target role: '+link.target+'.',{status:'invalid'});
       }
     }
     // Check hard compatibility before the bound; never silently discard viable paths.
@@ -548,8 +565,9 @@ export class Engine {
       })).sort((a,b)=>b.score-a.score);
       boundedCandidates(combinations, limit);
       if (!combinations.length) {
-        throw new Error('No semantic reading satisfies explicit coreference links: '+
-          links.map(link=>link.source+' → '+link.target).join(', ')+'.');
+        throw new EngineError('COREFERENCE_NO_MATCH',
+          'No semantic reading satisfies explicit coreference links: '+
+          links.map(link=>link.source+' → '+link.target).join(', ')+'.',{status:'unsupported'});
       }
     }
     return combinations.map(combination => {

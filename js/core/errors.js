@@ -1,12 +1,24 @@
 import {PluginError} from '../plugins/errors.js';
 
+// Legacy EngineError call sites without an explicit status still receive a
+// typed category at construction. Unknown codes remain infrastructure errors.
+const defaultStatusByCode = Object.freeze({
+  SOURCE_TEXT_INVALID:'invalid', SOURCE_CHARACTER_UNSUPPORTED:'unsupported',
+  SOURCE_TEXT_SIZE_LIMIT:'resource_limit', SOURCE_TOKEN_LIMIT:'resource_limit',
+  DISCOURSE_EVENT_LIMIT:'resource_limit', GRAMMAR_SEARCH_LIMIT:'resource_limit',
+  INTERLINGUA_INVALID:'invalid',
+  INVALID_INPUT:'invalid', PLUGIN_NOT_FOUND:'unsupported',
+  PLUGIN_CAPABILITY_UNAVAILABLE:'unsupported'
+});
+
 /** A refusal with a stable, machine-readable category. */
 export class EngineError extends Error {
   constructor(code, message, options = {}) {
     super(message, options);
     this.name = 'EngineError';
     this.code = code;
-    if (options.status !== undefined) this.status = options.status;
+    const status=options.status ?? defaultStatusByCode[code];
+    if (status !== undefined) this.status = status;
     if (Array.isArray(options.diagnostics)) this.diagnostics = structuredClone(options.diagnostics);
   }
 }
@@ -31,5 +43,5 @@ export function pluginResultError(result, operation) {
 }
 
 export function isResourceLimitError(error) {
-  return error instanceof EngineError && /(?:LIMIT|TOO_COMPLEX)$/u.test(error.code);
+  return error instanceof EngineError && error.status === 'resource_limit';
 }

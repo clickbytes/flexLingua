@@ -1,4 +1,3 @@
-import {isResourceLimitError} from './errors.js';
 import {snapshotBoundedJsonGraph} from './bounded-json.js';
 
 const domainStatuses = new Set(['unsupported', 'invalid', 'ambiguous', 'resource_limit']);
@@ -177,9 +176,6 @@ export function incompleteTranslation(readings) {
 /** Unclassified exceptions are infrastructure errors, never controlled refusals. */
 export function translationErrorStatus(error) {
   if (domainStatuses.has(error?.status)) return error.status;
-  if (isResourceLimitError(error)) return 'resource_limit';
-  if (['PLUGIN_NOT_FOUND', 'PLUGIN_CAPABILITY_UNAVAILABLE'].includes(error?.code)) return 'unsupported';
-  if (error?.code === 'INVALID_INPUT') return 'invalid';
   return null;
 }
 
