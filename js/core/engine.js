@@ -661,20 +661,35 @@ export class Engine {
       warnings.push('Safe discourse pronouns are not declared by this plugin; noun phrases were repeated.');
     }
     const text=parts.map(part=>part.text).join(' ');
+    const discoursePath=(path,index)=>{
+      if(path==='#')return `#/events/${index}`;
+      const role=/^#\/roles\/([^/]+)(?:\/.*)?$/u.exec(path);
+      if(role)return `#/events/${index}/roles/${role[1]}`;
+      return `#/events/${index}${path.slice(1)}`;
+    };
+    const informationLoss=parts.flatMap((part,index)=>(part.informationLoss||[])
+      .map(loss=>({...loss,path:discoursePath(loss.path,index)})));
     const segments=[];
     if(includeSegments) {
       let targetOffset=0;
-      for(const part of parts) {
+      for(const [index,part] of parts.entries()) {
         for(const segment of part.segments||part.realizations?.[0]?.segments||[]) {
-          segments.push({...segment,targetSpan:segment.targetSpan?{
-            start:segment.targetSpan.start+targetOffset,end:segment.targetSpan.end+targetOffset
-          }:null});
+          segments.push({...segment,
+            meaningPaths:segment.meaningPaths.map(path=>discoursePath(path,index)),
+            sources:segment.sources.map(source=>({...source,
+              meaningPath:discoursePath(source.meaningPath,index)})),
+            targetSpan:{start:segment.targetSpan.start+targetOffset,
+              end:segment.targetSpan.end+targetOffset}});
         }
         targetOffset+=part.text.length+1;
       }
+      if(segments.length>64)throw new EngineError('DISCOURSE_SEGMENT_LIMIT',
+        'Discourse alignment exceeds the supported segment limit.',{status:'resource_limit'});
     }
     return applyPersonalityProfile({status:'ok',text,interlingua,warnings,alternatives:[],
-      informationLoss:parts.flatMap(part=>part.informationLoss||[]),diagnostics,
+      informationLoss,diagnostics,
+      realizations:[{text,kind:'equivalent_expression',assumptions:[],informationLoss:[],
+        ...(includeSegments?{segments}: {})}],
       ...(includeSegments?{segments}: {})},personality);
   }
 
