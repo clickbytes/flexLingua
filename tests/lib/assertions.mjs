@@ -633,7 +633,7 @@ function compareTemporalMeaning(want, actual, fail, {partial}) {
 
 function compareModifiers(wantModifiers, actual, path, fail, {exact}) {
   const gotList = Array.isArray(actual?.modifiers) ? actual.modifiers : [];
-  compareModifierTrees(wantModifiers, gotList, path, fail, MODIFIER_COMPARE_DEPTH);
+  compareModifierTrees(wantModifiers, gotList, path, fail);
   if (exact && gotList.length !== wantModifiers.length) {
     fail(`${path}/modifiers (exact)`, wantModifiers.length, gotList.length);
   }
@@ -643,25 +643,25 @@ function compareModifiers(wantModifiers, actual, path, fail, {exact}) {
  * node's nested scopes carry meaning, so compare every level as an
  * order-insensitive multiset keyed by concept, stopping at the same depth
  * limit the MeaningGraph validator enforces. */
-const MODIFIER_COMPARE_DEPTH = 4;
-function compareModifierTrees(wantList, gotList, path, fail, depth) {
+function modifierTreeKey(entry) {
+  const children = Array.isArray(entry?.modifiers) ? entry.modifiers : [];
+  return JSON.stringify([nfc(entry?.concept), children.map(modifierTreeKey).sort()]);
+}
+
+function compareModifierTrees(wantList, gotList, path, fail) {
   const wanted = Array.isArray(wantList) ? wantList : [];
   const remaining = (Array.isArray(gotList) ? gotList : []).map(entry => entry ?? null);
   for (const wantEntry of wanted) {
-    const wantConcept = nfc(wantEntry?.concept);
-    const match = remaining.findIndex(entry => entry !== null && nfc(entry?.concept) === wantConcept);
+    const key = modifierTreeKey(wantEntry);
+    const match = remaining.findIndex(entry => entry !== null && modifierTreeKey(entry) === key);
     if (match === -1) {
-      fail(`${path}/modifier`, wantConcept, 'absent');
+      fail(`${path}/modifier`, key, 'absent');
       continue;
-    }
-    if (depth > 1) {
-      compareModifierTrees(wantEntry?.modifiers, gotList[match]?.modifiers,
-        `${path}/modifier:${wantConcept}`, fail, depth - 1);
     }
     remaining[match] = null;
   }
   for (const entry of remaining) {
-    if (entry !== null) fail(`${path}/modifier`, 'absent', nfc(entry?.concept));
+    if (entry !== null) fail(`${path}/modifier`, 'absent', modifierTreeKey(entry));
   }
 }
 
