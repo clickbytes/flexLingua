@@ -666,6 +666,14 @@ export class Engine {
       return this.pluginRealization(plugin,materializeEvent(interlingua,event),context,
         {includeSegments,sourceSegments:eventSourceSegments,omitDeicticSubject});
     });
+    const primaryRows=parts.map(part=>{
+      const row=part.realizations?.[0];
+      if(row && row.text!==part.text) {
+        throw new EngineError('PLUGIN_RESULT_INVALID',
+          'Discourse part primary realization does not match its text.',{status:'error'});
+      }
+      return row??{text:part.text,kind:'equivalent_expression',assumptions:[],informationLoss:[]};
+    });
     const warnings=parts.flatMap((part,index)=>(part.warnings||[])
       .map(warning=>'Event '+(index+1)+': '+warning));
     const diagnostics=parts.flatMap(part=>part.diagnostics||[]);
@@ -675,17 +683,21 @@ export class Engine {
     const text=parts.map(part=>part.text).join(' ');
     const discoursePath=(path,index)=>{
       if(path==='#')return `#/events/${index}`;
-      const role=/^#\/roles\/([^/]+)(?:\/.*)?$/u.exec(path);
-      if(role)return `#/events/${index}/roles/${role[1]}`;
+      const role=/^#\/roles\/([^/]+)(\/.*)?$/u.exec(path);
+      if(role)return `#/events/${index}/roles/${role[1]}${role[2]||''}`;
       return `#/events/${index}${path.slice(1)}`;
     };
     const informationLoss=parts.flatMap((part,index)=>(part.informationLoss||[])
+      .map(loss=>({...loss,path:discoursePath(loss.path,index)})));
+    const assumptions=primaryRows.flatMap((row,index)=>(row.assumptions||[])
+      .map(assumption=>({...assumption,path:discoursePath(assumption.path,index)})));
+    const rowInformationLoss=primaryRows.flatMap((row,index)=>(row.informationLoss||[])
       .map(loss=>({...loss,path:discoursePath(loss.path,index)})));
     const segments=[];
     if(includeSegments) {
       let targetOffset=0;
       for(const [index,part] of parts.entries()) {
-        for(const segment of part.segments||part.realizations?.[0]?.segments||[]) {
+        for(const segment of primaryRows[index].segments||part.segments||[]) {
           segments.push({...segment,
             meaningPaths:segment.meaningPaths.map(path=>discoursePath(path,index)),
             sources:segment.sources.map(source=>({...source,
@@ -698,10 +710,15 @@ export class Engine {
       if(segments.length>64)throw new EngineError('DISCOURSE_SEGMENT_LIMIT',
         'Discourse alignment exceeds the supported segment limit.',{status:'resource_limit'});
     }
+    const truncation={alternatives:parts.some(part=>part.truncation?.alternatives===true),
+      realizations:parts.some(part=>part.truncation?.realizations===true)};
     return applyPersonalityProfile({status:'ok',text,interlingua,warnings,alternatives:[],
       informationLoss,diagnostics,
-      realizations:[{text,kind:'equivalent_expression',assumptions:[],informationLoss:[],
+      realizations:[{text,kind:primaryRows.some(row=>row.kind==='additional_assumption')?
+        'additional_assumption':'equivalent_expression',assumptions,
+        informationLoss:rowInformationLoss,
         ...(includeSegments?{segments}: {})}],
+      ...(truncation.alternatives||truncation.realizations?{truncation}:{}),
       ...(includeSegments?{segments}: {})},personality);
   }
 
