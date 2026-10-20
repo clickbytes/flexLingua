@@ -120,6 +120,9 @@ export function describeUncertainties(document, meanings = []) {
     add(document.status === 'resource_limit' ? 'search_limit' : 'unsupported', '#', [],
       document.diagnostics?.[0]?.code ?? document.status);
   }
+  if (document.diagnostics?.some(item=>item.code==='SOURCE_ANALYSIS_INCOMPLETE')) {
+    add('unsupported','#',[],'SOURCE_ANALYSIS_INCOMPLETE');
+  }
   if (document.diagnostics?.some(item => item.code === 'CONTEXT_CONFLICT')) {
     add('context_conflict', '#', [], 'CONTEXT_CONFLICT');
   }
@@ -147,6 +150,19 @@ export function ambiguousTranslation(readings) {
     {alternatives: readings.map(item => ({meaning: item.interlingua,
       lexicalSenses: item.lexicalSenses, score: item.score,
       ...(item.surface ? {surface:item.surface} : {})}))});
+}
+
+/** A supported preview may coexist with an unsupported source reading. */
+export function incompleteTranslation(readings) {
+  const evidence=[...new Map(readings.flatMap(item=>item.incompleteDiagnostics||[])
+    .map(item=>[`${item.code}:${item.message}`,item])).values()].slice(0,63);
+  return translationRefusal('ambiguous','SOURCE_ANALYSIS_INCOMPLETE',
+    'Source analysis is incomplete; a supported reading is available as a preview.',
+    {diagnostics:[{code:'SOURCE_ANALYSIS_INCOMPLETE',
+      message:'Source analysis is incomplete; an unsupported alternative reading remains.'},
+    ...evidence],alternatives:readings.map(item=>({meaning:item.interlingua,
+      lexicalSenses:item.lexicalSenses,score:item.score,
+      ...(item.surface?{surface:item.surface}:{})}))});
 }
 
 /** Unclassified exceptions are infrastructure errors, never controlled refusals. */
