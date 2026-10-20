@@ -188,8 +188,40 @@ export function composeMeaningGraph({meaning,core,limits} = {}) {
     return ontology.get(conceptId);
   }
 
-  function unresolvedAt(path,conceptId,reason) {
-    unresolved.push({path,conceptId,reason});
+  function unresolvedAt(path,conceptId,reason,operators) {
+    unresolved.push({path,conceptId,reason,
+      ...(operators?.length?{operators:operators.map(operator=>({...operator}))}:{})});
+  }
+
+  function operatorScope(value,inherited) {
+    let operator;
+    if (value.type==='question') {
+      operator={type:'question',questionType:value.questionType||'unknown'};
+    } else if (value.type==='scope') {
+      operator={type:'scope',operator:value.operator||'unknown'};
+    } else if (value.type==='conditional') {
+      operator={type:'conditional',kind:value.kind||'unknown'};
+    } else if (value.type==='modality') {
+      operator={type:'modality',operator:value.operator||'unknown'};
+    } else if (value.type==='complement') {
+      operator={type:'complement',concept:value.concept||'unknown'};
+    } else if (['event','state'].includes(value.type) && value.features?.polarity==='negative') {
+      operator={type:'polarity',value:'negative'};
+    }
+    return operator?[...inherited,operator]:inherited;
+  }
+
+  function scopeReason(operators) {
+    const types=operators.map(operator=>operator.type);
+    if (types.includes('question')) return 'QUESTION_CONTENT_NOT_ASSERTED';
+    if (types.includes('conditional') || types.includes('modality')) {
+      return 'HYPOTHETICAL_CONTENT_NOT_ASSERTED';
+    }
+    if (types.includes('complement')) return 'EMBEDDED_CONTENT_NOT_ASSERTED';
+    if (types.includes('scope') || types.includes('polarity')) {
+      return 'NEGATED_CONTENT_NOT_PROJECTED';
+    }
+    return 'UNASSERTED_CONTENT_NOT_PROJECTED';
   }
 
   function applyEffect(property,propertyId,participantRootId,participantConceptId,path) {
@@ -212,7 +244,7 @@ export function composeMeaningGraph({meaning,core,limits} = {}) {
   }
 
   function applyModifier(node,path,participantRootId,participantConceptId,topLevel,
-      modifierDepth,inputDepth,state) {
+      modifierDepth,inputDepth,state,operators) {
     if (node && typeof node==='object' && active.has(node)) {
       fail('TYPED_GRAPH_INVALID','MeaningGraph contains a reference cycle.');
     }
@@ -235,7 +267,9 @@ export function composeMeaningGraph({meaning,core,limits} = {}) {
       if (!['property','degree'].includes(property.type)) {
         fail('TYPED_GRAPH_INVALID',`Modifier ${node.concept} is not a property or degree.`);
       }
-      if (!topLevel) {
+      if (operators.length) {
+        unresolvedAt(path,node.concept,scopeReason(operators),operators);
+      } else if (!topLevel) {
         unresolvedAt(path,node.concept,'NESTED_MODIFIER_SCOPE_UNSUPPORTED');
       } else {
         applyEffect(property,node.concept,participantRootId,participantConceptId,path);
@@ -257,7 +291,7 @@ export function composeMeaningGraph({meaning,core,limits} = {}) {
           node.modifiers.forEach((child,index)=>{
             reserveInputEdge(node.modifiers,index);
             applyModifier(child,pointer(pointer(path,'modifiers'),index),
-              participantRootId,participantConceptId,false,modifierDepth+1,inputDepth+2,state);
+              participantRootId,participantConceptId,false,modifierDepth+1,inputDepth+2,state,operators);
           });
         } finally {
           active.delete(node.modifiers);
@@ -268,7 +302,7 @@ export function composeMeaningGraph({meaning,core,limits} = {}) {
     }
   }
 
-  function visit(value,path,depth,parent=null,key=null) {
+  function visit(value,path,depth,parent=null,key=null,inheritedOperators=[]) {
     if (depth>RESOURCE_LIMITS.interlinguaDepth) {
       resourceLimit('MeaningGraph projection nesting limit exceeded.');
     }
@@ -278,7 +312,7 @@ export function composeMeaningGraph({meaning,core,limits} = {}) {
       reserveInputNode(value);
       active.add(value);
       try {
-        value.forEach((item,index)=>visit(item,pointer(path,index),depth+1,value,index));
+        value.forEach((item,index)=>visit(item,pointer(path,index),depth+1,value,index,inheritedOperators));
       } finally {
         active.delete(value);
       }
@@ -288,6 +322,7 @@ export function composeMeaningGraph({meaning,core,limits} = {}) {
     if (active.has(value)) fail('TYPED_GRAPH_INVALID','MeaningGraph contains a reference cycle.');
     reserveInputNode(value);
     active.add(value);
+    const currentOperators=operatorScope(value,inheritedOperators);
 
     const hasConcept=Object.hasOwn(value,'concept');
     if (hasConcept && typeof value.concept!=='string') {
@@ -323,7 +358,7 @@ export function composeMeaningGraph({meaning,core,limits} = {}) {
           value.modifiers.forEach((item,index)=>{
             reserveInputEdge(value.modifiers,index);
             applyModifier(item,pointer(pointer(path,'modifiers'),index),
-              path,value.concept,true,1,depth+2,modifierState);
+              path,value.concept,true,1,depth+2,modifierState,currentOperators);
           });
         } finally {
           active.delete(value.modifiers);
@@ -347,7 +382,11 @@ export function composeMeaningGraph({meaning,core,limits} = {}) {
         const subjectPath=pointer(pointer(path,'roles'),'subject');
         meaningRoots.add(subjectPath);
         addConceptGraph(subject.concept,subjectPath,subjectPath);
-        applyEffect(predicate,value.predicate,subjectPath,subject.concept,predicatePath);
+        if (!currentOperators.length) {
+          applyEffect(predicate,value.predicate,subjectPath,subject.concept,predicatePath);
+        } else {
+          unresolvedAt(predicatePath,value.predicate,scopeReason(currentOperators),currentOperators);
+        }
       } else {
         unresolvedAt(predicatePath,value.predicate,'PREDICATE_SCOPE_UNSUPPORTED');
       }
@@ -355,7 +394,7 @@ export function composeMeaningGraph({meaning,core,limits} = {}) {
 
     for (const [key,item] of Object.entries(value)) {
       if (key==='features' || key==='concept' || (isParticipant && key==='modifiers')) continue;
-      visit(item,pointer(path,key),depth+1,value,key);
+      visit(item,pointer(path,key),depth+1,value,key,currentOperators);
     }
     active.delete(value);
   }
