@@ -973,6 +973,40 @@
         }
       }
     },
+    "modifierDepth1": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["concept"],
+      "properties": {
+        "concept": { "type": "string", "pattern": "^[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*$" },
+        "modifiers": {
+          "type": "array",
+          "maxItems": 3,
+          "items": { "$ref": "#/$defs/modifierDepth2" }
+        }
+      }
+    },
+    "modifierDepth2": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["concept"],
+      "properties": {
+        "concept": { "type": "string", "pattern": "^[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*$" },
+        "modifiers": {
+          "type": "array",
+          "maxItems": 3,
+          "items": { "$ref": "#/$defs/modifierDepth3" }
+        }
+      }
+    },
+    "modifierDepth3": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["concept"],
+      "properties": {
+        "concept": { "type": "string", "pattern": "^[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*$" }
+      }
+    },
     "participant": {
       "type": "object",
       "additionalProperties": false,
@@ -1006,19 +1040,7 @@
         "modifiers": {
           "type": "array",
           "maxItems": 6,
-          "items": {
-            "type": "object",
-            "additionalProperties": false,
-            "required": [
-              "concept"
-            ],
-            "properties": {
-              "concept": {
-                "type": "string",
-                "pattern": "^[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*$"
-              }
-            }
-          }
+          "items": { "$ref": "#/$defs/modifierDepth1" }
         },
         "quantity": {
           "type": "object",
