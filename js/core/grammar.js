@@ -2732,8 +2732,10 @@ function createGrammarInterpreter(sourceDictionary, rules,
   function nounByConcept(concept, lexicalRegister='neutral') {
     const nouns = nounIndex.get(concept);
     if (!nouns?.length) unsupported(`No ${dictionary.language} noun lexeme for ${concept}.`);
-    return lexicalRegister==='neutral'?nouns[0]:
-      nouns.find(noun=>noun.register===lexicalRegister)||nouns[0];
+    if(lexicalRegister==='neutral')return nouns[0];
+    const selected=nouns.find(noun=>noun.register===lexicalRegister);
+    if(!selected)unsupported(`No ${lexicalRegister} ${dictionary.language} noun variant for ${concept}.`);
+    return selected;
   }
 
   function deicticPronounSurface(ref,grammaticalCase=nounPhrase.subjectCase) {
@@ -2880,7 +2882,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
     return { candidates, preferred, linearize, linearizeParts, roles };
   }
 
-  function realizeState(meaning) {
+  function realizeState(meaning, lexicalRegister='neutral') {
     const frame=stateGrammar?.frames?.[meaning?.kind];
     if(!frame)unsupported(`Unsupported state construction in ${dictionary.language}.`);
     if(!stateGrammar.supportedTenses.includes(meaning.features.tense)) {
@@ -2907,7 +2909,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
       }
       if(polarity!=='positive')unsupported(`Unsupported ${dictionary.language} past state polarity.`);
     }
-    const subjectNoun=isDeicticReferent(subject)?null:nounByConcept(subject.concept);
+    const subjectNoun=isDeicticReferent(subject)?null:nounByConcept(subject.concept,lexicalRegister);
     const subjectContext={subject:{person,number,
       ...(subjectNoun?.gender?{gender:subjectNoun.gender}:{}),
       ...(subjectNoun?.pluralClass?{pluralClass:subjectNoun.pluralClass}:{})}};
@@ -2935,7 +2937,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
         return deicticPronounSurface(ref,deicticCase(stateRoleCase(frame,role,polarity),role));
       }
       if(ref.relatives?.length)unsupported('Relative clauses in state constructions are unsupported.');
-      const noun=nounByConcept(ref.concept);
+      const noun=nounByConcept(ref.concept,lexicalRegister);
       const gramCase=stateRoleCase(frame,role,polarity);
       const categoryRole=meaning.kind==='classification'&&role==='category';
       return plainNoun(ref,noun,gramCase,categoryRole?'indefinite':nounPhrase.defaultDefiniteness,
@@ -2975,14 +2977,14 @@ function createGrammarInterpreter(sourceDictionary, rules,
     return {text:sentenceText([parts.join(' ')],sentence.terminator),warnings:[],alternatives:[]};
   }
 
-  function realizePassive(meaning) {
+  function realizePassive(meaning, lexicalRegister='neutral') {
     const paradigm=grammar.passive?.events?.[meaning.concept]?.[meaning.features.tense];
     if(!paradigm||meaning.features.polarity!=='positive' || meaning.features.aspect!=='unknown')
       unsupported(`Unsupported passive realization for ${meaning.concept}.`);
     const theme=meaning.roles.theme;
     if(!theme || theme.relatives?.length)
       unsupported('Passive realization requires a supported theme without relative clauses.');
-    const noun=nounByConcept(theme.concept),parsed={value:theme,noun};
+    const noun=nounByConcept(theme.concept,lexicalRegister),parsed={value:theme,noun};
     const auxiliary=passiveCell(paradigm.auxiliary,parsed);
     const participle=passiveCell(paradigm.participle,parsed);
     if(!auxiliary||!participle)
@@ -2991,18 +2993,19 @@ function createGrammarInterpreter(sourceDictionary, rules,
       nounPhrase.defaultDefiniteness:undefined;
     const parts=[plainNoun(theme,noun,'nom',fallback),auxiliary,participle];
     if(meaning.roles.agent) {
-      const agent=meaning.roles.agent,nounForAgent=nounByConcept(agent.concept);
+      const agent=meaning.roles.agent,nounForAgent=nounByConcept(agent.concept,lexicalRegister);
       parts.push(grammar.passive.agentMarker,
         plainNoun(agent,nounForAgent,grammar.passive.agentCase,fallback));
     }
     return {text:sentenceText([parts]),warnings:[],alternatives:[]};
   }
 
-  function realizeComparison(meaning) {
+  function realizeComparison(meaning, lexicalRegister='neutral') {
     const config=grammar.comparison;
     if(!config)unsupported(`Unsupported comparison realization in ${dictionary.language}.`);
     const subject=meaning.roles.subject,standard=meaning.roles.standard;
-    const subjectNoun=nounByConcept(subject.concept),standardNoun=nounByConcept(standard.concept);
+    const subjectNoun=nounByConcept(subject.concept,lexicalRegister);
+    const standardNoun=nounByConcept(standard.concept,lexicalRegister);
     if(!subjectNoun||!standardNoun)unsupported('Missing comparison participant lexeme.');
     const verb=stateVerbForms.find(entry=>entry.kind===config.stateKind &&
       entry.features.tense===meaning.features.tense && entry.features.person==='third' &&
@@ -3043,7 +3046,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
       if(step===subjectRole)return [];
       if(step==='@verb')return [selected.text];
       if(step.startsWith('@'))return [step.slice(1)];
-      return [nounSurface(step,action,frame,fallback,0)];
+      return [nounSurface(step,action,frame,fallback,0,lexicalRegister)];
     });
     return {text:sentenceText([config.marker+' '+words.join(' ')],sentence.terminator),
       warnings:[],alternatives:[]};
@@ -3051,7 +3054,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
 
 
   /** Realize modality through existing frame role ordering and nominal rules. */
-  function realizeModal(node, question = null) {
+  function realizeModal(node, question = null, lexicalRegister='neutral') {
     const parts=modalParts(node);
     if (!parts) unsupported('Unsupported modal clause.');
     const {event,operator,mode}=parts;
@@ -3115,7 +3118,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
           return [inverted?text:modalText+' '+text];
         }
         if(step.startsWith('@'))return [step.slice(1)];
-        return [nounSurface(step,syntactic,frame,def,0)];
+        return [nounSurface(step,syntactic,frame,def,0,lexicalRegister)];
       });
       let result=words.join(' ');
       if(question){
@@ -3206,11 +3209,11 @@ function createGrammarInterpreter(sourceDictionary, rules,
         meaning?.type==='comparison'?'comparison':meaning?.type==='state'?'state':
         meaning?.voice==='passive'?'passive':'modal'} realization; information structure and deictic-subject omission are supported by plain events only; source segments are supported for event questions.`);
     if(meaning?.type==='question')return realizeQuestion(meaning,
-      {semanticTransfer,includeSegments,sourceSegments});
-    if(meaning?.type==='comparison')return realizeComparison(meaning);
-    if(meaning?.type==='state')return realizeState(meaning);
-    if(meaning?.voice==='passive')return realizePassive(meaning);
-    if(modalParts(meaning))return realizeModal(meaning);
+      {semanticTransfer,includeSegments,sourceSegments,lexicalRegister});
+    if(meaning?.type==='comparison')return realizeComparison(meaning,lexicalRegister);
+    if(meaning?.type==='state')return realizeState(meaning,lexicalRegister);
+    if(meaning?.voice==='passive')return realizePassive(meaning,lexicalRegister);
+    if(modalParts(meaning))return realizeModal(meaning,null,lexicalRegister);
     let sequence;
     if(informationStructure!==undefined) {
       const {focus}=createInformationStructure(meaning,informationStructure);
@@ -3286,7 +3289,8 @@ function createGrammarInterpreter(sourceDictionary, rules,
       if(isDeicticReferent(ref))continue;
       const preferredNoun=nounByConcept(ref.concept,lexicalRegister);
       for(const noun of nounIndex.get(ref.concept)||[]){
-        if(noun.id===preferredNoun.id||!noun.realizationProfile)continue;
+        if(noun.id===preferredNoun.id||!noun.realizationProfile||
+            (lexicalRegister!=='neutral'&&noun.register!==lexicalRegister))continue;
         const losses=noun.realizationProfile.assumptions.map(item=>({
           path:`#/roles/${role.replace(/~/gu,'~0').replace(/\//gu,'~1')}/features/${item.feature}`,
           feature:item.feature,cause:item.reason,status:'ambiguous'}));
@@ -3296,12 +3300,6 @@ function createGrammarInterpreter(sourceDictionary, rules,
       if(realizationsTruncated)break;
     }
     const warnings = [];
-    if(lexicalRegister!=='neutral')for(const ref of Object.values(meaning.roles)) {
-      const options=nounIndex.get(ref?.concept)||[];
-      if(options.some(noun=>noun.register) &&
-          !options.some(noun=>noun.register===lexicalRegister))
-        warnings.push(`No ${lexicalRegister} lexical variant for ${ref.concept} in ${dictionary.language}; preferred wording was kept.`);
-    }
     if (!withDeterminers && Object.entries(frames[meaning.concept]?.cases || {}).some(([role, cases]) =>
         record(cases) && meaning.roles[role]?.features?.definiteness === 'unknown')) {
       warnings.push(grammar.messages?.definitenessUnknown ||
@@ -3325,13 +3323,14 @@ function createGrammarInterpreter(sourceDictionary, rules,
 
   /** Reuse existing inflection and nominal rules; interrogative strategies
    * remain in each language's declarative grammar configuration. */
-  function realizeQuestion(question, {semanticTransfer,includeSegments=false,sourceSegments=[]} = {}) {
+  function realizeQuestion(question, {semanticTransfer,includeSegments=false,
+    sourceSegments=[],lexicalRegister='neutral'} = {}) {
     if(!questions)unsupported('Unsupported question construction in this language.');
     const q=questions,clause=question.proposition;
     const propositionTransfer=semanticTransfer?.kind==='question'
       ? semanticTransfer.propositionTransfer : undefined;
-    if(modalParts(clause))return realizeModal(clause,question);
-    if(clause?.type==='state')return realizeStateQuestion(clause,question);
+    if(modalParts(clause))return realizeModal(clause,question,lexicalRegister);
+    if(clause?.type==='state')return realizeStateQuestion(clause,question,lexicalRegister);
     if(clause?.type!=='event') {
       unsupported('Unsupported question construction: only single-event propositions can be realized.');
     }
@@ -3365,7 +3364,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
       }
       const relative={gap:'destination',antecedent:{value:{features:{number:'singular'}},
         noun:{id:'question_gap'},senseId:null}};
-      const built=renderEvent(clause,fallback,0,relative,{sequence:linearization,returnBuilder:true});
+      const built=renderEvent(clause,fallback,0,relative,{sequence:linearization,returnBuilder:true,lexicalRegister});
       let text,parts;
       if(q.yesNo.mode==='auxiliary') {
         const subject=clause.roles[subjectRole];
@@ -3395,7 +3394,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
     }
     if(question.questionType==='yes_no'&&q.yesNo.mode==='prefix'){
       const rendered=realize(clause,{semanticTransfer:propositionTransfer,includeSegments,
-        sourceSegments,meaningPathPrefix:'#/proposition'});
+        sourceSegments,meaningPathPrefix:'#/proposition',lexicalRegister});
       const prefix=text=>wrap(q.yesNo.marker+' '+lowerFirst(withoutPeriod(text)));
       const addPrefix=(row)=>{
         const text=prefix(row.text);
@@ -3430,7 +3429,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
       ? {sequence:themeOrder(frame)[0],returnBuilder:true}
       : {returnBuilder:true};
     const agreementControllers=agreementContextForTransfer(clause,propositionTransfer);
-    const built=renderEvent(clause,undefined,0,relative,{...options,agreementControllers});
+    const built=renderEvent(clause,undefined,0,relative,{...options,agreementControllers,lexicalRegister});
     const whEntry=question.questionType==='wh'&&question.targetRole==='theme' &&
       frame.whTheme?.frontPreposition
       ? {...built.preferred,text:withoutGovernedPreposition(built.preferred.text,frame)}
@@ -3520,7 +3519,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
         ...(includeSegments?{segments:other.segments}:{})}]:[])]};
   }
 
-  function realizeStateQuestion(clause,question) {
+  function realizeStateQuestion(clause,question,lexicalRegister='neutral') {
     if(question.questionType==='wh' && question.targetRole==='location' &&
        clause.kind==='location' && clause.features?.tense==='present' &&
        clause.features?.polarity==='positive') {
@@ -3534,7 +3533,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
       if(!verb)unsupported('Missing location WH copula form.');
       const rendered=isDeicticReferent(subject)?deicticPronounSurface(subject,
         stateRoleCase(frame,'subject','positive')):
-        plainNoun(subject,nounByConcept(subject.concept),stateRoleCase(frame,'subject','positive'),
+        plainNoun(subject,nounByConcept(subject.concept,lexicalRegister),stateRoleCase(frame,'subject','positive'),
           nounPhrase.defaultDefiniteness);
       return {text:sentenceText([`${questions.wh.location.marker} ${verb.text} ${rendered}`],'?'),
         warnings:[],alternatives:[]};
@@ -3544,7 +3543,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
           clause.features?.tense==='past') {
         unsupported(`Unsupported ${dictionary.language} past state question.`);
       }
-      const rendered=realize(clause);
+      const rendered=realize(clause,{lexicalRegister});
       const lower=rendered.text.charAt(0).toLocaleLowerCase(grammar.language)+rendered.text.slice(1);
       const text=sentenceText([questions.yesNo.marker+' '+lower.replace(/[.]$/u,'')],'?');
       return {...rendered,text,alternatives:rendered.alternatives.map(item=>
@@ -3563,7 +3562,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
       if(!verb)unsupported('Missing state question copula form.');
       const surface=role=>{
         if(role===frame.predicateRole) {
-          const noun=isDeicticReferent(subject)?null:nounByConcept(subject.concept);
+          const noun=isDeicticReferent(subject)?null:nounByConcept(subject.concept,lexicalRegister);
           const context={number:isDeicticReferent(subject)?subject.agreement.number:subject.features.number,
             case:frame.predicateCase,
             ...(subject.agreement?.gender ?? noun?.gender
@@ -3575,7 +3574,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
         if(role===frame.subjectRole&&isDeicticReferent(subject))return deicticPronounSurface(subject,
           stateRoleCase(frame,role,clause.features.polarity));
         const ref=clause.roles[role];
-        return plainNoun(ref,nounByConcept(ref.concept),stateRoleCase(frame,role,clause.features.polarity),
+        return plainNoun(ref,nounByConcept(ref.concept,lexicalRegister),stateRoleCase(frame,role,clause.features.polarity),
           nounPhrase.defaultDefiniteness);
       };
       const spatial=['location','existence'].includes(clause.kind);
@@ -3617,7 +3616,7 @@ function createGrammarInterpreter(sourceDictionary, rules,
         return deicticPronounSurface(ref,stateRoleCase(frame,role,clause.features.polarity));
       }
       if(ref.relatives?.length)unsupported('Relative clauses in state questions are unsupported.');
-      return plainNoun(ref,nounByConcept(ref.concept),stateRoleCase(frame,role,clause.features.polarity),
+      return plainNoun(ref,nounByConcept(ref.concept,lexicalRegister),stateRoleCase(frame,role,clause.features.polarity),
         nounPhrase.defaultDefiniteness);
     };
     const text=sentenceText([`${auxiliary} ${surface(frame.subjectRole)} ${base[0].text} ${surface('owned')}`],'?');
