@@ -143,8 +143,9 @@ export function realizeInterpretations(engine, candidates, options) {
                 .map(candidate=>candidate.text):output.alternatives??[]}).uncertainties,
           ...(Array.isArray(row.segments)?{segments:row.segments}:{})});
       }
-      const best=realizations.reduce((current,row)=>!current||
-        compareScore(row.score,current.score)<0?row:current,null);
+      realizations.sort((left,right)=>compareScore(left.score,right.score) ||
+        compare(left.id,right.id));
+      const best=realizations[0];
       score.assumptions=best.score.assumptions;
       reasons.push(...best.reasons.filter(reason=>reason.ruleId!=='target.lexical-order'));
     }
@@ -164,8 +165,7 @@ export function realizeInterpretations(engine, candidates, options) {
     item.rank = rank;
   });
   const defaultPreviewId=limitError?null:
-    interpretations.find(item=>item.realizations.length)?.realizations.reduce((best,row)=>
-      compareScore(row.score,best.score)<0?row:best).id??null;
+    interpretations.find(item=>item.realizations.length)?.realizations[0].id??null;
   const allRealizations=interpretations.flatMap(item=>item.realizations.map(realization=>({
     ...realization,meaning:item.meaning
   })));
